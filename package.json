@@ -6,7 +6,7 @@
 	"scripts": {
 		"start": "npm run styleguide",
 		"release": "standard-version",
-		"lint": "eslint --ext .js,.jsx,.ts,.tsx --resolve-plugins-relative-to node_modules/@zextras/zapp-configs src",
+		"lint": "eslint --ext .js,.jsx,.ts,.tsx --resolve-plugins-relative-to node_modules/@zextras/carbonio-ui-configs src",
 		"styleguide": "styleguidist server",
 		"styleguide:build": "styleguidist build",
 		"test": "jest",
@@ -54,7 +54,7 @@
 		"@testing-library/react-hooks": "7.0.2",
 		"@testing-library/user-event": "13.5.0",
 		"@types/styled-components": "5.1.15",
-		"@zextras/zapp-configs": "^0.1.10",
+		"@zextras/carbonio-ui-configs": "^0.1.11",
 		"babel-loader": "8.2.3",
 		"babel-plugin-lodash": "3.3.4",
 		"babel-plugin-styled-components": "1.13.3",
