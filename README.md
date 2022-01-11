@@ -4,10 +4,8 @@ SPDX-FileCopyrightText: 2021 2022 Zextras <https://www.zextras.com>
 SPDX-License-Identifier: AGPL-3.0-only
 -->
 <div align="center">
-  <h1>{{ .publicName }}</h1>
+  <h1>Carbonio Design System</h1>
 </div>
-
-The Zoe Design System
 
 <p align="center">
   <a href="https://github.com/zextras/{{ .repoName }}/graphs/contributors" alt="Contributors">
@@ -22,15 +20,6 @@ The Zoe Design System
 
 This is the Design System and Component Library used in most of the Zextras Projects
 
-<h2>Contributing</h2> 
-
-All contributions are accepted! Please refer to the CONTRIBUTING file, if
-present, for more details on how to contribute. If the repository has a Code of
-Conduct, we kindly ask to follow that one too.
-
-<h3>How to build</h3>
-
-
 <h2>License</h2>
 
-Released under the AGPL-3.0-only license as specified here: LICENSES/AGPL-3.0-only.txt.
+Released under the AGPL-3.0-only license as specified here: [COPYING](COPYING).
