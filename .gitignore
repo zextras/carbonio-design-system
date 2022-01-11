@@ -1,0 +1,7 @@
+/dist/
+/node_modules/
+/svg/
+/styleguide/
+/*.tgz
+/junit.xml
+/coverage/cobertura-coverage.xml

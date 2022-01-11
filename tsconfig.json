@@ -1,0 +1,10 @@
+{
+  "extends": "@zextras/zapp-configs/rules/typescript.json",
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules"
+  ],
+}
