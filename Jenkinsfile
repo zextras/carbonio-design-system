@@ -94,21 +94,21 @@ pipeline {
                         git push --follow-tags origin HEAD:$BRANCH_NAME
                         git push origin HEAD:refs/heads/version-bumper/v${getCurrentVersion()}
                     """)
-                    // TODO: the automated sync between release and devel is disabled at the moment
-                    // withCredentials([usernameColonPassword(credentialsId: 'tarsier-bot-pr-token', variable: 'PR_ACCESS')]) {
-                    //     sh(script: """
-                    //         curl https://api.github.com/repos/$REPOSITORY_NAME/pulls \
-                    //         -X POST \
-                    //         -H 'Accept: application/vnd.github.v3+json' \
-                    //         -d '{
-                    //                 \"title\": \"Bumped version ${getCurrentVersion()}\",
-                    //                 \"head\": \"version-bumper/v${getCurrentVersion()}\",
-                    //                 \"base\": \"devel\",
-                    //                 \"maintainer_can_modify\": true,
-                    //                 \"close_source_branch\": true
-                    //             }'
-                    //         """)
-                    // }
+                    withCredentials([usernameColonPassword(credentialsId: 'tarsier-bot-pr-token-github', variable: 'ZXBOT_TOKEN')]) {
+                        sh(script: """
+                            curl https://api.github.com/repos/$REPOSITORY_NAME/pulls \
+                            -X POST \
+                            -H 'Accept: application/vnd.github.v3+json' \
+                            -H 'Authorization: token ${ZXBOT_TOKEN}' \
+                            -d '{
+                                    \"title\": \"Bumped version ${getCurrentVersion()}\",
+                                    \"head\": \"version-bumper/v${getCurrentVersion()}\",
+                                    \"base\": \"devel\",
+                                    \"maintainer_can_modify\": true,
+                                    \"close_source_branch\": true
+                                }'
+                            """)
+                    }
                 }
             }
         }
