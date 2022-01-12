@@ -20,6 +20,25 @@ SPDX-License-Identifier: AGPL-3.0-only
 
 This is the Design System and Component Library used in most of the Zextras Projects
 
+<h2>How To Build</h2>
+
+- Clone and install dependencies
+
+- Run Styleguidist in watch mode with
+```
+npm run styleguide
+```
+
+- Build the Styleguide with
+```
+npm run styleguide:build
+```
+
+- Build the component library with
+```
+npm run build
+```
+
 <h2>License</h2>
 
 Released under the AGPL-3.0-only license as specified here: [COPYING](COPYING).
