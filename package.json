@@ -13,10 +13,9 @@
 		"icons:build": "npx @svgr/cli -d src/icons svg && npx create-index -ri ./src/icons --extensions js jsx --outputFile index.jsx",
 		"build": "npx rollup -c rollup.config.js",
 		"clean": "rm -rf dist/*",
-		"prepublishOnly": "npm run clean && npm run build",
+		"prepublishOnly": "pinst --disable && npm run clean && npm run build",
 		"deploy": "npm run prepublishOnly && rm -rf $PKG_PATH/node_modules/@zextras/zapp-ui/dist/ && cp -r dist/ $PKG_PATH/node_modules/@zextras/zapp-ui/dist/ && cp package.json $PKG_PATH/node_modules/@zextras/zapp-ui/ && cd $PKG_PATH/node_modules/@zextras/zapp-ui/ && rm -rf node_modules && npm i --only=prod",
 		"postinstall": "is-ci || husky install",
-		"prepublish": "pinst --disable",
 		"postpublish": "pinst --enable",
 		"type-check": "tsc"
 	},
