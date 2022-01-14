@@ -7,16 +7,15 @@
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
 import Icon from './Icon';
-import { Theme } from '../../theme/theme';
+import { ThemeObj } from '../../theme/theme';
 import { getColor } from '../../theme/theme-utils';
 
 type ShapeType = 'round' | 'square';
 
 type AvatarContainerProps = {
-	theme: Theme;
-	size: string;
+	size: keyof ThemeObj['sizes']['avatar'];
 	background?: string;
-	color: string;
+	color: keyof ThemeObj['avatarColors'];
 	picture?: string;
 	selecting?: boolean;
 	selected?: boolean;
@@ -29,9 +28,9 @@ const AvatarContainer = styled.div<AvatarContainerProps>`
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	min-width: ${({ theme, size }): string => theme.sizes.avatar[size].diameter};
-	height: ${({ theme, size }): string => theme.sizes.avatar[size].diameter};
-	min-height: ${({ theme, size }): string => theme.sizes.avatar[size].diameter};
+	min-width: ${({ theme, size }): string => theme.sizes.avatar[size]?.diameter || 'unset'};
+	height: ${({ theme, size }): string => theme.sizes.avatar[size]?.diameter || 'auto'};
+	min-height: ${({ theme, size }): string => theme.sizes.avatar[size]?.diameter || 'auto'};
 	background: ${({ theme, background, color, picture, selecting, selected, disabled }): string =>
 		`${
 			// eslint-disable-next-line no-nested-ternary
@@ -49,16 +48,15 @@ const AvatarContainer = styled.div<AvatarContainerProps>`
 `;
 
 type CapitalsPropsType = {
-	theme: Theme;
-	size: string;
+	size: keyof ThemeObj['sizes']['avatar'];
 	color?: string;
 };
 
 const Capitals = styled.p<CapitalsPropsType>`
-	font-size: ${({ theme, size }): string => theme.sizes.avatar[size].font};
+	font-size: ${({ theme, size }): string => theme.sizes.avatar[size]?.font || 'inherit'};
 	color: ${({ theme, color }): string => getColor(color || 'gray6', theme)};
 	font-family: ${({ theme }): string => theme.fonts.default};
-	font-weight: ${({ theme }): string => theme.fonts.weight.regular};
+	font-weight: ${({ theme }): number => theme.fonts.weight.regular};
 	user-select: none;
 `;
 
@@ -98,7 +96,7 @@ function calcCapitals(label: string): string | null {
 	return label[0] + label[label.length - 1];
 }
 
-function calcColor(label: string): string {
+function calcColor(label: string): keyof ThemeObj['avatarColors'] {
 	let sum = 0;
 	// eslint-disable-next-line no-plusplus
 	for (let i = 0; i < label.length; i++) {
@@ -107,31 +105,24 @@ function calcColor(label: string): string {
 	return `avatar_${(sum % 50) + 1}`;
 }
 
-const avatarDefaultProps = {
-	size: 'medium',
-	fallbackIcon: 'QuestionMark',
-	shape: 'round'
-};
-
 const Avatar = React.forwardRef<HTMLDivElement, AvatarPropTypes>(function AvatarFn(
-	props: AvatarPropTypes,
-	ref: React.ForwardedRef<HTMLDivElement>
-) {
-	const {
-		size,
+	{
+		size = 'medium',
 		label,
 		color,
 		colorLabel,
 		picture,
 		icon,
-		fallbackIcon,
+		fallbackIcon = 'QuestionMark',
 		background,
 		selecting,
 		selected,
-		shape,
+		shape = 'round',
 		disabled,
 		...rest
-	} = { ...avatarDefaultProps, ...props };
+	},
+	ref
+) {
 	const calculatedColor = useMemo(() => calcColor(colorLabel || label), [colorLabel, label]);
 
 	const capitals = useMemo(() => calcCapitals(label.toUpperCase()), [label]);
@@ -175,7 +166,7 @@ const Avatar = React.forwardRef<HTMLDivElement, AvatarPropTypes>(function Avatar
 
 interface AvatarPropTypes {
 	/** size of the Avatar circle */
-	size?: string;
+	size?: keyof ThemeObj['sizes']['avatar'];
 
 	/** url to the profile picture */
 	picture?: string;

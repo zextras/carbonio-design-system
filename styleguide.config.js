@@ -10,7 +10,10 @@ const path = require('path');
 const propsParser = require('react-docgen-typescript');
 
 module.exports = {
-	propsParser: propsParser.withCustomConfig('./tsconfig.json', []).parse,
+	propsParser: propsParser.withCustomConfig('./tsconfig.json', {
+		shouldExtractLiteralValuesFromEnum: true,
+		shouldRemoveUndefinedFromOptional: true
+	}).parse,
 	assetsDir: ['docs/asset'],
 	styleguideComponents: {
 		Wrapper: path.resolve('./lib/styleguide/Wrapper'),

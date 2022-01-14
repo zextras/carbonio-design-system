@@ -7,10 +7,15 @@
 
 import React, { useMemo } from 'react';
 import { ThemeProvider as SCThemeProvider, ThemeContext } from 'styled-components';
-import { Theme as defaultTheme } from './theme';
+import { Theme as defaultTheme, ThemeObj } from './theme';
 import DefaultFontStyles from './roboto-global-styles';
 
-const ThemeProvider = ({ children, extension, loadDefaultFont }) => {
+interface ThemeProviderProps {
+	extension?: (theme: ThemeObj) => ThemeObj;
+	loadDefaultFont?: boolean;
+}
+
+const ThemeProvider: React.FC<ThemeProviderProps> = ({ children, extension, loadDefaultFont }) => {
 	const _theme = useMemo(() => (extension ? extension(defaultTheme) : defaultTheme), [extension]);
 
 	return (
