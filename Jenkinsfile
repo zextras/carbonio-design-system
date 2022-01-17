@@ -242,7 +242,7 @@ pipeline {
                     steps {
                         script {
                             executeNpmLogin()
-                            nodeCmd("npm run release -- --no-verify --release-as ${getCurrentVersion()}-devel.${current.startTimeInMillis} --skip.commit --skip.tag --skip.changelog")
+                            nodeCmd("npm run release -- --no-verify --release-as ${getCurrentVersion()}-devel.${currentBuild.startTimeInMillis} --skip.commit --skip.tag --skip.changelog")
                             nodeCmd("NODE_ENV=\"production\" npm publish --tag devel")
                         }
                     }
