@@ -66,7 +66,7 @@ pipeline {
                 allOf {
                     expression { BRANCH_NAME ==~ /(release)/ }
                     environment name: 'COMMIT_PARENTS_COUNT', value: '2'
-                    expression { params.RELEASE == }
+                    expression { params.RELEASE == false }
                 }
             }
             agent {
