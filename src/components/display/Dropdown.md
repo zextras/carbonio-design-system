@@ -10,7 +10,7 @@ Dropdown list items can be customized with components and/or disabled.
 
 ```jsx
 import { useMemo, useState } from "react";
-import { Container, Padding, Text, Button, IconButton } from "@zextras/zapp-ui";
+import { Container, Padding, Text, Button, IconButton } from "@zextras/carbonio-design-system";
 
 const items = [
   {
@@ -139,7 +139,7 @@ const [open, setOpen] = useState(false);
 ### Development status:
 
 ```jsx noEditor
-import { Container, Icon } from "@zextras/zapp-ui";
+import { Container, Icon } from "@zextras/carbonio-design-system";
 import StatusTable from "status-table";
 const items = [
   {

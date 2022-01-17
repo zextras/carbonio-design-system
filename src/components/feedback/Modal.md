@@ -13,7 +13,7 @@ This component helps also to prevent critical errors (for example when deleting 
 #### Simple Modal
 ```jsx
 import { useState } from 'react';
-import { Button, Checkbox, Text } from '@zextras/zapp-ui';
+import { Button, Checkbox, Text } from '@zextras/carbonio-design-system';
 
 const [open, setOpen] = useState(false);
 const clickHandler = () => setOpen(true);
@@ -36,7 +36,7 @@ const closeHandler = () => setOpen(false);
 #### Error Modal
 ```jsx
 import { useState } from 'react';
-import { Button, Checkbox, Text } from '@zextras/zapp-ui';
+import { Button, Checkbox, Text } from '@zextras/carbonio-design-system';
 
 const [open, setOpen] = useState(false);
 const clickHandler = () => setOpen(true);
@@ -59,7 +59,7 @@ const closeHandler = () => setOpen(false);
 #### Centered Error Modal
 ```jsx
 import { useState } from 'react';
-import { Button, Checkbox, Text } from '@zextras/zapp-ui';
+import { Button, Checkbox, Text } from '@zextras/carbonio-design-system';
 
 const [open, setOpen] = useState(false);
 const clickHandler = () => setOpen(true);
@@ -83,7 +83,7 @@ const closeHandler = () => setOpen(false);
 #### Confirmation Modal
 ```jsx
 import { useState } from 'react';
-import { Button, Checkbox, Text } from '@zextras/zapp-ui';
+import { Button, Checkbox, Text } from '@zextras/carbonio-design-system';
 
 const [open, setOpen] = useState(false);
 const clickHandler = () => setOpen(true);
@@ -108,7 +108,7 @@ const closeHandler = () => setOpen(false);
 #### Multiple Actions
 ```jsx
 import { useState } from 'react';
-import { Button, Checkbox, Text } from '@zextras/zapp-ui';
+import { Button, Checkbox, Text } from '@zextras/carbonio-design-system';
 
 const [open, setOpen] = useState(false);
 const clickHandler = () => setOpen(true);
@@ -133,7 +133,7 @@ const closeHandler = () => setOpen(false);
 #### Custom footer
 ```jsx
 import { useState } from 'react';
-import { Button, Checkbox, Text } from '@zextras/zapp-ui';
+import { Button, Checkbox, Text } from '@zextras/carbonio-design-system';
 
 const [open, setOpen] = useState(false);
 const clickHandler = () => setOpen(true);
@@ -156,7 +156,7 @@ const closeHandler = () => setOpen(false);
 #### Nested Modal (Never use)
 ```jsx
 import { useState } from 'react';
-import { Button, Text } from '@zextras/zapp-ui';
+import { Button, Text } from '@zextras/carbonio-design-system';
 
 const [open1, setOpen1] = useState(false);
 const [open2, setOpen2] = useState(false);
@@ -180,7 +180,7 @@ const closeHandler2 = () => setOpen2(false);
 #### Modal with Custom Title Component
 ```jsx
 import { useState } from 'react';
-import { Button, Checkbox, Text ,Icon,Container} from '@zextras/zapp-ui';
+import { Button, Checkbox, Text ,Icon,Container} from '@zextras/carbonio-design-system';
 
 const [open, setOpen] = useState(false);
 
@@ -212,7 +212,7 @@ const TitleComponent = <Container background="gray5" orientation="horizontal">
 
 ### Development status:
 ```jsx noEditor
-import { Container, Icon } from '@zextras/zapp-ui';
+import { Container, Icon } from '@zextras/carbonio-design-system';
 import StatusTable from 'status-table';
 const items = [{
     feature: 'Graphics',

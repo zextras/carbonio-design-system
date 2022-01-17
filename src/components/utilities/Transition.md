@@ -6,7 +6,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 
 ```jsx
 import { useState } from 'react';
-import { Button, Container, IconButton, Row, Text, Tooltip } from '@zextras/zapp-ui';
+import { Button, Container, IconButton, Row, Text, Tooltip } from '@zextras/carbonio-design-system';
 
 const effects = [...Transition.types];
 const [buttons, setButtons] = useState(effects.reduce((acc, currentValue) => { return { ...acc, [currentValue]: false }}, {}));
@@ -42,7 +42,7 @@ const [buttons, setButtons] = useState(effects.reduce((acc, currentValue) => { r
 ```
 ```jsx
 import { useState } from 'react';
-import { Button, Container, IconButton, Row, Text, Tooltip } from '@zextras/zapp-ui';
+import { Button, Container, IconButton, Row, Text, Tooltip } from '@zextras/carbonio-design-system';
 const [open, setOpen] = useState(false);
 <>
   <Container crossAlignment="unset">
@@ -71,7 +71,7 @@ const [open, setOpen] = useState(false);
 
 ```jsx
 import { useState, useReducer } from 'react';
-import { Button, Container, Select, Padding, Text, Row } from '@zextras/zapp-ui';
+import { Button, Container, Select, Padding, Text, Row } from '@zextras/carbonio-design-system';
 
 function reducer(state, action) {
   switch (action.type) {
@@ -111,7 +111,7 @@ const [effect, setEffect] = useState('fade');
 
 ### Development status:
 ```jsx noEditor
-import { Container, Icon } from '@zextras/zapp-ui';
+import { Container, Icon } from '@zextras/carbonio-design-system';
 import StatusTable from 'status-table';
 const items = [{
     feature: 'Graphics',

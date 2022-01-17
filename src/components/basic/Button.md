@@ -7,7 +7,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 ### Colors
 
 ```jsx
-import { Container, Text } from '@zextras/zapp-ui';
+import { Container, Text } from '@zextras/carbonio-design-system';
 
 const click = () => console.log('click!');
 
@@ -42,7 +42,7 @@ const click = () => console.log('click!');
 ### Icon
 
 ```jsx
-import { Container, Text } from '@zextras/zapp-ui';
+import { Container, Text } from '@zextras/carbonio-design-system';
 
 const click = () => console.log('click!');
 
@@ -77,7 +77,7 @@ const click = () => console.log('click!');
 ### Size
 
 ```jsx
-import { Container, Text } from '@zextras/zapp-ui';
+import { Container, Text } from '@zextras/carbonio-design-system';
 
 const click = () => console.log('click!');
 
@@ -92,7 +92,7 @@ const click = () => console.log('click!');
 ### Custom Colors
 
 ```jsx
-import { Container, Text } from '@zextras/zapp-ui';
+import { Container, Text } from '@zextras/carbonio-design-system';
 
 const click = () => console.log('click!');
 
@@ -110,7 +110,7 @@ const click = () => console.log('click!');
 ### Disabled
 
 ```jsx
-import { Container, Text } from '@zextras/zapp-ui';
+import { Container, Text } from '@zextras/carbonio-design-system';
 
 const click = () => console.log('click!');
 
@@ -147,7 +147,7 @@ const click = () => console.log('click!');
 #### Fixed forceActive
 
 ```jsx
-import { Container } from '@zextras/zapp-ui';
+import { Container } from '@zextras/carbonio-design-system';
 
 const click = () => console.log('click!');
 
@@ -159,7 +159,7 @@ const click = () => console.log('click!');
 #### Disabled has priority on forceActive
 
 ```jsx
-import { Container } from '@zextras/zapp-ui';
+import { Container } from '@zextras/carbonio-design-system';
 
 const click = () => console.log('click!');
 
@@ -172,7 +172,7 @@ const click = () => console.log('click!');
 
 ```jsx
 import { useState } from "react";
-import { Container, Dropdown } from '@zextras/zapp-ui';
+import { Container, Dropdown } from '@zextras/carbonio-design-system';
 
 const [dropdownOpen, setDropdownOpen] =  useState(false);
 
@@ -199,7 +199,7 @@ const items = [
 ### Loading
 
 ```jsx
-import { Container, Text } from '@zextras/zapp-ui';
+import { Container, Text } from '@zextras/carbonio-design-system';
 
 const click = () => console.log('click!');
 
@@ -233,7 +233,7 @@ const click = () => console.log('click!');
 
 ### Development status:
 ```jsx noEditor
-import { Container, Icon } from '@zextras/zapp-ui';
+import { Container, Icon } from '@zextras/carbonio-design-system';
 import StatusTable from 'status-table';
 const items = [{
     feature: 'Graphics',

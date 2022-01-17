@@ -255,7 +255,7 @@ Another example of how the spread props can be used to customize the breadcrumb
 
 ```jsx
 import styled from 'styled-components';
-import { getColor } from '@zextras/zapp-ui';
+import { getColor } from '@zextras/carbonio-design-system';
 
 const crumbs = Array.from({ length: 5 }, (_, i) => ({
 	id: `crumb-${i}`,
@@ -318,7 +318,7 @@ const CustomBreadcrumbs = styled(Breadcrumbs)`
 
 ### Development status:
 ```jsx noEditor
-import { Container, Icon } from '@zextras/zapp-ui';
+import { Container, Icon } from '@zextras/carbonio-design-system';
 import StatusTable from 'status-table';
 const items = [{
     feature: 'Graphics',

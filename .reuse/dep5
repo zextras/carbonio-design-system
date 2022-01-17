@@ -1,5 +1,5 @@
 Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
-Upstream-Name: zapp-ui
+Upstream-Name: carbonio-design-system
 Upstream-Contact: Zextras <https://www.zextras.com>
 
 Files: .idea/*

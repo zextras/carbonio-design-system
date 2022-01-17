@@ -44,7 +44,7 @@ const handleChange = useCallback((d) => {
 
 ```jsx
 import { useState, forwardRef } from 'react';
-import { Button } from '@zextras/zapp-ui';
+import { Button } from '@zextras/carbonio-design-system';
 
 const ExampleCustomInput = forwardRef(({ value, onClick }, ref) => (
 	<Button onClick={onClick} ref={ref} label={value} icon="CalendarOutline" />
@@ -63,7 +63,7 @@ const ExampleCustomInput = forwardRef(({ value, onClick }, ref) => (
 
 ```jsx
 import { useState } from 'react';
-import { Padding } from '@zextras/zapp-ui';
+import { Padding } from '@zextras/carbonio-design-system';
 <>
 	<DateTimePicker
 		label="Date Time Picker"
@@ -79,7 +79,7 @@ import { Padding } from '@zextras/zapp-ui';
 
 ```jsx
 import { useState } from 'react';
-import { Padding } from '@zextras/zapp-ui';
+import { Padding } from '@zextras/carbonio-design-system';
 <>
 	<DateTimePicker label="Date Time Picker" hasError />
 	<Padding top="small" />
@@ -90,7 +90,7 @@ import { Padding } from '@zextras/zapp-ui';
 ### Development status:
 
 ```jsx noEditor
-import { Container, Icon } from '@zextras/zapp-ui';
+import { Container, Icon } from '@zextras/carbonio-design-system';
 import StatusTable from 'status-table';
 const items = [
 	{

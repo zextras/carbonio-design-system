@@ -9,7 +9,7 @@ Use Portal component to output its children to a different HTML node instead of 
 
 ```jsx
 import { useState, useRef } from 'react';
-import { Button, Container, Padding, Text } from '@zextras/zapp-ui';
+import { Button, Container, Padding, Text } from '@zextras/carbonio-design-system';
 
 const containerRef = useRef(undefined);
 const [show, setShow] = useState(false);
@@ -48,7 +48,7 @@ const handleClick = () => {
 
 ### Development status:
 ```jsx noEditor
-import { Container, Icon } from '@zextras/zapp-ui';
+import { Container, Icon } from '@zextras/carbonio-design-system';
 import StatusTable from 'status-table';
 const items = [{
     feature: 'Graphics',

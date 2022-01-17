@@ -6,7 +6,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 
 ```js
 import styled from 'styled-components';
-import { Drag, Container, Button, Drop, Padding, Icon, Text, Badge } from '@zextras/zapp-ui';
+import { Drag, Container, Button, Drop, Padding, Icon, Text, Badge } from '@zextras/carbonio-design-system';
 
 const BackDropLayout = styled(Container)`
 	width: 100%;

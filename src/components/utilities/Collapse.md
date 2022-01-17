@@ -7,7 +7,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 This is a component that simplifies the control of components that should appear or disappear.
 
 ```jsx
-import { Icon, Button, Padding } from '@zextras/zapp-ui';
+import { Icon, Button, Padding } from '@zextras/carbonio-design-system';
 import { useState } from 'react';
 let [open, setOpen] = useState(true);
 const toggle = () => {
@@ -38,7 +38,7 @@ const toggle = () => {
 ### Development status:
 
 ```jsx
-import { Container, Icon } from '@zextras/zapp-ui';
+import { Container, Icon } from '@zextras/carbonio-design-system';
 import StatusTable from 'status-table';
 const items = [
 	{

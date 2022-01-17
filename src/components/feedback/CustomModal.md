@@ -8,7 +8,7 @@ A simplified and customizable Modal with no defined content.
 
 ```jsx
 import { useState } from 'react';
-import { Button, Checkbox, Text } from '@zextras/zapp-ui';
+import { Button, Checkbox, Text } from '@zextras/carbonio-design-system';
 
 const [open, setOpen] = useState(false);
 const clickHandler = () => setOpen(true);
@@ -29,7 +29,7 @@ const closeHandler = () => setOpen(false);
 
 ### Development status:
 ```jsx noEditor
-import { Container, Icon } from '@zextras/zapp-ui';
+import { Container, Icon } from '@zextras/carbonio-design-system';
 import StatusTable from 'status-table';
 const items = [{
     feature: 'Graphics',

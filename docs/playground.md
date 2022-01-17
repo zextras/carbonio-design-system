@@ -6,7 +6,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 
 ```jsx
 import {} from 'react';
-import { Text } from '@zextras/zapp-ui';
+import { Text } from '@zextras/carbonio-design-system';
 import { map } from 'lodash';
 import styled from 'styled-components';
 

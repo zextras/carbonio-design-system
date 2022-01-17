@@ -6,7 +6,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 
 The IconButton is a button that contains just an Icon and no label.
 ```jsx
-import { Container } from '@zextras/zapp-ui';
+import { Container } from '@zextras/carbonio-design-system';
 
 const click = () => console.log('click!');
 
@@ -22,7 +22,7 @@ const click = () => console.log('click!');
 
 It could make sense to allow the normal Button to have no label and deprecate this component.
 ```jsx noEditor
-import { Container, Icon } from '@zextras/zapp-ui';
+import { Container, Icon } from '@zextras/carbonio-design-system';
 import StatusTable from 'status-table';
 const items = [{
     feature: 'Graphics',

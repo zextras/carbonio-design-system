@@ -5,7 +5,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 -->
 
 ```jsx
-import { Container, Padding, Text } from '@zextras/zapp-ui';
+import { Container, Padding, Text } from '@zextras/carbonio-design-system';
 
 <>
     <Container orientation="horizontal" mainAlignment="flex-start" height={300}>
@@ -48,7 +48,7 @@ import { Container, Padding, Text } from '@zextras/zapp-ui';
 
 ### Custom Icons
 ```jsx
-import { Container, Padding, Text } from '@zextras/zapp-ui';
+import { Container, Padding, Text } from '@zextras/carbonio-design-system';
 
 function BackUpLogo({ width, height, ...rest }) {
     return (
@@ -71,7 +71,7 @@ function BackUpLogo({ width, height, ...rest }) {
 
 ### Development status:
 ```jsx noEditor
-import { Container, Icon } from '@zextras/zapp-ui';
+import { Container, Icon } from '@zextras/carbonio-design-system';
 import StatusTable from 'status-table';
 const items = [{
     feature: 'Graphics',

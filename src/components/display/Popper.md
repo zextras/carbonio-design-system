@@ -8,7 +8,7 @@ Component to use when you want to position a component in reference of another c
 
 ```jsx
 import { useState, useRef } from 'react';
-import { Button, Text } from '@zextras/zapp-ui';
+import { Button, Text } from '@zextras/carbonio-design-system';
 
 const [open, setOpen] = useState(false);
 const buttonRef = useRef(undefined);
@@ -22,7 +22,7 @@ const buttonRef = useRef(undefined);
 ```
 ```jsx
 import { useState, useRef } from 'react';
-import { Button, Text } from '@zextras/zapp-ui';
+import { Button, Text } from '@zextras/carbonio-design-system';
 
 const [open, setOpen] = useState(false);
 const buttonRef = useRef(undefined);
@@ -37,7 +37,7 @@ const buttonRef = useRef(undefined);
 
 ### Development status:
 ```jsx noEditor
-import { Container, Icon } from '@zextras/zapp-ui';
+import { Container, Icon } from '@zextras/carbonio-design-system';
 import StatusTable from 'status-table';
 const items = [{
     feature: 'Graphics',

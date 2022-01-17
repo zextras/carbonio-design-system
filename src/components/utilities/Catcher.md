@@ -11,7 +11,7 @@ The onError function can be used to perform operations such as logging.
 
 ```jsx
 import { useState } from 'react';
-import { Button, Text, Container, Padding } from '@zextras/zapp-ui';
+import { Button, Text, Container, Padding } from '@zextras/carbonio-design-system';
 
 const [ evil, turnEvil ] = useState(false);
 
@@ -71,7 +71,7 @@ const GoodComponent = ({ good }) => {
 
 ### Development status:
 ```jsx noEditor
-import { Container, Icon } from '@zextras/zapp-ui';
+import { Container, Icon } from '@zextras/carbonio-design-system';
 import StatusTable from 'status-table';
 const items = [{
     feature: 'Graphics',
