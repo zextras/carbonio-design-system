@@ -66,6 +66,7 @@ pipeline {
                 allOf {
                     expression { BRANCH_NAME ==~ /(release)/ }
                     environment name: 'COMMIT_PARENTS_COUNT', value: '2'
+                    expression { params.RELEASE == }
                 }
             }
             agent {
@@ -74,14 +75,6 @@ pipeline {
                 }
             }
             steps {
-                script {
-                    sh(script: """#!/bin/bash
-                        git config user.email \"bot@zextras.com\"
-                        git config user.name \"Tarsier Bot\"
-                        git remote set-url origin \$(git remote -v | head -n1 | cut -d\$'\t' -f2 | cut -d\" \" -f1 | sed 's!https://bitbucket.org/zextras!git@bitbucket.org:zextras!g')
-                        git fetch --unshallow
-                    """)
-                }
                 executeNpmLogin()
                 nodeCmd 'npm ci'
                 nodeCmd 'npx pinst --enable'
@@ -207,6 +200,23 @@ pipeline {
 
         //============================================ Deploy ==================================================================
 
+        stage('Release on NPM') {
+            when {
+                beforeAgent true
+                allOf {
+                    expression { BRANCH_NAME ==~ /(release)/ }
+                    environment name: 'COMMIT_PARENTS_COUNT', value: '1'
+                    expression { params.RELEASE == true }
+                }
+            }
+            steps {
+                    script {
+                        executeNpmLogin()
+                        nodeCmd("NODE_ENV=\"production\" npm publish")
+                    }
+                }
+            }
+        }
         stage('Release RC on NPM') {
             when {
                 beforeAgent true
@@ -223,22 +233,22 @@ pipeline {
                     }
                 }
             }
+        }
         stage('Release Devel on NPM') {
             when {
                 beforeAgent true
                 allOf {
                     expression { BRANCH_NAME ==~ /(devel)/ }
-                    environment name: 'COMMIT_PARENTS_COUNT', value: '2'
                 }
             }
             steps {
                 script {
                     executeNpmLogin()
+                    nodeCmd("npm run release -- --no-verify --release-as ${getCurrentVersion()}-${current.startTimeInMillis} --skip.commit --skip.tag --skip.changelog")
                     nodeCmd("NODE_ENV=\"production\" npm publish --tag devel")
                 }
             }
         }
-
         stage('Deploy documentation') {
             when {
                 beforeAgent true
