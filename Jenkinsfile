@@ -210,10 +210,9 @@ pipeline {
                 }
             }
             steps {
-                    script {
-                        executeNpmLogin()
-                        nodeCmd("NODE_ENV=\"production\" npm publish")
-                    }
+                script {
+                    executeNpmLogin()
+                    nodeCmd("NODE_ENV=\"production\" npm publish")
                 }
             }
         }
