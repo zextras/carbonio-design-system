@@ -198,51 +198,54 @@ pipeline {
         }
 
         //============================================ Deploy ==================================================================
-
-        stage('Release on NPM') {
-            when {
-                beforeAgent true
-                allOf {
-                    expression { BRANCH_NAME ==~ /(release)/ }
-                    environment name: 'COMMIT_PARENTS_COUNT', value: '1'
-                    expression { params.RELEASE == true }
+        stage('NPM') {
+            parallel {
+                stage('Release') {
+                    when {
+                        beforeAgent true
+                        allOf {
+                            expression { BRANCH_NAME ==~ /(release)/ }
+                            environment name: 'COMMIT_PARENTS_COUNT', value: '1'
+                            expression { params.RELEASE == true }
+                        }
+                    }
+                    steps {
+                        script {
+                            executeNpmLogin()
+                            nodeCmd("NODE_ENV=\"production\" npm publish")
+                        }
+                    }
                 }
-            }
-            steps {
-                script {
-                    executeNpmLogin()
-                    nodeCmd("NODE_ENV=\"production\" npm publish")
+                stage('RC') {
+                    when {
+                        beforeAgent true
+                        allOf {
+                            expression { BRANCH_NAME ==~ /(release)/ }
+                            environment name: 'COMMIT_PARENTS_COUNT', value: '1'
+                            expression { params.RELEASE == false }
+                        }
+                    }
+                    steps {
+                        script {
+                            executeNpmLogin()
+                            nodeCmd("NODE_ENV=\"production\" npm publish --tag rc")
+                        }
+                    }
                 }
-            }
-        }
-        stage('Release RC on NPM') {
-            when {
-                beforeAgent true
-                allOf {
-                    expression { BRANCH_NAME ==~ /(release)/ }
-                    environment name: 'COMMIT_PARENTS_COUNT', value: '1'
-                    expression { params.RELEASE == false }
-                }
-            }
-            steps {
-                script {
-                    executeNpmLogin()
-                    nodeCmd("NODE_ENV=\"production\" npm publish --tag rc")
-                }
-            }
-        }
-        stage('Release Devel on NPM') {
-            when {
-                beforeAgent true
-                allOf {
-                    expression { BRANCH_NAME ==~ /(devel)/ }
-                }
-            }
-            steps {
-                script {
-                    executeNpmLogin()
-                    nodeCmd("npm run release -- --no-verify --release-as ${getCurrentVersion()}-${current.startTimeInMillis} --skip.commit --skip.tag --skip.changelog")
-                    nodeCmd("NODE_ENV=\"production\" npm publish --tag devel")
+                stage('Devel') {
+                    when {
+                        beforeAgent true
+                        allOf {
+                            expression { BRANCH_NAME ==~ /(devel)/ }
+                        }
+                    }
+                    steps {
+                        script {
+                            executeNpmLogin()
+                            nodeCmd("npm run release -- --no-verify --release-as ${getCurrentVersion()}-devel.${current.startTimeInMillis} --skip.commit --skip.tag --skip.changelog")
+                            nodeCmd("NODE_ENV=\"production\" npm publish --tag devel")
+                        }
+                    }
                 }
             }
         }
