@@ -11,7 +11,7 @@ import DatePicker from 'react-datepicker';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import ChipInput from './ChipInput';
-import { Input } from './Input';
+import Input from './Input';
 import Padding from '../layout/Padding';
 import Text from '../basic/Text';
 import Container from '../layout/Container';
