@@ -4,12 +4,12 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-/* eslint-disable no-nested-ternary */
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import styled, { css, FlattenSimpleInterpolation } from 'styled-components';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
-import { IconButton } from '../../index';
+import { KeyboardPreset, useKeyboard } from '../../hooks/useKeyboard';
 import Container from '../layout/Container';
+import IconButton from './IconButton';
 
 const ContainerEl = styled(Container)`
 	${(props): FlattenSimpleInterpolation | string =>
@@ -152,6 +152,8 @@ export interface InputProps {
 	type?: string;
 	/** hide the inputs bottom line */
 	hideBorder?: boolean;
+	/** on Enter key callback */
+	onEnter?: (e: KeyboardEvent) => void;
 }
 
 type Input = React.ForwardRefExoticComponent<InputProps & React.RefAttributes<HTMLDivElement>> & {
@@ -176,6 +178,7 @@ const Input: Input = React.forwardRef<HTMLDivElement, InputProps>(function Input
 		inputName,
 		type = 'text',
 		hideBorder = false,
+		onEnter,
 		...rest
 	},
 	ref
@@ -199,6 +202,22 @@ const Input: Input = React.forwardRef<HTMLDivElement, InputProps>(function Input
 	}, [setHasFocus, comboRef, disabled]);
 
 	const onInputBlur = useCallback(() => setHasFocus(false), [setHasFocus]);
+
+	const keyboardEvents = useMemo<KeyboardPreset>(() => {
+		const events: KeyboardPreset = [];
+		if (onEnter) {
+			events.push({
+				type: 'keyup',
+				callback: onEnter,
+				keys: ['Enter'],
+				haveToPreventDefault: true,
+				modifier: false
+			});
+		}
+		return events;
+	}, [onEnter]);
+
+	useKeyboard(comboRef, keyboardEvents);
 
 	return (
 		<ContainerEl
@@ -244,7 +263,7 @@ const Input: Input = React.forwardRef<HTMLDivElement, InputProps>(function Input
 			)}
 			<InputUnderline
 				hideBorder={hideBorder}
-				color={hasError ? 'error' : hasFocus ? 'primary' : borderColor}
+				color={(hasError && 'error') || (hasFocus && 'primary') || borderColor}
 			/>
 		</ContainerEl>
 	);

@@ -10,6 +10,7 @@ import { useState } from 'react';
 import { Container, Padding, Text, PasswordInput, Icon, Button } from '@zextras/zapp-ui';
 
 const [value, setValue] = useState('Some Controlled value');
+const [value2, setValue2] = useState('');
 
 <Container orientation="horizontal" mainAlignment="center" background="gray5" height="fill" width="fill">
     <Container orientation="vertical" mainAlignment="space-around" height="300px" width="50%">
@@ -28,8 +29,18 @@ const [value, setValue] = useState('Some Controlled value');
             label="Input with custom icon"
             CustomIcon={({ hasFocus }) => <Icon icon="AgendaOutline" size="large" color={hasFocus ? 'primary' : 'text'} />}
         />
-        <PasswordInput hasError={true} label="Password"/>
-        <PasswordInput disabled label="Disabled Password"/>
+        <Input
+            label="Input with onEnter"
+            value={value2}
+            onChange={
+                (ev) => {
+                    console.log('onChange', ev.target.value)
+                    setValue2(ev.target.value)
+                }
+            }
+            onEnter={(e) => { console.log('onEnter called with text', e.target.value) }}
+            backgroundColor="gray6"
+        />
     </Container>
 </Container>
 ```
