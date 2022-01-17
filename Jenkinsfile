@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-@Library("zextras-library@0.5.0") _
+@Library('zextras-library@0.5.0') _
 
 def nodeCmd(String cmd) {
     sh '. load_nvm && nvm install && nvm use && npm ci && ' + cmd
@@ -52,12 +52,11 @@ pipeline {
         booleanParam defaultValue: false, description: 'Release this version on npm', name: 'RELEASE'
     }
     environment {
-        BUCKET_NAME = "zextras-artifacts"
+        BUCKET_NAME = 'zextras-artifacts'
         COMMIT_PARENTS_COUNT = getCommitParentsCount()
         REPOSITORY_NAME = getRepositoryName()
     }
     stages {
-
         //============================================ Release Automation ======================================================
 
         stage('Bump Version') {
@@ -81,7 +80,7 @@ pipeline {
                 script {
                     env.VERSIONING_PARAMS = getVersioningParams("$BRANCH_NAME")
                 }
-                nodeCmd "npm run release -- --no-verify"
+                nodeCmd 'npm run release -- --no-verify'
                 script {
                     sh(script: """#!/bin/bash
                         git push --follow-tags origin HEAD:$BRANCH_NAME
@@ -109,7 +108,7 @@ pipeline {
         stage('Tests') {
             when {
                 beforeAgent true
-                allOf{
+                allOf {
                     expression { BRANCH_NAME ==~ /PR-\d+/ }
                 }
             }
@@ -122,7 +121,7 @@ pipeline {
                     }
                     steps {
                         executeNpmLogin()
-                        nodeCmd("npm run lint")
+                        nodeCmd('npm run lint')
                     }
                 }
                 stage('Unit Tests') {
@@ -133,7 +132,7 @@ pipeline {
                     }
                     steps {
                         executeNpmLogin()
-                        nodeCmd("npm run test")
+                        nodeCmd('npm run test')
                     }
                     post {
                         always {
@@ -165,8 +164,8 @@ pipeline {
                     steps {
                         script {
                             executeNpmLogin()
-                            nodeCmd("npm run build")
-                            // archiveArtifacts artifacts: 'dist/zapp-ui.js', fingerprint: true
+                            nodeCmd('npm run build')
+                        // archiveArtifacts artifacts: 'dist/zapp-ui.js', fingerprint: true
                         }
                     }
                 }
@@ -190,7 +189,7 @@ pipeline {
                         script {
                             executeNpmLogin()
                             // TODO: [IRIS-2131] remove the '|| true' bypass once the issue is solvable or the components are all converted to typescript
-                            nodeCmd("npm run styleguide:build || true")
+                            nodeCmd('npm run styleguide:build || true')
                             stash includes: 'styleguide/', name: 'doc'
                         }
                     }
@@ -226,10 +225,9 @@ pipeline {
                 }
             }
             steps {
-                    script {
-                        executeNpmLogin()
-                        nodeCmd("NODE_ENV=\"production\" npm publish --tag rc")
-                    }
+                script {
+                    executeNpmLogin()
+                    nodeCmd("NODE_ENV=\"production\" npm publish --tag rc")
                 }
             }
         }
@@ -264,7 +262,7 @@ pipeline {
                     unstash 'doc'
                     doc.rm file: "iris/zapp-ui/${BRANCH_NAME}"
                     doc.mkdir folder: "iris/zapp-ui/${BRANCH_NAME}"
-                    doc.upload file: "styleguide/**", destination: "iris/zapp-ui/${BRANCH_NAME}"
+                    doc.upload file: 'styleguide/**', destination: "iris/zapp-ui/${BRANCH_NAME}"
                 }
             }
         }
