@@ -17,3 +17,7 @@
 /.prettierrc.js
 /commitlint.config.js
 /rollup.config.js
+/.github
+/LICENSES
+tsconfig.json
+/.reuse
