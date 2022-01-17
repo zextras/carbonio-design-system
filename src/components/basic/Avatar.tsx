@@ -28,9 +28,9 @@ const AvatarContainer = styled.div<AvatarContainerProps>`
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	min-width: ${({ theme, size }): string => theme.sizes.avatar[size]?.diameter || 'unset'};
-	height: ${({ theme, size }): string => theme.sizes.avatar[size]?.diameter || 'auto'};
-	min-height: ${({ theme, size }): string => theme.sizes.avatar[size]?.diameter || 'auto'};
+	min-width: ${({ theme, size }): string => theme.sizes.avatar[size].diameter};
+	height: ${({ theme, size }): string => theme.sizes.avatar[size].diameter};
+	min-height: ${({ theme, size }): string => theme.sizes.avatar[size].diameter};
 	background: ${({ theme, background, color, picture, selecting, selected, disabled }): string =>
 		`${
 			// eslint-disable-next-line no-nested-ternary
@@ -53,7 +53,7 @@ type CapitalsPropsType = {
 };
 
 const Capitals = styled.p<CapitalsPropsType>`
-	font-size: ${({ theme, size }): string => theme.sizes.avatar[size]?.font || 'inherit'};
+	font-size: ${({ theme, size }): string => theme.sizes.avatar[size].font};
 	color: ${({ theme, color }): string => getColor(color || 'gray6', theme)};
 	font-family: ${({ theme }): string => theme.fonts.default};
 	font-weight: ${({ theme }): number => theme.fonts.weight.regular};

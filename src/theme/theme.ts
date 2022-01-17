@@ -8,11 +8,14 @@ import React from 'react';
 import IconData from '../icons';
 
 export interface ThemeSizeObj<T = string> {
-	extrasmall?: T;
 	small: T;
 	medium: T;
 	large: T;
-	extralarge?: T;
+}
+
+export interface ThemeSizeObjExtended<T = string> extends ThemeSizeObj<T> {
+	extrasmall: T;
+	extralarge: T;
 }
 
 export interface ThemeColorObj {
@@ -37,8 +40,8 @@ export interface ThemeObj {
 	sizes: {
 		font: ThemeSizeObj;
 		icon: ThemeSizeObj;
-		avatar: ThemeSizeObj<{ diameter: string; font: string }>;
-		padding: Required<ThemeSizeObj>;
+		avatar: Omit<ThemeSizeObjExtended<{ diameter: string; font: string }>, 'extrasmall'>;
+		padding: ThemeSizeObjExtended;
 	};
 	icons: Record<string, React.ReactElement>;
 	loginBackground: string;
