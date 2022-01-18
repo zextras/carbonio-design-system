@@ -8,8 +8,8 @@ import React, { useCallback, useMemo, useRef, useState } from 'react';
 import styled, { css, FlattenSimpleInterpolation } from 'styled-components';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { KeyboardPreset, useKeyboard } from '../../hooks/useKeyboard';
+import { ThemeObj } from '../../theme/theme';
 import Container from '../layout/Container';
-import IconButton from './IconButton';
 
 const ContainerEl = styled(Container)`
 	${(props): FlattenSimpleInterpolation | string =>
@@ -38,14 +38,14 @@ const ContainerEl = styled(Container)`
 		''};
 `;
 
-const InputEl = styled.input<{ color: string; hasIcon: boolean }>`
+const InputEl = styled.input<{ color: keyof ThemeObj['palette']; hasIcon: boolean }>`
 	border: none !important;
 	height: auto !important;
 	width: 100%;
 	outline: 0;
 	background: transparent !important;
 	font-size: ${({ theme }): string => theme.sizes.font.medium};
-	font-weight: ${({ theme }): string => theme.fonts.weight.regular};
+	font-weight: ${({ theme }): number => theme.fonts.weight.regular};
 	font-family: ${({ theme }): string => theme.fonts.default};
 	color: ${({ theme, color }): string => theme.palette[color].regular};
 	transition: background 0.2s ease-out;
@@ -70,11 +70,10 @@ const Label = styled.label<{ hasError: boolean; hasFocus: boolean; hasIcon: bool
 	top: 50%;
 	left: ${({ theme }): string => theme.sizes.padding.large};
 	font-size: ${({ theme }): string => theme.sizes.font.medium};
-	font-weight: ${({ theme }): string => theme.fonts.weight.regular};
+	font-weight: ${({ theme }): number => theme.fonts.weight.regular};
 	font-family: ${({ theme }): string => theme.fonts.default};
 	color: ${({ theme, hasError, hasFocus }): string =>
-		// eslint-disable-next-line no-nested-ternary
-		theme.palette[hasError ? 'error' : hasFocus ? 'primary' : 'secondary'].regular};
+		theme.palette[(hasError && 'error') || (hasFocus && 'primary') || 'secondary'].regular};
 	transform: translateY(-50%);
 	transition: transform 150ms ease-out, font-size 150ms ease-out, top 150ms ease-out,
 		left 150ms ease-out;
@@ -101,7 +100,7 @@ const Label = styled.label<{ hasError: boolean; hasFocus: boolean; hasIcon: bool
 		font-size: ${({ theme }): string => theme.sizes.font.small};
 	}
 `;
-const InputUnderline = styled.div<{ hideBorder: boolean; color: string }>`
+const InputUnderline = styled.div<{ hideBorder: boolean; color: keyof ThemeObj['palette'] }>`
 	position: absolute;
 	left: 0;
 	bottom: 0;
@@ -125,9 +124,9 @@ export interface InputProps {
 	/** whether to disable the Input or not */
 	disabled?: boolean;
 	/** Input's text color */
-	textColor?: string;
+	textColor?: keyof ThemeObj['palette'];
 	/** Input's bottom border color */
-	borderColor?: string;
+	borderColor?: keyof ThemeObj['palette'];
 	/** Label of the input, will act (graphically) as placeholder when the input is not focused */
 	label: string;
 	/** input change callback */
@@ -147,7 +146,7 @@ export interface InputProps {
 	/** HTML input name */
 	inputName?: string;
 	/** Custom component to show on the right of the input, it occupies 56x42 px */
-	CustomIcon?: typeof IconButton;
+	CustomIcon?: React.ComponentType<{ hasError: boolean; hasFocus: boolean; disabled: boolean }>;
 	/** input type attribute */
 	type?: string;
 	/** hide the inputs bottom line */

@@ -18,7 +18,7 @@ const PasswordInput = React.forwardRef<HTMLDivElement, InputProps>(function Pass
 		});
 	}, []);
 
-	const CustomIcon = useCallback(
+	const CustomIcon: InputProps['CustomIcon'] = useCallback(
 		({ hasError, hasFocus, disabled }) => (
 			<Container
 				style={{
