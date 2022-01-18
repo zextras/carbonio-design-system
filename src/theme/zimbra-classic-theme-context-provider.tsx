@@ -7,14 +7,22 @@
 
 import React, { useContext } from 'react';
 import { StyleSheetManager } from 'styled-components';
+import { ThemeObj } from './theme';
 import { ThemeProvider, ThemeContext } from './theme-context-provider';
 
+interface ZimbraClassicThemeContextProviderProps {
+	styleSheetTarget?: HTMLElement;
+	children: React.ReactElement;
+	extension?: (theme: ThemeObj) => ThemeObj;
+	loadDefaultFont?: boolean;
+}
+
 function ZimbraClassicThemeContextProvider({
-	styleSheetTarget = window.top.document.head,
+	styleSheetTarget = window.top?.document.head,
 	children,
 	extension,
 	loadDefaultFont
-}) {
+}: ZimbraClassicThemeContextProviderProps): JSX.Element {
 	const upperContext = useContext(ThemeContext);
 	if (upperContext) {
 		return <React.Fragment>{children}</React.Fragment>;

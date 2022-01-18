@@ -21,7 +21,7 @@ Chips can have different variants, based on contents and colors, and two shapes,
 
 The chip has a default palette (light version), but can be customized with the props related to colors and backgrounds.
 The given colors are used with their set for the pseudo statuses 
-(if a set is not provided within the theme, a runtime set will be generated. See ```theme-utils.js: colorSet```)
+(if a set is not provided within the theme, a runtime set will be generated. See ```theme-utils.ts: colorSet```)
 
 The chip has two special statuses: disabled and error.
 - When a chip is disabled, all elements within are disabled. 

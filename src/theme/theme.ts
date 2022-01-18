@@ -4,9 +4,76 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
+import React from 'react';
 import IconData from '../icons';
 
-export const Theme = {
+export interface ThemeSizeObj<T = string> {
+	small: T;
+	medium: T;
+	large: T;
+}
+
+export interface ThemeSizeObjExtended<T = string> extends ThemeSizeObj<T> {
+	extrasmall: T;
+	extralarge: T;
+}
+
+export interface ThemeColorObj {
+	regular: string;
+	hover: string;
+	active: string;
+	focus: string;
+	disabled: string;
+}
+
+// augment this interface to extend theme type
+export interface ThemeObj {
+	breakpoints: {
+		width: number;
+		aspectRatio: number;
+	};
+	borderRadius: string;
+	fonts: {
+		default: string;
+		weight: { light: number; regular: number; medium: number; bold: number };
+	};
+	sizes: {
+		font: ThemeSizeObj;
+		icon: ThemeSizeObj;
+		avatar: Omit<ThemeSizeObjExtended<{ diameter: string; font: string }>, 'extrasmall'>;
+		padding: ThemeSizeObjExtended;
+	};
+	icons: Record<string, React.ReactElement>;
+	loginBackground: string;
+	logo: {
+		svg: React.ReactElement;
+		size: ThemeSizeObj;
+	};
+	palette: Record<
+		| 'currentColor'
+		| 'transparent'
+		| 'primary'
+		| 'secondary'
+		| 'header'
+		| 'highlight'
+		| 'gray0'
+		| 'gray1'
+		| 'gray2'
+		| 'gray3'
+		| 'gray4'
+		| 'gray5'
+		| 'gray6'
+		| 'warning'
+		| 'error'
+		| 'success'
+		| 'info'
+		| 'text',
+		ThemeColorObj
+	>;
+	avatarColors: Record<`avatar_${number}`, string>;
+}
+
+export const Theme: ThemeObj = {
 	breakpoints: {
 		width: 960,
 		aspectRatio: 2 / 3
@@ -39,7 +106,7 @@ export const Theme = {
 	loginBackground: 'assets/login-bg.jpg',
 	logo: {
 		svg: IconData.Logo,
-		size: { small: '16px', large: '24px' }
+		size: { small: '16px', medium: '20px', large: '24px' }
 	},
 	palette: {
 		currentColor: {
