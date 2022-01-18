@@ -60,6 +60,7 @@
 		"copy-webpack-plugin": "10.2.0",
 		"core-js": "3.19.1",
 		"create-index": "2.6.0",
+		"eslint-plugin-notice": "^0.9.10",
 		"faker": "^5.5.3",
 		"file-loader": "6.2.0",
 		"husky": "5.2.0",
