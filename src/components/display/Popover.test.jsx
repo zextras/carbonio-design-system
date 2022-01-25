@@ -13,7 +13,7 @@ import { render } from '../../test-utils';
 import Popover from './Popover';
 import Button from '../basic/Button';
 import Container from '../layout/Container';
-import { Input } from '../inputs/Input';
+import Input from '../inputs/Input';
 
 const CustomPopover = () => {
 	const [open, setOpen] = useState(false);

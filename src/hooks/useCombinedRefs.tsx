@@ -4,10 +4,10 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import { useRef, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 
-export function useCombinedRefs(...refs) {
-	const targetRef = useRef();
+export function useCombinedRefs<T>(...refs: React.ForwardedRef<T>[]): React.RefObject<T> {
+	const targetRef = useRef<T>(null);
 	useEffect(() => {
 		refs.forEach((ref) => {
 			if (!ref) return;

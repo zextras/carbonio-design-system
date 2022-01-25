@@ -8,7 +8,7 @@ import React, { useMemo, forwardRef } from 'react';
 
 import styled from 'styled-components';
 
-const Comp = styled.span<{ ref: unknown; isRead: boolean; isNumber: boolean }>`
+const Comp = styled.span<{ isRead: boolean; isNumber: boolean }>`
 	display: inline-block;
 	min-width: 2em;
 	padding: ${({ isNumber, theme }): string =>
@@ -17,7 +17,7 @@ const Comp = styled.span<{ ref: unknown; isRead: boolean; isNumber: boolean }>`
 			: `${theme.sizes.padding.extrasmall} ${theme.sizes.padding.small}`};
 	font-family: ${(props): string => props.theme.fonts.default};
 	font-size: ${(props): string => props.theme.sizes.font.small};
-	font-weight: ${(props): string => props.theme.fonts.weight.regular};
+	font-weight: ${(props): number => props.theme.fonts.weight.regular};
 	background-color: ${({ theme, isRead }): string =>
 		theme.palette[isRead ? 'gray2' : 'primary'].regular};
 	color: ${({ theme, isRead }): string => theme.palette[isRead ? 'gray0' : 'gray6'].regular};

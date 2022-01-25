@@ -17,7 +17,7 @@ describe('Index', () => {
 		const folderPath = path.resolve('src', 'components', 'basic');
 		fs.readdirSync(folderPath).forEach((file) => {
 			if (!fileREG.test(file) || fileTestREG.test(file)) return;
-			const fileName = fileREG.exec(file)[1];
+			const fileName = (fileREG.exec(file) as RegExpExecArray)[1];
 			expect(index).toHaveProperty(fileName);
 		});
 	});
@@ -26,7 +26,7 @@ describe('Index', () => {
 		const folderPath = path.resolve('src', 'components', 'layout');
 		fs.readdirSync(folderPath).forEach((file) => {
 			if (!fileREG.test(file) || fileTestREG.test(file)) return;
-			const fileName = fileREG.exec(file)[1];
+			const fileName = (fileREG.exec(file) as RegExpExecArray)[1];
 			expect(index).toHaveProperty(fileName);
 		});
 	});
@@ -36,7 +36,7 @@ describe('Index', () => {
 		const blackList = ['RichTextEditor'];
 		fs.readdirSync(folderPath).forEach((file) => {
 			if (!fileREG.test(file) || fileTestREG.test(file)) return;
-			const fileName = fileREG.exec(file)[1];
+			const fileName = (fileREG.exec(file) as RegExpExecArray)[1];
 			if (blackList.includes(fileName)) expect(index).not.toHaveProperty(fileName);
 			else expect(index).toHaveProperty(fileName);
 		});
@@ -46,7 +46,7 @@ describe('Index', () => {
 		const folderPath = path.resolve('src', 'components', 'navigation');
 		fs.readdirSync(folderPath).forEach((file) => {
 			if (!fileREG.test(file) || fileTestREG.test(file)) return;
-			const fileName = fileREG.exec(file)[1];
+			const fileName = (fileREG.exec(file) as RegExpExecArray)[1];
 			expect(index).toHaveProperty(fileName);
 		});
 	});
@@ -55,7 +55,7 @@ describe('Index', () => {
 		const folderPath = path.resolve('src', 'components', 'display');
 		fs.readdirSync(folderPath).forEach((file) => {
 			if (!fileREG.test(file) || fileTestREG.test(file)) return;
-			const fileName = fileREG.exec(file)[1];
+			const fileName = (fileREG.exec(file) as RegExpExecArray)[1];
 			expect(index).toHaveProperty(fileName);
 		});
 	});
@@ -64,7 +64,7 @@ describe('Index', () => {
 		const folderPath = path.resolve('src', 'components', 'feedback');
 		fs.readdirSync(folderPath).forEach((file) => {
 			if (!fileREG.test(file) || fileTestREG.test(file)) return;
-			const fileName = fileREG.exec(file)[1];
+			const fileName = (fileREG.exec(file) as RegExpExecArray)[1];
 			expect(index).toHaveProperty(fileName);
 		});
 	});
@@ -74,7 +74,7 @@ describe('Index', () => {
 		const blackList = ['functions'];
 		fs.readdirSync(folderPath).forEach((file) => {
 			if (!fileREG.test(file) || fileTestREG.test(file)) return;
-			const fileName = fileREG.exec(file)[1];
+			const fileName = (fileREG.exec(file) as RegExpExecArray)[1];
 			if (blackList.includes(fileName)) expect(index).not.toHaveProperty(fileName);
 			else expect(index).toHaveProperty(fileName);
 		});
@@ -93,7 +93,7 @@ describe('Index', () => {
 		];
 		fs.readdirSync(folderPath).forEach((file) => {
 			if (!fileREG.test(file) || fileTestREG.test(file)) return;
-			const fileName = fileREG.exec(file)[1];
+			const fileName = (fileREG.exec(file) as RegExpExecArray)[1];
 			if (!whiteList.includes(fileName)) expect(index).not.toHaveProperty(fileName);
 			else expect(index).toHaveProperty(fileName);
 		});
@@ -110,7 +110,7 @@ describe('Index', () => {
 		const folderPath = path.resolve('src', 'hooks');
 		fs.readdirSync(folderPath).forEach((file) => {
 			if (!fileREG.test(file) || fileTestREG.test(file)) return;
-			const fileName = fileREG.exec(file)[1];
+			const fileName = (fileREG.exec(file) as RegExpExecArray)[1];
 			expect(index).toHaveProperty(fileName);
 		});
 	});

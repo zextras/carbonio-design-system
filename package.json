@@ -14,7 +14,7 @@
 		"build": "npx rollup -c rollup.config.js",
 		"clean": "rm -rf dist/*",
 		"prepublishOnly": "pinst --disable && npm run clean && npm run build",
-		"deploy": "npm run prepublishOnly && rm -rf $PKG_PATH/node_modules/@zextras/zapp-ui/dist/ && cp -r dist/ $PKG_PATH/node_modules/@zextras/zapp-ui/dist/ && cp package.json $PKG_PATH/node_modules/@zextras/zapp-ui/ && cd $PKG_PATH/node_modules/@zextras/zapp-ui/ && rm -rf node_modules && npm i --only=prod",
+		"deploy": "npm run prepublishOnly && rm -rf $PKG_PATH/node_modules/@zextras/carbonio-design-system/dist/ && cp -r dist/ $PKG_PATH/node_modules/@zextras/carbonio-design-system/dist/ && cp package.json $PKG_PATH/node_modules/@zextras/carbonio-design-system/ && cd $PKG_PATH/node_modules/@zextras/carbonio-design-system/ && rm -rf node_modules && npm i --only=prod",
 		"postinstall": "is-ci || husky install",
 		"postpublish": "pinst --enable",
 		"type-check": "tsc"
@@ -52,6 +52,7 @@
 		"@testing-library/react": "12.1.2",
 		"@testing-library/react-hooks": "7.0.2",
 		"@testing-library/user-event": "13.5.0",
+		"@types/lodash": "^4.14.178",
 		"@types/styled-components": "5.1.20",
 		"@zextras/carbonio-ui-configs": "^0.1.11",
 		"babel-loader": "8.2.3",

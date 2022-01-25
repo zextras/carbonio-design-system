@@ -44,3 +44,15 @@ const editTheme = produce((theme) => {
 });
 
 ```
+
+When using typescript and [styled-components](https://styled-components.com/),
+in order to have the theme correctly typed inside a styled component declaration,
+the augmentation of the styled-components module default theme is required.
+To do so, create a declaration file styled-components.d.ts in the root folder of your project and
+re-export the interface DefaultTheme, extending the Design System Theme type (or your theme type if case you have a custom theme)
+
+```typescript noedit static
+declare module 'styled-components' {
+  export interface DefaultTheme extends ThemeObj {}
+}
+```

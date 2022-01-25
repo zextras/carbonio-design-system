@@ -4,9 +4,13 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import { css } from 'styled-components';
+import { css, FlattenSimpleInterpolation } from 'styled-components';
+import { ThemeObj } from '../../theme/theme';
 
-export function pseudoClasses(theme, color) {
+export function pseudoClasses(
+	theme: ThemeObj,
+	color: keyof ThemeObj['palette']
+): FlattenSimpleInterpolation {
 	return css`
 		transition: background 0.2s ease-out;
 		&:focus {
@@ -24,9 +28,11 @@ export function pseudoClasses(theme, color) {
 	`;
 }
 
-export function parsePadding(padding, theme) {
+export function parsePadding(padding: string, theme: ThemeObj): string {
 	let paddingValue = padding;
-	const paddingSizes = Object.keys(theme.sizes.padding);
+	const paddingSizes = Object.keys(theme.sizes.padding) as Array<
+		keyof ThemeObj['sizes']['padding']
+	>;
 	paddingSizes.forEach((size) => {
 		const regex = new RegExp(`(^|\\s)(${size})`, 'g');
 		paddingValue = paddingValue.replace(regex, `$1${theme.sizes.padding[size]}`);
