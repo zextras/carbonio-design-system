@@ -12,7 +12,10 @@ const propsParser = require('react-docgen-typescript');
 module.exports = {
 	propsParser: propsParser.withCustomConfig('./tsconfig.json', {
 		shouldExtractLiteralValuesFromEnum: true,
-		shouldRemoveUndefinedFromOptional: true
+		shouldRemoveUndefinedFromOptional: true,
+		propFilter: {
+			skipPropsWithName: ['as', 'forwardedAs', 'theme', 'key']
+		}
 	}).parse,
 	assetsDir: ['docs/asset'],
 	styleguideComponents: {
@@ -51,43 +54,43 @@ module.exports = {
 			sections: [
 				{
 					name: 'Basic',
-					components: 'src/components/basic/**/*.[j|t]sx',
+					components: 'src/components/rds/basic/**/*.[j|t]sx',
 					exampleMode: 'collapse', // 'hide' | 'collapse' | 'expand'
 					usageMode: 'expand' // 'hide' | 'collapse' | 'expand'
 				},
 				{
 					name: 'Layout',
-					components: 'src/components/layout/**/*.[j|t]sx',
+					components: 'src/components/rds/layout/**/*.[j|t]sx',
 					exampleMode: 'collapse',
 					usageMode: 'expand'
 				},
 				{
 					name: 'Inputs',
-					components: 'src/components/inputs/**/*.[j|t]sx',
+					components: 'src/components/rds/inputs/**/*.[j|t]sx',
 					exampleMode: 'collapse',
 					usageMode: 'expand'
 				},
 				{
 					name: 'Navigation',
-					components: 'src/components/navigation/**/*.[j|t]sx',
+					components: 'src/components/rds/navigation/**/*.[j|t]sx',
 					exampleMode: 'collapse',
 					usageMode: 'expand'
 				},
 				{
 					name: 'Data display',
-					components: 'src/components/display/**/*.[j|t]sx',
+					components: 'src/components/rds/display/**/*.[j|t]sx',
 					exampleMode: 'collapse',
 					usageMode: 'expand'
 				},
 				{
 					name: 'Feedback',
-					components: 'src/components/feedback/**/*.[j|t]sx',
+					components: 'src/components/rds/feedback/**/*.[j|t]sx',
 					exampleMode: 'collapse',
 					usageMode: 'expand'
 				},
 				{
 					name: 'Utilities',
-					components: 'src/components/utilities/**/*.[j|t]sx',
+					components: 'src/components/rds/utilities/**/*.[j|t]sx',
 					exampleMode: 'collapse',
 					usageMode: 'expand'
 				}
