@@ -3,7 +3,9 @@
  *
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-import React, {useEffect, useState, useMemo} from 'react';
+
+// noinspection ES6PreferShortImport,HtmlUnknownTarget
+import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import { enable, disable, auto, isEnabled } from 'darkreader';
 import Text from '../../src/components/basic/Text';
 import Button from '../../src/components/basic/Button';
@@ -11,7 +13,7 @@ import Container from '../../src/components/layout/Container';
 import Padding from '../../src/components/layout/Padding';
 import { ThemeProvider } from '../../src/theme/theme-context-provider';
 
-const Logo = () => {
+const Logo: React.VFC = () => {
 	const [mode, setMode] = useState('auto');
 
 	useEffect(() => {
@@ -24,7 +26,7 @@ const Logo = () => {
 				break;
 			case 'auto':
 			default:
-				auto();
+				auto({ sepia: -10 });
 				break;
 		}
 	}, [mode]);
@@ -52,6 +54,9 @@ const Logo = () => {
 				return isEnabled() ? 'light' : 'dark';
 		}
 	}, [mode]);
+
+	const changeMode = useCallback(() => setMode(next), [next]);
+
 	return (
 		<ThemeProvider>
 			<Container crossAlignment="center">
@@ -65,7 +70,7 @@ const Logo = () => {
 					Style Guide
 				</Text>
 				<Padding top="medium">
-					<Button width="fill" icon={icon} onClick={() => setMode(next)} label="MODE" />
+					<Button width="fill" icon={icon} onClick={changeMode} label="MODE" />
 				</Padding>
 			</Container>
 		</ThemeProvider>

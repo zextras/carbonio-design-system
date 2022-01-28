@@ -4,8 +4,9 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 import React from 'react';
+// noinspection ES6PreferShortImport
 import { ThemeProvider } from '../../src/theme/theme-context-provider';
 
-export default function Wrapper({ children }) {
+export default function Wrapper({ children }: { children: React.ReactNode }): JSX.Element {
 	return <ThemeProvider>{children}</ThemeProvider>;
 }
