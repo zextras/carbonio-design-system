@@ -12,7 +12,10 @@ const propsParser = require('react-docgen-typescript');
 module.exports = {
 	propsParser: propsParser.withCustomConfig('./tsconfig.json', {
 		shouldExtractLiteralValuesFromEnum: true,
-		shouldRemoveUndefinedFromOptional: true
+		shouldRemoveUndefinedFromOptional: true,
+		propFilter: {
+			skipPropsWithName: ['as', 'forwardedAs', 'theme', 'key']
+		}
 	}).parse,
 	assetsDir: ['docs/asset'],
 	styleguideComponents: {
