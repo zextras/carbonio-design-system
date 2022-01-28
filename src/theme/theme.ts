@@ -26,6 +26,10 @@ export interface ThemeColorObj {
 	disabled: string;
 }
 
+export type IconComponent = React.ComponentType<
+	React.SVGProps<SVGSVGElement> & { ref: React.ForwardedRef<SVGSVGElement> }
+>;
+
 // augment this interface to extend theme type
 export interface ThemeObj {
 	breakpoints: {
@@ -43,10 +47,10 @@ export interface ThemeObj {
 		avatar: Omit<ThemeSizeObjExtended<{ diameter: string; font: string }>, 'extrasmall'>;
 		padding: ThemeSizeObjExtended;
 	};
-	icons: Record<string, React.ReactElement>;
+	icons: Record<string, IconComponent>;
 	loginBackground: string;
 	logo: {
-		svg: React.ReactElement;
+		svg: IconComponent;
 		size: ThemeSizeObj;
 	};
 	palette: Record<
