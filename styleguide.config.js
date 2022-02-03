@@ -22,6 +22,7 @@ module.exports = {
 		Wrapper: path.resolve('./lib/styleguide/Wrapper'),
 		Logo: path.resolve('./lib/styleguide/Logo')
 	},
+	skipComponentsWithoutExample: true,
 	sections: [
 		{
 			name: 'Getting Started',
@@ -45,52 +46,83 @@ module.exports = {
 				{
 					name: 'Theming',
 					content: 'docs/theming.md'
+				},
+				{
+					name: 'Upgrading to RDS',
+					content: 'docs/upgrade/rds/upgrade.md',
+					sections: [
+						{
+							name: 'Naming convention',
+							content: 'docs/upgrade/rds/naming.md'
+						},
+						{
+							name: 'Theme',
+							content: 'docs/upgrade/rds/theme.md'
+						},
+						{
+							name: 'Components',
+							sections: [
+								{
+									name: 'Button',
+									content: 'docs/upgrade/rds/components/basic/Button.md'
+								},
+								{
+									name: 'Icon',
+									content: 'docs/upgrade/rds/components/basic/Icon.md'
+								},
+								{
+									name: 'Text',
+									content: 'docs/upgrade/rds/components/basic/Text.md'
+								}
+							]
+						}
+					]
 				}
 			],
-			sectionDepth: 2
+			sectionDepth: 1
 		},
 		{
 			name: 'Components',
 			sections: [
 				{
 					name: 'Basic',
-					components: 'src/components/rds/basic/**/*.[j|t]sx',
+					components: 'src/components/basic/**/*.[j|t]sx',
 					exampleMode: 'collapse', // 'hide' | 'collapse' | 'expand'
 					usageMode: 'expand' // 'hide' | 'collapse' | 'expand'
 				},
 				{
 					name: 'Layout',
-					components: 'src/components/rds/layout/**/*.[j|t]sx',
+					components: 'src/components/layout/**/*.[j|t]sx',
 					exampleMode: 'collapse',
 					usageMode: 'expand'
 				},
 				{
 					name: 'Inputs',
-					components: 'src/components/rds/inputs/**/*.[j|t]sx',
+					components: 'src/components/inputs/**/*.[j|t]sx',
 					exampleMode: 'collapse',
 					usageMode: 'expand'
 				},
 				{
 					name: 'Navigation',
-					components: 'src/components/rds/navigation/**/*.[j|t]sx',
+					components: 'src/components/navigation/**/*.[j|t]sx',
 					exampleMode: 'collapse',
 					usageMode: 'expand'
 				},
 				{
 					name: 'Data display',
-					components: 'src/components/rds/display/**/*.[j|t]sx',
+					components: 'src/components/display/**/*.[j|t]sx',
 					exampleMode: 'collapse',
 					usageMode: 'expand'
 				},
 				{
 					name: 'Feedback',
-					components: 'src/components/rds/feedback/**/*.[j|t]sx',
+					components: 'src/components/feedback/**/*.[j|t]sx',
 					exampleMode: 'collapse',
 					usageMode: 'expand'
 				},
 				{
 					name: 'Utilities',
-					components: 'src/components/rds/utilities/**/*.[j|t]sx',
+					components: 'src/components/utilities/**/*.[j|t]sx',
 					exampleMode: 'collapse',
 					usageMode: 'expand'
 				}
