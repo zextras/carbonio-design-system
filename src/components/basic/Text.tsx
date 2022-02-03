@@ -9,7 +9,7 @@ import styled, { css, SimpleInterpolation } from 'styled-components';
 import { ThemeObj } from '../../theme/theme';
 import { getColor } from '../../theme/theme-utils';
 
-export interface TextProps {
+interface TextProps {
 	/** Text color */
 	color?: string | keyof ThemeObj['palette'];
 	/** Text size */

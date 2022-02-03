@@ -22,7 +22,7 @@ interface BaseIconProps {
 	icon: keyof ThemeObj['icons'] | IconComponent;
 }
 
-export interface IconProps extends BaseIconProps {
+interface IconProps extends BaseIconProps {
 	/** Icon color. Can be a palette color or a custom color and accept a variant.
 	 * <br />
 	 *  <code>

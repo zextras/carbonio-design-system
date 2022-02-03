@@ -4,10 +4,12 @@ import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { getKeyboardPreset, useKeyboard } from '../../hooks/useKeyboard';
 import { ThemeObj } from '../../theme/theme';
 import { getColor, withPseudoClasses } from '../../theme/theme-utils';
-import Icon, { IconProps } from './Icon';
-import Text, { TextProps } from './Text';
+import Icon from './Icon';
+import Text from './Text';
 import Spinner from './Spinner';
 
+type IconProps = React.ComponentPropsWithoutRef<typeof Icon>;
+type TextProps = React.ComponentPropsWithoutRef<typeof Text>;
 type ButtonShape = 'squared' | 'rounded';
 type ButtonType = 'filled' | 'outlined' | 'ghost';
 type ButtonSizes = Record<
@@ -88,21 +90,6 @@ interface StyledButtonProps {
 	iconPosition?: ButtonIconPosition;
 	activated: boolean;
 }
-
-const defaultPropsByType = {
-	outlined: {
-		backgroundColor: 'gray6',
-		color: 'primary'
-	},
-	ghost: {
-		backgroundColor: 'transparent',
-		color: 'primary'
-	},
-	filled: {
-		backgroundColor: 'primary',
-		color: 'gray6'
-	}
-} as const;
 
 const StyledIcon = styled(Icon)<{ $loading: boolean }>`
 	${({ $loading }): SimpleInterpolation =>
@@ -207,14 +194,29 @@ const BUTTON_SIZES: ButtonSizes = {
 		icon: 'extralarge',
 		padding: '8px'
 	}
-};
+} as const;
+
+const DEFAULT_PROPS = {
+	outlined: {
+		backgroundColor: 'gray6',
+		color: 'primary'
+	},
+	ghost: {
+		backgroundColor: 'transparent',
+		color: 'primary'
+	},
+	filled: {
+		backgroundColor: 'primary',
+		color: 'gray6'
+	}
+} as const;
 
 function getColors(
 	type: ButtonColors['type'],
 	props: ButtonColors
 ): Pick<StyledButtonProps, 'color' | 'backgroundColor'> {
 	const colors: Pick<StyledButtonProps, 'color' | 'backgroundColor'> = {
-		...defaultPropsByType[type]
+		...DEFAULT_PROPS[type]
 	};
 	if ('backgroundColor' in props && props.backgroundColor) {
 		colors.backgroundColor = props.backgroundColor;
