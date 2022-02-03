@@ -431,7 +431,7 @@ Modal.propTypes = {
 	/** Label for the Main action Button */
 	confirmLabel: PropTypes.string,
 	/** BackgroundColor for the Main action Button */
-	confirmColor: Button.propTypes.color,
+	confirmColor: PropTypes.string,
 	/** Callback for secondary action */
 	onSecondaryAction: PropTypes.func,
 	/** Label for the Secondary action Button */
