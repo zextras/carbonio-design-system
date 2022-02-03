@@ -11,11 +11,14 @@ import styled from 'styled-components';
 import Container from '../layout/Container';
 import { useIsVisible } from '../../hooks/useIsVisible';
 import { useKeyboard, getKeyboardPreset } from '../../hooks/useKeyboard';
-import { pseudoClasses } from '../utilities/functions';
+import { withPseudoClasses } from '../../theme/theme-utils';
 import { Theme } from '../../theme/theme';
 
 const StyledContainer = styled(Container)`
+	overflow-y: scroll;
+	//noinspection CssInvalidPropertyValue
 	overflow-y: overlay;
+
 	&::-webkit-scrollbar {
 		width: 12px;
 	}
@@ -37,7 +40,7 @@ const StyledDiv = styled.div`
 		// eslint-disable-next-line no-nested-ternary
 		theme.palette[active ? activeBackground : selected ? selectedBackground : background].regular};
 	${({ theme, background, selectedBackground, activeBackground, active, selected }) =>
-		pseudoClasses(
+		withPseudoClasses(
 			theme,
 			// eslint-disable-next-line no-nested-ternary
 			active ? activeBackground : selected ? selectedBackground : background

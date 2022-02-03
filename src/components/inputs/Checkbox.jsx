@@ -11,7 +11,7 @@ import Container from '../layout/Container';
 import Icon from '../basic/Icon';
 import Text from '../basic/Text';
 import Padding from '../layout/Padding';
-import { pseudoClasses } from '../utilities/functions';
+import { withPseudoClasses } from '../../theme/theme-utils';
 import { useCheckbox } from '../../hooks/useCheckbox';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 
@@ -21,7 +21,7 @@ const IconWrapper = styled.div`
 		css`
 			opacity: 0.3;
 		`};
-	${({ theme }) => pseudoClasses(theme, 'transparent')};
+	${({ theme }) => withPseudoClasses(theme, 'transparent')};
 `;
 
 const Checkbox = React.forwardRef(function CheckboxFn(
@@ -80,9 +80,9 @@ Checkbox.propTypes = {
 	/** Checkbox value */
 	value: PropTypes.bool,
 	/** Checkbox size */
-	iconSize: Icon.propTypes.size,
+	iconSize: PropTypes.string,
 	/** Checkbox color */
-	iconColor: Icon.propTypes.color,
+	iconColor: PropTypes.string,
 	/** Checkbox text */
 	label: PropTypes.string,
 	/** Checkbox padding */

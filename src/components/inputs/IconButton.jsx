@@ -12,7 +12,7 @@ import Icon from '../basic/Icon';
 import { useKeyboard, getKeyboardPreset } from '../../hooks/useKeyboard';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { Theme } from '../../theme/theme';
-import { pseudoClasses } from '../utilities/functions';
+import { withPseudoClasses } from '../../theme/theme-utils';
 
 function getSizing(size) {
 	switch (size) {
@@ -33,7 +33,7 @@ const ContainerEl = styled(Container)`
 			background: ${({ theme, background }) => theme.palette[background || 'transparent'].disabled};
 		`};
 	${({ theme, background, disabled }) =>
-		!disabled && pseudoClasses(theme, background || 'transparent')};
+		!disabled && withPseudoClasses(theme, background || 'transparent')};
 `;
 
 const IconButton = React.forwardRef(function IconButtonFn(

@@ -6,7 +6,7 @@
 
 import { darken, desaturate, lighten, setLightness } from 'polished';
 import { useContext } from 'react';
-import { parsePadding } from '../components/utilities/functions';
+import { css, FlattenSimpleInterpolation } from 'styled-components';
 import { ThemeObj, ThemeColorObj, ThemeSizeObj } from './theme';
 import { ThemeContext } from './theme-context-provider';
 
@@ -135,6 +135,18 @@ export function getColor(
 	return getColorValue(color, theme);
 }
 
+export function parsePadding(padding: string, theme: ThemeObj): string {
+	let paddingValue = padding;
+	const paddingSizes = Object.keys(theme.sizes.padding) as Array<
+		keyof ThemeObj['sizes']['padding']
+	>;
+	paddingSizes.forEach((size) => {
+		const regex = new RegExp(`(^|\\s)(${size})`, 'g');
+		paddingValue = paddingValue.replace(regex, `$1${theme.sizes.padding[size]}`);
+	});
+	return paddingValue;
+}
+
 const simpleParsePadding = (size: string, theme: ThemeObj): string => {
 	const explodedSizes = size.split(' ');
 	explodedSizes.forEach((padding, index) => {
@@ -143,6 +155,7 @@ const simpleParsePadding = (size: string, theme: ThemeObj): string => {
 	});
 	return explodedSizes.join(' ');
 };
+
 export const getPadding = (
 	size: string,
 	theme?: ThemeObj
@@ -150,10 +163,38 @@ export const getPadding = (
 	if (!theme) return ({ theme: iTheme }): string => simpleParsePadding(size, iTheme);
 	return simpleParsePadding(size, theme);
 };
+
 export const getParsedPadding =
 	(size: string) =>
 	({ theme }: { theme: ThemeObj }): string | ((args: { theme: ThemeObj }) => string) =>
 		parsePadding(size, theme);
+
+export function withPseudoClasses(
+	theme: ThemeObj,
+	color: string | keyof ThemeObj['palette'],
+	cssProperty = 'background'
+): FlattenSimpleInterpolation {
+	return css`
+		transition: background 0.2s ease-out;
+		${cssProperty}: ${getColor(color, theme)};
+		&:focus {
+			outline: none;
+			${cssProperty}: ${getColor(`${color}.focus`, theme)};
+		}
+		&:hover {
+			outline: none;
+			${cssProperty}: ${getColor(`${color}.hover`, theme)};
+		}
+		&:active {
+			outline: none;
+			${cssProperty}: ${getColor(`${color}.active`, theme)};
+		}
+		&:disabled {
+			outline: none;
+			${cssProperty}: ${getColor(`${color}.disabled`, theme)};
+		}
+	`;
+}
 
 export const useTheme = (): ThemeObj => useContext(ThemeContext);
 

@@ -17,14 +17,13 @@ import Avatar from '../basic/Avatar';
 import Row from '../layout/Row';
 import Text from '../basic/Text';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
-import { useTheme } from '../../theme/theme-utils';
-import { pseudoClasses } from '../utilities/functions';
+import { useTheme, withPseudoClasses } from '../../theme/theme-utils';
 
 const ChipContainer = styled(Row)`
 	user-select: none;
 	vertical-align: middle;
 	${({ background, disabled, theme }) =>
-		!disabled && theme.palette[background] && pseudoClasses(theme, background)}
+		!disabled && theme.palette[background] && withPseudoClasses(theme, background)}
 	border-radius: ${(props) => {
 		switch (props.borderRadius) {
 			case 'regular':

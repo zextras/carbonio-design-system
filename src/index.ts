@@ -92,4 +92,4 @@ export { useSnackbar } from './hooks/useSnackbar';
 export { useModal } from './hooks/useModal';
 export { useSplitVisibility } from './hooks/useSplitVisibility';
 
-export { pseudoClasses } from './components/utilities/functions';
+export { withPseudoClasses } from './theme/theme-utils';

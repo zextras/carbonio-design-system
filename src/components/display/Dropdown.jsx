@@ -17,7 +17,7 @@ import Portal from '../utilities/Portal';
 import Divider from '../layout/Divider';
 import { useKeyboard, getKeyboardPreset } from '../../hooks/useKeyboard';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
-import { pseudoClasses } from '../utilities/functions';
+import { withPseudoClasses } from '../../theme/theme-utils';
 import { Theme } from '../../theme/theme';
 
 const ContainerEl = styled(Container)`
@@ -25,7 +25,7 @@ const ContainerEl = styled(Container)`
 	outline: none;
 	${({ theme, disabled, selectedBackgroundColor }) =>
 		!disabled &&
-		pseudoClasses(theme, !selectedBackgroundColor ? 'gray5' : selectedBackgroundColor)};
+		withPseudoClasses(theme, !selectedBackgroundColor ? 'gray5' : selectedBackgroundColor)};
 `;
 
 function ListItemContent({

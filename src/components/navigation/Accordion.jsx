@@ -20,14 +20,14 @@ import Divider from '../layout/Divider';
 import Collapse from '../utilities/Collapse';
 import { useKeyboard, getKeyboardPreset } from '../../hooks/useKeyboard';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
-import { pseudoClasses } from '../utilities/functions';
+import { withPseudoClasses } from '../../theme/theme-utils';
 
 const AccordionContainerEl = styled(Container)`
 	padding-left: ${({ theme, level }) => css`calc(${level} * ${theme.sizes.padding.large})`};
 	background-color: ${({ theme, background, item }) =>
 		theme.palette[item.active ? 'highlight' : background].regular};
 	${({ theme, background, item }) =>
-		!item.disableHover && pseudoClasses(theme, item.active ? 'highlight' : background)};
+		!item.disableHover && withPseudoClasses(theme, item.active ? 'highlight' : background)};
 `;
 const AccordionItem = React.forwardRef(function AccordionItemFn({ item, children, ...rest }, ref) {
 	return (
