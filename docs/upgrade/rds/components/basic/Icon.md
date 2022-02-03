@@ -1,4 +1,3 @@
-## Icon
 ### Props
 #### Changed
 * **size**: added two new variants, _extrasmall_ and _extralarge_. Previous _large_ dimensions correspond to the new _extralarge_,

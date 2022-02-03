@@ -6,8 +6,8 @@
 
 import React, { useContext, useMemo } from 'react';
 import styled, { css, SimpleInterpolation, ThemeContext } from 'styled-components';
-import { IconComponent, ThemeObj } from '../../../theme/theme';
-import { getColor } from '../../../theme/theme-utils';
+import { IconComponent, ThemeObj } from '../../theme/theme';
+import { getColor } from '../../theme/theme-utils';
 
 type PaletteColor = keyof ThemeObj['palette'];
 type CustomColor = string;
@@ -17,12 +17,12 @@ type ColorWithVariant =
 	| CustomColor
 	| `${PaletteColor | CustomColor}.${ColorVariant}`;
 
-interface IconProps {
+interface BaseIconProps {
 	/** Icon to show. It can be a string key for the theme icons or a custom icon component */
 	icon: keyof ThemeObj['icons'] | IconComponent;
 }
 
-interface StyledIconProps extends IconProps {
+export interface IconProps extends BaseIconProps {
 	/** Icon color. Can be a palette color or a custom color and accept a variant.
 	 * <br />
 	 *  <code>
@@ -34,7 +34,7 @@ interface StyledIconProps extends IconProps {
 	size?: 'extrasmall' | 'small' | 'medium' | 'large' | 'extralarge';
 }
 
-function getSize(size: StyledIconProps['size']): SimpleInterpolation {
+function getSize(size: IconProps['size']): SimpleInterpolation {
 	switch (size) {
 		case 'extrasmall':
 			return css`
@@ -69,7 +69,10 @@ function getSize(size: StyledIconProps['size']): SimpleInterpolation {
 	}
 }
 
-const Icon = React.forwardRef<SVGSVGElement, IconProps>(function IconFn({ icon, ...rest }, ref) {
+const Icon = React.forwardRef<SVGSVGElement, BaseIconProps>(function IconFn(
+	{ icon, ...rest },
+	ref
+) {
 	const theme = useContext(ThemeContext);
 	const IconComp = useMemo(() => {
 		if (typeof icon === 'string') {
@@ -81,13 +84,12 @@ const Icon = React.forwardRef<SVGSVGElement, IconProps>(function IconFn({ icon, 
 	return <IconComp data-testid={`icon: ${icon}`} ref={ref} viewBox="0 0 24 24" {...rest} />;
 });
 
-const StyledIcon = styled(Icon).attrs<
-	StyledIconProps,
-	Required<Pick<StyledIconProps, 'color' | 'size'>>
->(({ color, size }) => ({
-	color: color || 'text',
-	size: size || 'medium'
-}))<StyledIconProps>`
+const StyledIcon = styled(Icon).attrs<IconProps, Required<Pick<IconProps, 'color' | 'size'>>>(
+	({ color, size }) => ({
+		color: color || 'text',
+		size: size || 'medium'
+	})
+)<IconProps>`
 	display: block;
 	fill: currentColor;
 	color: ${({ color, theme }): string => getColor(color, theme)};
