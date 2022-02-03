@@ -42,8 +42,8 @@ export interface ThemeObj {
 		weight: { light: number; regular: number; medium: number; bold: number };
 	};
 	sizes: {
-		font: ThemeSizeObj;
-		icon: ThemeSizeObj;
+		font: ThemeSizeObjExtended;
+		icon: ThemeSizeObjExtended;
 		avatar: Omit<ThemeSizeObjExtended<{ diameter: string; font: string }>, 'extrasmall'>;
 		padding: ThemeSizeObjExtended;
 	};
@@ -88,8 +88,8 @@ export const Theme: ThemeObj = {
 		weight: { light: 300, regular: 400, medium: 500, bold: 700 }
 	},
 	sizes: {
-		font: { small: '10px', medium: '12px', large: '14px' },
-		icon: { small: '12px', medium: '16px', large: '24px' },
+		font: { extrasmall: '8px', small: '12px', medium: '16px', large: '18px', extralarge: '20px' },
+		icon: { extrasmall: '8px', small: '12px', medium: '16px', large: '18px', extralarge: '20px' },
 		avatar: {
 			small: { diameter: '16px', font: '5px' },
 			medium: { diameter: '32px', font: '12px' },
