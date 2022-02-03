@@ -74,20 +74,49 @@ const click = () => console.log('click!');
 </Container>
 ```
 
-### Size
+### Size and width
 
 ```jsx
 import { Container, Text } from '@zextras/carbonio-design-system';
 
 const click = () => console.log('click!');
-
-<Container orientation="vertical" mainAlignment="space-around" background="gray5" height={200} width="50%">
-    <Button label="Button" icon="Activity" onClick={click} size="fit" />
-    <Button label="Button" icon="Activity" onClick={click} size="fit" isSmall/>
-    <Button label="Button" icon="Activity" onClick={click} size="fill" />
-    <Button label="Button" icon="Activity" onClick={click} size="fill" isSmall/>
+<Container orientation="horizontal" style={{ gap: '10px' }} padding={{ all: 'small' }} background="gray5">
+    <Container orientation="vertical" mainAlignment="space-around" width="50%" style={{ border: '1px solid darkgray', gap: '10px' }}>
+        <Button label="Button" icon="Activity" onClick={click} width="fit" size="extrasmall" />
+        <Button label="Button" icon="Activity" onClick={click} width="fit" size="small"/>
+        <Button label="Button" icon="Activity" onClick={click} width="fit" size="medium" />
+        <Button label="Button" icon="Activity" onClick={click} width="fit" size="large"/>
+    </Container>
+	<Container orientation="vertical" mainAlignment="space-around" width="50%" style={{ border: '1px solid darkgray', gap: '10px' }}>
+		<Button label="Button" icon="Activity" onClick={click} width="fill" size="extrasmall" />
+		<Button label="Button" icon="Activity" onClick={click} width="fill" size="small" />
+		<Button label="Button" icon="Activity" onClick={click} width="fill" size="medium" />
+		<Button label="Button" icon="Activity" onClick={click} width="fill" size="large" />
+	</Container>
 </Container>
 ```
+
+### Shape
+```jsx
+import { Container, Text } from '@zextras/carbonio-design-system';
+
+const click = () => console.log('click!');
+<Container orientation="horizontal" style={{ gap: '10px' }} padding={{ all: 'small' }} background="gray5">
+    <Container orientation="vertical" mainAlignment="space-around" width="50%" style={{ gap: '10px' }}>
+        <Button label="Button" icon="Activity" onClick={click} size="extrasmall" shape="round" />
+        <Button label="Button" icon="Activity" onClick={click} size="small" shape="round" />
+        <Button label="Button" icon="Activity" onClick={click} size="medium" shape="round" />
+        <Button label="Button" icon="Activity" onClick={click} size="large" shape="round" />
+    </Container>
+	<Container orientation="vertical" mainAlignment="space-around" width="50%" style={{ gap: '10px' }}>
+		<Button label="Button" icon="Activity" onClick={click} width="fill" size="extrasmall" shape="round" />
+		<Button label="Button" icon="Activity" onClick={click} width="fill" size="small" shape="round" />
+		<Button label="Button" icon="Activity" onClick={click} width="fill" size="medium" shape="round" />
+		<Button label="Button" icon="Activity" onClick={click} width="fill" size="large" shape="round" />
+	</Container>
+</Container>
+```
+
 
 ### Custom Colors
 
@@ -96,14 +125,17 @@ import { Container, Text } from '@zextras/carbonio-design-system';
 
 const click = () => console.log('click!');
 
-<Container orientation="horizontal" mainAlignment="space-around" height={400} width="fill">
-    <Container orientation="vertical" mainAlignment="space-around" background="gray5" height={400} width="30%">
-        <Button label="Button" labelColor="text" backgroundColor="gray1" onClick={click}/>
-        <Button label="Button" labelColor="error" backgroundColor="gray1" onClick={click}/>
-        <Button label="Button" labelColor="secondary" backgroundColor="gray2" onClick={click}/>
-        <Button label="Button" labelColor="gray6" backgroundColor="gray1" onClick={click}/>
-        <Button label="Button" labelColor="primary" backgroundColor="gray1" onClick={click}/>
-    </Container>
+<Container orientation="horizontal" mainAlignment="flex-start" width="fill" wrap="wrap" style={{ gap: '10px' }}>
+    <Button label="Button" type="default" labelColor="text" backgroundColor="gray1" onClick={click} />
+    <Button label="Button" type="outlined" labelColor="error" backgroundColor="gray1" onClick={click} />
+    <Button label="Button" labelColor="secondary" backgroundColor="gray2" onClick={click} />
+    <Button label="Button" labelColor="gray6" backgroundColor="gray1" onClick={click} />
+    <Button label="Button" labelColor="primary" backgroundColor="gray1" onClick={click} />
+    <Button label="Button" labelColor="#654321" backgroundColor="#FFAAAF" onClick={click} />
+    <Button label="Button" color="rgb(89, 124, 27)" onClick={click} />
+    <Button label="Button" type="ghost" color="rgb(15, 255, 90)" onClick={click} />
+    <Button label="Button" type="outlined" color="rgb(77, 111, 222)" onClick={click} />
+    <Button label="Button" type="default" color="rgb(222, 111, 77)" onClick={click} />
 </Container>
 ```
 

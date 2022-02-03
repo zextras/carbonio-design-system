@@ -18,7 +18,8 @@ describe('Button', () => {
 		const label = faker.lorem.words(1);
 		const clickFn = jest.fn();
 		render(<Button label={label} onClick={clickFn} />);
-		expect(screen.getByText(new RegExp(label, 'i'))).toHaveTextContent(label.toUpperCase());
+		expect(screen.getByText(label)).toBeVisible();
+		expect(screen.getByText(label)).toHaveStyle('text-transform: uppercase');
 	});
 
 	test('Click on its label', () => {

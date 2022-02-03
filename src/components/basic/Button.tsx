@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { useCallback, useMemo, useRef } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import styled, { css, keyframes, SimpleInterpolation } from 'styled-components';
-import { getColor } from '../../theme/theme-utils';
+import { getColor, pseudoClasses } from '../../theme/theme-utils';
 import { Container } from '../layout/Container';
 import { Icon } from './Icon';
 import { Text } from './Text';
@@ -14,7 +14,29 @@ import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { useKeyboard, getKeyboardPreset } from '../../hooks/useKeyboard';
 import { ThemeObj } from '../../theme/theme';
 
+type ButtonSize = 'extrasmall' | 'small' | 'medium' | 'large';
 type ButtonType = 'default' | 'outlined' | 'ghost';
+type ButtonShape = 'regular' | 'round';
+type ButtonColorsByType =
+	| ({
+			type?: 'default' | 'outlined';
+	  } & (
+			| {
+					/** Main color */
+					color?: string | keyof ThemeObj['palette'];
+			  }
+			| {
+					/** Background color of the button (only for 'filled' and 'outlined' types, alternative to color) */
+					backgroundColor: string | keyof ThemeObj['palette'];
+					/** Specific color of the content (only for 'filled' and 'outlined' types, alternative to color) */
+					labelColor: string | keyof ThemeObj['palette'];
+			  }
+	  ))
+	| {
+			type: 'ghost';
+			/** Main color */
+			color?: string | keyof ThemeObj['palette'];
+	  };
 
 const rotateKeyframes = keyframes`
   from {
@@ -53,137 +75,140 @@ function LoadingIcon({ color }: { color: string }): JSX.Element {
 	);
 }
 
-const colors: Array<keyof ThemeObj['palette']> = [
-	'primary',
-	'secondary',
-	'warning',
-	'error',
-	'success',
-	'info'
-];
-const fixedColors = colors.reduce<
-	Record<
-		typeof colors[number],
-		Record<
-			ButtonType,
-			{
-				color?: keyof ThemeObj['palette'];
-				background?: keyof ThemeObj['palette'];
-				border?: keyof ThemeObj['palette'];
-			}
-		>
-	>
->(
-	(prev, currentValue) => {
-		// eslint-disable-next-line no-param-reassign
-		prev[currentValue] = {
-			default: {
-				color: 'gray6'
-			},
-			outlined: {
-				background: 'transparent'
-			},
-			ghost: {
-				background: 'transparent',
-				border: 'transparent'
-			}
-		};
-		return prev;
+const SIZES: Record<
+	ButtonSize,
+	{ padding: string; label: keyof ThemeObj['sizes']['font']; icon: string }
+> = {
+	extrasmall: {
+		label: 'small',
+		icon: '20px',
+		padding: '2px 8px'
 	},
-	{} as Record<
-		typeof colors[number],
-		Record<
-			ButtonType,
-			{
-				color?: keyof ThemeObj['palette'];
-				background?: keyof ThemeObj['palette'];
-				border?: keyof ThemeObj['palette'];
-			}
-		>
-	>
-);
+	small: {
+		label: 'small',
+		icon: '22px',
+		padding: '8px 14px'
+	},
+	medium: {
+		label: 'medium',
+		icon: '24px',
+		padding: '10px 16px'
+	},
+	large: {
+		label: 'medium',
+		icon: '24px',
+		padding: '12px 16px'
+	}
+} as const;
+
+const COLORS: Record<ButtonType, { backgroundColor: string; color: string }> = {
+	outlined: {
+		backgroundColor: 'gray6',
+		color: 'primary'
+	},
+	ghost: {
+		backgroundColor: 'transparent',
+		color: 'primary'
+	},
+	default: {
+		backgroundColor: 'primary',
+		color: 'gray6'
+	}
+} as const;
+
+function getColors(
+	type: ButtonType,
+	props: ButtonColorsByType
+): { color: string; backgroundColor: string } {
+	const colors = {
+		...COLORS[type]
+	};
+	if ('backgroundColor' in props && props.backgroundColor) {
+		colors.backgroundColor = props.backgroundColor;
+	}
+	if ('labelColor' in props && props.labelColor) {
+		colors.color = props.labelColor;
+	}
+	if ('color' in props && props.color) {
+		if (type === 'default') {
+			colors.backgroundColor = props.color;
+		} else if (type === 'outlined' || type === 'ghost') {
+			colors.color = props.color;
+		}
+	}
+	return colors;
+}
 
 const Label = styled(Text)`
+	line-height: 1.5;
 	user-select: none;
-	padding: 0 ${({ theme }): string => theme.sizes.padding.extrasmall};
+	text-transform: uppercase;
 `;
-const ContainerEl = styled(Container)<{
+
+const CustomIcon = styled(Icon)<{ $size: string }>`
+	width: ${({ $size }): string => $size};
+	height: ${({ $size }): string => $size};
+`;
+
+interface StyledContainerProps {
+	$buttonType: ButtonType;
 	disabled: boolean;
-	$textColor: string;
+	$color: string;
 	background: string;
 	$forceActive: boolean;
-	$bdColor: string;
 	$loading: boolean;
-}>`
+	$padding: string;
+	$shape: ButtonShape;
+}
+
+const ContainerEl = styled(Container).attrs<
+	StyledContainerProps,
+	{
+		$border: string;
+		$outerPadding: string;
+		$borderRadius: string;
+	}
+>(({ $buttonType, $padding, $shape }) => ({
+	$border: $buttonType === 'outlined' ? '1px solid' : 'none',
+	$outerPadding:
+		$buttonType === 'outlined'
+			? $padding
+					.split(' ')
+					.map((padding: string) => `calc(${padding} - 1px)`)
+					.join(' ')
+			: $padding,
+	$borderRadius: ($shape === 'round' && '50px') || '2px'
+}))<StyledContainerProps>`
 	position: relative;
 	cursor: ${({ disabled }): string => (disabled ? 'default' : 'pointer')};
 	max-width: 100%;
-	color: ${({ theme, $textColor }): string => getColor($textColor, theme)};
 	transition: 0.2s ease-out;
-	outline: none;
 
-	${({ disabled, theme, background = 'transparent', $textColor }): SimpleInterpolation =>
-		disabled &&
+	// padding
+	padding: ${({ $outerPadding }): string => $outerPadding};
+	gap: 8px;
+
+	// border
+	border: ${({ $border }): string => $border};
+	border-radius: ${({ $borderRadius }): string => $borderRadius};
+
+	// colors
+	${({ $color, background, theme, $forceActive, disabled }): SimpleInterpolation =>
+		($forceActive &&
+			css`
+				color: ${getColor(`${$color}.active`, theme)};
+				background-color: ${getColor(`${background}.active`, theme)};
+			`) ||
+		(disabled &&
+			css`
+				background: ${getColor(`${background}.disabled`, theme)};
+				color: ${getColor(`${$color}.disabled`, theme)};
+			`) ||
 		css`
-			background: ${getColor(`${background}.disabled`, theme)};
-			color: ${getColor(`${$textColor}.disabled`, theme)};
+			${pseudoClasses(theme, $color, 'color')};
+			${pseudoClasses(theme, background, 'background-color')};
+			${pseudoClasses(theme, $color, 'border-color')};
 		`};
-	${({
-		disabled,
-		$forceActive,
-		theme,
-		background = 'transparent',
-		$textColor
-	}): SimpleInterpolation =>
-		!disabled &&
-		!$forceActive &&
-		css`
-			&:hover {
-				background: ${getColor(`${background}.hover`, theme)};
-				color: ${getColor(`${$textColor}.hover`, theme)};
-			}
-			&:focus {
-				background: ${getColor(`${background}.focus`, theme)};
-				color: ${getColor(`${$textColor}.focus`, theme)};
-			}
-			&:active {
-				background: ${getColor(`${background}.active`, theme)};
-				color: ${getColor(`${$textColor}.active`, theme)};
-			}
-		`}
-	${({
-		$forceActive,
-		disabled,
-		background = 'transparent',
-		$textColor,
-		theme
-	}): SimpleInterpolation =>
-		!disabled &&
-		$forceActive &&
-		css`
-			background: ${getColor(`${background}.active`, theme)};
-			color: ${getColor(`${$textColor}.active`, theme)};
-		`}
-	${({ $bdColor }): SimpleInterpolation =>
-		$bdColor &&
-		css`
-			border: 1px solid currentColor;
-		`};
-	${({ theme, $loading, disabled, $bdColor }): SimpleInterpolation =>
-		$loading &&
-		$bdColor &&
-		css`
-			border-color: ${getColor(`${$bdColor}.${disabled ? 'disabled' : 'regular'}`, theme)};
-			&:hover {
-				border-color: ${getColor(`${$bdColor}.hover`, theme)};
-			}
-			&:focus {
-				border-color: ${getColor(`${$bdColor}.focus`, theme)};
-			}
-			&:active {
-				border-color: ${getColor(`${$bdColor}.active`, theme)};
-			}
-		`}
 	${({ $loading }): SimpleInterpolation =>
 		$loading &&
 		css`
@@ -191,59 +216,51 @@ const ContainerEl = styled(Container)<{
 		`}
 `;
 
-interface ButtonProps {
-	/** Type of button */
-	type?: ButtonType;
-	/** Color of button */
-	color?: string | keyof ThemeObj['palette'];
-	/** Color of the Button label */
-	labelColor?: string | keyof ThemeObj['palette'];
-	/** Color of the Button background */
-	backgroundColor?: string | keyof ThemeObj['palette'];
+type ButtonProps = {
 	/** Button text */
-	label: string;
-	/** `fit`: assume the size of the content
-	 *
-	 *  `fill`: take the width of the container
+	label?: string;
+	/** Button size */
+	size?: ButtonSize;
+	/**
+	 * Button width
+	 * `fit`: take the size of the content
+	 * `fill`: take the width of the container
 	 */
-	size?: 'fit' | 'fill';
+	width?: 'fit' | 'fill';
 	/** optional icon to display beside the label */
 	icon?: keyof ThemeObj['icons'];
 	/** Icon position */
 	iconPlacement?: 'left' | 'right';
 	/** whether to show the loading icon */
 	loading?: boolean;
-	/** small item size */
-	isSmall?: boolean;
 	/** whether to disable the button or not */
 	disabled?: boolean;
 	/** Callback to be invoked when the button is pressed */
 	onClick: (event: React.SyntheticEvent | KeyboardEvent) => void;
 	/** whether to force active status or not */
 	forceActive?: boolean;
-}
+	/** Shape of the Button */
+	shape?: ButtonShape;
+} & ButtonColorsByType;
 
 const Button = React.forwardRef<HTMLDivElement, ButtonProps>(function ButtonFn(
 	{
 		type = 'default',
-		color = 'primary',
 		disabled = false,
-		labelColor,
-		backgroundColor,
 		label,
-		size = 'fit',
+		size = 'medium',
+		width = 'fit',
 		icon,
 		iconPlacement = 'right',
 		onClick,
 		loading = false,
-		isSmall = false,
 		forceActive = false,
+		shape = 'regular',
 		...rest
 	},
 	ref
 ) {
-	const buttonRef = useRef<HTMLDivElement | null>(null);
-	const combinedRef = useCombinedRefs<HTMLDivElement>(ref, buttonRef);
+	const buttonRef = useCombinedRefs<HTMLDivElement>(ref);
 
 	const clickHandler = useCallback(
 		(e: KeyboardEvent | React.SyntheticEvent) => {
@@ -255,86 +272,35 @@ const Button = React.forwardRef<HTMLDivElement, ButtonProps>(function ButtonFn(
 	);
 
 	const keyEvents = useMemo(() => getKeyboardPreset('button', clickHandler), [clickHandler]);
-	useKeyboard(combinedRef, keyEvents);
+	useKeyboard(buttonRef, keyEvents);
 
-	const bgColor = useMemo(
-		() =>
-			backgroundColor ||
-			(color in fixedColors && fixedColors[color as keyof typeof fixedColors][type].background) ||
-			color,
-		[backgroundColor, color, type]
-	);
-	const bdColor = useMemo(
-		() =>
-			backgroundColor ||
-			(color in fixedColors && fixedColors[color as keyof typeof fixedColors][type].border) ||
-			color,
-		[backgroundColor, color, type]
-	);
-	const textColor = useMemo(
-		() =>
-			labelColor ||
-			(color in fixedColors && fixedColors[color as keyof typeof fixedColors][type].color) ||
-			color,
-		[labelColor, color, type]
-	);
-	const itemSize = useMemo<{
-		icon: React.ComponentPropsWithoutRef<typeof Icon>['size'];
-		label: React.ComponentPropsWithoutRef<typeof Text>['size'];
-		padding: {
-			vertical: keyof ThemeObj['sizes']['padding'];
-			horizontal: keyof ThemeObj['sizes']['padding'];
-		};
-	}>(
-		() =>
-			isSmall
-				? {
-						icon: 'small',
-						label: 'medium',
-						padding: {
-							vertical: 'extrasmall',
-							horizontal: 'small'
-						}
-				  }
-				: {
-						icon: 'medium',
-						label: 'large',
-						padding: {
-							vertical: 'small',
-							horizontal: 'medium'
-						}
-				  },
-		[isSmall]
-	);
+	const colors = useMemo(() => getColors(type, rest), [type, rest]);
+
 	return (
 		<ContainerEl
 			role="button"
-			ref={combinedRef}
+			ref={buttonRef}
 			orientation={iconPlacement === 'left' ? 'row-reverse' : 'row'}
-			width={size}
+			width={width}
 			height="fit"
-			borderRadius="regular"
-			$textColor={textColor}
-			$bdColor={type === 'outlined' ? bdColor : undefined}
-			background={bgColor}
+			$shape={shape}
+			$color={colors.color}
+			background={colors.backgroundColor}
 			disabled={disabled}
 			$forceActive={forceActive}
 			$loading={loading ? 1 : 0}
-			padding={itemSize.padding}
+			$padding={SIZES[size].padding}
 			crossAlignment="center"
 			onClick={clickHandler}
+			$buttonType={type}
 			{...rest}
 			tabIndex={disabled ? -1 : 0}
 		>
-			<Label size={itemSize.label} weight="regular" color="currentColor">
-				{label.toUpperCase()}
+			<Label size={SIZES[size].label} weight="regular" color="currentColor">
+				{label}
 			</Label>
-			{icon && (
-				<Container width="fit" height="fit" padding={{ horizontal: 'extrasmall' }}>
-					<Icon icon={icon} size={itemSize.icon} color="currentColor" />
-				</Container>
-			)}
-			{loading && <LoadingIcon color={textColor} />}
+			{icon && <CustomIcon icon={icon} $size={SIZES[size].icon} color="currentColor" />}
+			{loading && <LoadingIcon color={colors.color} />}
 		</ContainerEl>
 	);
 });
