@@ -4,7 +4,7 @@ SPDX-FileCopyrightText: 2021 Zextras <https://www.zextras.com>
 SPDX-License-Identifier: AGPL-3.0-only
 -->
 
-### Colors
+### Colors and types
 
 ```jsx
 import { Container } from '@zextras/carbonio-design-system';
@@ -165,9 +165,9 @@ const click = () => console.log('click!');
 </Container>
 ```
 
-#### Active
+#### Activated
 
-Active property fix the status
+Activated property fix the status and styles the button as active
 
 ```jsx
 import { Container } from '@zextras/carbonio-design-system';
@@ -179,7 +179,7 @@ const click = () => console.log('click!');
 </Container>
 ```
 
-Activated has priority on disabled
+Disabled has priority on activated
 
 ```jsx
 import { Container } from '@zextras/carbonio-design-system';

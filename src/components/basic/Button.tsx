@@ -23,28 +23,21 @@ type ButtonColors =
 			type: 'filled' | 'outlined';
 	  } & (
 			| {
-					/** Main color of the content */
+					/** Main color */
 					color?: string | keyof ThemeObj['palette'];
 			  }
 			| {
 					/** Background color of the button */
 					backgroundColor?: string | keyof ThemeObj['palette'];
-					/** Specific color of the label */
+					/** Specific color of the content */
 					labelColor?: string | keyof ThemeObj['palette'];
 			  }
 	  ))
-	| ({
+	| {
 			type: 'ghost';
-	  } & (
-			| {
-					/** Main color of the content */
-					color?: string | keyof ThemeObj['palette'];
-			  }
-			| {
-					/** Specific color of the label */
-					labelColor?: string | keyof ThemeObj['palette'];
-			  }
-	  ));
+			/** Main color */
+			color?: string | keyof ThemeObj['palette'];
+	  };
 
 type ButtonProps = {
 	/** Force active status */
@@ -61,7 +54,7 @@ type ButtonProps = {
 	/** Whether to show the loading icon */
 	loading?: boolean;
 	/** Main action callback */
-	onClick?: (e: Event) => void;
+	onClick?: (e: Event | React.MouseEvent<HTMLButtonElement>) => void;
 	/** Secondary action callback */
 	secondaryAction?: (e: React.SyntheticEvent) => void;
 	/** Secondary action icon */
@@ -89,6 +82,7 @@ interface StyledButtonProps {
 	width: ButtonWidth;
 	iconPosition?: ButtonIconPosition;
 	activated: boolean;
+	onClick?: (e: Event) => void;
 }
 
 const StyledIcon = styled(Icon)<{ $loading: boolean }>`
@@ -254,15 +248,15 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(function ButtonF
 	ref
 ) {
 	const buttonRef = useCombinedRefs<HTMLButtonElement>(ref);
-	const keyPress = useCallback(
-		(e: Event) => {
+	const clickHandler = useCallback(
+		(e: Event | React.MouseEvent<HTMLButtonElement>) => {
 			if (!disabled && onClick) {
 				onClick(e);
 			}
 		},
 		[disabled, onClick]
 	);
-	const keyEvents = useMemo(() => getKeyboardPreset('button', keyPress), [keyPress]);
+	const keyEvents = useMemo(() => getKeyboardPreset('button', clickHandler), [clickHandler]);
 	useKeyboard(buttonRef, keyEvents);
 
 	const colors = useMemo(() => getColors(type, { type, ...rest }), [type, rest]);
@@ -271,13 +265,15 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(function ButtonF
 		<StyledButton
 			backgroundColor={colors.backgroundColor}
 			color={colors.color}
-			activated={activated}
+			activated={!disabled && activated}
 			disabled={disabled}
 			shape={shape}
 			buttonType={type}
 			width={width}
 			padding={BUTTON_SIZES[size].padding}
 			iconPosition={iconPosition}
+			onClick={clickHandler}
+			ref={buttonRef}
 		>
 			{icon && (
 				<StyledIcon
