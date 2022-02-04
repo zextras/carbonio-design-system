@@ -42,7 +42,7 @@ const click = () => console.log('click!');
 #### Custom Colors
 
 ```jsx
-import { Container } from '@zextras/zapp-ui';
+import { Container } from '@zextras/carbonio-design-system';
 
 const click = () => console.log('click!');
 
@@ -124,7 +124,7 @@ import { Container } from '@zextras/carbonio-design-system';
 
 ### Shape
 ```jsx
-import { Container } from '@zextras/zapp-ui';
+import { Container } from '@zextras/carbonio-design-system';
 
 <Container orientation="horizontal" mainAlignment="space-around">
 	<Container orientation="vertical" mainAlignment="space-around" style={{ gap: '10px' }} width="30%">
@@ -222,26 +222,134 @@ const items = [
 ### Loading
 
 ```jsx
-import { Container } from '@zextras/carbonio-design-system';
+import { useState } from 'react'
+import { Container, Switch } from '@zextras/carbonio-design-system';
 
 const click = () => console.log('click!');
+const [loading, setLoading] = useState(true);
 
-<Container orientation="horizontal" mainAlignment="space-around" width="fill">
-  <Container orientation="vertical" width="30%" style={{ gap: '10px' }}>
-    <Button label="Button" color="primary" onClick={click} loading />
-    <Button label="Button" color="primary" onClick={click} icon="HeartOutline" loading />
-    <Button label="Button" color="primary" onClick={click} icon="HeartOutline" iconPosition="right" loading />
-  </Container>
-  <Container orientation="vertical" width="30%" style={{ gap: '10px' }}>
-    <Button type="outlined" label="Button" color="secondary" onClick={click} loading />
-    <Button type="outlined" label="Button" color="secondary" onClick={click}  icon="HeartOutline" loading />
-    <Button type="outlined" label="Button" color="secondary" onClick={click}  icon="HeartOutline" iconPosition="right" loading />
-  </Container>
-  <Container orientation="vertical" width="30%" style={{ gap: '10px' }}>
-    <Button type="ghost" label="Button" color="error" onClick={click} loading />
-    <Button type="ghost" label="Button" color="error" onClick={click}  icon="HeartOutline" loading />
-    <Button type="ghost" label="Button" color="error" onClick={click}  icon="HeartOutline" iconPosition="right" loading />
-  </Container>
+<Container style={{ gap: '20px' }}>
+    <Switch label="Loading" value={loading} onClick={() => setLoading((prevState) => !prevState)} />
+    <Container orientation="horizontal" mainAlignment="space-around" width="fill">
+      <Container orientation="vertical" width="30%" style={{ gap: '10px' }}>
+        <Button label="Button" color="primary" onClick={click} loading={loading} />
+        <Button label="Button" color="primary" onClick={click} icon="HeartOutline" loading={loading} />
+        <Button label="Button" color="primary" onClick={click} icon="HeartOutline" iconPosition="right" loading={loading} />
+        <Button label="Button" color="primary" onClick={click} icon="HeartOutline" iconPosition="right" loading={loading} secondaryAction={{ icon: 'ChevronDown', onClick: () => undefined }} />
+      </Container>
+      <Container orientation="vertical" width="30%" style={{ gap: '10px' }}>
+        <Button type="outlined" label="Button" color="secondary" onClick={click} loading={loading} />
+        <Button type="outlined" label="Button" color="secondary" onClick={click}  icon="HeartOutline" loading={loading} />
+        <Button type="outlined" label="Button" color="secondary" onClick={click}  icon="HeartOutline" iconPosition="right" loading={loading} />
+        <Button type="outlined" label="Button" color="secondary" onClick={click}  icon="HeartOutline" iconPosition="right" loading={loading} secondaryAction={{ icon: 'ChevronDown', onClick: () => undefined }} />
+      </Container>
+      <Container orientation="vertical" width="30%" style={{ gap: '10px' }}>
+        <Button type="ghost" label="Button" color="error" onClick={click} loading={loading} />
+        <Button type="ghost" label="Button" color="error" onClick={click}  icon="HeartOutline" loading={loading} />
+        <Button type="ghost" label="Button" color="error" onClick={click}  icon="HeartOutline" iconPosition="right" loading={loading} />
+        <Button type="ghost" label="Button" color="error" onClick={click}  icon="HeartOutline" iconPosition="right" loading={loading} secondaryAction={{ icon: 'ChevronDown', onClick: () => undefined }} />
+      </Container>
+    </Container>
+</Container>
+```
+
+### Secondary action
+
+Secondary action is totally independent of main button, and so are its status.
+
+To set the disabled and activated status on the secondary action, set the properties on the secondaryAction object prop.
+
+```jsx
+import { Container } from '@zextras/carbonio-design-system';
+
+const click = () => console.log('click');
+
+<Container style={{ gap: '50px' }}>
+    <Container orientation="horizontal" mainAlignment="space-around" width="fill">
+        <Container orientation="vertical" width="30%" style={{ gap: '10px' }}>
+            <Button type="filled" label="Button" color="primary" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action') }} />
+            <Button type="filled" label="Button" color="secondary" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action') }} icon="HeartOutline" iconPosition="left" />
+            <Button type="filled" label="Button" color="error" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action') }} icon="HeartOutline" iconPosition="right" />
+            <Button type="filled" color="error" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action') }} icon="HeartOutline" iconPosition="right" />
+        </Container>
+        <Container orientation="vertical" width="30%" style={{ gap: '10px' }}>
+            <Button type="outlined" label="Button" color="primary" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action') }} />
+            <Button type="outlined" label="Button" color="secondary" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action') }} icon="HeartOutline" iconPosition="left" />
+            <Button type="outlined" label="Button" color="error" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action') }} icon="HeartOutline" iconPosition="right" />
+            <Button type="outlined" color="error" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action') }} icon="HeartOutline" iconPosition="right" />
+        </Container>
+        <Container orientation="vertical" width="30%" style={{ gap: '10px' }}>
+            <Button type="ghost" label="Button" color="primary" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action') }} />
+            <Button type="ghost" label="Button" color="secondary" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action') }} icon="HeartOutline" iconPosition="left" />
+            <Button type="ghost" label="Button" color="error" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action') }} icon="HeartOutline" iconPosition="right" />
+            <Button type="ghost" color="error" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action') }} icon="HeartOutline" iconPosition="right" />
+        </Container>
+    </Container>
+	<Container orientation="vertical" style={{ gap: '10px' }}>
+		<Button type="filled" label="Button" color="primary" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action') }} width="fill" />
+		<Button type="filled" label="Button" color="secondary" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action') }} icon="HeartOutline" iconPosition="left" width="fill" />
+		<Button type="filled" label="Button" color="error" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action') }} icon="HeartOutline" iconPosition="right" width="fill" />
+		<Button type="filled" color="error" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action') }} icon="HeartOutline" iconPosition="right" width="fill" />
+	</Container>
+	<Container orientation="vertical" style={{ gap: '10px' }}>
+		<Button type="outlined" label="Button" color="primary" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action') }} width="fill" />
+		<Button type="outlined" label="Button" color="secondary" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action') }} icon="HeartOutline" iconPosition="left" width="fill" />
+		<Button type="outlined" label="Button" color="error" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action') }} icon="HeartOutline" iconPosition="right" width="fill" />
+		<Button type="outlined" color="error" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action') }} icon="HeartOutline" iconPosition="right" width="fill" />
+	</Container>
+	<Container orientation="vertical" style={{ gap: '10px' }}>
+		<Button type="ghost" label="Button" color="primary" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action') }} width="fill" />
+		<Button type="ghost" label="Button" color="secondary" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action') }} icon="HeartOutline" iconPosition="left" width="fill" />
+		<Button type="ghost" label="Button" color="error" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action') }} icon="HeartOutline" iconPosition="right" width="fill" />
+		<Button type="ghost" color="error" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action') }} icon="HeartOutline" iconPosition="right" width="fill" />
+	</Container>
+</Container>
+
+```
+
+Examples of different combinations of statuses. Use dev tools to force css pseudo-classes.
+```jsx
+import { Container, Text } from '@zextras/carbonio-design-system';
+
+const click = () => console.log('click');
+
+<Container style={{ gap: '20px' }}>
+  <Text>Main button is disabled</Text>
+    <Container orientation="horizontal" mainAlignment="space-around" width="fill">
+        <Container orientation="vertical" width="30%" style={{ gap: '10px' }}>
+            <Button shape="rounded" type="filled" label="Button" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action') }} disabled />
+            <Button shape="rounded" type="filled" label="Button" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action'), activated: true }} disabled />
+            <Button shape="rounded" type="filled" label="Button" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action'), disabled: true }} disabled />
+        </Container>
+        <Container orientation="vertical" width="30%" style={{ gap: '10px' }}>
+            <Button shape="rounded" type="outlined" label="Button" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action') }} disabled />
+            <Button shape="rounded" type="outlined" label="Button" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action'), activated: true }} disabled />
+            <Button shape="rounded" type="outlined" label="Button" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action'), disabled: true }} disabled />
+        </Container>
+        <Container orientation="vertical" width="30%" style={{ gap: '10px' }}>
+            <Button shape="rounded" type="ghost" label="Button" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action') }} disabled />
+            <Button shape="rounded" type="ghost" label="Button" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action'), activated: true }} disabled />
+            <Button shape="rounded" type="ghost" label="Button" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action'), disabled: true }} disabled />
+        </Container>
+    </Container>
+	<Text>Main button is activated</Text>
+	<Container orientation="horizontal" mainAlignment="space-around" width="fill">
+		<Container orientation="vertical" width="30%" style={{ gap: '10px' }}>
+			<Button shape="rounded" type="filled" label="Button" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action') }} activated />
+			<Button shape="rounded" type="filled" label="Button" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action'), activated: true }} activated />
+			<Button shape="rounded" type="filled" label="Button" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action'), disabled: true }} activated />
+		</Container>
+		<Container orientation="vertical" width="30%" style={{ gap: '10px' }}>
+			<Button shape="rounded" type="outlined" label="Button" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action') }} activated />
+			<Button shape="rounded" type="outlined" label="Button" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action'), activated: true }} activated />
+			<Button shape="rounded" type="outlined" label="Button" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action'), disabled: true }} activated />
+		</Container>
+		<Container orientation="vertical" width="30%" style={{ gap: '10px' }}>
+			<Button shape="rounded" type="ghost" label="Button" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action') }} activated />
+			<Button shape="rounded" type="ghost" label="Button" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action'), activated: true }} activated />
+			<Button shape="rounded" type="ghost" label="Button" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action'), disabled: true }} activated />
+		</Container>
+	</Container>
 </Container>
 ```
 

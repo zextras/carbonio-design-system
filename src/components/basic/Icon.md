@@ -15,7 +15,7 @@ import { Container, Text } from '@zextras/carbonio-design-system';
 ### Colors
 #### Theme palette
 ```typescript jsx
-import { Container } from '@zextras/zapp-ui';
+import { Container } from '@zextras/carbonio-design-system';
 
 <Container orientation="horizontal" mainAlignment="space-around">
     <Icon icon="Award" color="primary" />
@@ -33,7 +33,7 @@ import { Container } from '@zextras/zapp-ui';
 ```
 #### Custom colors
 ```typescript jsx
-import { Container } from '@zextras/zapp-ui';
+import { Container } from '@zextras/carbonio-design-system';
 
 <Container orientation="horizontal" mainAlignment="space-around">
     <Icon icon="Activity" color="orange" />
@@ -44,7 +44,7 @@ import { Container } from '@zextras/zapp-ui';
 
 #### With variants
 ```typescript jsx
-import { Container } from '@zextras/zapp-ui';
+import { Container } from '@zextras/carbonio-design-system';
 
 <Container orientation="horizontal" mainAlignment="space-around">
     <Icon icon="Activity" color="orange.focus" />

@@ -14,3 +14,8 @@ this component to be created.
 #### Added
 * **width**: previously _size_
 * **activated**: previously _forceActive_
+* **secondaryAction**: accept a subset of the Button props in order to render an inside
+button associated to the secondary action.
+
+### Implementation notes
+Buttons are now rendered as html button elements to improve accessibility
