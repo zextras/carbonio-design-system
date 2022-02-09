@@ -14,6 +14,7 @@ import Padding from '../layout/Padding';
 import { pseudoClasses } from '../utilities/functions';
 import { useCheckbox } from '../../hooks/useCheckbox';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
+import { Theme } from '../../theme/theme';
 
 const IconWrapper = styled.div`
 	${(props) =>
@@ -80,9 +81,9 @@ Checkbox.propTypes = {
 	/** Checkbox value */
 	value: PropTypes.bool,
 	/** Checkbox size */
-	iconSize: Icon.propTypes.size,
+	iconSize: PropTypes.oneOf(Object.keys(Theme.sizes.icon)),
 	/** Checkbox color */
-	iconColor: Icon.propTypes.color,
+	iconColor: PropTypes.oneOfType([PropTypes.string, PropTypes.oneOf(Object.keys(Theme.palette))]),
 	/** Checkbox text */
 	label: PropTypes.string,
 	/** Checkbox padding */

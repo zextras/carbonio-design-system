@@ -32,7 +32,7 @@ describe('Icon', () => {
 	});
 
 	test('Render an icon with a custom color', () => {
-		const { container } = render(<Icon icon="BulbOutline" customColor="rgba(100, 50, 50, 0.7)" />);
+		const { container } = render(<Icon icon="BulbOutline" color="rgba(100, 50, 50, 0.7)" />);
 		expect(container.querySelector('svg')).toBeInTheDocument();
 	});
 });
