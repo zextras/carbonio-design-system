@@ -379,14 +379,18 @@ const Dropdown = React.forwardRef(function DropdownFn(
 
 	useEffect(() => {
 		openRef.current = open;
-		open && setTimeout(() => window.top.document.addEventListener('click', clickOutsidePopper), 1);
+		open &&
+			setTimeout(() => window.top.document.addEventListener('click', clickOutsidePopper, true), 1);
 		contextMenu &&
 			open &&
-			setTimeout(() => window.top.document.addEventListener('contextmenu', clickOutsidePopper), 1);
+			setTimeout(
+				() => window.top.document.addEventListener('contextmenu', clickOutsidePopper, true),
+				1
+			);
 
 		return () => {
-			window.top.document.removeEventListener('click', clickOutsidePopper);
-			window.top.document.removeEventListener('contextmenu', clickOutsidePopper);
+			window.top.document.removeEventListener('click', clickOutsidePopper, true);
+			window.top.document.removeEventListener('contextmenu', clickOutsidePopper, true);
 		};
 	}, [open, closePopper, clickOutsidePopper, contextMenu]);
 
