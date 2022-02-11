@@ -108,6 +108,7 @@ describe('Chip', () => {
 				id: 'action2',
 				icon: 'Eye',
 				type: 'icon',
+				// add onClick callback even if it is not allowed by ts to check it is not called
 				onClick: jest.fn()
 			},
 			{
@@ -118,7 +119,14 @@ describe('Chip', () => {
 				disabled: true
 			}
 		];
-		render(<Chip label={label} actions={actions} />);
+
+		render(
+			<Chip
+				label={label}
+				// force cast to allow onClick field even on icon action
+				actions={actions as React.ComponentPropsWithRef<typeof Chip>['actions']}
+			/>
+		);
 		// wait so tooltips can register the listeners
 		await new Promise((r) => {
 			setTimeout(r, 100);
@@ -178,7 +186,8 @@ describe('Chip', () => {
 		render(
 			<Chip
 				label={label}
-				actions={actions}
+				// force cast to allow onClick even on icon action
+				actions={actions as React.ComponentPropsWithRef<typeof Chip>['actions']}
 				disabled="Message to explain disabled status"
 				onClose={closeFn}
 			/>
@@ -246,7 +255,14 @@ describe('Chip', () => {
 				disabled: true
 			}
 		];
-		render(<Chip label={label} error="Message for error" actions={actions} />);
+		render(
+			<Chip
+				label={label}
+				error="Message for error"
+				// force cast to allow onClick even on icon action
+				actions={actions as React.ComponentPropsWithRef<typeof Chip>['actions']}
+			/>
+		);
 		// wait so tooltips can register the listeners
 		await new Promise((r) => {
 			setTimeout(r, 100);
