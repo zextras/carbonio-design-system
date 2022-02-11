@@ -25,7 +25,7 @@ The given colors are used with their set for the pseudo statuses
 
 The chip has two special statuses: disabled and error.
 - When a chip is disabled, all elements within are disabled. 
-  In the disabled status the click and double click callbacks remain active.
+  **In the disabled status the click and double click callbacks remain active.**
   It's up to the dev the definition of what these two functions should do when the chip is disabled.
 - When a chip is in error, the elements remain enabled, but they take the error status too.
 
@@ -196,9 +196,9 @@ import { Button, Container, Row, Text, Tooltip } from '@zextras/zapp-ui';
     keyLabel="The Mandalorian:"
     label={(
       <Tooltip label="Din Djarin (Mandalorians Bounty Hunter's Guild Children of the Watch)" maxWidth="unset">
-        <Row wrap="nowrap">
-          <Text overflow="break-word" size="small">Din Djarin&nbsp;</Text>
-          <Text color="secondary" size="small">Mandalorians Bounty Hunter's Guild Children of the Watch</Text>
+        <Row wrap="nowrap" minWidth={0}>
+          <Text overflow="break-word" size="extrasmall">Din Djarin&nbsp;</Text>
+          <Text color="secondary" size="extrasmall">Mandalorians Bounty Hunter's Guild Children of the Watch</Text>
         </Row>
       </Tooltip>
     )}
@@ -400,6 +400,49 @@ import { Button, Container, Row, Text, Tooltip } from '@zextras/zapp-ui';
 </Container>
 ```
 
+#### Interaction
+Css pseudo classes are applied only if chip has a click or double click callback and is not disabled.
+
+For now, double click handler does not prevent the click event.
+It's up to the dev to eventually avoid the click callback to be called when double click is fired.
+```jsx
+import { Container } from '@zextras/zapp-ui';
+<Container orientation="horizontal" wrap="wrap" mainAlignment="flex-start" maxWidth="700px" style={{ gap: '8px' }}>
+  <Chip
+    label="Buffy Summers"
+    shape="round"
+    onClose={() => console.log('What are we gonna do now?')}
+    actions={[
+      {
+        id: 'action1',
+        label: 'Vampire Slayer',
+        type: 'icon',
+        icon: 'MoonOutline'
+      }
+    ]}
+    onClick={() => console.log('click')}
+  />
+  <Chip
+      label="Xander Harris"
+      shape="round"
+      onClick={() => console.log('click')}
+      onDoubleClick={() => console.log('double click')}
+  />
+  <Chip
+      label="Willow Rosenberg"
+      shape="round"
+      onDoubleClick={() => console.log('double click')}
+  />
+  <Chip
+      label="Cordelia Chase"
+      shape="regular"
+      onClick={() => console.log('click')}
+      onDoubleClick={() => console.log('double click')}
+      disabled
+  />
+</Container>
+```
+
 ### Development status:
 
 ```jsx noEditor
@@ -438,8 +481,8 @@ const items = [
 	},
 	{
 		feature: 'Prop Types',
-		status: 2,
-		notes: 'Props need a rework to allow better manipulation of the avatar'
+		status: 1,
+		notes: ''
 	},
 	{
 		feature: 'Index Export',
@@ -448,8 +491,8 @@ const items = [
 	},
 	{
 		feature: 'Customizability',
-		status: 2,
-		notes: 'Needs custom content'
+		status: 1,
+		notes: ''
 	}
 ];
 
