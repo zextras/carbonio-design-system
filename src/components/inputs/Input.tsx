@@ -12,6 +12,7 @@ import { ThemeObj } from '../../theme/theme';
 import { getColor } from '../../theme/theme-utils';
 import Container from '../layout/Container';
 import { pseudoClasses } from '../utilities/functions';
+import Text from '../basic/Text';
 import Divider from '../layout/Divider';
 
 const ContainerEl = styled(Container)<{
@@ -97,6 +98,11 @@ const DividerEl = styled(Divider)`
 	}
 `;
 
+const CustomText = styled(Text)`
+	line-height: 1.5;
+	padding-top: 4px;
+`;
+
 export interface InputProps {
 	/** Input's background color */
 	backgroundColor?: keyof ThemeObj['palette'];
@@ -132,6 +138,8 @@ export interface InputProps {
 	hideBorder?: boolean;
 	/** on Enter key callback */
 	onEnter?: (e: KeyboardEvent) => void;
+	/** Description of the input */
+	description?: string;
 }
 
 type Input = React.ForwardRefExoticComponent<InputProps & React.RefAttributes<HTMLDivElement>> & {
@@ -157,6 +165,7 @@ const Input: Input = React.forwardRef<HTMLDivElement, InputProps>(function Input
 		type = 'text',
 		hideBorder = false,
 		onEnter,
+		description,
 		...rest
 	},
 	ref
@@ -247,6 +256,16 @@ const Input: Input = React.forwardRef<HTMLDivElement, InputProps>(function Input
 					borderColor
 				}
 			/>
+			{description && (
+				<CustomText
+					size="extrasmall"
+					color={(hasError && 'error') || (hasFocus && 'primary') || 'secondary'}
+					disabled={disabled}
+					overflow="break-word"
+				>
+					{description}
+				</CustomText>
+			)}
 		</Container>
 	);
 });

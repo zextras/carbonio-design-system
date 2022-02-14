@@ -73,11 +73,24 @@ const CustomElement = useMemo(() =>
 	[]);
 
 <Container style={{ gap: '10px', margin: 'auto' }} width="50%">
-	<Input label="Default color. When active is primary" CustomIcon={CustomElement} />
-	<Input label="Custom color. When active is primary" backgroundColor="gray5" borderColor="gray3" CustomIcon={CustomElement} />
-	<Input label="Error type" backgroundColor="gray5" borderColor="gray3" hasError CustomIcon={CustomElement} />
-	<Input label="Disabled type" backgroundColor="gray5" borderColor="gray3" disabled CustomIcon={CustomElement} />
-	<Input label="Error Disabled type" backgroundColor="gray5" borderColor="gray3" hasError disabled CustomIcon={CustomElement} />
+	<Input label="Default color. When active is primary" CustomIcon={CustomElement} description="Optional description" />
+	<Input label="Custom color. When active is primary" backgroundColor="gray5" borderColor="gray3" CustomIcon={CustomElement} description="Optional description" />
+	<Input label="Error type" backgroundColor="gray5" borderColor="gray3" hasError CustomIcon={CustomElement} description="Optional description" />
+	<Input label="Disabled type" backgroundColor="gray5" borderColor="gray3" disabled CustomIcon={CustomElement} description="Optional description" />
+	<Input label="Error Disabled type" backgroundColor="gray5" borderColor="gray3" hasError disabled CustomIcon={CustomElement} description="Optional description" />
+</Container>
+```
+
+#### Optional description
+Optional description is set to break on new line on overflow
+```typescript jsx
+import { useMemo } from 'react';
+import { Container } from '@zextras/zapp-ui';
+import styled from 'styled-components';
+
+<Container style={{ gap: '10px', margin: 'auto' }} width="50%">
+	<Input label="Input label" backgroundColor="gray5" borderColor="gray3" description="Optional short description" />
+	<Input label="Input label" backgroundColor="gray5" borderColor="gray3" description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas in tortor maximus, iaculis sem eget, scelerisque libero. Quisque fermentum massa odio, ut feugiat ipsum laoreet in. Phasellus aliquet leo et bibendum ultrices. Etiam eget iaculis odio. Nunc ut mi dignissim, sagittis purus vitae, tempor massa." />
 </Container>
 ```
 
