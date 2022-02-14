@@ -88,6 +88,8 @@ interface ChipProps {
 	onDoubleClick?: React.ReactEventHandler;
 	/** Chip size */
 	size?: 'small' | 'medium' | 'large';
+	/** Tooltip placement */
+	tooltipPlacement?: React.ComponentPropsWithoutRef<typeof Tooltip>['placement'];
 }
 
 const ActionIcon = styled(Icon)``;
@@ -199,6 +201,7 @@ const Chip = React.forwardRef<HTMLDivElement, ChipProps>(function ChipFn(
 		onClose,
 		onDoubleClick,
 		size = 'small',
+		tooltipPlacement,
 		...rest
 	},
 	ref
@@ -247,7 +250,12 @@ const Chip = React.forwardRef<HTMLDivElement, ChipProps>(function ChipFn(
 				const hideTooltipHandler = (!actionDisabled && hideInnerTooltip) || undefined;
 				if (action.type === 'icon') {
 					item = (
-						<Tooltip key={action.id} label={action.label} disabled={actionDisabled}>
+						<Tooltip
+							key={action.id}
+							label={action.label}
+							disabled={actionDisabled}
+							placement={tooltipPlacement}
+						>
 							<ActionContainer
 								onMouseEnter={showTooltipHandler}
 								onMouseLeave={hideTooltipHandler}
@@ -272,7 +280,12 @@ const Chip = React.forwardRef<HTMLDivElement, ChipProps>(function ChipFn(
 						  }
 						: undefined;
 					item = (
-						<Tooltip key={action.id} label={action.label} disabled={actionDisabled}>
+						<Tooltip
+							key={action.id}
+							label={action.label}
+							disabled={actionDisabled}
+							placement={tooltipPlacement}
+						>
 							<ActionContainer
 								onMouseEnter={showTooltipHandler}
 								onMouseLeave={hideTooltipHandler}
@@ -300,7 +313,16 @@ const Chip = React.forwardRef<HTMLDivElement, ChipProps>(function ChipFn(
 
 				return item;
 			}),
-		[chipActions, disabled, showInnerTooltip, hideInnerTooltip, error, size, shape]
+		[
+			chipActions,
+			disabled,
+			showInnerTooltip,
+			hideInnerTooltip,
+			tooltipPlacement,
+			size,
+			error,
+			shape
+		]
 	);
 
 	const clickHandler = useCallback(
@@ -329,6 +351,7 @@ const Chip = React.forwardRef<HTMLDivElement, ChipProps>(function ChipFn(
 				(typeof error === 'string' && error) || (typeof disabled === 'string' && disabled) || ''
 			}
 			maxWidth="100%"
+			placement={tooltipPlacement}
 		>
 			<ChipContainer
 				display="inline-flex"
@@ -397,6 +420,7 @@ const Chip = React.forwardRef<HTMLDivElement, ChipProps>(function ChipFn(
 								maxWidth="100%"
 								disabled={!maxWidth || typeof label !== 'string'}
 								overflowTooltip
+								placement={tooltipPlacement}
 							>
 								<Text
 									weight="light"
