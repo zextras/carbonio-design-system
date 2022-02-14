@@ -41,7 +41,43 @@ const [value2, setValue2] = useState('');
             onEnter={(e) => { console.log('onEnter called with text', e.target.value) }}
             backgroundColor="gray6"
         />
+        <Input />
     </Container>
+</Container>
+```
+
+#### Colors
+
+```typescript jsx
+import { useMemo } from 'react';
+import { Container, IconButton } from '@zextras/zapp-ui';
+import styled from 'styled-components';
+
+const StyledIconButton = styled(IconButton)`
+  padding: 2px;
+  & > svg {
+    width: 20px;
+    height: 20px;
+    padding: 0;
+  }
+`;
+
+const CustomElement = useMemo(() =>
+		({ hasFocus, disabled, hasError }) =>
+			<StyledIconButton
+				icon="EyeOutline"
+				iconColor={(hasError && 'error') || (hasFocus && 'primary') || 'text'}
+                onClick={() => console.log('click')}
+                disabled={disabled}
+			/>,
+	[]);
+
+<Container style={{ gap: '10px', margin: 'auto' }} width="50%">
+	<Input label="Default color. When active is primary" CustomIcon={CustomElement} />
+	<Input label="Custom color. When active is primary" backgroundColor="gray5" borderColor="gray3" CustomIcon={CustomElement} />
+	<Input label="Error type" backgroundColor="gray5" borderColor="gray3" hasError CustomIcon={CustomElement} />
+	<Input label="Disabled type" backgroundColor="gray5" borderColor="gray3" disabled CustomIcon={CustomElement} />
+	<Input label="Error Disabled type" backgroundColor="gray5" borderColor="gray3" hasError disabled CustomIcon={CustomElement} />
 </Container>
 ```
 
