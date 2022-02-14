@@ -56,7 +56,7 @@ import { Container } from '@zextras/zapp-ui';
     color="gray6"
     onClose={() => console.log('closed')}
   />
-  <Chip label="Walter Hartwell White Jr. " hasAvatar={false} background="warning" color="text" />
+  <Chip label="Walter Hartwell White Jr." hasAvatar={false} background="warning" color="text" />
   <Chip
     label="Gus Fring"
     avatarPicture="https://static.wikia.nocookie.net/breakingbad/images/b/be/Season_4_-_Gus.jpg"
@@ -81,6 +81,21 @@ import { Container } from '@zextras/zapp-ui';
   <Chip label="Samwise (Sam) Gamgee" onClose={() => console.log('closed')} error  />
   <Chip label="Gandalf the Grey" disabled="Message to tell user why this chip is disabled" />
   <Chip label="Legolas" avatarIcon="DiagonalArrowRightUp" error="Message to tell user why this chip is in error" />
+</Container>
+```
+
+#### Tooltip
+
+Tooltip for label is shown only on overflow
+
+```jsx
+import { Container } from '@zextras/zapp-ui';
+
+<Container orientation="horizontal" wrap="wrap" mainAlignment="flex-start" maxWidth="700px" style={{gap: '8px'}}>
+  <Chip label="Harry James Potter" maxWidth="150px" onClose={console.log} tooltipPlacement="top" />
+  <Chip label="Hermione Jean Granger" maxWidth="150px" onClose={console.log} tooltipPlacement="bottom" />
+  <Chip label="Ronald Bilius Weasley" maxWidth="150px" onClose={console.log} tooltipPlacement="right" />
+  <Chip label="Albus Percival Wulfric Brian Dumbledore" onClose={console.log} maxWidth="150px" tooltipPlacement="left" />
 </Container>
 ```
 
@@ -206,7 +221,6 @@ import { Button, Container, Row, Text, Tooltip } from '@zextras/zapp-ui';
     maxWidth="250px"
     onClose={() => console.log('This is the way')}
   />
-  
   <Chip
     keyLabel="The Mandalorian:"
     label={'Carasynthia "Cara" Dune'}
