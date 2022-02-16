@@ -48,6 +48,7 @@ import { Container } from '@zextras/zapp-ui';
     label="Saul Goodman"
     background="primary"
     color="gray6"
+    hasAvatar={false}
     onClose={() => console.log('closed')}
   />
   <Chip
@@ -76,9 +77,18 @@ import { Container } from '@zextras/zapp-ui';
 ```jsx
 import { Container } from '@zextras/zapp-ui';
 
+const actions = [
+          {
+            id: 'action1',
+            label: 'One ring to rule them all',
+            type: 'icon',
+            icon: 'EyeOutline'
+          }
+        ];
+
 <Container orientation="horizontal" wrap="wrap" mainAlignment="flex-start" maxWidth="700px" style={{gap: '8px'}}>
-  <Chip label="Frodo Baggins" onClose={() => console.log('closed')} avatarIcon="Eye" disabled />
-  <Chip label="Samwise (Sam) Gamgee" onClose={() => console.log('closed')} error  />
+  <Chip label="Frodo Baggins" onClose={() => console.log('closed')} avatarIcon="Eye" disabled actions={actions} />
+  <Chip label="Samwise (Sam) Gamgee" onClose={() => console.log('closed')} error actions={actions} />
   <Chip label="Gandalf the Grey" disabled="Message to tell user why this chip is disabled" />
   <Chip label="Legolas" avatarIcon="DiagonalArrowRightUp" error="Message to tell user why this chip is in error" />
 </Container>
@@ -414,7 +424,7 @@ import { Button, Container, Row, Text, Tooltip } from '@zextras/zapp-ui';
 </Container>
 ```
 
-#### Interaction
+#### Interaction (for click events)
 Css pseudo classes are applied only if chip has a click or double click callback and is not disabled.
 
 For now, double click handler does not prevent the click event.
