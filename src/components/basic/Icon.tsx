@@ -9,7 +9,7 @@ import styled, { css, SimpleInterpolation, ThemeContext } from 'styled-component
 import { IconComponent, ThemeObj } from '../../theme/theme';
 import { getColor } from '../../theme/theme-utils';
 
-interface IconProps {
+interface IconComponentProps {
 	/** Icon to show. It can be a string key for the theme icons or a custom icon component */
 	icon: keyof ThemeObj['icons'] | IconComponent;
 	/** whether the icon is in a disabled element */
@@ -20,7 +20,7 @@ interface IconProps {
 	onClick?: React.ReactEventHandler<SVGSVGElement>;
 }
 
-interface StyledIconProps {
+interface IconProps {
 	/** Icon Color */
 	color?: string | keyof ThemeObj['palette'];
 	/** Custom color, css syntax
@@ -31,7 +31,10 @@ interface StyledIconProps {
 	size?: keyof ThemeObj['sizes']['icon'];
 }
 
-const Icon = React.forwardRef<SVGSVGElement, IconProps>(function IconFn({ icon, ...rest }, ref) {
+const IconBase = React.forwardRef<SVGSVGElement, IconComponentProps>(function IconFn(
+	{ icon, ...rest },
+	ref
+) {
 	const theme = useContext(ThemeContext);
 	const IconComp = useMemo(() => {
 		if (typeof icon === 'string') {
@@ -43,13 +46,13 @@ const Icon = React.forwardRef<SVGSVGElement, IconProps>(function IconFn({ icon, 
 	return <IconComp data-testid={`icon: ${icon}`} ref={ref} viewBox="0 0 24 24" {...rest} />;
 });
 
-const StyledIcon = styled(Icon)
+const Icon = styled(IconBase)
 	.withConfig({
 		shouldForwardProp: (prop) => !['customColor', 'color', 'size'].includes(prop)
 	})
-	.attrs<StyledIconProps, Required<Pick<StyledIconProps, 'color' | 'size'>>>(
+	.attrs<IconProps, Required<Pick<IconProps, 'color' | 'size'>>>(
 		({ color = 'text', size = 'medium' }) => ({ color, size })
-	)<StyledIconProps>`
+	)<IconProps & React.SVGAttributes<SVGSVGElement>>`
 	display: block;
 	fill: currentColor;
 	color: ${({ customColor, color, disabled, theme }): string =>
@@ -60,4 +63,4 @@ const StyledIcon = styled(Icon)
 	`}
 `;
 
-export default StyledIcon;
+export default Icon;
