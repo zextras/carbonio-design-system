@@ -18,6 +18,7 @@ import Divider from '../layout/Divider';
 const ContainerEl = styled(Container)<{
 	background: keyof ThemeObj['palette'];
 	$disabled: boolean;
+	$hasLabel: boolean;
 }>`
 	cursor: text;
 	position: relative;
@@ -27,7 +28,7 @@ const ContainerEl = styled(Container)<{
 					background: ${getColor(`${background}.disabled`, theme)};
 			  `
 			: pseudoClasses(theme, background)}
-	padding: 1px 12px;
+	padding: ${({ $hasLabel }): string => ($hasLabel ? '1px' : '10px')} 12px;
 	gap: 8px;
 	min-height: calc(
 		${({ theme }): string => theme.sizes.font.medium} * 1.5 +
@@ -218,6 +219,7 @@ const Input: Input = React.forwardRef<HTMLDivElement, InputProps>(function Input
 				background={backgroundColor}
 				onClick={onInputFocus}
 				$disabled={disabled}
+				$hasLabel={!!label}
 				{...rest}
 			>
 				<InputEl
