@@ -18,7 +18,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 
 ### Label Badge
 ```jsx
-import { Text, ContactListItem } from '@zextras/zapp-ui';
+import { Text, ContactListItem } from '@zextras/carbonio-design-system';
 <>
     <Badge value="Sent" />
     <br/>
@@ -30,7 +30,7 @@ import { Text, ContactListItem } from '@zextras/zapp-ui';
 
 ### Development status:
 ```jsx noEditor
-import { Container, Icon } from '@zextras/zapp-ui';
+import { Container, Icon } from '@zextras/carbonio-design-system';
 import StatusTable from 'status-table';
 const items = [{
     feature: 'Graphics',

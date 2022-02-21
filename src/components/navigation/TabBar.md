@@ -9,7 +9,7 @@ The TabBar is a customizable navigation component, which can be used for in-page
 ### Uncontrolled Plain TabBar
 ```jsx
 import {useState} from 'react';
-import {Container, Divider, Text} from '@zextras/zapp-ui';
+import {Container, Divider, Text} from '@zextras/carbonio-design-system';
 const items = [
   { id: 'tab-one', label: 'First Tab' },
   { id: 'tab-two', label: 'Second Tab' },
@@ -44,7 +44,7 @@ const [click, setClick] = useState('');
 ### Controlled Plain TabBar
 ```jsx
 import {useState} from 'react';
-import {Container, Divider, Text, Row, Button, Padding} from '@zextras/zapp-ui';
+import {Container, Divider, Text, Row, Button, Padding} from '@zextras/carbonio-design-system';
 const items = [
   { id: 'tab-one', label: 'First Tab' },
   { id: 'tab-two', label: 'Second Tab' }
@@ -92,7 +92,7 @@ const [selected, setSelected] = useState('tab-one');
 ### Customized TabBar
 ```jsx
 import {useState} from 'react';
-import {Container, Divider, Text, DefaultTabBarItem, Icon} from '@zextras/zapp-ui';
+import {Container, Divider, Text, DefaultTabBarItem, Icon} from '@zextras/carbonio-design-system';
 const CustomComponent = ({
     item,
     index,
@@ -155,7 +155,7 @@ const [click, setClick] = useState('');
 ### Mixed TabBar
 ```jsx
 import {useState} from 'react';
-import {Container, Divider, Text, Icon} from '@zextras/zapp-ui';
+import {Container, Divider, Text, Icon} from '@zextras/carbonio-design-system';
 const CustomComponent = ({
     item,
     index,
@@ -205,7 +205,7 @@ const [click, setClick] = useState('');
 
 ### Development status:
 ```jsx noEditor
-import { Container, Icon } from '@zextras/zapp-ui';
+import { Container, Icon } from '@zextras/carbonio-design-system';
 import StatusTable from 'status-table';
 const items = [{
     feature: 'Graphics',

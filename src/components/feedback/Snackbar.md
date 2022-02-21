@@ -9,7 +9,7 @@ It appears temporarily, towards the bottom of the screen, it does not interrupt 
 
 ```jsx
 import { useState } from 'react';
-import { Button, Container } from '@zextras/zapp-ui';
+import { Button, Container } from '@zextras/carbonio-design-system';
 
 const [snack1, setSnack1] = useState(false);
 const [snack2, setSnack2] = useState(false);
@@ -32,7 +32,7 @@ const [snack4, setSnack4] = useState(false);
 
 ### Development status:
 ```jsx noEditor
-import { Container, Icon } from '@zextras/zapp-ui';
+import { Container, Icon } from '@zextras/carbonio-design-system';
 import StatusTable from 'status-table';
 const items = [{
     feature: 'Graphics',

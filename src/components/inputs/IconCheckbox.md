@@ -14,7 +14,7 @@ The Icon and status of the component depend on the checked status, whose initial
 
 ```jsx
 import { useState, useCallback } from 'react';
-import { Button, Container } from '@zextras/zapp-ui';
+import { Button, Container } from '@zextras/carbonio-design-system';
 
 const [checked1, setChecked1] = useState(false);
 const [checked2, setChecked2] = useState(true);
@@ -64,7 +64,7 @@ const invert = useCallback(() => {
 
 ```jsx
 import {useState} from 'react';
-import {Container} from '@zextras/zapp-ui';
+import {Container} from '@zextras/carbonio-design-system';
 
 <>
     <Container orientation="horizontal" mainAlignment="flex-start" width="fill">
@@ -84,7 +84,7 @@ import {Container} from '@zextras/zapp-ui';
 
 ### Development status:
 ```jsx noEditor
-import { Container, Icon } from '@zextras/zapp-ui';
+import { Container, Icon } from '@zextras/carbonio-design-system';
 import StatusTable from 'status-table';
 const items = [{
     feature: 'Graphics',

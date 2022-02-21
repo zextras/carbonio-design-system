@@ -4,13 +4,13 @@ SPDX-FileCopyrightText: 2021 Zextras <https://www.zextras.com>
 SPDX-License-Identifier: AGPL-3.0-only
 -->
 
-A theme is an extension of the default theme bundled within the `@zextras/zapp-ui` package.
+A theme is an extension of the default theme bundled within the `@zextras/carbonio-design-system` package.
 
 The theme customization can be accomplished by providing a modifier function to the `extension` prop:
 
 ```jsx
 import { useContext } from 'react';
-import { Text, Container, ThemeProvider, ThemeContext, useSetCustomTheme, Button, generateColorSet } from '@zextras/zapp-ui';
+import { Text, Container, ThemeProvider, ThemeContext, useSetCustomTheme, Button, generateColorSet } from '@zextras/carbonio-design-system';
 import { map } from 'lodash';
 
 const editTheme = (theme) => ({

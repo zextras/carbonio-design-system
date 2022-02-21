@@ -5,7 +5,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 -->
 
 ```jsx
-import { Container } from '@zextras/zapp-ui';
+import { Container } from '@zextras/carbonio-design-system';
 <Container orientation="horizontal" mainAlignment="space-between" height={500}>
 	<Container orientation="vertical" mainAlignment="space-around" height="fill">
 		<Text size="large" color="primary" weight="regular">
@@ -154,7 +154,7 @@ import { Container } from '@zextras/zapp-ui';
 ### Development status:
 
 ```jsx noEditor
-import { Container, Icon } from '@zextras/zapp-ui';
+import { Container, Icon } from '@zextras/carbonio-design-system';
 import StatusTable from 'status-table';
 const items = [
 	{

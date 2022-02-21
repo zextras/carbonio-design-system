@@ -9,7 +9,7 @@ The container is a layout element that is used to create compositions.
 ### Orientation
 
 ```jsx
-import { Padding, Text, Icon, IconData } from '@zextras/zapp-ui';
+import { Padding, Text, Icon, IconData } from '@zextras/carbonio-design-system';
 <Container padding={{ all: 'small'}} orientation="vertical">
     <Text size="large">
         Vertical Orientation
@@ -35,7 +35,7 @@ import { Padding, Text, Icon, IconData } from '@zextras/zapp-ui';
 ### Width/Height
 
 ```jsx
-import { Padding, Text, Icon, IconData } from '@zextras/zapp-ui';
+import { Padding, Text, Icon, IconData } from '@zextras/carbonio-design-system';
 <Container padding={{ all: 'small'}} orientation="vertical">
     <Text size="large">
         Fill Container
@@ -79,7 +79,7 @@ import { Padding, Text, Icon, IconData } from '@zextras/zapp-ui';
 ### Background
 
 ```jsx
-import { Padding, Text, Icon, IconData } from '@zextras/zapp-ui';
+import { Padding, Text, Icon, IconData } from '@zextras/carbonio-design-system';
 <Container padding={{ all: 'small'}} orientation="vertical">
     <Container background="primary">
         <div style={{ background: 'lightblue', width: '24px', height: '24px' }}/>   
@@ -111,7 +111,7 @@ import { Padding, Text, Icon, IconData } from '@zextras/zapp-ui';
 ### Border Radius
 
 ```jsx
-import { Padding, Text, Icon, IconData } from '@zextras/zapp-ui';
+import { Padding, Text, Icon, IconData } from '@zextras/carbonio-design-system';
 <Container padding={{ all: 'small'}} orientation="vertical">
     <Text size="large">
         Regular
@@ -146,7 +146,7 @@ import { Padding, Text, Icon, IconData } from '@zextras/zapp-ui';
 ### Alignment
 
 ```jsx
-import { Container, Text, Icon, IconData } from '@zextras/zapp-ui';
+import { Container, Text, Icon, IconData } from '@zextras/carbonio-design-system';
 <Container padding={{ all: 'small'}} orientation="vertical">
     <Text size="large">
         Center
@@ -180,7 +180,7 @@ import { Container, Text, Icon, IconData } from '@zextras/zapp-ui';
 ### Padding
 
 ```jsx
-import { Container, Text, Icon, IconData } from '@zextras/zapp-ui';
+import { Container, Text, Icon, IconData } from '@zextras/carbonio-design-system';
 <Container padding={{ all: 'small'}} orientation="vertical">
     <Text size="large">
         Small
@@ -205,7 +205,7 @@ import { Container, Text, Icon, IconData } from '@zextras/zapp-ui';
 
 ### Development status:
 ```jsx noEditor
-import { Container, Icon } from '@zextras/zapp-ui';
+import { Container, Icon } from '@zextras/carbonio-design-system';
 import StatusTable from 'status-table';
 const items = [{
     feature: 'Graphics',

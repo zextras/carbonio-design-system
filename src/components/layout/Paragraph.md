@@ -7,7 +7,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 The Paragraph component **has all the props of the Text component** and it's styled to be behave like a p html tag.
 
 ```jsx
-import { Container, Divider } from '@zextras/zapp-ui';
+import { Container, Divider } from '@zextras/carbonio-design-system';
 
 <>
   <Container padding={{ bottom: 'large' }}>
@@ -32,7 +32,7 @@ import { Container, Divider } from '@zextras/zapp-ui';
 
 ### Development status:
 ```jsx noEditor
-import { Container, Icon } from '@zextras/zapp-ui';
+import { Container, Icon } from '@zextras/carbonio-design-system';
 import StatusTable from 'status-table';
 const items = [{
     feature: 'Graphics',

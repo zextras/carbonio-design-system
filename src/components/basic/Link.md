@@ -9,7 +9,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 If the *size* prop is not specified, it will have the same font-size of its container.
 
 ```jsx
-import { Container, Divider, Padding } from '@zextras/zapp-ui';
+import { Container, Divider, Padding } from '@zextras/carbonio-design-system';
 
 <>
   <Container padding={{ bottom: 'large'}} crossAlignment="flex-start">
@@ -26,7 +26,7 @@ import { Container, Divider, Padding } from '@zextras/zapp-ui';
 ```
 
 ```jsx
-import { Container, Divider, Paragraph } from '@zextras/zapp-ui';
+import { Container, Divider, Paragraph } from '@zextras/carbonio-design-system';
 
 <>
   <Container padding={{ bottom: 'large' }}>
@@ -51,7 +51,7 @@ import { Container, Divider, Paragraph } from '@zextras/zapp-ui';
 
 ### Development status:
 ```jsx noEditor
-import { Container, Icon } from '@zextras/zapp-ui';
+import { Container, Icon } from '@zextras/carbonio-design-system';
 import StatusTable from 'status-table';
 const items = [{
     feature: 'Graphics',

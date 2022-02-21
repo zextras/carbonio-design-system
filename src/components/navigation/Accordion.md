@@ -17,7 +17,7 @@ Once open, clicking on the arrow icon collapses the accordion without triggering
 ### Plain Accordion
 
 ```jsx
-import { Container, Text } from '@zextras/zapp-ui';
+import { Container, Text } from '@zextras/carbonio-design-system';
 
 const items = [
   {
@@ -59,7 +59,7 @@ const items = [
 
 ```jsx
 import { useState } from 'react';
-import { Container, Text, Icon, AccordionRoot, Button } from "@zextras/zapp-ui";
+import { Container, Text, Icon, AccordionRoot, Button } from "@zextras/carbonio-design-system";
 
 const [open, setOpen] = useState(true);
 
@@ -103,7 +103,7 @@ const items = [
 ### Active Accordion with read/unread badge
 
 ```jsx
-import { Container, Text } from "@zextras/zapp-ui";
+import { Container, Text } from "@zextras/carbonio-design-system";
 
 const items = [
   { id: "1", label: "One Accordion", badgeCounter: 10 },
@@ -152,7 +152,7 @@ const items = [
 ### Real example Accordion
 
 ```jsx
-import { Container, Text } from "@zextras/zapp-ui";
+import { Container, Text } from "@zextras/carbonio-design-system";
 
 const items = [
   {
@@ -337,7 +337,7 @@ import {
   Badge,
   Padding,
   Button,
-} from "@zextras/zapp-ui";
+} from "@zextras/carbonio-design-system";
 const CC1 = ({ item }) => (
   <AccordionItem item={item}>
     <Icon icon="Error" color="error" />
@@ -425,7 +425,7 @@ const items = [
 ### Development status:
 
 ```jsx noEditor
-import { Container, Icon } from "@zextras/zapp-ui";
+import { Container, Icon } from "@zextras/carbonio-design-system";
 import StatusTable from "status-table";
 const items = [
   {

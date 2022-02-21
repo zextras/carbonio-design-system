@@ -5,8 +5,23 @@
  */
 module.exports = {
 	extends: ['./node_modules/@zextras/carbonio-ui-configs/rules/eslint.js'],
+	plugins: ['notice'],
 	rules: {
 		'no-nested-ternary': 'warn',
-		'@typescript-eslint/explicit-module-boundary-types': 'off'
-	}
+		'@typescript-eslint/explicit-module-boundary-types': 'off',
+		'notice/notice': [
+			'error',
+			{
+				templateFile: '.reuse/template.js'
+			}
+		]
+	},
+	overrides: [
+		{
+			files: ['src/icons/**/*.jsx'],
+			rules: {
+				'notice/notice': 0
+			}
+		}
+	]
 };

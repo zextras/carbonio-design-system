@@ -7,7 +7,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 This Component is displayed at the bottom of a list.
 
 ```jsx
-import { Container, List } from '@zextras/zapp-ui';
+import { Container, List } from '@zextras/carbonio-design-system';
 
 <Container orientation="vertical" mainAlignment="space-around" background="gray5" height="fit" width="60%">
     <LoadMore label="Loading..." onRender={() => console.log('You saw me!')}/>
@@ -16,7 +16,7 @@ import { Container, List } from '@zextras/zapp-ui';
 
 ```jsx
 import { useState } from 'react';
-import { Container, List, Divider, Text } from '@zextras/zapp-ui';
+import { Container, List, Divider, Text } from '@zextras/carbonio-design-system';
 const numbers = ['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Eleven', 'Twelve'];
 const [data, setData] = useState(numbers);
 
@@ -60,7 +60,7 @@ const itemFactory = ({ index }) => {
 
 ### Development status:
 ```jsx noEditor
-import { Container, Icon } from '@zextras/zapp-ui';
+import { Container, Icon } from '@zextras/carbonio-design-system';
 import StatusTable from 'status-table';
 const items = [{
     feature: 'Graphics',
