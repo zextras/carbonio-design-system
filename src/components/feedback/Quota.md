@@ -9,7 +9,7 @@ The quota element is used to display the user's quota usage percentage.
 It can also accept all props of [Container](#/Components/Layout/Container) component.
 
 ```jsx
-import { Container, Padding } from '@zextras/zapp-ui';
+import { Container, Padding } from '@zextras/carbonio-design-system';
 <Container padding={{ all: 'medium' }} width="fill" background="gray5" orientation="horizontal" crossAlignment="center">
   <Container>
     <Padding all="extrasmall">
@@ -76,7 +76,7 @@ import { Container, Padding } from '@zextras/zapp-ui';
 
 #### Custom height
 ```jsx
-import { Container, Padding } from '@zextras/zapp-ui';
+import { Container, Padding } from '@zextras/carbonio-design-system';
 
 <Quota fill={40} height="20px" background="gray4" /> 
 
@@ -84,7 +84,7 @@ import { Container, Padding } from '@zextras/zapp-ui';
 
 ### Development status:
 ```jsx noEditor
-import { Container, Icon } from '@zextras/zapp-ui';
+import { Container, Icon } from '@zextras/carbonio-design-system';
 import StatusTable from 'status-table';
 const items = [{
     feature: 'Graphics',

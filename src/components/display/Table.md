@@ -29,7 +29,7 @@ The *RowFactory* is responsible of rendering a single row of table and it receiv
 
 ```jsx
 import { useState } from 'react';
-import { Button, Container, Icon, Padding, Row, Text, Tooltip } from '@zextras/zapp-ui';
+import { Button, Container, Icon, Padding, Row, Text, Tooltip } from '@zextras/carbonio-design-system';
 
 const [selectedRows, setSelectedRows] = useState([]);
 const headers = [
@@ -125,7 +125,7 @@ const items = [
 ### Single row selection
 ```jsx
 import { useState } from 'react';
-import { Button, Container, Icon, Padding, Row, Text, Tooltip } from '@zextras/zapp-ui';
+import { Button, Container, Icon, Padding, Row, Text, Tooltip } from '@zextras/carbonio-design-system';
 
 const [selectedRows, setSelectedRows] = useState([]);
 const headers = [
@@ -222,7 +222,7 @@ const items = [
 ### Hide checkboxes
 ```jsx  
 import { useState } from 'react';
-import { Button, Container, Icon, Padding, Row, Text, Tooltip } from '@zextras/zapp-ui';
+import { Button, Container, Icon, Padding, Row, Text, Tooltip } from '@zextras/carbonio-design-system';
 
 const [selectedRows, setSelectedRows] = useState([]);
 const headers = [
@@ -309,7 +309,7 @@ const items = [
 ```
 ### Development status:
 ```jsx noEditor
-import { Container, Icon } from '@zextras/zapp-ui';
+import { Container, Icon } from '@zextras/carbonio-design-system';
 import StatusTable from 'status-table';
 const items = [{
     feature: 'Graphics',

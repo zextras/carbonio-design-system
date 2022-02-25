@@ -5,7 +5,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 -->
 
 ```js
-import { Drag, Button } from '@zextras/zapp-ui';
+import { Drag, Button } from '@zextras/carbonio-design-system';
 
 <Drag type="message" data={{id:1}} > 
  <Button label="Drag Me"/>

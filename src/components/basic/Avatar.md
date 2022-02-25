@@ -10,7 +10,7 @@ It is a container which can either contain an user's profile picture or its capi
 Default shape is round, but it can be change with the shape prop
 
 ```jsx
-import {Container} from '@zextras/zapp-ui';
+import {Container} from '@zextras/carbonio-design-system';
 
 <Container crossAlignment="flex-start">
     <Container orientation="horizontal" width="50%" mainAlignment="space-evenly" crossAlignment="flex-end" padding={{ vertical: 'small' }}>
@@ -49,7 +49,7 @@ import {Container} from '@zextras/zapp-ui';
 
 ## With User picture
 ```jsx
-import {Container} from '@zextras/zapp-ui';
+import {Container} from '@zextras/carbonio-design-system';
 
 <Container orientation="horizontal" width="50%" mainAlignment="space-evenly" crossAlignment="flex-end">
     <Avatar
@@ -84,7 +84,7 @@ The capital letters are calculated as follows:
 The avatar can display an icon instead of the capitals, when the `icon` prop is provided
 
 ```jsx
-import {Container, Text} from '@zextras/zapp-ui';
+import {Container, Text} from '@zextras/carbonio-design-system';
 <Container orientation="horizontal" width="50%" mainAlignment="space-evenly" crossAlignment="flex-end">
     <Avatar
         size="large"
@@ -107,7 +107,7 @@ import {Container, Text} from '@zextras/zapp-ui';
 ### Fallback Icon
 This is used as fallback when a label can't be used for the capitals.
 ```jsx
-import {Container, Text} from '@zextras/zapp-ui';
+import {Container, Text} from '@zextras/carbonio-design-system';
 <Container orientation="horizontal" width="50%" mainAlignment="space-evenly" crossAlignment="flex-end">
     <Avatar
         size="large"
@@ -129,7 +129,7 @@ import {Container, Text} from '@zextras/zapp-ui';
 ### Selection Mode
 This is used as fallback when a label can't be used for the capitals.
 ```jsx
-import {Container, Text} from '@zextras/zapp-ui';
+import {Container, Text} from '@zextras/carbonio-design-system';
 <>
 <Container padding={{ all: 'small' }} orientation="horizontal" width="50%" mainAlignment="space-evenly" crossAlignment="flex-end">
     <Avatar
@@ -203,7 +203,7 @@ This value is then used as index for said palette.
 
 It can also be forced to a theme palette value by using the background prop.
 ```jsx
-import {Container} from '@zextras/zapp-ui';
+import {Container} from '@zextras/carbonio-design-system';
 <>
 <Container
     orientation="horizontal"
@@ -251,7 +251,7 @@ import {Container} from '@zextras/zapp-ui';
 
 ### Development status:
 ```jsx noEditor
-import { Container, Icon } from '@zextras/zapp-ui';
+import { Container, Icon } from '@zextras/carbonio-design-system';
 import StatusTable from 'status-table';
 const items = [{
     feature: 'Graphics',

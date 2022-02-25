@@ -16,7 +16,7 @@ You can pass the "replace" parameter as true, to replace the visible snackbar wi
 
 ```jsx
 import { useState, useContext } from 'react';
-import { Button, Container, SnackbarManagerContext, SnackbarManagerProvider } from '@zextras/zapp-ui';
+import { Button, Container, SnackbarManagerContext, SnackbarManagerProvider } from '@zextras/carbonio-design-system';
 
 function App() {
     const createSnackbar = useContext(SnackbarManagerContext);
@@ -62,7 +62,7 @@ function App() {
 
 ### Development status:
 ```jsx noEditor
-import { Container, Icon } from '@zextras/zapp-ui';
+import { Container, Icon } from '@zextras/carbonio-design-system';
 import StatusTable from 'status-table';
 const items = [{
     feature: 'Graphics',

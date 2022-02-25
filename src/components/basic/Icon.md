@@ -5,7 +5,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 -->
 
 ```jsx
-import { Container, Padding, Text } from '@zextras/zapp-ui';
+import { Container, Padding, Text } from '@zextras/carbonio-design-system';
 
 <Container orientation="horizontal" mainAlignment="space-around">
     <Icon icon="Activity" size="small"/>
@@ -17,7 +17,7 @@ import { Container, Padding, Text } from '@zextras/zapp-ui';
 ### Colors
 #### Theme palette
 ```jsx
-import { Container } from '@zextras/zapp-ui';
+import { Container } from '@zextras/carbonio-design-system';
 
 <Container orientation="horizontal" mainAlignment="space-around">
     <Icon icon="Award" color="primary" />
@@ -36,7 +36,7 @@ import { Container } from '@zextras/zapp-ui';
 #### Custom colors
 Custom colors can be passed through _color_ prop
 ```jsx
-import { Container } from '@zextras/zapp-ui';
+import { Container } from '@zextras/carbonio-design-system';
 
 <Container orientation="horizontal" mainAlignment="space-around">
     <Icon icon="Activity" color="orange" />
@@ -47,7 +47,7 @@ import { Container } from '@zextras/zapp-ui';
 
 #### With variants
 ```jsx
-import { Container } from '@zextras/zapp-ui';
+import { Container } from '@zextras/carbonio-design-system';
 
 <Container orientation="horizontal" mainAlignment="space-around">
     <Icon icon="Activity" color="orange" disabled />
@@ -60,7 +60,7 @@ import { Container } from '@zextras/zapp-ui';
 
 ### Custom Icons
 ```jsx
-import { Container } from '@zextras/zapp-ui';
+import { Container } from '@zextras/carbonio-design-system';
 
 function BackUpLogo(props) {
     return (
@@ -83,7 +83,7 @@ function BackUpLogo(props) {
 
 ### Development status:
 ```jsx noEditor
-import { Container, Icon } from '@zextras/zapp-ui';
+import { Container, Icon } from '@zextras/carbonio-design-system';
 import StatusTable from 'status-table';
 const items = [{
     feature: 'Graphics',

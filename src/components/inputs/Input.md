@@ -7,7 +7,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 The input component works like a standard html input, and can be either [controlled](https://reactjs.org/docs/forms.html#controlled-components) or [uncontrolled](https://reactjs.org/docs/uncontrolled-components.html).
 ```jsx
 import { useState } from 'react';
-import { Container, Padding, Text, PasswordInput, Icon, Button } from '@zextras/zapp-ui';
+import { Container, Padding, Text, PasswordInput, Icon, Button } from '@zextras/carbonio-design-system';
 
 const [value, setValue] = useState('Some Controlled value');
 const [value2, setValue2] = useState('');
@@ -50,7 +50,7 @@ const [value2, setValue2] = useState('');
 
 ```typescript jsx
 import { useMemo } from 'react';
-import { Container, IconButton } from '@zextras/zapp-ui';
+import { Container, IconButton } from '@zextras/carbonio-design-system';
 import styled from 'styled-components';
 
 const StyledIconButton = styled(IconButton)`
@@ -85,7 +85,7 @@ const CustomElement = useMemo(() =>
 Optional description is set to break on new line on overflow
 ```typescript jsx
 import { useMemo } from 'react';
-import { Container } from '@zextras/zapp-ui';
+import { Container } from '@zextras/carbonio-design-system';
 import styled from 'styled-components';
 
 <Container style={{ gap: '10px', margin: 'auto' }} width="50%">
@@ -96,7 +96,7 @@ import styled from 'styled-components';
 
 ### Development status:
 ```jsx noEditor
-import { Container, Icon } from '@zextras/zapp-ui';
+import { Container, Icon } from '@zextras/carbonio-design-system';
 import StatusTable from 'status-table';
 const items = [{
     feature: 'Graphics',

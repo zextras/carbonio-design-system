@@ -13,7 +13,7 @@ In this case, it has a fixed 300ms of delay in activation.
  
 ```jsx
 import { useState, useRef } from 'react';
-import { Button, Container, IconButton, Input, Text, Modal } from '@zextras/zapp-ui';
+import { Button, Container, IconButton, Input, Text, Modal } from '@zextras/carbonio-design-system';
 
 const [open, setOpen] = useState(false);
 const buttonRef = useRef(undefined);
@@ -34,7 +34,7 @@ const buttonRef = useRef(undefined);
 On hover activation example:
 ```jsx
 import { useRef } from 'react';
-import { Button, Container, IconButton, Input } from '@zextras/zapp-ui';
+import { Button, Container, IconButton, Input } from '@zextras/carbonio-design-system';
 
 const buttonRef = useRef(undefined);
 
@@ -53,7 +53,7 @@ const buttonRef = useRef(undefined);
 
 ### Development status:
 ```jsx noEditor
-import { Container, Icon } from '@zextras/zapp-ui';
+import { Container, Icon } from '@zextras/carbonio-design-system';
 import StatusTable from 'status-table';
 const items = [{
     feature: 'Graphics',

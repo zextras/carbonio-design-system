@@ -26,7 +26,7 @@ The view of single elements in the Dropdown can be modified passing down a ['cus
 
 ```jsx
 import { useState, useRef, useCallback, useEffect } from 'react';
-import { Button, Container, Divider, Input, Text } from '@zextras/zapp-ui';
+import { Button, Container, Divider, Input, Text } from '@zextras/carbonio-design-system';
 
 const getChipLabel = (item) =>
 	item.address || item.lastName || item.firstName || item.phone || item.value;
@@ -129,7 +129,7 @@ useEffect(() => {
 
 ```jsx
 import { useState, useRef, useCallback, useEffect } from 'react';
-import { Button, Container, Divider, Input, Text } from '@zextras/zapp-ui';
+import { Button, Container, Divider, Input, Text } from '@zextras/carbonio-design-system';
 
 const initial = [
 	{
@@ -204,7 +204,7 @@ useEffect(() => {
 
 ```jsx
 import { useState, useRef, useCallback, useEffect } from 'react';
-import { Button, Container, Divider, Input, Text } from '@zextras/zapp-ui';
+import { Button, Container, Divider, Input, Text } from '@zextras/carbonio-design-system';
 
 const [options, setOptions] = useState([]);
 const [results, setResults] = useState();
@@ -234,7 +234,7 @@ const onAdd = useCallback((valueToAdd) => {
 
 ```jsx
 import { useState, useRef, useCallback, useEffect } from 'react';
-import { Button, Container, Divider, Input, Text } from '@zextras/zapp-ui';
+import { Button, Container, Divider, Input, Text } from '@zextras/carbonio-design-system';
 
 const [options, setOptions] = useState([]);
 const [results, setResults] = useState();
@@ -380,7 +380,7 @@ const onChange = (e) => {
 ### Development status:
 
 ```jsx noEditor
-import { Container, Icon } from '@zextras/zapp-ui';
+import { Container, Icon } from '@zextras/carbonio-design-system';
 import StatusTable from 'status-table';
 const items = [
 	{
