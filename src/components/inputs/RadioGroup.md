@@ -10,7 +10,7 @@ RadioGroup can be used to select one option out of a list of many.
 
 ```jsx
 import { useState } from 'react';
-import { Button, Radio, Row, Input, Text, Padding, Select } from '@zextras/zapp-ui';
+import { Button, Radio, Row, Input, Text, Padding, Select } from '@zextras/carbonio-design-system';
 
 const [activeValue, setActiveValue] = useState('salad');
 
@@ -73,7 +73,7 @@ const [activeValue, setActiveValue] = useState('salad');
 ### Uncontrolled
 
 ```jsx
-import { Radio, Button } from '@zextras/zapp-ui';
+import { Radio, Button } from '@zextras/carbonio-design-system';
 
 <>
 	<RadioGroup defaultValue="chicken">
@@ -101,7 +101,7 @@ import { Radio, Button } from '@zextras/zapp-ui';
 ### Development status:
 
 ```jsx noEditor
-import { Container, Icon } from '@zextras/zapp-ui';
+import { Container, Icon } from '@zextras/carbonio-design-system';
 import StatusTable from 'status-table';
 const items = [
 	{

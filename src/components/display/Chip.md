@@ -36,7 +36,7 @@ The chip has two special statuses: disabled and error.
 #### Simple chip
 
 ```jsx
-import { Container } from '@zextras/zapp-ui';
+import { Container } from '@zextras/carbonio-design-system';
 
 <Container orientation="horizontal" wrap="wrap" mainAlignment="flex-start" maxWidth="700px" style={{gap: '8px'}}>
   <Chip label="Walter White" onClose={() => console.log('closed')} />
@@ -75,7 +75,7 @@ import { Container } from '@zextras/zapp-ui';
 #### Error and disabled statuses
 
 ```jsx
-import { Container } from '@zextras/zapp-ui';
+import { Container } from '@zextras/carbonio-design-system';
 
 const actions = [
           {
@@ -99,7 +99,7 @@ const actions = [
 Tooltip for label is shown only on overflow
 
 ```jsx
-import { Container } from '@zextras/zapp-ui';
+import { Container } from '@zextras/carbonio-design-system';
 
 <Container orientation="horizontal" wrap="wrap" mainAlignment="flex-start" maxWidth="700px" style={{gap: '8px'}}>
   <Chip label="Harry James Potter" maxWidth="150px" onClose={console.log} tooltipPlacement="top" />
@@ -112,7 +112,7 @@ import { Container } from '@zextras/zapp-ui';
 #### Chip shape and size
 
 ```jsx
-import { Container, Row, Text } from '@zextras/zapp-ui';
+import { Container, Row, Text } from '@zextras/carbonio-design-system';
 
 <Container wrap="wrap" mainAlignment="flex-start" crossAlignment="flex-start" maxWidth="700px" style={{ gap: '8px' }}>
   <Text size="large" weight="bold">Small</Text>
@@ -166,7 +166,7 @@ import { Container, Row, Text } from '@zextras/zapp-ui';
 #### Avatar customization
 
 ```jsx
-import { Container } from '@zextras/zapp-ui';
+import { Container } from '@zextras/carbonio-design-system';
 <Container orientation="horizontal" wrap="wrap" mainAlignment="flex-start" maxWidth="700px" style={{gap: '8px'}}>
   <Chip
     label="Anakin Skywalker"
@@ -202,7 +202,7 @@ import { Container } from '@zextras/zapp-ui';
 #### Label customization
 
 ```jsx
-import { Button, Container, Row, Text, Tooltip } from '@zextras/zapp-ui';
+import { Button, Container, Row, Text, Tooltip } from '@zextras/carbonio-design-system';
 <Container orientation="horizontal" wrap="wrap" mainAlignment="flex-start" maxWidth="700px" style={{gap: '8px'}}>
   <Chip
     keyLabel="The Mandalorian:"
@@ -255,7 +255,7 @@ import { Button, Container, Row, Text, Tooltip } from '@zextras/zapp-ui';
 #### Actions
 
 ```jsx
-import { Button, Container, Row, Text, Tooltip } from '@zextras/zapp-ui';
+import { Button, Container, Row, Text, Tooltip } from '@zextras/carbonio-design-system';
 <Container orientation="horizontal" wrap="wrap" mainAlignment="flex-start" maxWidth="700px" style={{gap: '8px'}}>
   <Chip
     label="Daenerys Targaryen"
@@ -430,7 +430,7 @@ Css pseudo classes are applied only if chip has a click or double click callback
 For now, double click handler does not prevent the click event.
 It's up to the dev to eventually avoid the click callback to be called when double click is fired.
 ```jsx
-import { Container } from '@zextras/zapp-ui';
+import { Container } from '@zextras/carbonio-design-system';
 <Container orientation="horizontal" wrap="wrap" mainAlignment="flex-start" maxWidth="700px" style={{ gap: '8px' }}>
   <Chip
     label="Buffy Summers"
@@ -470,7 +470,7 @@ import { Container } from '@zextras/zapp-ui';
 ### Development status:
 
 ```jsx noEditor
-import { Container, Icon } from '@zextras/zapp-ui';
+import { Container, Icon } from '@zextras/carbonio-design-system';
 import StatusTable from 'status-table';
 const items = [
 	{

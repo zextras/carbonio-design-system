@@ -9,7 +9,7 @@ A basic virtual list without dependencies.
 ```jsx
 import faker from 'faker';
 import { useState, useMemo, useCallback } from 'react';
-import { Container, Avatar, Drag, Divider, Text, Row, Padding } from '@zextras/zapp-ui';
+import { Container, Avatar, Drag, Divider, Text, Row, Padding } from '@zextras/carbonio-design-system';
 import { map, range, findIndex, without, reduce, omit } from 'lodash';
 
 const [selected, setSelected] = useState(
@@ -107,7 +107,7 @@ const items = useMemo(
 ```jsx
 import faker from 'faker';
 import { useState, useMemo, useCallback } from 'react';
-import { Container, Avatar, Drag, Divider, Text, Row, Padding } from '@zextras/zapp-ui';
+import { Container, Avatar, Drag, Divider, Text, Row, Padding } from '@zextras/carbonio-design-system';
 import { map, range, findIndex, without, reduce, omit } from 'lodash';
 
 const [selected, setSelected] = useState(

@@ -10,7 +10,7 @@ The 'Row' should be used in the 'Container' to compose custom components.
 
 ### Row
 ```jsx
-import { Container, Text } from '@zextras/zapp-ui';
+import { Container, Text } from '@zextras/carbonio-design-system';
 
 <Container orientation="horizontal">
     <Row><Text>1</Text></Row>
@@ -28,7 +28,7 @@ import { Container, Text } from '@zextras/zapp-ui';
 
 ### Development status:
 ```jsx noEditor
-import { Container, Icon } from '@zextras/zapp-ui';
+import { Container, Icon } from '@zextras/carbonio-design-system';
 import StatusTable from 'status-table';
 const items = [{
     feature: 'Graphics',

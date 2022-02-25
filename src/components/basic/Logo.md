@@ -7,7 +7,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 This Component displays the company logo.
 
 ```jsx
-import { Container, Padding, Text } from '@zextras/zapp-ui';
+import { Container, Padding, Text } from '@zextras/carbonio-design-system';
 
 <Container orientation="vertical" mainAlignment="space-around" background="gray5" height="200px" width="60%">
     <Logo/>
@@ -17,7 +17,7 @@ import { Container, Padding, Text } from '@zextras/zapp-ui';
 
 ### Development status:
 ```jsx noEditor
-import { Container, Icon } from '@zextras/zapp-ui';
+import { Container, Icon } from '@zextras/carbonio-design-system';
 import StatusTable from 'status-table';
 const items = [{
     feature: 'Graphics',

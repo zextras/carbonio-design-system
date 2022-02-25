@@ -8,7 +8,7 @@ See [Input](#/Components/Inputs/Input) for details about Input component
 
 ```jsx
 import { useState } from 'react';
-import { Container, Padding, Text, PasswordInput, Icon, Button } from '@zextras/zapp-ui';
+import { Container, Padding, Text, PasswordInput, Icon, Button } from '@zextras/carbonio-design-system';
 
 const [value, setValue] = useState('Some Controlled value');
 
@@ -22,7 +22,7 @@ const [value, setValue] = useState('Some Controlled value');
 
 ### Development status:
 ```jsx noEditor
-import { Container, Icon } from '@zextras/zapp-ui';
+import { Container, Icon } from '@zextras/carbonio-design-system';
 import StatusTable from 'status-table';
 const items = [{
     feature: 'Graphics',

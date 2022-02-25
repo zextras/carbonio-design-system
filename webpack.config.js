@@ -16,8 +16,8 @@ module.exports = {
 	resolve: {
 		extensions: ['.js', '.jsx', '.ts', '.tsx'],
 		alias: {
-			'@zextras/zapp-ui': path.resolve(__dirname, './src/index.ts'),
-			'zapp-ui-icons': path.resolve(__dirname, './src/icons/index.jsx'),
+			'@zextras/carbonio-design-system': path.resolve(__dirname, './src/index.ts'),
+			'carbonio-design-system-icons': path.resolve(__dirname, './src/icons/index.jsx'),
 			'status-table': path.resolve(__dirname, './docs/components/StatusTable.jsx')
 		}
 	},

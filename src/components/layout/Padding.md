@@ -42,7 +42,7 @@ Padding through value
 
 ### Development status:
 ```jsx noEditor
-import { Container, Icon } from '@zextras/zapp-ui';
+import { Container, Icon } from '@zextras/carbonio-design-system';
 import StatusTable from 'status-table';
 const items = [{
     feature: 'Graphics',

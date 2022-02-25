@@ -12,7 +12,7 @@ Radio should be used in combination with the RadioGroup component as demonstrate
 
 ```jsx
 import { useState } from 'react';
-import { Button, RadioGroup, Row, Input, Text, Padding, Select } from '@zextras/zapp-ui';
+import { Button, RadioGroup, Row, Input, Text, Padding, Select } from '@zextras/carbonio-design-system';
 
 const [activeValue, setActiveValue] = useState('salad');
 
@@ -73,7 +73,7 @@ const [activeValue, setActiveValue] = useState('salad');
 ### Uncontrolled
 
 ```jsx
-import { RadioGroup, Button } from '@zextras/zapp-ui';
+import { RadioGroup, Button } from '@zextras/carbonio-design-system';
 
 <>
     <Radio label="Chicken" value="chicken" />
@@ -99,7 +99,7 @@ import { RadioGroup, Button } from '@zextras/zapp-ui';
 ### Development status:
 
 ```jsx noEditor
-import { Container, Icon } from '@zextras/zapp-ui';
+import { Container, Icon } from '@zextras/carbonio-design-system';
 import StatusTable from 'status-table';
 const items = [
 	{

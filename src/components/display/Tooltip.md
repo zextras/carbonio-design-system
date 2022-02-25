@@ -7,7 +7,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 The Tooltip component wraps other components to show some informative text when the wrapped elements are hovered or are focused.
  
 ```jsx
-import { Avatar, Button, IconCheckbox, Container } from '@zextras/zapp-ui';
+import { Avatar, Button, IconCheckbox, Container } from '@zextras/carbonio-design-system';
 <Container orientation="horizontal" mainAlignment="flex-start">
     <Tooltip placement="bottom" label="Chrome 78+">
         <Button label="Button label!" />
@@ -32,7 +32,7 @@ import {
     Input,
     Switch,
     Row
-} from '@zextras/zapp-ui';
+} from '@zextras/carbonio-design-system';
 const onClick = () => console.log('onClick');
 const onChange = () => console.log('onChange');
 <Container mainAlignment="flex-start" crossAlignment="flex-start">
@@ -65,7 +65,7 @@ const onChange = () => console.log('onChange');
 
 ### Disabled tooltip
 ```jsx
-import { Avatar, Button, IconCheckbox, Container } from '@zextras/zapp-ui';
+import { Avatar, Button, IconCheckbox, Container } from '@zextras/carbonio-design-system';
 <Container orientation="horizontal" mainAlignment="flex-start">
     <Tooltip placement="bottom" label="Chrome 78+" disabled>
         <Button label="Button label!" />
@@ -81,7 +81,7 @@ import { Avatar, Button, IconCheckbox, Container } from '@zextras/zapp-ui';
 
 ### Development status:
 ```jsx noEditor
-import { Container, Icon } from '@zextras/zapp-ui';
+import { Container, Icon } from '@zextras/carbonio-design-system';
 import StatusTable from 'status-table';
 const items = [{
     feature: 'Graphics',

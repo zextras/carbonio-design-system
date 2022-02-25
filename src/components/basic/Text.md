@@ -9,7 +9,7 @@ It accepts the disabled status, which is also set as attribute on the final div 
 
 ### Sizes
 ```jsx
-import { Container } from '@zextras/zapp-ui';
+import { Container } from '@zextras/carbonio-design-system';
 <Container orientation="horizontal" mainAlignment="space-around" height="fill">
     <Text size="extralarge">Hello world</Text>
     <Text size="large">Hello world</Text>
@@ -21,7 +21,7 @@ import { Container } from '@zextras/zapp-ui';
 
 ### Colors
 ```jsx
-import { Container } from '@zextras/zapp-ui';
+import { Container } from '@zextras/carbonio-design-system';
 <Container orientation="horizontal" mainAlignment="space-around" height="fill">
     <Text color="primary">Hello world</Text>
     <Text color="secondary">Hello world</Text>
@@ -33,7 +33,7 @@ import { Container } from '@zextras/zapp-ui';
 
 ### Disabled
 ```jsx
-import { Container } from '@zextras/zapp-ui';
+import { Container } from '@zextras/carbonio-design-system';
 <Container orientation="horizontal" mainAlignment="space-around" height="fill">
     <Text disabled color="primary">Hello world</Text>
     <Text disabled color="secondary">Hello world</Text>
@@ -46,7 +46,7 @@ import { Container } from '@zextras/zapp-ui';
 ### Weight
 
 ```jsx
-import { Container } from '@zextras/zapp-ui';
+import { Container } from '@zextras/carbonio-design-system';
 <Container orientation="horizontal" mainAlignment="space-around" height="fill">
     <Text weight="light">Hello world</Text>
     <Text weight="regular">Hello world</Text>
@@ -57,7 +57,7 @@ import { Container } from '@zextras/zapp-ui';
 
 ### Overflow
 ```jsx
-import { Container } from '@zextras/zapp-ui';
+import { Container } from '@zextras/carbonio-design-system';
 
 const lorem = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras et augue risus. In fringilla sodales augue eu porttitor. Integer faucibus aliquam venenatis. Fusce eleifend sodales tellus vel malesuada. Mauris posuere diam ac tellus sollicitudin porta. Vestibulum pretium nulla nulla, vel blandit elit fringilla quis. Quisque neque nisl, condimentum malesuada turpis ac, viverra fermentum est. Nullam dui arcu, imperdiet quis placerat viverra, euismod eget odio. Ut id accumsan neque, vitae varius urna. Vestibulum scelerisque, velit eget mollis faucibus, libero nunc accumsan arcu, a dignissim ligula nunc nec nibh. Cras efficitur lobortis purus sit amet suscipit. Quisque pretium metus ut erat sagittis sollicitudin. Maecenas varius nisi eget rhoncus euismod.';
 
@@ -70,7 +70,7 @@ const lorem = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras et 
 ### Development status:
 
 ```jsx noEditor
-import { Container, Icon } from '@zextras/zapp-ui';
+import { Container, Icon } from '@zextras/carbonio-design-system';
 import StatusTable from 'status-table';
 const items = [
 	{

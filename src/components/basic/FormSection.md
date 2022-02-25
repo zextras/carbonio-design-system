@@ -7,7 +7,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 FormSection and FormSubSection are used to display parts of complex forms.
 
 ```jsx
-import { Container, Padding, Text, FormSubSection, FormRow, Button } from '@zextras/zapp-ui';
+import { Container, Padding, Text, FormSubSection, FormRow, Button } from '@zextras/carbonio-design-system';
 
 <Container orientation="vertical" mainAlignment="space-around" background="gray5" width="60%">
     <FormSection label="Settings A">
@@ -45,7 +45,7 @@ import { Container, Padding, Text, FormSubSection, FormRow, Button } from '@zext
 
 ### Development status:
 ```jsx noEditor
-import { Container, Icon } from '@zextras/zapp-ui';
+import { Container, Icon } from '@zextras/carbonio-design-system';
 import StatusTable from 'status-table';
 const items = [{
     feature: 'Graphics',

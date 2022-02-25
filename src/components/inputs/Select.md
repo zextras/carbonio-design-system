@@ -11,7 +11,7 @@ The dropdown menu and the items are rendered like [Dropdown](#/Components/Primit
 
 ```jsx
 import { useState } from 'react';
-import { Input, Text, Container, Icon } from '@zextras/zapp-ui';
+import { Input, Text, Container, Icon } from '@zextras/carbonio-design-system';
 const items = [
     {
         label: 'hi',
@@ -55,7 +55,7 @@ const [selected, setSelected] = useState(4);
 
 **Multiple selection**
 ```jsx
-import {Input} from '@zextras/zapp-ui';
+import {Input} from '@zextras/carbonio-design-system';
 const items = [
     {
         label: 'hi',
@@ -101,7 +101,7 @@ const items = [
 
 **Custom Select Trigger**
 ```jsx
-import { Container, Text, Row, Icon } from '@zextras/zapp-ui';
+import { Container, Text, Row, Icon } from '@zextras/carbonio-design-system';
 const LabelFactory = ({ selected, label, open, focus }) => {
   return (
     <Container
@@ -155,7 +155,7 @@ const items = [
 **Hide checkboxes**
 ```jsx
 import { useState } from 'react';
-import { Input, Text, Container, Icon } from '@zextras/zapp-ui';
+import { Input, Text, Container, Icon } from '@zextras/carbonio-design-system';
 const items = [
     {
         label: 'hi',
@@ -193,7 +193,7 @@ const [selected, setSelected] = useState(4);
 
 ### Development status:
 ```jsx noEditor
-import { Container, Icon } from '@zextras/zapp-ui';
+import { Container, Icon } from '@zextras/carbonio-design-system';
 import StatusTable from 'status-table';
 const items = [{
     feature: 'Graphics',

@@ -7,8 +7,8 @@ SPDX-License-Identifier: AGPL-3.0-only
 ```jsx
 import { useState, useContext } from 'react';
 import { filter, map } from 'lodash';
-import { default as icons } from 'zapp-ui-icons';
-import { Icon, Container, Padding, Text, Input, SnackbarManagerContext, SnackbarManager } from '@zextras/zapp-ui';
+import { default as icons } from 'carbonio-design-system-icons';
+import { Icon, Container, Padding, Text, Input, SnackbarManagerContext, SnackbarManager } from '@zextras/carbonio-design-system';
 import styled from 'styled-components';
 const iconKeys = Object.keys(icons).sort();
 const CustomIcon = styled(Icon)`
