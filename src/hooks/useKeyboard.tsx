@@ -178,16 +178,6 @@ export function getKeyboardPreset(
 			eventsArray.push({ type: 'keypress', callback, keys, modifier });
 			break;
 		}
-		case 'chipInputSpace': {
-			eventsArray.push({ type: 'keyup', callback, keys: ['Space'], modifier });
-			eventsArray.push({
-				type: 'keypress',
-				callback: (e: KeyboardEvent) => e.preventDefault(),
-				keys: ['Space'],
-				modifier
-			});
-			break;
-		}
 		default: {
 			break;
 		}
