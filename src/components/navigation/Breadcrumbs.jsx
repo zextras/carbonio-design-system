@@ -71,8 +71,9 @@ function Breadcrumbs({ crumbs, collapserProps, dropdownProps, ...rest }) {
 }
 
 Breadcrumbs.propTypes = {
+	// TODO: update on typescript migration
 	/** Array of items, check Dropdown items prop to see the shape of an item */
-	crumbs: Dropdown.propTypes.items,
+	crumbs: PropTypes.arrayOf(PropTypes.object),
 	/** Props to spread to the collapser element */
 	collapserProps: PropTypes.object,
 	/** Props to spread to the dropdown element */
