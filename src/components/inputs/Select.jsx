@@ -277,13 +277,13 @@ Select.propTypes = {
 	]),
 	onChange: PropTypes.func,
 	/** Css display property of select */
-	display: Dropdown.propTypes.display,
+	display: PropTypes.oneOf(['block', 'inline-block']),
 	/** Css width property of dropdown */
-	dropdownWidth: Dropdown.propTypes.width,
+	dropdownWidth: PropTypes.string,
 	/** Css max-width property of dropdown */
-	dropdownMaxWidth: Dropdown.propTypes.maxWidth,
+	dropdownMaxWidth: PropTypes.string,
 	/** Css max-height property of dropdown */
-	dropdownMaxHeight: Dropdown.propTypes.maxHeight,
+	dropdownMaxHeight: PropTypes.string,
 	LabelFactory: PropTypes.func,
 	multiple: PropTypes.bool,
 	i18nAllLabel: PropTypes.string,
