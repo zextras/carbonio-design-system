@@ -5,25 +5,35 @@
  */
 
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { map } from 'lodash';
 import PropTypes from 'prop-types';
 import Container from '../layout/Container';
 import Text from '../basic/Text';
-import Row from '../layout/Row';
 import { useKeyboard, getKeyboardPreset } from '../../hooks/useKeyboard';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { Theme } from '../../theme/theme';
 
+const CustomText = styled(Text)`
+	line-height: 1.5;
+`;
+
 const DefaultTabBarItemContainer = styled(Container)`
 	outline: none;
-	width: 100%;
+	min-width: 0;
+	flex-basis: fit-content;
+	${({ forceWidthEquallyDistributed }) =>
+		forceWidthEquallyDistributed &&
+		css`
+			flex-basis: unset;
+		`};
+	flex-grow: 1;
 	height: 100%;
 	transition: 0.2s ease-out;
 	border-bottom: ${({ theme, selected, underlineColor }) =>
 		selected
-			? `2px solid ${theme.palette[underlineColor || 'primary'].regular}`
-			: '2px solid transparent'};
+			? `1px solid ${theme.palette[underlineColor || 'primary'].regular}`
+			: '1px solid transparent'};
 	cursor: pointer;
 	user-select: none;
 
@@ -42,7 +52,16 @@ const DefaultTabBarItemContainer = styled(Container)`
 `;
 
 const DefaultTabBarItem = React.forwardRef(function DefaultTabBarItemFn(
-	{ item, selected, background, onClick, underlineColor, children, ...rest },
+	{
+		item,
+		selected,
+		background,
+		onClick,
+		underlineColor,
+		forceWidthEquallyDistributed,
+		children,
+		...rest
+	},
 	ref
 ) {
 	const activationCb = useCallback(
@@ -60,6 +79,7 @@ const DefaultTabBarItem = React.forwardRef(function DefaultTabBarItemFn(
 
 	return (
 		<DefaultTabBarItemContainer
+			padding={{ horizontal: 'small' }}
 			onClick={activationCb}
 			selected={selected}
 			background={background}
@@ -67,26 +87,35 @@ const DefaultTabBarItem = React.forwardRef(function DefaultTabBarItemFn(
 			disabled={item.disabled}
 			underlineColor={underlineColor}
 			ref={combinedRef}
+			forceWidthEquallyDistributed={forceWidthEquallyDistributed}
 			{...rest}
 		>
 			{children || (
-				<Row takeAvailableSpace>
-					<Text
-						overflow="ellipsis"
-						size="large"
-						color={selected ? 'text' : 'secondary'}
-						disabled={item.disabled}
-					>
-						{item.label}
-					</Text>
-				</Row>
+				<CustomText
+					overflow="ellipsis"
+					size="small"
+					color={selected ? 'text' : 'secondary'}
+					disabled={item.disabled}
+				>
+					{item.label}
+				</CustomText>
 			)}
 		</DefaultTabBarItemContainer>
 	);
 });
 
 const TabBar = React.forwardRef(function TabBarFn(
-	{ items, selected, defaultSelected, onChange, onItemClick, background, underlineColor, ...rest },
+	{
+		items,
+		selected,
+		defaultSelected,
+		onChange,
+		onItemClick,
+		background,
+		underlineColor,
+		forceWidthEquallyDistributed,
+		...rest
+	},
 	ref
 ) {
 	const [currentSelection, setCurrentSelection] = useState(defaultSelected);
@@ -123,6 +152,7 @@ const TabBar = React.forwardRef(function TabBarFn(
 						tabIndex={item.disabled ? null : 0}
 						background={background}
 						underlineColor={underlineColor}
+						forceWidthEquallyDistributed={forceWidthEquallyDistributed}
 					/>
 				) : (
 					<DefaultTabBarItem
@@ -134,6 +164,7 @@ const TabBar = React.forwardRef(function TabBarFn(
 						onClick={onItemClickCb(item.id)}
 						tabIndex={item.disabled ? null : 0}
 						underlineColor={underlineColor}
+						forceWidthEquallyDistributed={forceWidthEquallyDistributed}
 					/>
 				)
 			)}
@@ -166,7 +197,9 @@ TabBar.propTypes = {
 	underlineColor: PropTypes.oneOfType([
 		PropTypes.string,
 		PropTypes.oneOf(Object.keys(Theme.palette))
-	])
+	]),
+	/** tabbar Width Equally Distributed beetwen tabs */
+	forceWidthEquallyDistributed: PropTypes.bool
 };
 
 TabBar.defaultProps = {
@@ -175,7 +208,8 @@ TabBar.defaultProps = {
 	defaultSelected: undefined,
 	onChange: undefined,
 	onItemClick: undefined,
-	background: undefined
+	background: undefined,
+	forceWidthEquallyDistributed: false
 };
 
 export { TabBar, DefaultTabBarItem };
