@@ -103,8 +103,7 @@ export const ModalWrapper = styled.div`
 export const ModalContent = styled(Container)`
 	position: relative;
 	margin: 0 auto ${(props) => props.theme.sizes.padding.medium};
-	padding: ${(props) =>
-		`${props.theme.sizes.padding.extralarge} ${props.theme.sizes.padding.extralarge} 0`};
+	padding: 32px;
 	max-width: 100%;
 	min-width: ${(props) => modalMinWidth[props.size]};
 	width: ${(props) => modalWidth[props.size]};
@@ -120,7 +119,9 @@ const ModalTitle = styled(Text)`
 	width: 100%;
 	flex-grow: 1;
 	flex-basis: 0;
-	padding: ${(props) => props.theme.sizes.padding.small};
+	line-height: 1.5;
+	padding: ${(props) =>
+		`${props.theme.sizes.padding.small} ${props.theme.sizes.padding.small} ${props.theme.sizes.padding.small} 0`};
 	${(props) =>
 		props.centered &&
 		css`
@@ -133,15 +134,13 @@ const ModalBody = styled.div`
 	max-width: 100%;
 	box-sizing: border-box;
 	width: 100%;
-	padding: ${(props) => props.theme.sizes.padding.small};
+	padding-top: ${(props) => props.theme.sizes.padding.large};
+	padding-bottom: ${(props) => props.theme.sizes.padding.large};
 	${(props) =>
 		props.centered &&
 		css`
 			text-align: center;
 		`};
-`;
-const ModalFooterWrapper = styled(Container)`
-	padding: ${(props) => `${props.theme.sizes.padding.large} 0`};
 `;
 const OptionalFooterContainer = styled(Container)`
 	min-width: 1px;
@@ -164,8 +163,9 @@ const ConfirmButton = styled(Button)`
 	min-width: 100px;
 	flex-shrink: 1;
 `;
+// TODO use the right IconButton when available
 const ModalCloseIcon = styled(IconButton)`
-	padding: ${({ theme }) => theme.sizes.padding.extrasmall};
+	padding: 5px;
 `;
 
 function ModalFooter({
@@ -357,16 +357,16 @@ const Modal = React.forwardRef(function ModalFn(
 							crossAlignment="flex-start"
 							height="auto"
 						>
-							<Row width="100%">
+							<Row width="100%" padding={{ bottom: 'large' }}>
 								<ModalTitle
 									centered={centered}
 									color={type === 'error' ? 'error' : undefined}
-									size="large"
+									size="medium"
 									weight="bold"
 								>
-									{Title || <Title />}
+									{Title}
 								</ModalTitle>
-								{showCloseIcon && <ModalCloseIcon icon="Close" size="medium" onClick={onClose} />}
+								{showCloseIcon && <ModalCloseIcon icon="Close" size="small" onClick={onClose} />}
 							</Row>
 							<Divider />
 							<ModalBody centered={centered} ref={modalBodyRef} maxHeight={maxHeight}>
@@ -375,7 +375,7 @@ const Modal = React.forwardRef(function ModalFn(
 							{!hideFooter && (
 								<>
 									<Divider />
-									<ModalFooterWrapper
+									<Container
 										orientation={centered ? 'vertical' : 'horizontal'}
 										mainAlignment="flex-end"
 										padding={{ top: 'large' }}
@@ -396,7 +396,7 @@ const Modal = React.forwardRef(function ModalFn(
 												copyLabel={copyLabel}
 											/>
 										)}
-									</ModalFooterWrapper>
+									</Container>
 								</>
 							)}
 						</ModalContent>
@@ -448,6 +448,7 @@ Modal.propTypes = {
 	customFooter: PropTypes.element,
 	/** Hide the footer completely */
 	hideFooter: PropTypes.bool,
+	// TODO make it always visible or change default value?
 	/** Show icon to close Modal */
 	showCloseIcon: PropTypes.bool,
 	/** Css property to handle the stack order of multiple modals */
