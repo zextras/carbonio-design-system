@@ -13,8 +13,14 @@ module.exports = {
 	propsParser: propsParser.withCustomConfig('./tsconfig.json', {
 		shouldExtractLiteralValuesFromEnum: true,
 		shouldRemoveUndefinedFromOptional: true,
-		propFilter: {
-			skipPropsWithName: ['as', 'forwardedAs', 'theme', 'key']
+		propFilter: (prop, component) => {
+			if (prop.declarations !== undefined && prop.declarations.length > 0) {
+				return prop.declarations.find(
+					(declaration) => !declaration.fileName.includes('node_modules')
+				);
+			}
+
+			return true;
 		}
 	}).parse,
 	assetsDir: ['docs/asset'],
