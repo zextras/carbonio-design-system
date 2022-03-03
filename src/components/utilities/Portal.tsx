@@ -30,8 +30,9 @@ const Portal = React.forwardRef<React.ReactPortal, PortalProps>(function PortalF
 	},
 	ref
 ): React.ReactElement | null {
-	if (disablePortal) return children;
 	if (!show) return null;
+
+	if (disablePortal) return children;
 
 	return ReactDOM.createPortal(children, container);
 });
