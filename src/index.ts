@@ -57,7 +57,7 @@ export { default as Table } from './components/display/Table';
 
 /** Feedback components */
 export { default as CustomModal } from './components/feedback/CustomModal';
-export { default as Modal } from './components/feedback/Modal';
+export { Modal } from './components/feedback/Modal';
 export { default as Quota } from './components/feedback/Quota';
 export { default as Snackbar } from './components/feedback/Snackbar';
 
