@@ -5,8 +5,7 @@
  */
 
 import React, { useRef } from 'react';
-import PropTypes from 'prop-types';
-import styled, { css } from 'styled-components';
+import styled, { css, SimpleInterpolation } from 'styled-components';
 
 import Container from '../layout/Container';
 import Padding from '../layout/Padding';
@@ -14,7 +13,7 @@ import Text from '../basic/Text';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { useCheckbox } from '../../hooks/useCheckbox';
 
-const SwitchExt = styled.div`
+const SwitchExt = styled.div<{ checked: boolean }>`
 	display: flex;
 	justify-content: flex-start;
 	align-items: center;
@@ -26,52 +25,52 @@ const SwitchExt = styled.div`
 	border-radius: 30px;
 	box-shadow: 0 0 0 0 currentColor;
 	transition: 0.3s ease-out;
-	${({ checked, theme }) =>
+	${({ checked, theme }): SimpleInterpolation =>
 		checked &&
 		css`
 			color: ${theme.palette.primary.regular};
 		`}
-	${({ checked, theme }) =>
+	${({ checked, theme }): SimpleInterpolation =>
 		!checked &&
 		css`
 			color: ${theme.palette.text.regular};
 			background-color: transparent;
 		`}
 `;
-const SwitchInt = styled.div`
+const SwitchInt = styled.div<{ checked: boolean }>`
 	width: 2px;
 	height: 2px;
-	color: ${({ checked, theme }) => theme.palette[checked ? 'gray6' : 'text'].regular};
+	color: ${({ checked, theme }): string => theme.palette[checked ? 'gray6' : 'text'].regular};
 	border: 2px solid currentColor;
 	border-radius: 50%;
-	transform: translateX(${({ checked }) => (checked ? '6px' : '0px')});
+	transform: translateX(${({ checked }): string => (checked ? '6px' : '0px')});
 	transition: 0.3s ease-out;
 `;
-const IconWrapper = styled.div`
+const IconWrapper = styled.div<{ checked: boolean; disabled: boolean }>`
 	position: relative;
 	display: flex;
 	align-items: center;
 	width: 24px;
 	height: 24px;
 
-	${({ disabled }) =>
+	${({ disabled }): SimpleInterpolation =>
 		disabled &&
 		css`
 			opacity: 0.3;
 		`};
-	${({ disabled }) =>
+	${({ disabled, checked }): any =>
 		!disabled &&
 		css`
 			&:focus {
 				outline: none;
 				> ${SwitchExt} {
 					box-shadow: 0 0 0 1px currentColor;
-					${({ checked, theme }) =>
+					${({ theme }): SimpleInterpolation =>
 						checked &&
 						css`
 							color: ${theme.palette.primary.focus};
 						`}
-					${({ checked, theme }) =>
+					${({ theme }): SimpleInterpolation =>
 						!checked &&
 						css`
 							background-color: ${theme.palette.gray6.focus};
@@ -81,12 +80,42 @@ const IconWrapper = styled.div`
 		`};
 `;
 
-const Switch = React.forwardRef(function SwitchFn(
-	{ defaultChecked, value, label, padding, disabled, onClick, onChange, ...rest },
+const CustomText = styled(Text)`
+	user-select: none;
+`;
+
+interface SwitchProps {
+	/** status of the Switch */
+	defaultChecked?: boolean;
+	/** Switch value */
+	value?: boolean;
+	/** Switch text */
+	label?: string;
+	/** Switch padding */
+	padding?: React.ComponentPropsWithRef<typeof Container>['padding'] | string;
+	/** whether to disable the Switch or not */
+	disabled?: boolean;
+	/** click callback */
+	onClick?: React.ReactEventHandler;
+	/** change callback */
+	onChange?: (checked: boolean) => void;
+}
+
+const Switch = React.forwardRef<HTMLDivElement, SwitchProps>(function SwitchFn(
+	{
+		defaultChecked = false,
+		value,
+		label,
+		padding = {},
+		disabled = false,
+		onClick,
+		onChange,
+		...rest
+	},
 	ref
 ) {
-	const innerRef = useRef(undefined);
-	const ckbRef = useCombinedRefs(ref, innerRef);
+	const innerRef = useRef<HTMLDivElement>(null);
+	const ckbRef = useCombinedRefs<HTMLDivElement>(ref, innerRef);
 	const checked = useCheckbox({
 		ref: ckbRef,
 		defaultChecked,
@@ -114,40 +143,13 @@ const Switch = React.forwardRef(function SwitchFn(
 			</IconWrapper>
 			{label && (
 				<Padding left="small">
-					<Text size="medium" weight="regular" overflow="break-word" style={{ userSelect: 'none' }}>
+					<CustomText size="medium" weight="regular" overflow="break-word">
 						{label}
-					</Text>
+					</CustomText>
 				</Padding>
 			)}
 		</Container>
 	);
 });
-
-Switch.propTypes = {
-	/** status of the Switch */
-	defaultChecked: PropTypes.bool,
-	/** Switch value */
-	value: PropTypes.bool,
-	/** Switch text */
-	label: PropTypes.string,
-	/** Switch padding */
-	padding: Container.propTypes.padding,
-	/** whether to disable the Switch or not */
-	disabled: PropTypes.bool,
-	/** click callback */
-	onClick: PropTypes.func,
-	/** change callback */
-	onChange: PropTypes.func
-};
-
-Switch.defaultProps = {
-	disabled: false,
-	defaultChecked: false,
-	value: undefined,
-	label: undefined,
-	padding: {},
-	onClick: undefined,
-	onChange: undefined
-};
 
 export default Switch;
