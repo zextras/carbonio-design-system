@@ -4,11 +4,10 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-/* eslint-disable no-nested-ternary */
 /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
-import PropTypes from 'prop-types';
-import styled, { css } from 'styled-components';
+import { noop } from 'lodash';
+import styled, { css, SimpleInterpolation } from 'styled-components';
 import Button from '../basic/Button';
 import Container from '../layout/Container';
 import Divider from '../layout/Divider';
@@ -17,8 +16,7 @@ import Portal from '../utilities/Portal';
 import Row from '../layout/Row';
 import Text from '../basic/Text';
 import Transition from '../utilities/Transition';
-import { useKeyboard } from '../../hooks/useKeyboard';
-import { useScreenMode } from '../../hooks/useScreenMode';
+import { KeyboardPreset, useKeyboard } from '../../hooks/useKeyboard';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 
 const modalMinWidth = {
@@ -34,43 +32,50 @@ const modalWidth = {
 	large: '800px'
 };
 
-export function isBodyOverflowing(modalRef) {
-	return (
-		window.top.document.body.scrollHeight > modalRef.current.clientHeight ||
-		window.top.document.body.scrollWidth > window.top.document.body.clientWidth
-	);
-}
-export function getScrollbarSize() {
-	const scrollDiv = window.top.document.createElement('div');
-	scrollDiv.style.width = '99px';
-	scrollDiv.style.height = '99px';
-	scrollDiv.style.position = 'absolute';
-	scrollDiv.style.top = '-9999px';
-	scrollDiv.style.overflow = 'scroll';
-
-	window.top.document.body.appendChild(scrollDiv);
-	const scrollbarSize = scrollDiv.offsetWidth - scrollDiv.clientWidth;
-	window.top.document.body.removeChild(scrollDiv);
-
-	return scrollbarSize;
-}
-function copyToClipboard(node) {
-	const el = window.top.document.createElement('textarea');
-	el.value = node.textContent;
-	window.top.document.body.appendChild(el);
-	el.select();
-	window.top.document.execCommand('copy');
-	window.top.document.body.removeChild(el);
+function isBodyOverflowing(modalRef: React.RefObject<HTMLDivElement>): boolean {
+	if (window.top) {
+		return (
+			window.top.document.body.scrollHeight > (modalRef.current as HTMLDivElement).clientHeight ||
+			window.top.document.body.scrollWidth > window.top.document.body.clientWidth
+		);
+	}
+	return false;
 }
 
-export const ModalContainer = styled.div`
+function getScrollbarSize(): number {
+	const scrollDiv = window.top?.document.createElement('div');
+	if (scrollDiv && window.top) {
+		scrollDiv.style.width = '99px';
+		scrollDiv.style.height = '99px';
+		scrollDiv.style.position = 'absolute';
+		scrollDiv.style.top = '-9999px';
+		scrollDiv.style.overflow = 'scroll';
+		window.top.document.body.appendChild(scrollDiv);
+		const scrollbarSize = scrollDiv.offsetWidth - scrollDiv.clientWidth;
+		window.top.document.body.removeChild(scrollDiv);
+		return scrollbarSize;
+	}
+	return 0;
+}
+function copyToClipboard(node: HTMLDivElement | null): void {
+	const el = window.top?.document.createElement('textarea');
+	if (el && node?.textContent) {
+		el.value = node.textContent;
+		window.top?.document.body.appendChild(el);
+		el.select();
+		window.top?.document.execCommand('copy');
+		window.top?.document.body.removeChild(el);
+	}
+}
+
+const ModalContainer = styled.div<{ mounted: boolean; open: boolean; zIndex: number }>`
 	display: flex;
 	position: fixed;
 	top: 0;
 	bottom: 0;
 	left: 0;
 	right: 0;
-	padding: ${(props) =>
+	padding: ${(props): string =>
 		`${props.theme.sizes.padding.medium} ${props.theme.sizes.padding.medium} 0`};
 	background-color: rgba(0, 0, 0, 0);
 	opacity: 0;
@@ -80,63 +85,65 @@ export const ModalContainer = styled.div`
 	justify-content: center;
 	align-items: center;
 
-	${({ mounted, open, zIndex }) =>
+	${({ mounted, open, zIndex }): SimpleInterpolation =>
 		(mounted || open) &&
 		css`
 			z-index: ${zIndex};
 		`};
-	${(props) =>
-		props.open &&
+	${({ open }): SimpleInterpolation =>
+		open &&
 		css`
 			background-color: rgba(0, 0, 0, 0.5);
 			opacity: 1;
 			pointer-events: auto;
 		`};
 `;
-export const ModalWrapper = styled.div`
+const ModalWrapper = styled.div`
 	max-width: 100%;
 	width: 100%;
 	margin: auto;
 	box-sizing: border-box;
 	pointer-events: none;
 `;
-export const ModalContent = styled(Container)`
+const ModalContent = styled(Container)`
 	position: relative;
-	margin: 0 auto ${(props) => props.theme.sizes.padding.medium};
+	margin: 0 auto ${(props): string => props.theme.sizes.padding.medium};
 	padding: 32px;
 	max-width: 100%;
-	min-width: ${(props) => modalMinWidth[props.size]};
-	width: ${(props) => modalWidth[props.size]};
+	min-width: ${(props): string =>
+		modalMinWidth[props.size as 'extrasmall' | 'small' | 'medium' | 'large']};
+	width: ${(props): string =>
+		modalWidth[props.size as 'extrasmall' | 'small' | 'medium' | 'large']};
 
-	background-color: ${(props) => props.theme.palette[props.background].regular};
+	background-color: ${(props): string => props.theme.palette[props.background].regular};
 	border-radius: 16px;
 	box-shadow: 0px 0px 4px 0px rgba(166, 166, 166, 0.5);
 	outline: none;
 	pointer-events: auto;
 `;
-const ModalTitle = styled(Text)`
+const ModalTitle = styled(Text)<{ centered: boolean }>`
 	box-sizing: border-box;
 	width: 100%;
 	flex-grow: 1;
 	flex-basis: 0;
 	line-height: 1.5;
-	padding: ${(props) =>
+	padding: ${(props): string =>
 		`${props.theme.sizes.padding.small} ${props.theme.sizes.padding.small} ${props.theme.sizes.padding.small} 0`};
-	${(props) =>
-		props.centered &&
+	${({ centered }): SimpleInterpolation =>
+		centered &&
 		css`
 			text-align: center;
 		`};
 `;
-const ModalBody = styled.div`
+const ModalBody = styled.div<{ maxHeight: string; centered: boolean }>`
 	overflow-y: auto;
-	max-height: ${(props) => props.maxHeight};
+	max-height: ${(props): string => props.maxHeight};
 	max-width: 100%;
 	box-sizing: border-box;
 	width: 100%;
-	padding-top: ${(props) => props.theme.sizes.padding.large};
-	padding-bottom: ${(props) => props.theme.sizes.padding.large};
-	${(props) =>
+	padding-top: ${(props): string => props.theme.sizes.padding.large};
+	padding-bottom: ${(props): string => props.theme.sizes.padding.large};
+	${(props): SimpleInterpolation =>
 		props.centered &&
 		css`
 			text-align: center;
@@ -153,7 +160,7 @@ const ButtonContainer = styled(Container)`
 	flex-grow: 1;
 `;
 const DismissButton = styled(Button)`
-	margin-right: ${(props) => props.theme.sizes.padding.large};
+	margin-right: ${(props): string => props.theme.sizes.padding.large};
 	flex-basis: auto;
 	min-width: 100px;
 	flex-shrink: 1;
@@ -168,7 +175,70 @@ const ModalCloseIcon = styled(IconButton)`
 	padding: 5px;
 `;
 
-function ModalFooter({
+interface ModalProps {
+	/** Modal background */
+	background?: Container.propTypes.background;
+	/** Modal type */
+	type?: 'default' | 'error';
+	/** Modal title */
+	title?: string | React.ReactElement;
+	// TODO add missing types
+	// PropTypes.func | PropTypes.object;
+	/** Modal size */
+	size?: 'extrasmall' | 'small' | 'medium' | 'large';
+	/** Boolean to show the modal */
+	open?: boolean;
+	/** Centered Modal */
+	centered?: boolean;
+	/** Callback for main action */
+	onConfirm?: (event: React.MouseEvent<HTMLDivElement>) => void;
+	/** Label for the Main action Button */
+	confirmLabel?: string;
+	/** BackgroundColor for the Main action Button */
+	confirmColor?: Button.propTypes.color;
+	/** Callback for secondary action */
+	onSecondaryAction?: (event: React.MouseEvent<HTMLDivElement>) => void;
+	/** Label for the Secondary action Button */
+	secondaryActionLabel?: string;
+	/** Callback to close the Modal */
+	onClose?: React.ReactEventHandler;
+	/** Label for the Modal close Button */
+	dismissLabel?: string;
+	/** Label for copy button in the Error Modal */
+	copyLabel?: string;
+	/** Optional element to show in the footer of the Modal */
+	optionalFooter?: React.ReactElement;
+	/** Prop to override the default footer buttons */
+	customFooter?: React.ReactElement;
+	/** Hide the footer completely */
+	hideFooter?: boolean;
+	// TODO make it always visible or change default value?
+	/** Show icon to close Modal */
+	showCloseIcon?: boolean;
+	/** Css property to handle the stack order of multiple modals */
+	zIndex?: number;
+	/** max height of the modal body */
+	maxHeight?: string;
+	/** Flag to disable the Portal implementation */
+	disablePortal?: boolean;
+}
+
+const ModalFooter: React.VFC<
+	Pick<
+		ModalProps,
+		| 'type'
+		| 'centered'
+		| 'onConfirm'
+		| 'confirmLabel'
+		| 'confirmColor'
+		| 'onSecondaryAction'
+		| 'secondaryActionLabel'
+		| 'onClose'
+		| 'dismissLabel'
+		| 'copyLabel'
+		| 'optionalFooter'
+	> & { onCopyClipboard: () => void }
+> = ({
 	type,
 	centered,
 	onConfirm,
@@ -181,7 +251,7 @@ function ModalFooter({
 	copyLabel,
 	optionalFooter,
 	onCopyClipboard
-}) {
+}) => {
 	const secondaryButton = useMemo(() => {
 		let button;
 		if (type === 'error') {
@@ -227,45 +297,44 @@ function ModalFooter({
 			</ButtonContainer>
 		</>
 	);
-}
+};
 
-const Modal = React.forwardRef(function ModalFn(
+const Modal = React.forwardRef<HTMLDivElement, ModalProps>(function ModalFn(
 	{
-		background,
-		type,
+		background = 'gray6',
+		type = 'default',
 		title: Title,
-		size,
-		open,
-		centered,
+		size = 'small',
+		open = false,
+		centered = false,
 		onConfirm,
-		confirmLabel,
-		confirmColor,
+		confirmLabel = 'OK',
+		confirmColor = 'primary',
 		onSecondaryAction,
 		secondaryActionLabel,
 		onClose,
 		dismissLabel,
-		copyLabel,
+		copyLabel = 'Copy',
 		optionalFooter,
 		customFooter,
-		hideFooter,
-		showCloseIcon,
-		maxHeight,
+		hideFooter = false,
+		showCloseIcon = false,
+		maxHeight = '60vh',
 		children,
-		disablePortal,
+		disablePortal = false,
+		zIndex = 999,
 		...rest
 	},
 	ref
 ) {
 	const [delayedOpen, setDelayedOpen] = useState(false);
 
-	const innerRef = useRef(undefined);
-	const modalRef = useCombinedRefs(ref, innerRef);
-	const modalContentRef = useRef(undefined);
-	const modalBodyRef = useRef(undefined);
-	const startSentinelRef = useRef(undefined);
-	const endSentinelRef = useRef(undefined);
-
-	const screenMode = useScreenMode();
+	const innerRef = useRef<HTMLDivElement | null>(null);
+	const modalRef = useCombinedRefs<HTMLDivElement>(ref, innerRef);
+	const modalContentRef = useRef<HTMLDivElement>(null);
+	const modalBodyRef = useRef<HTMLDivElement | null>(null);
+	const startSentinelRef = useRef<HTMLDivElement | null>(null);
+	const endSentinelRef = useRef<HTMLDivElement | null>(null);
 
 	const onBackdropClick = useCallback(
 		(e) => {
@@ -275,6 +344,7 @@ const Modal = React.forwardRef(function ModalFn(
 			modalContentRef.current &&
 				!e.isDefaultPrevented() &&
 				!modalContentRef.current.contains(e.target) &&
+				onClose &&
 				onClose(e);
 		},
 		[onClose]
@@ -282,52 +352,58 @@ const Modal = React.forwardRef(function ModalFn(
 	const onCopyClipboard = useCallback(() => copyToClipboard(modalBodyRef.current), []);
 
 	const onStartSentinelFocus = useCallback(() => {
-		const nodeList = modalContentRef.current.querySelectorAll('[tabindex]');
-		nodeList[nodeList.length - 1].focus();
+		if (modalContentRef.current) {
+			const nodeList = modalContentRef.current.querySelectorAll<HTMLElement>('[tabindex]');
+			nodeList[nodeList.length - 1].focus();
+		}
 	}, []);
-	const onEndSentinelFocus = useCallback(
-		() => modalContentRef.current.querySelector('[tabindex]').focus(),
-		[]
-	);
+	const onEndSentinelFocus = useCallback(() => {
+		if (modalContentRef.current != null) {
+			modalContentRef.current.querySelector<HTMLElement>('[tabindex]')?.focus();
+		}
+	}, []);
 
-	const escapeEvent = useMemo(
-		() => [{ type: 'keydown', callback: onClose, keys: ['Escape'] }],
+	const escapeEvent = useMemo<KeyboardPreset>(
+		() => [{ type: 'keydown', callback: onClose || noop, keys: ['Escape'], modifier: false }],
 		[onClose]
 	);
 	useKeyboard(modalRef, escapeEvent);
 
 	useEffect(() => {
-		if (open) {
+		if (open && window.top) {
 			const defaultOverflowY = window.top.document.body.style.overflowY;
 			const defaultPaddingRight = window.top.document.body.style.paddingRight;
 
 			window.top.document.body.style.overflowY = 'hidden';
-			isBodyOverflowing(modalRef) &&
+			modalRef.current != null &&
+				isBodyOverflowing(modalRef) &&
 				(window.top.document.body.style.paddingRight = `${getScrollbarSize()}px`);
 
-			return () => {
-				window.top.document.body.style.overflowY = defaultOverflowY;
-				window.top.document.body.style.paddingRight = defaultPaddingRight;
+			return (): void => {
+				if (window.top) {
+					window.top.document.body.style.overflowY = defaultOverflowY;
+					window.top.document.body.style.paddingRight = defaultPaddingRight;
+				}
 			};
 		}
-		return () => undefined;
+		return (): void => undefined;
 	}, [modalRef, open]);
 
 	useEffect(() => {
-		const focusedElement = window.top.document.activeElement;
+		const focusedElement = window.top?.document.activeElement;
 
 		if (open) {
-			modalContentRef.current.focus();
-			startSentinelRef.current.addEventListener('focus', onStartSentinelFocus);
-			endSentinelRef.current.addEventListener('focus', onEndSentinelFocus);
+			modalContentRef.current?.focus();
+			startSentinelRef.current?.addEventListener('focus', onStartSentinelFocus);
+			endSentinelRef.current?.addEventListener('focus', onEndSentinelFocus);
 		}
 		const startSentinelRefSave = startSentinelRef.current;
 		const endSentinelRefSave = endSentinelRef.current;
-		return () => {
+		return (): void => {
 			startSentinelRefSave &&
 				startSentinelRefSave.removeEventListener('focus', onStartSentinelFocus);
 			endSentinelRefSave && endSentinelRefSave.removeEventListener('focus', onEndSentinelFocus);
-			open && focusedElement.focus();
+			open && (focusedElement as HTMLElement)?.focus();
 		};
 	}, [open, onStartSentinelFocus, onEndSentinelFocus]);
 
@@ -341,8 +417,8 @@ const Modal = React.forwardRef(function ModalFn(
 				ref={modalRef}
 				open={delayedOpen}
 				mounted={open}
-				screenMode={screenMode}
 				onClick={onBackdropClick}
+				zIndex={zIndex}
 				{...rest}
 			>
 				<div tabIndex={0} ref={startSentinelRef} />
@@ -352,12 +428,11 @@ const Modal = React.forwardRef(function ModalFn(
 							ref={modalContentRef}
 							background={background}
 							tabIndex={-1}
-							screenMode={screenMode}
 							size={size}
 							crossAlignment="flex-start"
 							height="auto"
 						>
-							<Row width="100%" padding={{ bottom: 'large' }}>
+							<Row width="100%" padding={{ bottom: 'small' }}>
 								<ModalTitle
 									centered={centered}
 									color={type === 'error' ? 'error' : undefined}
@@ -408,79 +483,4 @@ const Modal = React.forwardRef(function ModalFn(
 	);
 });
 
-Modal.propTypes = {
-	/** Modal background */
-	background: Container.propTypes.background,
-	/** Modal type */
-	type: PropTypes.oneOf(['default', 'error']),
-	/** Modal title */
-	title: PropTypes.oneOfType([
-		PropTypes.string,
-		PropTypes.element,
-		PropTypes.func,
-		PropTypes.object
-	]),
-	/** Modal size */
-	size: PropTypes.oneOf(['extrasmall', 'small', 'medium', 'large']),
-	/** Boolean to show the modal */
-	open: PropTypes.bool,
-	/** Centered Modal */
-	centered: PropTypes.bool,
-	/** Callback for main action */
-	onConfirm: PropTypes.func,
-	/** Label for the Main action Button */
-	confirmLabel: PropTypes.string,
-	/** BackgroundColor for the Main action Button */
-	confirmColor: Button.propTypes.color,
-	/** Callback for secondary action */
-	onSecondaryAction: PropTypes.func,
-	/** Label for the Secondary action Button */
-	secondaryActionLabel: PropTypes.string,
-	/** Callback to close the Modal */
-	onClose: PropTypes.func,
-	/** Label for the Modal close Button */
-	dismissLabel: PropTypes.string,
-	/** Label for copy button in the Error Modal */
-	copyLabel: PropTypes.string,
-	/** Optional element to show in the footer of the Modal */
-	optionalFooter: PropTypes.element,
-	/** Prop to override the default footer buttons */
-	customFooter: PropTypes.element,
-	/** Hide the footer completely */
-	hideFooter: PropTypes.bool,
-	// TODO make it always visible or change default value?
-	/** Show icon to close Modal */
-	showCloseIcon: PropTypes.bool,
-	/** Css property to handle the stack order of multiple modals */
-	zIndex: PropTypes.number,
-	/** max height of the modal body */
-	maxHeight: PropTypes.string,
-	/** Flag to disable the Portal implementation */
-	disablePortal: PropTypes.bool
-};
-
-Modal.defaultProps = {
-	title: undefined,
-	open: false,
-	onConfirm: undefined,
-	onSecondaryAction: undefined,
-	secondaryActionLabel: undefined,
-	onClose: undefined,
-	dismissLabel: undefined,
-	optionalFooter: undefined,
-	customFooter: undefined,
-	hideFooter: false,
-	disablePortal: false,
-	type: 'default',
-	size: 'small',
-	centered: false,
-	confirmLabel: 'OK',
-	confirmColor: 'primary',
-	copyLabel: 'Copy',
-	showCloseIcon: false,
-	zIndex: 999,
-	background: 'gray6',
-	maxHeight: '60vh'
-};
-
-export default Modal;
+export { Modal, isBodyOverflowing, getScrollbarSize, ModalContainer, ModalWrapper, ModalContent };

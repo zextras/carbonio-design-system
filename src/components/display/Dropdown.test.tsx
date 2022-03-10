@@ -11,7 +11,7 @@ import { waitFor } from '@testing-library/react';
 import { render } from '../../test-utils';
 import Button from '../basic/Button';
 import Dropdown from './Dropdown';
-import Modal from '../feedback/Modal';
+import { Modal } from '../feedback/Modal';
 
 const items = [
 	{
