@@ -6,6 +6,8 @@
 
 import React, { useRef } from 'react';
 import styled, { css, SimpleInterpolation } from 'styled-components';
+import { ThemeObj } from '../../theme/theme';
+import Icon from '../basic/Icon';
 
 import Container from '../layout/Container';
 import Padding from '../layout/Padding';
@@ -13,68 +15,36 @@ import Text from '../basic/Text';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { useCheckbox } from '../../hooks/useCheckbox';
 
-const SwitchExt = styled.div<{ checked: boolean }>`
-	display: flex;
-	justify-content: flex-start;
-	align-items: center;
-	width: 12px;
-	height: 10px;
-	padding: 0 2px;
-	background-color: currentColor;
-	border: 2px solid currentColor;
-	border-radius: 30px;
-	box-shadow: 0 0 0 0 currentColor;
-	transition: 0.3s ease-out;
-	${({ checked, theme }): SimpleInterpolation =>
-		checked &&
-		css`
-			color: ${theme.palette.primary.regular};
-		`}
-	${({ checked, theme }): SimpleInterpolation =>
-		!checked &&
-		css`
-			color: ${theme.palette.text.regular};
-			background-color: transparent;
-		`}
-`;
-const SwitchInt = styled.div<{ checked: boolean }>`
-	width: 2px;
-	height: 2px;
-	color: ${({ checked, theme }): string => theme.palette[checked ? 'gray6' : 'text'].regular};
-	border: 2px solid currentColor;
-	border-radius: 50%;
-	transform: translateX(${({ checked }): string => (checked ? '6px' : '0px')});
-	transition: 0.3s ease-out;
-`;
-const IconWrapper = styled.div<{ checked: boolean; disabled: boolean }>`
+type SwitchSize = 'medium' | 'small';
+
+const IconWrapper = styled.div<{
+	checked: boolean;
+	disabled: boolean;
+	size: SwitchSize;
+	iconColor: keyof ThemeObj['palette'];
+}>`
 	position: relative;
 	display: flex;
 	align-items: center;
-	width: 24px;
-	height: 24px;
-
-	${({ disabled }): SimpleInterpolation =>
-		disabled &&
-		css`
-			opacity: 0.3;
-		`};
-	${({ disabled, checked }): any =>
+	${({ disabled, iconColor }): any =>
 		!disabled &&
 		css`
 			&:focus {
 				outline: none;
-				> ${SwitchExt} {
-					box-shadow: 0 0 0 1px currentColor;
-					${({ theme }): SimpleInterpolation =>
-						checked &&
-						css`
-							color: ${theme.palette.primary.focus};
-						`}
-					${({ theme }): SimpleInterpolation =>
-						!checked &&
-						css`
-							background-color: ${theme.palette.gray6.focus};
-						`}
+				> ${Icon} {
+					color: ${({ theme }): string => theme.palette[iconColor].focus};
+				}
+			}
+			&:hover {
+				outline: none;
+				> ${Icon} {
+					color: ${({ theme }): string => theme.palette[iconColor].hover};
+				}
+			}
+			&:active {
+				outline: none;
+				> ${Icon} {
+					color: ${({ theme }): string => theme.palette[iconColor].active};
 				}
 			}
 		`};
@@ -82,6 +52,7 @@ const IconWrapper = styled.div<{ checked: boolean; disabled: boolean }>`
 
 const CustomText = styled(Text)`
 	user-select: none;
+	line-height: 1.5;
 `;
 
 interface SwitchProps {
@@ -99,6 +70,10 @@ interface SwitchProps {
 	onClick?: React.ReactEventHandler;
 	/** change callback */
 	onChange?: (checked: boolean) => void;
+	/** available sizes */
+	size: SwitchSize;
+	/** icon color */
+	iconColor: keyof ThemeObj['palette'];
 }
 
 const Switch = React.forwardRef<HTMLDivElement, SwitchProps>(function SwitchFn(
@@ -110,6 +85,8 @@ const Switch = React.forwardRef<HTMLDivElement, SwitchProps>(function SwitchFn(
 		disabled = false,
 		onClick,
 		onChange,
+		size = 'medium',
+		iconColor = 'gray0',
 		...rest
 	},
 	ref
@@ -136,14 +113,29 @@ const Switch = React.forwardRef<HTMLDivElement, SwitchProps>(function SwitchFn(
 			crossAlignment="center"
 			{...rest}
 		>
-			<IconWrapper checked={checked} disabled={disabled} tabIndex={disabled ? -1 : 0}>
-				<SwitchExt checked={checked}>
-					<SwitchInt checked={checked} />
-				</SwitchExt>
+			<IconWrapper
+				size={size}
+				checked={checked}
+				disabled={disabled}
+				tabIndex={disabled ? -1 : 0}
+				iconColor={iconColor}
+			>
+				<Icon
+					icon={checked ? 'ToggleRight' : 'ToggleLeftOutline'}
+					size={size === 'medium' ? 'large' : 'medium'}
+					color={iconColor}
+					disabled={disabled}
+				/>
 			</IconWrapper>
 			{label && (
 				<Padding left="small">
-					<CustomText size="medium" weight="regular" overflow="break-word">
+					<CustomText
+						size={size === 'medium' ? 'medium' : 'small'}
+						weight="regular"
+						overflow="break-word"
+						color="gray0"
+						disabled={disabled}
+					>
 						{label}
 					</CustomText>
 				</Padding>
