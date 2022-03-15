@@ -4,24 +4,45 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { useRef } from 'react';
-import styled, { css, FlattenSimpleInterpolation, SimpleInterpolation } from 'styled-components';
+import React, { useMemo, useRef } from 'react';
+import styled, { css } from 'styled-components';
+import { getColor } from '../../theme/theme-utils';
 import Container from '../layout/Container';
 import Icon from '../basic/Icon';
 import Text from '../basic/Text';
 import Padding from '../layout/Padding';
-import { pseudoClasses } from '../utilities/functions';
 import { useCheckbox } from '../../hooks/useCheckbox';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { ThemeObj } from '../../theme/theme';
 
-const IconWrapper = styled.div<{ disabled: boolean }>`
-	${(props): SimpleInterpolation =>
-		props.disabled &&
+type CheckboxSize = 'medium' | 'small';
+
+const IconWrapper = styled.div<{
+	disabled: boolean;
+	iconColor: keyof ThemeObj['palette'] | string;
+}>`
+	${({ disabled, iconColor }): any =>
+		!disabled &&
 		css`
-			opacity: 0.3;
+			&:focus {
+				outline: none;
+				> ${Icon} {
+					color: ${({ theme }): string => getColor(`${iconColor}.focus`, theme)};
+				}
+			}
+			&:hover {
+				outline: none;
+				> ${Icon} {
+					color: ${({ theme }): string => getColor(`${iconColor}.hover`, theme)};
+				}
+			}
+			&:active {
+				outline: none;
+				> ${Icon} {
+					color: ${({ theme }): string => getColor(`${iconColor}.active`, theme)};
+				}
+			}
 		`};
-	${({ theme }): FlattenSimpleInterpolation => pseudoClasses(theme, 'transparent')};
 `;
 
 const CustomText = styled(Text)`
@@ -34,7 +55,9 @@ interface CheckboxProps {
 	defaultChecked?: boolean;
 	/** Checkbox value */
 	value?: boolean;
-	/** Checkbox size */
+	/** Checkbox size
+	 * @deprecated use size instead
+	 */
 	iconSize?: keyof ThemeObj['sizes']['icon'];
 	/** Checkbox color */
 	iconColor?: keyof ThemeObj['palette'] | string;
@@ -48,6 +71,8 @@ interface CheckboxProps {
 	onClick?: React.ReactEventHandler;
 	/** change callback */
 	onChange?: (checked: boolean) => void;
+	/** available sizes */
+	size: CheckboxSize;
 }
 
 const Checkbox = React.forwardRef<HTMLDivElement, CheckboxProps>(function CheckboxFn(
@@ -55,12 +80,13 @@ const Checkbox = React.forwardRef<HTMLDivElement, CheckboxProps>(function Checkb
 		defaultChecked = false,
 		value,
 		label,
-		iconSize = 'large',
-		iconColor = 'text',
+		iconSize,
+		iconColor = 'gray0',
 		padding = {},
 		disabled = false,
 		onClick,
 		onChange,
+		size = 'medium',
 		...rest
 	},
 	ref
@@ -75,6 +101,14 @@ const Checkbox = React.forwardRef<HTMLDivElement, CheckboxProps>(function Checkb
 		onClick,
 		onChange
 	});
+
+	const computedIconSize = useMemo(
+		() =>
+			// TODO simplify when iconSize will be removed
+			iconSize || (size === 'medium' ? 'large' : 'medium'),
+		[size, iconSize]
+	);
+
 	return (
 		<Container
 			ref={ckbRef}
@@ -86,12 +120,23 @@ const Checkbox = React.forwardRef<HTMLDivElement, CheckboxProps>(function Checkb
 			crossAlignment="center"
 			{...rest}
 		>
-			<IconWrapper disabled={disabled} tabIndex={disabled ? -1 : 0}>
-				<Icon size={iconSize} icon={checked ? 'CheckmarkSquare' : 'Square'} color={iconColor} />
+			<IconWrapper iconColor={iconColor} disabled={disabled} tabIndex={disabled ? -1 : 0}>
+				<Icon
+					size={computedIconSize}
+					icon={checked ? 'CheckmarkSquare' : 'Square'}
+					color={iconColor}
+					disabled={disabled}
+				/>
 			</IconWrapper>
 			{label && (
 				<Padding left="small">
-					<CustomText size="medium" weight="regular" overflow="break-word">
+					<CustomText
+						size={size === 'medium' ? 'medium' : 'small'}
+						weight="regular"
+						overflow="break-word"
+						disabled={disabled}
+						color="gray0"
+					>
 						{label}
 					</CustomText>
 				</Padding>
