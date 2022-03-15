@@ -6,21 +6,18 @@
 
 import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import styled, { css, SimpleInterpolation } from 'styled-components';
+import { ThemeObj } from '../../theme/theme';
 import Container from '../layout/Container';
 import Text from '../basic/Text';
 import Icon from '../basic/Icon';
 import { getKeyboardPreset, useKeyboard } from '../../hooks/useKeyboard';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 
-const RadioContainer = styled(Container)`
-	&:focus-visible {
-		outline: none;
-	}
-`;
+type RadioSize = 'medium' | 'small';
+
 const StyledIcon = styled(Icon)<{ checked: boolean }>`
 	margin-right: ${({ theme }): string => theme.sizes.padding.small};
 	border-radius: 50%;
-	box-shadow: inset 0 0 0 2px transparent;
 	transition: 0.2s ease-out;
 
 	path:last-child {
@@ -34,9 +31,39 @@ const StyledIcon = styled(Icon)<{ checked: boolean }>`
 				transform: scale(1);
 			`}
 	}
-	${RadioContainer}:focus-visible & {
-		box-shadow: inset 0 0 0 2px currentColor;
-	}
+`;
+const RadioContainer = styled(Container)<{
+	$iconColor: keyof ThemeObj['palette'];
+}>`
+	${({ disabled, $iconColor }): any =>
+		!disabled &&
+		css`
+			&:focus {
+				outline: none;
+				> ${StyledIcon} {
+					color: ${({ theme }): string =>
+						theme.palette[$iconColor as keyof ThemeObj['palette']].focus};
+				}
+			}
+			&:hover {
+				outline: none;
+				> ${StyledIcon} {
+					color: ${({ theme }): string =>
+						theme.palette[$iconColor as keyof ThemeObj['palette']].hover};
+				}
+			}
+			&:active {
+				outline: none;
+				> ${StyledIcon} {
+					color: ${({ theme }): string =>
+						theme.palette[$iconColor as keyof ThemeObj['palette']].active};
+				}
+			}
+		`};
+`;
+
+const CustomText = styled(Text)`
+	line-height: 1.5;
 `;
 
 interface RadioProps {
@@ -55,6 +82,10 @@ interface RadioProps {
 	onChange?: (checked: boolean) => void;
 	/** radio padding */
 	padding?: React.ComponentPropsWithRef<typeof Container>['padding'] | string;
+	/** available sizes */
+	size?: RadioSize;
+	/** icon color */
+	iconColor?: keyof ThemeObj['palette'];
 }
 
 const Radio = React.forwardRef<HTMLDivElement, RadioProps>(function RadioFn(
@@ -66,6 +97,8 @@ const Radio = React.forwardRef<HTMLDivElement, RadioProps>(function RadioFn(
 		onChange,
 		disabled = false,
 		padding = { bottom: 'small' },
+		size = 'medium',
+		iconColor = 'gray0',
 		...rest
 	},
 	ref
@@ -113,18 +146,25 @@ const Radio = React.forwardRef<HTMLDivElement, RadioProps>(function RadioFn(
 			onClick={handleOnClick}
 			disabled={disabled}
 			tabIndex={disabled ? -1 : 0}
+			$iconColor={iconColor}
 			{...rest}
 		>
 			<StyledIcon
+				size={size === 'medium' ? 'large' : 'medium'}
 				checked={isActive}
 				disabled={disabled}
 				icon="RadioButtonOn"
-				color={isActive ? 'primary' : 'text'}
+				color={iconColor}
 			/>
 			{typeof label === 'string' ? (
-				<Text size="medium" color="text" weight="regular">
+				<CustomText
+					disabled={disabled}
+					size={size === 'medium' ? 'medium' : 'small'}
+					color="gray0"
+					weight="regular"
+				>
 					{label}
-				</Text>
+				</CustomText>
 			) : (
 				label
 			)}
