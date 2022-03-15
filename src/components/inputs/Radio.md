@@ -126,6 +126,37 @@ const [selectedIconColor, setSelectedIconColor] = useState('gray0');
 </>
 ```
 
+### check isDefaultPrevented to avoid that component label triggers checked switch 
+
+```jsx
+import { useState } from 'react';
+import { Row, Text, Padding, Select } from '@zextras/carbonio-design-system';
+
+<>
+	<Radio
+		label={
+			<Row
+				onClick={(ev) => {
+					ev.preventDefault();
+				}}
+            	takeAvailableSpace mainAlignment="flex-start" wrap="nowrap">
+				<Text overflow="break-word">label</Text>
+				<Padding horizontal="small">
+					<Select
+						display="inline-block"
+						dropdownWidth="auto"
+						background="gray5"
+						label="Number"
+						items={[{ label: 'Second', value: '1' }]}
+						defaultSelection={{ value: '1', label: 'Second' }}
+					/>
+				</Padding>
+			</Row>
+		}
+	/>
+</>;
+```
+
 ### Controlled
 
 ```jsx

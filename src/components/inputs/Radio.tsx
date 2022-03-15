@@ -111,7 +111,7 @@ const Radio = React.forwardRef<HTMLDivElement, RadioProps>(function RadioFn(
 	const handleOnClick = useCallback(
 		(e) => {
 			if (!disabled) {
-				if (uncontrolledMode) {
+				if (uncontrolledMode && !e.isDefaultPrevented()) {
 					setIsActive((prevState) => !prevState);
 				}
 				if (onClick) {
