@@ -5,8 +5,7 @@
  */
 
 import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
-import PropTypes from 'prop-types';
-import styled, { css } from 'styled-components';
+import styled, { css, SimpleInterpolation } from 'styled-components';
 import Container from '../layout/Container';
 import Text from '../basic/Text';
 import Icon from '../basic/Icon';
@@ -18,10 +17,9 @@ const RadioContainer = styled(Container)`
 		outline: none;
 	}
 `;
-const StyledIcon = styled(Icon)`
-	margin-right: ${({ theme }) => theme.sizes.padding.small};
+const StyledIcon = styled(Icon)<{ checked: boolean }>`
+	margin-right: ${({ theme }): string => theme.sizes.padding.small};
 	border-radius: 50%;
-	color: ${({ theme, color }) => theme.palette[color].regular};
 	box-shadow: inset 0 0 0 2px transparent;
 	transition: 0.2s ease-out;
 
@@ -30,7 +28,7 @@ const StyledIcon = styled(Icon)`
 		transform-origin: center;
 		transition: 0.2s ease-out;
 
-		${({ checked }) =>
+		${({ checked }): SimpleInterpolation =>
 			checked &&
 			css`
 				transform: scale(1);
@@ -41,12 +39,39 @@ const StyledIcon = styled(Icon)`
 	}
 `;
 
-const Radio = React.forwardRef(function RadioFn(
-	{ defaultChecked, checked, label, disabled, onClick, onChange, padding, ...rest },
+interface RadioProps {
+	/** status of the Radio */
+	defaultChecked?: boolean;
+	/** Radio checked */
+	checked?: boolean;
+	/** Radio text */
+	label?: string | React.ReactElement;
+	// PropTypes.oneOfType([PropTypes.string, PropTypes.element, PropTypes.func]),
+	/** whether to disable the radio or not */
+	disabled?: boolean;
+	/** click callback */
+	onClick?: React.ReactEventHandler;
+	/** change callback */
+	onChange?: (checked: boolean) => void;
+	/** radio padding */
+	padding?: React.ComponentPropsWithRef<typeof Container>['padding'] | string;
+}
+
+const Radio = React.forwardRef<HTMLDivElement, RadioProps>(function RadioFn(
+	{
+		defaultChecked,
+		checked,
+		label,
+		onClick,
+		onChange,
+		disabled = false,
+		padding = { bottom: 'small' },
+		...rest
+	},
 	ref
 ) {
-	const innerRef = useRef(undefined);
-	const radioRef = useCombinedRefs(ref, innerRef);
+	const innerRef = useRef<HTMLDivElement>(null);
+	const radioRef = useCombinedRefs<HTMLDivElement>(ref, innerRef);
 	const [isActive, setIsActive] = useState(defaultChecked || checked || false);
 
 	const uncontrolledMode = useMemo(() => typeof checked === 'undefined', [checked]);
@@ -106,27 +131,5 @@ const Radio = React.forwardRef(function RadioFn(
 		</RadioContainer>
 	);
 });
-
-Radio.propTypes = {
-	/** status of the Radio */
-	defaultChecked: PropTypes.bool,
-	/** Radio checked */
-	checked: PropTypes.bool,
-	/** Radio text */
-	label: PropTypes.oneOfType([PropTypes.string, PropTypes.element, PropTypes.func]),
-	/** whether to disable the radio or not */
-	disabled: PropTypes.bool,
-	/** click callback */
-	onClick: PropTypes.func,
-	/** change callback */
-	onChange: PropTypes.func,
-	/** radio padding */
-	padding: Container.propTypes.padding
-};
-
-Radio.defaultProps = {
-	padding: { bottom: 'small' },
-	disabled: false
-};
 
 export default Radio;
