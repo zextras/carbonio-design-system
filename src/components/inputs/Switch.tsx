@@ -69,9 +69,9 @@ interface SwitchProps {
 	/** change callback */
 	onChange?: (checked: boolean) => void;
 	/** available sizes */
-	size: SwitchSize;
+	size?: SwitchSize;
 	/** icon color */
-	iconColor: keyof ThemeObj['palette'];
+	iconColor?: keyof ThemeObj['palette'];
 }
 
 const Switch = React.forwardRef<HTMLDivElement, SwitchProps>(function SwitchFn(
