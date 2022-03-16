@@ -25,6 +25,10 @@ export function pseudoClasses(
 			outline: none;
 			background: ${theme.palette[color].active};
 		}
+		&:disabled {
+			outline: none;
+			background: ${theme.palette[color].disabled};
+		}
 	`;
 }
 
