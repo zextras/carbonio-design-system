@@ -5,7 +5,7 @@
  */
 
 import React, { useRef } from 'react';
-import styled, { css } from 'styled-components';
+import styled, { css, SimpleInterpolation } from 'styled-components';
 import { ThemeObj } from '../../theme/theme';
 import Icon from '../basic/Icon';
 
@@ -24,25 +24,25 @@ const IconWrapper = styled.div<{
 	position: relative;
 	display: flex;
 	align-items: center;
-	${({ disabled, iconColor }): any =>
+	${({ theme, disabled, iconColor }): SimpleInterpolation =>
 		!disabled &&
 		css`
 			&:focus {
 				outline: none;
 				> ${Icon} {
-					color: ${({ theme }): string => theme.palette[iconColor].focus};
+					color: ${theme.palette[iconColor].focus};
 				}
 			}
 			&:hover {
 				outline: none;
 				> ${Icon} {
-					color: ${({ theme }): string => theme.palette[iconColor].hover};
+					color: ${theme.palette[iconColor].hover};
 				}
 			}
 			&:active {
 				outline: none;
 				> ${Icon} {
-					color: ${({ theme }): string => theme.palette[iconColor].active};
+					color: ${theme.palette[iconColor].active};
 				}
 			}
 		`};
