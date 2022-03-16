@@ -1,12 +1,9 @@
-/* eslint-disable import/no-extraneous-dependencies */
-/* eslint-disable no-console */
-
 /*
  * SPDX-FileCopyrightText: 2021 Zextras <https://www.zextras.com>
  *
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-
+/* eslint-disable import/no-extraneous-dependencies, no-console */
 import React from 'react';
 import userEvent from '@testing-library/user-event';
 import { screen } from '@testing-library/dom';
@@ -21,56 +18,55 @@ const items = [
 		id: 'activity-1',
 		icon: 'Activity',
 		label: 'Some Item',
-		click: () => console.log('click1')
+		click: (): void => console.log('click1')
 	},
 	{
 		id: 'activity-2',
 		icon: 'Plus',
 		label: 'Some Other Item',
-		click: () => console.log('click2'),
+		click: (): void => console.log('click2'),
 		disabled: true
 	},
 	{
 		id: 'activity-3',
 		icon: 'Activity',
 		label: 'Yet Another Item',
-		click: () => console.log('click3')
+		click: (): void => console.log('click3')
 	}
 ];
 
 describe('Dropdown', () => {
-	const item1 = () => screen.getByText('Some Item');
-	const item2 = () => screen.getByText('Some Other Item');
-	const item3 = () => screen.getByText('Yet Another Item');
-
 	test('Render closed dropdown', () => {
 		render(
-			<>
-				<Dropdown items={items} placement="bottom-end">
-					<Button icon="ArrowDown" label="Create" />
-				</Dropdown>
-			</>
+			<Dropdown items={items} placement="bottom-end">
+				<Button icon="ArrowDown" label="Create" />
+			</Dropdown>
 		);
 
-		expect(item1).toThrowError();
-		expect(item2).toThrowError();
-		expect(item3).toThrowError();
+		expect(screen.queryByText('Some Item')).not.toBeInTheDocument();
+		expect(screen.queryByText('Some Other Item')).not.toBeInTheDocument();
+		expect(screen.queryByText('Yet Another Item')).not.toBeInTheDocument();
 	});
 
-	test('Render opened dropdown', () => {
+	test('Render opened dropdown', async () => {
 		render(
-			<>
-				<Dropdown items={items} placement="bottom-end">
-					<Button icon="ArrowDown" label="Create" />
-				</Dropdown>
-			</>
+			<Dropdown items={items} placement="bottom-end">
+				<Button icon="ArrowDown" label="Create" />
+			</Dropdown>
 		);
 
 		userEvent.click(screen.getByRole('button'));
 
-		expect(item1()).toBeInTheDocument();
-		expect(item2()).toBeInTheDocument();
-		expect(item3()).toBeInTheDocument();
+		expect(screen.getByText('Some Item')).toBeInTheDocument();
+		expect(screen.getByText('Some Other Item')).toBeInTheDocument();
+		expect(screen.getByText('Yet Another Item')).toBeInTheDocument();
+		// wait for listeners to be registered
+		await waitFor(
+			() =>
+				new Promise((resolve) => {
+					setTimeout(resolve, 1);
+				})
+		);
 	});
 
 	test('click on dropdown trigger toggle dropdown visibility', async () => {

@@ -4,12 +4,15 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { drop, head, last, slice } from 'lodash';
 
-export function useSplitVisibility(items, removeFrom = 'end') {
-	const [visibleItems, setVisibleItems] = useState(items);
-	const [hiddenItems, setHiddenItems] = useState([]);
+export function useSplitVisibility<T, R extends HTMLElement = HTMLElement>(
+	items: T[],
+	removeFrom = 'end'
+): [T[], T[], React.RefObject<R>] {
+	const [visibleItems, setVisibleItems] = useState<T[]>(items);
+	const [hiddenItems, setHiddenItems] = useState<T[]>([]);
 
 	const [width, setWidth] = useState(window.innerWidth);
 	const [lastHiddenWidth, setLastHiddenWidth] = useState(0);
@@ -21,14 +24,14 @@ export function useSplitVisibility(items, removeFrom = 'end') {
 	}, [items]);
 
 	useEffect(() => {
-		function handleResize() {
+		function handleResize(): void {
 			setWidth(window.innerWidth);
 		}
 		window.addEventListener('resize', handleResize);
 		return () => window.removeEventListener('resize', handleResize);
 	}, []);
 
-	const containerRef = useRef();
+	const containerRef = useRef<R>(null);
 
 	useLayoutEffect(() => {
 		if (
@@ -37,10 +40,10 @@ export function useSplitVisibility(items, removeFrom = 'end') {
 			hiddenItems.length > 0
 		) {
 			if (removeFrom === 'end') {
-				setVisibleItems([...visibleItems, head(hiddenItems)]);
+				setVisibleItems([...visibleItems, head(hiddenItems) as T]);
 				setHiddenItems(drop(hiddenItems));
 			} else {
-				setVisibleItems([last(hiddenItems), ...visibleItems]);
+				setVisibleItems([last(hiddenItems) as T, ...visibleItems]);
 				setHiddenItems(slice(hiddenItems, 0, hiddenItems.length - 1));
 			}
 		}
@@ -50,10 +53,10 @@ export function useSplitVisibility(items, removeFrom = 'end') {
 			visibleItems.length > 0
 		) {
 			if (removeFrom === 'end') {
-				setHiddenItems([last(visibleItems), ...hiddenItems]);
+				setHiddenItems([last(visibleItems) as T, ...hiddenItems]);
 				setVisibleItems(slice(visibleItems, 0, visibleItems.length - 1));
 			} else {
-				setHiddenItems([...hiddenItems, head(visibleItems)]);
+				setHiddenItems([...hiddenItems, head(visibleItems) as T]);
 				setVisibleItems(drop(visibleItems));
 			}
 			setLastHiddenWidth(containerRef.current.scrollWidth);
