@@ -5,7 +5,7 @@
  */
 
 import React, { useMemo, useRef } from 'react';
-import styled, { css } from 'styled-components';
+import styled, { css, SimpleInterpolation } from 'styled-components';
 import { getColor } from '../../theme/theme-utils';
 import Container from '../layout/Container';
 import Icon from '../basic/Icon';
@@ -21,25 +21,25 @@ const IconWrapper = styled.div<{
 	disabled: boolean;
 	iconColor: keyof ThemeObj['palette'] | string;
 }>`
-	${({ disabled, iconColor }): any =>
+	${({ theme, disabled, iconColor }): SimpleInterpolation =>
 		!disabled &&
 		css`
 			&:focus {
 				outline: none;
 				> ${Icon} {
-					color: ${({ theme }): string => getColor(`${iconColor}.focus`, theme)};
+					color: ${getColor(`${iconColor}.focus`, theme)};
 				}
 			}
 			&:hover {
 				outline: none;
 				> ${Icon} {
-					color: ${({ theme }): string => getColor(`${iconColor}.hover`, theme)};
+					color: ${getColor(`${iconColor}.hover`, theme)};
 				}
 			}
 			&:active {
 				outline: none;
 				> ${Icon} {
-					color: ${({ theme }): string => getColor(`${iconColor}.active`, theme)};
+					color: ${getColor(`${iconColor}.active`, theme)};
 				}
 			}
 		`};
