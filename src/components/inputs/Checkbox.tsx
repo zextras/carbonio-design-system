@@ -72,7 +72,7 @@ interface CheckboxProps {
 	/** change callback */
 	onChange?: (checked: boolean) => void;
 	/** available sizes */
-	size: CheckboxSize;
+	size?: CheckboxSize;
 }
 
 const Checkbox = React.forwardRef<HTMLDivElement, CheckboxProps>(function CheckboxFn(
