@@ -108,18 +108,6 @@ const iconColorItems = [
 ];
 const [selectedIconColor, setSelectedIconColor] = useState('gray0');
 
-const disabledItems = [
-	{
-		label: 'false',
-		value: false
-	},
-	{
-		label: 'true',
-		value: true
-	}
-];
-const [selectedDisabled, setSelectedDisabled] = useState(false);
-
 <>
 	<Select
 		items={sizeItems}
@@ -135,14 +123,8 @@ const [selectedDisabled, setSelectedDisabled] = useState(false);
 		onChange={setSelectedIconColor}
 		defaultSelection={{ value: 'gray0', label: 'gray0' }}
 	/>
-	<Select
-		items={disabledItems}
-		background="gray5"
-		label="disabled"
-		onChange={setSelectedDisabled}
-		defaultSelection={{ value: false, label: 'false' }}
-	/>
-    <Switch disabled={selectedDisabled} iconColor={selectedIconColor} size={selectedSize} value={checked1} onClick={onClick1} label={`size ${selectedSize}, disabled ${selectedDisabled}, iconColor ${selectedIconColor}`} />
+    <Switch iconColor={selectedIconColor} size={selectedSize} value={checked1} onClick={onClick1} label={`size ${selectedSize}, not disabled, iconColor ${selectedIconColor}`} />
+	<Switch disabled iconColor={selectedIconColor} size={selectedSize} value={checked1} onClick={onClick1} label={`size ${selectedSize}, disabled, iconColor ${selectedIconColor}`} />
 </>
 ```
 

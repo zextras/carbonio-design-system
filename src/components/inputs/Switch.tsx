@@ -5,7 +5,7 @@
  */
 
 import React, { useRef } from 'react';
-import styled, { css, SimpleInterpolation } from 'styled-components';
+import styled, { css } from 'styled-components';
 import { ThemeObj } from '../../theme/theme';
 import Icon from '../basic/Icon';
 
@@ -18,9 +18,7 @@ import { useCheckbox } from '../../hooks/useCheckbox';
 type SwitchSize = 'medium' | 'small';
 
 const IconWrapper = styled.div<{
-	checked: boolean;
 	disabled: boolean;
-	size: SwitchSize;
 	iconColor: keyof ThemeObj['palette'];
 }>`
 	position: relative;
@@ -113,13 +111,7 @@ const Switch = React.forwardRef<HTMLDivElement, SwitchProps>(function SwitchFn(
 			crossAlignment="center"
 			{...rest}
 		>
-			<IconWrapper
-				size={size}
-				checked={checked}
-				disabled={disabled}
-				tabIndex={disabled ? -1 : 0}
-				iconColor={iconColor}
-			>
+			<IconWrapper disabled={disabled} tabIndex={disabled ? -1 : 0} iconColor={iconColor}>
 				<Icon
 					icon={checked ? 'ToggleRight' : 'ToggleLeftOutline'}
 					size={size === 'medium' ? 'large' : 'medium'}
