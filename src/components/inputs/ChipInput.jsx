@@ -450,8 +450,9 @@ ChipInput.propTypes = {
 	defaultValue: PropTypes.arrayOf(PropTypes.object),
 	/** Callback to call when Input's value changes */
 	onChange: PropTypes.func,
+	// TODO: update on typescript migration
 	/** Dropdown items */
-	options: Dropdown.propTypes.items,
+	options: PropTypes.arrayOf(PropTypes.object),
 	/** Callback to call when Input typing occurs
 	 * - returns the keyup event object with an additional textContent value
 	 * - the event is debounced using the debounce function from lodash */

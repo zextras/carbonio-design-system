@@ -41,7 +41,56 @@ const [value2, setValue2] = useState('');
             onEnter={(e) => { console.log('onEnter called with text', e.target.value) }}
             backgroundColor="gray6"
         />
+        <Input />
     </Container>
+</Container>
+```
+
+#### Colors
+
+```typescript jsx
+import { useMemo } from 'react';
+import { Container, IconButton } from '@zextras/carbonio-design-system';
+import styled from 'styled-components';
+
+const StyledIconButton = styled(IconButton)`
+  padding: 2px;
+  & > svg {
+    width: 20px;
+    height: 20px;
+    padding: 0;
+  }
+`;
+
+const CustomElement = useMemo(() =>
+		({ hasFocus, disabled, hasError }) =>
+			<StyledIconButton
+				icon="EyeOutline"
+				iconColor={(hasError && 'error') || (hasFocus && 'primary') || 'text'}
+                onClick={() => console.log('click')}
+                disabled={disabled}
+			/>,
+	[]);
+
+<Container style={{ gap: '10px', margin: 'auto' }} width="50%">
+	<Input label="Default color. When active is primary" CustomIcon={CustomElement} description="Optional description" />
+	<Input label="Custom color. When active is primary" backgroundColor="gray5" borderColor="gray3" CustomIcon={CustomElement} description="Optional description" />
+	<Input label="Error type" backgroundColor="gray5" borderColor="gray3" hasError CustomIcon={CustomElement} description="Optional description" />
+	<Input label="Disabled type" backgroundColor="gray5" borderColor="gray3" disabled CustomIcon={CustomElement} description="Optional description" />
+	<Input label="Error Disabled type" backgroundColor="gray5" borderColor="gray3" hasError disabled CustomIcon={CustomElement} description="Optional description" />
+</Container>
+```
+
+#### Optional description
+Optional description is set to break on new line on overflow
+```typescript jsx
+import { useMemo } from 'react';
+import { Container } from '@zextras/carbonio-design-system';
+import styled from 'styled-components';
+
+<Container style={{ gap: '10px', margin: 'auto' }} width="50%">
+	<Input label="Input label" backgroundColor="gray5" borderColor="gray3" description="Optional short description" />
+	<Input label="Input label" backgroundColor="gray5" borderColor="gray3" description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas in tortor maximus, iaculis sem eget, scelerisque libero. Quisque fermentum massa odio, ut feugiat ipsum laoreet in. Phasellus aliquet leo et bibendum ultrices. Etiam eget iaculis odio. Nunc ut mi dignissim, sagittis purus vitae, tempor massa." />
 </Container>
 ```
 

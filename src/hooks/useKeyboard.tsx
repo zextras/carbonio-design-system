@@ -16,7 +16,7 @@ type KeyboardPresetObj = {
 	type: HtmlElementKeyboardEventKey;
 	callback: (e: KeyboardEvent) => void;
 	keys: string[];
-	modifier: boolean;
+	modifier?: boolean;
 	haveToPreventDefault?: boolean;
 };
 export type KeyboardPreset = Array<KeyboardPresetObj>;
@@ -45,7 +45,7 @@ const consoleLogKeySequence = (e: KeyboardEvent): void => {
 export function getKeyboardPreset(
 	type: ElementType,
 	callback: (e: KeyboardEvent) => void,
-	ref: React.MutableRefObject<HTMLElement> | undefined = undefined,
+	ref: React.MutableRefObject<HTMLElement | null> | undefined = undefined,
 	keys: string[] = [],
 	modifier = false
 ): KeyboardPreset {
@@ -200,7 +200,7 @@ export function useKeyboard(ref: React.RefObject<HTMLElement>, events: KeyboardP
 		() =>
 			map<KeyboardPresetObj, (e: KeyboardEvent) => void>(
 				events,
-				({ keys, modifier, callback, haveToPreventDefault = true }) =>
+				({ keys, modifier = false, callback, haveToPreventDefault = true }) =>
 					(e): void => {
 						if (
 							!keys.length ||
@@ -232,5 +232,5 @@ export function useKeyboard(ref: React.RefObject<HTMLElement>, events: KeyboardP
 			}
 		};
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [events, keyEvents, ref.current]);
+	}, [events, keyEvents, ref, ref.current]);
 }

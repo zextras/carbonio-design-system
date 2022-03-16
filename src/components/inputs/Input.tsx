@@ -5,40 +5,38 @@
  */
 
 import React, { useCallback, useMemo, useRef, useState } from 'react';
-import styled, { css, FlattenSimpleInterpolation } from 'styled-components';
+import styled, { css, SimpleInterpolation } from 'styled-components';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { KeyboardPreset, useKeyboard } from '../../hooks/useKeyboard';
 import { ThemeObj } from '../../theme/theme';
+import { getColor } from '../../theme/theme-utils';
 import Container from '../layout/Container';
+import { pseudoClasses } from '../utilities/functions';
+import Text from '../basic/Text';
+import Divider from '../layout/Divider';
 
-const ContainerEl = styled(Container)`
-	${(props): FlattenSimpleInterpolation | string =>
-		(props.disabled &&
-			css`
-				opacity: 0.5;
-			`) ||
-		''};
-	${({ theme, background, disabled }): FlattenSimpleInterpolation | string =>
-		(!disabled &&
-			css`
-				transition: background 0.2s ease-out;
-				&:focus {
-					outline: none;
-					background: ${theme.palette[background].focus};
-				}
-				&:hover {
-					outline: none;
-					background: ${theme.palette[background].hover};
-				}
-				&:active {
-					outline: none;
-					background: ${theme.palette[background].active};
-				}
-			`) ||
-		''};
+const ContainerEl = styled(Container)<{
+	background: keyof ThemeObj['palette'];
+	$disabled: boolean;
+	$hasLabel: boolean;
+}>`
+	cursor: text;
+	position: relative;
+	${({ $disabled, background, theme }): SimpleInterpolation =>
+		$disabled
+			? css`
+					background: ${getColor(`${background}.disabled`, theme)};
+			  `
+			: pseudoClasses(theme, background)}
+	padding: ${({ $hasLabel }): string => ($hasLabel ? '1px' : '10px')} 12px;
+	gap: 8px;
+	min-height: calc(
+		${({ theme }): string => theme.sizes.font.medium} * 1.5 +
+			${({ theme }): string => theme.sizes.font.extrasmall} * 1.5 + 2px
+	);
 `;
 
-const InputEl = styled.input<{ color: keyof ThemeObj['palette']; hasIcon: boolean }>`
+const InputEl = styled.input<{ color: keyof ThemeObj['palette'] }>`
 	border: none !important;
 	height: auto !important;
 	width: 100%;
@@ -47,33 +45,33 @@ const InputEl = styled.input<{ color: keyof ThemeObj['palette']; hasIcon: boolea
 	font-size: ${({ theme }): string => theme.sizes.font.medium};
 	font-weight: ${({ theme }): number => theme.fonts.weight.regular};
 	font-family: ${({ theme }): string => theme.fonts.default};
-	color: ${({ theme, color }): string => theme.palette[color].regular};
+	color: ${({ theme, color }): string => getColor(color, theme)};
+	&:disabled {
+		color: ${({ theme, color }): string => getColor(`${color}.disabled`, theme)};
+	}
 	transition: background 0.2s ease-out;
-	padding: ${({ theme }): string =>
-		`calc(${theme.sizes.padding.large} + ${theme.sizes.padding.extrasmall}) ${theme.sizes.padding.large} ${theme.sizes.padding.small}`}!important;
-	${({ hasIcon, theme }): FlattenSimpleInterpolation | string =>
-		(hasIcon &&
-			css`
-				padding-right: calc(
-					${theme.sizes.padding.large} * 2 + ${theme.sizes.icon.large} +
-						${theme.sizes.padding.small}
-				) !important;
-			`) ||
-		''}
+	line-height: 1.5;
+	padding: 0;
 	&::placeholder {
 		color: transparent;
 	}
 `;
 
-const Label = styled.label<{ hasError: boolean; hasFocus: boolean; hasIcon: boolean }>`
+const Label = styled.label<{ hasError: boolean; hasFocus: boolean; disabled: boolean }>`
 	position: absolute;
 	top: 50%;
-	left: ${({ theme }): string => theme.sizes.padding.large};
+	left: 12px;
 	font-size: ${({ theme }): string => theme.sizes.font.medium};
 	font-weight: ${({ theme }): number => theme.fonts.weight.regular};
 	font-family: ${({ theme }): string => theme.fonts.default};
-	color: ${({ theme, hasError, hasFocus }): string =>
-		theme.palette[(hasError && 'error') || (hasFocus && 'primary') || 'secondary'].regular};
+	line-height: 1.5;
+	color: ${({ theme, hasError, hasFocus, disabled }): string =>
+		getColor(
+			`${(hasError && 'error') || (hasFocus && 'primary') || 'secondary'}.${
+				disabled ? 'disabled' : 'regular'
+			}`,
+			theme
+		)};
 	transform: translateY(-50%);
 	transition: transform 150ms ease-out, font-size 150ms ease-out, top 150ms ease-out,
 		left 150ms ease-out;
@@ -83,44 +81,32 @@ const Label = styled.label<{ hasError: boolean; hasFocus: boolean; hasIcon: bool
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
-	${({ hasIcon, theme }): FlattenSimpleInterpolation | string =>
-		(hasIcon &&
-			css`
-				max-width: calc(
-					100% -
-						${`${theme.sizes.padding.large} * 3 - ${theme.sizes.icon.large} - ${theme.sizes.padding.small}`}
-				);
-			`) ||
-		''}
-
 	${InputEl}:focus + &,
 	${InputEl}:not(:placeholder-shown) + & {
-		top: ${({ theme }): string => `calc(${theme.sizes.padding.small} - 1px)`};
+		top: 1px;
 		transform: translateY(0);
-		font-size: ${({ theme }): string => theme.sizes.font.small};
+		font-size: ${({ theme }): string => theme.sizes.font.extrasmall};
 	}
 `;
-const InputUnderline = styled.div<{ hideBorder: boolean; color: keyof ThemeObj['palette'] }>`
-	position: absolute;
-	left: 0;
-	bottom: 0;
-	width: 100%;
-	height: 1px;
-	background: ${({ theme, color, hideBorder }): string =>
-		hideBorder ? 'none' : theme.palette[color].regular};
+
+const CustomIconContainer = styled.span`
+	align-self: center;
 `;
 
-const CustomIconContainer = styled(Container)`
-	position: absolute;
-	top: 0;
-	right: 0;
-	width: 56px;
-	height: 100%;
+const DividerEl = styled(Divider)`
+	&:disabled {
+		color: ${({ theme, color }): string => getColor(`${color}.disabled`, theme)};
+	}
+`;
+
+const CustomText = styled(Text)`
+	line-height: 1.5;
+	padding-top: 4px;
 `;
 
 export interface InputProps {
 	/** Input's background color */
-	backgroundColor?: string;
+	backgroundColor?: keyof ThemeObj['palette'];
 	/** whether to disable the Input or not */
 	disabled?: boolean;
 	/** Input's text color */
@@ -128,7 +114,7 @@ export interface InputProps {
 	/** Input's bottom border color */
 	borderColor?: keyof ThemeObj['palette'];
 	/** Label of the input, will act (graphically) as placeholder when the input is not focused */
-	label: string;
+	label?: string;
 	/** input change callback */
 	onChange?: (e: React.SyntheticEvent) => void;
 	/** ref to the input element */
@@ -137,9 +123,9 @@ export interface InputProps {
 	value?: string | number;
 	/** default value of the input */
 	defaultValue?: string | number;
-	/** Whether or not the input has an error */
+	/** Whether the input has an error */
 	hasError?: boolean;
-	/** Whether or not the input should focus on load */
+	/** Whether the input should focus on load */
 	autoFocus?: boolean;
 	/** input autocompletion type (HTML input attribute) */
 	autoComplete?: string;
@@ -153,6 +139,8 @@ export interface InputProps {
 	hideBorder?: boolean;
 	/** on Enter key callback */
 	onEnter?: (e: KeyboardEvent) => void;
+	/** Description of the input */
+	description?: string;
 }
 
 type Input = React.ForwardRefExoticComponent<InputProps & React.RefAttributes<HTMLDivElement>> & {
@@ -178,6 +166,7 @@ const Input: Input = React.forwardRef<HTMLDivElement, InputProps>(function Input
 		type = 'text',
 		hideBorder = false,
 		onEnter,
+		description,
 		...rest
 	},
 	ref
@@ -219,52 +208,67 @@ const Input: Input = React.forwardRef<HTMLDivElement, InputProps>(function Input
 	useKeyboard(comboRef, keyboardEvents);
 
 	return (
-		<ContainerEl
-			ref={ref}
-			orientation="horizontal"
-			width="fill"
-			height="fit"
-			borderRadius="half"
-			background={backgroundColor}
-			style={{
-				cursor: 'text',
-				position: 'relative'
-			}}
-			onClick={onInputFocus}
-			disabled={disabled}
-			{...rest}
-		>
-			<InputEl
-				// eslint-disable-next-line jsx-a11y/no-autofocus
-				autoFocus={autoFocus || undefined}
-				autoComplete={autoComplete || 'off'} // This one seems to be a React quirk, 'off' doesn't really work
-				color={textColor}
-				ref={comboRef}
-				type={type}
-				onFocus={onInputFocus}
-				onBlur={onInputBlur}
-				id={id}
-				name={inputName || label}
-				defaultValue={defaultValue}
-				value={value}
-				onChange={onChange}
-				disabled={disabled}
-				placeholder={label}
-				hasIcon={!!CustomIcon}
+		<Container height="fit" width="fill" crossAlignment="flex-start">
+			<ContainerEl
+				ref={ref}
+				orientation="horizontal"
+				width="fill"
+				height="fit"
+				crossAlignment={label ? 'flex-end' : 'center'}
+				borderRadius="half"
+				background={backgroundColor}
+				onClick={onInputFocus}
+				$disabled={disabled}
+				$hasLabel={!!label}
+				{...rest}
+			>
+				<InputEl
+					// eslint-disable-next-line jsx-a11y/no-autofocus
+					autoFocus={autoFocus || undefined}
+					autoComplete={autoComplete || 'off'} // This one seems to be a React quirk, 'off' doesn't really work
+					color={textColor}
+					ref={comboRef}
+					type={type}
+					onFocus={onInputFocus}
+					onBlur={onInputBlur}
+					id={id}
+					name={inputName || label}
+					defaultValue={defaultValue}
+					value={value}
+					onChange={onChange}
+					disabled={disabled}
+					placeholder={label}
+				/>
+				{label && (
+					<Label htmlFor={id} hasFocus={hasFocus} hasError={hasError} disabled={disabled}>
+						{label}
+					</Label>
+				)}
+				{CustomIcon && (
+					<CustomIconContainer>
+						<CustomIcon hasError={hasError} hasFocus={hasFocus} disabled={disabled} />
+					</CustomIconContainer>
+				)}
+			</ContainerEl>
+			<DividerEl
+				color={
+					(hideBorder && 'transparent') ||
+					(hasError && 'error') ||
+					(hasFocus && 'primary') ||
+					borderColor
+				}
 			/>
-			<Label htmlFor={id} hasFocus={hasFocus} hasError={hasError} hasIcon={!!CustomIcon}>
-				{label}
-			</Label>
-			{CustomIcon && (
-				<CustomIconContainer>
-					<CustomIcon hasError={hasError} hasFocus={hasFocus} disabled={disabled} />
-				</CustomIconContainer>
+			{description && (
+				<CustomText
+					size="extrasmall"
+					color={(hasError && 'error') || (hasFocus && 'primary') || 'secondary'}
+					disabled={disabled}
+					overflow="break-word"
+				>
+					{description}
+				</CustomText>
 			)}
-			<InputUnderline
-				hideBorder={hideBorder}
-				color={(hasError && 'error') || (hasFocus && 'primary') || borderColor}
-			/>
-		</ContainerEl>
+		</Container>
 	);
 });
 
