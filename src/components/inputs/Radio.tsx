@@ -35,28 +35,25 @@ const StyledIcon = styled(Icon)<{ checked: boolean }>`
 const RadioContainer = styled(Container)<{
 	$iconColor: keyof ThemeObj['palette'];
 }>`
-	${({ disabled, $iconColor }): any =>
+	${({ theme, disabled, $iconColor }): SimpleInterpolation =>
 		!disabled &&
 		css`
 			&:focus {
 				outline: none;
 				> ${StyledIcon} {
-					color: ${({ theme }): string =>
-						theme.palette[$iconColor as keyof ThemeObj['palette']].focus};
+					color: ${theme.palette[$iconColor].focus};
 				}
 			}
 			&:hover {
 				outline: none;
 				> ${StyledIcon} {
-					color: ${({ theme }): string =>
-						theme.palette[$iconColor as keyof ThemeObj['palette']].hover};
+					color: ${theme.palette[$iconColor].hover};
 				}
 			}
 			&:active {
 				outline: none;
 				> ${StyledIcon} {
-					color: ${({ theme }): string =>
-						theme.palette[$iconColor as keyof ThemeObj['palette']].active};
+					color: ${theme.palette[$iconColor].active};
 				}
 			}
 		`};
@@ -73,7 +70,6 @@ interface RadioProps {
 	checked?: boolean;
 	/** Radio text */
 	label?: string | React.ReactElement;
-	// PropTypes.oneOfType([PropTypes.string, PropTypes.element, PropTypes.func]),
 	/** whether to disable the radio or not */
 	disabled?: boolean;
 	/** click callback */
