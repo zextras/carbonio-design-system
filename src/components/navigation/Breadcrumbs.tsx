@@ -7,7 +7,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { map } from 'lodash';
-import PropTypes from 'prop-types';
+import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import Container from '../layout/Container';
 import Text from '../basic/Text';
 import Padding from '../layout/Padding';
@@ -27,7 +27,11 @@ const CrumbPadding = styled(Padding)`
 	cursor: pointer;
 `;
 
-const BreadcrumbSeparator = ({ color }) => (
+interface BreadcrumbSeparatorProps {
+	color: React.ComponentPropsWithRef<typeof Text>['color'];
+}
+
+const BreadcrumbSeparator = ({ color }: BreadcrumbSeparatorProps): JSX.Element => (
 	<Padding all="extrasmall" style={{ cursor: 'default' }}>
 		<Text size="large" color={color}>
 			/
@@ -35,8 +39,26 @@ const BreadcrumbSeparator = ({ color }) => (
 	</Padding>
 );
 
-function Breadcrumbs({ crumbs, collapserProps, dropdownProps, ...rest }) {
-	const [visibleCrumbs, hiddenCrumbs, containerRef] = useSplitVisibility(crumbs, 'start');
+type DropdownItems = React.ComponentPropsWithRef<typeof Dropdown>['items'];
+
+interface BreadcrumbsProps {
+	/** Array of items, check Dropdown items prop to see the shape of an item */
+	crumbs: DropdownItems;
+	/** Props to spread to the collapser element */
+	collapserProps: React.ComponentPropsWithRef<typeof Padding>;
+	/** Props to spread to the dropdown element */
+	dropdownProps: Omit<React.ComponentPropsWithRef<typeof Dropdown>, 'items'>;
+}
+
+const Breadcrumbs = React.forwardRef<HTMLDivElement, BreadcrumbsProps>(function BreadcrumbsFn(
+	{ crumbs, collapserProps, dropdownProps, ...rest },
+	ref
+) {
+	const [visibleCrumbs, hiddenCrumbs, innerRef] = useSplitVisibility<
+		DropdownItems[number],
+		HTMLDivElement
+	>(crumbs, 'start');
+	const containerRef = useCombinedRefs<HTMLDivElement>(innerRef, ref);
 
 	return (
 		<CheckDiv ref={containerRef} {...rest}>
@@ -68,19 +90,6 @@ function Breadcrumbs({ crumbs, collapserProps, dropdownProps, ...rest }) {
 			</Container>
 		</CheckDiv>
 	);
-}
-
-Breadcrumbs.propTypes = {
-	// TODO: update on typescript migration
-	/** Array of items, check Dropdown items prop to see the shape of an item */
-	crumbs: PropTypes.arrayOf(PropTypes.object),
-	/** Props to spread to the collapser element */
-	collapserProps: PropTypes.object,
-	/** Props to spread to the dropdown element */
-	dropdownProps: PropTypes.object
-};
-Breadcrumbs.defaultProps = {
-	crumbs: []
-};
+});
 
 export default Breadcrumbs;
