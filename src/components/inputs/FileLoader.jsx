@@ -42,7 +42,8 @@ const FileLoader = React.forwardRef(function FileLoaderFn(
 FileLoader.propTypes = {
 	onChange: PropTypes.func,
 	/** icon name */
-	icon: IconButton.propTypes.icon,
+	// TODO: update to be IconButton icon prop type
+	icon: PropTypes.string,
 	/** accept multiple files */
 	multiple: PropTypes.bool,
 	/** capture mode (see <input type="file"> docs) */
