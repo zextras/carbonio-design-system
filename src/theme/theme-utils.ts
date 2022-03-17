@@ -22,11 +22,11 @@ function isThemeVariant(
 	return variant in theme.palette[color];
 }
 
-function isThemeColor(color: string, theme: ThemeObj): color is ThemePaletteColorKey {
+export function isThemeColor(color: string, theme: ThemeObj): color is ThemePaletteColorKey {
 	return color in theme.palette;
 }
 
-function isThemeSize(size: string, sizeObj: ThemeSizeObj): size is keyof ThemeSizeObj {
+export function isThemeSize(size: string, sizeObj: ThemeSizeObj): size is keyof ThemeSizeObj {
 	return size in sizeObj;
 }
 

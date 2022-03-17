@@ -6,28 +6,36 @@
 
 import React, { useRef, useCallback, useMemo } from 'react';
 import styled, { css, SimpleInterpolation } from 'styled-components';
-import { getColor } from '../../theme/theme-utils';
+import { getColor, isThemeSize, useTheme } from '../../theme/theme-utils';
 import Container from '../layout/Container';
 import Icon from '../basic/Icon';
 import { useKeyboard, getKeyboardPreset } from '../../hooks/useKeyboard';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { ThemeObj } from '../../theme/theme';
-import { pseudoClasses } from '../utilities/functions';
+import { parsePadding, pseudoClasses } from '../utilities/functions';
 
-function getSizing(size: IconButtonProps['size']): IconButtonInternalSizes {
-	switch (size) {
-		case 'small':
-			return { iconSize: 'medium', paddingSize: 'extrasmall' };
-		case 'medium':
-			return { iconSize: 'large', paddingSize: 'small' };
-		case 'large':
-		default:
-			return { iconSize: 'large', paddingSize: 'medium' };
+const SIZES = {
+	extrasmall: {
+		iconSize: '20px',
+		paddingSize: '2px'
+	},
+	small: {
+		iconSize: '22px',
+		paddingSize: '8px'
+	},
+	medium: {
+		iconSize: '24px',
+		paddingSize: '10px'
+	},
+	large: {
+		iconSize: '24px',
+		paddingSize: '12px'
 	}
-}
+} as const;
 
-const ContainerEl = styled(Container)<{ background: string }>`
+const ContainerEl = styled(Container)<{ background: string; $padding: string }>`
 	user-select: none;
+	padding: ${({ $padding }): string => $padding};
 	${({ disabled, background, theme }): SimpleInterpolation =>
 		disabled
 			? css`
@@ -39,9 +47,16 @@ const ContainerEl = styled(Container)<{ background: string }>`
 			  `};
 `;
 
+const StyledIcon = styled(Icon)<{ $size: string }>`
+	${({ $size }): SimpleInterpolation => css`
+		width: ${$size};
+		height: ${$size};
+	`}
+`;
+
 interface IconButtonInternalSizes {
-	iconSize: React.ComponentPropsWithoutRef<typeof Icon>['size'];
-	paddingSize: number | keyof ThemeObj['sizes']['padding'];
+	iconSize: string;
+	paddingSize: string;
 }
 
 interface IconButtonProps {
@@ -52,9 +67,12 @@ interface IconButtonProps {
 	/** whether to disable the IconButton or not */
 	disabled?: boolean;
 	/** button size */
-	size?: 'small' | 'medium' | 'large';
+	size?: keyof typeof SIZES;
 	/** Custom button size */
-	customSize?: IconButtonInternalSizes;
+	customSize?: {
+		iconSize: string | keyof ThemeObj['sizes']['icon'];
+		paddingSize: 0 | string | keyof ThemeObj['sizes']['padding'];
+	};
 	/** icon name */
 	icon: keyof ThemeObj['icons'];
 	/** IconButton border radius */
@@ -85,16 +103,19 @@ const IconButton = React.forwardRef<HTMLDivElement, IconButtonProps>(function Ic
 ) {
 	const innerRef = useRef<HTMLDivElement | null>(null);
 	const iconButtonRef = useCombinedRefs<HTMLDivElement>(ref, innerRef);
+	const theme = useTheme();
 
 	const { iconSize, paddingSize } = useMemo<IconButtonInternalSizes>(
 		() =>
 			customSize
 				? {
-						iconSize: customSize.iconSize,
-						paddingSize: customSize.paddingSize
+						iconSize: isThemeSize(customSize.iconSize, theme.sizes.icon)
+							? theme.sizes.icon[customSize.iconSize]
+							: customSize.iconSize,
+						paddingSize: parsePadding(customSize.paddingSize.toString(), theme)
 				  }
-				: getSizing(size),
-		[customSize, size]
+				: SIZES[size],
+		[customSize, size, theme]
 	);
 
 	const handleClick = useCallback((e) => !disabled && onClick(e), [disabled, onClick]);
@@ -109,21 +130,15 @@ const IconButton = React.forwardRef<HTMLDivElement, IconButtonProps>(function Ic
 			borderRadius={borderRadius}
 			background={backgroundColor}
 			disabled={disabled}
-			padding={
-				paddingSize !== 0
-					? {
-							all: paddingSize
-					  }
-					: {}
-			}
+			$padding={paddingSize}
 			crossAlignment="center"
 			onClick={handleClick}
 			{...rest}
 			tabIndex={disabled ? -1 : 0}
 		>
-			<Icon
+			<StyledIcon
 				icon={icon}
-				size={iconSize}
+				$size={iconSize}
 				// TODO: remove usage of customIconColor
 				color={customIconColor || iconColor}
 				disabled={disabled}
