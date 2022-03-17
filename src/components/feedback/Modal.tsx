@@ -105,15 +105,17 @@ const ModalWrapper = styled.div`
 	box-sizing: border-box;
 	pointer-events: none;
 `;
-const ModalContent = styled(Container)`
+
+const ModalContent = styled(Container)<{
+	size: 'extrasmall' | 'small' | 'medium' | 'large';
+}>`
 	position: relative;
 	margin: 0 auto ${(props): string => props.theme.sizes.padding.medium};
 	padding: 32px;
 	max-width: 100%;
-	min-width: ${(props): string =>
-		modalMinWidth[props.size as 'extrasmall' | 'small' | 'medium' | 'large']};
-	width: ${(props): string =>
-		modalWidth[props.size as 'extrasmall' | 'small' | 'medium' | 'large']};
+	min-width: ${({ size }): string =>
+		modalMinWidth[size as 'extrasmall' | 'small' | 'medium' | 'large']};
+	width: ${({ size }): string => modalWidth[size as 'extrasmall' | 'small' | 'medium' | 'large']};
 
 	background-color: ${(props): string => props.theme.palette[props.background].regular};
 	border-radius: 16px;
@@ -182,8 +184,6 @@ interface ModalProps {
 	type?: 'default' | 'error';
 	/** Modal title */
 	title?: string | React.ReactElement;
-	// TODO add missing types
-	// PropTypes.func | PropTypes.object;
 	/** Modal size */
 	size?: 'extrasmall' | 'small' | 'medium' | 'large';
 	/** Boolean to show the modal */
@@ -212,7 +212,6 @@ interface ModalProps {
 	customFooter?: React.ReactElement;
 	/** Hide the footer completely */
 	hideFooter?: boolean;
-	// TODO make it always visible or change default value?
 	/** Show icon to close Modal */
 	showCloseIcon?: boolean;
 	/** Css property to handle the stack order of multiple modals */
@@ -312,13 +311,13 @@ const Modal = React.forwardRef<HTMLDivElement, ModalProps>(function ModalFn(
 		confirmColor = 'primary',
 		onSecondaryAction,
 		secondaryActionLabel,
-		onClose,
+		onClose = noop,
 		dismissLabel,
 		copyLabel = 'Copy',
 		optionalFooter,
 		customFooter,
 		hideFooter = false,
-		showCloseIcon = false,
+		showCloseIcon = true,
 		maxHeight = '60vh',
 		children,
 		disablePortal = false,
