@@ -273,12 +273,10 @@ const Chip = React.forwardRef<HTMLDivElement, ChipProps>(function ChipFn(
 						</Tooltip>
 					);
 				} else if (action.type === 'button') {
-					const clickHandler: React.ReactEventHandler | undefined = action.onClick
-						? (event): void => {
-								event.preventDefault();
-								action.onClick(event);
-						  }
-						: undefined;
+					const clickHandler: React.ReactEventHandler = (event): void => {
+						event.preventDefault();
+						action.onClick(event);
+					};
 					item = (
 						<Tooltip
 							key={action.id}
@@ -304,7 +302,6 @@ const Chip = React.forwardRef<HTMLDivElement, ChipProps>(function ChipFn(
 										iconSize: SIZES[size].icon,
 										paddingSize: 0 // padding set through styled component
 									}}
-									tabIndex={index}
 								/>
 							</ActionContainer>
 						</Tooltip>
