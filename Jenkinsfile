@@ -77,9 +77,6 @@ pipeline {
                 executeNpmLogin()
                 nodeCmd 'npm ci'
                 nodeCmd 'npx pinst --enable'
-                script {
-                    env.VERSIONING_PARAMS = getVersioningParams("$BRANCH_NAME")
-                }
                 nodeCmd 'npm run release -- --no-verify'
                 script {
                     sh(script: """#!/bin/bash
