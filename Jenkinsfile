@@ -74,6 +74,14 @@ pipeline {
                 }
             }
             steps {
+                script {
+                    sh(script: """#!/bin/bash
+                        git config user.email \"bot@zextras.com\"
+                        git config user.name \"Tarsier Bot\"
+                        git remote set-url origin \$(git remote -v | head -n1 | cut -d\$'\t' -f2 | cut -d\" \" -f1 | sed 's!https://bitbucket.org/zextras!git@bitbucket.org:zextras!g')
+                        git fetch --unshallow
+                    """)
+                }
                 executeNpmLogin()
                 nodeCmd 'npm ci'
                 nodeCmd 'npx pinst --enable'
