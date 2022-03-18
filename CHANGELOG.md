@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.5 (2022-03-18)
+
+
+### Features
+
+* add enter key handler on input ([378752f](https://github.com/Zextras/carbonio-design-system/commit/378752f0a61725a5a8d7a634cae20b21bcb12f34))
+* first commit ([4fc1510](https://github.com/Zextras/carbonio-design-system/commit/4fc151062de4c19e324261ab5fb611523a8a3119))
+* updated icon set with new icons ([450e626](https://github.com/Zextras/carbonio-design-system/commit/450e62653477c1e362463ab71e7c045e58bc0454))
+
+
+### Bug Fixes
+
+* dark mode ([cd2a99e](https://github.com/Zextras/carbonio-design-system/commit/cd2a99e9d40422e1261ca49b1795d149fbfea5b9))
+* dropdown close behaviour issue fixed ([d64bc61](https://github.com/Zextras/carbonio-design-system/commit/d64bc612f3c3f36e93cf3cceb037752b78cf4fbb))
+
 ### [0.1.2-beta.3](https://bitbucket.org/zextras/zapp-ui/compare/v0.1.2-beta.2...v0.1.2-beta.3) (2021-12-29)
 
 
