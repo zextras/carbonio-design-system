@@ -86,7 +86,7 @@ export * from './hooks/useSnackbar';
 export * from './hooks/useModal';
 export * from './hooks/useSplitVisibility';
 
-export * from './components/utilities/functions';
+export * from './theme/theme-utils';
 
 // export types
 // @see https://github.com/rollup/rollup-plugin-typescript/issues/28#issuecomment-546387825

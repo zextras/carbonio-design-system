@@ -6,7 +6,7 @@
 
 import { darken, desaturate, lighten, setLightness } from 'polished';
 import { useContext } from 'react';
-import { parsePadding } from '../components/utilities/functions';
+import { css, FlattenSimpleInterpolation } from 'styled-components';
 import { ThemeObj, ThemeColorObj, ThemeSizeObj } from './theme';
 import { ThemeContext } from './theme-context-provider';
 
@@ -131,6 +131,18 @@ function getColor(
 	return getColorValue(color, theme);
 }
 
+function parsePadding(padding: string, theme: ThemeObj): string {
+	let paddingValue = padding;
+	const paddingSizes = Object.keys(theme.sizes.padding) as Array<
+		keyof ThemeObj['sizes']['padding']
+	>;
+	paddingSizes.forEach((size) => {
+		const regex = new RegExp(`(^|\\s)(${size})`, 'g');
+		paddingValue = paddingValue.replace(regex, `$1${theme.sizes.padding[size]}`);
+	});
+	return paddingValue;
+}
+
 const simpleParsePadding = (size: string, theme: ThemeObj): string => {
 	const explodedSizes = size.split(' ');
 	explodedSizes.forEach((padding, index) => {
@@ -139,6 +151,7 @@ const simpleParsePadding = (size: string, theme: ThemeObj): string => {
 	});
 	return explodedSizes.join(' ');
 };
+
 const getPadding = (
 	size: string,
 	theme?: ThemeObj
@@ -152,6 +165,41 @@ const getParsedPadding =
 	({ theme }: { theme: ThemeObj }): string | ((args: { theme: ThemeObj }) => string) =>
 		parsePadding(size, theme);
 
+function pseudoClasses(
+	theme: ThemeObj,
+	color: string | keyof ThemeObj['palette'],
+	cssProperty = 'background'
+): FlattenSimpleInterpolation {
+	return css`
+		transition: background 0.2s ease-out;
+		${cssProperty}: ${getColor(color, theme)};
+		&:focus {
+			outline: none;
+			${cssProperty}: ${getColor(`${color}.focus`, theme)};
+		}
+		&:hover {
+			outline: none;
+			${cssProperty}: ${getColor(`${color}.hover`, theme)};
+		}
+		&:active {
+			outline: none;
+			${cssProperty}: ${getColor(`${color}.active`, theme)};
+		}
+		&:disabled {
+			outline: none;
+			${cssProperty}: ${getColor(`${color}.disabled`, theme)};
+		}
+	`;
+}
+
 const useTheme = (): ThemeObj => useContext(ThemeContext);
 
-export { generateColorSet, getColor, getPadding, getParsedPadding, useTheme };
+export {
+	generateColorSet,
+	getColor,
+	getPadding,
+	getParsedPadding,
+	useTheme,
+	parsePadding,
+	pseudoClasses
+};

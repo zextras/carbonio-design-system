@@ -9,9 +9,8 @@ import styled, { css, SimpleInterpolation } from 'styled-components';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { KeyboardPreset, useKeyboard } from '../../hooks/useKeyboard';
 import type { ThemeObj } from '../../theme/theme';
-import { getColor } from '../../theme/theme-utils';
+import { getColor, pseudoClasses } from '../../theme/theme-utils';
 import { Container } from '../layout/Container';
-import { pseudoClasses } from '../utilities/functions';
 import { Text } from '../basic/Text';
 import { Divider } from '../layout/Divider';
 

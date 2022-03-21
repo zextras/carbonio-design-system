@@ -15,8 +15,7 @@ import { Avatar } from '../basic/Avatar';
 import { Row } from '../layout/Row';
 import { Text } from '../basic/Text';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
-import { useTheme } from '../../theme/theme-utils';
-import { pseudoClasses } from '../utilities/functions';
+import { useTheme, pseudoClasses } from '../../theme/theme-utils';
 
 type ChipAction = {
 	/** Chip action icon color */
