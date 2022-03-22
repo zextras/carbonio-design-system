@@ -32,7 +32,7 @@ import Divider from '../layout/Divider';
 import { useKeyboard, getKeyboardPreset, KeyboardPreset } from '../../hooks/useKeyboard';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { pseudoClasses } from '../utilities/functions';
-import { ThemeObj } from '../../theme/theme';
+import type { ThemeObj } from '../../theme/theme';
 
 const ContainerEl = styled(Container)<{
 	$selectedBackgroundColor?: keyof ThemeObj['palette'];

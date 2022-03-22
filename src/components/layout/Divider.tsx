@@ -6,7 +6,7 @@
 
 import React from 'react';
 import styled from 'styled-components';
-import { ThemeObj } from '../../theme/theme';
+import type { ThemeObj } from '../../theme/theme';
 import { getColor } from '../../theme/theme-utils';
 
 interface DividerProps {

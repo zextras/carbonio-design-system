@@ -13,7 +13,7 @@ import Text from '../basic/Text';
 import Padding from '../layout/Padding';
 import { useCheckbox } from '../../hooks/useCheckbox';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
-import { ThemeObj } from '../../theme/theme';
+import type { ThemeObj } from '../../theme/theme';
 
 type CheckboxSize = 'medium' | 'small';
 

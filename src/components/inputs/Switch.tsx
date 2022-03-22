@@ -6,7 +6,7 @@
 
 import React, { useRef } from 'react';
 import styled, { css, SimpleInterpolation } from 'styled-components';
-import { ThemeObj } from '../../theme/theme';
+import type { ThemeObj } from '../../theme/theme';
 import Icon from '../basic/Icon';
 
 import Container from '../layout/Container';
