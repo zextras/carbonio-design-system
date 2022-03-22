@@ -3,6 +3,7 @@
 	"version": "0.1.3",
 	"description": "An awesome UI for Zextras Projects.",
 	"main": "dist/zapp-ui.bundle.js",
+	"types": "dist/zapp-ui.bundle.d.ts",
 	"scripts": {
 		"start": "npm run styleguide",
 		"release": "standard-version",
@@ -11,13 +12,14 @@
 		"styleguide:build": "styleguidist build",
 		"test": "jest",
 		"icons:build": "npx @svgr/cli -d src/icons svg && npx create-index -ri ./src/icons --extensions js jsx --outputFile index.jsx",
-		"build": "npx rollup -c rollup.config.js",
+		"build": "npx rollup -c rollup.config.js && npx @microsoft/api-extractor run --local --verbose",
 		"clean": "rm -rf dist/*",
-		"prepublishOnly": "pinst --disable && npm run clean && npm run build",
+		"prepublishOnly": "npm run type-declaration; pinst --disable && npm run clean && npm run build",
 		"deploy": "npm run prepublishOnly && rm -rf $PKG_PATH/node_modules/@zextras/carbonio-design-system/dist/ && cp -r dist/ $PKG_PATH/node_modules/@zextras/carbonio-design-system/dist/ && cp package.json $PKG_PATH/node_modules/@zextras/carbonio-design-system/ && cd $PKG_PATH/node_modules/@zextras/carbonio-design-system/ && rm -rf node_modules && npm i --only=prod",
 		"postinstall": "is-ci || husky install",
 		"postpublish": "pinst --enable",
-		"type-check": "tsc"
+		"type-check": "tsc --noEmit",
+		"type-declaration": "tsc -p tsconfig.types.json; eslint --resolve-plugins-relative-to node_modules/@zextras/carbonio-ui-configs --fix types"
 	},
 	"repository": {
 		"type": "git",

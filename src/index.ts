@@ -93,3 +93,7 @@ export { useModal } from './hooks/useModal';
 export { useSplitVisibility } from './hooks/useSplitVisibility';
 
 export { pseudoClasses } from './components/utilities/functions';
+
+// export types
+// @see https://github.com/rollup/rollup-plugin-typescript/issues/28#issuecomment-546387825
+export type Theme = import('./theme/theme').ThemeObj;
