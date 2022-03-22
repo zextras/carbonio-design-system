@@ -7,7 +7,7 @@
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { map } from 'lodash';
 import styled, { css, SimpleInterpolation } from 'styled-components';
-import { ThemeObj } from '../../theme/theme';
+import type { ThemeObj } from '../../theme/theme';
 import Tooltip from './Tooltip';
 import Icon from '../basic/Icon';
 import IconButton from '../inputs/IconButton';

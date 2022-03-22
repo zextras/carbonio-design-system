@@ -7,7 +7,7 @@
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
 import Icon from './Icon';
-import { ThemeObj } from '../../theme/theme';
+import type { ThemeObj } from '../../theme/theme';
 import { getColor } from '../../theme/theme-utils';
 
 type ShapeType = 'round' | 'square';

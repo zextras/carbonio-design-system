@@ -11,7 +11,7 @@ import Container from '../layout/Container';
 import Text from '../basic/Text';
 import { useKeyboard, getKeyboardPreset } from '../../hooks/useKeyboard';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
-import { ThemeObj } from '../../theme/theme';
+import type { ThemeObj } from '../../theme/theme';
 
 const CustomText = styled(Text)`
 	line-height: 1.5;

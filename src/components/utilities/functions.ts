@@ -5,7 +5,7 @@
  */
 
 import { css, FlattenSimpleInterpolation } from 'styled-components';
-import { ThemeObj } from '../../theme/theme';
+import type { ThemeObj } from '../../theme/theme';
 
 export function pseudoClasses(
 	theme: ThemeObj,
