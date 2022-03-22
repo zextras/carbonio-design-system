@@ -9,7 +9,7 @@ import styled from 'styled-components';
 import type { ThemeObj } from '../../theme/theme';
 import { getColor } from '../../theme/theme-utils';
 
-import { Text } from './Text';
+import { Text, TextProps } from './Text';
 import { useKeyboard, getKeyboardPreset } from '../../hooks/useKeyboard';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 
@@ -29,33 +29,34 @@ const StyledLink = styled(Text).attrs({
 	}
 `;
 
-interface LinkProps extends React.ComponentPropsWithoutRef<typeof Text> {
+interface LinkProps extends TextProps {
 	/** Whether the link should be underlined */
 	underlined?: boolean;
 	color?: string | keyof ThemeObj['palette'];
 }
 
-const Link = React.forwardRef<HTMLDivElement, LinkProps & AnchorHTMLAttributes<HTMLAnchorElement>>(
-	function LinkFn({ children, size, underlined = false, color = 'primary', ...rest }, ref) {
-		const linkRef = useCombinedRefs<HTMLDivElement>(ref);
+const Link = React.forwardRef<HTMLDivElement, LinkProps>(function LinkFn(
+	{ children, size, underlined = false, color = 'primary', ...rest },
+	ref
+) {
+	const linkRef = useCombinedRefs<HTMLDivElement>(ref);
 
-		const keyPress = useCallback(() => linkRef.current && linkRef.current.click(), [linkRef]);
-		const keyEvents = useMemo(() => getKeyboardPreset('button', keyPress), [keyPress]);
-		useKeyboard(linkRef, keyEvents);
+	const keyPress = useCallback(() => linkRef.current && linkRef.current.click(), [linkRef]);
+	const keyEvents = useMemo(() => getKeyboardPreset('button', keyPress), [keyPress]);
+	useKeyboard(linkRef, keyEvents);
 
-		return (
-			<StyledLink
-				ref={linkRef}
-				size={size}
-				$underlined={underlined}
-				color={color}
-				tabIndex={0}
-				{...rest}
-			>
-				{children}
-			</StyledLink>
-		);
-	}
-);
+	return (
+		<StyledLink
+			ref={linkRef}
+			size={size}
+			$underlined={underlined}
+			color={color}
+			tabIndex={0}
+			{...rest}
+		>
+			{children}
+		</StyledLink>
+	);
+});
 
 export { Link, LinkProps };
