@@ -22,7 +22,7 @@ const plugins = [
 			'babel-plugin-styled-components',
 			['@quickbaseoss/babel-plugin-styled-components-css-namespace', { cssNamespace: '&&&' }]
 		],
-    extensions: ['.js', '.jsx', '.ts', '.tsx'],
+		extensions: ['.js', '.jsx', '.ts', '.tsx'],
 		ignore: ['node_modules']
 	})
 ];
