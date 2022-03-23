@@ -91,4 +91,4 @@ Padding.defaultProps = {
 	height: 'fit-content'
 };
 
-export default Padding;
+export { Padding };

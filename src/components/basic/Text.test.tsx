@@ -5,7 +5,7 @@
  */
 import React from 'react';
 import { screen } from '@testing-library/react';
-import Text from './Text';
+import { Text } from './Text';
 import { render } from '../../test-utils';
 
 describe('Text', () => {

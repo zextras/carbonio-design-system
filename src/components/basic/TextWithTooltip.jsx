@@ -7,8 +7,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Theme } from '../../theme/theme';
-import Tooltip from '../display/Tooltip';
-import Text from './Text';
+import { Tooltip } from '../display/Tooltip';
+import { Text } from './Text';
 
 const TextWithTooltip = React.forwardRef(function TextFn({ children, ...rest }, ref) {
 	return (
@@ -32,4 +32,4 @@ TextWithTooltip.propTypes = {
 	disabled: PropTypes.bool
 };
 
-export default TextWithTooltip;
+export { TextWithTooltip };

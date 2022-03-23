@@ -12,7 +12,7 @@ import { act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { render } from '../../test-utils';
 import { Accordion, AccordionItem } from './Accordion';
-import Button from '../basic/Button';
+import { Button } from '../basic/Button';
 
 describe('Accordion', () => {
 	test('Render root level Accordion items', () => {

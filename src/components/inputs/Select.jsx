@@ -8,13 +8,13 @@ import React, { useState, useMemo, useCallback, useReducer, useEffect } from 're
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 import { some, isEmpty } from 'lodash';
-import Container from '../layout/Container';
-import Divider from '../layout/Divider';
-import Dropdown from '../display/Dropdown';
-import Icon from '../basic/Icon';
-import Padding from '../layout/Padding';
-import Row from '../layout/Row';
-import Text from '../basic/Text';
+import { Container } from '../layout/Container';
+import { Divider } from '../layout/Divider';
+import { Dropdown } from '../display/Dropdown';
+import { Icon } from '../basic/Icon';
+import { Padding } from '../layout/Padding';
+import { Row } from '../layout/Row';
+import { Text } from '../basic/Text';
 import { Theme } from '../../theme/theme';
 
 const Label = styled(Text)`
@@ -311,4 +311,4 @@ Select.defaultProps = {
 	showCheckbox: true
 };
 
-export default Select;
+export { Select };

@@ -7,7 +7,7 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { drop, head, last, slice } from 'lodash';
 
-export function useSplitVisibility<T, R extends HTMLElement = HTMLElement>(
+function useSplitVisibility<T, R extends HTMLElement = HTMLElement>(
 	items: T[],
 	removeFrom = 'end'
 ): [T[], T[], React.RefObject<R>] {
@@ -65,3 +65,5 @@ export function useSplitVisibility<T, R extends HTMLElement = HTMLElement>(
 
 	return [visibleItems, hiddenItems, containerRef];
 }
+
+export { useSplitVisibility };

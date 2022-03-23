@@ -9,7 +9,7 @@
 import React from 'react';
 import { screen } from '@testing-library/dom';
 import { render } from '../../test-utils';
-import Catcher from './Catcher';
+import { Catcher } from './Catcher';
 
 function ErrorComponent() {
 	throw new Error("Error from the test component, don't panic if You see this error.");

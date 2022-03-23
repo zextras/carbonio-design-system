@@ -37,4 +37,4 @@ const Portal = React.forwardRef<React.ReactPortal, PortalProps>(function PortalF
 	return ReactDOM.createPortal(children, container);
 });
 
-export default Portal;
+export { Portal, PortalProps };

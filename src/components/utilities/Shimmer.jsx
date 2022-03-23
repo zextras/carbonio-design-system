@@ -6,9 +6,9 @@
 
 import React from 'react';
 import styled, { keyframes } from 'styled-components';
-import Container from '../layout/Container';
+import { Container } from '../layout/Container';
 import { FormSection, FormSubSection } from '../basic/FormSection';
-import Padding from '../layout/Padding';
+import { Padding } from '../layout/Padding';
 
 const sizes = {
 	small: 5,
@@ -843,4 +843,4 @@ ShimmerObject.Stepper.displayName = 'ShimmerObject.Stepper';
 ShimmerObject.TableListItem.displayName = 'ShimmerObject.TableListItem';
 ShimmerObject.Text.displayName = 'ShimmerObject.Text';
 ShimmerObject.displayName = 'ShimmerObject';
-export default Shimmer;
+export { Shimmer };

@@ -11,7 +11,7 @@ import { screen } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
 import { act } from '@testing-library/react';
 import { render } from '../../test-utils';
-import Checkbox from './Checkbox';
+import { Checkbox } from './Checkbox';
 
 describe('Checkbox', () => {
 	test('Render a checkbox with a label', () => {

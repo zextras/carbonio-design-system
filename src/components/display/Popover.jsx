@@ -8,7 +8,7 @@ import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { debounce } from 'lodash';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import Popper from './Popper';
+import { Popper } from './Popper';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 
 const PopoverContainer = styled.div`
@@ -126,4 +126,4 @@ Popover.defaultProps = {
 	styleAsModal: false
 };
 
-export default Popover;
+export { Popover };

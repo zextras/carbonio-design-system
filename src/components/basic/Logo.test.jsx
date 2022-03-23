@@ -6,7 +6,7 @@
 
 import React from 'react';
 import { render } from '../../test-utils';
-import Logo from './Logo';
+import { Logo } from './Logo';
 
 describe('Logo', () => {
 	test('Render Logo', () => {

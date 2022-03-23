@@ -11,8 +11,8 @@ This component is used to create a shimmering effect on the element that is pass
 #### Skeleton.Avatar
 
 ```jsx
-import Padding from '../layout/Padding';
-import Container from '../layout/Container';
+import { Padding } from '../layout/Padding';
+import { Container } from '../layout/Container';
 
 <>
 	<Container orientation="horizontal" mainAlignment="flex-start" width="100%">
@@ -34,8 +34,8 @@ import Container from '../layout/Container';
 #### Skeleton.Badge
 
 ```jsx
-import Padding from '../layout/Padding';
-import Container from '../layout/Container';
+import { Padding } from '../layout/Padding';
+import { Container } from '../layout/Container';
 
 <>
 	<Container orientation="horizontal" mainAlignment="flex-start" width="fill">
@@ -49,8 +49,8 @@ import Container from '../layout/Container';
 #### Skeleton.Button
 
 ```jsx
-import Padding from '../layout/Padding';
-import Container from '../layout/Container';
+import { Padding } from '../layout/Padding';
+import { Container } from '../layout/Container';
 
 <>
 	<Container orientation="horizontal" mainAlignment="flex-start" width="fill">
@@ -73,8 +73,8 @@ import Container from '../layout/Container';
 #### Skeleton.Icon
 
 ```jsx
-import Padding from '../layout/Padding';
-import Container from '../layout/Container';
+import { Padding } from '../layout/Padding';
+import { Container } from '../layout/Container';
 
 <>
 	<Container orientation="horizontal" mainAlignment="flex-start" width="fill">
@@ -88,8 +88,8 @@ import Container from '../layout/Container';
 #### Skeleton.Logo
 
 ```jsx
-import Padding from '../layout/Padding';
-import Container from '../layout/Container';
+import { Padding } from '../layout/Padding';
+import { Container } from '../layout/Container';
 
 <>
 	<Container orientation="horizontal" mainAlignment="flex-start" width="fill">
@@ -106,8 +106,8 @@ import Container from '../layout/Container';
 #### Skeleton.Text
 
 ```jsx
-import Padding from '../layout/Padding';
-import Container from '../layout/Container';
+import { Padding } from '../layout/Padding';
+import { Container } from '../layout/Container';
 
 <>
 	<Container orientation="vertical" mainAlignment="flex-start" width="fill">
@@ -153,8 +153,8 @@ import Container from '../layout/Container';
 #### Skeleton.Input
 
 ```jsx
-import Padding from '../layout/Padding';
-import Container from '../layout/Container';
+import { Padding } from '../layout/Padding';
+import { Container } from '../layout/Container';
 
 <>
 	<Container orientation="horizontal" mainAlignment="flex-start" width="fill">
@@ -168,8 +168,8 @@ import Container from '../layout/Container';
 #### Skeleton.Searchbar
 
 ```jsx
-import Padding from '../layout/Padding';
-import Container from '../layout/Container';
+import { Padding } from '../layout/Padding';
+import { Container } from '../layout/Container';
 
 <>
 	<Container orientation="horizontal" mainAlignment="flex-start" width="fill">
@@ -184,8 +184,8 @@ import Container from '../layout/Container';
 #### Skeleton.Accordion
 
 ```jsx
-import Padding from '../layout/Padding';
-import Container from '../layout/Container';
+import { Padding } from '../layout/Padding';
+import { Container } from '../layout/Container';
 
 <>
 	<Container orientation="vertical" mainAlignment="flex-start" width="100%">
@@ -212,8 +212,8 @@ import Container from '../layout/Container';
 #### Skeleton.Stepper
 
 ```jsx
-import Padding from '../layout/Padding';
-import Container from '../layout/Container';
+import { Padding } from '../layout/Padding';
+import { Container } from '../layout/Container';
 
 <>
 	<Container orientation="vertical" mainAlignment="flex-start" width="100%">
@@ -239,8 +239,8 @@ import Container from '../layout/Container';
 #### Skeleton.EmailChip
 
 ```jsx
-import Padding from '../layout/Padding';
-import Container from '../layout/Container';
+import { Padding } from '../layout/Padding';
+import { Container } from '../layout/Container';
 
 <>
 	<Container orientation="vertical" mainAlignment="flex-start" width="100%">
@@ -277,8 +277,8 @@ import Container from '../layout/Container';
 #### Skeleton.Snackbar
 
 ```jsx
-import Padding from '../layout/Padding';
-import Container from '../layout/Container';
+import { Padding } from '../layout/Padding';
+import { Container } from '../layout/Container';
 
 <>
 	<Container orientation="vertical" mainAlignment="flex-start" width="100%">
@@ -303,7 +303,7 @@ import Container from '../layout/Container';
 #### List Item
 
 ```jsx
-import Padding from '../layout/Padding';
+import { Padding } from '../layout/Padding';
 
 <>
 	<Shimmer.ListItem width="455px" type={1} />
@@ -321,7 +321,7 @@ import Padding from '../layout/Padding';
 #### Table List Item
 
 ```jsx
-import Padding from '../layout/Padding';
+import { Padding } from '../layout/Padding';
 
 <>
 	<Shimmer.TableListItem width="455px" type={1} />

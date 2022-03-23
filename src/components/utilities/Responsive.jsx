@@ -25,4 +25,4 @@ Responsive.defaultProps = {
 	target: undefined
 };
 
-export default Responsive;
+export { Responsive };

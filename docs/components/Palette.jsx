@@ -3,12 +3,12 @@
  *
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-import React, {Fragment} from 'react';
+import React, { Fragment } from 'react';
 import styled from 'styled-components';
 import { map } from 'lodash';
-import Container from '../../src/components/layout/Container';
-import Text from '../../src/components/basic/Text';
-import Padding from '../../src/components/layout/Padding';
+import { Container } from '../../src/components/layout/Container';
+import { Text } from '../../src/components/basic/Text';
+import { Padding } from '../../src/components/layout/Padding';
 
 const PaletteEl = styled.div`
 	width: 150px;

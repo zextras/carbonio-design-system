@@ -8,14 +8,15 @@
 import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { noop } from 'lodash';
 import styled, { css, SimpleInterpolation } from 'styled-components';
-import Button from '../basic/Button';
-import Container from '../layout/Container';
-import Divider from '../layout/Divider';
-import IconButton from '../inputs/IconButton';
-import Portal from '../utilities/Portal';
-import Row from '../layout/Row';
-import Text from '../basic/Text';
-import Transition from '../utilities/Transition';
+import type { ThemeObj } from '../../theme/theme';
+import { Button } from '../basic/Button';
+import { Container } from '../layout/Container';
+import { Divider } from '../layout/Divider';
+import { IconButton } from '../inputs/IconButton';
+import { Portal } from '../utilities/Portal';
+import { Row } from '../layout/Row';
+import { Text } from '../basic/Text';
+import { Transition } from '../utilities/Transition';
 import { KeyboardPreset, useKeyboard } from '../../hooks/useKeyboard';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 
@@ -179,7 +180,7 @@ const ModalCloseIcon = styled(IconButton)`
 
 interface ModalProps {
 	/** Modal background */
-	background?: Container.propTypes.background;
+	background?: string | keyof ThemeObj['palette'];
 	/** Modal type */
 	type?: 'default' | 'error';
 	/** Modal title */
@@ -195,7 +196,7 @@ interface ModalProps {
 	/** Label for the Main action Button */
 	confirmLabel?: string;
 	/** BackgroundColor for the Main action Button */
-	confirmColor?: Button.propTypes.color;
+	confirmColor?: string | keyof ThemeObj['palette'];
 	/** Callback for secondary action */
 	onSecondaryAction?: (event: React.MouseEvent<HTMLDivElement>) => void;
 	/** Label for the Secondary action Button */

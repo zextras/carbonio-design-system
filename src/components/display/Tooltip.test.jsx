@@ -11,9 +11,9 @@ import React from 'react';
 import { screen } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
 import { render } from '../../test-utils';
-import Tooltip from './Tooltip';
-import Container from '../layout/Container';
-import Button from '../basic/Button';
+import { Tooltip } from './Tooltip';
+import { Container } from '../layout/Container';
+import { Button } from '../basic/Button';
 
 describe('Tooltip', () => {
 	test('Render Tooltip', async () => {

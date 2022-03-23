@@ -7,7 +7,7 @@
 import { useEffect, useState, useMemo, useCallback } from 'react';
 import { getKeyboardPreset, useKeyboard } from './useKeyboard';
 
-export function useCheckbox({ ref, value, defaultChecked, disabled, onClick, onChange }) {
+function useCheckbox({ ref, value, defaultChecked, disabled, onClick, onChange }) {
 	const [checked, setChecked] = useState(value || defaultChecked || false);
 
 	const uncontrolledMode = useMemo(() => typeof value === 'undefined', [value]);
@@ -47,3 +47,5 @@ export function useCheckbox({ ref, value, defaultChecked, disabled, onClick, onC
 
 	return checked;
 }
+
+export { useCheckbox };

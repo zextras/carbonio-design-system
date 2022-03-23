@@ -7,10 +7,10 @@
 import React, { useMemo, useRef } from 'react';
 import styled, { css, SimpleInterpolation } from 'styled-components';
 import { getColor } from '../../theme/theme-utils';
-import Container from '../layout/Container';
-import Icon from '../basic/Icon';
-import Text from '../basic/Text';
-import Padding from '../layout/Padding';
+import { Container } from '../layout/Container';
+import { Icon } from '../basic/Icon';
+import { Text } from '../basic/Text';
+import { Padding } from '../layout/Padding';
 import { useCheckbox } from '../../hooks/useCheckbox';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import type { ThemeObj } from '../../theme/theme';
@@ -64,7 +64,7 @@ interface CheckboxProps {
 	/** Checkbox text */
 	label?: string;
 	/** Checkbox padding */
-	padding?: Container.propTypes.padding;
+	padding?: Record<string, string>;
 	/** whether to disable the checkbox or not */
 	disabled?: boolean;
 	/** click callback */
@@ -145,4 +145,4 @@ const Checkbox = React.forwardRef<HTMLDivElement, CheckboxProps>(function Checkb
 	);
 });
 
-export default Checkbox;
+export { Checkbox, CheckboxProps };

@@ -5,9 +5,9 @@
  */
 
 import React, { useCallback, useRef, useState } from 'react';
-import Input, { InputProps } from './Input';
-import Container from '../layout/Container';
-import Icon from '../basic/Icon';
+import { Input, InputProps } from './Input';
+import { Container } from '../layout/Container';
+import { Icon } from '../basic/Icon';
 
 const PasswordInput = React.forwardRef<HTMLDivElement, InputProps>(function PasswordInputFn(
 	props,
@@ -48,4 +48,4 @@ const PasswordInput = React.forwardRef<HTMLDivElement, InputProps>(function Pass
 	return <Input ref={ref} {...props} type={show ? 'text' : 'password'} CustomIcon={CustomIcon} />;
 });
 
-export default PasswordInput;
+export { PasswordInput };

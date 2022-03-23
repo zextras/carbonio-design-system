@@ -80,4 +80,4 @@ const Text = React.forwardRef<HTMLDivElement, TextProps>(function TextFn(
 	);
 });
 
-export default Text;
+export { Text, TextProps };

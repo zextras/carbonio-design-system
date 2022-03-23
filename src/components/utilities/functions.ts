@@ -7,7 +7,7 @@
 import { css, FlattenSimpleInterpolation } from 'styled-components';
 import type { ThemeObj } from '../../theme/theme';
 
-export function pseudoClasses(
+function pseudoClasses(
 	theme: ThemeObj,
 	color: keyof ThemeObj['palette']
 ): FlattenSimpleInterpolation {
@@ -32,7 +32,7 @@ export function pseudoClasses(
 	`;
 }
 
-export function parsePadding(padding: string, theme: ThemeObj): string {
+function parsePadding(padding: string, theme: ThemeObj): string {
 	let paddingValue = padding;
 	const paddingSizes = Object.keys(theme.sizes.padding) as Array<
 		keyof ThemeObj['sizes']['padding']
@@ -43,3 +43,5 @@ export function parsePadding(padding: string, theme: ThemeObj): string {
 	});
 	return paddingValue;
 }
+
+export { pseudoClasses, parsePadding };

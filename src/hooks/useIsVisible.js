@@ -7,7 +7,7 @@
 import { some } from 'lodash';
 import { useState, useEffect, useRef, useMemo } from 'react';
 
-export const useIsVisible = (listRef) => {
+const useIsVisible = (listRef) => {
 	const [vis, setVis] = useState(false);
 	const ref = useRef();
 
@@ -36,3 +36,5 @@ export const useIsVisible = (listRef) => {
 	}, [observer]);
 	return [vis, ref];
 };
+
+export { useIsVisible };

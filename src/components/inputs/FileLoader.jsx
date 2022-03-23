@@ -7,7 +7,7 @@
 import React, { useRef, useCallback } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import IconButton from './IconButton';
+import { IconButton } from './IconButton';
 
 const FileInput = styled.input`
 	display: none;
@@ -59,4 +59,4 @@ FileLoader.defaultProps = {
 	accept: undefined
 };
 
-export default FileLoader;
+export { FileLoader };

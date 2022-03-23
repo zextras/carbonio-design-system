@@ -6,10 +6,10 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import Container from '../layout/Container';
-import Text from './Text';
-import Icon from './Icon';
-import Padding from '../layout/Padding';
+import { Container } from '../layout/Container';
+import { Text } from './Text';
+import { Icon } from './Icon';
+import { Padding } from '../layout/Padding';
 
 const LoadMore = React.forwardRef(function LoadMoreFn({ label, ...rest }, ref) {
 	return (
@@ -32,4 +32,4 @@ LoadMore.defaultProps = {
 	label: undefined
 };
 
-export default LoadMore;
+export { LoadMore };

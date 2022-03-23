@@ -8,14 +8,14 @@ import PropTypes from 'prop-types';
 import React, { useCallback, useEffect } from 'react';
 import styled, { css } from 'styled-components';
 import { useScreenMode } from '../../hooks/useScreenMode';
-import Button from '../basic/Button';
-import Icon from '../basic/Icon';
-import Text from '../basic/Text';
-import Container from '../layout/Container';
-import Padding from '../layout/Padding';
-import Row from '../layout/Row';
-import Transition from '../utilities/Transition';
-import Portal from '../utilities/Portal';
+import { Button } from '../basic/Button';
+import { Icon } from '../basic/Icon';
+import { Text } from '../basic/Text';
+import { Container } from '../layout/Container';
+import { Padding } from '../layout/Padding';
+import { Row } from '../layout/Row';
+import { Transition } from '../utilities/Transition';
+import { Portal } from '../utilities/Portal';
 
 const SnackContainer = styled(Container)`
 	position: fixed;
@@ -172,4 +172,4 @@ Snackbar.defaultProps = {
 	singleLine: false
 };
 
-export default Snackbar;
+export { Snackbar };

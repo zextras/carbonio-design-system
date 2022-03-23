@@ -7,7 +7,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { filter, reduce } from 'lodash';
 
-export function useHiddenCount(containerRef, listenForWindowResize) {
+function useHiddenCount(containerRef, listenForWindowResize) {
 	const [hiddenTabsCount, setHiddenTabsCount] = useState();
 
 	const calculateHiddenCounts = useCallback(() => {
@@ -36,3 +36,5 @@ export function useHiddenCount(containerRef, listenForWindowResize) {
 
 	return [hiddenTabsCount, calculateHiddenCounts];
 }
+
+export { useHiddenCount };

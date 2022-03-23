@@ -7,8 +7,8 @@
 import React, { useMemo, useRef } from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
-import Container from '../layout/Container';
-import Transition from './Transition';
+import { Container } from '../layout/Container';
+import { Transition } from './Transition';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 
 const CollapseEl = styled.div`
@@ -98,8 +98,6 @@ Collapse.defaultProps = {
 	crossSize: undefined
 };
 
-export default Collapse;
-
 const CollapserNotch = styled.div`
 	width: 4px;
 	height: 24px;
@@ -126,4 +124,4 @@ Collapser.propTypes = {
 	clickCallback: PropTypes.func.isRequired
 };
 
-export { Collapser };
+export { Collapse, Collapser };

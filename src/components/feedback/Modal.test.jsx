@@ -9,9 +9,9 @@
 import React, { useState } from 'react';
 import { screen } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
-import Button from '../basic/Button';
+import { Button } from '../basic/Button';
 import { Modal } from './Modal';
-import Text from '../basic/Text';
+import { Text } from '../basic/Text';
 import { render } from '../../test-utils';
 
 const CustomModal = () => {

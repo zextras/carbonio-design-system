@@ -6,10 +6,10 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import Container from '../layout/Container';
-import IconButton from './IconButton';
-import Button from '../basic/Button';
-import Dropdown from '../display/Dropdown';
+import { Container } from '../layout/Container';
+import { IconButton } from './IconButton';
+import { Button } from '../basic/Button';
+import { Dropdown } from '../display/Dropdown';
 import { Theme } from '../../theme/theme';
 
 const MultiButton = React.forwardRef(function MultiButtonFn(
@@ -75,4 +75,4 @@ MultiButton.defaultProps = {
 	color: 'gray6'
 };
 
-export default MultiButton;
+export { MultiButton };

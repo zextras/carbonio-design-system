@@ -7,8 +7,8 @@
 import React, { useState, useEffect, useCallback, useMemo, useRef, HTMLAttributes } from 'react';
 import styled, { css, FlattenSimpleInterpolation } from 'styled-components';
 import { map } from 'lodash';
-import Container from '../layout/Container';
-import Text from '../basic/Text';
+import { Container } from '../layout/Container';
+import { Text } from '../basic/Text';
 import { useKeyboard, getKeyboardPreset } from '../../hooks/useKeyboard';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import type { ThemeObj } from '../../theme/theme';
@@ -208,4 +208,4 @@ const TabBar = React.forwardRef<unknown, TabBarProps>(function TabBarFn(
 	);
 });
 
-export { TabBar, DefaultTabBarItem };
+export { TabBar, DefaultTabBarItem, TabBarProps, DefaultTabBarItemProps };

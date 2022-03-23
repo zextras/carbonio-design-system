@@ -47,14 +47,10 @@ const colorsSet: ColorSet = {
 	}
 };
 
-export const getVariantColor = (
-	color: string,
-	variant: keyof ThemeColorObj,
-	dark = false
-): string =>
+const getVariantColor = (color: string, variant: keyof ThemeColorObj, dark = false): string =>
 	colorsSet[dark ? 'dark' : 'light'][variant] && colorsSet[dark ? 'dark' : 'light'][variant](color);
 
-export const generateColorSet = (
+const generateColorSet = (
 	{
 		regular,
 		hover,
@@ -108,7 +104,7 @@ function getColorValue(color: string, theme: ThemeObj): string {
  * `
  * @returns {({theme?: Theme}) => string} a function that, given the theme, returns the wanted color
  */
-export function getColor(color: string): (args: { theme: ThemeObj }) => string;
+function getColor(color: string): (args: { theme: ThemeObj }) => string;
 /**
  * Retrieve the color of the given name based on the theme palette if the name is a palette key,
  * generating a set with the colorSet utility if the color is not a palette key
@@ -124,9 +120,9 @@ export function getColor(color: string): (args: { theme: ThemeObj }) => string;
  * `
  * @returns {string} The wanted color
  */
-export function getColor(color: string, theme: ThemeObj): string;
+function getColor(color: string, theme: ThemeObj): string;
 // see overloads for documentation
-export function getColor(
+function getColor(
 	color: string,
 	theme?: ThemeObj
 ): string | ((args: { theme: ThemeObj }) => string) {
@@ -143,18 +139,19 @@ const simpleParsePadding = (size: string, theme: ThemeObj): string => {
 	});
 	return explodedSizes.join(' ');
 };
-export const getPadding = (
+const getPadding = (
 	size: string,
 	theme?: ThemeObj
 ): string | ((args: { theme: ThemeObj }) => string) => {
 	if (!theme) return ({ theme: iTheme }): string => simpleParsePadding(size, iTheme);
 	return simpleParsePadding(size, theme);
 };
-export const getParsedPadding =
+
+const getParsedPadding =
 	(size: string) =>
 	({ theme }: { theme: ThemeObj }): string | ((args: { theme: ThemeObj }) => string) =>
 		parsePadding(size, theme);
 
-export const useTheme = (): ThemeObj => useContext(ThemeContext);
+const useTheme = (): ThemeObj => useContext(ThemeContext);
 
-export default ThemeContext;
+export { generateColorSet, getColor, getPadding, getParsedPadding, useTheme };

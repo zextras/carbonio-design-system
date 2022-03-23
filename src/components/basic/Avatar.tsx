@@ -6,7 +6,7 @@
 
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
-import Icon from './Icon';
+import { Icon } from './Icon';
 import type { ThemeObj } from '../../theme/theme';
 import { getColor } from '../../theme/theme-utils';
 
@@ -202,4 +202,4 @@ interface AvatarPropTypes {
 	disabled?: boolean;
 }
 
-export default Avatar;
+export { AvatarPropTypes, Avatar };

@@ -7,7 +7,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import Text from '../basic/Text';
+import { Text } from '../basic/Text';
 
 const P = styled(Text)`
 	line-height: 1.4;
@@ -30,4 +30,4 @@ Paragraph.defaultProps = {
 	overflow: 'break-word'
 };
 
-export default Paragraph;
+export { Paragraph };

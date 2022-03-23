@@ -6,7 +6,7 @@
 
 import React from 'react';
 import { render } from '../../test-utils';
-import LoadMore from './LoadMore';
+import { LoadMore } from './LoadMore';
 
 describe('LoadMore', () => {
 	test('Render LoadMore', () => {

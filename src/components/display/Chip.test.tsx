@@ -12,7 +12,7 @@ import { screen } from '@testing-library/dom';
 import faker from 'faker';
 import userEvent from '@testing-library/user-event';
 import { render } from '../../test-utils';
-import Chip from './Chip';
+import { Chip } from './Chip';
 import { Text } from '../../index';
 
 describe('Chip', () => {

@@ -62,4 +62,4 @@ Drag.defaultProps = {
 	dragDisabled: false
 };
 
-export default Drag;
+export { Drag };
