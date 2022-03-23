@@ -4,60 +4,29 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-/* eslint-disable jsx-a11y/no-noninteractive-tabindex */
-import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { noop } from 'lodash';
+/* eslint-disable jsx-a11y/no-noninteractive-tabindex */
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import styled, { css, SimpleInterpolation } from 'styled-components';
+import { useCombinedRefs } from '../../hooks/useCombinedRefs';
+import { KeyboardPreset, useKeyboard } from '../../hooks/useKeyboard';
 import type { ThemeObj } from '../../theme/theme';
 import { Button } from '../basic/Button';
+import { Text } from '../basic/Text';
+import { IconButton } from '../inputs/IconButton';
 import { Container } from '../layout/Container';
 import { Divider } from '../layout/Divider';
-import { IconButton } from '../inputs/IconButton';
-import { Portal } from '../utilities/Portal';
 import { Row } from '../layout/Row';
-import { Text } from '../basic/Text';
+import { Portal } from '../utilities/Portal';
 import { Transition } from '../utilities/Transition';
-import { KeyboardPreset, useKeyboard } from '../../hooks/useKeyboard';
-import { useCombinedRefs } from '../../hooks/useCombinedRefs';
+import {
+	getScrollbarSize,
+	isBodyOverflowing,
+	ModalContainer,
+	ModalContent,
+	ModalWrapper
+} from './ModalComponents';
 
-const modalMinWidth = {
-	extrasmall: '20%',
-	small: '25%',
-	medium: '35%',
-	large: '50%'
-};
-const modalWidth = {
-	extrasmall: '400px',
-	small: '500px',
-	medium: '650px',
-	large: '800px'
-};
-
-function isBodyOverflowing(modalRef: React.RefObject<HTMLDivElement>): boolean {
-	if (window.top) {
-		return (
-			window.top.document.body.scrollHeight > (modalRef.current as HTMLDivElement).clientHeight ||
-			window.top.document.body.scrollWidth > window.top.document.body.clientWidth
-		);
-	}
-	return false;
-}
-
-function getScrollbarSize(): number {
-	const scrollDiv = window.top?.document.createElement('div');
-	if (scrollDiv && window.top) {
-		scrollDiv.style.width = '99px';
-		scrollDiv.style.height = '99px';
-		scrollDiv.style.position = 'absolute';
-		scrollDiv.style.top = '-9999px';
-		scrollDiv.style.overflow = 'scroll';
-		window.top.document.body.appendChild(scrollDiv);
-		const scrollbarSize = scrollDiv.offsetWidth - scrollDiv.clientWidth;
-		window.top.document.body.removeChild(scrollDiv);
-		return scrollbarSize;
-	}
-	return 0;
-}
 function copyToClipboard(node: HTMLDivElement | null): void {
 	const el = window.top?.document.createElement('textarea');
 	if (el && node?.textContent) {
@@ -69,61 +38,6 @@ function copyToClipboard(node: HTMLDivElement | null): void {
 	}
 }
 
-const ModalContainer = styled.div<{ mounted: boolean; open: boolean; zIndex: number }>`
-	display: flex;
-	position: fixed;
-	top: 0;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	padding: ${(props): string =>
-		`${props.theme.sizes.padding.medium} ${props.theme.sizes.padding.medium} 0`};
-	background-color: rgba(0, 0, 0, 0);
-	opacity: 0;
-	pointer-events: none;
-	transition: 0.3s ease-out;
-	z-index: -1;
-	justify-content: center;
-	align-items: center;
-
-	${({ mounted, open, zIndex }): SimpleInterpolation =>
-		(mounted || open) &&
-		css`
-			z-index: ${zIndex};
-		`};
-	${({ open }): SimpleInterpolation =>
-		open &&
-		css`
-			background-color: rgba(0, 0, 0, 0.5);
-			opacity: 1;
-			pointer-events: auto;
-		`};
-`;
-const ModalWrapper = styled.div`
-	max-width: 100%;
-	width: 100%;
-	margin: auto;
-	box-sizing: border-box;
-	pointer-events: none;
-`;
-
-const ModalContent = styled(Container)<{
-	size: 'extrasmall' | 'small' | 'medium' | 'large';
-}>`
-	position: relative;
-	margin: 0 auto ${(props): string => props.theme.sizes.padding.medium};
-	padding: 32px;
-	max-width: 100%;
-	min-width: ${({ size }): string =>
-		modalMinWidth[size as 'extrasmall' | 'small' | 'medium' | 'large']};
-	width: ${({ size }): string => modalWidth[size as 'extrasmall' | 'small' | 'medium' | 'large']};
-
-	background-color: ${(props): string => props.theme.palette[props.background].regular};
-	border-radius: 16px;
-	box-shadow: 0px 0px 4px 0px rgba(166, 166, 166, 0.5);
-	outline: none;
-	pointer-events: auto;
-`;
 const ModalTitle = styled(Text)<{ centered: boolean }>`
 	box-sizing: border-box;
 	width: 100%;
@@ -483,4 +397,4 @@ const Modal = React.forwardRef<HTMLDivElement, ModalProps>(function ModalFn(
 	);
 });
 
-export { Modal, isBodyOverflowing, getScrollbarSize, ModalContainer, ModalWrapper, ModalContent };
+export { Modal, ModalProps };
