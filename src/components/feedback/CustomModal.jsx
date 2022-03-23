@@ -14,12 +14,12 @@ import { useKeyboard } from '../../hooks/useKeyboard';
 import { useScreenMode } from '../../hooks/useScreenMode';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import {
-	isBodyOverflowing,
 	getScrollbarSize,
+	isBodyOverflowing,
 	ModalContainer,
-	ModalWrapper,
-	ModalContent
-} from './Modal';
+	ModalContent,
+	ModalWrapper
+} from './ModalComponents';
 
 const CustomModal = React.forwardRef(function ModalFn(
 	{ background, size, open, onClose, children, disablePortal, maxHeight, zIndex, ...rest },
