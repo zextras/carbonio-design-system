@@ -5,7 +5,7 @@
  */
 
 import React, { useCallback, useReducer, createContext } from 'react';
-import Snackbar from '../feedback/Snackbar';
+import { Snackbar } from '../feedback/Snackbar';
 
 const SnackbarManagerContext = createContext();
 

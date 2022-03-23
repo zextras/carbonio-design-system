@@ -53,4 +53,4 @@ RadioGroup.propTypes = {
 
 RadioGroup.defaultProps = {};
 
-export default RadioGroup;
+export { RadioGroup };

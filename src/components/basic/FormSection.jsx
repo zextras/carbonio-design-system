@@ -6,10 +6,10 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import Container from '../layout/Container';
-import Divider from '../layout/Divider';
-import Padding from '../layout/Padding';
-import Text from './Text';
+import { Container } from '../layout/Container';
+import { Divider } from '../layout/Divider';
+import { Padding } from '../layout/Padding';
+import { Text } from './Text';
 
 const FormSection = React.forwardRef(function FormSectionFn({ label, children, ...rest }, ref) {
 	return (

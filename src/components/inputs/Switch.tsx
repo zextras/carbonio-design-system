@@ -7,11 +7,11 @@
 import React, { useRef } from 'react';
 import styled, { css, SimpleInterpolation } from 'styled-components';
 import type { ThemeObj } from '../../theme/theme';
-import Icon from '../basic/Icon';
+import { Icon } from '../basic/Icon';
 
-import Container from '../layout/Container';
-import Padding from '../layout/Padding';
-import Text from '../basic/Text';
+import { Container } from '../layout/Container';
+import { Padding } from '../layout/Padding';
+import { Text } from '../basic/Text';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { useCheckbox } from '../../hooks/useCheckbox';
 
@@ -136,4 +136,4 @@ const Switch = React.forwardRef<HTMLDivElement, SwitchProps>(function SwitchFn(
 	);
 });
 
-export default Switch;
+export { Switch, SwitchProps };

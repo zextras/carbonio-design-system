@@ -7,9 +7,9 @@
 /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import PropTypes from 'prop-types';
-import Container from '../layout/Container';
-import Portal from '../utilities/Portal';
-import Transition from '../utilities/Transition';
+import { Container } from '../layout/Container';
+import { Portal } from '../utilities/Portal';
+import { Transition } from '../utilities/Transition';
 import { useKeyboard } from '../../hooks/useKeyboard';
 import { useScreenMode } from '../../hooks/useScreenMode';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
@@ -166,4 +166,4 @@ CustomModal.defaultProps = {
 	maxHeight: '60vh'
 };
 
-export default CustomModal;
+export { CustomModal };

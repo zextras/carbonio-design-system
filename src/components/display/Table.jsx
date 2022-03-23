@@ -9,12 +9,12 @@ import React, { useState, useEffect, useRef, useReducer, useCallback, useMemo } 
 import { isEmpty } from 'lodash';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
-import Checkbox from '../inputs/Checkbox';
-import Container from '../layout/Container';
-import Icon from '../basic/Icon';
-import Select from '../inputs/Select';
-import Text from '../basic/Text';
-import Row from '../layout/Row';
+import { Checkbox } from '../inputs/Checkbox';
+import { Container } from '../layout/Container';
+import { Icon } from '../basic/Icon';
+import { Select } from '../inputs/Select';
+import { Text } from '../basic/Text';
+import { Row } from '../layout/Row';
 
 const TableRow = styled.tr`
 	transition: background-color 0.2s ease-out;
@@ -456,4 +456,4 @@ Table.defaultProps = {
 	selectedRows: undefined
 };
 
-export default Table;
+export { Table };

@@ -6,8 +6,8 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import Container from '../layout/Container';
-import Text from '../basic/Text';
+import { Container } from '../layout/Container';
+import { Text } from '../basic/Text';
 
 class Catcher extends React.Component {
 	constructor(props) {
@@ -57,4 +57,4 @@ Catcher.defaultProps = {
 	// eslint-disable-next-line no-console
 	onError: console.error
 };
-export default Catcher;
+export { Catcher };

@@ -230,4 +230,4 @@ Container.defaultProps = {
 	padding: {}
 };
 
-export default Container;
+export { Container };

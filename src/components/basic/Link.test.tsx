@@ -7,7 +7,7 @@
 import React from 'react';
 import faker from 'faker';
 import { render } from '../../test-utils';
-import Link from './Link';
+import { Link } from './Link';
 
 describe('Link', () => {
 	const text = faker.lorem.words(3);

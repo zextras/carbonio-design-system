@@ -7,9 +7,9 @@
 import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import styled, { css, SimpleInterpolation } from 'styled-components';
 import type { ThemeObj } from '../../theme/theme';
-import Container from '../layout/Container';
-import Text from '../basic/Text';
-import Icon from '../basic/Icon';
+import { Container } from '../layout/Container';
+import { Text } from '../basic/Text';
+import { Icon } from '../basic/Icon';
 import { getKeyboardPreset, useKeyboard } from '../../hooks/useKeyboard';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 
@@ -168,4 +168,4 @@ const Radio = React.forwardRef<HTMLDivElement, RadioProps>(function RadioFn(
 	);
 });
 
-export default Radio;
+export { Radio, RadioProps };

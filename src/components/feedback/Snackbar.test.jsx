@@ -9,10 +9,10 @@
 import React, { useState } from 'react';
 import { screen } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
-import Button from '../basic/Button';
-import Container from '../layout/Container';
+import { Button } from '../basic/Button';
+import { Container } from '../layout/Container';
 import { render } from '../../test-utils';
-import Snackbar from './Snackbar';
+import { Snackbar } from './Snackbar';
 
 const CustomSnackbar = () => {
 	const [snack1, setSnack1] = useState(false);

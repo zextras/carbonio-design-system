@@ -6,7 +6,6 @@ SPDX-License-Identifier: AGPL-3.0-only
 
 ```jsx
 import { Container } from '@zextras/carbonio-design-system';
-import TextWithTooltip from '../basic/TextWithTooltip.jsx';
 <Container orientation="horizontal" mainAlignment="space-around" height={100}>
 	<TextWithTooltip
 		size="large"

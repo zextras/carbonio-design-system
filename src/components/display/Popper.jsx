@@ -9,7 +9,7 @@ import React, { useLayoutEffect, useEffect, useRef, useCallback, useMemo } from 
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 import { createPopper } from '@popperjs/core';
-import Portal from '../utilities/Portal';
+import { Portal } from '../utilities/Portal';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { useKeyboard } from '../../hooks/useKeyboard';
 
@@ -211,4 +211,4 @@ Popper.defaultProps = {
 	virtualElement: undefined
 };
 
-export default Popper;
+export { Popper };

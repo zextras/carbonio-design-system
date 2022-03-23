@@ -11,7 +11,7 @@ import { act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import faker from 'faker';
 import { render } from '../../test-utils';
-import Button from './Button';
+import { Button } from './Button';
 
 describe('Button', () => {
 	test('The label must be Upper Case', () => {

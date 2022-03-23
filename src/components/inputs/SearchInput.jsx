@@ -7,8 +7,8 @@
 import React, { useState, useRef, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import Container from '../layout/Container';
-import Icon from '../basic/Icon';
+import { Container } from '../layout/Container';
+import { Icon } from '../basic/Icon';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 
 const InputEl = styled.input`
@@ -105,4 +105,4 @@ SearchInput.defaultProps = {
 	inputRef: undefined
 };
 
-export default SearchInput;
+export { SearchInput };

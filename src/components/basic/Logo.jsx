@@ -24,4 +24,4 @@ Logo.defaultProps = {
 	size: 'small'
 };
 
-export default Logo;
+export { Logo };

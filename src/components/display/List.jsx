@@ -8,7 +8,7 @@ import React, { useRef, useEffect, useMemo, forwardRef, memo } from 'react';
 import { map, some } from 'lodash';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import Container from '../layout/Container';
+import { Container } from '../layout/Container';
 import { useIsVisible } from '../../hooks/useIsVisible';
 import { useKeyboard, getKeyboardPreset } from '../../hooks/useKeyboard';
 import { pseudoClasses } from '../utilities/functions';
@@ -189,4 +189,4 @@ List.defaultProps = {
 	activeBackground: 'highlight'
 };
 
-export default List;
+export { List };

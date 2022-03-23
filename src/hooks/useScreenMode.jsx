@@ -7,7 +7,7 @@
 import { useLayoutEffect, useState, useContext, useCallback } from 'react';
 import { ThemeContext } from 'styled-components';
 
-export function useScreenMode(target = window) {
+function useScreenMode(target = window) {
 	const theme = useContext(ThemeContext);
 	const check = useCallback(
 		(width, height) =>
@@ -26,3 +26,5 @@ export function useScreenMode(target = window) {
 	}, [check, setScreenMode, target]);
 	return screenMode;
 }
+
+export { useScreenMode };

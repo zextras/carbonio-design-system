@@ -35,4 +35,4 @@ function ZimbraClassicThemeContextProvider({
 	);
 }
 
-export default ZimbraClassicThemeContextProvider;
+export { ZimbraClassicThemeContextProvider, ZimbraClassicThemeContextProviderProps };

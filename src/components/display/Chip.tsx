@@ -8,12 +8,12 @@ import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { map } from 'lodash';
 import styled, { css, SimpleInterpolation } from 'styled-components';
 import type { ThemeObj } from '../../theme/theme';
-import Tooltip from './Tooltip';
-import Icon from '../basic/Icon';
-import IconButton from '../inputs/IconButton';
-import Avatar from '../basic/Avatar';
-import Row from '../layout/Row';
-import Text from '../basic/Text';
+import { Tooltip } from './Tooltip';
+import { Icon } from '../basic/Icon';
+import { IconButton } from '../inputs/IconButton';
+import { Avatar } from '../basic/Avatar';
+import { Row } from '../layout/Row';
+import { Text } from '../basic/Text';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { useTheme } from '../../theme/theme-utils';
 import { pseudoClasses } from '../utilities/functions';
@@ -441,4 +441,4 @@ const Chip = React.forwardRef<HTMLDivElement, ChipProps>(function ChipFn(
 	);
 });
 
-export default Chip;
+export { Chip, ChipProps, ChipAction };

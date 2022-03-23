@@ -228,4 +228,4 @@ Transition.defaultProps = {
 	transitionDuration: undefined
 };
 
-export default Transition;
+export { Transition };

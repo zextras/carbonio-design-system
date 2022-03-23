@@ -8,10 +8,10 @@ import React from 'react';
 import styled from 'styled-components';
 import { map } from 'lodash';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
-import Container from '../layout/Container';
-import Text from '../basic/Text';
-import Padding from '../layout/Padding';
-import Dropdown from '../display/Dropdown';
+import { Container } from '../layout/Container';
+import { Text } from '../basic/Text';
+import { Padding } from '../layout/Padding';
+import { Dropdown, DropdownItem, DropdownProps } from '../display/Dropdown';
 import { useSplitVisibility } from '../../hooks/useSplitVisibility';
 
 const CheckDiv = styled.div`
@@ -39,25 +39,23 @@ const BreadcrumbSeparator = ({ color }: BreadcrumbSeparatorProps): JSX.Element =
 	</Padding>
 );
 
-type DropdownItems = React.ComponentPropsWithRef<typeof Dropdown>['items'];
-
 interface BreadcrumbsProps {
 	/** Array of items, check Dropdown items prop to see the shape of an item */
-	crumbs: DropdownItems;
+	crumbs: DropdownProps['items'];
 	/** Props to spread to the collapser element */
 	collapserProps: React.ComponentPropsWithRef<typeof Padding>;
 	/** Props to spread to the dropdown element */
-	dropdownProps: Omit<React.ComponentPropsWithRef<typeof Dropdown>, 'items'>;
+	dropdownProps: Omit<DropdownProps, 'items'>;
 }
 
 const Breadcrumbs = React.forwardRef<HTMLDivElement, BreadcrumbsProps>(function BreadcrumbsFn(
 	{ crumbs, collapserProps, dropdownProps, ...rest },
 	ref
 ) {
-	const [visibleCrumbs, hiddenCrumbs, innerRef] = useSplitVisibility<
-		DropdownItems[number],
-		HTMLDivElement
-	>(crumbs, 'start');
+	const [visibleCrumbs, hiddenCrumbs, innerRef] = useSplitVisibility<DropdownItem, HTMLDivElement>(
+		crumbs,
+		'start'
+	);
 	const containerRef = useCombinedRefs<HTMLDivElement>(innerRef, ref);
 
 	return (
@@ -92,4 +90,4 @@ const Breadcrumbs = React.forwardRef<HTMLDivElement, BreadcrumbsProps>(function 
 	);
 });
 
-export default Breadcrumbs;
+export { Breadcrumbs, BreadcrumbsProps };

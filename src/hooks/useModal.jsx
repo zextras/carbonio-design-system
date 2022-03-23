@@ -7,6 +7,8 @@
 import { useContext } from 'react';
 import { ModalManagerContext } from '../components/utilities/ModalManager';
 
-export function useModal() {
+function useModal() {
 	return useContext(ModalManagerContext);
 }
+
+export { useModal };

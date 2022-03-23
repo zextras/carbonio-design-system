@@ -25,7 +25,10 @@ const Comp = styled.span<{ isRead: boolean; isNumber: boolean }>`
 	text-align: center;
 `;
 
-const Badge = forwardRef<HTMLElement, BadgeProps>(function BadgeFn({ type, value, ...rest }, ref) {
+const Badge = forwardRef<HTMLElement, BadgeProps>(function BadgeFn(
+	{ type = 'read', value, ...rest },
+	ref
+) {
 	const isNumber = useMemo(() => typeof value === 'number', [value]);
 	const badgeText = useMemo(() => (isNumber && value > 99 ? '99+' : value), [value, isNumber]);
 	const isRead = useMemo(() => type === 'read', [type]);
@@ -44,8 +47,4 @@ interface BadgeProps {
 	value: string | number;
 }
 
-Badge.defaultProps = {
-	type: 'read'
-};
-
-export default Badge;
+export { Badge, BadgeProps };

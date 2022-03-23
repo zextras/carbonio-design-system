@@ -9,8 +9,8 @@ import userEvent from '@testing-library/user-event';
 import { screen } from '@testing-library/dom';
 import { waitFor } from '@testing-library/react';
 import { render } from '../../test-utils';
-import Button from '../basic/Button';
-import Dropdown from './Dropdown';
+import { Button } from '../basic/Button';
+import { Dropdown } from './Dropdown';
 import { Modal } from '../feedback/Modal';
 
 const items = [

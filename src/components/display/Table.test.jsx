@@ -10,13 +10,13 @@
 import React, { useState } from 'react';
 import { screen } from '@testing-library/dom';
 import { render } from '../../test-utils';
-import Container from '../layout/Container';
-import Button from '../basic/Button';
-import Padding from '../layout/Padding';
-import Text from '../basic/Text';
-import Table from './Table';
-import Row from '../layout/Row';
-import Icon from '../basic/Icon';
+import { Container } from '../layout/Container';
+import { Button } from '../basic/Button';
+import { Padding } from '../layout/Padding';
+import { Text } from '../basic/Text';
+import { Table } from './Table';
+import { Row } from '../layout/Row';
+import { Icon } from '../basic/Icon';
 
 const CustomTable = () => {
 	const [selectedRows, setSelectedRows] = useState([]);

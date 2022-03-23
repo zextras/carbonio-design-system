@@ -9,7 +9,7 @@ import styled from 'styled-components';
 import type { ThemeObj } from '../../theme/theme';
 import { getColor } from '../../theme/theme-utils';
 
-import Text from './Text';
+import { Text } from './Text';
 import { useKeyboard, getKeyboardPreset } from '../../hooks/useKeyboard';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 
@@ -58,4 +58,4 @@ const Link = React.forwardRef<HTMLDivElement, LinkProps & AnchorHTMLAttributes<H
 	}
 );
 
-export default Link;
+export { Link, LinkProps };

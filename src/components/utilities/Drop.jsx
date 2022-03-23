@@ -7,7 +7,7 @@
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import Container from '../layout/Container';
+import { Container } from '../layout/Container';
 
 const DropEl = styled(Container)`
 	display: inline;
@@ -176,4 +176,4 @@ Drop.defaultProps = {
 	overlayDenyComponent: null
 };
 
-export default Drop;
+export { Drop };

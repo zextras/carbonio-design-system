@@ -8,7 +8,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
-import Container from './Container';
+import { Container } from './Container';
 
 const ContainerEl = styled(Container)`
 	display: ${(props) => props.display};
@@ -63,4 +63,4 @@ Row.defaultProps = {
 	maxWidth: '100%'
 };
 
-export default Row;
+export { Row };

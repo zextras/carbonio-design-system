@@ -15,8 +15,8 @@ import React, {
 import { createPopper } from '@popperjs/core';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
-import Portal from '../utilities/Portal';
-import Text from '../basic/Text';
+import { Portal } from '../utilities/Portal';
+import { Text } from '../basic/Text';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 
 const TooltipWrapper = React.forwardRef(function TooltipWrapperFn(
@@ -168,4 +168,4 @@ Tooltip.defaultProps = {
 	overflowTooltip: false
 };
 
-export default Tooltip;
+export { Tooltip };

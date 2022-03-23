@@ -7,7 +7,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
-import Text from '../basic/Text';
+import { Text } from '../basic/Text';
 
 const PlaceholderInline = styled(Text)`
 	font-size: ${(props) => props.theme.sizes.font.medium};
@@ -181,4 +181,4 @@ EmailComposerInput.defaultProps = {
 	value: undefined
 };
 
-export default EmailComposerInput;
+export { EmailComposerInput };

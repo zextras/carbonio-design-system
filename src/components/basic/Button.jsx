@@ -7,9 +7,9 @@
 import React, { useCallback, useMemo, useRef } from 'react';
 import PropTypes from 'prop-types';
 import styled, { css, keyframes } from 'styled-components';
-import Container from '../layout/Container';
-import Icon from './Icon';
-import Text from './Text';
+import { Container } from '../layout/Container';
+import { Icon } from './Icon';
+import { Text } from './Text';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { useKeyboard, getKeyboardPreset } from '../../hooks/useKeyboard';
 import { Theme } from '../../theme/theme';
@@ -287,4 +287,4 @@ Button.defaultProps = {
 	forceActive: false
 };
 
-export default Button;
+export { Button };

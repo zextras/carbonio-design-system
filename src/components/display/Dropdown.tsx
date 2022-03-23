@@ -23,12 +23,12 @@ import {
 	VirtualElement
 } from '@popperjs/core';
 import styled, { css, SimpleInterpolation } from 'styled-components';
-import Padding from '../layout/Padding';
-import Icon from '../basic/Icon';
-import Text from '../basic/Text';
-import Container from '../layout/Container';
-import Portal from '../utilities/Portal';
-import Divider from '../layout/Divider';
+import { Padding } from '../layout/Padding';
+import { Icon } from '../basic/Icon';
+import { Text } from '../basic/Text';
+import { Container } from '../layout/Container';
+import { Portal } from '../utilities/Portal';
+import { Divider } from '../layout/Divider';
 import { useKeyboard, getKeyboardPreset, KeyboardPreset } from '../../hooks/useKeyboard';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { pseudoClasses } from '../utilities/functions';
@@ -699,4 +699,4 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 	);
 });
 
-export default Dropdown;
+export { Dropdown, DropdownProps, DropdownItem };

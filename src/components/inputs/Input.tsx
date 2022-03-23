@@ -10,10 +10,10 @@ import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { KeyboardPreset, useKeyboard } from '../../hooks/useKeyboard';
 import type { ThemeObj } from '../../theme/theme';
 import { getColor } from '../../theme/theme-utils';
-import Container from '../layout/Container';
+import { Container } from '../layout/Container';
 import { pseudoClasses } from '../utilities/functions';
-import Text from '../basic/Text';
-import Divider from '../layout/Divider';
+import { Text } from '../basic/Text';
+import { Divider } from '../layout/Divider';
 
 const ContainerEl = styled(Container)<{
 	background: keyof ThemeObj['palette'];
@@ -104,7 +104,7 @@ const CustomText = styled(Text)`
 	padding-top: 4px;
 `;
 
-export interface InputProps {
+interface InputProps {
 	/** Input's background color */
 	backgroundColor?: keyof ThemeObj['palette'];
 	/** whether to disable the Input or not */
@@ -274,4 +274,4 @@ const Input: Input = React.forwardRef<HTMLDivElement, InputProps>(function Input
 
 Input._newId = 0;
 
-export default Input;
+export { Input, InputProps };

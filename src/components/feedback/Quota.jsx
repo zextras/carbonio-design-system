@@ -7,7 +7,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import Container from '../layout/Container';
+import { Container } from '../layout/Container';
 
 const QuotaBar = styled(Container)`
 	min-width: 64px;
@@ -47,4 +47,4 @@ Quota.defaultProps = {
 	height: '8px'
 };
 
-export default Quota;
+export { Quota };

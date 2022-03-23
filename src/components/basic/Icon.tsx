@@ -63,4 +63,4 @@ const Icon = styled(IconBase)
 	`}
 `;
 
-export default Icon;
+export { Icon, IconProps, IconComponentProps };

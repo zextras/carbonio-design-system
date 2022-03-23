@@ -9,7 +9,7 @@
 import React from 'react';
 import { screen } from '@testing-library/dom';
 import { act } from '@testing-library/react';
-import Responsive from './Responsive';
+import { Responsive } from './Responsive';
 import { render } from '../../test-utils';
 
 describe('Responsive', () => {

@@ -9,7 +9,7 @@ import React from 'react';
 import { screen } from '@testing-library/dom';
 import faker from 'faker';
 import { render } from '../../test-utils';
-import Badge from './Badge';
+import { Badge } from './Badge';
 
 describe('Badge', () => {
 	test('Render a number < 99', () => {

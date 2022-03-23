@@ -10,10 +10,10 @@ import React, { useRef, useState } from 'react';
 import { screen } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
 import { render } from '../../test-utils';
-import Popover from './Popover';
-import Button from '../basic/Button';
-import Container from '../layout/Container';
-import Input from '../inputs/Input';
+import { Popover } from './Popover';
+import { Button } from '../basic/Button';
+import { Container } from '../layout/Container';
+import { Input } from '../inputs/Input';
 
 const CustomPopover = () => {
 	const [open, setOpen] = useState(false);

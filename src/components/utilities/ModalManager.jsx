@@ -6,7 +6,7 @@
 
 import React, { useCallback, createContext, useReducer } from 'react';
 import { Modal } from '../feedback/Modal';
-import CustomModal from '../feedback/CustomModal';
+import { CustomModal } from '../feedback/CustomModal';
 
 const ModalManagerContext = createContext();
 
