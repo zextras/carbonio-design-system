@@ -196,7 +196,7 @@ interface AvatarPropTypes {
 	selected?: boolean;
 
 	/** Shape of the avatar */
-	shape: ShapeType;
+	shape?: ShapeType;
 
 	/** disabled status */
 	disabled?: boolean;
