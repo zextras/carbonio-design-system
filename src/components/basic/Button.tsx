@@ -4,19 +4,20 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { useCallback, useMemo } from 'react';
-import styled, { css, keyframes, SimpleInterpolation } from 'styled-components';
-import { getColor, pseudoClasses } from '../../theme/theme-utils';
-import { Container } from '../layout/Container';
-import { Icon } from './Icon';
-import { Text } from './Text';
+import React, { ButtonHTMLAttributes, useCallback, useMemo } from 'react';
+import styled, { css, SimpleInterpolation } from 'styled-components';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
-import { useKeyboard, getKeyboardPreset } from '../../hooks/useKeyboard';
-import { ThemeObj } from '../../theme/theme';
+import { getKeyboardPreset, useKeyboard } from '../../hooks/useKeyboard';
+import type { ThemeObj } from '../../theme/theme';
+import { getColor, pseudoClasses } from '../../theme/theme-utils';
+import { Icon, IconProps } from './Icon';
+import Spinner from './Spinner';
+import { Text } from './Text';
 
-type ButtonSize = 'extrasmall' | 'small' | 'medium' | 'large';
-type ButtonType = 'default' | 'outlined' | 'ghost';
 type ButtonShape = 'regular' | 'round';
+type ButtonSize = 'extrasmall' | 'small' | 'medium' | 'large' | 'extralarge';
+type ButtonWidth = 'fit' | 'fill';
+type ButtonIconPlacement = 'left' | 'right';
 type ButtonColorsByType =
 	| ({
 			type?: 'default' | 'outlined';
@@ -26,10 +27,10 @@ type ButtonColorsByType =
 					color?: string | keyof ThemeObj['palette'];
 			  }
 			| {
-					/** Background color of the button (only for 'filled' and 'outlined' types, alternative to color) */
-					backgroundColor: string | keyof ThemeObj['palette'];
-					/** Specific color of the content (only for 'filled' and 'outlined' types, alternative to color) */
-					labelColor: string | keyof ThemeObj['palette'];
+					/** Background color of the button (only for 'default' and 'outlined' types, to use instead of color for more specificity) */
+					backgroundColor?: string | keyof ThemeObj['palette'];
+					/** Specific color of the content (only for 'default' and 'outlined' types, to use instead of color for more specificity) */
+					labelColor?: string | keyof ThemeObj['palette'];
 			  }
 	  ))
 	| {
@@ -37,71 +38,229 @@ type ButtonColorsByType =
 			/** Main color */
 			color?: string | keyof ThemeObj['palette'];
 	  };
+type ButtonType = NonNullable<ButtonColorsByType['type']>;
 
-const rotateKeyframes = keyframes`
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-	}
+interface ButtonSecondaryAction {
+	/** Icon of the secondary action */
+	icon: IconProps['icon'];
+	/** Callback for the secondary action */
+	onClick: (e: React.MouseEvent<HTMLButtonElement> | KeyboardEvent) => void;
+	/** Disabled status for the secondary action */
+	disabled?: boolean;
+	/** forceActive status for the secondary action */
+	forceActive?: boolean;
+}
+
+type ButtonProps = {
+	/** Force active status */
+	forceActive?: boolean;
+	/** Disabled status */
+	disabled?: boolean;
+	/** Icon to display beside the label */
+	icon?: IconProps['icon'];
+	/** Icon position relative to the label  */
+	iconPlacement?: ButtonIconPlacement;
+	/** Text content of the button */
+	label?: string;
+	/** Whether to show the loading icon */
+	loading?: boolean;
+	/** Main action callback */
+	onClick: (e: React.MouseEvent<HTMLButtonElement> | KeyboardEvent) => void;
+	/** Shape of the button */
+	shape?: ButtonShape;
+	/** Width of the button */
+	width?: ButtonWidth;
+} & (
+	| {
+			/** Size variant of the button */
+			size?: 'medium' | 'large' | 'extralarge';
+			/** Secondary action object (available only for medium and large buttons) */
+			secondaryAction?: ButtonSecondaryAction;
+	  }
+	| {
+			/** Size variant of the button */
+			size?: ButtonSize;
+			secondaryAction?: undefined;
+	  }
+) &
+	ButtonColorsByType;
+
+interface StyledButtonProps {
+	backgroundColor: string;
+	color: string;
+	padding: string;
+	gap: string;
+	shape: ButtonShape;
+	// cannot name this prop type because of conflicts with button type prop
+	buttonType: ButtonType;
+	iconPlacement?: ButtonIconPlacement;
+	disabled: boolean;
+	forceActive: boolean;
+	width: ButtonWidth;
+}
+
+const StyledIcon = styled(Icon)<{ $loading?: boolean; $size: string }>`
+	${({ $loading }): SimpleInterpolation =>
+		$loading &&
+		css`
+			opacity: 0;
+		`};
+	width: ${({ $size }): string => $size};
+	height: ${({ $size }): string => $size};
 `;
 
-const LoadingContainer = styled(Container)`
+const StyledText = styled(Text)<{ $loading: boolean; $size: string }>`
+	user-select: none;
+	text-transform: uppercase;
+	font-size: ${({ $size }): string => $size};
+	${({ $loading }): SimpleInterpolation =>
+		$loading &&
+		css`
+			opacity: 0;
+		`};
+`;
+
+const StyledLoadingContainer = styled.div`
 	position: absolute;
 	width: 100%;
 	height: 100%;
 	top: 0;
 	left: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 `;
 
-const Spinner = styled.span<{ color: string }>`
-	display: inline-block;
-	width: 0.75rem;
-	height: 0.75rem;
-	vertical-align: text-bottom;
-	color: ${({ theme, color }): string => getColor(color, theme)};
-	border: 0.125em solid currentColor;
-	border-right-color: transparent;
-	border-radius: 50%;
-	animation: ${rotateKeyframes} 0.75s linear infinite;
+const StyledButton = styled.button.attrs<
+	StyledButtonProps,
+	{
+		border: string;
+		outerPadding: string;
+	}
+>(({ buttonType, padding, disabled }) => ({
+	border: buttonType === 'outlined' ? '1px solid' : 'none',
+	outerPadding: buttonType === 'outlined' ? `calc(${padding} - 1px)` : padding,
+	tabIndex: disabled ? -1 : 0
+}))<StyledButtonProps>`
+	line-height: 1;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: relative;
+	text-transform: uppercase;
+	// padding
+	padding: ${({ outerPadding }): string => outerPadding};
+	gap: ${({ gap }): string => gap};
+	// width
+	width: ${({ width }): SimpleInterpolation =>
+		(width === 'fill' && '100%') || (width === 'fit' && 'fit-content')};
+	// order of elements
+	${StyledIcon} {
+		order: ${({ iconPlacement = 'left' }): number | false =>
+			(iconPlacement === 'left' && 1) || (iconPlacement === 'right' && 2)};
+	}
+	${StyledText} {
+		order: ${({ iconPlacement = 'left' }): number | false =>
+			(iconPlacement === 'left' && 2) || (iconPlacement === 'right' && 1)};
+	}
+	// border
+	border: ${({ border }): string => border};
+	border-radius: ${({ shape }): SimpleInterpolation =>
+		(shape === 'regular' && '4px') || (shape === 'round' && '50px')};
+	// colors
+	${({ color, backgroundColor, theme, forceActive }): SimpleInterpolation =>
+		forceActive
+			? css`
+					color: ${getColor(`${color}.active`, theme)};
+					background-color: ${getColor(`${backgroundColor}.active`, theme)};
+			  `
+			: css`
+					${pseudoClasses(theme, color, 'color')};
+					${pseudoClasses(theme, backgroundColor, 'background-color')};
+					${pseudoClasses(theme, color, 'border-color')};
+			  `};
+
+	// cursor
+	cursor: pointer;
+	&:disabled {
+		cursor: default;
+	}
 `;
 
-function LoadingIcon({ color }: { color: string }): JSX.Element {
-	return (
-		<LoadingContainer data-testid="spinner">
-			<Spinner color={color} />
-		</LoadingContainer>
-	);
-}
+const StyledSecondaryAction = styled(StyledButton)<{ $loading: boolean }>`
+	${({ $loading }): SimpleInterpolation =>
+		$loading &&
+		css`
+			opacity: 0;
+		`};
+`;
 
-const SIZES: Record<
-	ButtonSize,
-	{ padding: string; label: keyof ThemeObj['sizes']['font']; icon: string }
-> = {
+const StyledSecondaryActionPlaceholder = styled.span<{ padding: string }>`
+	// padding
+	padding: ${({ padding }): string => padding};
+	order: 3;
+	visibility: hidden;
+`;
+
+const StyledGrid = styled.div<{ width: 'fill' | 'fit'; padding: string }>`
+	width: ${({ width }): SimpleInterpolation =>
+		(width === 'fill' && '100%') || (width === 'fit' && 'fit-content')};
+
+	display: grid;
+	place-items: center;
+	align-content: center;
+	justify-content: stretch;
+
+	${StyledButton} {
+		grid-row: 1;
+		grid-column: 1;
+	}
+
+	${StyledSecondaryAction} {
+		grid-row: 1;
+		grid-column: 1;
+		justify-self: end;
+		margin-right: ${({ padding }): string => padding};
+`;
+
+const SIZES: Record<ButtonSize, { label: string; icon: string; padding: string; gap: string }> &
+	Record<'medium' | 'large' | 'extralarge', { secondaryButton: ButtonSize }> = {
 	extrasmall: {
-		label: 'small',
-		icon: '20px',
-		padding: '2px 8px'
+		label: '8px',
+		icon: '8px',
+		padding: '4px',
+		gap: '4px'
 	},
 	small: {
-		label: 'small',
-		icon: '22px',
-		padding: '8px 14px'
+		label: '12px',
+		icon: '12px',
+		padding: '4px',
+		gap: '4px'
 	},
 	medium: {
-		label: 'medium',
-		icon: '24px',
-		padding: '10px 16px'
+		label: '16px',
+		icon: '16px',
+		padding: '8px',
+		gap: '8px',
+		secondaryButton: 'extrasmall'
 	},
 	large: {
-		label: 'medium',
-		icon: '24px',
-		padding: '12px 16px'
+		label: '20px',
+		icon: '20px',
+		padding: '8px',
+		gap: '8px',
+		secondaryButton: 'small'
+	},
+	extralarge: {
+		label: '20px',
+		icon: '20px',
+		padding: '12px',
+		gap: '8px',
+		secondaryButton: 'small'
 	}
 } as const;
 
-const COLORS: Record<ButtonType, { backgroundColor: string; color: string }> = {
+const DEFAULT_COLORS = {
 	outlined: {
 		backgroundColor: 'gray6',
 		color: 'primary'
@@ -119,9 +278,9 @@ const COLORS: Record<ButtonType, { backgroundColor: string; color: string }> = {
 function getColors(
 	type: ButtonType,
 	props: ButtonColorsByType
-): { color: string; backgroundColor: string } {
-	const colors = {
-		...COLORS[type]
+): Pick<StyledButtonProps, 'color' | 'backgroundColor'> {
+	const colors: Pick<StyledButtonProps, 'color' | 'backgroundColor'> = {
+		...DEFAULT_COLORS[type]
 	};
 	if ('backgroundColor' in props && props.backgroundColor) {
 		colors.backgroundColor = props.backgroundColor;
@@ -139,111 +298,10 @@ function getColors(
 	return colors;
 }
 
-const Label = styled(Text)`
-	line-height: 1.5;
-	user-select: none;
-	text-transform: uppercase;
-`;
-
-const CustomIcon = styled(Icon)<{ $size: string }>`
-	width: ${({ $size }): string => $size};
-	height: ${({ $size }): string => $size};
-`;
-
-interface StyledContainerProps {
-	$buttonType: ButtonType;
-	disabled: boolean;
-	$color: string;
-	background: string;
-	$forceActive: boolean;
-	$loading: boolean;
-	$padding: string;
-	$shape: ButtonShape;
-}
-
-const ContainerEl = styled(Container).attrs<
-	StyledContainerProps,
-	{
-		$border: string;
-		$outerPadding: string;
-		$borderRadius: string;
-	}
->(({ $buttonType, $padding, $shape }) => ({
-	$border: $buttonType === 'outlined' ? '1px solid' : 'none',
-	$outerPadding:
-		$buttonType === 'outlined'
-			? $padding
-					.split(' ')
-					.map((padding: string) => `calc(${padding} - 1px)`)
-					.join(' ')
-			: $padding,
-	$borderRadius: ($shape === 'round' && '50px') || '2px'
-}))<StyledContainerProps>`
-	position: relative;
-	cursor: ${({ disabled }): string => (disabled ? 'default' : 'pointer')};
-	max-width: 100%;
-	transition: 0.2s ease-out;
-
-	// padding
-	padding: ${({ $outerPadding }): string => $outerPadding};
-	gap: 8px;
-
-	// border
-	border: ${({ $border }): string => $border};
-	border-radius: ${({ $borderRadius }): string => $borderRadius};
-
-	// colors
-	${({ $color, background, theme, $forceActive, disabled }): SimpleInterpolation =>
-		($forceActive &&
-			css`
-				color: ${getColor(`${$color}.active`, theme)};
-				background-color: ${getColor(`${background}.active`, theme)};
-			`) ||
-		(disabled &&
-			css`
-				background: ${getColor(`${background}.disabled`, theme)};
-				color: ${getColor(`${$color}.disabled`, theme)};
-			`) ||
-		css`
-			${pseudoClasses(theme, $color, 'color')};
-			${pseudoClasses(theme, background, 'background-color')};
-			${pseudoClasses(theme, $color, 'border-color')};
-		`};
-	${({ $loading }): SimpleInterpolation =>
-		$loading &&
-		css`
-			color: transparent !important;
-		`}
-`;
-
-type ButtonProps = {
-	/** Button text */
-	label?: string;
-	/** Button size */
-	size?: ButtonSize;
-	/**
-	 * Button width
-	 * `fit`: take the size of the content
-	 * `fill`: take the width of the container
-	 */
-	width?: 'fit' | 'fill';
-	/** optional icon to display beside the label */
-	icon?: keyof ThemeObj['icons'];
-	/** Icon position */
-	iconPlacement?: 'left' | 'right';
-	/** whether to show the loading icon */
-	loading?: boolean;
-	/** whether to disable the button or not */
-	disabled?: boolean;
-	/** Callback to be invoked when the button is pressed */
-	onClick: (event: React.SyntheticEvent | KeyboardEvent) => void;
-	/** whether to force active status or not */
-	forceActive?: boolean;
-	/** Shape of the Button */
-	shape?: ButtonShape;
-} & ButtonColorsByType;
-
-const Button = React.forwardRef<HTMLDivElement, ButtonProps>(function ButtonFn(
+const Button = React.forwardRef<
+	HTMLButtonElement,
+	ButtonProps & Omit<ButtonHTMLAttributes<HTMLButtonElement>, keyof ButtonProps>
+>(function ButtonFn(
 	{
 		type = 'default',
 		disabled = false,
@@ -256,53 +314,107 @@ const Button = React.forwardRef<HTMLDivElement, ButtonProps>(function ButtonFn(
 		loading = false,
 		forceActive = false,
 		shape = 'regular',
+		secondaryAction,
 		...rest
 	},
 	ref
 ) {
-	const buttonRef = useCombinedRefs<HTMLDivElement>(ref);
+	const buttonRef = useCombinedRefs<HTMLButtonElement>(ref);
 
 	const clickHandler = useCallback(
-		(e: KeyboardEvent | React.SyntheticEvent) => {
-			if (!disabled) {
+		(e: KeyboardEvent | React.MouseEvent<HTMLButtonElement>) => {
+			if (!disabled && onClick && !e.defaultPrevented) {
 				onClick(e);
 			}
 		},
 		[disabled, onClick]
 	);
 
+	const secondaryActionClickHandler = useCallback(
+		(e: KeyboardEvent | React.MouseEvent<HTMLButtonElement>) => {
+			if (secondaryAction && !secondaryAction.disabled) {
+				secondaryAction.onClick(e);
+			}
+			e.preventDefault();
+		},
+		[secondaryAction]
+	);
+
 	const keyEvents = useMemo(() => getKeyboardPreset('button', clickHandler), [clickHandler]);
 	useKeyboard(buttonRef, keyEvents);
 
-	const colors = useMemo(() => getColors(type, rest), [type, rest]);
+	const colors = useMemo(() => getColors(type, { type, ...rest }), [type, rest]);
 
 	return (
-		<ContainerEl
-			role="button"
-			ref={buttonRef}
-			orientation={iconPlacement === 'left' ? 'row-reverse' : 'row'}
-			width={width}
-			height="fit"
-			$shape={shape}
-			$color={colors.color}
-			background={colors.backgroundColor}
-			disabled={disabled}
-			$forceActive={forceActive}
-			$loading={loading ? 1 : 0}
-			$padding={SIZES[size].padding}
-			crossAlignment="center"
-			onClick={clickHandler}
-			$buttonType={type}
-			{...rest}
-			tabIndex={disabled ? -1 : 0}
-		>
-			<Label size={SIZES[size].label} weight="regular" color="currentColor">
-				{label}
-			</Label>
-			{icon && <CustomIcon icon={icon} $size={SIZES[size].icon} color="currentColor" />}
-			{loading && <LoadingIcon color={colors.color} />}
-		</ContainerEl>
+		<StyledGrid width={width} padding={SIZES[size].padding}>
+			<StyledButton
+				{...rest}
+				backgroundColor={colors.backgroundColor}
+				color={colors.color}
+				forceActive={!disabled && forceActive}
+				disabled={disabled}
+				shape={shape}
+				buttonType={type}
+				padding={SIZES[size].padding}
+				gap={SIZES[size].gap}
+				iconPlacement={iconPlacement}
+				onClick={clickHandler}
+				ref={buttonRef}
+				width={width}
+			>
+				{icon && (
+					<StyledIcon
+						icon={icon}
+						color="currentColor"
+						$size={SIZES[size].icon}
+						$loading={loading}
+					/>
+				)}
+				{label && (
+					<StyledText color="currentColor" $size={SIZES[size].label} $loading={loading}>
+						{label}
+					</StyledText>
+				)}
+
+				{secondaryAction && size !== 'extrasmall' && size !== 'small' && (
+					<StyledSecondaryActionPlaceholder padding={SIZES[SIZES[size].secondaryButton].padding}>
+						<StyledIcon
+							icon={secondaryAction.icon}
+							color="currentColor"
+							$size={SIZES[SIZES[size].secondaryButton].icon}
+						/>
+					</StyledSecondaryActionPlaceholder>
+				)}
+
+				{loading && (
+					<StyledLoadingContainer>
+						<Spinner color="currentColor" />
+					</StyledLoadingContainer>
+				)}
+			</StyledButton>
+			{secondaryAction && size !== 'extrasmall' && size !== 'small' && (
+				<StyledSecondaryAction
+					backgroundColor={colors.backgroundColor}
+					color={colors.color}
+					forceActive={!secondaryAction.disabled && !!secondaryAction.forceActive}
+					disabled={!!secondaryAction.disabled}
+					shape={shape}
+					buttonType={(type === 'outlined' && 'default') || type}
+					padding={SIZES[SIZES[size].secondaryButton].padding}
+					gap={SIZES[size].gap}
+					onClick={secondaryActionClickHandler}
+					$loading={loading}
+					width="fit"
+				>
+					<StyledIcon
+						icon={secondaryAction.icon}
+						color="currentColor"
+						$size={SIZES[SIZES[size].secondaryButton].icon}
+					/>
+				</StyledSecondaryAction>
+			)}
+		</StyledGrid>
 	);
 });
 
-export { Button, ButtonProps };
+export { Button, ButtonProps, ButtonSecondaryAction };

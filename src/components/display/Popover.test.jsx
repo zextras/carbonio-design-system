@@ -56,7 +56,7 @@ describe('Popover', () => {
 		expect(button2).toThrowError();
 
 		expect(button1()).toBeInTheDocument();
-		expect(button1()).toHaveTextContent('CLICK ME!');
+		expect(button1()).toHaveTextContent(/CLICK ME!/i);
 	});
 
 	test('Render opened Popover', () => {
@@ -72,7 +72,7 @@ describe('Popover', () => {
 
 		expect(input()).toHaveAttribute('name', 'rly');
 		expect(button1()).toBeInTheDocument();
-		expect(button1()).toHaveTextContent('CLICK ME!');
-		expect(button2()).toHaveTextContent('ASD');
+		expect(button1()).toHaveTextContent(/CLICK ME!/i);
+		expect(button2()).toHaveTextContent(/ASD/i);
 	});
 });

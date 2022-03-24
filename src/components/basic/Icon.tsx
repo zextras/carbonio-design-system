@@ -20,7 +20,7 @@ interface IconComponentProps {
 	onClick?: React.ReactEventHandler<SVGSVGElement>;
 }
 
-interface IconProps {
+interface IconProps extends IconComponentProps {
 	/** Icon Color */
 	color?: string | keyof ThemeObj['palette'];
 	/** Custom color, css syntax

@@ -16,6 +16,7 @@ export * from './components/basic/FormSection';
 export * from './components/basic/Logo';
 export * from './components/basic/Text';
 export * from './components/basic/TextWithTooltip';
+export { default as Spinner } from './components/basic/Spinner';
 /** Layout components */
 export * from './components/layout/Container';
 export * from './components/layout/Divider';

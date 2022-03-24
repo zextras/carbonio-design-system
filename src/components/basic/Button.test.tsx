@@ -65,7 +65,8 @@ describe('Button', () => {
 		const label = faker.lorem.words(1);
 		const clickFn = jest.fn();
 		render(<Button label={label} loading onClick={clickFn} />);
-		expect(screen.getByText(new RegExp(label, 'i'))).toBeVisible();
+		expect(screen.getByText(new RegExp(label, 'i'))).toBeInTheDocument();
+		expect(screen.getByText(new RegExp(label, 'i'))).not.toBeVisible();
 		expect(screen.getByTestId('spinner')).toBeInTheDocument();
 		expect(screen.getByTestId('spinner')).toBeVisible();
 	});

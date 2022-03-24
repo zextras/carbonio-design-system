@@ -33,9 +33,9 @@ const CustomSnackbar = () => {
 };
 
 describe('Snackbar', () => {
-	const successSnackBar = () => screen.getByText('SUCCESS');
+	const successSnackBar = () => screen.getByText(/success/i);
 	const successLabel = () => screen.getByText('Success, Lorem Ipsum dolor sit amet');
-	const closeSnackBar = () => screen.getByText('OK');
+	const closeSnackBar = () => screen.getByText(/ok/i);
 
 	test('Hidden Snackbar', () => {
 		render(<CustomSnackbar />);
