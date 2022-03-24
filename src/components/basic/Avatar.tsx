@@ -48,12 +48,12 @@ const AvatarContainer = styled.div<AvatarContainerProps>`
 `;
 
 type CapitalsPropsType = {
-	size: keyof ThemeObj['sizes']['avatar'];
+	$size: keyof ThemeObj['sizes']['avatar'];
 	color?: string;
 };
 
 const Capitals = styled.p<CapitalsPropsType>`
-	font-size: ${({ theme, size }): string => theme.sizes.avatar[size].font};
+	font-size: ${({ theme, $size }): string => theme.sizes.avatar[$size].font};
 	color: ${({ theme, color }): string => getColor(color || 'gray6', theme)};
 	font-family: ${({ theme }): string => theme.fonts.default};
 	font-weight: ${({ theme }): number => theme.fonts.weight.regular};
@@ -61,10 +61,10 @@ const Capitals = styled.p<CapitalsPropsType>`
 `;
 
 const AvatarIcon = styled(Icon)<CapitalsPropsType>`
-	width: calc(${({ theme, size }): string => theme.sizes.avatar[size].diameter} - 25%);
-	min-width: calc(${({ theme, size }): string => theme.sizes.avatar[size].diameter} - 25%);
-	height: calc(${({ theme, size }): string => theme.sizes.avatar[size].diameter} - 25%);
-	min-height: calc(${({ theme, size }): string => theme.sizes.avatar[size].diameter} - 25%);
+	width: calc(${({ theme, $size }): string => theme.sizes.avatar[$size].diameter} - 25%);
+	min-width: calc(${({ theme, $size }): string => theme.sizes.avatar[$size].diameter} - 25%);
+	height: calc(${({ theme, $size }): string => theme.sizes.avatar[$size].diameter} - 25%);
+	min-height: calc(${({ theme, $size }): string => theme.sizes.avatar[$size].diameter} - 25%);
 `;
 
 const _SPECIAL_CHARS_REGEX = /[&/\\#,+()$~%.'":*?!<>{}@^_`=]/g;
@@ -135,16 +135,16 @@ const Avatar = React.forwardRef<HTMLDivElement, AvatarPropTypes>(function Avatar
 			return null;
 		}
 		if (typeof icon !== 'undefined') {
-			return <AvatarIcon size={size} icon={icon} color={color || 'gray6'} disabled={disabled} />;
+			return <AvatarIcon $size={size} icon={icon} color={color || 'gray6'} disabled={disabled} />;
 		}
 		if (capitals !== null) {
 			return (
-				<Capitals size={size} color={color}>
+				<Capitals $size={size} color={color}>
 					{capitals}
 				</Capitals>
 			);
 		}
-		return <AvatarIcon size={size} icon={fallbackIcon} color="gray6" disabled={disabled} />;
+		return <AvatarIcon $size={size} icon={fallbackIcon} color="gray6" disabled={disabled} />;
 	}, [selecting, icon, capitals, size, fallbackIcon, selected, color, disabled]);
 	return (
 		<AvatarContainer
