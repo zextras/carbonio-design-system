@@ -4,70 +4,42 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { useRef, useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import styled, { css, SimpleInterpolation } from 'styled-components';
-import { getColor, isThemeSize, useTheme } from '../../theme/theme-utils';
-import { Container } from '../layout/Container';
-import { Icon, IconProps } from '../basic/Icon';
+import { isThemeSize, useTheme, parsePadding } from '../../theme/theme-utils';
+import { Button, ButtonProps } from '../basic/Button';
 import { useKeyboard, getKeyboardPreset } from '../../hooks/useKeyboard';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
-import { ThemeObj } from '../../theme/theme';
-import { parsePadding, pseudoClasses } from '../utilities/functions';
+import type { ThemeObj } from '../../theme/theme';
 
-const SIZES = {
-	extrasmall: {
-		iconSize: '20px',
-		paddingSize: '2px'
-	},
-	small: {
-		iconSize: '22px',
-		paddingSize: '8px'
-	},
-	medium: {
-		iconSize: '24px',
-		paddingSize: '10px'
-	},
-	large: {
-		iconSize: '24px',
-		paddingSize: '12px'
-	}
-} as const;
-
-const ContainerEl = styled(Container)<{ background: string; $padding: string }>`
-	user-select: none;
-	padding: ${({ $padding }): string => $padding};
-	${({ disabled, background, theme }): SimpleInterpolation =>
-		disabled
-			? css`
-					background: ${getColor(`${background}.disabled`, theme)};
-			  `
-			: css`
-					cursor: pointer;
-					${pseudoClasses(theme, background)}
-			  `};
+const StyledIconButton = styled(Button)<{
+	$iconSize?: string;
+	$paddingSize?: string;
+}>`
+	${({ $iconSize }): SimpleInterpolation =>
+		$iconSize &&
+		css`
+			svg {
+				width: ${$iconSize};
+				height: ${$iconSize};
+			}
+		`}
+	${({ $paddingSize }): SimpleInterpolation =>
+		$paddingSize &&
+		css`
+			padding: ${$paddingSize};
+		`}
 `;
-
-const StyledIcon = styled(Icon)<{ $size: string }>`
-	${({ $size }): SimpleInterpolation => css`
-		width: ${$size};
-		height: ${$size};
-	`}
-`;
-
-interface IconButtonInternalSizes {
-	iconSize: string;
-	paddingSize: string;
-}
 
 interface IconButtonProps {
 	/** Color of the icon */
-	iconColor?: IconProps['color'];
+	iconColor?: string | keyof ThemeObj['palette'];
 	/** Color of the button */
 	backgroundColor?: string | keyof ThemeObj['palette'];
 	/** whether to disable the IconButton or not */
 	disabled?: boolean;
 	/** button size */
-	size?: keyof typeof SIZES;
+	size?: ButtonProps['size'];
 	/** Custom button size */
 	customSize?: {
 		iconSize: string | keyof ThemeObj['sizes']['icon'];
@@ -78,7 +50,7 @@ interface IconButtonProps {
 	/** IconButton border radius */
 	borderRadius?: 'regular' | 'round';
 	/** Click callback */
-	onClick: React.ReactEventHandler;
+	onClick: (e: KeyboardEvent | React.MouseEvent<HTMLButtonElement>) => void;
 	/**
 	 * Custom icon color
 	 * @deprecated use iconColor instead
@@ -86,7 +58,7 @@ interface IconButtonProps {
 	customIconColor?: string;
 }
 
-const IconButton = React.forwardRef<HTMLDivElement, IconButtonProps>(function IconButtonFn(
+const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(function IconButtonFn(
 	{
 		iconColor = 'text',
 		backgroundColor = 'transparent',
@@ -101,11 +73,10 @@ const IconButton = React.forwardRef<HTMLDivElement, IconButtonProps>(function Ic
 	},
 	ref
 ) {
-	const innerRef = useRef<HTMLDivElement | null>(null);
-	const iconButtonRef = useCombinedRefs<HTMLDivElement>(ref, innerRef);
+	const iconButtonRef = useCombinedRefs<HTMLButtonElement>(ref);
 	const theme = useTheme();
 
-	const { iconSize, paddingSize } = useMemo<IconButtonInternalSizes>(
+	const { iconSize, paddingSize } = useMemo(
 		() =>
 			customSize
 				? {
@@ -114,37 +85,31 @@ const IconButton = React.forwardRef<HTMLDivElement, IconButtonProps>(function Ic
 							: customSize.iconSize,
 						paddingSize: parsePadding(customSize.paddingSize.toString(), theme)
 				  }
-				: SIZES[size],
-		[customSize, size, theme]
+				: {},
+		[customSize, theme]
 	);
 
-	const handleClick = useCallback((e) => !disabled && onClick(e), [disabled, onClick]);
+	const handleClick = useCallback(
+		(e: KeyboardEvent | React.MouseEvent<HTMLButtonElement>) => !disabled && onClick(e),
+		[disabled, onClick]
+	);
 	const keyEvents = useMemo(() => getKeyboardPreset('button', handleClick), [handleClick]);
 	useKeyboard(iconButtonRef, keyEvents);
 
 	return (
-		<ContainerEl
-			ref={iconButtonRef}
-			width="fit"
-			height="fit"
-			borderRadius={borderRadius}
-			background={backgroundColor}
-			disabled={disabled}
-			$padding={paddingSize}
-			crossAlignment="center"
+		<StyledIconButton
 			onClick={handleClick}
+			icon={icon}
+			$iconSize={iconSize}
+			$paddingSize={paddingSize}
+			backgroundColor={backgroundColor}
+			labelColor={customIconColor || iconColor}
+			shape={borderRadius}
+			size={size}
+			ref={iconButtonRef}
+			disabled={disabled}
 			{...rest}
-			tabIndex={disabled ? -1 : 0}
-		>
-			<StyledIcon
-				icon={icon}
-				$size={iconSize}
-				// TODO: remove usage of customIconColor
-				color={customIconColor || iconColor}
-				disabled={disabled}
-				{...rest}
-			/>
-		</ContainerEl>
+		/>
 	);
 });
 
