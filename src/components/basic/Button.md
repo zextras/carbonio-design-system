@@ -144,7 +144,7 @@ import { Container } from '@zextras/carbonio-design-system';
     </Container>
 	<Container orientation="vertical" mainAlignment="space-around" style={{ gap: '10px' }} width="30%">
         <Button type="ghost" label="Button" shape="regular" />
-        <Button type="ghost" label="Button" s hape="round" />
+        <Button type="ghost" label="Button" shape="round" />
         <Button type="ghost" label="Button" shape="round" icon="HeartOutline" iconPlacement="left" />
         <Button type="ghost" label="Button" shape="round" icon="HeartOutline" iconPlacement="right" />
     </Container>
@@ -237,19 +237,19 @@ const [loading, setLoading] = useState(true);
       <Container orientation="vertical" width="30%" style={{ gap: '10px' }}>
         <Button label="Button" color="primary" onClick={click} loading={loading} />
         <Button label="Button" color="primary" onClick={click} icon="HeartOutline" loading={loading} />
-        <Button label="Button" color="primary" onClick={click} icon="HeartOutline" iconPlacement="right" loading={loading} />
+        <Button label="Button" color="primary" onClick={click} icon="HeartOutline" iconPlacement="left" loading={loading} />
         <Button label="Button" color="primary" onClick={click} icon="HeartOutline" iconPlacement="right" loading={loading} secondaryAction={{ icon: 'ChevronDown', onClick: () => undefined }} />
       </Container>
       <Container orientation="vertical" width="30%" style={{ gap: '10px' }}>
         <Button type="outlined" label="Button" color="secondary" onClick={click} loading={loading} />
         <Button type="outlined" label="Button" color="secondary" onClick={click}  icon="HeartOutline" loading={loading} />
-        <Button type="outlined" label="Button" color="secondary" onClick={click}  icon="HeartOutline" iconPlacement="right" loading={loading} />
+        <Button type="outlined" label="Button" color="secondary" onClick={click}  icon="HeartOutline" iconPlacement="left" loading={loading} />
         <Button type="outlined" label="Button" color="secondary" onClick={click}  icon="HeartOutline" iconPlacement="right" loading={loading} secondaryAction={{ icon: 'ChevronDown', onClick: () => undefined }} />
       </Container>
       <Container orientation="vertical" width="30%" style={{ gap: '10px' }}>
         <Button type="ghost" label="Button" color="error" onClick={click} loading={loading} />
         <Button type="ghost" label="Button" color="error" onClick={click}  icon="HeartOutline" loading={loading} />
-        <Button type="ghost" label="Button" color="error" onClick={click}  icon="HeartOutline" iconPlacement="right" loading={loading} />
+        <Button type="ghost" label="Button" color="error" onClick={click}  icon="HeartOutline" iconPlacement="left" loading={loading} />
         <Button type="ghost" label="Button" color="error" onClick={click}  icon="HeartOutline" iconPlacement="right" loading={loading} secondaryAction={{ icon: 'ChevronDown', onClick: () => undefined }} />
       </Container>
     </Container>
@@ -354,5 +354,51 @@ const click = () => console.log('click');
 		</Container>
 	</Container>
 </Container>
+```
+
+### Development status:
+```jsx noEditor
+import { Container, Icon } from '@zextras/carbonio-design-system';
+import StatusTable from 'status-table';
+const items = [{
+    feature: 'Graphics',
+    status: 1,
+    notes: ''
+},{
+    feature: 'Documentation',
+    status: 3,
+    notes: ''
+},{
+    feature: 'Examples',
+    status: 3,
+    notes: ''
+},{
+    feature: 'I18n Compatibility',
+    status: 1,
+    notes: ''
+},{
+    feature: 'Theme Compatibility',
+    status: 1,
+    notes: ''
+},{
+    feature: 'Dark Mode',
+    status: 1,
+    notes: ''
+},{
+    feature: 'Prop Types',
+    status: 1,
+    notes: ''
+},{
+    feature: 'Index Export',
+    status: 1,
+    notes: ''
+},{
+    feature: 'Customizability',
+    status: 2,
+    notes: 'Only accepts a string and icon as content'
+},
+];
+
+<StatusTable items={items} />
 
 ```
