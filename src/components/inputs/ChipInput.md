@@ -47,6 +47,15 @@ If options are provided, they will be visible by clicking on the chip input, and
 
 ### Controlled ChipInput
 
+In controlled mode value can be updated from outside the ChipInput.
+When updated, the new value is applied to the ChipInput **without any internal check**,
+so **you need to perform any additional check before setting the new value** (e.g. if you intend to have only uniq chips
+or a max number of chips).
+
+In the example below, the ChipInput has both the requireUniqChips and the maxChips prop valued. When chips are added directly
+through the ChipInput, the checks are done, but when you set a new value through the Input (and Button), more than 8 chips are allowed,
+and so are duplicates.
+
 ```jsx
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { Button, Container, Divider, Input, Text } from '@zextras/carbonio-design-system';
@@ -124,6 +133,8 @@ useEffect(() => {
             else setOptions([]);
         }}
         options={options}
+        maxChips={8}
+        requireUniqueChips
     />
     <Container
         mainAlignment="flex-start"

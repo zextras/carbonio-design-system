@@ -357,7 +357,10 @@ interface ChipInputProps {
 	errorLabel?: string;
 	/** Background color for the error status */
 	errorBackgroundColor?: keyof ThemeObj['palette'];
-	/** Set the limit for chip inputs */
+	/** Set the limit for chip inputs <br />
+	 * <strong>Warning</strong>: be aware that this check is performed only on internal changes on items.
+	 * If you change the value from outside, you are in charge of apply this check on the new value itself.
+	 */
 	maxChips?: number | null;
 	/**
 	 * Hide options to select values (on click).
@@ -378,7 +381,11 @@ interface ChipInputProps {
 	hideBorder?: boolean;
 	/** disable the input (but not the dropdown, use disableOptions for this) */
 	disabled?: boolean;
-	/** allow entering unique chips only */
+	/**
+	 * Allow entering unique chips only <br />
+	 * <strong>Warning</strong>: be aware that this check is performed only on internal changes on items.
+	 * If you change the value from outside, you are in charge of apply this check on the new value itself.
+	 */
 	requireUniqueChips?: boolean;
 	/** Input divider color */
 	bottomBorderColor?: React.ComponentPropsWithRef<typeof Divider>['color'];
