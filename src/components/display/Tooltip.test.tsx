@@ -18,10 +18,11 @@ import { Button } from '../basic/Button';
 describe('Tooltip', () => {
 	test('Render Tooltip', async () => {
 		const messageText = 'Overflowing tooltip text';
+		const clickFn = jest.fn();
 		render(
 			<Container orientation="horizontal" mainAlignment="flex-start">
 				<Tooltip placement="right" label={messageText}>
-					<Button label="Name Lastname" />
+					<Button label="Name Lastname" onClick={clickFn} />
 				</Tooltip>
 			</Container>
 		);
@@ -38,10 +39,11 @@ describe('Tooltip', () => {
 
 	test('Disabled Tooltip is not shown', async () => {
 		const messageText = 'Overflowing tooltip text';
+		const clickFn = jest.fn();
 		render(
 			<Container orientation="horizontal" mainAlignment="flex-start">
 				<Tooltip placement="right" label={messageText} disabled>
-					<Button label="Name Lastname" />
+					<Button label="Name Lastname" onClick={clickFn} />
 				</Tooltip>
 			</Container>
 		);
