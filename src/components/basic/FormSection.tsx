@@ -5,13 +5,20 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
-import { Container } from '../layout/Container';
+import { Container, ContainerProps } from '../layout/Container';
 import { Divider } from '../layout/Divider';
 import { Padding } from '../layout/Padding';
-import { Text } from './Text';
+import { Text, TextProps } from './Text';
 
-const FormSection = React.forwardRef(function FormSectionFn({ label, children, ...rest }, ref) {
+interface FormElementProps extends ContainerProps {
+	label?: TextProps['children'];
+	children?: React.ReactNode | React.ReactNode[];
+}
+
+const FormSection = React.forwardRef<HTMLDivElement, FormElementProps>(function FormSectionFn(
+	{ label = '', children, ...rest },
+	ref
+) {
 	return (
 		<Container
 			ref={ref}
@@ -40,16 +47,8 @@ const FormSection = React.forwardRef(function FormSectionFn({ label, children, .
 	);
 });
 
-FormSection.propTypes = {
-	label: PropTypes.string
-};
-
-FormSection.defaultProps = {
-	label: ''
-};
-
-const FormSubSection = React.forwardRef(function FormSubSectionFn(
-	{ label, children, ...rest },
+const FormSubSection = React.forwardRef<HTMLDivElement, FormElementProps>(function FormSubSectionFn(
+	{ label = '', children, ...rest },
 	ref
 ) {
 	return (
@@ -83,15 +82,10 @@ const FormSubSection = React.forwardRef(function FormSubSectionFn(
 	);
 });
 
-FormSubSection.propTypes = {
-	label: PropTypes.string
-};
-
-FormSubSection.defaultProps = {
-	label: ''
-};
-
-const FormRow = React.forwardRef(function FormRowFn({ label, children, ...rest }, ref) {
+const FormRow = React.forwardRef<HTMLDivElement, FormElementProps>(function FormRowFn(
+	{ label = '', children, ...rest },
+	ref
+) {
 	return (
 		<Container
 			background="gray6"
@@ -118,12 +112,4 @@ const FormRow = React.forwardRef(function FormRowFn({ label, children, ...rest }
 	);
 });
 
-FormRow.propTypes = {
-	label: PropTypes.string
-};
-
-FormRow.defaultProps = {
-	label: ''
-};
-
-export { FormSection, FormSubSection, FormRow };
+export { FormSection, FormSubSection, FormRow, FormElementProps };
