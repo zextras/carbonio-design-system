@@ -5,11 +5,13 @@
  */
 
 import { some } from 'lodash';
-import { useState, useEffect, useRef, useMemo } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 
-const useIsVisible = (listRef) => {
+const useIsVisible = <T extends HTMLElement>(
+	listRef: React.RefObject<HTMLDivElement>
+): [boolean, React.RefObject<T>] => {
 	const [vis, setVis] = useState(false);
-	const ref = useRef();
+	const ref = useRef<T | null>(null);
 
 	const observer = useMemo(
 		() =>

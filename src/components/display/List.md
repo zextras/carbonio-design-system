@@ -102,7 +102,7 @@ const items = useMemo(
 </Container>;
 ```
 
-#List with background properties
+### List with background properties
 
 ```jsx
 import faker from 'faker';
