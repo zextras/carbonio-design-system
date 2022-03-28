@@ -37,9 +37,10 @@ const items = [
 
 describe('Dropdown', () => {
 	test('Render closed dropdown', () => {
+		const onClick = jest.fn();
 		render(
 			<Dropdown items={items} placement="bottom-end">
-				<Button icon="ArrowDown" label="Create" />
+				<Button icon="ArrowDown" label="Create" onClick={onClick} />
 			</Dropdown>
 		);
 
@@ -49,9 +50,10 @@ describe('Dropdown', () => {
 	});
 
 	test('Render opened dropdown', async () => {
+		const onClick = jest.fn();
 		render(
 			<Dropdown items={items} placement="bottom-end">
-				<Button icon="ArrowDown" label="Create" />
+				<Button icon="ArrowDown" label="Create" onClick={onClick} />
 			</Dropdown>
 		);
 
@@ -70,9 +72,10 @@ describe('Dropdown', () => {
 	});
 
 	test('click on dropdown trigger toggle dropdown visibility', async () => {
+		const onClick = jest.fn();
 		render(
 			<Dropdown items={items}>
-				<Button label="opener" />
+				<Button label="opener" onClick={onClick} />
 			</Dropdown>
 		);
 
@@ -119,10 +122,11 @@ describe('Dropdown', () => {
 
 	test('dropdown inside a modal open and close properly', async () => {
 		const onClose = jest.fn();
+		const onClick = jest.fn();
 		render(
 			<Modal open title="modal with dropdown" onClose={onClose}>
 				<Dropdown items={items}>
-					<Button label="opener" />
+					<Button label="opener" onClick={onClick} />
 				</Dropdown>
 			</Modal>
 		);

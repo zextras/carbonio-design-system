@@ -87,10 +87,6 @@ const ConfirmButton = styled(Button)`
 	min-width: 100px;
 	flex-shrink: 1;
 `;
-// TODO use the right IconButton when available
-const ModalCloseIcon = styled(IconButton)`
-	padding: 5px;
-`;
 
 interface ModalProps {
 	/** Modal background */
@@ -106,17 +102,17 @@ interface ModalProps {
 	/** Centered Modal */
 	centered?: boolean;
 	/** Callback for main action */
-	onConfirm?: (event: React.MouseEvent<HTMLDivElement>) => void;
+	onConfirm?: (event: React.MouseEvent<HTMLButtonElement> | KeyboardEvent) => void;
 	/** Label for the Main action Button */
 	confirmLabel?: string;
 	/** BackgroundColor for the Main action Button */
 	confirmColor?: string | keyof ThemeObj['palette'];
 	/** Callback for secondary action */
-	onSecondaryAction?: (event: React.MouseEvent<HTMLDivElement>) => void;
+	onSecondaryAction?: (event: React.MouseEvent<HTMLButtonElement> | KeyboardEvent) => void;
 	/** Label for the Secondary action Button */
 	secondaryActionLabel?: string;
 	/** Callback to close the Modal */
-	onClose?: React.ReactEventHandler;
+	onClose?: (event: React.MouseEvent<HTMLButtonElement> | KeyboardEvent) => void;
 	/** Label for the Modal close Button */
 	dismissLabel?: string;
 	/** Label for copy button in the Error Modal */
@@ -135,6 +131,8 @@ interface ModalProps {
 	maxHeight?: string;
 	/** Flag to disable the Portal implementation */
 	disablePortal?: boolean;
+	/** Content of the modal */
+	children?: React.ReactNode | React.ReactNode[];
 }
 
 const ModalFooter: React.VFC<
@@ -179,7 +177,7 @@ const ModalFooter: React.VFC<
 						onClick={onSecondaryAction}
 						label={secondaryActionLabel}
 					/>
-				) : dismissLabel ? (
+				) : dismissLabel && onClose ? (
 					<DismissButton color="secondary" onClick={onClose} label={dismissLabel} />
 				) : undefined;
 		}
@@ -207,7 +205,13 @@ const ModalFooter: React.VFC<
 			)}
 			<ButtonContainer orientation="horizontal" mainAlignment={centered ? 'center' : 'flex-end'}>
 				{secondaryButton}
-				<ConfirmButton color={confirmColor} onClick={onConfirm || onClose} label={confirmLabel} />
+				{(onConfirm || onClose) && (
+					<ConfirmButton
+						color={confirmColor}
+						onClick={(onConfirm || onClose) as NonNullable<typeof onClose | typeof onConfirm>}
+						label={confirmLabel}
+					/>
+				)}
 			</ButtonContainer>
 		</>
 	);
@@ -355,7 +359,7 @@ const Modal = React.forwardRef<HTMLDivElement, ModalProps>(function ModalFn(
 								>
 									{Title}
 								</ModalTitle>
-								{showCloseIcon && <ModalCloseIcon icon="Close" size="small" onClick={onClose} />}
+								{showCloseIcon && <IconButton icon="Close" size="large" onClick={onClose} />}
 							</Row>
 							<Divider />
 							<ModalBody centered={centered} ref={modalBodyRef} maxHeight={maxHeight}>

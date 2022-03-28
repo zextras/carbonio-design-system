@@ -248,18 +248,11 @@ const CustomIcon = styled(({ onClick, iconColor, ...rest }) =>
 )`
 	padding: 2px;
 	${({ onClick }): SimpleInterpolation =>
-		onClick
-			? css`
-					& > svg {
-						width: 20px;
-						height: 20px;
-						padding: 0;
-					}
-			  `
-			: css`
-					width: 20px;
-					height: 20px;
-			  `}
+		!onClick &&
+		css`
+			width: 20px;
+			height: 20px;
+		`}
 `;
 
 const ChipsContainer = styled.div`
@@ -753,6 +746,7 @@ const ChipInput: ChipInput = React.forwardRef<HTMLDivElement, ChipInputProps>(fu
 								onClick={iconAction}
 								disabled={iconDisabled}
 								iconColor={iconColor}
+								size="large"
 							/>
 						</CustomIconContainer>
 					)}

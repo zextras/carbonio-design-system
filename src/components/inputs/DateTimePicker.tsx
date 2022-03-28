@@ -819,6 +819,10 @@ const InputIconsContainer = styled.div`
 	width: fit-content;
 `;
 
+const CustomIconButton = styled(IconButton)`
+	padding: 2px;
+`;
+
 interface DateTimePickerProps {
 	/** Input's background color */
 	backgroundColor?: keyof ThemeObj['palette'];
@@ -920,16 +924,16 @@ const DateTimePicker: React.VFC<
 			() => (
 				<InputIconsContainer>
 					{isClearable && value && (
-						<IconButton
+						<CustomIconButton
 							icon="CloseOutline"
-							size="extrasmall"
+							size="large"
 							onClick={onClear}
 							backgroundColor="transparent"
 						/>
 					)}
-					<IconButton
+					<CustomIconButton
 						icon="CalendarOutline"
-						size="extrasmall"
+						size="large"
 						onClick={onClick}
 						backgroundColor="transparent"
 						iconColor={hasError ? 'error' : 'text'}
