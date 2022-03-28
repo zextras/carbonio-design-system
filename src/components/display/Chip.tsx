@@ -242,7 +242,7 @@ const Chip = React.forwardRef<HTMLDivElement, ChipProps>(function ChipFn(
 
 	const actionItems = useMemo(
 		() =>
-			map(chipActions, (action, index) => {
+			map(chipActions, (action) => {
 				let item;
 				const actionDisabled = !!disabled || !action.label;
 				const showTooltipHandler = (!actionDisabled && showInnerTooltip) || undefined;
