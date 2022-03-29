@@ -15,17 +15,17 @@ import React, {
 } from 'react';
 import { filter, map, slice, isEmpty, debounce, find, trim } from 'lodash';
 import styled, { css, SimpleInterpolation } from 'styled-components';
-import { IconButton } from '../../index';
+import { IconButton } from './IconButton';
 import { ThemeObj } from '../../theme/theme';
-import Chip from '../display/Chip';
-import Dropdown from '../display/Dropdown';
-import Text from '../basic/Text';
+import { Chip, ChipProps } from '../display/Chip';
+import { Dropdown } from '../display/Dropdown';
+import { Text } from '../basic/Text';
 import { useKeyboard, getKeyboardPreset, KeyboardPreset } from '../../hooks/useKeyboard';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { getColor } from '../../theme/theme-utils';
-import Container from '../layout/Container';
-import Icon from '../basic/Icon';
-import Divider from '../layout/Divider';
+import { Container } from '../layout/Container';
+import { Icon } from '../basic/Icon';
+import { Divider } from '../layout/Divider';
 import { pseudoClasses } from '../utilities/functions';
 
 const ContainerEl = styled(Container)<{
@@ -302,7 +302,7 @@ function DefaultOnAdd(valueToAdd: unknown | string): { label: string } {
 	return { label: 'unknown value' };
 }
 
-type ChipItem = { label?: string } & React.ComponentPropsWithoutRef<typeof Chip> & {
+type ChipItem = { label?: string } & ChipProps & {
 		value?: unknown;
 	};
 
@@ -769,4 +769,4 @@ const ChipInput: ChipInput = React.forwardRef<HTMLDivElement, ChipInputProps>(fu
 
 ChipInput._newId = 0;
 
-export default ChipInput;
+export { ChipInput, ChipInputProps, ChipItem };
