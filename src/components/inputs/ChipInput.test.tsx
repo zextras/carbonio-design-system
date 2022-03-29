@@ -9,7 +9,7 @@ import { waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { screen } from '@testing-library/dom';
 import { render } from '../../test-utils';
-import ChipInput from './ChipInput';
+import { ChipInput, ChipItem } from './ChipInput';
 
 describe('ChipInput', () => {
 	test('render a chip input with a placeholder, two chips, an icon and a description', () => {
@@ -395,10 +395,7 @@ describe('ChipInput', () => {
 	});
 
 	test('onAdd is called with string if text is typed in input', () => {
-		type OnAddType = NonNullable<React.ComponentPropsWithRef<typeof ChipInput>['onAdd']>;
-		const onAddFn = jest
-			.fn<ReturnType<OnAddType>, Parameters<OnAddType>>()
-			.mockImplementation((value) => (typeof value === 'string' ? { label: value } : value));
+		const onAddFn = jest.fn().mockImplementation((value: string): ChipItem => ({ label: value }));
 
 		render(<ChipInput onAdd={onAddFn} />);
 		const inputElement = screen.getByRole('textbox');
@@ -411,12 +408,10 @@ describe('ChipInput', () => {
 	});
 
 	test('onAdd is called with option value if option has a value', () => {
-		type OnAddType = NonNullable<React.ComponentPropsWithRef<typeof ChipInput>['onAdd']>;
-		const onAddFn = jest
-			.fn<ReturnType<OnAddType>, Parameters<OnAddType>>()
-			.mockImplementation((value) => (typeof value === 'string' ? { label: value } : value));
+		const onAddFn = jest.fn().mockImplementation((value: Option['value']): ChipItem => value);
 
-		const options = [
+		type Option = { id: string; label: string; value: { label: string } };
+		const options: Array<Option> = [
 			{ id: 'opt1', label: 'option 1', value: { label: 'chip 1' } },
 			{ id: 'opt2', label: 'option 2', value: { label: 'chip 2' } }
 		];
@@ -438,12 +433,10 @@ describe('ChipInput', () => {
 	});
 
 	test('onAdd is called with option label if option does not have a value', () => {
-		type OnAddType = NonNullable<React.ComponentPropsWithRef<typeof ChipInput>['onAdd']>;
-		const onAddFn = jest
-			.fn<ReturnType<OnAddType>, Parameters<OnAddType>>()
-			.mockImplementation((value) => (typeof value === 'string' ? { label: value } : value));
+		const onAddFn = jest.fn().mockImplementation((value: string): ChipItem => ({ label: value }));
 
-		const options = [
+		type Option = { id: string; label: string };
+		const options: Array<Option> = [
 			{ id: 'opt1', label: 'option 1' },
 			{ id: 'opt2', label: 'option 2' }
 		];

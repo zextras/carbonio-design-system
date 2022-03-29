@@ -7,8 +7,8 @@
 import React, { useRef, useCallback, useMemo } from 'react';
 import styled, { css, SimpleInterpolation } from 'styled-components';
 import { getColor, isThemeSize, useTheme } from '../../theme/theme-utils';
-import Container from '../layout/Container';
-import Icon from '../basic/Icon';
+import { Container } from '../layout/Container';
+import { Icon, IconProps } from '../basic/Icon';
 import { useKeyboard, getKeyboardPreset } from '../../hooks/useKeyboard';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { ThemeObj } from '../../theme/theme';
@@ -61,7 +61,7 @@ interface IconButtonInternalSizes {
 
 interface IconButtonProps {
 	/** Color of the icon */
-	iconColor?: React.ComponentPropsWithoutRef<typeof Icon>['color'];
+	iconColor?: IconProps['color'];
 	/** Color of the button */
 	backgroundColor?: string | keyof ThemeObj['palette'];
 	/** whether to disable the IconButton or not */
@@ -148,4 +148,4 @@ const IconButton = React.forwardRef<HTMLDivElement, IconButtonProps>(function Ic
 	);
 });
 
-export default IconButton;
+export { IconButton, IconButtonProps };
