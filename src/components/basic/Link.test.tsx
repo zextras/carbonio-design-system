@@ -5,7 +5,7 @@
  */
 
 import React from 'react';
-import faker from 'faker';
+import { faker } from '@faker-js/faker';
 import { render } from '../../test-utils';
 import { Link } from './Link';
 

@@ -9,7 +9,7 @@ import React from 'react';
 import { screen } from '@testing-library/dom';
 import { act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import faker from 'faker';
+import { faker } from '@faker-js/faker';
 import { render } from '../../test-utils';
 import { Button } from './Button';
 

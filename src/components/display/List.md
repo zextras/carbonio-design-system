@@ -7,7 +7,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 A basic virtual list without dependencies.
 
 ```jsx
-import faker from 'faker';
+import { faker } from '@faker-js/faker';
 import { useState, useMemo, useCallback } from 'react';
 import { Container, Avatar, Drag, Divider, Text, Row, Padding } from '@zextras/carbonio-design-system';
 import { map, range, findIndex, without, reduce, omit } from 'lodash';
@@ -105,7 +105,7 @@ const items = useMemo(
 ### List with background properties
 
 ```jsx
-import faker from 'faker';
+import { faker } from '@faker-js/faker';
 import { useState, useMemo, useCallback } from 'react';
 import { Container, Avatar, Drag, Divider, Text, Row, Padding } from '@zextras/carbonio-design-system';
 import { map, range, findIndex, without, reduce, omit } from 'lodash';

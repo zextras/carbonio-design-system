@@ -7,13 +7,13 @@
 
 import React from 'react';
 import { screen } from '@testing-library/dom';
-import faker from 'faker';
+import { faker } from '@faker-js/faker';
 import { render } from '../../test-utils';
 import { Badge } from './Badge';
 
 describe('Badge', () => {
 	test('Render a number < 99', () => {
-		const number = faker.random.number({
+		const number = faker.datatype.number({
 			max: 98
 		});
 		render(<Badge value={number} />);
@@ -21,7 +21,7 @@ describe('Badge', () => {
 	});
 
 	test('Render a number > 99', () => {
-		const number = faker.random.number({
+		const number = faker.datatype.number({
 			min: 100
 		});
 		render(<Badge value={number} />);
