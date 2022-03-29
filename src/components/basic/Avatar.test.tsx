@@ -7,7 +7,7 @@
 
 import React from 'react';
 import { screen } from '@testing-library/dom';
-import faker from 'faker';
+import { faker } from '@faker-js/faker';
 import { render } from '../../test-utils';
 import { Avatar } from './Avatar';
 
