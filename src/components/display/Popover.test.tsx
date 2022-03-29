@@ -15,26 +15,26 @@ import { Button } from '../basic/Button';
 import { Container } from '../layout/Container';
 import { Input } from '../inputs/Input';
 
-const CustomPopover = () => {
+const CustomPopover = (): JSX.Element => {
 	const [open, setOpen] = useState(false);
-	const buttonRef = useRef(undefined);
+	const buttonRef = useRef<HTMLButtonElement>(null);
 	return (
 		<>
 			<Button
 				label="Click me!"
 				ref={buttonRef}
-				onClick={() => setOpen(true)}
+				onClick={(): void => setOpen(true)}
 				data-testid={'button1'}
 			/>
 			<Popover
 				open={open}
 				anchorEl={buttonRef}
 				placement="right"
-				onClose={() => setOpen(false)}
+				onClose={(): void => setOpen(false)}
 				data-testid={'Popover'}
 			>
 				<Container>
-					<Button label={'asd'} data-testid={'button2'} />
+					<Button label={'asd'} data-testid={'button2'} onClick={(): void => undefined} />
 					<Input label={'rly'} />
 				</Container>
 			</Popover>
@@ -43,36 +43,26 @@ const CustomPopover = () => {
 };
 
 describe('Popover', () => {
-	const input = () => screen.getByRole('textbox');
-	const popover = () => screen.getByTestId('Popover');
-	const button1 = () => screen.getByTestId('button1');
-	const button2 = () => screen.getByTestId('button2');
-
 	test('Render closed Popover', () => {
 		render(<CustomPopover />);
 
-		expect(input).toThrowError();
-		expect(popover).toThrowError();
-		expect(button2).toThrowError();
+		expect(screen.queryByRole('textbox')).not.toBeInTheDocument();
+		expect(screen.queryByTestId('Popover')).not.toBeInTheDocument();
+		expect(screen.queryByTestId('button2')).not.toBeInTheDocument();
 
-		expect(button1()).toBeInTheDocument();
-		expect(button1()).toHaveTextContent(/CLICK ME!/i);
+		expect(screen.getByTestId('button1')).toBeInTheDocument();
+		expect(screen.getByTestId('button1')).toHaveTextContent(/click me!/i);
 	});
 
 	test('Render opened Popover', () => {
 		render(<CustomPopover />);
 		userEvent.click(screen.getByTestId('button1'));
-		expect(input).not.toThrowError();
-		expect(popover).not.toThrowError();
-		expect(button2).not.toThrowError();
+		expect(screen.getByRole('textbox')).toBeInTheDocument();
+		expect(screen.getByTestId('Popover')).toBeInTheDocument();
+		expect(screen.getByTestId('button2')).toBeInTheDocument();
 
-		expect(input()).toBeInTheDocument();
-		expect(popover()).toBeInTheDocument();
-		expect(button2()).toBeInTheDocument();
-
-		expect(input()).toHaveAttribute('name', 'rly');
-		expect(button1()).toBeInTheDocument();
-		expect(button1()).toHaveTextContent(/CLICK ME!/i);
-		expect(button2()).toHaveTextContent(/ASD/i);
+		expect(screen.getByRole('textbox')).toBeVisible();
+		expect(screen.getByRole('button', { name: /click me!/i })).toBeVisible();
+		expect(screen.getByRole('button', { name: /asd/i })).toBeVisible();
 	});
 });
