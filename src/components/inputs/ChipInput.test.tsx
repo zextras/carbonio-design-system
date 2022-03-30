@@ -280,14 +280,12 @@ describe('ChipInput', () => {
 	});
 
 	test('if chip input icon is disabled, icon action is not triggered', () => {
-		const chip = [{ label: 'chip' }];
 		const changeFn = jest.fn();
 		const iconActionFn = jest.fn();
 
 		render(
 			<ChipInput
 				disabled
-				value={chip}
 				onChange={changeFn}
 				icon="PeopleOutline"
 				iconAction={iconActionFn}
@@ -296,8 +294,8 @@ describe('ChipInput', () => {
 		);
 		const inputElement = screen.getByRole('textbox');
 		expect(inputElement).toBeInTheDocument();
-		expect(screen.getByTestId('icon: PeopleOutline')).toBeVisible();
-		expect(screen.getByTestId('icon: PeopleOutline')).toHaveAttribute('disabled', '');
+		expect(screen.getByRole('button')).toBeVisible();
+		expect(screen.getByRole('button')).toBeDisabled();
 		userEvent.click(screen.getByTestId('icon: PeopleOutline'));
 		expect(iconActionFn).not.toHaveBeenCalled();
 	});
