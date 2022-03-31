@@ -7,23 +7,34 @@
 import { useLayoutEffect, useState, useContext, useCallback } from 'react';
 import { ThemeContext } from 'styled-components';
 
-function useScreenMode(target = window) {
+type ScreenMode = 'mobile' | 'desktop';
+
+function useScreenMode(target = window): ScreenMode {
 	const theme = useContext(ThemeContext);
+
 	const check = useCallback(
-		(width, height) =>
+		(width: number, height: number): ScreenMode =>
 			width < theme.breakpoints.width || width / height < theme.breakpoints.aspectRatio
 				? 'mobile'
 				: 'desktop',
 		[theme]
 	);
-	const [screenMode, setScreenMode] = useState(check(target.innerWidth, target.innerHeight));
+
+	const [screenMode, setScreenMode] = useState<ScreenMode>(
+		check(target.innerWidth, target.innerHeight)
+	);
+
 	useLayoutEffect(() => {
-		const handleResize = () => {
+		const handleResize = (): void => {
 			setScreenMode(check(target.innerWidth, target.innerHeight));
 		};
 		target.addEventListener('resize', handleResize);
-		return () => target.removeEventListener('resize', handleResize);
+
+		return (): void => {
+			target.removeEventListener('resize', handleResize);
+		};
 	}, [check, setScreenMode, target]);
+
 	return screenMode;
 }
 
