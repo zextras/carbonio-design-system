@@ -9,7 +9,7 @@ import { ThemeContext } from 'styled-components';
 
 type ScreenMode = 'mobile' | 'desktop';
 
-function useScreenMode(target = window): ScreenMode {
+function useScreenMode(target: Window = window): ScreenMode {
 	const theme = useContext(ThemeContext);
 
 	const check = useCallback(
@@ -38,4 +38,4 @@ function useScreenMode(target = window): ScreenMode {
 	return screenMode;
 }
 
-export { useScreenMode };
+export { useScreenMode, ScreenMode };
