@@ -4,34 +4,33 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import PropTypes from 'prop-types';
-import React, { useCallback, useContext, useEffect } from 'react';
-import styled, { css } from 'styled-components';
-import { useScreenMode } from '../../hooks/useScreenMode';
+import React, { useCallback, useEffect } from 'react';
+import styled, { css, SimpleInterpolation } from 'styled-components';
+import { ScreenMode, useScreenMode } from '../../hooks/useScreenMode';
 import { Button } from '../basic/Button';
 import { Icon } from '../basic/Icon';
 import { Text } from '../basic/Text';
-import { Container } from '../layout/Container';
+import { Container, ContainerProps } from '../layout/Container';
 import { Padding } from '../layout/Padding';
 import { Row } from '../layout/Row';
 import { Transition } from '../utilities/Transition';
 import { Portal } from '../utilities/Portal';
 
-const SnackContainer = styled(Container)`
+const SnackContainer = styled(Container)<{ $zIndex: number; $screenMode: ScreenMode }>`
 	position: fixed;
-	box-shadow: 0px 0px 4px 0px rgba(166, 166, 166, 0.5);
+	box-shadow: 0 0 4px 0 rgba(166, 166, 166, 0.5);
 	user-select: none;
-	z-index: ${(props) => props.zIndex};
-	${({ screenMode, theme }) =>
-		screenMode === 'desktop' &&
+	z-index: ${({ $zIndex }): number => $zIndex};
+	${({ $screenMode, theme }): SimpleInterpolation =>
+		$screenMode === 'desktop' &&
 		css`
 			right: 0;
 			bottom: 5vh;
 			max-width: 400px;
 			min-width: calc(320px - ${theme.sizes.padding.small} - ${theme.sizes.padding.small});
 		`};
-	${({ screenMode, theme }) =>
-		screenMode === 'mobile' &&
+	${({ $screenMode, theme }): SimpleInterpolation =>
+		$screenMode === 'mobile' &&
 		css`
 			right: 50%;
 			transform: translateX(50%);
@@ -40,27 +39,58 @@ const SnackContainer = styled(Container)`
 			max-width: calc(100% - ${theme.sizes.padding.small} - ${theme.sizes.padding.small});
 		`};
 `;
+
 const icons = {
 	success: 'Checkmark',
 	info: 'InfoOutline',
 	warning: 'AlertTriangleOutline',
 	error: 'Close'
 };
-const Snackbar = React.forwardRef(function SnackbarFn(
+
+interface SnackbarProps extends ContainerProps {
+	/** Whether to show the Snackbar or not */
+	open?: boolean;
+	/** Snackbar Type */
+	type?: 'success' | 'info' | 'warning' | 'error';
+	/** Snackbar text message */
+	label: string;
+	/** Snackbar button text */
+	actionLabel?: string;
+	/** Button's click callback */
+	onActionClick?: () => void;
+	/** Callback to handle Snackbar closing */
+	onClose?: () => void;
+	/** Disable the autoHide functionality */
+	disableAutoHide?: boolean;
+	/** Hide the button in the Snackbar */
+	hideButton?: boolean;
+	/** zIndex of the snackbar */
+	zIndex?: number;
+	/** autoHide timing in milliseconds */
+	autoHideTimeout?: number;
+	/** Window object to use as reference to determine the screenMode */
+	target?: Window;
+	/** Flag to disable the Portal implementation */
+	disablePortal?: boolean;
+	/** Flag to disable the multiline implementation */
+	singleLine?: boolean;
+}
+
+const Snackbar = React.forwardRef<HTMLDivElement, SnackbarProps>(function SnackbarFn(
 	{
-		open,
-		type,
+		open = false,
+		type = 'info',
 		label,
-		disableAutoHide,
-		hideButton,
-		actionLabel,
+		disableAutoHide = false,
+		hideButton = false,
+		actionLabel = 'Ok',
 		onActionClick,
 		onClose,
-		zIndex,
-		autoHideTimeout,
-		target,
-		disablePortal,
-		singleLine,
+		zIndex = 1000,
+		autoHideTimeout = 4000,
+		target = window,
+		disablePortal = false,
+		singleLine = false,
 		...rest
 	},
 	ref
@@ -71,14 +101,15 @@ const Snackbar = React.forwardRef(function SnackbarFn(
 	}, [onActionClick, onClose]);
 
 	useEffect(() => {
-		if (open && !disableAutoHide) {
-			const timeout = setTimeout(onClose, autoHideTimeout);
-			return () => clearTimeout(timeout);
+		let timeout: NodeJS.Timeout;
+		if (open && !disableAutoHide && onClose) {
+			timeout = setTimeout(onClose, autoHideTimeout);
 		}
-		return () => undefined;
+		return (): void => clearTimeout(timeout);
 	}, [open, disableAutoHide, onClose, autoHideTimeout]);
 
 	if (disablePortal && !open) return null;
+
 	return (
 		<Portal show={open} disablePortal={disablePortal}>
 			<Transition ref={ref} type="fade-in-right">
@@ -127,48 +158,4 @@ const Snackbar = React.forwardRef(function SnackbarFn(
 	);
 });
 
-Snackbar.propTypes = {
-	/** Whether to show the Snackbar or not */
-	open: PropTypes.bool,
-	/** Snackbar Type */
-	type: PropTypes.oneOf(['success', 'info', 'warning', 'error']),
-	/** Snackbar text message */
-	label: PropTypes.string.isRequired,
-	/** Snackbar button text */
-	actionLabel: PropTypes.string,
-	/** Button's click callback */
-	onActionClick: PropTypes.func,
-	/** Callback to handle Snackbar closing */
-	onClose: PropTypes.func,
-	/** Disable the autoHide functionality */
-	disableAutoHide: PropTypes.bool,
-	/** Hide the button in the Snackbar */
-	hideButton: PropTypes.bool,
-	/** zIndex of the snackbar */
-	zIndex: PropTypes.number,
-	/** autoHide timing in milliseconds */
-	autoHideTimeout: PropTypes.number,
-	/** Window object to use as reference to determine the screenMode */
-	target: PropTypes.instanceOf(Window),
-	/** Flag to disable the Portal implementation */
-	disablePortal: PropTypes.bool,
-	/** Flag to disable the multiline implementation */
-	singleLine: PropTypes.bool
-};
-
-Snackbar.defaultProps = {
-	open: false,
-	type: 'info',
-	actionLabel: 'Ok',
-	disableAutoHide: false,
-	hideButton: false,
-	zIndex: 1000,
-	autoHideTimeout: 4000,
-	target: window,
-	onActionClick: undefined,
-	onClose: undefined,
-	disablePortal: false,
-	singleLine: false
-};
-
-export { Snackbar };
+export { Snackbar, SnackbarProps };

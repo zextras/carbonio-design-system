@@ -14,17 +14,22 @@ import { Container } from '../layout/Container';
 import { render } from '../../test-utils';
 import { Snackbar } from './Snackbar';
 
-const CustomSnackbar = () => {
+const CustomSnackbar = (): JSX.Element => {
 	const [snack1, setSnack1] = useState(false);
 
 	return (
 		<>
 			<Container orientation="horizontal" mainAlignment="space-between" width="400px">
-				<Button type="outlined" color="success" label="Success" onClick={() => setSnack1(true)} />
+				<Button
+					type="outlined"
+					color="success"
+					label="Success"
+					onClick={(): void => setSnack1(true)}
+				/>
 			</Container>
 			<Snackbar
 				open={snack1}
-				onClose={() => setSnack1(false)}
+				onClose={(): void => setSnack1(false)}
 				type="success"
 				label="Success, Lorem Ipsum dolor sit amet"
 			/>
@@ -33,31 +38,29 @@ const CustomSnackbar = () => {
 };
 
 describe('Snackbar', () => {
-	const successSnackBar = () => screen.getByText(/success/i);
-	const successLabel = () => screen.getByText('Success, Lorem Ipsum dolor sit amet');
-	const closeSnackBar = () => screen.getByText(/ok/i);
-
 	test('Hidden Snackbar', () => {
 		render(<CustomSnackbar />);
 
-		expect(successLabel).toThrowError();
+		expect(screen.queryByText(/Success, Lorem Ipsum dolor sit amet/i)).not.toBeInTheDocument();
 	});
 
 	test('Showing Success Snackbar and close it', () => {
 		render(<CustomSnackbar />);
-		userEvent.click(successSnackBar());
+		userEvent.click(screen.getByText(/success/i));
 
-		expect(successLabel()).toBeInTheDocument();
+		expect(screen.getByText(/Success, Lorem Ipsum dolor sit amet/i)).toBeInTheDocument();
+		expect(screen.getByText(/Success, Lorem Ipsum dolor sit amet/i)).toBeVisible();
 
-		userEvent.click(closeSnackBar());
+		userEvent.click(screen.getByText(/OK/i));
 
-		expect(successLabel).toThrowError();
+		expect(screen.queryByText(/Success, Lorem Ipsum dolor sit amet/i)).not.toBeInTheDocument();
 	});
 
 	test('Showing all snackbars at once', () => {
 		render(<CustomSnackbar />);
-		userEvent.click(successSnackBar());
 
-		expect(successLabel()).toBeInTheDocument();
+		userEvent.click(screen.getByText(/success/i));
+
+		expect(screen.getByText(/Success, Lorem Ipsum dolor sit amet/i)).toBeInTheDocument();
 	});
 });
