@@ -26,7 +26,7 @@ describe('Checkbox', () => {
 		const onChange = jest.fn();
 		render(<Checkbox onChange={onChange} />);
 		act(() => {
-			userEvent.click(screen.queryByTestId('icon: Square'));
+			userEvent.click(screen.getByTestId('icon: Square'));
 		});
 		expect(onChange).toHaveBeenCalled();
 		expect(screen.queryByTestId('icon: CheckmarkSquare')).toBeInTheDocument();
