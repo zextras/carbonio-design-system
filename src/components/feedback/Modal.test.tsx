@@ -14,10 +14,10 @@ import { Modal } from './Modal';
 import { Text } from '../basic/Text';
 import { render } from '../../test-utils';
 
-const CustomModal = () => {
+const CustomModal = (): JSX.Element => {
 	const [open, setOpen] = useState(false);
-	const clickHandler = () => setOpen(true);
-	const closeHandler = () => setOpen(false);
+	const clickHandler = (): void => setOpen(true);
+	const closeHandler = (): void => setOpen(false);
 
 	return (
 		<>
@@ -29,23 +29,18 @@ const CustomModal = () => {
 	);
 };
 describe('Modal', () => {
-	const modalButton = () => screen.getByText(/TRIGGER MODAL/i);
-	const modalTitle = () => screen.getByText('My Title');
-	const modalText = () => screen.getByText('Lorem ipsum dolor sit amet.');
-
 	test('Render Modal', () => {
 		render(<CustomModal />);
 
-		expect(modalButton()).toBeInTheDocument();
-		expect(modalTitle).toThrowError();
-		expect(modalText).toThrowError();
+		const button = screen.getByRole('button', { name: /trigger modal/i });
+		expect(button).toBeInTheDocument();
+		expect(screen.queryByText('My Title')).not.toBeInTheDocument();
+		expect(screen.queryByText('Lorem ipsum dolor sit amet.')).not.toBeInTheDocument();
 
-		userEvent.click(screen.getByText(/trigger modal/i));
+		userEvent.click(button);
 
-		expect(modalTitle).not.toThrowError();
-		expect(modalText).not.toThrowError();
-		expect(modalButton()).toBeInTheDocument();
-		expect(modalTitle()).toBeInTheDocument();
-		expect(modalText()).toBeInTheDocument();
+		expect(screen.getByText('My Title')).toBeInTheDocument();
+		expect(screen.getByText('Lorem ipsum dolor sit amet.')).toBeInTheDocument();
+		expect(button).toBeInTheDocument();
 	});
 });
