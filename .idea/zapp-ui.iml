@@ -7,6 +7,7 @@
       <excludeFolder url="file://$MODULE_DIR$/pkg" />
       <excludeFolder url="file://$MODULE_DIR$/styleguide" />
       <excludeFolder url="file://$MODULE_DIR$/docs/asset" />
+      <excludeFolder url="file://$MODULE_DIR$/types" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
