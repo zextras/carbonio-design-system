@@ -239,8 +239,12 @@ const CustomText = styled(Text)<{ $backgroundColor?: string }>`
 		$backgroundColor && getColor($backgroundColor, theme)};
 `;
 
-const CustomIcon = styled(({ onClick, ...rest }) =>
-	onClick ? <IconButton onClick={onClick} {...rest} /> : <Icon {...rest} />
+const CustomIcon = styled(({ onClick, iconColor, ...rest }) =>
+	onClick ? (
+		<IconButton onClick={onClick} iconColor={iconColor} {...rest} />
+	) : (
+		<Icon color={iconColor} {...rest} />
+	)
 )`
 	padding: 2px;
 	${({ onClick }): SimpleInterpolation =>
@@ -375,6 +379,8 @@ interface ChipInputProps {
 	iconAction?: React.ReactEventHandler;
 	/** Disable the icon */
 	iconDisabled?: boolean;
+	/** Icon color */
+	iconColor?: string | keyof ThemeObj['palette'];
 	/** select single replaceable value from options */
 	singleSelection?: boolean;
 	/** hide the input's bottom border */
@@ -422,6 +428,7 @@ const ChipInput: ChipInput = React.forwardRef<HTMLDivElement, ChipInputProps>(fu
 		icon,
 		iconAction,
 		iconDisabled = false,
+		iconColor,
 		disabled = false,
 		requireUniqueChips = false,
 		maxChips = 20,
@@ -434,7 +441,7 @@ const ChipInput: ChipInput = React.forwardRef<HTMLDivElement, ChipInputProps>(fu
 		bottomBorderColor = 'gray4',
 		dropdownMaxHeight,
 		description,
-		ChipComponent = Chip,
+		ChipComponent,
 		...rest
 	},
 	ref
@@ -669,6 +676,8 @@ const ChipInput: ChipInput = React.forwardRef<HTMLDivElement, ChipInputProps>(fu
 
 	const onInputFocus = useCallback(() => setIsActive(true), []);
 
+	const ChipComp = useMemo(() => ChipComponent || Chip, [ChipComponent]);
+
 	return (
 		<Container height="fit" width="fill" crossAlignment="flex-start">
 			<Dropdown
@@ -701,7 +710,7 @@ const ChipInput: ChipInput = React.forwardRef<HTMLDivElement, ChipInputProps>(fu
 						{items.length > 0 && (
 							<ChipsContainer {...rest} ref={chipsContainerRef}>
 								{map(items, (item, index) => (
-									<ChipComponent
+									<ChipComp
 										key={`${index}-${item.value}`}
 										{...item}
 										closable
@@ -730,7 +739,7 @@ const ChipInput: ChipInput = React.forwardRef<HTMLDivElement, ChipInputProps>(fu
 								htmlFor={id}
 								hasFocus={hasFocus}
 								hasError={hasError}
-								disabled={disabled && dropdownDisabled}
+								disabled={disabled && dropdownDisabled && (!iconAction || iconDisabled)}
 								hasItems={items.length > 0 || !!inputElRef.current?.value}
 							>
 								{placeholder}
@@ -739,7 +748,12 @@ const ChipInput: ChipInput = React.forwardRef<HTMLDivElement, ChipInputProps>(fu
 					</HorizontalScrollContainer>
 					{icon && (
 						<CustomIconContainer>
-							<CustomIcon icon={icon} onClick={iconAction} disabled={iconDisabled} />
+							<CustomIcon
+								icon={icon}
+								onClick={iconAction}
+								disabled={iconDisabled}
+								iconColor={iconColor}
+							/>
 						</CustomIconContainer>
 					)}
 				</ContainerEl>
@@ -756,7 +770,7 @@ const ChipInput: ChipInput = React.forwardRef<HTMLDivElement, ChipInputProps>(fu
 				<CustomText
 					size="extrasmall"
 					color={(hasError && 'error') || (hasFocus && 'primary') || 'secondary'}
-					disabled={disabled && dropdownDisabled}
+					disabled={disabled && dropdownDisabled && (!iconAction || iconDisabled)}
 					overflow="break-word"
 					$backgroundColor={errorBackgroundColor}
 				>

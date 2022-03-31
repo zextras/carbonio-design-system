@@ -4,20 +4,10 @@ SPDX-FileCopyrightText: 2021 Zextras <https://www.zextras.com>
 SPDX-License-Identifier: AGPL-3.0-only
 -->
 
-Checkboxes can be used to turn an option on or off.
-
-It can also be used with a label description.
-
-The Icon and status of the component depend on the checked status, whose initial value can be set via the `defaultChecked` prop.
-
 ### Default
 
 ```jsx
-import { useState } from 'react';
-
-<>
-	<DateTimePicker label="Date Time Picker" isClearable />
-</>;
+<DateTimePicker label="Date Time Picker" isClearable />
 ```
 
 ### Without Time & Custom Date Format
@@ -28,16 +18,15 @@ const [date, setDate] = useState(new Date());
 const handleChange = useCallback((d) => {
 	setDate(d);
 }, []);
-<>
-	<DateTimePicker
-		label="Date Time Picker"
-		defaultValue={date}
-		includeTime={false}
-		onChange={handleChange}
-		enableChips
-		dateFormat="dd/MM/yyyy"
-	/>
-</>;
+
+<DateTimePicker
+    label="Date Time Picker"
+    defaultValue={date}
+    includeTime={false}
+    onChange={handleChange}
+    enableChips
+    dateFormat="dd/MM/yyyy"
+/>
 ```
 
 ### With Custom Input
@@ -49,14 +38,13 @@ import { Button } from '@zextras/carbonio-design-system';
 const ExampleCustomInput = forwardRef(({ value, onClick }, ref) => (
 	<Button onClick={onClick} ref={ref} label={value} icon="CalendarOutline" />
 ));
-<>
-	<DateTimePicker
-		label="Date Time Picker"
-		includeTime={false}
-		dateFormat="dd/MM/yyyy"
-		CustomComponent={ExampleCustomInput}
-	/>
-</>;
+
+<DateTimePicker
+    label="Date Time Picker"
+    includeTime={false}
+    dateFormat="dd/MM/yyyy"
+    CustomComponent={ExampleCustomInput}
+/>
 ```
 
 ### With Chips

@@ -55,6 +55,7 @@
 		"@testing-library/react-hooks": "7.0.2",
 		"@testing-library/user-event": "13.5.0",
 		"@types/lodash": "^4.14.178",
+		"@types/react-datepicker": "^4.3.4",
 		"@types/styled-components": "5.1.20",
 		"@zextras/carbonio-ui-configs": "^0.1.11",
 		"babel-loader": "8.2.3",
