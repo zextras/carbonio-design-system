@@ -131,19 +131,19 @@ function getColor(
 	return getColorValue(color, theme);
 }
 
-function parsePadding(padding: string, theme: ThemeObj): string {
-	let paddingValue = padding;
-	const paddingSizes = Object.keys(theme.sizes.padding) as Array<
-		keyof ThemeObj['sizes']['padding']
-	>;
-	paddingSizes.forEach((size) => {
-		const regex = new RegExp(`(^|\\s)(${size})`, 'g');
-		paddingValue = paddingValue.replace(regex, `$1${theme.sizes.padding[size]}`);
-	});
-	return paddingValue;
-}
-
-const simpleParsePadding = (size: string, theme: ThemeObj): string => {
+type PaddingString = `${string | keyof ThemeObj['sizes']['padding']}`;
+type PaddingStringComposition =
+	| PaddingString // all
+	| `${PaddingString} | ${PaddingString}` // vertical horizontal
+	| `${PaddingString} ${PaddingString} ${PaddingString}` // top horizontal bottom
+	| `${PaddingString} ${PaddingString} ${PaddingString} ${PaddingString}`; // top right bottom left
+/**
+ * Given a string for the css padding, where there are both css dimensions and theme tokens,
+ * it replaces theme tokens with the theme value
+ * @param size
+ * @param theme
+ */
+const simpleParsePadding = (size: PaddingStringComposition, theme: ThemeObj): string => {
 	const explodedSizes = size.split(' ');
 	explodedSizes.forEach((padding, index) => {
 		explodedSizes[index] =
@@ -152,18 +152,74 @@ const simpleParsePadding = (size: string, theme: ThemeObj): string => {
 	return explodedSizes.join(' ');
 };
 
-const getPadding = (
-	size: string,
-	theme?: ThemeObj
-): string | ((args: { theme: ThemeObj }) => string) => {
-	if (!theme) return ({ theme: iTheme }): string => simpleParsePadding(size, iTheme);
-	return simpleParsePadding(size, theme);
-};
+type RequireAtLeastOne<T, Keys extends keyof T = keyof T> = Pick<T, Exclude<keyof T, Keys>> &
+	{
+		[K in Keys]-?: Required<Pick<T, K>> & Partial<Pick<T, Exclude<Keys, K>>>;
+	}[Keys];
 
-const getParsedPadding =
-	(size: string) =>
-	({ theme }: { theme: ThemeObj }): string | ((args: { theme: ThemeObj }) => string) =>
-		parsePadding(size, theme);
+type PaddingObj =
+	| {
+			value: string | keyof ThemeObj['sizes']['padding'] | 0;
+	  }
+	| {
+			all: string | keyof ThemeObj['sizes']['padding'] | 0;
+	  }
+	| RequireAtLeastOne<{
+			vertical: string | keyof ThemeObj['sizes']['padding'] | 0;
+			horizontal: string | keyof ThemeObj['sizes']['padding'] | 0;
+	  }>
+	| RequireAtLeastOne<{
+			top: string | keyof ThemeObj['sizes']['padding'] | 0;
+			right: string | keyof ThemeObj['sizes']['padding'] | 0;
+			bottom: string | keyof ThemeObj['sizes']['padding'] | 0;
+			left: string | keyof ThemeObj['sizes']['padding'] | 0;
+	  }>;
+
+function getPadding(
+	padding: PaddingStringComposition | PaddingObj
+): (args: { theme: ThemeObj }) => string;
+function getPadding(padding: PaddingStringComposition | PaddingObj, theme: ThemeObj): string;
+function getPadding(
+	padding: PaddingStringComposition | PaddingObj,
+	theme?: ThemeObj
+): string | ((args: { theme: ThemeObj }) => string);
+function getPadding(
+	padding: PaddingStringComposition | PaddingObj,
+	theme?: ThemeObj
+): string | ((args: { theme: ThemeObj }) => string) {
+	if (typeof padding === 'string') {
+		if (!theme) return ({ theme: iTheme }): string => simpleParsePadding(padding, iTheme);
+		return simpleParsePadding(padding, theme);
+	}
+	if ('value' in padding && padding.value) {
+		return getPadding(padding.value, theme);
+	}
+	if ('all' in padding && padding.all) {
+		return getPadding(padding.all, theme);
+	}
+	const p = ['0', '0', '0', '0'];
+	if ('vertical' in padding && padding.vertical) {
+		p[0] = padding.vertical;
+		p[2] = padding.vertical;
+	}
+	if ('horizontal' in padding && padding.horizontal) {
+		p[1] = padding.horizontal;
+		p[3] = padding.horizontal;
+	}
+	if ('top' in padding && padding.top) {
+		p[0] = padding.top;
+	}
+	if ('right' in padding && padding.right) {
+		p[1] = padding.right;
+	}
+	if ('bottom' in padding && padding.bottom) {
+		p[2] = padding.bottom;
+	}
+	if ('left' in padding && padding.left) {
+		p[3] = padding.left;
+	}
+	return getPadding(p.join(' '), theme);
+}
 
 function pseudoClasses(
 	theme: ThemeObj,
@@ -194,12 +250,4 @@ function pseudoClasses(
 
 const useTheme = (): ThemeObj => useContext(ThemeContext);
 
-export {
-	generateColorSet,
-	getColor,
-	getPadding,
-	getParsedPadding,
-	useTheme,
-	parsePadding,
-	pseudoClasses
-};
+export { generateColorSet, getColor, getPadding, useTheme, PaddingObj, pseudoClasses };

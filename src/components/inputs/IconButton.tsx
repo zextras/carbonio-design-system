@@ -6,7 +6,7 @@
 
 import React, { useCallback, useMemo } from 'react';
 import styled, { css, SimpleInterpolation } from 'styled-components';
-import { isThemeSize, useTheme, parsePadding } from '../../theme/theme-utils';
+import { getPadding, isThemeSize, useTheme } from '../../theme/theme-utils';
 import { Button, ButtonProps } from '../basic/Button';
 import { useKeyboard, getKeyboardPreset } from '../../hooks/useKeyboard';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
@@ -83,7 +83,7 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(function
 						iconSize: isThemeSize(customSize.iconSize, theme.sizes.icon)
 							? theme.sizes.icon[customSize.iconSize]
 							: customSize.iconSize,
-						paddingSize: parsePadding(customSize.paddingSize.toString(), theme)
+						paddingSize: getPadding(customSize.paddingSize.toString(), theme)
 				  }
 				: {},
 		[customSize, theme]
