@@ -4,19 +4,21 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React from 'react';
+import React, { useContext } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
+import { ThemeContext } from '../../theme/theme-context-provider';
 
 const Portal = React.forwardRef(function PortalFn(
 	{ children, container, show, disablePortal = false },
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	ref
 ) {
+	const { windowObj } = useContext(ThemeContext);
 	if (disablePortal) return children;
 	if (!show) return null;
 
-	return ReactDOM.createPortal(children, container || window.top.document.body);
+	return ReactDOM.createPortal(children, container || windowObj.document.body);
 });
 
 Portal.propTypes = {
@@ -24,7 +26,7 @@ Portal.propTypes = {
 	children: PropTypes.node,
 	/**
 	 * HTML node where to insert the Portal's children.
-	 * The default value is 'window.top.document'.
+	 * The default value is 'windowObj.document'.
 	 * */
 	container: PropTypes.instanceOf(Element),
 	/** Flag to show or hide Portal's content */

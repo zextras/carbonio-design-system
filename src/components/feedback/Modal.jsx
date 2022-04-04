@@ -6,7 +6,7 @@
 
 /* eslint-disable no-nested-ternary */
 /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
-import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useMemo, useCallback, useRef, useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 import Button from '../basic/Button';
@@ -20,6 +20,7 @@ import Transition from '../utilities/Transition';
 import { useKeyboard } from '../../hooks/useKeyboard';
 import { useScreenMode } from '../../hooks/useScreenMode';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
+import { ThemeContext } from '../../theme/theme-context-provider';
 
 const modalMinWidth = {
 	extrasmall: '20%',
@@ -34,33 +35,33 @@ const modalWidth = {
 	large: '800px'
 };
 
-export function isBodyOverflowing(modalRef) {
+export function isBodyOverflowing(modalRef, windowObj) {
 	return (
-		window.top.document.body.scrollHeight > modalRef.current.clientHeight ||
-		window.top.document.body.scrollWidth > window.top.document.body.clientWidth
+		windowObj.document.body.scrollHeight > modalRef.current.clientHeight ||
+		windowObj.document.body.scrollWidth > windowObj.document.body.clientWidth
 	);
 }
-export function getScrollbarSize() {
-	const scrollDiv = window.top.document.createElement('div');
+export function getScrollbarSize(windowObj) {
+	const scrollDiv = windowObj.document.createElement('div');
 	scrollDiv.style.width = '99px';
 	scrollDiv.style.height = '99px';
 	scrollDiv.style.position = 'absolute';
 	scrollDiv.style.top = '-9999px';
 	scrollDiv.style.overflow = 'scroll';
 
-	window.top.document.body.appendChild(scrollDiv);
+	windowObj.document.body.appendChild(scrollDiv);
 	const scrollbarSize = scrollDiv.offsetWidth - scrollDiv.clientWidth;
-	window.top.document.body.removeChild(scrollDiv);
+	windowObj.document.body.removeChild(scrollDiv);
 
 	return scrollbarSize;
 }
-function copyToClipboard(node) {
-	const el = window.top.document.createElement('textarea');
+function copyToClipboard(node, windowObj) {
+	const el = windowObj.document.createElement('textarea');
 	el.value = node.textContent;
-	window.top.document.body.appendChild(el);
+	windowObj.document.body.appendChild(el);
 	el.select();
-	window.top.document.execCommand('copy');
-	window.top.document.body.removeChild(el);
+	windowObj.document.execCommand('copy');
+	windowObj.document.body.removeChild(el);
 }
 
 export const ModalContainer = styled.div`
@@ -257,6 +258,7 @@ const Modal = React.forwardRef(function ModalFn(
 	ref
 ) {
 	const [delayedOpen, setDelayedOpen] = useState(false);
+	const { windowObj } = useContext(ThemeContext);
 
 	const innerRef = useRef(undefined);
 	const modalRef = useCombinedRefs(ref, innerRef);
@@ -279,7 +281,10 @@ const Modal = React.forwardRef(function ModalFn(
 		},
 		[onClose]
 	);
-	const onCopyClipboard = useCallback(() => copyToClipboard(modalBodyRef.current), []);
+	const onCopyClipboard = useCallback(
+		() => copyToClipboard(modalBodyRef.current, windowObj),
+		[windowObj]
+	);
 
 	const onStartSentinelFocus = useCallback(() => {
 		const nodeList = modalContentRef.current.querySelectorAll('[tabindex]');
@@ -298,23 +303,23 @@ const Modal = React.forwardRef(function ModalFn(
 
 	useEffect(() => {
 		if (open) {
-			const defaultOverflowY = window.top.document.body.style.overflowY;
-			const defaultPaddingRight = window.top.document.body.style.paddingRight;
+			const defaultOverflowY = windowObj.document.body.style.overflowY;
+			const defaultPaddingRight = windowObj.document.body.style.paddingRight;
 
-			window.top.document.body.style.overflowY = 'hidden';
-			isBodyOverflowing(modalRef) &&
-				(window.top.document.body.style.paddingRight = `${getScrollbarSize()}px`);
+			windowObj.document.body.style.overflowY = 'hidden';
+			isBodyOverflowing(modalRef, windowObj) &&
+				(windowObj.document.body.style.paddingRight = `${getScrollbarSize(windowObj)}px`);
 
 			return () => {
-				window.top.document.body.style.overflowY = defaultOverflowY;
-				window.top.document.body.style.paddingRight = defaultPaddingRight;
+				windowObj.document.body.style.overflowY = defaultOverflowY;
+				windowObj.document.body.style.paddingRight = defaultPaddingRight;
 			};
 		}
 		return () => undefined;
-	}, [modalRef, open]);
+	}, [modalRef, open, windowObj]);
 
 	useEffect(() => {
-		const focusedElement = window.top.document.activeElement;
+		const focusedElement = windowObj.document.activeElement;
 
 		if (open) {
 			modalContentRef.current.focus();
@@ -329,7 +334,7 @@ const Modal = React.forwardRef(function ModalFn(
 			endSentinelRefSave && endSentinelRefSave.removeEventListener('focus', onEndSentinelFocus);
 			open && focusedElement.focus();
 		};
-	}, [open, onStartSentinelFocus, onEndSentinelFocus]);
+	}, [open, onStartSentinelFocus, onEndSentinelFocus, windowObj.document.activeElement]);
 
 	useEffect(() => {
 		setTimeout(() => setDelayedOpen(open), 1);
