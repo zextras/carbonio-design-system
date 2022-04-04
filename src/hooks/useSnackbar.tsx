@@ -5,9 +5,9 @@
  */
 
 import { useContext } from 'react';
-import { SnackbarManagerContext } from '../components/utilities/SnackbarManager';
+import { CreateSnackbarFn, SnackbarManagerContext } from '../components/utilities/SnackbarManager';
 
-function useSnackbar() {
+function useSnackbar(): CreateSnackbarFn {
 	return useContext(SnackbarManagerContext);
 }
 
