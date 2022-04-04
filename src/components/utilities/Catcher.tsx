@@ -4,13 +4,22 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { ErrorInfo } from 'react';
 import { Container } from '../layout/Container';
 import { Text } from '../basic/Text';
 
-class Catcher extends React.Component {
-	constructor(props) {
+interface CatcherProps {
+	/** error callback, use this to perform operations when an error is caught */
+	onError?: (error: Error, errorInfo: ErrorInfo) => void;
+}
+
+interface CatcherState {
+	hasError: boolean;
+	error: Error | null;
+}
+
+class Catcher extends React.Component<CatcherProps, CatcherState> {
+	constructor(props: CatcherProps) {
 		super(props);
 		this.state = {
 			hasError: false,
@@ -18,9 +27,10 @@ class Catcher extends React.Component {
 		};
 	}
 
-	componentDidCatch(error, errorInfo) {
+	componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
 		// You can also log the error to an error reporting service
-		const { onError } = this.props;
+		// eslint-disable-next-line no-console
+		const { onError = console.error } = this.props;
 		if (onError) {
 			onError(error, errorInfo);
 		}
@@ -30,7 +40,7 @@ class Catcher extends React.Component {
 		});
 	}
 
-	render() {
+	render(): React.ReactNode {
 		const { children } = this.props;
 		const { hasError, error } = this.state;
 		if (hasError) {
@@ -38,7 +48,7 @@ class Catcher extends React.Component {
 			return (
 				<Container>
 					<Text size="large" color="error">
-						{error.message}
+						{error?.message}
 					</Text>
 				</Container>
 			);
@@ -48,13 +58,4 @@ class Catcher extends React.Component {
 	}
 }
 
-Catcher.propTypes = {
-	/** error callback, use this to perform operations when an error is caught */
-	onError: PropTypes.func
-};
-
-Catcher.defaultProps = {
-	// eslint-disable-next-line no-console
-	onError: console.error
-};
 export { Catcher };

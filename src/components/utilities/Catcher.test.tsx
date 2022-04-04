@@ -11,7 +11,7 @@ import { screen } from '@testing-library/dom';
 import { render } from '../../test-utils';
 import { Catcher } from './Catcher';
 
-function ErrorComponent() {
+function ErrorComponent(): JSX.Element {
 	throw new Error("Error from the test component, don't panic if You see this error.");
 }
 
