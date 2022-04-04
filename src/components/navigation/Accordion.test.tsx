@@ -11,7 +11,7 @@ import { screen } from '@testing-library/dom';
 import { act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { render } from '../../test-utils';
-import { Accordion, AccordionItem } from './Accordion';
+import { Accordion, AccordionItem, AccordionItemType } from './Accordion';
 import { Button } from '../basic/Button';
 
 describe('Accordion', () => {
@@ -77,8 +77,8 @@ describe('Accordion', () => {
 	test('Render customized Accordion', () => {
 		const clickFn = jest.fn();
 
-		const CC1 = ({ item }) => <Button label={item.label} onClick={clickFn} />;
-		const CC2 = ({ item }) => (
+		const CC1: AccordionItemType['CustomComponent'] = ({ item }) => <Button label={item.label} onClick={clickFn} />;
+		const CC2: AccordionItemType['CustomComponent'] = ({ item }) => (
 			<div id="custom" style={{ width: '100%', border: '1px solid green' }}>
 				<AccordionItem item={item} />
 			</div>
@@ -98,7 +98,7 @@ describe('Accordion', () => {
 	});
 
 	test('Open and close an Accordion', () => {
-		const CC = ({ item }) => (
+		const CC: AccordionItemType['CustomComponent'] = ({ item }) => (
 			<div id={item.id} style={{ width: '100%', border: '1px solid green' }}>
 				<AccordionItem item={item} />
 			</div>
