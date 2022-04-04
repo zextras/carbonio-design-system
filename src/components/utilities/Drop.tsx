@@ -4,55 +4,86 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { useCallback, useState } from 'react';
-import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import React, { HTMLAttributes, useCallback, useState } from 'react';
+import styled, { css, SimpleInterpolation } from 'styled-components';
 import { Container } from '../layout/Container';
 
 const DropEl = styled(Container)`
 	display: inline;
 	position: relative;
-	// width: 100%;
 `;
 
 const OverlayEl = styled(Container)`
 	display: block;
 	position: absolute;
 	width: 100%;
-	top: 0px;
-	left: 0px;
+	top: 0;
+	left: 0;
 	height: 100%;
 `;
 
-const CoverEl = styled(Container)`
+const CoverEl = styled(Container)<{ $dragging: boolean }>`
 	display: inline;
+	${({ $dragging }): SimpleInterpolation =>
+		$dragging &&
+		css`
+			pointer-events: none;
+		`};
 `;
 
-const Drop = React.forwardRef(function DropFn(
+type DragObj = {
+	event: React.DragEvent;
+	data?: Record<string, unknown>;
+	type?: string;
+};
+
+type StyleObj = HTMLAttributes<HTMLDivElement>['style'];
+
+interface DropProps {
+	/** Callback for on drop */
+	onDrop?: (dragObj: DragObj) => void;
+	/** Callback for on onDragEnter */
+	onDragEnter?: (dragObj: DragObj) => { success: boolean } | undefined;
+	/** acceptType should be an array which accept base on dragged type */
+	acceptType?: string[];
+	/** Style object for drag accept */
+	acceptStyle?: StyleObj;
+	/** Style object for drag reject */
+	rejectStyle?: StyleObj;
+	/** Overlay component for drag accept */
+	overlayAcceptComponent: React.ReactNode;
+	/** Overlay component for drag Deny */
+	overlayDenyComponent: React.ReactNode;
+	/** Content where activate drop */
+	children: React.ReactNode | React.ReactNode[];
+}
+
+const Drop = React.forwardRef<HTMLDivElement, DropProps>(function DropFn(
 	{
-		onDrop,
-		onDragEnter,
+		onDrop = (): void => undefined,
+		onDragEnter = (): void => undefined,
 		children,
-		acceptType,
-		acceptStyle,
-		rejectStyle,
-		overlayAcceptComponent,
-		overlayDenyComponent
+		acceptType = [],
+		acceptStyle = {},
+		rejectStyle = {},
+		overlayAcceptComponent = null,
+		overlayDenyComponent = null
 	},
 	ref
 ) {
-	const [styleObject, setStyleObject] = useState({});
-	const [overlayAccept, setOverlayAccept] = useState(null);
-	const [overlayDeny, setOverlayDeny] = useState(null);
-	const coverStyle = { pointerEvents: 'none' };
-	const dropEvent = useCallback(
+	const [styleObject, setStyleObject] = useState<StyleObj>({});
+	const [overlayAccept, setOverlayAccept] = useState<React.ReactNode>(null);
+	const [overlayDeny, setOverlayDeny] = useState<React.ReactNode>(null);
+
+	const dropEvent = useCallback<React.DragEventHandler>(
 		(e) => {
 			e && e.stopPropagation();
 			setStyleObject({});
 			setOverlayAccept(null);
 			setOverlayDeny(null);
-			if (onDrop && window.draggedItem && acceptType.includes(window.draggedItem.type)) {
+			if (window.draggedItem && acceptType.includes(window.draggedItem.type)) {
 				onDrop({
+					event: e,
 					type: window.draggedItem.type,
 					data: window.draggedItem.data
 				});
@@ -61,12 +92,13 @@ const Drop = React.forwardRef(function DropFn(
 		},
 		[acceptType, onDrop]
 	);
-	const dragEnterEvent = useCallback(
+
+	const dragEnterEvent = useCallback<React.DragEventHandler>(
 		(e) => {
 			const dragEnterResponse = onDragEnter({
 				event: e,
-				type: window.draggedItem.type,
-				data: window.draggedItem.data
+				type: window.draggedItem?.type,
+				data: window.draggedItem?.data
 			});
 			e && e.stopPropagation();
 			if (
@@ -92,13 +124,14 @@ const Drop = React.forwardRef(function DropFn(
 			rejectStyle
 		]
 	);
-	const onDragOverEvent = useCallback(
+
+	const onDragOverEvent = useCallback<React.DragEventHandler>(
 		(e) => {
 			e && e.preventDefault();
 			const dragEnterResponse = onDragEnter({
 				event: e,
-				type: window.draggedItem.type,
-				data: window.draggedItem.data
+				type: window.draggedItem?.type,
+				data: window.draggedItem?.data
 			});
 			e && e.stopPropagation();
 			if (
@@ -124,11 +157,13 @@ const Drop = React.forwardRef(function DropFn(
 			rejectStyle
 		]
 	);
-	const dragEnterLeave = () => {
+
+	const dragEnterLeave = (): void => {
 		setStyleObject({});
 		setOverlayAccept(null);
 		setOverlayDeny(null);
 	};
+
 	return (
 		<DropEl
 			ref={ref}
@@ -137,10 +172,8 @@ const Drop = React.forwardRef(function DropFn(
 			onDragLeave={dragEnterLeave}
 			onDrop={dropEvent}
 			style={styleObject}
-			overlayComponent={overlayAcceptComponent}
-			overlayDenyComponent={overlayDenyComponent}
 		>
-			<CoverEl style={window.draggedItem ? coverStyle : {}}>
+			<CoverEl $dragging={window.draggedItem !== undefined}>
 				{children}
 				{overlayAccept && <OverlayEl>{overlayAccept}</OverlayEl>}
 				{overlayDeny && <OverlayEl>{overlayDeny}</OverlayEl>}
@@ -149,31 +182,4 @@ const Drop = React.forwardRef(function DropFn(
 	);
 });
 
-Drop.propTypes = {
-	/** Callback for on drop */
-	onDrop: PropTypes.func,
-	/** Callback for on onDragEnter */
-	onDragEnter: PropTypes.func,
-	/** acceptType should be array which accept base on draged type */
-	acceptType: PropTypes.array,
-	/** Style object for drap accept */
-	acceptStyle: PropTypes.object,
-	/** Style object for drap reject */
-	rejectStyle: PropTypes.object,
-	/** Overly component for drag accept */
-	overlayAcceptComponent: PropTypes.object,
-	/** Overly component for drag Deny */
-	overlayDenyComponent: PropTypes.object
-};
-
-Drop.defaultProps = {
-	onDrop: () => undefined,
-	onDragEnter: () => undefined,
-	acceptType: [],
-	acceptStyle: {},
-	rejectStyle: {},
-	overlayAcceptComponent: null,
-	overlayDenyComponent: null
-};
-
-export { Drop };
+export { Drop, DropProps };
