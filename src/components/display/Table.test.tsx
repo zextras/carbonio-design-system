@@ -7,24 +7,32 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { screen } from '@testing-library/dom';
 import { render } from '../../test-utils';
 import { Container } from '../layout/Container';
 import { Button } from '../basic/Button';
 import { Padding } from '../layout/Padding';
 import { Text } from '../basic/Text';
-import { Table } from './Table';
+import { THeader, Table, TRow } from './Table';
 import { Row } from '../layout/Row';
 import { Icon } from '../basic/Icon';
 
-const CustomTable = () => {
-	const [selectedRows, setSelectedRows] = useState([]);
-	const headers = [
+const CustomTable = (): JSX.Element => {
+	const [selectedRows, setSelectedRows] = useState<string[]>([]);
+	const changeHandler = useCallback<THeader['onChange']>((items) => {
+		console.log('Filter changed', items);
+	}, []);
+	const rowClickHandler = useCallback((e) => {
+		console.log('Row clicked', e);
+	}, []);
+
+	const headers: THeader[] = [
 		{
 			id: 'date1',
 			label: 'Date1',
-			width: '20%'
+			width: '20%',
+			onChange: changeHandler
 		},
 		{
 			id: 'server1',
@@ -41,7 +49,7 @@ const CustomTable = () => {
 				{ label: 'Servername_7', value: '7' },
 				{ label: 'Servername_8', value: '8' }
 			],
-			onChange: (e) => console.log('Filter changed', e)
+			onChange: changeHandler
 		},
 		{
 			id: 'type1',
@@ -53,20 +61,22 @@ const CustomTable = () => {
 				{ label: 'Warning', value: '2' },
 				{ label: 'Error', value: '3' }
 			],
-			onChange: (e) => console.log('Filter changed', e)
+			onChange: changeHandler
 		},
 		{
 			id: 'obj1',
 			label: 'Object1',
-			width: '40%'
+			width: '40%',
+			onChange: changeHandler
 		}
 	];
 
-	const headers2 = [
+	const headers2: THeader[] = [
 		{
 			id: 'date2',
 			label: 'Date2',
-			width: '20%'
+			width: '20%',
+			onChange: changeHandler
 		},
 		{
 			id: 'server2',
@@ -83,7 +93,7 @@ const CustomTable = () => {
 				{ label: 'Servername_7', value: '7' },
 				{ label: 'Servername_8', value: '8' }
 			],
-			onChange: (e) => console.log('Filter changed', e)
+			onChange: changeHandler
 		},
 		{
 			id: 'type2',
@@ -95,16 +105,17 @@ const CustomTable = () => {
 				{ label: 'Warning', value: '2' },
 				{ label: 'Error', value: '3' }
 			],
-			onChange: (e) => console.log('Filter changed', e)
+			onChange: changeHandler
 		},
 		{
 			id: 'obj2',
 			label: 'Object2',
-			width: '40%'
+			width: '40%',
+			onChange: changeHandler
 		}
 	];
 
-	const items = [
+	const items: TRow[] = [
 		{
 			id: '1',
 			columns: [
@@ -115,7 +126,7 @@ const CustomTable = () => {
 				</Container>,
 				'Zextras Backup Notifcation, Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
 			],
-			onClick: (e) => console.log('Row clicked', e),
+			onClick: rowClickHandler,
 			clickable: true
 		},
 		{
@@ -128,7 +139,7 @@ const CustomTable = () => {
 				</Container>,
 				'Zextras Backup Notifcation, Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
 			],
-			onClick: (e) => console.log('Row clicked', e),
+			onClick: rowClickHandler,
 			clickable: true
 		},
 		{
@@ -141,7 +152,7 @@ const CustomTable = () => {
 				</Container>,
 				'Zextras Backup Notifcation, Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
 			],
-			onClick: (e) => console.log('Row clicked', e),
+			onClick: rowClickHandler,
 			clickable: true
 		},
 		{
@@ -154,7 +165,7 @@ const CustomTable = () => {
 				</Container>,
 				'Zextras Backup Notifcation, Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
 			],
-			onClick: (e) => console.log('Row clicked', e),
+			onClick: rowClickHandler,
 			clickable: true
 		}
 	];
@@ -170,7 +181,9 @@ const CustomTable = () => {
 				rows={items}
 				headers={headers}
 				defaultSelection={['2', '3']}
-				onSelectionChange={(selected) => console.log('Uncontrolled selection onChange', selected)}
+				onSelectionChange={(selected): void =>
+					console.log('Uncontrolled selection onChange', selected)
+				}
 			/>
 			<Row
 				padding={{ top: 'extralarge', bottom: 'large' }}
@@ -180,7 +193,7 @@ const CustomTable = () => {
 				<Text size="large" weight="bold">
 					Controlled table
 				</Text>
-				<Button label="Reset" color="error" onClick={() => setSelectedRows([])} />
+				<Button label="Reset" color="error" onClick={(): void => setSelectedRows([])} />
 			</Row>
 			<Table
 				rows={items}
