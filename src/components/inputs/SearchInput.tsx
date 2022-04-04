@@ -4,10 +4,9 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { useState, useRef, useCallback } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
-import { Container } from '../layout/Container';
+import { Container, ContainerProps } from '../layout/Container';
 import { Icon } from '../basic/Icon';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 
@@ -15,31 +14,39 @@ const InputEl = styled.input`
 	border: none;
 	width: 100%;
 	outline: 0;
-	font-size: ${({ theme }) => theme.sizes.font.medium};
-	font-weight: ${({ theme }) => theme.fonts.weight.regular};
-	font-family: ${({ theme }) => theme.fonts.default};
+	font-size: ${({ theme }): string => theme.sizes.font.medium};
+	font-weight: ${({ theme }): number => theme.fonts.weight.regular};
+	font-family: ${({ theme }): string => theme.fonts.default};
 `;
 
-const Label = styled.label`
+const Label = styled.label<{ active: boolean }>`
 	position: absolute;
 	left: calc(
-		${({ theme }) => theme.sizes.padding.large} + ${({ theme }) => theme.sizes.icon.large} + 2px
+		${({ theme }): string => theme.sizes.padding.large} +
+			${({ theme }): string => theme.sizes.icon.large} + 2px
 	);
-	font-size: ${({ theme }) => theme.sizes.font.medium};
-	font-weight: ${({ theme }) => theme.fonts.weight.regular};
-	font-family: ${({ theme }) => theme.fonts.default};
-	color: ${({ theme }) => theme.palette.secondary.regular};
-	display: ${({ active }) => (active ? 'none' : 'block')};
+	font-size: ${({ theme }): string => theme.sizes.font.medium};
+	font-weight: ${({ theme }): number => theme.fonts.weight.regular};
+	font-family: ${({ theme }): string => theme.fonts.default};
+	color: ${({ theme }): string => theme.palette.secondary.regular};
+	display: ${({ active }): string => (active ? 'none' : 'block')};
 `;
 
-const SearchInput = React.forwardRef(function SearchInputFn({ inputRef, onChange, ...rest }, ref) {
+interface SearchInputProps extends ContainerProps {
+	onChange?: () => void;
+	inputRef?: React.RefObject<HTMLInputElement>;
+}
+
+const SearchInput = React.forwardRef<HTMLDivElement, SearchInputProps>(function SearchInputFn(
+	{ inputRef = null, onChange, ...rest },
+	ref
+) {
 	const [active, setActive] = useState(false);
-	const innerRef = useRef();
-	const comboRef = useCombinedRefs(inputRef, innerRef);
+	const comboRef = useCombinedRefs<HTMLInputElement>(inputRef);
 
 	const onInputFocus = useCallback(() => {
 		setActive(true);
-		comboRef.current.focus();
+		comboRef.current && comboRef.current.focus();
 	}, [setActive, comboRef]);
 
 	const onInputBlur = useCallback(() => setActive(false), [setActive]);
@@ -66,7 +73,7 @@ const SearchInput = React.forwardRef(function SearchInputFn({ inputRef, onChange
 		>
 			<Label
 				htmlFor="search"
-				active={active || (comboRef.current && comboRef.current.value !== '')}
+				active={active || (comboRef.current !== null && comboRef.current.value !== '')}
 			>
 				Search
 			</Label>
@@ -93,16 +100,4 @@ const SearchInput = React.forwardRef(function SearchInputFn({ inputRef, onChange
 	);
 });
 
-SearchInput.propTypes = {
-	onChange: PropTypes.func,
-	// eslint-disable-next-line react/forbid-prop-types
-	inputRef: PropTypes.object
-};
-
-SearchInput.defaultProps = {
-	onChange: undefined,
-	// eslint-disable-next-line react/forbid-prop-types
-	inputRef: undefined
-};
-
-export { SearchInput };
+export { SearchInput, SearchInputProps };
