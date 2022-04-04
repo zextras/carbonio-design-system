@@ -5,9 +5,9 @@
  */
 
 import { useContext } from 'react';
-import { ModalManagerContext } from '../components/utilities/ModalManager';
+import { CreateModalFn, ModalManagerContext } from '../components/utilities/ModalManager';
 
-function useModal() {
+function useModal(): CreateModalFn {
 	return useContext(ModalManagerContext);
 }
 

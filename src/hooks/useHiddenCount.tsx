@@ -4,17 +4,20 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { filter, reduce } from 'lodash';
 
-function useHiddenCount(containerRef, listenForWindowResize) {
-	const [hiddenTabsCount, setHiddenTabsCount] = useState();
+function useHiddenCount(
+	containerRef: React.RefObject<HTMLElement>,
+	listenForWindowResize: boolean
+): [number, () => void] {
+	const [hiddenTabsCount, setHiddenTabsCount] = useState<number>(0);
 
 	const calculateHiddenCounts = useCallback(() => {
-		if (containerRef && containerRef.current) {
+		if (containerRef.current) {
 			// eslint-disable-next-line no-param-reassign
 			containerRef.current.style.width = '';
-			const allItems = Array.from(containerRef.current.querySelectorAll(':scope > *'));
+			const allItems = Array.from(containerRef.current.querySelectorAll<HTMLElement>(':scope > *'));
 			const hiddenItems = filter(allItems, (child) => child.offsetTop > 0).length;
 			setHiddenTabsCount(hiddenItems);
 			if (hiddenItems > 0) {
@@ -30,8 +33,9 @@ function useHiddenCount(containerRef, listenForWindowResize) {
 
 	useEffect(() => {
 		listenForWindowResize && window.addEventListener('resize', calculateHiddenCounts);
-		return () =>
+		return (): void => {
 			listenForWindowResize && window.removeEventListener('resize', calculateHiddenCounts);
+		};
 	}, [listenForWindowResize, calculateHiddenCounts]);
 
 	return [hiddenTabsCount, calculateHiddenCounts];

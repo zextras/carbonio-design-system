@@ -134,4 +134,4 @@ function ModalManager({ children }: ModalManagerProps): JSX.Element {
 	);
 }
 
-export { ModalManagerContext, ModalManager };
+export { ModalManagerContext, ModalManager, CreateModalFn };

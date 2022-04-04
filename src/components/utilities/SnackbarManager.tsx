@@ -99,4 +99,4 @@ function SnackbarManager({ children, autoHideDefaultTimeout }: SnackbarManagerPr
 		</>
 	);
 }
-export { SnackbarManagerContext, SnackbarManager, SnackbarManagerProps };
+export { SnackbarManagerContext, SnackbarManager, SnackbarManagerProps, CreateSnackbarFn };
