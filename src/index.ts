@@ -91,3 +91,4 @@ export * from './theme/theme-utils';
 // export types
 // @see https://github.com/rollup/rollup-plugin-typescript/issues/28#issuecomment-546387825
 export type Theme = import('./theme/theme').ThemeObj;
+export * from './globals';
