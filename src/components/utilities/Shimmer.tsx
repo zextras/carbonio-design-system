@@ -5,39 +5,40 @@
  */
 
 import React from 'react';
-import styled, { keyframes } from 'styled-components';
+import styled, { keyframes, SimpleInterpolation } from 'styled-components';
+import type { ThemeObj } from '../../theme/theme';
 import { Container } from '../layout/Container';
 import { FormSection, FormSubSection } from '../basic/FormSection';
 import { Padding } from '../layout/Padding';
 
-const sizes = {
+const SIZES = {
 	small: 5,
 	medium: 10,
 	large: 15
-};
+} as const;
 
-const backgroundColorShimmer = (theme) => `linear-gradient(
+const backgroundColorShimmer = (theme: ThemeObj): string => `linear-gradient(
 	to right,
 	${theme.palette.gray4.regular} 20%,
 	${theme.palette.gray5.regular} 40%,
 	${theme.palette.gray4.regular} 100%
 )`;
 
-const backgroundColorShimmerDark = (theme) => `linear-gradient(
+const backgroundColorShimmerDark = (theme: ThemeObj): string => `linear-gradient(
 	to right,
 	${theme.palette.gray3.regular} 20%,
 	${theme.palette.gray4.regular} 40%,
 	${theme.palette.gray3.regular} 100%
 )`;
 
-const backgroundColorShimmerExtraDark = (theme) => `linear-gradient(
+const backgroundColorShimmerExtraDark = (theme: ThemeObj): string => `linear-gradient(
 	to right,
 	${theme.palette.gray2.regular} 20%,
 	${theme.palette.gray3.regular} 40%,
 	${theme.palette.gray2.regular} 100%
 )`;
 
-const backgroundFunction = (variant, theme) => {
+const backgroundFunction = (variant: 'dark' | 'extraDark' | string, theme: ThemeObj): string => {
 	switch (variant) {
 		case 'dark':
 			return backgroundColorShimmerDark(theme);
@@ -49,89 +50,153 @@ const backgroundFunction = (variant, theme) => {
 };
 
 const shimmerEffect = keyframes`
-	0% {
+	from {
 		background-position: -1000px 0;
 	}
-	100% {
+	to {
 		background-position: 1000px 0;
 	}
-}`;
-
-const animationOptions = '1.5s linear infinite';
+`;
 
 const backgroundSize = `1000px 100%`;
 
-const AvatarSkeletonComponent = styled.div`
-	animation: ${shimmerEffect} ${animationOptions};
-	background: ${({ variant, theme }) => backgroundFunction(variant, theme)};
+type AvatarSkeletonComponentProps = {
+	variant?: string;
+	radius?: string;
+	size?: keyof typeof SIZES;
+	width?: string;
+};
+
+const AvatarSkeletonComponent = styled.div<AvatarSkeletonComponentProps>`
+	animation: ${shimmerEffect} 1.5s linear infinite;
+	background: ${({ variant, theme }): string => backgroundFunction(variant || '', theme)};
 	background-size: ${backgroundSize};
 	aspect-ratio: 1/1;
-	border-radius: ${({ radius }) => radius ?? '50%'};
-	width: ${({ size, width }) => width ?? `${sizes[size] * 3.2}px`};
+	border-radius: ${({ radius }): string => radius ?? '50%'};
+	width: ${({ size, width }): SimpleInterpolation => width ?? (size && `${SIZES[size] * 3.2}px`)};
 `;
 
-const BadgeSkeletonComponent = styled.div`
-	animation: ${shimmerEffect} ${animationOptions};
-	background: ${({ variant, theme }) => backgroundFunction(variant, theme)};
+type BadgeSkeletonProps = {
+	variant?: string;
+	radius?: string;
+	width?: string;
+	height?: string;
+	size?: keyof typeof SIZES;
+	backgroundSize?: string;
+};
+
+const BadgeSkeletonComponent = styled.div<BadgeSkeletonProps>`
+	animation: ${shimmerEffect} 1.5s linear infinite;
+	background: ${({ variant, theme }): string => backgroundFunction(variant || '', theme)};
 	background-size: ${backgroundSize};
 	display: inline-block;
-	border-radius: ${({ radius }) => radius ?? '2em'};
-	width: ${({ size, width }) => width ?? `${sizes[size] * 3.6}px`};
-	height: ${({ size, height }) => height ?? `${sizes[size] * 1.9}px`};
+	border-radius: ${({ radius }): string => radius ?? '2em'};
+	width: ${({ size, width }): SimpleInterpolation => width ?? (size && `${SIZES[size] * 3.6}px`)};
+	height: ${({ size, height }): SimpleInterpolation =>
+		height ?? (size && `${SIZES[size] * 1.9}px`)};
 `;
 
-const ButtonSkeletonComponent = styled.div`
-	animation: ${shimmerEffect} ${animationOptions};
-	background: ${({ variant, theme }) => backgroundFunction(variant, theme)};
+type ButtonSkeletonProps = {
+	variant: string;
+	radius: string;
+	size: keyof typeof SIZES;
+	width: string;
+	height: string;
+};
+
+const ButtonSkeletonComponent = styled.div<ButtonSkeletonProps>`
+	animation: ${shimmerEffect} 1.5s linear infinite;
+	background: ${({ variant, theme }): string => backgroundFunction(variant, theme)};
 	background-size: ${backgroundSize};
-	border-radius: ${({ radius }) => radius ?? '2px'};
-	width: ${({ size, width }) => width ?? `${sizes[size] * 8.9}px`};
-	height: ${({ size, height }) => height ?? `${sizes[size] * 3.2}px`};
+	border-radius: ${({ radius }): string => radius ?? '2px'};
+	width: ${({ size, width }): string => width ?? `${SIZES[size] * 8.9}px`};
+	height: ${({ size, height }): string => height ?? `${SIZES[size] * 3.2}px`};
 `;
 
-const FormSectionSkeletonComponent = styled(FormSection)`
-	animation: ${shimmerEffect} ${animationOptions};
-	background: ${({ variant, theme }) => backgroundFunction(variant, theme)};
+const FormSectionSkeletonComponent = styled(FormSection)<{
+	variant: string;
+	backgroundSize: string;
+}>`
+	animation: ${shimmerEffect} 1.5s linear infinite;
+	background: ${({ variant, theme }): string => backgroundFunction(variant, theme)};
 	background-size: ${backgroundSize};
 `;
 
-const FormSubSectionSkeletonComponent = styled(FormSubSection)`
-	animation: ${shimmerEffect} ${animationOptions};
-	background: ${({ variant, theme }) => backgroundFunction(variant, theme)};
+const FormSubSectionSkeletonComponent = styled(FormSubSection)<{
+	variant: string;
+	backgroundSize: string;
+}>`
+	animation: ${shimmerEffect} 1.5s linear infinite;
+	background: ${({ variant, theme }): string => backgroundFunction(variant, theme)};
 	background-size: ${backgroundSize};
 `;
 
-const IconSkeletonComponent = styled.div`
-	animation: ${shimmerEffect} ${animationOptions};
-	background: ${({ variant, theme }) => backgroundFunction(variant, theme)};
+type IconSkeletonProps = {
+	variant?: string;
+	backgroundSize?: string;
+	size?: keyof typeof SIZES;
+	width?: string;
+};
+
+const IconSkeletonComponent = styled.div<IconSkeletonProps>`
+	animation: ${shimmerEffect} 1.5s linear infinite;
+	background: ${({ variant, theme }): string => backgroundFunction(variant || '', theme)};
 	background-size: ${backgroundSize};
 	aspect-ratio: 1/1;
 	border-radius: 2px;
-	width: ${({ size, width }) => width ?? `${sizes[size] * 1.6}px`};
+	width: ${({ size, width }): SimpleInterpolation => width ?? (size && `${SIZES[size] * 1.6}px`)};
 `;
 
-const LogoSkeletonComponent = styled.div`
-	animation: ${shimmerEffect} ${animationOptions};
-	background: ${({ variant, theme }) => backgroundFunction(variant, theme)};
+type LogoSkeletonProps = {
+	variant?: string;
+	backgroundSize?: string;
+	radius?: string;
+	size?: keyof typeof SIZES;
+	width?: string;
+	height?: string;
+};
+
+const LogoSkeletonComponent = styled.div<LogoSkeletonProps>`
+	animation: ${shimmerEffect} 1.5s linear infinite;
+	background: ${({ variant, theme }): string => backgroundFunction(variant || '', theme)};
 	background-size: ${backgroundSize};
-	border-radius: ${({ radius }) => radius ?? '10px'};
-	width: ${({ size, width }) => width ?? `${sizes[size] * 20}px`};
-	height: ${({ size, height }) => height ?? `${sizes[size] * 10}px`};
+	border-radius: ${({ radius }): string => radius ?? '10px'};
+	width: ${({ size, width }): SimpleInterpolation => width ?? (size && `${SIZES[size] * 20}px`)};
+	height: ${({ size, height }): SimpleInterpolation => height ?? (size && `${SIZES[size] * 10}px`)};
 `;
 
-const SkeletonComponent = styled.div`
-	animation: ${shimmerEffect} ${animationOptions};
-	background: ${({ variant, theme }) => backgroundFunction(variant, theme)};
+type SkeletonProps = {
+	variant?: string;
+	backgroundSize?: string;
+	radius?: string;
+	orientation?: string;
+	mainAlignment?: string;
+	width?: string;
+	height?: string;
+};
+const SkeletonComponent = styled.div<SkeletonProps>`
+	animation: ${shimmerEffect} 1.5s linear infinite;
+	background: ${({ variant, theme }): string => backgroundFunction(variant || '', theme)};
 	background-size: ${backgroundSize};
-	border-radius: ${({ radius }) => radius ?? '2px'};
-	${({ orientation }) => `orientation: ${orientation}}` ?? ''};
-	${({ mainAlignment }) => `mainAlignment: ${mainAlignment}}` ?? ''};
-	width: ${({ width }) => width ?? '100%'};
-	height: ${({ height }) => height ?? '16px'};
+	border-radius: ${({ radius }): string => radius ?? '2px'};
+	${({ orientation }): string => (orientation && `orientation: ${orientation}}`) || ''};
+	${({ mainAlignment }): string => (mainAlignment && `mainAlignment: ${mainAlignment}}`) || ''};
+	width: ${({ width }): string => width ?? '100%'};
+	height: ${({ height }): string => height ?? '16px'};
 `;
 
 const ShimmerObject = {
-	Accordion: ({ width, iconStart, iconEnd, badge }) => (
+	Accordion: ({
+		width,
+		iconStart,
+		iconEnd,
+		badge
+	}: {
+		width: string;
+		iconStart: boolean;
+		iconEnd: boolean;
+		badge: boolean;
+	}): JSX.Element => (
 		<SkeletonComponent
 			style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}
 			width={width}
@@ -172,23 +237,33 @@ const ShimmerObject = {
 			</Container>
 		</SkeletonComponent>
 	),
-	Avatar: ({ size = 'medium', width, ...rest }) => (
-		<AvatarSkeletonComponent size={size} width={width} {...rest} />
+	Avatar: ({ size = 'medium', ...rest }: AvatarSkeletonComponentProps): JSX.Element => (
+		<AvatarSkeletonComponent size={size} {...rest} />
 	),
-	Badge: ({ size = 'medium', width, ...rest }) => (
-		<BadgeSkeletonComponent size={size} width={width} {...rest} />
+	Badge: ({ size = 'medium', ...rest }: BadgeSkeletonProps): JSX.Element => (
+		<BadgeSkeletonComponent size={size} {...rest} />
 	),
-	Button: ({ size = 'medium', width, ...rest }) => (
-		<ButtonSkeletonComponent size={size} width={width} {...rest}></ButtonSkeletonComponent>
+	Button: ({ size = 'medium', ...rest }: ButtonSkeletonProps): JSX.Element => (
+		<ButtonSkeletonComponent size={size} {...rest} />
 	),
-	Checkbox: ({ size = 'medium', ...rest }) => (
+	Checkbox: ({ size = 'medium', ...rest }: IconSkeletonProps): JSX.Element => (
 		<Container orientation="horizontal" mainAlignment="flex-start" width="fill">
 			<IconSkeletonComponent size={size} {...rest} />
 			<Padding right="small" />
 			<SkeletonComponent height="16px" width="150px" {...rest} />
 		</Container>
 	),
-	EmailChip: ({ width, iconStart, iconEnd, iconEndAdditional }) => (
+	EmailChip: ({
+		width,
+		iconStart,
+		iconEnd,
+		iconEndAdditional
+	}: {
+		width?: string;
+		iconStart?: boolean;
+		iconEnd?: boolean;
+		iconEndAdditional?: boolean;
+	}): JSX.Element => (
 		<SkeletonComponent
 			width={width}
 			height="20px"
@@ -227,12 +302,12 @@ const ShimmerObject = {
 			) : null}
 		</SkeletonComponent>
 	),
-	FormSection: ({ ...rest }) => <FormSectionSkeletonComponent {...rest} />,
-	FormSubSection: ({ ...rest }) => <FormSubSectionSkeletonComponent {...rest} />,
-	Icon: ({ size = 'medium', width, ...rest }) => (
-		<IconSkeletonComponent size={size} width={width} {...rest} />
+	FormSection: FormSectionSkeletonComponent,
+	FormSubSection: FormSubSectionSkeletonComponent,
+	Icon: ({ size = 'medium', ...rest }: IconSkeletonProps): JSX.Element => (
+		<IconSkeletonComponent size={size} {...rest} />
 	),
-	Input: ({ width, checkbox }) => (
+	Input: ({ width, checkbox }: { width?: string; checkbox?: boolean }): JSX.Element => (
 		<SkeletonComponent
 			style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}
 			width={width}
@@ -265,7 +340,7 @@ const ShimmerObject = {
 			) : null}
 		</SkeletonComponent>
 	),
-	ListItem: ({ width, type }) => {
+	ListItem: ({ width, type }: { width?: string; type?: number }): JSX.Element => {
 		switch (type) {
 			case 1:
 				return (
@@ -281,9 +356,9 @@ const ShimmerObject = {
 								mainAlignment="flex-start"
 							>
 								<Padding left="large" vertical="medium">
-									<SkeletonComponent variant="dark" width="150px" size="medium" />
+									<SkeletonComponent variant="dark" width="150px" />
 									<Padding top="small" />
-									<SkeletonComponent variant="dark" width="220px" size="medium" />
+									<SkeletonComponent variant="dark" width="220px" />
 								</Padding>
 							</Container>
 							<Container height="fit" width="fill" orientation="vertical" mainAlignment="flex-end">
@@ -293,7 +368,7 @@ const ShimmerObject = {
 									orientation="horizontal"
 									mainAlignment="flex-end"
 								>
-									<SkeletonComponent variant="dark" width="60px" size="medium" />
+									<SkeletonComponent variant="dark" width="60px" />
 									<Padding right="medium" />
 								</Container>
 								<Padding top="small" />
@@ -324,9 +399,9 @@ const ShimmerObject = {
 								mainAlignment="flex-start"
 							>
 								<Padding left="large" vertical="medium">
-									<SkeletonComponent variant="dark" width="195px" size="medium" />
+									<SkeletonComponent variant="dark" width="195px" />
 									<Padding top="small" />
-									<SkeletonComponent variant="dark" width="83px" size="medium" />
+									<SkeletonComponent variant="dark" width="83px" />
 								</Padding>
 							</Container>
 							<Container height="fill" width="fill" orientation="vertical" mainAlignment="flex-end">
@@ -359,9 +434,9 @@ const ShimmerObject = {
 								mainAlignment="flex-start"
 							>
 								<Padding left="large" vertical="medium">
-									<SkeletonComponent variant="dark" width="134px" size="medium" />
+									<SkeletonComponent variant="dark" width="134px" />
 									<Padding top="small" />
-									<SkeletonComponent variant="dark" width="83px" size="medium" />
+									<SkeletonComponent variant="dark" width="83px" />
 								</Padding>
 							</Container>
 							<Container height="fill" width="fill" orientation="vertical" mainAlignment="flex-end">
@@ -373,7 +448,7 @@ const ShimmerObject = {
 									crossAlignment="flex-start"
 								>
 									<Padding all="medium">
-										<SkeletonComponent variant="dark" width="46px" size="medium" />
+										<SkeletonComponent variant="dark" width="46px" />
 									</Padding>
 								</Container>
 							</Container>
@@ -394,9 +469,9 @@ const ShimmerObject = {
 								mainAlignment="flex-start"
 							>
 								<Padding left="large" vertical="medium">
-									<SkeletonComponent variant="dark" width="134px" size="medium" />
+									<SkeletonComponent variant="dark" width="134px" />
 									<Padding top="small" />
-									<SkeletonComponent variant="dark" width="83px" size="medium" />
+									<SkeletonComponent variant="dark" width="83px" />
 								</Padding>
 							</Container>
 							<Container height="fit" width="fill" orientation="vertical" mainAlignment="flex-end">
@@ -406,7 +481,7 @@ const ShimmerObject = {
 									orientation="horizontal"
 									mainAlignment="flex-end"
 								>
-									<SkeletonComponent variant="dark" width="60px" size="medium" />
+									<SkeletonComponent variant="dark" width="60px" />
 									<Padding right="medium" />
 								</Container>
 								<Padding top="small" />
@@ -416,7 +491,7 @@ const ShimmerObject = {
 									orientation="horizontal"
 									mainAlignment="flex-end"
 								>
-									<SkeletonComponent variant="dark" width="112px" size="medium" />{' '}
+									<SkeletonComponent variant="dark" width="112px" />
 									<Padding right="medium" />
 								</Container>
 							</Container>
@@ -437,9 +512,9 @@ const ShimmerObject = {
 								mainAlignment="flex-start"
 							>
 								<Padding left="large" vertical="medium">
-									<SkeletonComponent variant="dark" width="134px" size="medium" />
+									<SkeletonComponent variant="dark" width="134px" />
 									<Padding top="small" />
-									<SkeletonComponent variant="dark" width="83px" size="medium" />
+									<SkeletonComponent variant="dark" width="83px" />
 								</Padding>
 							</Container>
 							<Container height="fit" width="fill" orientation="vertical" mainAlignment="flex-end">
@@ -449,7 +524,7 @@ const ShimmerObject = {
 									orientation="horizontal"
 									mainAlignment="flex-end"
 								>
-									<SkeletonComponent variant="dark" width="112px" size="medium" />
+									<SkeletonComponent variant="dark" width="112px" />
 									<Padding right="medium" />
 								</Container>
 								<Padding top="small" />
@@ -459,7 +534,8 @@ const ShimmerObject = {
 									orientation="horizontal"
 									mainAlignment="flex-end"
 								>
-									<IconSkeletonComponent variant="dark" size="medium" /> <Padding right="medium" />
+									<IconSkeletonComponent variant="dark" size="medium" />
+									<Padding right="medium" />
 								</Container>
 							</Container>
 						</Container>
@@ -479,9 +555,9 @@ const ShimmerObject = {
 								mainAlignment="flex-start"
 							>
 								<Padding left="large" vertical="medium">
-									<SkeletonComponent variant="dark" width="150px" size="medium" />
+									<SkeletonComponent variant="dark" width="150px" />
 									<Padding top="small" />
-									<SkeletonComponent variant="dark" width="220px" size="medium" />
+									<SkeletonComponent variant="dark" width="220px" />
 								</Padding>
 							</Container>
 							<Container height="fit" width="fill" orientation="vertical" mainAlignment="flex-end">
@@ -491,7 +567,7 @@ const ShimmerObject = {
 									orientation="horizontal"
 									mainAlignment="flex-end"
 								>
-									<SkeletonComponent variant="dark" width="60px" size="medium" />
+									<SkeletonComponent variant="dark" width="60px" />
 									<Padding right="medium" />
 								</Container>
 								<Padding top="small" />
@@ -511,27 +587,23 @@ const ShimmerObject = {
 		}
 	},
 
-	Logo: ({ height, width, radius, size = 'medium', ...rest }) => (
-		<LogoSkeletonComponent height={height} size={size} width={width} radius={radius} {...rest} />
+	Logo: ({ size = 'medium', ...rest }: LogoSkeletonProps): JSX.Element => (
+		<LogoSkeletonComponent size={size} {...rest} />
 	),
-	Text: ({ width, height, size = 'medium', ...rest }) => (
-		<SkeletonComponent size={size} width={width} height={height} {...rest} />
-	),
-
-	Quota: ({ width, height }) => (
+	Text: SkeletonComponent,
+	Quota: (props: SkeletonProps): JSX.Element => (
 		<SkeletonComponent
 			style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}
-			width={width}
-			height={height}
+			{...props}
 		>
 			<IconSkeletonComponent variant="dark" size="medium" width="50%" />
 		</SkeletonComponent>
 	),
-	Searchbar: ({ width }) => (
+	Searchbar: (props: SkeletonProps): JSX.Element => (
 		<SkeletonComponent
 			style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}
-			width={width}
 			height="36px"
+			{...props}
 		>
 			<Container
 				width="50%"
@@ -562,7 +634,15 @@ const ShimmerObject = {
 			</Container>
 		</SkeletonComponent>
 	),
-	Snackbar: ({ width, elementStart, elementEnd }) => (
+	Snackbar: ({
+		width,
+		elementStart,
+		elementEnd
+	}: {
+		width?: string;
+		elementStart?: boolean;
+		elementEnd?: boolean;
+	}): JSX.Element => (
 		<SkeletonComponent
 			width={width}
 			height="fit"
@@ -600,7 +680,11 @@ const ShimmerObject = {
 			)}
 		</SkeletonComponent>
 	),
-	Stepper: ({ size = 'medium', width, steppersNumber, ...rest }) => {
+	Stepper: ({
+		size = 'medium',
+		steppersNumber,
+		...rest
+	}: AvatarSkeletonComponentProps & { steppersNumber: number }): JSX.Element => {
 		const _steppers = [];
 		for (let i = 0; i < steppersNumber - 1; i += 1) {
 			_steppers.push(
@@ -609,7 +693,7 @@ const ShimmerObject = {
 						<SkeletonComponent height="1px" width="80px" style={{ margin: 'auto 0 auto 0' }} />
 					</Padding>
 					<Padding top="medium" right="small">
-						<AvatarSkeletonComponent size={size} width={width} {...rest} />
+						<AvatarSkeletonComponent size={size} {...rest} />
 					</Padding>
 				</Container>
 			);
@@ -617,13 +701,13 @@ const ShimmerObject = {
 		return (
 			<Container orientation="horizontal" mainAlignment="flex-start" width="100%">
 				<Padding top="medium" right="small">
-					<AvatarSkeletonComponent size={size} width={width} {...rest} />
+					<AvatarSkeletonComponent size={size} {...rest} />
 				</Padding>
 				{_steppers}
 			</Container>
 		);
 	},
-	TableListItem: ({ width, type }) => {
+	TableListItem: ({ width, type }: { width?: string; type?: number }): JSX.Element => {
 		switch (type) {
 			case 1:
 				return (
@@ -726,27 +810,31 @@ const ShimmerObject = {
 	}
 };
 
-const Shimmer = (props) => <SkeletonComponent {...props} />;
+type Shimmer = React.VFC<SkeletonProps> & {
+	[K in keyof typeof ShimmerObject]: React.VFC<Parameters<typeof ShimmerObject[K]>[number]>;
+};
+const Shimmer: Shimmer = (props: SkeletonProps): JSX.Element => <SkeletonComponent {...props} />;
 
-Shimmer.Accordion = ({ ...rest }) => <ShimmerObject.Accordion {...rest} />;
-Shimmer.Avatar = ({ ...rest }) => <ShimmerObject.Avatar {...rest} />;
-Shimmer.Badge = ({ ...rest }) => <ShimmerObject.Badge {...rest} />;
-Shimmer.Button = ({ ...rest }) => <ShimmerObject.Button {...rest} />;
-Shimmer.Checkbox = ({ ...rest }) => <ShimmerObject.Checkbox {...rest} />;
-Shimmer.EmailChip = ({ ...rest }) => <ShimmerObject.EmailChip {...rest} />;
-Shimmer.FormSection = ({ ...rest }) => <ShimmerObject.FormSection {...rest} />;
-Shimmer.FormSubSection = ({ ...rest }) => <ShimmerObject.FormSubSection {...rest} />;
-Shimmer.Icon = ({ ...rest }) => <ShimmerObject.Icon {...rest} />;
-Shimmer.Input = ({ ...rest }) => <ShimmerObject.Input {...rest} />;
-Shimmer.ListItem = ({ ...rest }) => <ShimmerObject.ListItem {...rest} />;
-Shimmer.Logo = ({ ...rest }) => <ShimmerObject.Logo {...rest} />;
-Shimmer.Quota = ({ ...rest }) => <ShimmerObject.Quota {...rest} />;
-Shimmer.Searchbar = ({ ...rest }) => <ShimmerObject.Searchbar {...rest} />;
-Shimmer.Snackbar = ({ ...rest }) => <ShimmerObject.Snackbar {...rest} />;
-Shimmer.Stepper = ({ ...rest }) => <ShimmerObject.Stepper {...rest} />;
-Shimmer.TableListItem = ({ ...rest }) => <ShimmerObject.TableListItem {...rest} />;
-Shimmer.Text = ({ ...rest }) => <ShimmerObject.Text {...rest} />;
+Shimmer.Accordion = ShimmerObject.Accordion;
+Shimmer.Avatar = ShimmerObject.Avatar;
+Shimmer.Badge = ShimmerObject.Badge;
+Shimmer.Button = ShimmerObject.Button;
+Shimmer.Checkbox = ShimmerObject.Checkbox;
+Shimmer.EmailChip = ShimmerObject.EmailChip;
+Shimmer.FormSection = ShimmerObject.FormSection;
+Shimmer.FormSubSection = ShimmerObject.FormSubSection;
+Shimmer.Icon = ShimmerObject.Icon;
+Shimmer.Input = ShimmerObject.Input;
+Shimmer.ListItem = ShimmerObject.ListItem;
+Shimmer.Logo = ShimmerObject.Logo;
+Shimmer.Quota = ShimmerObject.Quota;
+Shimmer.Searchbar = ShimmerObject.Searchbar;
+Shimmer.Snackbar = ShimmerObject.Snackbar;
+Shimmer.Stepper = ShimmerObject.Stepper;
+Shimmer.TableListItem = ShimmerObject.TableListItem;
+Shimmer.Text = ShimmerObject.Text;
 
+Shimmer.displayName = 'Shimmer';
 Shimmer.Accordion.displayName = 'Shimmer.Accordion';
 Shimmer.Avatar.displayName = 'Shimmer.Avatar';
 Shimmer.Badge.displayName = 'Shimmer.Badge';
@@ -766,23 +854,4 @@ Shimmer.Stepper.displayName = 'Shimmer.Stepper';
 Shimmer.TableListItem.displayName = 'Shimmer.TableListItem';
 Shimmer.Text.displayName = 'Shimmer.Text';
 
-ShimmerObject.Accordion.displayName = 'ShimmerObject.Accordion';
-ShimmerObject.Avatar.displayName = 'ShimmerObject.Avatar';
-ShimmerObject.Badge.displayName = 'ShimmerObject.Badge';
-ShimmerObject.Button.displayName = 'ShimmerObject.Button';
-ShimmerObject.Checkbox.displayName = 'ShimmerObject.Checkbox';
-ShimmerObject.EmailChip.displayName = 'ShimmerObject.EmailChip';
-ShimmerObject.FormSection.displayName = 'ShimmerObject.FormSection';
-ShimmerObject.FormSubSection.displayName = 'ShimmerObject.FormSubSection';
-ShimmerObject.Icon.displayName = 'ShimmerObject.Icon';
-ShimmerObject.Input.displayName = 'ShimmerObject.Input';
-ShimmerObject.ListItem.displayName = 'ShimmerObject.ListItem';
-ShimmerObject.Logo.displayName = 'ShimmerObject.Logo';
-ShimmerObject.Quota.displayName = 'ShimmerObject.Quota';
-ShimmerObject.Searchbar.displayName = 'ShimmerObject.Searchbar';
-ShimmerObject.Snackbar.displayName = 'ShimmerObject.Snackbar';
-ShimmerObject.Stepper.displayName = 'ShimmerObject.Stepper';
-ShimmerObject.TableListItem.displayName = 'ShimmerObject.TableListItem';
-ShimmerObject.Text.displayName = 'ShimmerObject.Text';
-ShimmerObject.displayName = 'ShimmerObject';
-export { Shimmer };
+export { Shimmer, SkeletonProps };
