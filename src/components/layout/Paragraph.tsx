@@ -7,7 +7,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { Text } from '../basic/Text';
+import { Text, TextProps } from '../basic/Text';
 
 const P = styled(Text)`
 	line-height: 1.4;
@@ -18,7 +18,12 @@ const P = styled(Text)`
 	}
 `;
 
-const Paragraph = React.forwardRef(function ParagraphFn({ children, ...rest }, ref) {
+type ParagraphProps = TextProps;
+
+const Paragraph = React.forwardRef<HTMLDivElement, ParagraphProps>(function ParagraphFn(
+	{ children, ...rest },
+	ref
+) {
 	return (
 		<P ref={ref} {...rest}>
 			{children}
@@ -30,4 +35,4 @@ Paragraph.defaultProps = {
 	overflow: 'break-word'
 };
 
-export { Paragraph };
+export { Paragraph, ParagraphProps };
