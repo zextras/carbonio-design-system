@@ -13,8 +13,8 @@ import { Responsive } from './Responsive';
 import { render } from '../../test-utils';
 
 describe('Responsive', () => {
-	let prevWidth;
-	let prevHeight;
+	let prevWidth: number;
+	let prevHeight: number;
 
 	beforeAll(() => {
 		// Store the default value
