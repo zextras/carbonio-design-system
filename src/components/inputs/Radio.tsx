@@ -7,7 +7,7 @@
 import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import styled, { css, SimpleInterpolation } from 'styled-components';
 import type { ThemeObj } from '../../theme/theme';
-import { Container } from '../layout/Container';
+import { Container, ContainerProps } from '../layout/Container';
 import { Text } from '../basic/Text';
 import { Icon } from '../basic/Icon';
 import { getKeyboardPreset, useKeyboard } from '../../hooks/useKeyboard';
@@ -34,9 +34,10 @@ const StyledIcon = styled(Icon)<{ checked: boolean }>`
 `;
 const RadioContainer = styled(Container)<{
 	$iconColor: keyof ThemeObj['palette'];
+	$disabled: boolean;
 }>`
-	${({ theme, disabled, $iconColor }): SimpleInterpolation =>
-		!disabled &&
+	${({ theme, $disabled, $iconColor }): SimpleInterpolation =>
+		!$disabled &&
 		css`
 			&:focus {
 				outline: none;
@@ -77,7 +78,7 @@ interface RadioProps {
 	/** change callback */
 	onChange?: (checked: boolean) => void;
 	/** radio padding */
-	padding?: React.ComponentPropsWithRef<typeof Container>['padding'] | string;
+	padding?: ContainerProps['padding'];
 	/** available sizes */
 	size?: RadioSize;
 	/** icon color */
@@ -140,7 +141,7 @@ const Radio = React.forwardRef<HTMLDivElement, RadioProps>(function RadioFn(
 			padding={padding}
 			style={{ cursor: disabled ? 'default' : 'pointer' }}
 			onClick={handleOnClick}
-			disabled={disabled}
+			$disabled={disabled}
 			tabIndex={disabled ? -1 : 0}
 			$iconColor={iconColor}
 			{...rest}

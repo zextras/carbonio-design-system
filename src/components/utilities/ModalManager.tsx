@@ -70,7 +70,7 @@ function ModalManager({ children }: ModalManagerProps): JSX.Element {
 		) => {
 			const overflow = windowObj.document.body.style.overflowY;
 
-			const handleClose = (event: KeyboardEvent | React.MouseEvent<HTMLButtonElement>): void => {
+			const handleClose = (event: KeyboardEvent | React.MouseEvent): void => {
 				if (onClose) {
 					onClose(event);
 				}

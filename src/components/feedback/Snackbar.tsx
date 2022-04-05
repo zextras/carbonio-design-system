@@ -114,13 +114,13 @@ const Snackbar = React.forwardRef<HTMLDivElement, SnackbarProps>(function Snackb
 		<Portal show={open} disablePortal={disablePortal}>
 			<Transition ref={ref} type="fade-in-right">
 				<SnackContainer
-					screenMode={screenMode}
+					$screenMode={screenMode}
 					orientation="horizontal"
 					mainAlignment="space-between"
 					background={type}
 					height="auto"
 					width="auto"
-					zIndex={zIndex}
+					$zIndex={zIndex}
 					{...rest}
 				>
 					<Row

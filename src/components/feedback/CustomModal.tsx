@@ -52,11 +52,9 @@ const CustomModal = React.forwardRef<HTMLDivElement, CustomModalProps>(function 
 	const { windowObj } = useContext(ThemeContext);
 
 	const modalRef = useCombinedRefs<HTMLDivElement>(ref);
-	const modalContentRef = useRef<HTMLElement>(null);
+	const modalContentRef = useRef<HTMLDivElement>(null);
 	const startSentinelRef = useRef<HTMLDivElement>(null);
 	const endSentinelRef = useRef<HTMLDivElement>(null);
-
-	const screenMode = useScreenMode();
 
 	const onBackdropClick = useCallback(
 		(e: KeyboardEvent | React.MouseEvent) => {
@@ -154,8 +152,7 @@ const CustomModal = React.forwardRef<HTMLDivElement, CustomModalProps>(function 
 							ref={modalContentRef}
 							background={background}
 							tabIndex={-1}
-							screenMode={screenMode}
-							size={size}
+							$size={size}
 							crossAlignment="flex-start"
 							height="auto"
 							maxHeight={maxHeight}

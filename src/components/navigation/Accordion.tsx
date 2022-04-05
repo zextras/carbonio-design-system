@@ -24,8 +24,8 @@ import { pseudoClasses } from '../../theme/theme-utils';
 const AccordionContainerEl = styled(Container)<{
 	$level: number;
 	background: keyof ThemeObj['palette'];
-	$active: boolean;
-	$disableHover: boolean;
+	$active?: boolean;
+	$disableHover?: boolean;
 }>`
 	cursor: pointer;
 	padding-left: ${({ theme, $level }): SimpleInterpolation =>
@@ -99,11 +99,11 @@ type AccordionItemType = {
 	open?: boolean;
 	background?: keyof ThemeObj['palette'];
 	disableHover?: boolean;
+	active?: boolean;
 	level?: number;
 	textProps?: TextProps;
-	active?: boolean;
-	onOpen: (e: React.SyntheticEvent | KeyboardEvent) => void;
-	onClose: (e: React.SyntheticEvent | KeyboardEvent) => void;
+	onOpen?: (e: React.SyntheticEvent | KeyboardEvent) => void;
+	onClose?: (e: React.SyntheticEvent | KeyboardEvent) => void;
 };
 
 type AccordionDivider = { divider: true };
@@ -155,11 +155,10 @@ const AccordionRoot = React.forwardRef<HTMLDivElement, AccordionRootProps>(funct
 		<Container orientation="vertical" width="fill" height="fit" ref={ref} {...rest}>
 			<AccordionContainerEl
 				$active={item.active || activeId === item.id}
-				item={item}
 				background={item.background || background}
 				ref={ref}
-				level={level}
-				style={{ cursor: 'pointer' }}
+				$level={level}
+				$disableHover={item.disableHover}
 				onClick={handleClick}
 				orientation="horizontal"
 				width="fill"
@@ -184,12 +183,7 @@ const AccordionRoot = React.forwardRef<HTMLDivElement, AccordionRootProps>(funct
 				)}
 			</AccordionContainerEl>
 			{item.items && item.items.length > 0 && (
-				<Collapse
-					crossSize="100%"
-					orientation="vertical"
-					open={open}
-					maxSize={`${item.items.length * 64}px`}
-				>
+				<Collapse crossSize="100%" orientation="vertical" open={open}>
 					<Accordion
 						activeId={activeId}
 						openIds={openIds}

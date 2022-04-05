@@ -4,9 +4,10 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { useState, useEffect, useCallback, useMemo, useRef, HTMLAttributes } from 'react';
-import styled, { css, FlattenSimpleInterpolation } from 'styled-components';
+import React, { useState, useEffect, useCallback, useMemo, HTMLAttributes } from 'react';
+import styled, { css, SimpleInterpolation } from 'styled-components';
 import { map } from 'lodash';
+import { getColor } from '../../theme/theme-utils';
 import { Container } from '../layout/Container';
 import { Text } from '../basic/Text';
 import { useKeyboard, getKeyboardPreset } from '../../hooks/useKeyboard';
@@ -17,36 +18,35 @@ const CustomText = styled(Text)`
 	line-height: 1.5;
 `;
 
-const DefaultTabBarItemContainer = styled(Container)`
+const DefaultTabBarItemContainer = styled(Container)<{
+	$forceWidthEquallyDistributed: boolean;
+	$selected: boolean;
+	$underlineColor: string | keyof ThemeObj['palette'];
+	$disabled?: boolean;
+}>`
 	outline: none;
 	min-width: 0;
 	flex-basis: fit-content;
-	${({ forceWidthEquallyDistributed }): FlattenSimpleInterpolation =>
-		forceWidthEquallyDistributed &&
+	${({ $forceWidthEquallyDistributed }): SimpleInterpolation =>
+		$forceWidthEquallyDistributed &&
 		css`
 			flex-basis: unset;
 		`};
 	flex-grow: 1;
 	height: 100%;
 	transition: 0.2s ease-out;
-	border-bottom: ${({ theme, selected, underlineColor }): string =>
-		selected
-			? `1px solid ${theme.palette[underlineColor || 'primary'].regular}`
-			: '1px solid transparent'};
+	border-bottom: ${({ theme, $selected, $underlineColor }): string =>
+		$selected ? `1px solid ${getColor($underlineColor, theme)}` : '1px solid transparent'};
 	cursor: pointer;
 	user-select: none;
 
 	&:hover {
-		background: ${({ theme, background, disabled }): string =>
-			background
-				? theme.palette[background][disabled ? 'disabled' : 'hover']
-				: theme.palette.transparent[disabled ? 'regular' : 'hover']};
+		background: ${({ theme, background = 'transparent', $disabled }): string =>
+			getColor(`${background}.${$disabled ? 'disabled' : 'hover'}`, theme)};
 	}
 	&:focus {
-		background: ${({ theme, background, disabled }): string =>
-			background
-				? theme.palette[background][disabled ? 'disabled' : 'focus']
-				: theme.palette.transparent[disabled ? 'regular' : 'focus']};
+		background: ${({ theme, background = 'transparent', $disabled }): string =>
+			getColor(`${background}.${$disabled ? 'disabled' : 'focus'}`, theme)};
 	}
 `;
 
@@ -86,7 +86,7 @@ interface DefaultTabBarItemProps {
 }
 
 const DefaultTabBarItem = React.forwardRef<
-	HTMLElement,
+	HTMLDivElement,
 	DefaultTabBarItemProps & HTMLAttributes<HTMLDivElement>
 >(function DefaultTabBarItemFn(
 	{
@@ -94,7 +94,7 @@ const DefaultTabBarItem = React.forwardRef<
 		selected,
 		background,
 		onClick,
-		underlineColor,
+		underlineColor = 'primary',
 		forceWidthEquallyDistributed = false,
 		children,
 		...rest
@@ -108,8 +108,7 @@ const DefaultTabBarItem = React.forwardRef<
 		[item.disabled, onClick]
 	);
 
-	const innerRef = useRef<HTMLElement>(null);
-	const combinedRef = useCombinedRefs<HTMLElement>(ref, innerRef);
+	const combinedRef = useCombinedRefs<HTMLDivElement>(ref);
 
 	const keyEvents = useMemo(() => getKeyboardPreset('button', activationCb), [activationCb]);
 	useKeyboard(combinedRef, keyEvents);
@@ -118,13 +117,13 @@ const DefaultTabBarItem = React.forwardRef<
 		<DefaultTabBarItemContainer
 			padding={{ horizontal: 'small' }}
 			onClick={activationCb}
-			selected={selected}
+			$selected={selected}
 			background={background}
 			borderRadius="none"
-			disabled={item.disabled}
-			underlineColor={underlineColor}
+			$disabled={item.disabled}
+			$underlineColor={underlineColor}
 			ref={combinedRef}
-			forceWidthEquallyDistributed={forceWidthEquallyDistributed}
+			$forceWidthEquallyDistributed={forceWidthEquallyDistributed}
 			{...rest}
 		>
 			{children || (
@@ -141,7 +140,7 @@ const DefaultTabBarItem = React.forwardRef<
 	);
 });
 
-const TabBar = React.forwardRef<unknown, TabBarProps>(function TabBarFn(
+const TabBar = React.forwardRef<HTMLDivElement, TabBarProps>(function TabBarFn(
 	{
 		items,
 		selected,

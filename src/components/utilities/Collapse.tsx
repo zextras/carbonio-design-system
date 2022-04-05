@@ -43,6 +43,8 @@ interface CollapseProps extends HTMLAttributes<HTMLDivElement> {
 	crossSize?: string;
 	/** Disable the transition */
 	disableTransition?: boolean;
+	/** Content */
+	children: React.ReactNode | React.ReactNode[];
 }
 
 const Collapse = React.forwardRef<HTMLElement, CollapseProps>(function CollapseFn(

@@ -667,13 +667,8 @@ const ShimmerObject = {
 				style={{ margin: '16px 0' }}
 			/>
 			{elementEnd ? (
-				<Padding>
-					<SkeletonComponent
-						variant="dark"
-						height="24px"
-						width="94px"
-						style={{ margin: '0 24px 0 16px' }}
-					/>
+				<Padding right="24px" left="16px">
+					<SkeletonComponent variant="dark" height="24px" width="94px" />
 				</Padding>
 			) : (
 				<Padding right={elementEnd ? 0 : 'extralarge'} />

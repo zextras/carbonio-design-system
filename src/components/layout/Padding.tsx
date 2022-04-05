@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React from 'react';
+import React, { HTMLAttributes } from 'react';
 import styled, { SimpleInterpolation } from 'styled-components';
 import { getPadding, PaddingObj } from '../../theme/theme-utils';
 
@@ -21,10 +21,10 @@ const Comp = styled.div<PaddingProps>`
 	padding: ${({ theme, ...props }): string => getPadding(props, theme)};
 `;
 
-const Padding = React.forwardRef<HTMLDivElement, PaddingProps>(function PaddingFn(
-	{ children, ...rest },
-	ref
-) {
+const Padding = React.forwardRef<
+	HTMLDivElement,
+	PaddingProps & Omit<HTMLAttributes<HTMLDivElement>, keyof PaddingProps>
+>(function PaddingFn({ children, ...rest }, ref) {
 	return (
 		<Comp ref={ref} {...rest}>
 			{children}

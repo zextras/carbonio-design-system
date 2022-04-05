@@ -7,7 +7,7 @@
 import React, { useMemo, useRef } from 'react';
 import styled, { css, SimpleInterpolation } from 'styled-components';
 import { getColor } from '../../theme/theme-utils';
-import { Container } from '../layout/Container';
+import { Container, ContainerProps } from '../layout/Container';
 import { Icon } from '../basic/Icon';
 import { Text } from '../basic/Text';
 import { Padding } from '../layout/Padding';
@@ -64,7 +64,7 @@ interface CheckboxProps {
 	/** Checkbox text */
 	label?: string;
 	/** Checkbox padding */
-	padding?: Record<string, string>;
+	padding?: ContainerProps['padding'];
 	/** whether to disable the checkbox or not */
 	disabled?: boolean;
 	/** click callback */
@@ -82,7 +82,7 @@ const Checkbox = React.forwardRef<HTMLDivElement, CheckboxProps>(function Checkb
 		label,
 		iconSize,
 		iconColor = 'gray0',
-		padding = {},
+		padding,
 		disabled = false,
 		onClick,
 		onChange,
@@ -115,7 +115,7 @@ const Checkbox = React.forwardRef<HTMLDivElement, CheckboxProps>(function Checkb
 			orientation="horizontal"
 			width="fit"
 			height="fit"
-			padding={padding || undefined}
+			padding={padding}
 			style={{ cursor: disabled ? 'default' : 'pointer' }}
 			crossAlignment="flex-start"
 			{...rest}

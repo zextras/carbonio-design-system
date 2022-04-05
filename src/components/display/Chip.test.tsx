@@ -147,7 +147,7 @@ describe('Chip', () => {
 		expect(actions[1].onClick).toHaveBeenCalled();
 		userEvent.click(screen.getByTestId('icon: Eye'));
 		expect(actions[2].onClick).not.toHaveBeenCalled();
-		expect(screen.getByTestId('icon: Share').parentNode).toHaveAttribute('disabled');
+		expect(screen.getByTestId('icon: Share')).toHaveAttribute('disabled');
 		userEvent.click(screen.getByTestId('icon: Share'));
 		expect(actions[3].onClick).not.toHaveBeenCalled();
 	});
@@ -207,15 +207,15 @@ describe('Chip', () => {
 		userEvent.hover(screen.getByTestId('icon: People'));
 		expect(screen.queryByText('tooltip action1')).not.toBeInTheDocument();
 		userEvent.unhover(screen.getByTestId('icon: People'));
-		expect(screen.getByTestId('icon: People').parentNode).toHaveAttribute('disabled');
+		expect(screen.getByTestId('icon: People')).toHaveAttribute('disabled');
 		userEvent.click(screen.getByTestId('icon: People'));
 		expect(actions[1].onClick).not.toHaveBeenCalled();
 		userEvent.click(screen.getByTestId('icon: Eye'));
 		expect(actions[2].onClick).not.toHaveBeenCalled();
-		expect(screen.getByTestId('icon: Share').parentNode).toHaveAttribute('disabled');
+		expect(screen.getByTestId('icon: Share')).toHaveAttribute('disabled');
 		userEvent.click(screen.getByTestId('icon: Share'));
 		expect(actions[3].onClick).not.toHaveBeenCalled();
-		expect(screen.getByTestId('icon: Close').parentNode).toHaveAttribute('disabled');
+		expect(screen.getByTestId('icon: Close')).toHaveAttribute('disabled');
 		userEvent.click(screen.getByTestId('icon: Close'));
 		expect(closeFn).not.toHaveBeenCalled();
 		expect(screen.getByText(label)).toHaveAttribute('disabled');
