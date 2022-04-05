@@ -14,6 +14,7 @@ import { Dropdown } from '../display/Dropdown';
 import { Icon } from '../basic/Icon';
 import { Padding } from '../layout/Padding';
 import { Row } from '../layout/Row';
+import { getColor } from '../../theme/theme-utils';
 import { Text } from '../basic/Text';
 
 const Label = styled(Text)<{ $selected: boolean }>`
@@ -25,15 +26,15 @@ const Label = styled(Text)<{ $selected: boolean }>`
 	transition: 150ms ease-out;
 `;
 
-const ContainerEl = styled(Container)<{ background: keyof ThemeObj['palette'] }>`
+const ContainerEl = styled(Container)<{ $focus: boolean }>`
 	transition: background 0.2s ease-out;
 	&:hover {
-		background: ${({ theme, background }): string => theme.palette[background].hover};
+		background: ${({ theme, background }): string => getColor(`${background}.hover`, theme)};
 	}
-	${({ focus, theme, background }): SimpleInterpolation =>
-		focus &&
+	${({ $focus, theme, background }): SimpleInterpolation =>
+		$focus &&
 		css`
-			background: ${theme.palette[background].focus};
+			background: ${getColor(`${background}.focus`, theme)};
 		`}
 `;
 
@@ -84,10 +85,10 @@ const DefaultLabelFactory: React.VFC<LabelFactoryProps> = ({
 					vertical: 'small'
 				}}
 				background={background}
-				focus={focus}
+				$focus={focus}
 			>
 				<Row takeAvailableSpace mainAlignment="unset">
-					<Padding top="medium" style={{ width: '100%' }}>
+					<Padding top="medium" width="100%">
 						<CustomText size="medium" color={disabled ? 'secondary' : 'text'}>
 							{selectedLabels}
 						</CustomText>
@@ -372,7 +373,7 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps>(function SelectFn(
 			disablePortal={disablePortal}
 			{...rest}
 		>
-			<TabContainer ref={ref} onFocus={onFocus} onBlur={onBlur} tabIndex="0">
+			<TabContainer ref={ref} onFocus={onFocus} onBlur={onBlur} tabIndex={0}>
 				<LabelFactory
 					label={label}
 					open={open}

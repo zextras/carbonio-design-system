@@ -113,7 +113,7 @@ interface ModalProps {
 	/** Label for the Secondary action Button */
 	secondaryActionLabel?: string;
 	/** Callback to close the Modal */
-	onClose?: (event: React.MouseEvent<HTMLButtonElement> | KeyboardEvent) => void;
+	onClose?: (event: React.MouseEvent | KeyboardEvent) => void;
 	/** Label for the Modal close Button */
 	dismissLabel?: string;
 	/** Label for copy button in the Error Modal */
@@ -349,7 +349,7 @@ const Modal = React.forwardRef<HTMLDivElement, ModalProps>(function ModalFn(
 							ref={modalContentRef}
 							background={background}
 							tabIndex={-1}
-							size={size}
+							$size={size}
 							crossAlignment="flex-start"
 							height="auto"
 						>

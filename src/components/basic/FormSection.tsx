@@ -36,7 +36,7 @@ const FormSection = React.forwardRef<HTMLDivElement, FormElementProps>(function 
 			</Padding>
 			<Container
 				padding={{ all: 'small' }}
-				direction="vertical"
+				orientation="vertical"
 				crossAlignment="flex-start"
 				width="fill"
 				height="fit"
@@ -70,7 +70,7 @@ const FormSubSection = React.forwardRef<HTMLDivElement, FormElementProps>(functi
 				<Divider />
 				<Container
 					padding={{ all: 'small' }}
-					direction="vertical"
+					orientation="vertical"
 					crossAlignment="flex-start"
 					width="fill"
 					height="fit"
@@ -105,7 +105,7 @@ const FormRow = React.forwardRef<HTMLDivElement, FormElementProps>(function Form
 					{label}
 				</Text>
 			</Container>
-			<Container direction="vertical" crossAlignment="flex-start" width="70%" height="fit">
+			<Container orientation="vertical" crossAlignment="flex-start" width="70%" height="fit">
 				{children}
 			</Container>
 		</Container>

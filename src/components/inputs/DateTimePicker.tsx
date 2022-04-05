@@ -810,7 +810,7 @@ const Styler = styled(Container)`
 	/* color: ${({ theme }): string => theme.palette.text.regular}; */
 	font-family: ${({ theme }): string => theme.fonts.default};
 	font-size: ${({ theme }): string => theme.sizes.font.medium};
-	font-weight: ${({ theme }): string => theme.fonts.weight.regular};
+	font-weight: ${({ theme }): number => theme.fonts.weight.regular};
 `;
 
 const InputIconsContainer = styled.div`

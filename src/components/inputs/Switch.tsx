@@ -9,7 +9,7 @@ import styled, { css, SimpleInterpolation } from 'styled-components';
 import type { ThemeObj } from '../../theme/theme';
 import { Icon } from '../basic/Icon';
 
-import { Container } from '../layout/Container';
+import { Container, ContainerProps } from '../layout/Container';
 import { Padding } from '../layout/Padding';
 import { Text } from '../basic/Text';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
@@ -61,7 +61,7 @@ interface SwitchProps {
 	/** Switch text */
 	label?: string;
 	/** Switch padding */
-	padding?: React.ComponentPropsWithRef<typeof Container>['padding'] | string;
+	padding?: ContainerProps['padding'];
 	/** whether to disable the Switch or not */
 	disabled?: boolean;
 	/** click callback */
@@ -79,7 +79,7 @@ const Switch = React.forwardRef<HTMLDivElement, SwitchProps>(function SwitchFn(
 		defaultChecked = false,
 		value,
 		label,
-		padding = {},
+		padding,
 		disabled = false,
 		onClick,
 		onChange,
@@ -106,7 +106,7 @@ const Switch = React.forwardRef<HTMLDivElement, SwitchProps>(function SwitchFn(
 			orientation="horizontal"
 			width="fit"
 			height="fit"
-			padding={padding || undefined}
+			padding={padding}
 			style={{ cursor: disabled ? 'default' : 'pointer' }}
 			crossAlignment="center"
 			{...rest}

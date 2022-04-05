@@ -85,19 +85,17 @@ const ModalWrapper = styled.div`
 	pointer-events: none;
 `;
 const ModalContent = styled(Container)<{
-	size: 'extrasmall' | 'small' | 'medium' | 'large';
+	$size: keyof typeof modalMinWidth & keyof typeof modalWidth;
 }>`
 	position: relative;
 	margin: 0 auto ${(props): string => props.theme.sizes.padding.medium};
 	padding: 32px;
 	max-width: 100%;
-	min-width: ${({ size }): string =>
-		modalMinWidth[size as 'extrasmall' | 'small' | 'medium' | 'large']};
-	width: ${({ size }): string => modalWidth[size as 'extrasmall' | 'small' | 'medium' | 'large']};
+	min-width: ${({ $size }): string => modalMinWidth[$size]};
+	width: ${({ $size }): string => modalWidth[$size]};
 
-	background-color: ${(props): string => props.theme.palette[props.background].regular};
 	border-radius: 16px;
-	box-shadow: 0px 0px 4px 0px rgba(166, 166, 166, 0.5);
+	box-shadow: 0 0 4px 0 rgba(166, 166, 166, 0.5);
 	outline: none;
 	pointer-events: auto;
 `;

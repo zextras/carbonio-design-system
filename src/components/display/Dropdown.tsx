@@ -102,7 +102,7 @@ function PopperListItem({
 	click,
 	selected,
 	customComponent,
-	disabled,
+	disabled = false,
 	selectedBackgroundColor,
 	itemIconSize,
 	itemTextSize,
@@ -170,7 +170,7 @@ function NestListItem({
 	selected,
 	open,
 	customComponent,
-	disabled,
+	disabled = false,
 	items,
 	selectedBackgroundColor,
 	itemIconSize,
@@ -192,10 +192,10 @@ function NestListItem({
 			mainAlignment="flex-start"
 			padding={{ vertical: 'small', horizontal: 'large' }}
 			style={{ cursor: click && !disabled ? 'pointer' : 'default' }}
-			onClick={disabled ? null : click}
-			tabIndex={disabled ? null : 0}
-			disabled={disabled}
-			selectedBackgroundColor={selected ? selectedBackgroundColor : undefined}
+			onClick={disabled ? undefined : click}
+			tabIndex={disabled ? undefined : 0}
+			$disabled={disabled}
+			$selectedBackgroundColor={selected ? selectedBackgroundColor : undefined}
 			{...rest}
 		>
 			{/* eslint-disable-next-line @typescript-eslint/no-use-before-define */}

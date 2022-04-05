@@ -144,10 +144,4 @@ describe('getPadding', () => {
 			});
 		});
 	});
-
-	// extrasmall: '4px',
-	// 	small: '8px',
-	// 	medium: '12px',
-	// 	large: '16px',
-	// 	extralarge: '24px'
 });
