@@ -10,14 +10,18 @@ import React from 'react';
 import { screen } from '@testing-library/dom';
 import { render as rtlRender } from '@testing-library/react';
 import { ThemeProvider } from './theme-context-provider';
-import { useTheme, generateColorSet } from './theme-utils';
-import { Theme } from './theme';
+import { useTheme, generateColorSet, getColor } from './theme-utils';
+import { Theme, ThemeColorObj, ThemeObj } from './theme';
 
 const CUSTOM_THEME_COLOR = '#FF7514';
 
-function ThemeTester({ color }) {
-	const theme = useTheme();
-	return <div data-testid={`regular-${color}-color`}>{theme.palette[color].regular}</div>;
+function ThemeTester<T extends ThemeObj = ThemeObj>({
+	color
+}: {
+	color: keyof T['palette'] & string;
+}): JSX.Element {
+	const theme = useTheme() as T;
+	return <div data-testid={`regular-${color}-color`}>{getColor(color, theme)}</div>;
 }
 
 describe('ThemeProvider', () => {
@@ -49,14 +53,17 @@ describe('ThemeProvider', () => {
 	});
 
 	test('Add a custom theme color', () => {
-		const recipe = jest.fn((draft) => {
-			// eslint-disable-next-line no-param-reassign
-			draft.palette.extra = generateColorSet({ regular: CUSTOM_THEME_COLOR });
-			return draft;
+		type ThemeExtended = ThemeObj & { palette: ThemeObj['palette'] & { extra: ThemeColorObj } };
+		const recipe: (theme: ThemeObj) => ThemeExtended = jest.fn((draft) => {
+			const themeExtended: ThemeExtended = {
+				...draft,
+				palette: { ...draft.palette, extra: generateColorSet({ regular: CUSTOM_THEME_COLOR }) }
+			};
+			return themeExtended;
 		});
 		rtlRender(
 			<ThemeProvider extension={recipe}>
-				<ThemeTester color="extra" />
+				<ThemeTester<ThemeExtended> color="extra" />
 			</ThemeProvider>
 		);
 		expect(recipe).toBeCalledTimes(1);
