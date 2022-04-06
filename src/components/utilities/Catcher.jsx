@@ -20,7 +20,7 @@ class Catcher extends React.Component {
 
 	componentDidCatch(error, errorInfo) {
 		// You can also log the error to an error reporting service
-		const { onError } = this.props;
+		const { onError, reload, reloadTimeout } = this.props;
 		if (onError) {
 			onError(error, errorInfo);
 		}
@@ -28,14 +28,24 @@ class Catcher extends React.Component {
 			hasError: true,
 			error
 		});
+		if (reload) {
+			setTimeout(() => {
+				this?.setState?.({
+					hasError: false,
+					error
+				});
+			}, reloadTimeout);
+		}
 	}
 
 	render() {
-		const { children } = this.props;
+		const { children, ErrorComponent } = this.props;
 		const { hasError, error } = this.state;
 		if (hasError) {
 			// You can render any custom fallback UI
-			return (
+			return ErrorComponent ? (
+				<ErrorComponent error={error} />
+			) : (
 				<Container>
 					<Text size="large" color="error">
 						{error.message}
@@ -43,18 +53,26 @@ class Catcher extends React.Component {
 				</Container>
 			);
 		}
-
 		return children;
 	}
 }
 
 Catcher.propTypes = {
 	/** error callback, use this to perform operations when an error is caught */
-	onError: PropTypes.func
+	onError: PropTypes.func,
+	/** rerender children after catching an error */
+	reload: PropTypes.bool,
+	/** rerendering timeout */
+	reloadTimeout: PropTypes.number,
+	/** component to render on error, receives the error as prop */
+	ErrorComponent: PropTypes.elementType
 };
 
 Catcher.defaultProps = {
 	// eslint-disable-next-line no-console
-	onError: console.error
+	onError: console.error,
+	reload: false,
+	reloadTimeout: 100
 };
+
 export default Catcher;
