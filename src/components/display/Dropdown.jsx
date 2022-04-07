@@ -49,6 +49,7 @@ function ListItemContent({
 					/>
 				</Padding>
 			)}
+
 			<Text
 				size={itemTextSize}
 				weight={selected ? 'bold' : 'regular'}
@@ -65,19 +66,21 @@ function PopperListItem({
 	label,
 	click,
 	selected,
-	customComponent,
+	customComponent: CustomComponent,
 	disabled,
 	selectedBackgroundColor,
 	itemIconSize,
 	itemTextSize,
 	itemPaddingBetween,
+	onClick,
 	...rest
 }) {
 	const itemRef = useRef(undefined);
 
-	const keyEvents = useMemo(() => getKeyboardPreset('listItem', click), [click]);
-	useKeyboard(itemRef, keyEvents);
+	// const keyEvents = useMemo(() => getKeyboardPreset('listItem', click), [click]);
 
+	// useKeyboard(itemRef, keyEvents);
+	console.log('vv restOpens:', rest);
 	return (
 		<ContainerEl
 			ref={itemRef}
@@ -86,14 +89,23 @@ function PopperListItem({
 			mainAlignment="flex-start"
 			padding={{ vertical: 'small', horizontal: 'large' }}
 			style={{ cursor: click && !disabled ? 'pointer' : 'default' }}
-			onClick={disabled ? null : click}
+			onClick={(e) => {
+				e.preventDefault();
+				return disabled ? null : click();
+			}}
 			tabIndex={disabled ? null : 0}
 			disabled={disabled}
 			selectedBackgroundColor={selected ? selectedBackgroundColor : undefined}
 			background={selected && selectedBackgroundColor ? selectedBackgroundColor : undefined}
 			{...rest}
 		>
-			{customComponent || (
+			{CustomComponent ? (
+				<CustomComponent
+					items={{ ...rest }}
+					onClick={() => 'hello'}
+					className={rest.keepOpen ? 'loda' : 'lehsun'}
+				/>
+			) : (
 				<ListItemContent
 					icon={icon}
 					label={label}
@@ -114,19 +126,21 @@ function NestListItem({
 	click,
 	selected,
 	open,
-	customComponent,
+	customComponent: CustomComponent,
 	disabled,
 	items,
 	selectedBackgroundColor,
 	itemIconSize,
 	itemTextSize,
 	itemPaddingBetween,
+
 	...rest
 }) {
 	const itemRef = useRef(undefined);
 
 	const keyEvents = useMemo(() => getKeyboardPreset('listItem', click), [click]);
 	useKeyboard(itemRef, keyEvents);
+
 	return (
 		<ContainerEl
 			ref={itemRef}
@@ -153,7 +167,9 @@ function NestListItem({
 				itemPaddingBetween={itemPaddingBetween}
 			>
 				<Container orientation="horizontal" mainAlignment="space-between">
-					{customComponent || (
+					{CustomComponent ? (
+						<CustomComponent items={{ ...rest }} />
+					) : (
 						<ListItemContent
 							icon={icon}
 							label={label}
@@ -162,8 +178,10 @@ function NestListItem({
 							itemIconSize={itemIconSize}
 							itemTextSize={itemTextSize}
 							itemPaddingBetween={itemPaddingBetween}
+							click={click}
 						/>
 					)}
+
 					<Icon size={itemIconSize} icon="ChevronRight" style={{ alignSelf: 'flex-end' }} />
 				</Container>
 			</Dropdown>
@@ -244,6 +262,7 @@ const Dropdown = React.forwardRef(function DropdownFn(
 	const endSentinelRef = useRef(undefined);
 	const [position, setPosition] = useState(null);
 	const [currentHover, setCurrentHover] = useState(null);
+	const [currentElement, setCurrentElement] = useState(null);
 	useEffect(() => {
 		setOpen(forceOpen);
 	}, [forceOpen]);
@@ -256,8 +275,9 @@ const Dropdown = React.forwardRef(function DropdownFn(
 	const closePopper = useCallback(
 		(e) => {
 			e && e.stopPropagation();
+
 			setOpen(false);
-			!disableRestoreFocus && triggerRef.current.focus();
+			!disableRestoreFocus && triggerRef?.current?.focus();
 			onClose && onClose();
 		},
 		[disableRestoreFocus, onClose]
@@ -298,12 +318,18 @@ const Dropdown = React.forwardRef(function DropdownFn(
 
 	const clickOutsidePopper = useCallback(
 		(e) => {
-			dropdownRef.current &&
+			if (
+				!e.defaultPrevented &&
+				dropdownRef.current &&
 				e.target !== dropdownRef.current &&
-				!dropdownRef.current.contains(e.target) &&
-				closePopper();
+				!dropdownRef.current.contains(e.target)
+			) {
+				setTimeout(() => {
+					currentElement ? !currentElement?.keepOpen && closePopper(e) : closePopper(e);
+				}, 1);
+			}
 		},
-		[closePopper, dropdownRef]
+		[dropdownRef, closePopper, currentElement]
 	);
 
 	const onStartSentinelFocus = useCallback(
@@ -418,6 +444,7 @@ const Dropdown = React.forwardRef(function DropdownFn(
 		onEndSentinelFocus,
 		disableAutoFocus
 	]);
+
 	const popperListItems = useMemo(
 		() =>
 			items &&
@@ -433,6 +460,7 @@ const Dropdown = React.forwardRef(function DropdownFn(
 						items: subItems,
 						disabled: itemDisabled,
 						type,
+						keepOpen = false,
 						...itemProps
 					},
 					index
@@ -445,17 +473,22 @@ const Dropdown = React.forwardRef(function DropdownFn(
 							icon={icon}
 							label={label}
 							click={(e) => {
+								setCurrentElement(null);
 								click && click(e);
-								!multiple && closePopper();
+								!multiple && !keepOpen && closePopper(e);
 							}}
 							selected={selected}
 							open={currentHover === id}
 							key={id}
 							customComponent={customComponent}
+							onMouseLeave={() => {
+								setCurrentElement(null);
+							}}
 							disabled={itemDisabled}
 							items={subItems}
 							onMouseEnter={() => {
 								setCurrentHover(id);
+								setCurrentElement(itemProps);
 							}}
 							selectedBackgroundColor={selectedBackgroundColor}
 							itemIconSize={itemIconSize}
@@ -469,13 +502,18 @@ const Dropdown = React.forwardRef(function DropdownFn(
 							label={label}
 							click={(e) => {
 								click && click(e);
-								!multiple && closePopper();
+								setCurrentElement(null);
+								!multiple && !keepOpen && closePopper(e);
 							}}
 							selected={selected}
 							key={id}
+							onMouseLeave={() => {
+								setCurrentElement(null);
+							}}
 							customComponent={customComponent}
 							disabled={itemDisabled}
 							onMouseEnter={() => {
+								setCurrentElement(itemProps);
 								setCurrentHover(id);
 							}}
 							selectedBackgroundColor={selectedBackgroundColor}
@@ -497,7 +535,7 @@ const Dropdown = React.forwardRef(function DropdownFn(
 			closePopper
 		]
 	);
-
+	console.log('poperlistItem:', popperListItems);
 	return (
 		<PopperDropdownWrapper ref={ref} display={display} {...rest}>
 			{contextMenu ? (
@@ -526,6 +564,7 @@ const Dropdown = React.forwardRef(function DropdownFn(
 					{React.cloneElement(children, {
 						ref: triggerRef,
 						onClick: (e) => {
+							console.log('hellllllllll');
 							children.props.onClick && children.props.onClick(e);
 							handleClick(e);
 						}

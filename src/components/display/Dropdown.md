@@ -12,6 +12,18 @@ Dropdown list items can be customized with components and/or disabled.
 import { useMemo, useState } from "react";
 import { Container, Padding, Text, Button, IconButton } from "@zextras/carbonio-design-system";
 
+const CUSTOM=(props)=>{
+ // console.log("propsdd:",props);
+
+const action=(e)=>{
+  e.preventDefault();
+
+  console.log('vv hogya.....')
+}
+ return <div onClick={action} className="keepOpen" >
+      <Button  label="click me!" data-keep-open />    
+</div>
+}
 const items = [
   {
     id: "activity-1",
@@ -60,14 +72,14 @@ const items = [
     click: () => console.log("click3"),
   },
   {
-    id: "activity-4",
-    icon: "Activity",
-    label: "Some Item",
-    customComponent: (
-      <Button label="click me!" onClick={() => console.log("click4")} />
-    ),
+    id: "activity-99",
+    icon: "Tag",
+    label: "mested Some Item ",
+   click: () => console.log("dddddddddd3"),
+    customComponent:CUSTOM,
   },
 ];
+
 
 const itemsSet2 = [
 	{
@@ -80,52 +92,39 @@ const itemsSet2 = [
 		id: "activity-3",
 		icon: "Activity",
 		label: "Yet Another Item",
-        selected: true,
+    keepOpen: true,
 		items: [
 			{
-				id: "sub1",
-				icon: "Activity",
-				label: "Some Item",
-				selected: true,
-				click: () => console.log("click1")
+				
+    id: "activity-99",
+    icon: "Tag",
+    label: "mested Some Item ",
+    abcd:'dd',
+    keepOpen:true,
+   //  click: () => console.log("dddddddddd3"),
+     customComponent:CUSTOM,
+     closeOnClick:false
+  
 			},
 			{
-				id: "sub2",
-				icon: "Activity",
+					
+    id: "activity-99",
+    icon: "Tag",
 				label: "Some Item",
 				click: () => console.log("click1"),
-			}
+			},
+     
 		]
 	}
 ];
 
 const [open, setOpen] = useState(false);
 <>
-  <Container orientation="horizontal" mainAlignment="flex-start">
-    <IconButton icon="Activity" onClick={() => setOpen(!open)} />
-    <Dropdown items={items} forceOpen={open}>
-      <IconButton icon="ArrowDown" />
-    </Dropdown>
-    <Dropdown items={items} placement="top-end">
-      <IconButton icon="ArrowUp" />
-    </Dropdown>
-    <Dropdown items={items} placement="left-start">
-      <IconButton icon="ArrowLeft" />
-    </Dropdown>
-    <Dropdown items={items} placement="right-end">
-      <IconButton icon="ArrowRight" />
-    </Dropdown>
-  </Container>
+  
 
   <Container orientation="horizontal" mainAlignment="flex-start">
-    <Dropdown items={items} placement="bottom-end">
-      <Button icon="ArrowDown" label="Create" />
-    </Dropdown>
-    <Padding left='small'>
-     <Dropdown items={items} placement="right-start" contextMenu={true}>
-      <Button label="Right Click" />
-    </Dropdown>
-    </Padding>
+
+   
 	<Padding left='small'>
 	 <Dropdown itemPaddingBetween="large" itemIconSize="large" itemTextSize="large" selectedBackgroundColor="highlight" items={itemsSet2} multiple={true}>
 	  <Button label="Custom size and highlight" />
