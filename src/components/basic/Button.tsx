@@ -224,7 +224,10 @@ const StyledGrid = styled.div<{ width: 'fill' | 'fit'; padding: string }>`
 `;
 
 const SIZES: Record<ButtonSize, { label: string; icon: string; padding: string; gap: string }> &
-	Record<'medium' | 'large' | 'extralarge', { secondaryButton: ButtonSize }> = {
+	Record<
+		'medium' | 'large' | 'extralarge',
+		{ secondaryButton: { icon: string; padding: string } }
+	> = {
 	extrasmall: {
 		label: '8px',
 		icon: '8px',
@@ -242,21 +245,30 @@ const SIZES: Record<ButtonSize, { label: string; icon: string; padding: string; 
 		icon: '16px',
 		padding: '8px',
 		gap: '8px',
-		secondaryButton: 'extrasmall'
+		secondaryButton: {
+			icon: '16px',
+			padding: '4px'
+		}
 	},
 	large: {
 		label: '20px',
 		icon: '20px',
 		padding: '8px',
 		gap: '8px',
-		secondaryButton: 'small'
+		secondaryButton: {
+			icon: '20px',
+			padding: '4px'
+		}
 	},
 	extralarge: {
 		label: '20px',
 		icon: '20px',
 		padding: '12px',
 		gap: '8px',
-		secondaryButton: 'small'
+		secondaryButton: {
+			icon: '20px',
+			padding: '8px'
+		}
 	}
 } as const;
 
@@ -377,11 +389,11 @@ const Button = React.forwardRef<
 				)}
 
 				{secondaryAction && size !== 'extrasmall' && size !== 'small' && (
-					<StyledSecondaryActionPlaceholder padding={SIZES[SIZES[size].secondaryButton].padding}>
+					<StyledSecondaryActionPlaceholder padding={SIZES[size].secondaryButton.padding}>
 						<StyledIcon
 							icon={secondaryAction.icon}
 							color="currentColor"
-							$size={SIZES[SIZES[size].secondaryButton].icon}
+							$size={SIZES[size].secondaryButton.icon}
 						/>
 					</StyledSecondaryActionPlaceholder>
 				)}
@@ -400,7 +412,7 @@ const Button = React.forwardRef<
 					disabled={!!secondaryAction.disabled}
 					shape={shape}
 					buttonType={(type === 'outlined' && 'default') || type}
-					padding={SIZES[SIZES[size].secondaryButton].padding}
+					padding={SIZES[size].secondaryButton.padding}
 					gap={SIZES[size].gap}
 					onClick={secondaryActionClickHandler}
 					$loading={loading}
@@ -409,7 +421,7 @@ const Button = React.forwardRef<
 					<StyledIcon
 						icon={secondaryAction.icon}
 						color="currentColor"
-						$size={SIZES[SIZES[size].secondaryButton].icon}
+						$size={SIZES[size].secondaryButton.icon}
 					/>
 				</StyledSecondaryAction>
 			)}

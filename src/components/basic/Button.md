@@ -132,21 +132,21 @@ import { Container } from '@zextras/carbonio-design-system';
 <Container orientation="horizontal" mainAlignment="space-around">
 	<Container orientation="vertical" mainAlignment="space-around" style={{ gap: '10px' }} width="30%">
         <Button type="default" label="Button" shape="regular" />
-        <Button type="default" label="Button" shape="rounded" />
-        <Button type="default" label="Button" shape="rounded" icon="HeartOutline" iconPlacement="left" />
-        <Button type="default" label="Button" shape="rounded" icon="HeartOutline" iconPlacement="right" />
+        <Button type="default" label="Button" shape="round" />
+        <Button type="default" label="Button" shape="round" icon="HeartOutline" iconPlacement="left" />
+        <Button type="default" label="Button" shape="round" icon="HeartOutline" iconPlacement="right" />
     </Container>
 	<Container orientation="vertical" mainAlignment="space-around" style={{ gap: '10px' }} width="30%">
         <Button type="outlined" label="Button" shape="regular" />
-        <Button type="outlined" label="Button" shape="rounded" />
-        <Button type="outlined" label="Button" shape="rounded" icon="HeartOutline" iconPlacement="left" />
-        <Button type="outlined" label="Button" shape="rounded" icon="HeartOutline" iconPlacement="right" />
+        <Button type="outlined" label="Button" shape="round" />
+        <Button type="outlined" label="Button" shape="round" icon="HeartOutline" iconPlacement="left" />
+        <Button type="outlined" label="Button" shape="round" icon="HeartOutline" iconPlacement="right" />
     </Container>
 	<Container orientation="vertical" mainAlignment="space-around" style={{ gap: '10px' }} width="30%">
         <Button type="ghost" label="Button" shape="regular" />
-        <Button type="ghost" label="Button" s hape="rounded" />
-        <Button type="ghost" label="Button" shape="rounded" icon="HeartOutline" iconPlacement="left" />
-        <Button type="ghost" label="Button" shape="rounded" icon="HeartOutline" iconPlacement="right" />
+        <Button type="ghost" label="Button" s hape="round" />
+        <Button type="ghost" label="Button" shape="round" icon="HeartOutline" iconPlacement="left" />
+        <Button type="ghost" label="Button" shape="round" icon="HeartOutline" iconPlacement="right" />
     </Container>
 </Container>
 ```
@@ -320,37 +320,37 @@ const click = () => console.log('click');
   <Text>Main button is disabled</Text>
     <Container orientation="horizontal" mainAlignment="space-around" width="fill">
         <Container orientation="vertical" width="30%" style={{ gap: '10px' }}>
-            <Button shape="rounded" type="default" label="Button" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action') }} disabled />
-            <Button shape="rounded" type="default" label="Button" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action'), forceActive: true }} disabled />
-            <Button shape="rounded" type="default" label="Button" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action'), disabled: true }} disabled />
+            <Button shape="round" type="default" label="Button" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action') }} disabled />
+            <Button shape="round" type="default" label="Button" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action'), forceActive: true }} disabled />
+            <Button shape="round" type="default" label="Button" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action'), disabled: true }} disabled />
         </Container>
         <Container orientation="vertical" width="30%" style={{ gap: '10px' }}>
-            <Button shape="rounded" type="outlined" label="Button" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action') }} disabled />
-            <Button shape="rounded" type="outlined" label="Button" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action'), forceActive: true }} disabled />
-            <Button shape="rounded" type="outlined" label="Button" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action'), disabled: true }} disabled />
+            <Button shape="round" type="outlined" label="Button" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action') }} disabled />
+            <Button shape="round" type="outlined" label="Button" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action'), forceActive: true }} disabled />
+            <Button shape="round" type="outlined" label="Button" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action'), disabled: true }} disabled />
         </Container>
         <Container orientation="vertical" width="30%" style={{ gap: '10px' }}>
-            <Button shape="rounded" type="ghost" label="Button" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action') }} disabled />
-            <Button shape="rounded" type="ghost" label="Button" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action'), forceActive: true }} disabled />
-            <Button shape="rounded" type="ghost" label="Button" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action'), disabled: true }} disabled />
+            <Button shape="round" type="ghost" label="Button" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action') }} disabled />
+            <Button shape="round" type="ghost" label="Button" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action'), forceActive: true }} disabled />
+            <Button shape="round" type="ghost" label="Button" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action'), disabled: true }} disabled />
         </Container>
     </Container>
 	<Text>Main button is forceActive</Text>
 	<Container orientation="horizontal" mainAlignment="space-around" width="fill">
 		<Container orientation="vertical" width="30%" style={{ gap: '10px' }}>
-			<Button shape="rounded" type="default" label="Button" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action') }} forceActive />
-			<Button shape="rounded" type="default" label="Button" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action'), forceActive: true }} forceActive />
-			<Button shape="rounded" type="default" label="Button" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action'), disabled: true }} forceActive />
+			<Button shape="round" type="default" label="Button" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action') }} forceActive />
+			<Button shape="round" type="default" label="Button" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action'), forceActive: true }} forceActive />
+			<Button shape="round" type="default" label="Button" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action'), disabled: true }} forceActive />
 		</Container>
 		<Container orientation="vertical" width="30%" style={{ gap: '10px' }}>
-			<Button shape="rounded" type="outlined" label="Button" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action') }} forceActive />
-			<Button shape="rounded" type="outlined" label="Button" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action'), forceActive: true }} forceActive />
-			<Button shape="rounded" type="outlined" label="Button" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action'), disabled: true }} forceActive />
+			<Button shape="round" type="outlined" label="Button" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action') }} forceActive />
+			<Button shape="round" type="outlined" label="Button" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action'), forceActive: true }} forceActive />
+			<Button shape="round" type="outlined" label="Button" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action'), disabled: true }} forceActive />
 		</Container>
 		<Container orientation="vertical" width="30%" style={{ gap: '10px' }}>
-			<Button shape="rounded" type="ghost" label="Button" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action') }} forceActive />
-			<Button shape="rounded" type="ghost" label="Button" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action'), forceActive: true }} forceActive />
-			<Button shape="rounded" type="ghost" label="Button" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action'), disabled: true }} forceActive />
+			<Button shape="round" type="ghost" label="Button" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action') }} forceActive />
+			<Button shape="round" type="ghost" label="Button" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action'), forceActive: true }} forceActive />
+			<Button shape="round" type="ghost" label="Button" onClick={click} secondaryAction={{ icon: 'ChevronDown', onClick: () => console.log('secondary action'), disabled: true }} forceActive />
 		</Container>
 	</Container>
 </Container>
