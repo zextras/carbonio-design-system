@@ -23,12 +23,14 @@ const items = [
         id: "sub1",
         icon: "Activity",
         label: "Some Item",
+        keepOpen: true,
         click: () => console.log("click1")
       },
       {
         id: "sub2",
         icon: "Activity",
         label: "Some Item",
+				keepOpen: true,
         click: () => console.log("click1"),
       },
       {
@@ -63,6 +65,7 @@ const items = [
     id: "activity-4",
     icon: "Activity",
     label: "Some Item",
+    keepOpen: true,
     customComponent: (
       <Button label="click me!" onClick={() => console.log("click4")} />
     ),
