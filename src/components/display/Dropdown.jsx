@@ -5,7 +5,15 @@
  */
 
 /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
-import React, { useState, useRef, useEffect, useLayoutEffect, useCallback, useMemo } from 'react';
+import React, {
+	useState,
+	useRef,
+	useEffect,
+	useLayoutEffect,
+	useCallback,
+	useMemo,
+	useContext
+} from 'react';
 import { createPopper } from '@popperjs/core';
 import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
@@ -19,6 +27,7 @@ import { useKeyboard, getKeyboardPreset } from '../../hooks/useKeyboard';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { pseudoClasses } from '../utilities/functions';
 import { Theme } from '../../theme/theme';
+import { ThemeContext } from '../../theme/theme-context-provider';
 
 const ContainerEl = styled(Container)`
 	user-select: none;
@@ -235,6 +244,7 @@ const Dropdown = React.forwardRef(function DropdownFn(
 	},
 	ref
 ) {
+	const { windowObj } = useContext(ThemeContext);
 	const [open, setOpen] = useState(forceOpen);
 	const openRef = useRef(open);
 	const dropdownRef = useCombinedRefs(dropdownListRef);
@@ -380,19 +390,19 @@ const Dropdown = React.forwardRef(function DropdownFn(
 	useEffect(() => {
 		openRef.current = open;
 		open &&
-			setTimeout(() => window.top.document.addEventListener('click', clickOutsidePopper, true), 1);
+			setTimeout(() => windowObj.document.addEventListener('click', clickOutsidePopper, true), 1);
 		contextMenu &&
 			open &&
 			setTimeout(
-				() => window.top.document.addEventListener('contextmenu', clickOutsidePopper, true),
+				() => windowObj.document.addEventListener('contextmenu', clickOutsidePopper, true),
 				1
 			);
 
 		return () => {
-			window.top.document.removeEventListener('click', clickOutsidePopper, true);
-			window.top.document.removeEventListener('contextmenu', clickOutsidePopper, true);
+			windowObj.document.removeEventListener('click', clickOutsidePopper, true);
+			windowObj.document.removeEventListener('contextmenu', clickOutsidePopper, true);
 		};
-	}, [open, closePopper, clickOutsidePopper, contextMenu]);
+	}, [open, closePopper, clickOutsidePopper, contextMenu, windowObj.document]);
 
 	useEffect(() => {
 		if (open && !disableAutoFocus) {

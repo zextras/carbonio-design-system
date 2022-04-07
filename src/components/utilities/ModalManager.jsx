@@ -4,9 +4,10 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { useCallback, createContext, useReducer } from 'react';
+import React, { useCallback, createContext, useReducer, useContext } from 'react';
 import Modal from '../feedback/Modal';
 import CustomModal from '../feedback/CustomModal';
+import { ThemeContext } from '../../theme/theme-context-provider';
 
 const ModalManagerContext = createContext();
 
@@ -26,7 +27,7 @@ function modalsReducer(state, action) {
 
 function ModalManager({ children }) {
 	const [modals, dispatchModal] = useReducer(modalsReducer, []);
-
+	const { windowObj } = useContext(ThemeContext);
 	const createModal = useCallback(
 		(
 			{
@@ -54,10 +55,10 @@ function ModalManager({ children }) {
 			},
 			custom = false
 		) => {
-			const overflow = window.top.document.body.style.overflowY;
+			const overflow = windowObj.document.body.style.overflowY;
 			const handleClose = () => {
 				if (onClose) onClose();
-				if (overflow) window.top.document.body.style.overflowY = overflow;
+				if (overflow) windowObj.document.body.style.overflowY = overflow;
 			};
 
 			const handleConfirmClick = () => {
@@ -121,7 +122,7 @@ function ModalManager({ children }) {
 
 			return closeModal;
 		},
-		[dispatchModal]
+		[windowObj.document.body.style]
 	);
 
 	return (
