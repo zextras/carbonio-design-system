@@ -26,6 +26,8 @@ const items = [
     label: 'Accordion Label',
     divider: true,
     onClick: () => alert('root'),
+    onOpen: () => console.log('open'),
+    onClose: () => console.log('close'),
     items: [
       {
         id: '1',
