@@ -17,7 +17,7 @@ import React, {
 import { createPopper } from '@popperjs/core';
 import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
-import { reduce } from 'lodash';
+import { find, reduce } from 'lodash';
 import Padding from '../layout/Padding';
 import Icon from '../basic/Icon';
 import Text from '../basic/Text';
@@ -329,10 +329,9 @@ const Dropdown = React.forwardRef(function DropdownFn(
 				e.target !== dropdownRef.current &&
 				!dropdownRef.current.contains(e.target) &&
 				// check if the attribute is in the event path
-				!reduce(
-					e.path,
-					(acc, el) => acc || (el.hasAttribute && el.hasAttribute('data-keep-open')),
-					false
+				!find(
+					e.path ?? e.composedPath?.() ?? [],
+					(el) => el.hasAttribute && el.hasAttribute('data-keep-open')
 				)
 			) {
 				closePopper();
