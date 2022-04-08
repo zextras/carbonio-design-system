@@ -136,7 +136,7 @@ function NestListItem({
 	click,
 	selected,
 	open,
-	customComponent: CustomComponent,
+	customComponent,
 	disabled,
 	items,
 	selectedBackgroundColor,
@@ -177,9 +177,7 @@ function NestListItem({
 				itemPaddingBetween={itemPaddingBetween}
 			>
 				<Container orientation="horizontal" mainAlignment="space-between">
-					{CustomComponent ? (
-						<CustomComponent items={{ ...rest }} />
-					) : (
+					{customComponent || (
 						<ListItemContent
 							icon={icon}
 							label={label}
