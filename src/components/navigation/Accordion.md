@@ -28,29 +28,23 @@ const items = [
 		id: 'Root Accordion',
 		icon: 'PersonOutline',
 		label: 'Accordion Label',
-		divider: true,
 		onClick: () => alert('root'),
-		onOpen: () => console.log('open'),
-		onClose: () => console.log('close'),
-		items: [
-			{
-				id: '1',
-				label: 'One Accordion',
-				divider: true,
-				onClick: () => alert(1)
-			},
-			{
-				id: '2',
-				divider: true,
-				label: 'Two Accordion',
-				onClick: () => alert(2),
-				items: [
-					{
-						id: '3',
-						label: 'Nested Accordion',
-						divider: true,
-						onClick: () => alert(3)
-					}
+    onOpen: () => console.log('open'),
+		onClose: () => console.log('close'),items: [
+      {
+        id: '1',
+        label: 'One Accordion',
+        onClick: () => alert(1)
+      },
+      {
+        id: '2',
+        label: 'Two Accordion',
+        onClick: () => alert(2),
+        items:[{
+            id: '3',
+            label: 'Nested Accordion',
+            onClick: () => alert(3)
+          }
 				]
 			}
 		]
