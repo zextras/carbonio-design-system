@@ -232,9 +232,10 @@ const DividerEl = styled(Divider)`
 	}
 `;
 
-const CustomText = styled(Text)<{ $backgroundColor?: string }>`
+const CustomText = styled(Text)<{ $backgroundColor?: string; size: string }>`
 	line-height: 1.5;
 	padding-top: 4px;
+	min-height: calc(${({ theme, size }): string => theme.sizes.font[size]} * 1.5);
 	background-color: ${({ $backgroundColor, theme }): string | undefined =>
 		$backgroundColor && getColor($backgroundColor, theme)};
 `;
@@ -766,17 +767,15 @@ const ChipInput: ChipInput = React.forwardRef<HTMLDivElement, ChipInputProps>(fu
 					bottomBorderColor
 				}
 			/>
-			{((hasError && errorLabel) || description) && (
-				<CustomText
-					size="extrasmall"
-					color={(hasError && 'error') || (hasFocus && 'primary') || 'secondary'}
-					disabled={disabled && dropdownDisabled && (!iconAction || iconDisabled)}
-					overflow="break-word"
-					$backgroundColor={errorBackgroundColor}
-				>
-					{(hasError && errorLabel) || description}
-				</CustomText>
-			)}
+			<CustomText
+				size="extrasmall"
+				color={(hasError && 'error') || (hasFocus && 'primary') || 'secondary'}
+				disabled={disabled && dropdownDisabled && (!iconAction || iconDisabled)}
+				overflow="break-word"
+				$backgroundColor={errorBackgroundColor}
+			>
+				{(hasError && errorLabel) || description}
+			</CustomText>
 		</Container>
 	);
 });
