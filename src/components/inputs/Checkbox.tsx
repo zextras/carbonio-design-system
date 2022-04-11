@@ -117,7 +117,7 @@ const Checkbox = React.forwardRef<HTMLDivElement, CheckboxProps>(function Checkb
 			height="fit"
 			padding={padding || undefined}
 			style={{ cursor: disabled ? 'default' : 'pointer' }}
-			crossAlignment="center"
+			crossAlignment="flex-start"
 			{...rest}
 		>
 			<IconWrapper iconColor={iconColor} disabled={disabled} tabIndex={disabled ? -1 : 0}>
