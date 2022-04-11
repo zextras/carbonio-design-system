@@ -95,32 +95,22 @@ const initialValue = (value, multiple) => (value ? (multiple ? value : [value]) 
 
 function selectedReducer(state, action) {
 	if (!action.multiple) {
-		action.onChange(action.item ? action.item.value : null);
 		return action.item ? [action.item] : [];
 	}
 	switch (action.type) {
 		case 'push': {
-			const newState = [...state, { ...action.item }];
-			action.onChange(newState);
-			return newState;
+			return [...state, { ...action.item }];
 		}
 		case 'remove': {
-			const newState = state.filter((obj) => obj.value !== action.item.value);
-			action.onChange(newState);
-			return newState;
+			return state.filter((obj) => obj.value !== action.item.value);
 		}
 		case 'selectAll': {
-			const newState = [...action.items];
-			action.onChange(newState);
-			return newState;
+			return [...action.items];
 		}
 		case 'reset': {
-			const newState = [];
-			action.onChange(newState);
-			return newState;
+			return [];
 		}
 		case 'set': {
-			action.onChange(action.item);
 			return action.item;
 		}
 		default:
@@ -160,12 +150,15 @@ const Select = React.forwardRef(function SelectFn(
 		if (selection) {
 			dispatchSelected({
 				multiple,
-				onChange,
 				item: selection,
 				type: 'set'
 			});
 		}
-	}, [multiple, onChange, selection]);
+	}, [multiple, selection]);
+
+	useEffect(() => {
+		onChange?.(multiple ? selected : selected[0]?.value ?? null);
+	}, [selected, onChange, multiple]);
 
 	const mappedItems = useMemo(
 		() =>
@@ -180,8 +173,7 @@ const Select = React.forwardRef(function SelectFn(
 							dispatchSelected({
 								type: 'remove',
 								item,
-								multiple,
-								onChange
+								multiple
 							});
 						} else if (
 							(!multiple && (isEmpty(selected) || item.value !== selected[0].value)) ||
@@ -190,8 +182,7 @@ const Select = React.forwardRef(function SelectFn(
 							dispatchSelected({
 								type: 'push',
 								item,
-								multiple,
-								onChange
+								multiple
 							});
 						}
 					},
@@ -200,7 +191,7 @@ const Select = React.forwardRef(function SelectFn(
 					customComponent: item.customComponent
 				};
 			}),
-		[items, selected, multiple, onChange, showCheckbox]
+		[items, selected, multiple, showCheckbox]
 	);
 
 	const onOpen = useCallback(() => setOpen(true), []);
@@ -220,15 +211,14 @@ const Select = React.forwardRef(function SelectFn(
 					dispatchSelected({
 						type: isSelected ? 'reset' : 'selectAll',
 						items,
-						multiple,
-						onChange
+						multiple
 					});
 				},
 				selected: isSelected
 			},
 			...mappedItems
 		];
-	}, [multiple, selected.length, items, i18nAllLabel, mappedItems, onChange, showCheckbox]);
+	}, [multiple, selected.length, items, i18nAllLabel, mappedItems, showCheckbox]);
 
 	return (
 		<Dropdown
