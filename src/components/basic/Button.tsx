@@ -247,7 +247,7 @@ const SIZES: Record<ButtonSize, { label: string; icon: string; padding: string; 
 		gap: '8px',
 		secondaryButton: {
 			icon: '16px',
-			padding: '4px'
+			padding: '0px'
 		}
 	},
 	large: {
@@ -257,7 +257,7 @@ const SIZES: Record<ButtonSize, { label: string; icon: string; padding: string; 
 		gap: '8px',
 		secondaryButton: {
 			icon: '20px',
-			padding: '4px'
+			padding: '0px'
 		}
 	},
 	extralarge: {
@@ -267,7 +267,7 @@ const SIZES: Record<ButtonSize, { label: string; icon: string; padding: string; 
 		gap: '8px',
 		secondaryButton: {
 			icon: '20px',
-			padding: '8px'
+			padding: '0px'
 		}
 	}
 } as const;
