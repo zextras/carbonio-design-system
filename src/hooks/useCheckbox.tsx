@@ -4,15 +4,32 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import { useEffect, useState, useMemo, useCallback } from 'react';
+import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import { getKeyboardPreset, useKeyboard } from './useKeyboard';
 
-function useCheckbox({ ref, value, defaultChecked, disabled, onClick, onChange }) {
-	const [checked, setChecked] = useState(value || defaultChecked || false);
+type UseCheckboxArgs = {
+	ref: React.RefObject<HTMLElement>;
+	value?: boolean;
+	defaultChecked?: boolean;
+	disabled?: boolean;
+	onClick?: (event: Event) => void;
+	onChange?: (newValue: boolean) => void;
+};
 
-	const uncontrolledMode = useMemo(() => typeof value === 'undefined', [value]);
+function useCheckbox({
+	ref,
+	value,
+	defaultChecked,
+	disabled,
+	onClick,
+	onChange
+}: UseCheckboxArgs): boolean {
+	const [checked, setChecked] = useState<boolean>(value || defaultChecked || false);
+
+	const uncontrolledMode = useMemo(() => value === undefined, [value]);
+
 	const handleClick = useCallback(
-		(ev) => {
+		(ev: Event) => {
 			if (!disabled) {
 				if (uncontrolledMode) {
 					setChecked((check) => !check);
@@ -29,7 +46,7 @@ function useCheckbox({ ref, value, defaultChecked, disabled, onClick, onChange }
 	useKeyboard(ref, keyEvents);
 
 	useEffect(() => {
-		typeof value !== 'undefined' && setChecked(value);
+		value !== undefined && setChecked(value);
 	}, [value]);
 
 	useEffect(() => {
@@ -37,8 +54,8 @@ function useCheckbox({ ref, value, defaultChecked, disabled, onClick, onChange }
 	}, [onChange, checked]);
 
 	useEffect(() => {
-		ref.current && ref.current.addEventListener('click', handleClick);
 		const refSave = ref.current;
+		refSave && refSave.addEventListener('click', handleClick);
 		return () => {
 			refSave && refSave.removeEventListener('click', handleClick);
 		};
