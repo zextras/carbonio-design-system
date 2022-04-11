@@ -7,43 +7,49 @@ SPDX-License-Identifier: AGPL-3.0-only
 The input component works like a standard html input, and can be either [controlled](https://reactjs.org/docs/forms.html#controlled-components) or [uncontrolled](https://reactjs.org/docs/uncontrolled-components.html).
 ```jsx
 import { useState } from 'react';
-import { Container, Padding, Text, PasswordInput, Icon, Button } from '@zextras/carbonio-design-system';
+import { Container, Icon } from '@zextras/carbonio-design-system';
+import styled from 'styled-components';
 
 const [value, setValue] = useState('Some Controlled value');
 const [value2, setValue2] = useState('');
 
-<Container orientation="horizontal" mainAlignment="center" background="gray5" height="fill" width="fill">
-    <Container orientation="vertical" mainAlignment="space-around" height="300px" width="50%">
-        <Input autoComplete="on" autoFocus label="Input" defaultValue="Default Value" />
-        <Input
-            label="Some other Input"
-            value={value}
-            onChange={
-                (ev) => {
-                    setValue(ev.target.value)
-                }
+const StyledContainer = styled(Container)`
+  & > * {
+    width: 48%;
+  }
+`;
+
+<StyledContainer orientation="horizontal" mainAlignment="space-around" wrap="wrap" style={{ margin: 'auto' }}>
+    <Input autoComplete="on" autoFocus label="Input" defaultValue="Default Value" />
+    <Input
+        label="Some other Input"
+        value={value}
+        onChange={
+            (ev) => {
+                setValue(ev.target.value)
             }
-            backgroundColor="gray6"
-        />
-        <Input 
-            label="Input with custom icon"
-            CustomIcon={({ hasFocus }) => <Icon icon="AgendaOutline" size="large" color={hasFocus ? 'primary' : 'text'} />}
-        />
-        <Input
-            label="Input with onEnter"
-            value={value2}
-            onChange={
-                (ev) => {
-                    console.log('onChange', ev.target.value)
-                    setValue2(ev.target.value)
-                }
+        }
+        backgroundColor="gray6"
+    />
+    <Input 
+        label="Input with custom icon"
+        CustomIcon={({ hasFocus }) => <Icon icon="AgendaOutline" size="large" color={hasFocus ? 'primary' : 'text'} />}
+    />
+    <Input
+        label="Input with onEnter"
+        value={value2}
+        onChange={
+            (ev) => {
+                console.log('onChange', ev.target.value)
+                setValue2(ev.target.value)
             }
-            onEnter={(e) => { console.log('onEnter called with text', e.target.value) }}
-            backgroundColor="gray6"
-        />
-        <Input />
-    </Container>
-</Container>
+        }
+        onEnter={(e) => { console.log('onEnter called with text', e.target.value) }}
+        backgroundColor="gray6"
+    />
+    <Input />
+    <Input description="empty with description" />
+</StyledContainer>
 ```
 
 #### Colors
