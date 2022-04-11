@@ -65,7 +65,7 @@ interface SwitchProps {
 	/** whether to disable the Switch or not */
 	disabled?: boolean;
 	/** click callback */
-	onClick?: React.ReactEventHandler;
+	onClick?: (event: Event) => void;
 	/** change callback */
 	onChange?: (checked: boolean) => void;
 	/** available sizes */
