@@ -10,7 +10,7 @@ import styled, { css, SimpleInterpolation } from 'styled-components';
 import type { ThemeObj } from '../../theme/theme';
 import { Tooltip } from './Tooltip';
 import { Icon } from '../basic/Icon';
-import { IconButton } from '../inputs/IconButton';
+import { IconButton, IconButtonProps } from '../inputs/IconButton';
 import { Avatar } from '../basic/Avatar';
 import { Row } from '../layout/Row';
 import { Text } from '../basic/Text';
@@ -34,7 +34,7 @@ type ChipAction = {
 			/** Chip action type */
 			type: 'button';
 			/** Chip action click callback (button type only). NB: onClick event IS propagated. It's up to the dev to eventually stop the propagation */
-			onClick: React.ReactEventHandler;
+			onClick: IconButtonProps['onClick'];
 			/** Chip action background (button type only) */
 			background?: keyof ThemeObj['palette'];
 	  }
@@ -82,7 +82,7 @@ interface ChipProps {
 	onClick?: React.ReactEventHandler;
 	/** Callback to call when user tries to remove the Chip. If not provided, the close icon is hidden.
 	 * Be aware that the close action can be also provided with the actions prop  */
-	onClose?: React.ReactEventHandler;
+	onClose?: IconButtonProps['onClick'];
 	/** Chip double-click callback */
 	onDoubleClick?: React.ReactEventHandler;
 	/** Chip size */
@@ -272,7 +272,7 @@ const Chip = React.forwardRef<HTMLDivElement, ChipProps>(function ChipFn(
 						</Tooltip>
 					);
 				} else if (action.type === 'button') {
-					const clickHandler: React.ReactEventHandler = (event): void => {
+					const clickHandler: IconButtonProps['onClick'] = (event) => {
 						event.preventDefault();
 						action.onClick(event);
 					};

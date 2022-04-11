@@ -918,7 +918,7 @@ const DateTimePicker: React.VFC<
 
 	const InputComponent = React.forwardRef<
 		HTMLDivElement,
-		{ value?: string; onClick?: React.ReactEventHandler }
+		{ value?: string; onClick?: (e: KeyboardEvent | React.SyntheticEvent) => void }
 	>(function InputComponentFn({ value, onClick = (): void => undefined }, ref) {
 		const InputIcons = useCallback(
 			() => (

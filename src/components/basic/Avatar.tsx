@@ -130,7 +130,14 @@ const Avatar = React.forwardRef<HTMLDivElement, AvatarPropTypes>(function Avatar
 	const symbol = useMemo(() => {
 		if (selecting) {
 			if (selected) {
-				return <Icon size={size} icon="Checkmark" color="gray6" disabled={disabled} />;
+				return (
+					<Icon
+						size={size === 'extralarge' ? 'large' : size}
+						icon="Checkmark"
+						color="gray6"
+						disabled={disabled}
+					/>
+				);
 			}
 			return null;
 		}
