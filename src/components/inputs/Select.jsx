@@ -35,6 +35,15 @@ const ContainerEl = styled(Container)`
 			background: ${props.theme.palette[props.background].focus};
 		`}
 `;
+const TabContainer = styled(Container)`
+	position: relative;
+	cursor: pointer;
+
+	&:focus {
+		outline: none;
+	}
+`;
+
 const DefaultLabelFactory = ({ selected, label, open, focus, background, disabled }) => (
 	<>
 		<ContainerEl
@@ -82,14 +91,7 @@ const DefaultLabelFactory = ({ selected, label, open, focus, background, disable
 	</>
 );
 
-const TabContainer = styled(Container)`
-	position: relative;
-	cursor: pointer;
-
-	&:focus {
-		outline: none;
-	}
-`;
+const initialValue = (value, multiple) => (value ? (multiple ? value : [value]) : []);
 
 function selectedReducer(state, action) {
 	if (!action.multiple) {
@@ -149,8 +151,7 @@ const Select = React.forwardRef(function SelectFn(
 ) {
 	const [selected, dispatchSelected] = useReducer(
 		selectedReducer,
-		// eslint-disable-next-line no-nested-ternary
-		defaultSelection ? (multiple ? defaultSelection : [defaultSelection]) : []
+		initialValue(defaultSelection ?? selection, multiple)
 	);
 	const [open, setOpen] = useState(false);
 	const [focus, setFocus] = useState(false);
