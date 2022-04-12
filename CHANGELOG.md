@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.1](https://github.com/Zextras/carbonio-design-system/compare/v0.2.0...v0.2.1) (2022-04-12)
+
+
+### Bug Fixes
+
+* select value loop ([6527738](https://github.com/Zextras/carbonio-design-system/commit/6527738ddd35ba515c4320c82fef5caf95c99c5a))
+
 ## [0.2.0](https://github.com/Zextras/carbonio-design-system/compare/v0.1.5...v0.2.0) (2022-04-12)
 
 
