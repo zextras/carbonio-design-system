@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.2.0](https://github.com/Zextras/carbonio-design-system/compare/v0.1.5...v0.2.0) (2022-04-12)
+
+
+### ⚠ BREAKING CHANGES
+
+* `window` is used as default reference for events and portals instead of window.top
+
+### Features
+
+* added windowObj key to the theme ([#29](https://github.com/Zextras/carbonio-design-system/issues/29)) ([e923bd0](https://github.com/Zextras/carbonio-design-system/commit/e923bd0c02df276bd33774f872e101be507fa7cf))
+
 ### 0.1.5 (2022-03-18)
 
 
