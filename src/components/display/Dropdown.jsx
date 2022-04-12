@@ -5,10 +5,19 @@
  */
 
 /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
-import React, { useState, useRef, useEffect, useLayoutEffect, useCallback, useMemo } from 'react';
+import React, {
+	useState,
+	useRef,
+	useEffect,
+	useLayoutEffect,
+	useCallback,
+	useMemo,
+	useContext
+} from 'react';
 import { createPopper } from '@popperjs/core';
 import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
+import { find, reduce } from 'lodash';
 import Padding from '../layout/Padding';
 import Icon from '../basic/Icon';
 import Text from '../basic/Text';
@@ -19,6 +28,7 @@ import { useKeyboard, getKeyboardPreset } from '../../hooks/useKeyboard';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { pseudoClasses } from '../utilities/functions';
 import { Theme } from '../../theme/theme';
+import { ThemeContext } from '../../theme/theme-context-provider';
 
 const ContainerEl = styled(Container)`
 	user-select: none;
@@ -70,6 +80,7 @@ function PopperListItem({
 	selectedBackgroundColor,
 	itemIconSize,
 	itemTextSize,
+	keepOpen,
 	itemPaddingBetween,
 	...rest
 }) {
@@ -77,16 +88,27 @@ function PopperListItem({
 
 	const keyEvents = useMemo(() => getKeyboardPreset('listItem', click), [click]);
 	useKeyboard(itemRef, keyEvents);
-
+	const onClick = useCallback(
+		(e) => {
+			if (keepOpen) {
+				e.stopPropagation();
+			}
+			if (!disabled) {
+				click(e);
+			}
+		},
+		[click, disabled, keepOpen]
+	);
 	return (
 		<ContainerEl
 			ref={itemRef}
+			data-keep-open={keepOpen}
 			className={selected ? 'zapp-selected' : ''}
 			orientation="horizontal"
 			mainAlignment="flex-start"
 			padding={{ vertical: 'small', horizontal: 'large' }}
 			style={{ cursor: click && !disabled ? 'pointer' : 'default' }}
-			onClick={disabled ? null : click}
+			onClick={onClick}
 			tabIndex={disabled ? null : 0}
 			disabled={disabled}
 			selectedBackgroundColor={selected ? selectedBackgroundColor : undefined}
@@ -121,6 +143,7 @@ function NestListItem({
 	itemIconSize,
 	itemTextSize,
 	itemPaddingBetween,
+	keepOpen,
 	...rest
 }) {
 	const itemRef = useRef(undefined);
@@ -129,6 +152,7 @@ function NestListItem({
 	useKeyboard(itemRef, keyEvents);
 	return (
 		<ContainerEl
+			data-keep-open={keepOpen}
 			ref={itemRef}
 			className={selected ? 'zapp-selected' : ''}
 			orientation="horizontal"
@@ -162,6 +186,7 @@ function NestListItem({
 							itemIconSize={itemIconSize}
 							itemTextSize={itemTextSize}
 							itemPaddingBetween={itemPaddingBetween}
+							click={click}
 						/>
 					)}
 					<Icon size={itemIconSize} icon="ChevronRight" style={{ alignSelf: 'flex-end' }} />
@@ -235,6 +260,7 @@ const Dropdown = React.forwardRef(function DropdownFn(
 	},
 	ref
 ) {
+	const { windowObj } = useContext(ThemeContext);
 	const [open, setOpen] = useState(forceOpen);
 	const openRef = useRef(open);
 	const dropdownRef = useCombinedRefs(dropdownListRef);
@@ -298,10 +324,18 @@ const Dropdown = React.forwardRef(function DropdownFn(
 
 	const clickOutsidePopper = useCallback(
 		(e) => {
-			dropdownRef.current &&
+			if (
+				dropdownRef.current &&
 				e.target !== dropdownRef.current &&
 				!dropdownRef.current.contains(e.target) &&
+				// check if the attribute is in the event path
+				!find(
+					e.path ?? e.composedPath?.() ?? [],
+					(el) => el.hasAttribute && el.hasAttribute('data-keep-open')
+				)
+			) {
 				closePopper();
+			}
 		},
 		[closePopper, dropdownRef]
 	);
@@ -380,19 +414,19 @@ const Dropdown = React.forwardRef(function DropdownFn(
 	useEffect(() => {
 		openRef.current = open;
 		open &&
-			setTimeout(() => window.top.document.addEventListener('click', clickOutsidePopper, true), 1);
+			setTimeout(() => windowObj.document.addEventListener('click', clickOutsidePopper, true), 1);
 		contextMenu &&
 			open &&
 			setTimeout(
-				() => window.top.document.addEventListener('contextmenu', clickOutsidePopper, true),
+				() => windowObj.document.addEventListener('contextmenu', clickOutsidePopper, true),
 				1
 			);
 
 		return () => {
-			window.top.document.removeEventListener('click', clickOutsidePopper, true);
-			window.top.document.removeEventListener('contextmenu', clickOutsidePopper, true);
+			windowObj.document.removeEventListener('click', clickOutsidePopper, true);
+			windowObj.document.removeEventListener('contextmenu', clickOutsidePopper, true);
 		};
-	}, [open, closePopper, clickOutsidePopper, contextMenu]);
+	}, [open, closePopper, clickOutsidePopper, contextMenu, windowObj.document]);
 
 	useEffect(() => {
 		if (open && !disableAutoFocus) {
@@ -433,6 +467,7 @@ const Dropdown = React.forwardRef(function DropdownFn(
 						items: subItems,
 						disabled: itemDisabled,
 						type,
+						keepOpen,
 						...itemProps
 					},
 					index
@@ -446,8 +481,9 @@ const Dropdown = React.forwardRef(function DropdownFn(
 							label={label}
 							click={(e) => {
 								click && click(e);
-								!multiple && closePopper();
+								!multiple && !keepOpen && closePopper();
 							}}
+							keepOpen={keepOpen}
 							selected={selected}
 							open={currentHover === id}
 							key={id}
@@ -469,8 +505,9 @@ const Dropdown = React.forwardRef(function DropdownFn(
 							label={label}
 							click={(e) => {
 								click && click(e);
-								!multiple && closePopper();
+								!multiple && !keepOpen && closePopper();
 							}}
+							keepOpen={keepOpen}
 							selected={selected}
 							key={id}
 							customComponent={customComponent}
@@ -566,7 +603,8 @@ Dropdown.propTypes = {
 			click: PropTypes.func,
 			selected: PropTypes.bool,
 			customComponent: PropTypes.node,
-			disabled: PropTypes.bool
+			disabled: PropTypes.bool,
+			keepOpen: PropTypes.bool
 		})
 	).isRequired,
 	/** Css display property */

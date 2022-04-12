@@ -86,9 +86,12 @@ const AccordionRoot = React.forwardRef(function AccordionRootFn(
 	const expandOnIconClick = useCallback(
 		(e) => {
 			e.stopPropagation();
-			setOpen((op) => !op);
+			setOpen((op) => {
+				op ? item.onClose && item.onClose(e) : item.onOpen && item.onOpen(e);
+				return !op;
+			});
 		},
-		[setOpen]
+		[item]
 	);
 	const keyEvents = useMemo(() => getKeyboardPreset('button', handleClick), [handleClick]);
 	useKeyboard(accordionRef, keyEvents);
@@ -187,6 +190,8 @@ Accordion.propTypes = {
 			badgeType: PropTypes.oneOf(['read', 'unread']),
 			badgeCounter: PropTypes.number,
 			open: PropTypes.bool,
+			onOpen: PropTypes.func,
+			onClose: PropTypes.func,
 			background: Container.propTypes.background,
 			disableHover: PropTypes.bool
 		})

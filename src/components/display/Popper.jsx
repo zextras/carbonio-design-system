@@ -5,13 +5,14 @@
  */
 
 /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
-import React, { useLayoutEffect, useEffect, useRef, useCallback, useMemo } from 'react';
+import React, { useLayoutEffect, useEffect, useRef, useCallback, useMemo, useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 import { createPopper } from '@popperjs/core';
 import Portal from '../utilities/Portal';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { useKeyboard } from '../../hooks/useKeyboard';
+import { ThemeContext } from '../../theme/theme-context-provider';
 
 function getAnchorEl(anchorEl) {
 	return typeof anchorEl === 'function' ? anchorEl() : anchorEl.current;
@@ -43,6 +44,7 @@ const Popper = React.forwardRef(function PopperFn(
 	},
 	ref
 ) {
+	const { windowObj } = useContext(ThemeContext);
 	const innerRef = useRef(undefined);
 	const popperRef = useCombinedRefs(ref, innerRef);
 	const wrapperRef = useRef(undefined);
@@ -131,11 +133,11 @@ const Popper = React.forwardRef(function PopperFn(
 
 	useEffect(() => {
 		if (open) {
-			setTimeout(() => window.top.document.addEventListener('click', closePopper), 1);
-			return () => window.top.document.removeEventListener('click', closePopper);
+			setTimeout(() => windowObj.document.addEventListener('click', closePopper), 1);
+			return () => windowObj.document.removeEventListener('click', closePopper);
 		}
 		return () => undefined;
-	}, [open, closePopper]);
+	}, [open, closePopper, windowObj.document]);
 
 	useEffect(() => {
 		if (open) {
