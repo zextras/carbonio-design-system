@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.2](https://github.com/Zextras/carbonio-design-system/compare/v0.2.1...v0.2.2) (2022-04-12)
+
+
+### Bug Fixes
+
+* custom modal crash on opening ([658516a](https://github.com/Zextras/carbonio-design-system/commit/658516aab7ba09c3265d863db0f638eccb015772))
+
 ### [0.2.1](https://github.com/Zextras/carbonio-design-system/compare/v0.2.0...v0.2.1) (2022-04-12)
 
 
