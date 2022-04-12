@@ -68,7 +68,7 @@ const CustomModal = React.forwardRef(function ModalFn(
 			const defaultPaddingRight = windowObj.document.body.style.paddingRight;
 
 			windowObj.document.body.style.overflowY = 'hidden';
-			isBodyOverflowing(modalRef) &&
+			isBodyOverflowing(modalRef, windowObj) &&
 				(windowObj.document.body.style.paddingRight = `${getScrollbarSize()}px`);
 
 			return () => {
@@ -77,7 +77,7 @@ const CustomModal = React.forwardRef(function ModalFn(
 			};
 		}
 		return () => undefined;
-	}, [modalRef, open, windowObj.document.body.style]);
+	}, [modalRef, open, windowObj]);
 
 	useEffect(() => {
 		const focusedElement = windowObj.document.activeElement;
