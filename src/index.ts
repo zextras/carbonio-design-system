@@ -36,7 +36,7 @@ export { default as PasswordInput } from './components/inputs/PasswordInput';
 export { default as Radio } from './components/inputs/Radio';
 export { default as RadioGroup } from './components/inputs/RadioGroup';
 export { default as SearchInput } from './components/inputs/SearchInput';
-export { default as Select } from './components/inputs/Select';
+export { Select } from './components/inputs/Select';
 export { default as Switch } from './components/inputs/Switch';
 export { default as DateTimePicker } from './components/inputs/DateTimePicker';
 // export { default as RichTextEditor } from './components/inputs/RichTextEditor';

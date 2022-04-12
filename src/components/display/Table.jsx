@@ -12,7 +12,7 @@ import styled, { css } from 'styled-components';
 import Checkbox from '../inputs/Checkbox';
 import Container from '../layout/Container';
 import Icon from '../basic/Icon';
-import Select from '../inputs/Select';
+import { Select } from '../inputs/Select';
 import Text from '../basic/Text';
 import Row from '../layout/Row';
 
@@ -422,7 +422,9 @@ Table.propTypes = {
 			/** Select 'All' label translation */
 			i18nAllLabel: PropTypes.string,
 			/** Select.propTypes.items */
-			items: Select.propTypes.items,
+			items: PropTypes.arrayOf(
+				PropTypes.shape({ label: PropTypes.string, value: PropTypes.string })
+			),
 			/** Whether or not label should be bold */
 			bold: PropTypes.bool,
 			/** De/Select all rows callback */
