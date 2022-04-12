@@ -261,11 +261,12 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps>(function SelectFn(
 				});
 			}
 		}
-	}, [multiple, onChange, selection]);
+	}, [multiple, selection]);
 
 	useEffect(() => {
 		onChange?.(multiple ? selected : selected[0]?.value ?? null);
-	}, [selected, onChange, multiple]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [selected, multiple]);
 
 	const clickItemHandler = useCallback(
 		(item: SelectItem, isSelected: boolean) => (): void => {
