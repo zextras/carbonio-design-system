@@ -22,7 +22,7 @@ const plugins = [
 			'babel-plugin-styled-components',
 			['@quickbaseoss/babel-plugin-styled-components-css-namespace', { cssNamespace: '&&&' }]
 		],
-    extensions: ['.js', '.jsx', '.ts', '.tsx'],
+		extensions: ['.js', '.jsx', '.ts', '.tsx'],
 		ignore: ['node_modules']
 	})
 ];
@@ -40,20 +40,6 @@ export default [
 			...plugins,
 			copy({
 				targets: [{ src: 'src/fonts/*', dest: 'dist/fonts' }]
-			})
-		],
-		external
-	},
-	{
-		input: 'src/components/inputs/RichTextEditor.jsx',
-		output: {
-			file: 'dist/zapp-ui.rich-text-editor.js',
-			format: 'cjs'
-		},
-		plugins: [
-			...plugins,
-			copy({
-				targets: [{ src: 'src/tinymce/skins', dest: 'dist/tinymce' }]
 			})
 		],
 		external
