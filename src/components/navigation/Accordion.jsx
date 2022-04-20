@@ -24,8 +24,8 @@ import { pseudoClasses } from '../utilities/functions';
 
 const AccordionContainerEl = styled(Container)`
 	padding-left: ${({ theme, level }) => css`calc(${level} * ${theme.sizes.padding.large})`};
-	background-color: ${({ theme, background, item }) =>
-		theme.palette[item.active ? 'highlight' : background].regular};
+	background-color: ${({ theme, background, item, active }) =>
+		theme.palette[active ? 'highlight' : background].regular};
 	${({ theme, background, item }) =>
 		!item.disableHover && pseudoClasses(theme, item.active ? 'highlight' : background)};
 `;
@@ -66,7 +66,7 @@ const AccordionItem = React.forwardRef(function AccordionItemFn({ item, children
 });
 
 const AccordionRoot = React.forwardRef(function AccordionRootFn(
-	{ level, item, background, ...rest },
+	{ level, item, background, activeId, ...rest },
 	ref
 ) {
 	const [open, setOpen] = useState(!!item.open);
@@ -100,6 +100,7 @@ const AccordionRoot = React.forwardRef(function AccordionRootFn(
 			<Container orientation="vertical" width="fill" height="fit" ref={ref} {...rest}>
 				{item.divider && <Divider color="gray2" />}
 				<AccordionContainerEl
+					active={item.active || activeId === item.id}
 					item={item}
 					background={item.background || background}
 					ref={ref}
@@ -137,6 +138,7 @@ const AccordionRoot = React.forwardRef(function AccordionRootFn(
 						maxSize={`${item.items.length * 64}px`}
 					>
 						<Accordion
+							activeId={activeId}
 							items={item.items}
 							level={item.level !== undefined ? item.level : level + 1}
 							background={background}
@@ -149,7 +151,7 @@ const AccordionRoot = React.forwardRef(function AccordionRootFn(
 });
 
 const Accordion = React.forwardRef(function AccordionFn(
-	{ items, level, background, ...rest },
+	{ items, level, background, activeId, ...rest },
 	ref
 ) {
 	return (
@@ -168,6 +170,7 @@ const Accordion = React.forwardRef(function AccordionFn(
 					level={level}
 					item={item}
 					background={background}
+					activeId={activeId}
 				/>
 			))}
 		</Container>
@@ -175,6 +178,8 @@ const Accordion = React.forwardRef(function AccordionFn(
 });
 
 Accordion.propTypes = {
+	/** id of the currently active item (alternative to the active item flag) */
+	activeId: PropTypes.string,
 	/** Items tree object, can be nested (each property is forwarded to the item component as a prop) */
 	items: PropTypes.arrayOf(
 		PropTypes.shape({
