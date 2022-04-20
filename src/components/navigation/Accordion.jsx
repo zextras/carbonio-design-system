@@ -66,7 +66,7 @@ const AccordionItem = React.forwardRef(function AccordionItemFn({ item, children
 });
 
 const AccordionRoot = React.forwardRef(function AccordionRootFn(
-	{ level, item, background, activeId, ...rest },
+	{ level, item, background, activeId, openIds, ...rest },
 	ref
 ) {
 	const [open, setOpen] = useState(!!item.open);
@@ -74,8 +74,9 @@ const AccordionRoot = React.forwardRef(function AccordionRootFn(
 	const accordionRef = useCombinedRefs(ref, innerRef);
 
 	useEffect(() => {
-		setOpen(!!item.open);
-	}, [item.open]);
+		setOpen(() => !!item.open || !!openIds?.includes(item.id));
+	}, [item.id, item.open, openIds]);
+
 	const handleClick = useCallback(
 		(e) => {
 			setOpen(true);
@@ -139,6 +140,7 @@ const AccordionRoot = React.forwardRef(function AccordionRootFn(
 					>
 						<Accordion
 							activeId={activeId}
+							openIds={openIds}
 							items={item.items}
 							level={item.level !== undefined ? item.level : level + 1}
 							background={background}
@@ -151,7 +153,7 @@ const AccordionRoot = React.forwardRef(function AccordionRootFn(
 });
 
 const Accordion = React.forwardRef(function AccordionFn(
-	{ items, level, background, activeId, ...rest },
+	{ items, level, background, activeId, openIds, ...rest },
 	ref
 ) {
 	return (
@@ -171,6 +173,7 @@ const Accordion = React.forwardRef(function AccordionFn(
 					item={item}
 					background={background}
 					activeId={activeId}
+					openIds={openIds}
 				/>
 			))}
 		</Container>
@@ -180,6 +183,8 @@ const Accordion = React.forwardRef(function AccordionFn(
 Accordion.propTypes = {
 	/** id of the currently active item (alternative to the active item flag) */
 	activeId: PropTypes.string,
+	/** list of ids of the currently open items (alternative to the open item flag) */
+	openIds: PropTypes.arrayOf(PropTypes.string),
 	/** Items tree object, can be nested (each property is forwarded to the item component as a prop) */
 	items: PropTypes.arrayOf(
 		PropTypes.shape({

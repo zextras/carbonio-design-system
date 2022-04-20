@@ -16,6 +16,8 @@ Once open, clicking on the arrow icon collapses the accordion without triggering
 
 The activeId prop can be use to highlight an accordion item without manipulating the items tree
 
+The openIds prop can be use to control the opening and closing of elements without manipulating the items tree
+
 ### Plain Accordion
 
 ```jsx
@@ -62,7 +64,7 @@ const items = [
 	height="fit"
 	width={306}
 >
-	<Accordion items={items} activeId="3" />
+	<Accordion items={items} activeId="3" openIds={['Root Accordion']} />
 </Container>;
 ```
 
