@@ -11,7 +11,7 @@ import { KeyboardPreset, useKeyboard } from '../../hooks/useKeyboard';
 import type { ThemeObj } from '../../theme/theme';
 import { getColor, pseudoClasses } from '../../theme/theme-utils';
 import { Container } from '../layout/Container';
-import { Text } from '../basic/Text';
+import { Text, TextProps } from '../basic/Text';
 import { Divider } from '../layout/Divider';
 
 const ContainerEl = styled(Container)<{
@@ -19,14 +19,16 @@ const ContainerEl = styled(Container)<{
 	$disabled: boolean;
 	$hasLabel: boolean;
 }>`
-	cursor: text;
 	position: relative;
 	${({ $disabled, background, theme }): SimpleInterpolation =>
 		$disabled
 			? css`
 					background: ${getColor(`${background}.disabled`, theme)};
 			  `
-			: pseudoClasses(theme, background)}
+			: css`
+					cursor: text;
+					${pseudoClasses(theme, background)}
+			  `}
 	padding: ${({ $hasLabel }): string => ($hasLabel ? '1px' : '10px')} 12px;
 	gap: 8px;
 	min-height: calc(
@@ -45,14 +47,18 @@ const InputEl = styled.input<{ color: keyof ThemeObj['palette'] }>`
 	font-weight: ${({ theme }): number => theme.fonts.weight.regular};
 	font-family: ${({ theme }): string => theme.fonts.default};
 	color: ${({ theme, color }): string => getColor(color, theme)};
+
 	&:disabled {
 		color: ${({ theme, color }): string => getColor(`${color}.disabled`, theme)};
 	}
+
 	transition: background 0.2s ease-out;
 	line-height: 1.5;
 	padding: 0;
+
 	&::placeholder {
 		color: transparent;
+		font-size: 0;
 	}
 `;
 
@@ -80,8 +86,9 @@ const Label = styled.label<{ hasError: boolean; hasFocus: boolean; disabled: boo
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
+
 	${InputEl}:focus + &,
-	${InputEl}:not(:placeholder-shown) + & {
+  ${InputEl}:not(:placeholder-shown) + & {
 		top: 1px;
 		transform: translateY(0);
 		font-size: ${({ theme }): string => theme.sizes.font.extrasmall};
@@ -98,9 +105,10 @@ const DividerEl = styled(Divider)`
 	}
 `;
 
-const CustomText = styled(Text)`
+const CustomText = styled(Text)<{ size: NonNullable<TextProps['size']> }>`
 	line-height: 1.5;
 	padding-top: 4px;
+	min-height: calc(${({ theme, size }): string => theme.sizes.font[size]} * 1.5);
 `;
 
 interface InputProps {
@@ -257,16 +265,14 @@ const Input: Input = React.forwardRef<HTMLDivElement, InputProps>(function Input
 					borderColor
 				}
 			/>
-			{description && (
-				<CustomText
-					size="extrasmall"
-					color={(hasError && 'error') || (hasFocus && 'primary') || 'secondary'}
-					disabled={disabled}
-					overflow="break-word"
-				>
-					{description}
-				</CustomText>
-			)}
+			<CustomText
+				size="extrasmall"
+				color={(hasError && 'error') || (hasFocus && 'primary') || 'secondary'}
+				disabled={disabled}
+				overflow="break-word"
+			>
+				{description}
+			</CustomText>
 		</Container>
 	);
 });

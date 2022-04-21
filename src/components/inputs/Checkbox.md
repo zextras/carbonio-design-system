@@ -140,6 +140,7 @@ const onClick2 = useCallback(() => setChecked2((c) => !c), []);
 <>
     <Checkbox value={checked1} onClick={onClick1} />
     <Checkbox value={checked2} onClick={onClick2} label="I have a label!" />
+    <Checkbox value={checked1} onClick={onClick1} label="The quick, brown fox jumps over a lazy dog. DJs flock by when MTV ax quiz prog. Junk MTV quiz graced by fox whelps. Bawds jog, flick quartz, vex nymphs. Waltz, bad nymph, for quick jigs vex! " />
     <Checkbox value={checked2} onClick={onClick2} disabled={true} label="Disabled" />
 </>
 ```

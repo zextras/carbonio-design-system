@@ -68,7 +68,7 @@ interface CheckboxProps {
 	/** whether to disable the checkbox or not */
 	disabled?: boolean;
 	/** click callback */
-	onClick?: React.ReactEventHandler;
+	onClick?: (event: Event) => void;
 	/** change callback */
 	onChange?: (checked: boolean) => void;
 	/** available sizes */
@@ -117,7 +117,7 @@ const Checkbox = React.forwardRef<HTMLDivElement, CheckboxProps>(function Checkb
 			height="fit"
 			padding={padding || undefined}
 			style={{ cursor: disabled ? 'default' : 'pointer' }}
-			crossAlignment="center"
+			crossAlignment="flex-start"
 			{...rest}
 		>
 			<IconWrapper iconColor={iconColor} disabled={disabled} tabIndex={disabled ? -1 : 0}>

@@ -19,7 +19,7 @@ import { IconButton } from './IconButton';
 import { ThemeObj } from '../../theme/theme';
 import { Chip, ChipProps } from '../display/Chip';
 import { Dropdown, DropdownItem } from '../display/Dropdown';
-import { Text } from '../basic/Text';
+import { Text, TextProps } from '../basic/Text';
 import { useKeyboard, getKeyboardPreset, KeyboardPreset } from '../../hooks/useKeyboard';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { getColor, pseudoClasses } from '../../theme/theme-utils';
@@ -231,9 +231,13 @@ const DividerEl = styled(Divider)`
 	}
 `;
 
-const CustomText = styled(Text)<{ $backgroundColor?: string }>`
+const CustomText = styled(Text)<{
+	$backgroundColor?: string;
+	size: NonNullable<TextProps['size']>;
+}>`
 	line-height: 1.5;
 	padding-top: 4px;
+	min-height: calc(${({ theme, size }): string => theme.sizes.font[size]} * 1.5);
 	background-color: ${({ $backgroundColor, theme }): string | undefined =>
 		$backgroundColor && getColor($backgroundColor, theme)};
 `;
@@ -758,17 +762,15 @@ const ChipInput: ChipInputType = React.forwardRef<HTMLDivElement, ChipInputProps
 						bottomBorderColor
 					}
 				/>
-				{((hasError && errorLabel) || description) && (
-					<CustomText
-						size="extrasmall"
-						color={(hasError && 'error') || (hasFocus && 'primary') || 'secondary'}
-						disabled={disabled && dropdownDisabled && (!iconAction || iconDisabled)}
-						overflow="break-word"
-						$backgroundColor={errorBackgroundColor}
-					>
-						{(hasError && errorLabel) || description}
-					</CustomText>
-				)}
+				<CustomText
+					size="extrasmall"
+					color={(hasError && 'error') || (hasFocus && 'primary') || 'secondary'}
+					disabled={disabled && dropdownDisabled && (!iconAction || iconDisabled)}
+					overflow="break-word"
+					$backgroundColor={errorBackgroundColor}
+				>
+					{(hasError && errorLabel) || description}
+				</CustomText>
 			</Container>
 		);
 	}
