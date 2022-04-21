@@ -31,14 +31,12 @@ describe('Index', () => {
 		});
 	});
 
-	test('All inputs components are exported, except for `RichTextEditor`', () => {
+	test('All inputs components are exported', () => {
 		const folderPath = path.resolve('src', 'components', 'inputs');
-		const blackList = ['RichTextEditor'];
 		fs.readdirSync(folderPath).forEach((file) => {
 			if (!fileREG.test(file) || fileTestREG.test(file)) return;
 			const fileName = (fileREG.exec(file) as RegExpExecArray)[1];
-			if (blackList.includes(fileName)) expect(index).not.toHaveProperty(fileName);
-			else expect(index).toHaveProperty(fileName);
+			expect(index).toHaveProperty(fileName);
 		});
 	});
 

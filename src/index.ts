@@ -13,7 +13,6 @@ export { default as Icon } from './components/basic/Icon';
 export { default as Link } from './components/basic/Link';
 export { default as LoadMore } from './components/basic/LoadMore';
 export { FormSection, FormSubSection, FormRow } from './components/basic/FormSection';
-export { default as Logo } from './components/basic/Logo';
 export { default as Text } from './components/basic/Text';
 export { default as TextWithTooltip } from './components/basic/TextWithTooltip';
 /** Layout components */
@@ -39,7 +38,6 @@ export { default as SearchInput } from './components/inputs/SearchInput';
 export { Select } from './components/inputs/Select';
 export { default as Switch } from './components/inputs/Switch';
 export { default as DateTimePicker } from './components/inputs/DateTimePicker';
-// export { default as RichTextEditor } from './components/inputs/RichTextEditor';
 
 /** navigation components */
 export { Accordion, AccordionItem } from './components/navigation/Accordion';

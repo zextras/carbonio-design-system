@@ -50,14 +50,6 @@ Files: .gitignore
 Copyright: 2021 Zextras <https://www.zextras.com>
 License: CC0-1.0
 
-Files: docs/asset/tinymce/*
-Copyright: Tiny Technologies, Inc. All rights reserved.
-License: LGPL-2.1-only
-
-Files: src/tinymce/*
-Copyright: Tiny Technologies, Inc. All rights reserved.
-License: LGPL-2.1-only
-
 Files: src/fonts/*
 Copyright: <https://github.com/googlefonts/roboto>
 License: Apache-2.0
