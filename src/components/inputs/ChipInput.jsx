@@ -374,6 +374,7 @@ const ChipInput = React.forwardRef(function ChipInputFn(
 
 	const onPaste = useCallback(
 		(e) => {
+			e.preventDefault();
 			if (createChipOnPaste) {
 				const pastedText = e.clipboardData.getData('Text');
 				const separatorsRegex = new RegExp(pasteSeparators.join('|'), 'gi');
@@ -385,13 +386,10 @@ const ChipInput = React.forwardRef(function ChipInputFn(
 					},
 					[]
 				);
-				savePastedValue(uniq(reducedChips));
-				setTimeout(() => {
-					contentEditableInput.current.innerHTML = '';
-				}, 10);
+				savePastedValue(requireUniqueChips ? uniq(reducedChips) : reducedChips);
 			}
 		},
-		[createChipOnPaste, pasteSeparators, savePastedValue, contentEditableInput]
+		[createChipOnPaste, pasteSeparators, requireUniqueChips, savePastedValue]
 	);
 
 	return (
