@@ -29,7 +29,7 @@ const CustomModal = () => {
 	);
 };
 describe('Modal', () => {
-	const modalButton = () => screen.getByText('TRIGGER MODAL');
+	const modalButton = () => screen.getByText(/TRIGGER MODAL/i);
 	const modalTitle = () => screen.getByText('My Title');
 	const modalText = () => screen.getByText('Lorem ipsum dolor sit amet.');
 
@@ -40,7 +40,7 @@ describe('Modal', () => {
 		expect(modalTitle).toThrowError();
 		expect(modalText).toThrowError();
 
-		userEvent.click(screen.getByText('TRIGGER MODAL'));
+		userEvent.click(screen.getByText(/trigger modal/i));
 
 		expect(modalTitle).not.toThrowError();
 		expect(modalText).not.toThrowError();

@@ -11,7 +11,7 @@ import styled from 'styled-components';
 import { Container } from '../layout/Container';
 import { useIsVisible } from '../../hooks/useIsVisible';
 import { useKeyboard, getKeyboardPreset } from '../../hooks/useKeyboard';
-import { pseudoClasses } from '../utilities/functions';
+import { pseudoClasses } from '../../theme/theme-utils';
 import { Theme } from '../../theme/theme';
 
 const StyledContainer = styled(Container)`

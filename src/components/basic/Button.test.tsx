@@ -6,7 +6,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 
 import React from 'react';
-import { getNodeText, screen } from '@testing-library/dom';
+import { screen } from '@testing-library/dom';
 import { act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import faker from 'faker';
@@ -16,8 +16,10 @@ import { Button } from './Button';
 describe('Button', () => {
 	test('The label must be Upper Case', () => {
 		const label = faker.lorem.words(1);
-		render(<Button label={label} />);
-		expect(getNodeText(screen.getByText(new RegExp(label, 'i')))).toBe(label.toUpperCase());
+		const clickFn = jest.fn();
+		render(<Button label={label} onClick={clickFn} />);
+		expect(screen.getByText(label)).toBeVisible();
+		expect(screen.getByText(label)).toHaveStyle('text-transform: uppercase');
 	});
 
 	test('Click on its label', () => {
@@ -30,7 +32,7 @@ describe('Button', () => {
 		expect(onClick).toBeCalled();
 	});
 
-	test('Click on its label, button is disbled', () => {
+	test('Click on its label, button is disabled', () => {
 		const label = faker.lorem.words(1);
 		const onClick = jest.fn();
 		render(<Button label={label} onClick={onClick} disabled />);
@@ -52,15 +54,20 @@ describe('Button', () => {
 
 	test('Show an icon', () => {
 		const label = faker.lorem.words(1);
-		const { container } = render(<Button label={label} icon="BulbOutline" />);
-		expect(getNodeText(screen.getByText(new RegExp(label, 'i')))).toBe(label.toUpperCase());
-		expect(container.querySelector('svg')).toBeInTheDocument();
+		const clickFn = jest.fn();
+		render(<Button label={label} icon="BulbOutline" onClick={clickFn} />);
+		expect(screen.getByText(new RegExp(label, 'i'))).toBeVisible();
+		expect(screen.getByTestId('icon: BulbOutline')).toBeInTheDocument();
+		expect(screen.getByTestId('icon: BulbOutline')).toBeVisible();
 	});
 
 	test('Loading state', () => {
 		const label = faker.lorem.words(1);
-		render(<Button label={label} loading />);
-		expect(getNodeText(screen.getByText(new RegExp(label, 'i')))).toBe(label.toUpperCase());
+		const clickFn = jest.fn();
+		render(<Button label={label} loading onClick={clickFn} />);
+		expect(screen.getByText(new RegExp(label, 'i'))).toBeInTheDocument();
+		expect(screen.getByText(new RegExp(label, 'i'))).not.toBeVisible();
 		expect(screen.getByTestId('spinner')).toBeInTheDocument();
+		expect(screen.getByTestId('spinner')).toBeVisible();
 	});
 });

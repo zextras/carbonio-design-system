@@ -53,6 +53,11 @@ const click = () => console.log('click!');
         <IconButton size="large" icon="Pricetags" iconColor="gray6" backgroundColor="primary" onClick={click}/>
         <IconButton borderRadius="round" size="large" icon="Pricetags" iconColor="gray6" backgroundColor="primary" onClick={click}/>
     </Container>
+	<Container style={{ gap: '10px' }} background="gray5" padding={{ all: 'small' }}>
+		<Text>Extralarge</Text>
+		<IconButton size="extralarge" icon="Pricetags" iconColor="gray6" backgroundColor="primary" onClick={click}/>
+		<IconButton borderRadius="round" size="extralarge" icon="Pricetags" iconColor="gray6" backgroundColor="primary" onClick={click}/>
+	</Container>
 </Container>
 ```
 
@@ -89,7 +94,7 @@ const theme = useTheme();
 
 const [iconButtonProps, setIconButtonProps] = useState({});
 
-const sizeItems = useMemo(() => mapToItems(['extrasmall', 'small', 'medium', 'large']), []);
+const sizeItems = useMemo(() => mapToItems(['extrasmall', 'small', 'medium', 'large', 'extralarge']), []);
 const colorItems = useMemo(() => mapToItems(Object.keys(theme.palette)), [theme]);
 const radiusItems = useMemo(() => mapToItems(['regular', 'round']), []);
 

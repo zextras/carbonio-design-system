@@ -8,7 +8,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Theme } from '../../theme/theme';
-import { parsePadding } from '../utilities/functions';
+import { parsePadding } from '../../theme/theme-utils';
 
 function getPadding(props) {
 	if (props.value) return parsePadding(props.value, props.theme);

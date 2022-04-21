@@ -9,9 +9,8 @@ import styled, { css, SimpleInterpolation } from 'styled-components';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { KeyboardPreset, useKeyboard } from '../../hooks/useKeyboard';
 import type { ThemeObj } from '../../theme/theme';
-import { getColor } from '../../theme/theme-utils';
+import { getColor, pseudoClasses } from '../../theme/theme-utils';
 import { Container } from '../layout/Container';
-import { pseudoClasses } from '../utilities/functions';
 import { Text, TextProps } from '../basic/Text';
 import { Divider } from '../layout/Divider';
 
@@ -126,7 +125,7 @@ interface InputProps {
 	/** input change callback */
 	onChange?: (e: React.SyntheticEvent) => void;
 	/** ref to the input element */
-	inputRef: React.MutableRefObject<HTMLInputElement>;
+	inputRef?: React.MutableRefObject<HTMLInputElement> | null;
 	/** value of the input */
 	value?: string | number;
 	/** default value of the input */
@@ -165,7 +164,7 @@ const Input: Input = React.forwardRef<HTMLDivElement, InputProps>(function Input
 		disabled = false,
 		textColor = 'text',
 		label,
-		inputRef,
+		inputRef = null,
 		value,
 		CustomIcon,
 		onChange,

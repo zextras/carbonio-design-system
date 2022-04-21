@@ -18,15 +18,14 @@ import styled, { css, SimpleInterpolation } from 'styled-components';
 import { IconButton } from './IconButton';
 import { ThemeObj } from '../../theme/theme';
 import { Chip, ChipProps } from '../display/Chip';
-import { Dropdown } from '../display/Dropdown';
+import { Dropdown, DropdownItem } from '../display/Dropdown';
 import { Text, TextProps } from '../basic/Text';
 import { useKeyboard, getKeyboardPreset, KeyboardPreset } from '../../hooks/useKeyboard';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
-import { getColor } from '../../theme/theme-utils';
+import { getColor, pseudoClasses } from '../../theme/theme-utils';
 import { Container } from '../layout/Container';
 import { Icon } from '../basic/Icon';
-import { Divider } from '../layout/Divider';
-import { pseudoClasses } from '../utilities/functions';
+import { Divider, DividerProps } from '../layout/Divider';
 
 const ContainerEl = styled(Container)<{
 	background: keyof ThemeObj['palette'];
@@ -252,18 +251,11 @@ const CustomIcon = styled(({ onClick, iconColor, ...rest }) =>
 )`
 	padding: 2px;
 	${({ onClick }): SimpleInterpolation =>
-		onClick
-			? css`
-					& > svg {
-						width: 20px;
-						height: 20px;
-						padding: 0;
-					}
-			  `
-			: css`
-					width: 20px;
-					height: 20px;
-			  `}
+		!onClick &&
+		css`
+			width: 20px;
+			height: 20px;
+		`}
 `;
 
 const ChipsContainer = styled.div`
@@ -313,8 +305,6 @@ function DefaultOnAdd(valueToAdd: unknown | string): { label: string } {
 type ChipItem = { label?: string } & ChipProps & {
 		value?: unknown;
 	};
-
-type DropdownItem = React.ComponentPropsWithRef<typeof Dropdown>['items'][number];
 
 interface ChipInputProps {
 	/** ref to the input element */
@@ -398,7 +388,7 @@ interface ChipInputProps {
 	 */
 	requireUniqueChips?: boolean;
 	/** Input divider color */
-	bottomBorderColor?: React.ComponentPropsWithRef<typeof Divider>['color'];
+	bottomBorderColor?: DividerProps['color'];
 	/** Dropdown max height */
 	dropdownMaxHeight?: string;
 	/** Description for the input */
@@ -407,381 +397,384 @@ interface ChipInputProps {
 	ChipComponent?: typeof Chip;
 }
 
-type ChipInput = React.ForwardRefExoticComponent<
+type ChipInputType = React.ForwardRefExoticComponent<
 	ChipInputProps & React.RefAttributes<HTMLDivElement>
 > & {
 	_newId?: number;
 };
 
-const ChipInput: ChipInput = React.forwardRef<HTMLDivElement, ChipInputProps>(function ChipInputFn(
-	{
-		inputRef = null,
-		inputName,
-		placeholder,
-		value,
-		defaultValue,
-		onChange,
-		options = [],
-		onInputType,
-		onInputTypeDebounce = 300,
-		onAdd = DefaultOnAdd,
-		background = 'gray6',
-		confirmChipOnBlur = true,
-		confirmChipOnSpace = true,
-		separators = ['Enter', 'NumpadEnter', 'Comma', 'Space'],
-		icon,
-		iconAction,
-		iconDisabled = false,
-		iconColor,
-		disabled = false,
-		requireUniqueChips = false,
-		maxChips = 20,
-		hasError = false,
-		hideBorder = false,
-		errorLabel,
-		errorBackgroundColor,
-		disableOptions = true,
-		singleSelection = false,
-		bottomBorderColor = 'gray4',
-		dropdownMaxHeight,
-		description,
-		ChipComponent,
-		...rest
-	},
-	ref
-) {
-	const [items, dispatch] = useReducer(reducer, defaultValue || value || []);
-	const [isActive, setIsActive] = useState(false);
-	const inputElRef = useCombinedRefs<HTMLInputElement>(inputRef);
-	const hScrollContainerRef = useRef<HTMLDivElement | null>(null);
-	const chipsContainerRef = useRef<HTMLDivElement | null>(null);
-	const scrollAfterSaveRef = useRef(false);
-
-	const [id] = useState(() => {
-		if (!ChipInput._newId) {
-			ChipInput._newId = 0;
-		}
-		// eslint-disable-next-line no-plusplus
-		return `chipInput-${ChipInput._newId++}`;
-	});
-
-	const [forceShowDropdown, setForceShowDropdown] = useState(false);
-	const [dropdownItems, setDropdownItems] = useState<DropdownItem[]>(options);
-
-	const uncontrolledMode = useMemo(() => value === undefined, [value]);
-
-	// TODO: remove together with confirmChipOnSpace
-	const separatorKeys = useMemo(() => {
-		const keys = [...separators];
-		const index = keys.indexOf('Space');
-		if (confirmChipOnSpace && index < 0) {
-			keys.push('Space');
-		} else if (!confirmChipOnSpace && index >= 0) {
-			keys.splice(index, 1);
-		}
-		return keys;
-	}, [confirmChipOnSpace, separators]);
-
-	const setFocus = useCallback(() => {
-		inputElRef.current && inputElRef.current.focus();
-	}, [inputElRef]);
-
-	const saveValue = useCallback(
-		(valueToSave: string | unknown) => {
-			const trimmedValue = typeof valueToSave === 'string' ? trim(valueToSave) : valueToSave;
-
-			const duplicate =
-				requireUniqueChips &&
-				find(items, {
-					label: trimmedValue
-				});
-
-			if (trimmedValue && !duplicate) {
-				const item = onAdd(trimmedValue);
-				uncontrolledMode && dispatch({ type: 'push', item });
-				onChange && onChange([...items, item]);
-				scrollAfterSaveRef.current = true;
-			}
-			if (inputElRef.current) {
-				inputElRef.current.value = '';
-				inputElRef.current.dispatchEvent(new Event('change'));
-			}
+const ChipInput: ChipInputType = React.forwardRef<HTMLDivElement, ChipInputProps>(
+	function ChipInputFn(
+		{
+			inputRef = null,
+			inputName,
+			placeholder,
+			value,
+			defaultValue,
+			onChange,
+			options = [],
+			onInputType,
+			onInputTypeDebounce = 300,
+			onAdd = DefaultOnAdd,
+			background = 'gray6',
+			confirmChipOnBlur = true,
+			confirmChipOnSpace = true,
+			separators = ['Enter', 'NumpadEnter', 'Comma', 'Space'],
+			icon,
+			iconAction,
+			iconDisabled = false,
+			iconColor,
+			disabled = false,
+			requireUniqueChips = false,
+			maxChips = 20,
+			hasError = false,
+			hideBorder = false,
+			errorLabel,
+			errorBackgroundColor,
+			disableOptions = true,
+			singleSelection = false,
+			bottomBorderColor = 'gray4',
+			dropdownMaxHeight,
+			description,
+			ChipComponent,
+			...rest
 		},
-		[requireUniqueChips, items, inputElRef, onAdd, uncontrolledMode, onChange]
-	);
+		ref
+	) {
+		const [items, dispatch] = useReducer(reducer, defaultValue || value || []);
+		const [isActive, setIsActive] = useState(false);
+		const inputElRef = useCombinedRefs<HTMLInputElement>(inputRef);
+		const hScrollContainerRef = useRef<HTMLDivElement | null>(null);
+		const chipsContainerRef = useRef<HTMLDivElement | null>(null);
+		const scrollAfterSaveRef = useRef(false);
 
-	const replaceValue = useCallback(
-		(valueToSave: string | unknown) => {
-			const item = onAdd(valueToSave);
-			uncontrolledMode && dispatch({ type: 'replace', item });
-			onChange && onChange([...items, item]);
-			if (inputElRef.current) {
-				inputElRef.current.value = '';
-				inputElRef.current.dispatchEvent(new Event('change'));
+		const [id] = useState(() => {
+			if (!ChipInput._newId) {
+				ChipInput._newId = 0;
 			}
-		},
-		[onAdd, uncontrolledMode, onChange, items, inputElRef]
-	);
-
-	const saveCurrentValue = useCallback(() => {
-		const inputValue = inputElRef.current?.value || '';
-		inputValue.length && saveValue(inputValue);
-	}, [inputElRef, saveValue]);
-
-	const saveCurrentEvent = useMemo(
-		() => getKeyboardPreset('chipInputKeys', saveCurrentValue, undefined, separatorKeys),
-		[saveCurrentValue, separatorKeys]
-	);
-
-	useKeyboard(inputElRef, saveCurrentEvent);
-
-	const onBackspace = useCallback(
-		(e: KeyboardEvent) => {
-			const inputElement = e.currentTarget instanceof HTMLInputElement && e.currentTarget;
-			if (
-				inputElement &&
-				inputElement.selectionStart === 0 &&
-				inputElement.selectionStart === inputElement.selectionEnd
-			) {
-				e.preventDefault();
-				uncontrolledMode && dispatch({ type: 'popLast' });
-				onChange && onChange(slice(items, 0, items.length - 1));
-				return false;
-			}
-			return true;
-		},
-		[uncontrolledMode, onChange, items]
-	);
-
-	const backspaceEvent = useMemo<KeyboardPreset>(
-		() => [
-			{
-				type: 'keydown',
-				callback: onBackspace,
-				keys: ['Backspace'],
-				haveToPreventDefault: false
-			}
-		],
-		[onBackspace]
-	);
-
-	useKeyboard(inputElRef, backspaceEvent);
-
-	const onChipClose = useCallback(
-		(index: number) => {
-			uncontrolledMode && dispatch({ type: 'pop', index });
-			onChange && onChange(filter(items, (item, i) => index !== i));
-			if (inputElRef.current) {
-				inputElRef.current.focus();
-			}
-		},
-		[inputElRef, items, onChange, uncontrolledMode]
-	);
-
-	const onInputBlur = useCallback(() => {
-		setIsActive(false);
-		confirmChipOnBlur && options.length === 0 && saveCurrentValue();
-	}, [confirmChipOnBlur, options, saveCurrentValue]);
-
-	const onInputKeyUp = useMemo(
-		() =>
-			debounce((ev: React.KeyboardEvent) => {
-				if (onInputType) {
-					onInputType({
-						...ev,
-						textContent: inputElRef.current && inputElRef.current.value
-					});
-				}
-			}, onInputTypeDebounce),
-		[inputElRef, onInputType, onInputTypeDebounce]
-	);
-
-	const onOptionClick = useCallback(
-		(valueToAdd: string | unknown) => {
-			singleSelection ? replaceValue(valueToAdd) : saveValue(valueToAdd);
-			setFocus();
-		},
-		[saveValue, setFocus, singleSelection, replaceValue]
-	);
-
-	const onClose = useCallback(() => {
-		setForceShowDropdown(false);
-	}, []);
-
-	useEffect(() => {
-		!uncontrolledMode && dispatch({ type: 'reset', value });
-	}, [uncontrolledMode, value]);
-
-	useEffect(() => {
-		setDropdownItems((prevState) => {
-			if (options.length === 0 && prevState.length === 0) {
-				return prevState;
-			}
-			return map(options, (o) => ({
-				...o,
-				click: (event): void => {
-					o.click && o.click(event);
-					onOptionClick(o.value ? o.value : o.label);
-				}
-			}));
+			// eslint-disable-next-line no-plusplus
+			return `chipInput-${ChipInput._newId++}`;
 		});
-	}, [onOptionClick, options]);
 
-	// allow horizontal scroll without a scroll bar
-	const flipScroll = useCallback<(e: WheelEvent) => void>((ev) => {
-		ev.preventDefault();
-		if (ev.currentTarget && ev.currentTarget instanceof HTMLElement) {
-			const scrollableElement = ev.currentTarget;
-			scrollableElement.scrollLeft += ev.deltaY;
-		}
-	}, []);
+		const [forceShowDropdown, setForceShowDropdown] = useState(false);
+		const [dropdownItems, setDropdownItems] = useState<DropdownItem[]>(options);
 
-	useEffect(() => {
-		const wrapperElement = hScrollContainerRef.current;
-		wrapperElement && wrapperElement.addEventListener('wheel', flipScroll);
-		return () => {
-			wrapperElement && wrapperElement.removeEventListener('wheel', flipScroll);
-		};
-	}, [flipScroll, hScrollContainerRef]);
+		const uncontrolledMode = useMemo(() => value === undefined, [value]);
 
-	useEffect(() => {
-		/*
-		 * Scroll to end of horizontal scrollable container when items change and when
-		 * scrollAfterSave is true, so that the last chip is fully visible and also the input.
-		 * This is done with an effect to be sure both keyboard and blur events trigger this
-		 * calc with the final dimensions of the container
-		 */
-		if (scrollAfterSaveRef.current && hScrollContainerRef.current) {
-			// scroll to the end so the newly added chip is fully shown
-			hScrollContainerRef.current.scrollLeft = hScrollContainerRef.current.scrollWidth;
-			scrollAfterSaveRef.current = false;
-		}
-	}, [items]);
+		// TODO: remove together with confirmChipOnSpace
+		const separatorKeys = useMemo(() => {
+			const keys = [...separators];
+			const index = keys.indexOf('Space');
+			if (confirmChipOnSpace && index < 0) {
+				keys.push('Space');
+			} else if (!confirmChipOnSpace && index >= 0) {
+				keys.splice(index, 1);
+			}
+			return keys;
+		}, [confirmChipOnSpace, separators]);
 
-	const inputDisabled = useMemo(
-		() => !!maxChips && items.length >= maxChips,
-		[items.length, maxChips]
-	);
+		const setFocus = useCallback(() => {
+			inputElRef.current && inputElRef.current.focus();
+		}, [inputElRef]);
 
-	// dropdown disabled does not depend on chipInput disabled, so that options can be still used
-	// even if input is disabled (chip can be added through dropdown but not typing)
-	const dropdownDisabled = useMemo(
-		() => disableOptions || inputDisabled,
-		[disableOptions, inputDisabled]
-	);
+		const saveValue = useCallback(
+			(valueToSave: string | unknown) => {
+				const trimmedValue = typeof valueToSave === 'string' ? trim(valueToSave) : valueToSave;
 
-	useEffect(() => {
-		// if dropdown is set to not open on click (dropdownDisabled),
-		// force open it on options change to simulate suggestion mode
-		setForceShowDropdown(dropdownDisabled && !isEmpty(options));
-	}, [dropdownDisabled, options]);
+				const duplicate =
+					requireUniqueChips &&
+					find(items, {
+						label: trimmedValue
+					});
 
-	const hasFocus = useMemo(() => isActive && !inputDisabled, [isActive, inputDisabled]);
-
-	const onInputFocus = useCallback(() => setIsActive(true), []);
-
-	const ChipComp = useMemo(() => ChipComponent || Chip, [ChipComponent]);
-
-	return (
-		<Container height="fit" width="fill" crossAlignment="flex-start">
-			<Dropdown
-				items={dropdownItems}
-				display="block"
-				width="100%"
-				disableAutoFocus
-				disableRestoreFocus
-				forceOpen={forceShowDropdown}
-				onClose={onClose}
-				disabled={dropdownDisabled}
-				maxHeight={dropdownMaxHeight}
-			>
-				<ContainerEl
-					ref={ref}
-					orientation="horizontal"
-					width="fill"
-					height="fit"
-					mainAlignment="flex-start"
-					crossAlignment={placeholder ? 'flex-end' : 'center'}
-					borderRadius="half"
-					background={background}
-					$hasLabel={!!placeholder}
-					$inputDisabled={disabled || inputDisabled}
-					$dropdownDisabled={dropdownDisabled}
-					onClick={setFocus}
-					{...rest}
-				>
-					<HorizontalScrollContainer ref={hScrollContainerRef}>
-						{items.length > 0 && (
-							<ChipsContainer {...rest} ref={chipsContainerRef}>
-								{map(items, (item, index) => (
-									<ChipComp
-										key={`${index}-${item.value}`}
-										{...item}
-										closable
-										onClose={(): void => onChipClose(index)}
-									/>
-								))}
-							</ChipsContainer>
-						)}
-						<AdjustWidthInput
-							color="text"
-							autoComplete="off"
-							ref={inputElRef}
-							onFocus={onInputFocus}
-							onBlur={onInputBlur}
-							onKeyUp={onInputType && onInputKeyUp}
-							id={id}
-							name={inputName || placeholder}
-							disabled={disabled || inputDisabled}
-							placeholder={placeholder}
-							separators={separatorKeys}
-							confirmChipOnBlur={confirmChipOnBlur}
-							dropdownDisabled={dropdownDisabled}
-						/>
-						{placeholder && (
-							<Label
-								htmlFor={id}
-								hasFocus={hasFocus}
-								hasError={hasError}
-								disabled={disabled && dropdownDisabled && (!iconAction || iconDisabled)}
-								hasItems={items.length > 0 || !!inputElRef.current?.value}
-							>
-								{placeholder}
-							</Label>
-						)}
-					</HorizontalScrollContainer>
-					{icon && (
-						<CustomIconContainer>
-							<CustomIcon
-								icon={icon}
-								onClick={iconAction}
-								disabled={iconDisabled}
-								iconColor={iconColor}
-							/>
-						</CustomIconContainer>
-					)}
-				</ContainerEl>
-			</Dropdown>
-			<DividerEl
-				color={
-					(hideBorder && 'transparent') ||
-					(hasError && 'error') ||
-					(hasFocus && 'primary') ||
-					bottomBorderColor
+				if (trimmedValue && !duplicate) {
+					const item = onAdd(trimmedValue);
+					uncontrolledMode && dispatch({ type: 'push', item });
+					onChange && onChange([...items, item]);
+					scrollAfterSaveRef.current = true;
 				}
-			/>
-			<CustomText
-				size="extrasmall"
-				color={(hasError && 'error') || (hasFocus && 'primary') || 'secondary'}
-				disabled={disabled && dropdownDisabled && (!iconAction || iconDisabled)}
-				overflow="break-word"
-				$backgroundColor={errorBackgroundColor}
-			>
-				{(hasError && errorLabel) || description}
-			</CustomText>
-		</Container>
-	);
-});
+				if (inputElRef.current) {
+					inputElRef.current.value = '';
+					inputElRef.current.dispatchEvent(new Event('change'));
+				}
+			},
+			[requireUniqueChips, items, inputElRef, onAdd, uncontrolledMode, onChange]
+		);
+
+		const replaceValue = useCallback(
+			(valueToSave: string | unknown) => {
+				const item = onAdd(valueToSave);
+				uncontrolledMode && dispatch({ type: 'replace', item });
+				onChange && onChange([...items, item]);
+				if (inputElRef.current) {
+					inputElRef.current.value = '';
+					inputElRef.current.dispatchEvent(new Event('change'));
+				}
+			},
+			[onAdd, uncontrolledMode, onChange, items, inputElRef]
+		);
+
+		const saveCurrentValue = useCallback(() => {
+			const inputValue = inputElRef.current?.value || '';
+			inputValue.length && saveValue(inputValue);
+		}, [inputElRef, saveValue]);
+
+		const saveCurrentEvent = useMemo(
+			() => getKeyboardPreset('chipInputKeys', saveCurrentValue, undefined, separatorKeys),
+			[saveCurrentValue, separatorKeys]
+		);
+
+		useKeyboard(inputElRef, saveCurrentEvent);
+
+		const onBackspace = useCallback(
+			(e: KeyboardEvent) => {
+				const inputElement = e.currentTarget instanceof HTMLInputElement && e.currentTarget;
+				if (
+					inputElement &&
+					inputElement.selectionStart === 0 &&
+					inputElement.selectionStart === inputElement.selectionEnd
+				) {
+					e.preventDefault();
+					uncontrolledMode && dispatch({ type: 'popLast' });
+					onChange && onChange(slice(items, 0, items.length - 1));
+					return false;
+				}
+				return true;
+			},
+			[uncontrolledMode, onChange, items]
+		);
+
+		const backspaceEvent = useMemo<KeyboardPreset>(
+			() => [
+				{
+					type: 'keydown',
+					callback: onBackspace,
+					keys: ['Backspace'],
+					haveToPreventDefault: false
+				}
+			],
+			[onBackspace]
+		);
+
+		useKeyboard(inputElRef, backspaceEvent);
+
+		const onChipClose = useCallback(
+			(index: number) => {
+				uncontrolledMode && dispatch({ type: 'pop', index });
+				onChange && onChange(filter(items, (item, i) => index !== i));
+				if (inputElRef.current) {
+					inputElRef.current.focus();
+				}
+			},
+			[inputElRef, items, onChange, uncontrolledMode]
+		);
+
+		const onInputBlur = useCallback(() => {
+			setIsActive(false);
+			confirmChipOnBlur && options.length === 0 && saveCurrentValue();
+		}, [confirmChipOnBlur, options, saveCurrentValue]);
+
+		const onInputKeyUp = useMemo(
+			() =>
+				debounce((ev: React.KeyboardEvent) => {
+					if (onInputType) {
+						onInputType({
+							...ev,
+							textContent: inputElRef.current && inputElRef.current.value
+						});
+					}
+				}, onInputTypeDebounce),
+			[inputElRef, onInputType, onInputTypeDebounce]
+		);
+
+		const onOptionClick = useCallback(
+			(valueToAdd: string | unknown) => {
+				singleSelection ? replaceValue(valueToAdd) : saveValue(valueToAdd);
+				setFocus();
+			},
+			[saveValue, setFocus, singleSelection, replaceValue]
+		);
+
+		const onClose = useCallback(() => {
+			setForceShowDropdown(false);
+		}, []);
+
+		useEffect(() => {
+			!uncontrolledMode && dispatch({ type: 'reset', value });
+		}, [uncontrolledMode, value]);
+
+		useEffect(() => {
+			setDropdownItems((prevState) => {
+				if (options.length === 0 && prevState.length === 0) {
+					return prevState;
+				}
+				return map(options, (o) => ({
+					...o,
+					click: (event): void => {
+						o.click && o.click(event);
+						onOptionClick(o.value ? o.value : o.label);
+					}
+				}));
+			});
+		}, [onOptionClick, options]);
+
+		// allow horizontal scroll without a scroll bar
+		const flipScroll = useCallback<(e: WheelEvent) => void>((ev) => {
+			ev.preventDefault();
+			if (ev.currentTarget && ev.currentTarget instanceof HTMLElement) {
+				const scrollableElement = ev.currentTarget;
+				scrollableElement.scrollLeft += ev.deltaY;
+			}
+		}, []);
+
+		useEffect(() => {
+			const wrapperElement = hScrollContainerRef.current;
+			wrapperElement && wrapperElement.addEventListener('wheel', flipScroll);
+			return () => {
+				wrapperElement && wrapperElement.removeEventListener('wheel', flipScroll);
+			};
+		}, [flipScroll, hScrollContainerRef]);
+
+		useEffect(() => {
+			/*
+			 * Scroll to end of horizontal scrollable container when items change and when
+			 * scrollAfterSave is true, so that the last chip is fully visible and also the input.
+			 * This is done with an effect to be sure both keyboard and blur events trigger this
+			 * calc with the final dimensions of the container
+			 */
+			if (scrollAfterSaveRef.current && hScrollContainerRef.current) {
+				// scroll to the end so the newly added chip is fully shown
+				hScrollContainerRef.current.scrollLeft = hScrollContainerRef.current.scrollWidth;
+				scrollAfterSaveRef.current = false;
+			}
+		}, [items]);
+
+		const inputDisabled = useMemo(
+			() => !!maxChips && items.length >= maxChips,
+			[items.length, maxChips]
+		);
+
+		// dropdown disabled does not depend on chipInput disabled, so that options can be still used
+		// even if input is disabled (chip can be added through dropdown but not typing)
+		const dropdownDisabled = useMemo(
+			() => disableOptions || inputDisabled,
+			[disableOptions, inputDisabled]
+		);
+
+		useEffect(() => {
+			// if dropdown is set to not open on click (dropdownDisabled),
+			// force open it on options change to simulate suggestion mode
+			setForceShowDropdown(dropdownDisabled && !isEmpty(options));
+		}, [dropdownDisabled, options]);
+
+		const hasFocus = useMemo(() => isActive && !inputDisabled, [isActive, inputDisabled]);
+
+		const onInputFocus = useCallback(() => setIsActive(true), []);
+
+		const ChipComp = useMemo(() => ChipComponent || Chip, [ChipComponent]);
+
+		return (
+			<Container height="fit" width="fill" crossAlignment="flex-start">
+				<Dropdown
+					items={dropdownItems}
+					display="block"
+					width="100%"
+					disableAutoFocus
+					disableRestoreFocus
+					forceOpen={forceShowDropdown}
+					onClose={onClose}
+					disabled={dropdownDisabled}
+					maxHeight={dropdownMaxHeight}
+				>
+					<ContainerEl
+						ref={ref}
+						orientation="horizontal"
+						width="fill"
+						height="fit"
+						mainAlignment="flex-start"
+						crossAlignment={placeholder ? 'flex-end' : 'center'}
+						borderRadius="half"
+						background={background}
+						$hasLabel={!!placeholder}
+						$inputDisabled={disabled || inputDisabled}
+						$dropdownDisabled={dropdownDisabled}
+						onClick={setFocus}
+						{...rest}
+					>
+						<HorizontalScrollContainer ref={hScrollContainerRef}>
+							{items.length > 0 && (
+								<ChipsContainer {...rest} ref={chipsContainerRef}>
+									{map(items, (item, index) => (
+										<ChipComp
+											key={`${index}-${item.value}`}
+											{...item}
+											closable
+											onClose={(): void => onChipClose(index)}
+										/>
+									))}
+								</ChipsContainer>
+							)}
+							<AdjustWidthInput
+								color="text"
+								autoComplete="off"
+								ref={inputElRef}
+								onFocus={onInputFocus}
+								onBlur={onInputBlur}
+								onKeyUp={onInputType && onInputKeyUp}
+								id={id}
+								name={inputName || placeholder}
+								disabled={disabled || inputDisabled}
+								placeholder={placeholder}
+								separators={separatorKeys}
+								confirmChipOnBlur={confirmChipOnBlur}
+								dropdownDisabled={dropdownDisabled}
+							/>
+							{placeholder && (
+								<Label
+									htmlFor={id}
+									hasFocus={hasFocus}
+									hasError={hasError}
+									disabled={disabled && dropdownDisabled && (!iconAction || iconDisabled)}
+									hasItems={items.length > 0 || !!inputElRef.current?.value}
+								>
+									{placeholder}
+								</Label>
+							)}
+						</HorizontalScrollContainer>
+						{icon && (
+							<CustomIconContainer>
+								<CustomIcon
+									icon={icon}
+									onClick={iconAction}
+									disabled={iconDisabled}
+									iconColor={iconColor}
+									size="large"
+								/>
+							</CustomIconContainer>
+						)}
+					</ContainerEl>
+				</Dropdown>
+				<DividerEl
+					color={
+						(hideBorder && 'transparent') ||
+						(hasError && 'error') ||
+						(hasFocus && 'primary') ||
+						bottomBorderColor
+					}
+				/>
+				<CustomText
+					size="extrasmall"
+					color={(hasError && 'error') || (hasFocus && 'primary') || 'secondary'}
+					disabled={disabled && dropdownDisabled && (!iconAction || iconDisabled)}
+					overflow="break-word"
+					$backgroundColor={errorBackgroundColor}
+				>
+					{(hasError && errorLabel) || description}
+				</CustomText>
+			</Container>
+		);
+	}
+);
 
 ChipInput._newId = 0;
 

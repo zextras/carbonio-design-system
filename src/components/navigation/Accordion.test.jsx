@@ -75,7 +75,9 @@ describe('Accordion', () => {
 	});
 
 	test('Render customized Accordion', () => {
-		const CC1 = ({ item }) => <Button label={item.label} />;
+		const clickFn = jest.fn();
+
+		const CC1 = ({ item }) => <Button label={item.label} onClick={clickFn} />;
 		const CC2 = ({ item }) => (
 			<div id="custom" style={{ width: '100%', border: '1px solid green' }}>
 				<AccordionItem item={item} />
@@ -91,7 +93,7 @@ describe('Accordion', () => {
 				]}
 			/>
 		);
-		expect(container.textContent).toContain('FIRST');
+		expect(screen.getByRole('button', { name: /first/i })).toBeInTheDocument();
 		expect(container.querySelector('#custom')).toBeInTheDocument();
 	});
 

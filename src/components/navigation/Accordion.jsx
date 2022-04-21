@@ -20,7 +20,7 @@ import { Divider } from '../layout/Divider';
 import { Collapse } from '../utilities/Collapse';
 import { useKeyboard, getKeyboardPreset } from '../../hooks/useKeyboard';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
-import { pseudoClasses } from '../utilities/functions';
+import { pseudoClasses } from '../../theme/theme-utils';
 
 const AccordionContainerEl = styled(Container)`
 	padding-left: ${({ theme, level }) => css`calc(${level} * ${theme.sizes.padding.large})`};

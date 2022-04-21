@@ -9,6 +9,7 @@
 export * from './components/basic/Avatar';
 export * from './components/basic/Badge';
 export * from './components/basic/Button';
+export * from './components/temp/Button';
 export * from './components/basic/Icon';
 export * from './components/basic/Link';
 export * from './components/basic/LoadMore';
@@ -16,6 +17,7 @@ export * from './components/basic/FormSection';
 export * from './components/basic/Logo';
 export * from './components/basic/Text';
 export * from './components/basic/TextWithTooltip';
+export { default as Spinner } from './components/basic/Spinner';
 /** Layout components */
 export * from './components/layout/Container';
 export * from './components/layout/Divider';
@@ -86,7 +88,7 @@ export * from './hooks/useSnackbar';
 export * from './hooks/useModal';
 export * from './hooks/useSplitVisibility';
 
-export * from './components/utilities/functions';
+export * from './theme/theme-utils';
 
 // export types
 // @see https://github.com/rollup/rollup-plugin-typescript/issues/28#issuecomment-546387825

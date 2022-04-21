@@ -8,8 +8,7 @@ import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Theme } from '../../theme/theme';
-import { getColor } from '../../theme/theme-utils';
-import { parsePadding } from '../utilities/functions';
+import { getColor, parsePadding } from '../../theme/theme-utils';
 
 const ContainerEl = styled.div`
 	display: flex;

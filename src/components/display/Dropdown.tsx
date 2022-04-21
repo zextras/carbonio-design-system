@@ -23,6 +23,7 @@ import {
 	VirtualElement
 } from '@popperjs/core';
 import styled, { css, SimpleInterpolation } from 'styled-components';
+import { pseudoClasses } from '../../theme/theme-utils';
 import { Padding } from '../layout/Padding';
 import { Icon } from '../basic/Icon';
 import { Text } from '../basic/Text';
@@ -31,7 +32,6 @@ import { Portal } from '../utilities/Portal';
 import { Divider } from '../layout/Divider';
 import { useKeyboard, getKeyboardPreset, KeyboardPreset } from '../../hooks/useKeyboard';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
-import { pseudoClasses } from '../utilities/functions';
 import type { ThemeObj } from '../../theme/theme';
 
 const ContainerEl = styled(Container)<{
