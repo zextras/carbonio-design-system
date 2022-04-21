@@ -374,8 +374,8 @@ const ChipInput = React.forwardRef(function ChipInputFn(
 
 	const onPaste = useCallback(
 		(e) => {
-			e.preventDefault();
 			if (createChipOnPaste) {
+				e.preventDefault();
 				const pastedText = e.clipboardData.getData('Text');
 				const separatorsRegex = new RegExp(pasteSeparators.join('|'), 'gi');
 				const reducedChips = reduce(
