@@ -15,6 +15,7 @@ import { pseudoClasses } from '../utilities/functions';
 import { Theme } from '../../theme/theme';
 
 const StyledContainer = styled(Container)`
+	overflow-y: auto;
 	overflow-y: overlay;
 	&::-webkit-scrollbar {
 		width: 12px;

@@ -377,6 +377,26 @@ const onChange = (e) => {
 />;
 ```
 
+
+### ChipInput with paste support
+
+```jsx
+import { useState } from 'react';
+const [options, setOptions] = useState([]);
+
+const onChange = (chips) => {
+	console.log('chips:', chips);
+	setOptions(chips);
+};
+<ChipInput
+	placeholder="Chips:"
+	defaultValue={options}
+	pasteSeparators={[',']}
+	createChipOnPaste
+	confirmChipOnSpace={false}	
+	onChange={onChange}
+/>
+```
 ### Development status:
 
 ```jsx noEditor

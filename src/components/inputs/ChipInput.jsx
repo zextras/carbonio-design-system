@@ -6,7 +6,7 @@
 
 import React, { useCallback, useEffect, useMemo, useReducer, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import { filter, map, slice, isEmpty, debounce, find, trim } from 'lodash';
+import { filter, map, slice, isEmpty, debounce, find, trim, reduce, uniq } from 'lodash';
 import styled from 'styled-components';
 import Chip from '../display/Chip';
 import Dropdown from '../display/Dropdown';
@@ -114,6 +114,8 @@ function reducer(state, action) {
 	switch (action.type) {
 		case 'push':
 			return [...state, action.item];
+		case 'pushMultiples':
+			return [...state, ...action.items];
 		case 'replace':
 			return [action.item];
 		case 'pop':
@@ -160,6 +162,8 @@ const ChipInput = React.forwardRef(function ChipInputFn(
 		disabled,
 
 		requireUniqueChips,
+		createChipOnPaste,
+		pasteSeparators,
 
 		maxChips,
 		hasError,
@@ -206,6 +210,15 @@ const ChipInput = React.forwardRef(function ChipInputFn(
 			contentEditableInput.current.innerHTML = '';
 		},
 		[contentEditableInput, onAdd, uncontrolledMode, onChange, items, requireUniqueChips]
+	);
+
+	const savePastedValue = useCallback(
+		(valueToSave) => {
+			const pastedItems = map(valueToSave, (vts) => onAdd(vts));
+			uncontrolledMode && dispatch({ type: 'pushMultiples', items: pastedItems });
+			onChange && onChange([...itemsRef.current, ...pastedItems]);
+		},
+		[onAdd, uncontrolledMode, onChange]
 	);
 
 	const replaceValue = useCallback(
@@ -358,6 +371,27 @@ const ChipInput = React.forwardRef(function ChipInputFn(
 	);
 
 	const onFocus = useCallback(() => setIsActive(true), []);
+
+	const onPaste = useCallback(
+		(e) => {
+			if (createChipOnPaste) {
+				e.preventDefault();
+				const pastedText = e.clipboardData.getData('Text');
+				const separatorsRegex = new RegExp(pasteSeparators.join('|'), 'gi');
+				const reducedChips = reduce(
+					pastedText.split(separatorsRegex),
+					(acc, v) => {
+						if (trim(v) !== '') acc.push(trim(v));
+						return acc;
+					},
+					[]
+				);
+				savePastedValue(requireUniqueChips ? uniq(reducedChips) : reducedChips);
+			}
+		},
+		[createChipOnPaste, pasteSeparators, requireUniqueChips, savePastedValue]
+	);
+
 	return (
 		<Container orientation="horizontal" background={background}>
 			<Dropdown
@@ -407,6 +441,7 @@ const ChipInput = React.forwardRef(function ChipInputFn(
 										onFocus={onFocus}
 										onKeyUp={onInputType && onKeyUp}
 										contentEditable={contentEditable}
+										onPaste={onPaste}
 									/>
 									<Placeholder hasError={hasError}>{placeholder}</Placeholder>
 								</InputContainer>
@@ -487,7 +522,11 @@ ChipInput.propTypes = {
 	/** disable the input */
 	disabled: PropTypes.bool,
 	/** allow to enter unique chips only */
-	requireUniqueChips: PropTypes.bool
+	requireUniqueChips: PropTypes.bool,
+	/** allow to create chips from pasted values */
+	createChipOnPaste: PropTypes.bool,
+	/** Chip generation triggers on paste */
+	pasteSeparators: PropTypes.arrayOf(PropTypes.string)
 };
 
 ChipInput.defaultProps = {
@@ -504,7 +543,9 @@ ChipInput.defaultProps = {
 	disableOptions: true,
 	singleSelction: false,
 	hideBorder: false,
-	requireUniqueChips: false
+	requireUniqueChips: false,
+	createChipOnPaste: false,
+	pasteSeparators: [',']
 };
 
 export default ChipInput;

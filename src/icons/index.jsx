@@ -6,6 +6,5 @@
 
 import * as fillData from './fill';
 import * as outlineData from './outline';
-import { Logo } from './logo';
 
-export default { ...fillData, ...outlineData, Logo };
+export default { ...fillData, ...outlineData };
