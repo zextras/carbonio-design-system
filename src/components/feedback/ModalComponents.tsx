@@ -6,6 +6,7 @@
 import React from 'react';
 import styled, { css, SimpleInterpolation } from 'styled-components';
 import { Container } from '../layout/Container';
+import { ThemeContext } from '../../theme/theme-context-provider';
 
 const modalMinWidth = {
 	extrasmall: '20%',
@@ -20,27 +21,27 @@ const modalWidth = {
 	large: '800px'
 };
 
-function isBodyOverflowing(modalRef: React.RefObject<HTMLDivElement>): boolean {
-	if (window.top) {
+function isBodyOverflowing(modalRef: React.RefObject<HTMLDivElement>, windowObj: Window): boolean {
+	if (windowObj) {
 		return (
-			window.top.document.body.scrollHeight > (modalRef.current as HTMLDivElement).clientHeight ||
-			window.top.document.body.scrollWidth > window.top.document.body.clientWidth
+			windowObj.document.body.scrollHeight > (modalRef.current as HTMLDivElement).clientHeight ||
+			windowObj.document.body.scrollWidth > windowObj.document.body.clientWidth
 		);
 	}
 	return false;
 }
 
-function getScrollbarSize(): number {
-	const scrollDiv = window.top?.document.createElement('div');
-	if (scrollDiv && window.top) {
+function getScrollbarSize(windowObj: Window): number {
+	const scrollDiv = windowObj.document.createElement('div');
+	if (scrollDiv && windowObj) {
 		scrollDiv.style.width = '99px';
 		scrollDiv.style.height = '99px';
 		scrollDiv.style.position = 'absolute';
 		scrollDiv.style.top = '-9999px';
 		scrollDiv.style.overflow = 'scroll';
-		window.top.document.body.appendChild(scrollDiv);
+		windowObj.document.body.appendChild(scrollDiv);
 		const scrollbarSize = scrollDiv.offsetWidth - scrollDiv.clientWidth;
-		window.top.document.body.removeChild(scrollDiv);
+		windowObj.document.body.removeChild(scrollDiv);
 		return scrollbarSize;
 	}
 	return 0;

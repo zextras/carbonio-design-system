@@ -4,10 +4,11 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 import { Text } from '../basic/Text';
+import { ThemeContext } from '../../theme/theme-context-provider';
 
 const PlaceholderInline = styled(Text)`
 	font-size: ${(props) => props.theme.sizes.font.medium};
@@ -111,10 +112,10 @@ const EmailComposerInput = React.forwardRef(function EmailComposerInputFn(
 	const [active, setActive] = useState(false);
 	const [hasFocus, setHasFocus] = useState(false);
 	const inputRef = useRef(undefined);
-
+	const { windowObj } = useContext(ThemeContext);
 	const checkIfSetActive = useCallback(() => {
-		setActive(window.top.document.activeElement === inputRef.current || inputRef.current.value);
-	}, [setActive, inputRef]);
+		setActive(windowObj.document.activeElement === inputRef.current || inputRef.current.value);
+	}, [windowObj.document.activeElement]);
 
 	const onFocus = useCallback(() => {
 		checkIfSetActive();

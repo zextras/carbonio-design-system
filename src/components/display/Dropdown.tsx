@@ -12,6 +12,7 @@ import React, {
 	useLayoutEffect,
 	useCallback,
 	useMemo,
+	useContext,
 	createRef,
 	HTMLAttributes
 } from 'react';
@@ -22,6 +23,7 @@ import {
 	StrictModifiers,
 	VirtualElement
 } from '@popperjs/core';
+import { find } from 'lodash';
 import styled, { css, SimpleInterpolation } from 'styled-components';
 import { pseudoClasses } from '../../theme/theme-utils';
 import { Padding } from '../layout/Padding';
@@ -33,6 +35,7 @@ import { Divider } from '../layout/Divider';
 import { useKeyboard, getKeyboardPreset, KeyboardPreset } from '../../hooks/useKeyboard';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import type { ThemeObj } from '../../theme/theme';
+import { ThemeContext } from '../../theme/theme-context-provider';
 
 const ContainerEl = styled(Container)<{
 	$selectedBackgroundColor?: keyof ThemeObj['palette'];
@@ -90,6 +93,7 @@ interface PopperListItemProps extends ListItemContentProps, HTMLAttributes<HTMLD
 	click?: (e: React.SyntheticEvent<HTMLElement> | KeyboardEvent) => void;
 	customComponent?: React.ReactNode;
 	selectedBackgroundColor?: keyof ThemeObj['palette'];
+	keepOpen?: boolean;
 }
 
 function PopperListItem({
@@ -102,6 +106,7 @@ function PopperListItem({
 	selectedBackgroundColor,
 	itemIconSize,
 	itemTextSize,
+	keepOpen,
 	itemPaddingBetween,
 	...rest
 }: PopperListItemProps): JSX.Element {
@@ -110,15 +115,28 @@ function PopperListItem({
 	const keyEvents = useMemo(() => (click && getKeyboardPreset('listItem', click)) || [], [click]);
 	useKeyboard(itemRef, keyEvents);
 
+	const onClick = useCallback<React.MouseEventHandler<HTMLElement>>(
+		(e) => {
+			if (keepOpen) {
+				e.stopPropagation();
+			}
+			if (!disabled && click) {
+				click(e);
+			}
+		},
+		[click, disabled, keepOpen]
+	);
+
 	return (
 		<ContainerEl
 			ref={itemRef}
+			data-keep-open={keepOpen}
 			className={selected ? 'zapp-selected' : ''}
 			orientation="horizontal"
 			mainAlignment="flex-start"
 			padding={{ vertical: 'small', horizontal: 'large' }}
 			style={{ cursor: click && !disabled ? 'pointer' : 'default' }}
-			onClick={disabled ? null : click}
+			onClick={onClick}
 			tabIndex={disabled ? -1 : 0}
 			$disabled={disabled}
 			$selectedBackgroundColor={selected ? selectedBackgroundColor : undefined}
@@ -158,6 +176,7 @@ function NestListItem({
 	itemIconSize,
 	itemTextSize,
 	itemPaddingBetween,
+	keepOpen,
 	...rest
 }: NestListItemProps): JSX.Element {
 	const itemRef = useRef<HTMLDivElement | null>(null);
@@ -166,6 +185,7 @@ function NestListItem({
 	useKeyboard(itemRef, keyEvents);
 	return (
 		<ContainerEl
+			data-keep-open={keepOpen}
 			ref={itemRef}
 			className={selected ? 'zapp-selected' : ''}
 			orientation="horizontal"
@@ -259,6 +279,7 @@ interface DropdownItem {
 	customComponent?: React.ReactNode;
 	disabled?: boolean;
 	items?: Array<DropdownItem>;
+	keepOpen?: boolean;
 }
 
 interface DropdownProps {
@@ -317,7 +338,7 @@ interface DropdownProps {
 	selectedBackgroundColor?: keyof ThemeObj['palette'];
 	/** Item Icon size */
 	itemIconSize?: React.ComponentPropsWithRef<typeof Icon>['size'];
-	/** Item Texpt size */
+	/** Item Text size */
 	itemTextSize?: React.ComponentPropsWithRef<typeof Text>['size'];
 	/** Item Padding Between */
 	itemPaddingBetween?: keyof ThemeObj['sizes']['padding'];
@@ -354,6 +375,7 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 	},
 	ref
 ) {
+	const { windowObj } = useContext(ThemeContext);
 	const [open, setOpen] = useState<boolean>(forceOpen);
 	const openRef = useRef<boolean>(open);
 	const dropdownRef = useCombinedRefs<HTMLDivElement>(dropdownListRef);
@@ -429,11 +451,19 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 	);
 
 	const clickOutsidePopper = useCallback(
-		(e) => {
-			dropdownRef.current &&
+		(e: Event) => {
+			if (
+				dropdownRef.current &&
 				e.target !== dropdownRef.current &&
-				!dropdownRef.current.contains(e.target) &&
+				!dropdownRef.current.contains(e.target as Node | null) &&
+				// check if the attribute is in the event path
+				!find(
+					e.composedPath?.() ?? [],
+					(el) => (el as Element).hasAttribute && (el as Element).hasAttribute('data-keep-open')
+				)
+			) {
 				closePopper();
+			}
 		},
 		[closePopper, dropdownRef]
 	);
@@ -520,20 +550,20 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 
 	useEffect(() => {
 		openRef.current = open;
-		const element = window.top?.document;
-		if (element && open) {
-			setTimeout(() => element.addEventListener('click', clickOutsidePopper, true), 1);
+		if (open) {
+			setTimeout(() => windowObj.document.addEventListener('click', clickOutsidePopper, true), 1);
 			contextMenu &&
-				setTimeout(() => element.addEventListener('contextmenu', clickOutsidePopper, true), 1);
+				setTimeout(
+					() => windowObj.document.addEventListener('contextmenu', clickOutsidePopper, true),
+					1
+				);
 		}
 
 		return (): void => {
-			if (element) {
-				element.removeEventListener('click', clickOutsidePopper, true);
-				element.removeEventListener('contextmenu', clickOutsidePopper, true);
-			}
+			windowObj.document.removeEventListener('click', clickOutsidePopper, true);
+			windowObj.document.removeEventListener('contextmenu', clickOutsidePopper, true);
 		};
-	}, [open, closePopper, clickOutsidePopper, contextMenu]);
+	}, [open, closePopper, clickOutsidePopper, contextMenu, windowObj.document]);
 
 	useEffect(() => {
 		const popperItemRefElement = popperItemsRef.current;
@@ -562,13 +592,14 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 
 	const listItemClickHandler = useCallback<
 		(
-			onClick?: PopperListItemProps['click']
+			onClick?: PopperListItemProps['click'],
+			keepOpen?: boolean
 		) => (event: React.SyntheticEvent<HTMLElement> | KeyboardEvent) => void
 	>(
-		(onClick) =>
+		(onClick, keepOpen) =>
 			(event): void => {
 				onClick && onClick(event);
-				!multiple && closePopper();
+				!multiple && !keepOpen && closePopper();
 			},
 		[closePopper, multiple]
 	);
@@ -595,6 +626,7 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 						items: subItems,
 						disabled: itemDisabled,
 						type,
+						keepOpen,
 						...itemProps
 					},
 					index
@@ -604,7 +636,8 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 						<NestListItem
 							icon={icon}
 							label={label}
-							click={listItemClickHandler(click)}
+							click={listItemClickHandler(click, keepOpen)}
+							keepOpen={keepOpen}
 							selected={selected}
 							open={currentHover === id}
 							key={id}
@@ -622,10 +655,8 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 						<PopperListItem
 							icon={icon}
 							label={label}
-							click={(e): void => {
-								click && click(e);
-								!multiple && closePopper();
-							}}
+							click={listItemClickHandler(click, keepOpen)}
+							keepOpen={keepOpen}
 							selected={selected}
 							key={id}
 							customComponent={customComponent}
@@ -649,9 +680,7 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 			selectedBackgroundColor,
 			itemIconSize,
 			itemTextSize,
-			itemPaddingBetween,
-			multiple,
-			closePopper
+			itemPaddingBetween
 		]
 	);
 

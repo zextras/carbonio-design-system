@@ -43,19 +43,5 @@ export default [
 			})
 		],
 		external
-	},
-	{
-		input: 'src/components/inputs/RichTextEditor.jsx',
-		output: {
-			file: 'dist/zapp-ui.rich-text-editor.js',
-			format: 'cjs'
-		},
-		plugins: [
-			...plugins,
-			copy({
-				targets: [{ src: 'src/tinymce/skins', dest: 'dist/tinymce' }]
-			})
-		],
-		external
 	}
 ];

@@ -5,7 +5,7 @@
  */
 
 /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
-import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useMemo, useCallback, useRef, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Container } from '../layout/Container';
 import { Portal } from '../utilities/Portal';
@@ -20,12 +20,14 @@ import {
 	ModalContent,
 	ModalWrapper
 } from './ModalComponents';
+import { ThemeContext } from '../../theme/theme-context-provider';
 
 const CustomModal = React.forwardRef(function ModalFn(
 	{ background, size, open, onClose, children, disablePortal, maxHeight, zIndex, ...rest },
 	ref
 ) {
 	const [delayedOpen, setDelayedOpen] = useState(false);
+	const { windowObj } = useContext(ThemeContext);
 
 	const innerRef = useRef(undefined);
 	const modalRef = useCombinedRefs(ref, innerRef);
@@ -62,23 +64,23 @@ const CustomModal = React.forwardRef(function ModalFn(
 
 	useEffect(() => {
 		if (open) {
-			const defaultOverflowY = window.top.document.body.style.overflowY;
-			const defaultPaddingRight = window.top.document.body.style.paddingRight;
+			const defaultOverflowY = windowObj.document.body.style.overflowY;
+			const defaultPaddingRight = windowObj.document.body.style.paddingRight;
 
-			window.top.document.body.style.overflowY = 'hidden';
-			isBodyOverflowing(modalRef) &&
-				(window.top.document.body.style.paddingRight = `${getScrollbarSize()}px`);
+			windowObj.document.body.style.overflowY = 'hidden';
+			isBodyOverflowing(modalRef, windowObj) &&
+				(windowObj.document.body.style.paddingRight = `${getScrollbarSize()}px`);
 
 			return () => {
-				window.top.document.body.style.overflowY = defaultOverflowY;
-				window.top.document.body.style.paddingRight = defaultPaddingRight;
+				windowObj.document.body.style.overflowY = defaultOverflowY;
+				windowObj.document.body.style.paddingRight = defaultPaddingRight;
 			};
 		}
 		return () => undefined;
-	}, [modalRef, open]);
+	}, [modalRef, open, windowObj]);
 
 	useEffect(() => {
-		const focusedElement = window.top.document.activeElement;
+		const focusedElement = windowObj.document.activeElement;
 
 		if (open) {
 			modalContentRef.current.focus();
@@ -93,7 +95,7 @@ const CustomModal = React.forwardRef(function ModalFn(
 			endSentinelRefSave && endSentinelRefSave.removeEventListener('focus', onEndSentinelFocus);
 			open && focusedElement.focus();
 		};
-	}, [open, onStartSentinelFocus, onEndSentinelFocus]);
+	}, [open, onStartSentinelFocus, onEndSentinelFocus, windowObj.document.activeElement]);
 
 	useEffect(() => {
 		setTimeout(() => setDelayedOpen(open), 1);

@@ -228,14 +228,6 @@ import { Container } from '../layout/Container';
 
 ## DATA DISPLAY
 
-#### Skeleton.RichTextEditor
-
-```jsx
-<>
-	<Shimmer.RichTextEditor width="80%" />
-</>
-```
-
 #### Skeleton.EmailChip
 
 ```jsx

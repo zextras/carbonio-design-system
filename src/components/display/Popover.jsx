@@ -4,12 +4,13 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { useEffect, useState, useRef, useCallback } from 'react';
+import React, { useEffect, useState, useRef, useCallback, useContext } from 'react';
 import { debounce } from 'lodash';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Popper } from './Popper';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
+import { ThemeContext } from '../../theme/theme-context-provider';
 
 const PopoverContainer = styled.div`
 	padding: ${(props) => props.theme.sizes.padding.small};
@@ -24,6 +25,7 @@ const Popover = React.forwardRef(function PopoverFn(
 	{ children, open, anchorEl, activateOnHover, placement, onClose, styleAsModal, ...rest },
 	ref
 ) {
+	const { windowObj } = useContext(ThemeContext);
 	const innerRef = useRef(undefined);
 	const popoverRef = useCombinedRefs(ref, innerRef);
 	const [innerOpen, setInnerOpen] = useState(false);
@@ -89,16 +91,16 @@ const Popover = React.forwardRef(function PopoverFn(
 		if (activateOnHover && anchorEl.current) {
 			anchorEl.current.addEventListener('mouseenter', onMouseEnter);
 			anchorEl.current.addEventListener('mouseleave', onMouseLeave);
-			window.top.document.addEventListener('scroll', closePopover);
+			windowObj.document.addEventListener('scroll', closePopover);
 			const anchorSave = anchorEl.current;
 			return () => {
 				anchorSave.removeEventListener('mouseenter', onMouseEnter);
 				anchorSave.removeEventListener('mouseleave', onMouseLeave);
-				window.top.document.removeEventListener('scroll', closePopover);
+				windowObj.document.removeEventListener('scroll', closePopover);
 			};
 		}
 		return () => undefined;
-	}, [anchorEl, activateOnHover, onMouseEnter, onMouseLeave, closePopover]);
+	}, [anchorEl, activateOnHover, onMouseEnter, onMouseLeave, closePopover, windowObj.document]);
 
 	return (
 		<Popper

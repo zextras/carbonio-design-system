@@ -5,7 +5,7 @@
  */
 
 import PropTypes from 'prop-types';
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useContext, useEffect } from 'react';
 import styled, { css } from 'styled-components';
 import { useScreenMode } from '../../hooks/useScreenMode';
 import { Button } from '../basic/Button';
@@ -66,7 +66,6 @@ const Snackbar = React.forwardRef(function SnackbarFn(
 	ref
 ) {
 	const screenMode = useScreenMode(target);
-
 	const handleClick = useCallback(() => {
 		onActionClick ? onActionClick() : onClose && onClose();
 	}, [onActionClick, onClose]);
@@ -141,7 +140,7 @@ Snackbar.propTypes = {
 	onActionClick: PropTypes.func,
 	/** Callback to handle Snackbar closing */
 	onClose: PropTypes.func,
-	/** Disable the autoHide funtionality */
+	/** Disable the autoHide functionality */
 	disableAutoHide: PropTypes.bool,
 	/** Hide the button in the Snackbar */
 	hideButton: PropTypes.bool,
@@ -165,7 +164,7 @@ Snackbar.defaultProps = {
 	hideButton: false,
 	zIndex: 1000,
 	autoHideTimeout: 4000,
-	target: window.top,
+	target: window,
 	onActionClick: undefined,
 	onClose: undefined,
 	disablePortal: false,

@@ -32,6 +32,7 @@ export type IconComponent = React.ComponentType<
 
 // augment this interface to extend theme type
 export interface ThemeObj {
+	windowObj: Window;
 	breakpoints: {
 		width: number;
 		aspectRatio: number;
@@ -78,6 +79,7 @@ export interface ThemeObj {
 }
 
 export const Theme: ThemeObj = {
+	windowObj: window,
 	breakpoints: {
 		width: 960,
 		aspectRatio: 2 / 3

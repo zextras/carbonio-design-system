@@ -6,11 +6,12 @@
 
 import { noop } from 'lodash';
 /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import styled, { css, SimpleInterpolation } from 'styled-components';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { KeyboardPreset, useKeyboard } from '../../hooks/useKeyboard';
 import type { ThemeObj } from '../../theme/theme';
+import { ThemeContext } from '../../theme/theme-context-provider';
 import { Button } from '../basic/Button';
 import { Text } from '../basic/Text';
 import { IconButton } from '../inputs/IconButton';
@@ -27,14 +28,14 @@ import {
 	ModalWrapper
 } from './ModalComponents';
 
-function copyToClipboard(node: HTMLDivElement | null): void {
-	const el = window.top?.document.createElement('textarea');
+function copyToClipboard(node: HTMLDivElement | null, windowObj: Window): void {
+	const el = windowObj.document.createElement('textarea');
 	if (el && node?.textContent) {
 		el.value = node.textContent;
-		window.top?.document.body.appendChild(el);
+		windowObj.document.body.appendChild(el);
 		el.select();
-		window.top?.document.execCommand('copy');
-		window.top?.document.body.removeChild(el);
+		windowObj.document.execCommand('copy');
+		windowObj.document.body.removeChild(el);
 	}
 }
 
@@ -246,6 +247,7 @@ const Modal = React.forwardRef<HTMLDivElement, ModalProps>(function ModalFn(
 	ref
 ) {
 	const [delayedOpen, setDelayedOpen] = useState(false);
+	const { windowObj } = useContext(ThemeContext);
 
 	const innerRef = useRef<HTMLDivElement | null>(null);
 	const modalRef = useCombinedRefs<HTMLDivElement>(ref, innerRef);
@@ -267,7 +269,10 @@ const Modal = React.forwardRef<HTMLDivElement, ModalProps>(function ModalFn(
 		},
 		[onClose]
 	);
-	const onCopyClipboard = useCallback(() => copyToClipboard(modalBodyRef.current), []);
+	const onCopyClipboard = useCallback(
+		() => copyToClipboard(modalBodyRef.current, windowObj),
+		[windowObj]
+	);
 
 	const onStartSentinelFocus = useCallback(() => {
 		if (modalContentRef.current) {
@@ -288,27 +293,25 @@ const Modal = React.forwardRef<HTMLDivElement, ModalProps>(function ModalFn(
 	useKeyboard(modalRef, escapeEvent);
 
 	useEffect(() => {
-		if (open && window.top) {
-			const defaultOverflowY = window.top.document.body.style.overflowY;
-			const defaultPaddingRight = window.top.document.body.style.paddingRight;
+		if (open) {
+			const defaultOverflowY = windowObj.document.body.style.overflowY;
+			const defaultPaddingRight = windowObj.document.body.style.paddingRight;
 
-			window.top.document.body.style.overflowY = 'hidden';
+			windowObj.document.body.style.overflowY = 'hidden';
 			modalRef.current != null &&
-				isBodyOverflowing(modalRef) &&
-				(window.top.document.body.style.paddingRight = `${getScrollbarSize()}px`);
+				isBodyOverflowing(modalRef, windowObj) &&
+				(windowObj.document.body.style.paddingRight = `${getScrollbarSize(windowObj)}px`);
 
 			return (): void => {
-				if (window.top) {
-					window.top.document.body.style.overflowY = defaultOverflowY;
-					window.top.document.body.style.paddingRight = defaultPaddingRight;
-				}
+				windowObj.document.body.style.overflowY = defaultOverflowY;
+				windowObj.document.body.style.paddingRight = defaultPaddingRight;
 			};
 		}
 		return (): void => undefined;
-	}, [modalRef, open]);
+	}, [modalRef, open, windowObj]);
 
 	useEffect(() => {
-		const focusedElement = window.top?.document.activeElement;
+		const focusedElement = windowObj.document.activeElement;
 
 		if (open) {
 			modalContentRef.current?.focus();
@@ -321,9 +324,9 @@ const Modal = React.forwardRef<HTMLDivElement, ModalProps>(function ModalFn(
 			startSentinelRefSave &&
 				startSentinelRefSave.removeEventListener('focus', onStartSentinelFocus);
 			endSentinelRefSave && endSentinelRefSave.removeEventListener('focus', onEndSentinelFocus);
-			open && (focusedElement as HTMLElement)?.focus();
+			open && focusedElement && (focusedElement as HTMLElement).focus();
 		};
-	}, [open, onStartSentinelFocus, onEndSentinelFocus]);
+	}, [open, onStartSentinelFocus, onEndSentinelFocus, windowObj.document.activeElement]);
 
 	useEffect(() => {
 		setTimeout(() => setDelayedOpen(open), 1);

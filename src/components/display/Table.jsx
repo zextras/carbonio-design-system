@@ -422,7 +422,9 @@ Table.propTypes = {
 			/** Select 'All' label translation */
 			i18nAllLabel: PropTypes.string,
 			/** Select.propTypes.items */
-			items: Select.propTypes.items,
+			items: PropTypes.arrayOf(
+				PropTypes.shape({ label: PropTypes.string, value: PropTypes.string })
+			),
 			/** Whether or not label should be bold */
 			bold: PropTypes.bool,
 			/** De/Select all rows callback */

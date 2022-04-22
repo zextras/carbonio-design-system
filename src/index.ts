@@ -14,7 +14,6 @@ export * from './components/basic/Icon';
 export * from './components/basic/Link';
 export * from './components/basic/LoadMore';
 export * from './components/basic/FormSection';
-export * from './components/basic/Logo';
 export * from './components/basic/Text';
 export * from './components/basic/TextWithTooltip';
 export { default as Spinner } from './components/basic/Spinner';
@@ -41,7 +40,6 @@ export * from './components/inputs/SearchInput';
 export * from './components/inputs/Select';
 export * from './components/inputs/Switch';
 export * from './components/inputs/DateTimePicker';
-// export { default as RichTextEditor } from './components/inputs/RichTextEditor';
 
 /** navigation components */
 export * from './components/navigation/Accordion';

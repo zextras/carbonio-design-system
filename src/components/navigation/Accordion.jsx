@@ -24,8 +24,8 @@ import { pseudoClasses } from '../../theme/theme-utils';
 
 const AccordionContainerEl = styled(Container)`
 	padding-left: ${({ theme, level }) => css`calc(${level} * ${theme.sizes.padding.large})`};
-	background-color: ${({ theme, background, item }) =>
-		theme.palette[item.active ? 'highlight' : background].regular};
+	background-color: ${({ theme, background, item, active }) =>
+		theme.palette[active ? 'highlight' : background].regular};
 	${({ theme, background, item }) =>
 		!item.disableHover && pseudoClasses(theme, item.active ? 'highlight' : background)};
 `;
@@ -66,7 +66,7 @@ const AccordionItem = React.forwardRef(function AccordionItemFn({ item, children
 });
 
 const AccordionRoot = React.forwardRef(function AccordionRootFn(
-	{ level, item, background, ...rest },
+	{ level, item, background, activeId, openIds, ...rest },
 	ref
 ) {
 	const [open, setOpen] = useState(!!item.open);
@@ -74,8 +74,9 @@ const AccordionRoot = React.forwardRef(function AccordionRootFn(
 	const accordionRef = useCombinedRefs(ref, innerRef);
 
 	useEffect(() => {
-		setOpen(!!item.open);
-	}, [item.open]);
+		setOpen(() => !!item.open || !!openIds?.includes(item.id));
+	}, [item.id, item.open, openIds]);
+
 	const handleClick = useCallback(
 		(e) => {
 			setOpen(true);
@@ -86,9 +87,12 @@ const AccordionRoot = React.forwardRef(function AccordionRootFn(
 	const expandOnIconClick = useCallback(
 		(e) => {
 			e.stopPropagation();
-			setOpen((op) => !op);
+			setOpen((op) => {
+				op ? item.onClose && item.onClose(e) : item.onOpen && item.onOpen(e);
+				return !op;
+			});
 		},
-		[setOpen]
+		[item]
 	);
 	const keyEvents = useMemo(() => getKeyboardPreset('button', handleClick), [handleClick]);
 	useKeyboard(accordionRef, keyEvents);
@@ -97,6 +101,7 @@ const AccordionRoot = React.forwardRef(function AccordionRootFn(
 			<Container orientation="vertical" width="fill" height="fit" ref={ref} {...rest}>
 				{item.divider && <Divider color="gray2" />}
 				<AccordionContainerEl
+					active={item.active || activeId === item.id}
 					item={item}
 					background={item.background || background}
 					ref={ref}
@@ -134,6 +139,8 @@ const AccordionRoot = React.forwardRef(function AccordionRootFn(
 						maxSize={`${item.items.length * 64}px`}
 					>
 						<Accordion
+							activeId={activeId}
+							openIds={openIds}
 							items={item.items}
 							level={item.level !== undefined ? item.level : level + 1}
 							background={background}
@@ -146,7 +153,7 @@ const AccordionRoot = React.forwardRef(function AccordionRootFn(
 });
 
 const Accordion = React.forwardRef(function AccordionFn(
-	{ items, level, background, ...rest },
+	{ items, level, background, activeId, openIds, ...rest },
 	ref
 ) {
 	return (
@@ -165,6 +172,8 @@ const Accordion = React.forwardRef(function AccordionFn(
 					level={level}
 					item={item}
 					background={background}
+					activeId={activeId}
+					openIds={openIds}
 				/>
 			))}
 		</Container>
@@ -172,6 +181,10 @@ const Accordion = React.forwardRef(function AccordionFn(
 });
 
 Accordion.propTypes = {
+	/** id of the currently active item (alternative to the active item flag) */
+	activeId: PropTypes.string,
+	/** list of ids of the currently open items (alternative to the open item flag) */
+	openIds: PropTypes.arrayOf(PropTypes.string),
 	/** Items tree object, can be nested (each property is forwarded to the item component as a prop) */
 	items: PropTypes.arrayOf(
 		PropTypes.shape({
@@ -187,6 +200,8 @@ Accordion.propTypes = {
 			badgeType: PropTypes.oneOf(['read', 'unread']),
 			badgeCounter: PropTypes.number,
 			open: PropTypes.bool,
+			onOpen: PropTypes.func,
+			onClose: PropTypes.func,
 			background: Container.propTypes.background,
 			disableHover: PropTypes.bool
 		})

@@ -527,61 +527,6 @@ const ShimmerObject = {
 			<IconSkeletonComponent variant="dark" size="medium" width="50%" />
 		</SkeletonComponent>
 	),
-	RichTextEditor: ({ width }) => (
-		<SkeletonComponent
-			style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start' }}
-			width={width}
-			height="40px"
-		>
-			<Padding vertical="medium" left="large">
-				<IconSkeletonComponent variant="dark" size="medium" />
-			</Padding>
-			<Padding vertical="medium" left="large">
-				<IconSkeletonComponent variant="dark" size="medium" />
-			</Padding>
-			<Padding vertical="medium" left="large">
-				<IconSkeletonComponent variant="dark" size="medium" />
-			</Padding>
-			<Padding vertical="medium" left="large">
-				<IconSkeletonComponent variant="dark" size="medium" />
-			</Padding>
-			<Padding vertical="medium" left="large">
-				<IconSkeletonComponent variant="dark" size="medium" />
-			</Padding>
-			<Padding vertical="medium" left="large">
-				<IconSkeletonComponent variant="dark" size="medium" />
-			</Padding>
-			<Padding vertical="medium" left="large">
-				<SkeletonComponent variant="dark" width="40px" height="16px" />
-			</Padding>
-			<Padding vertical="medium" left="large">
-				<IconSkeletonComponent variant="dark" size="medium" />
-			</Padding>
-			<Padding vertical="medium" left="large">
-				<SkeletonComponent variant="dark" width="48px" height="16px" />
-			</Padding>
-			<Padding vertical="medium" left="large">
-				<IconSkeletonComponent variant="dark" size="medium" />
-			</Padding>
-			<Padding vertical="medium" left="large">
-				<SkeletonComponent variant="dark" width="52px" height="16px" />
-			</Padding>
-			<Padding vertical="medium" left="large">
-				<IconSkeletonComponent variant="dark" size="medium" />
-			</Padding>
-
-			<Container
-				orientation="horizontal"
-				mainAlignment="flex-end"
-				crossAlignment="center"
-				width="50%"
-			>
-				<Padding vertical="medium" right="large">
-					<IconSkeletonComponent variant="dark" size="medium" />
-				</Padding>
-			</Container>
-		</SkeletonComponent>
-	),
 	Searchbar: ({ width }) => (
 		<SkeletonComponent
 			style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}
@@ -796,7 +741,6 @@ Shimmer.Input = ({ ...rest }) => <ShimmerObject.Input {...rest} />;
 Shimmer.ListItem = ({ ...rest }) => <ShimmerObject.ListItem {...rest} />;
 Shimmer.Logo = ({ ...rest }) => <ShimmerObject.Logo {...rest} />;
 Shimmer.Quota = ({ ...rest }) => <ShimmerObject.Quota {...rest} />;
-Shimmer.RichTextEditor = ({ ...rest }) => <ShimmerObject.RichTextEditor {...rest} />;
 Shimmer.Searchbar = ({ ...rest }) => <ShimmerObject.Searchbar {...rest} />;
 Shimmer.Snackbar = ({ ...rest }) => <ShimmerObject.Snackbar {...rest} />;
 Shimmer.Stepper = ({ ...rest }) => <ShimmerObject.Stepper {...rest} />;
@@ -816,7 +760,6 @@ Shimmer.Input.displayName = 'Shimmer.Input';
 Shimmer.ListItem.displayName = 'Shimmer.ListItem';
 Shimmer.Logo.displayName = 'Shimmer.Logo';
 Shimmer.Quota.displayName = 'Shimmer.Quota';
-Shimmer.RichTextEditor.displayName = 'Shimmer.RichTextEditor';
 Shimmer.Searchbar.displayName = 'Shimmer.Searchbar';
 Shimmer.Snackbar.displayName = 'Shimmer.Snackbar';
 Shimmer.Stepper.displayName = 'Shimmer.Stepper';
@@ -836,7 +779,6 @@ ShimmerObject.Input.displayName = 'ShimmerObject.Input';
 ShimmerObject.ListItem.displayName = 'ShimmerObject.ListItem';
 ShimmerObject.Logo.displayName = 'ShimmerObject.Logo';
 ShimmerObject.Quota.displayName = 'ShimmerObject.Quota';
-ShimmerObject.RichTextEditor.displayName = 'ShimmerObject.RichTextEditor';
 ShimmerObject.Searchbar.displayName = 'ShimmerObject.Searchbar';
 ShimmerObject.Snackbar.displayName = 'ShimmerObject.Snackbar';
 ShimmerObject.Stepper.displayName = 'ShimmerObject.Stepper';
