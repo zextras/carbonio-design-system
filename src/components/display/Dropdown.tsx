@@ -398,11 +398,11 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 	const closePopper = useCallback(
 		(e?: React.SyntheticEvent | KeyboardEvent) => {
 			e && e.stopPropagation();
-			setOpen(false);
+			setOpen(forceOpen);
 			!disableRestoreFocus && triggerRef.current && triggerRef.current.focus();
 			onClose && onClose();
 		},
-		[disableRestoreFocus, onClose]
+		[disableRestoreFocus, forceOpen, onClose]
 	);
 
 	const handleClick = useCallback<(e: React.SyntheticEvent | KeyboardEvent) => void>(
