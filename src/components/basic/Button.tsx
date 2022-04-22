@@ -49,6 +49,8 @@ interface ButtonSecondaryAction {
 	disabled?: boolean;
 	/** forceActive status for the secondary action */
 	forceActive?: boolean;
+	/** Ref object to assign to secondary button */
+	ref?: React.RefObject<HTMLButtonElement>;
 }
 
 type ButtonProps = {
@@ -391,7 +393,7 @@ const Button = React.forwardRef<
 				{secondaryAction && size !== 'extrasmall' && size !== 'small' && (
 					<StyledSecondaryActionPlaceholder padding={SIZES[size].secondaryButton.padding}>
 						<StyledIcon
-							icon={secondaryAction.icon}
+							icon={`${secondaryAction.icon}Placeholder`}
 							color="currentColor"
 							$size={SIZES[size].secondaryButton.icon}
 						/>
@@ -417,6 +419,7 @@ const Button = React.forwardRef<
 					onClick={secondaryActionClickHandler}
 					$loading={loading}
 					width="fit"
+					ref={secondaryAction.ref}
 				>
 					<StyledIcon
 						icon={secondaryAction.icon}
