@@ -199,7 +199,7 @@ describe('ChipInput', () => {
 	});
 
 	test('if space separator is disabled, space does not create a chip', () => {
-		render(<ChipInput confirmChipOnSpace={false} />);
+		render(<ChipInput confirmChipOnSpace={false} separators={[',']} />);
 		const inputElement = screen.getByRole('textbox');
 		expect(inputElement).toBeInTheDocument();
 		expect(inputElement).toBeVisible();
@@ -212,7 +212,7 @@ describe('ChipInput', () => {
 	});
 
 	test('if space separator is enabled, space create a chip', () => {
-		render(<ChipInput confirmChipOnSpace />);
+		render(<ChipInput separators={['Space']} />);
 		const inputElement = screen.getByRole('textbox');
 		expect(inputElement).toBeInTheDocument();
 		expect(inputElement).toBeVisible();
@@ -507,5 +507,48 @@ describe('ChipInput', () => {
 		userEvent.type(screen.getByRole('textbox'), 'hej');
 		await waitFor(() => expect(onInputTypeFn).toHaveBeenCalled());
 		expect(onInputTypeFn).toHaveBeenCalledWith(expect.objectContaining({ textContent: 'hej' }));
+	});
+
+	test('create chips on paste splitting text on wanted separators', () => {
+		render(<ChipInput createChipOnPaste pasteSeparators={['x', 'z']} />);
+		const inputElement = screen.getByRole('textbox');
+		expect(inputElement).toBeInTheDocument();
+		expect(inputElement).toBeVisible();
+		// create chip with paste
+		const dataTransferData: Record<string, string> = { Text: 'ciaoxhellozhola' };
+		userEvent.paste(inputElement, 'ciaoxhellozhola', {
+			clipboardData: {
+				getData: jest.fn().mockImplementation((type: string) => dataTransferData[type])
+			} as unknown as DataTransfer
+		});
+		// chip is created with text before space
+		expect(screen.getByText('ciao')).toBeVisible();
+		expect(screen.getByText('hello')).toBeVisible();
+		expect(screen.getByText('hola')).toBeVisible();
+		expect(screen.queryByText(/x/i)).not.toBeInTheDocument();
+		expect(screen.queryByText(/z/i)).not.toBeInTheDocument();
+		expect(screen.getAllByTestId('icon: Close')).toHaveLength(3);
+		expect(screen.queryByText('ciaoxhellozhola')).not.toBeInTheDocument();
+	});
+
+	test('if createChipOnPaste is set to false, paste event just paste text inside input', () => {
+		render(<ChipInput createChipOnPaste={false} pasteSeparators={['x', 'z']} />);
+		const inputElement = screen.getByRole('textbox');
+		expect(inputElement).toBeInTheDocument();
+		expect(inputElement).toBeVisible();
+		// paste text
+		const dataTransferData: Record<string, string> = { Text: 'ciaoxhellozhola' };
+		userEvent.paste(inputElement, 'ciaoxhellozhola', {
+			clipboardData: {
+				getData: jest.fn().mockImplementation((type: string) => dataTransferData[type])
+			} as unknown as DataTransfer
+		});
+		// text is pastes as is
+		expect(inputElement).toHaveValue('ciaoxhellozhola');
+		// chips are not created
+		expect(screen.queryByText('ciao')).not.toBeInTheDocument();
+		expect(screen.queryByText('hello')).not.toBeInTheDocument();
+		expect(screen.queryByText('hola')).not.toBeInTheDocument();
+		expect(screen.queryByTestId('icon: Close')).not.toBeInTheDocument();
 	});
 });

@@ -397,6 +397,27 @@ const onChange = (e) => {
 />;
 ```
 
+
+### ChipInput with paste support
+
+```jsx
+import { useState } from 'react';
+const [options, setOptions] = useState([]);
+
+const onChange = (chips) => {
+	console.log('chips:', chips);
+	setOptions(chips);
+};
+<ChipInput
+	placeholder="Chips:"
+	defaultValue={options}
+	separators={['Enter', ',', ';']}
+	pasteSeparators={[',']}
+	confirmChipOnSpace={false}
+	createChipOnPaste
+	onChange={onChange}
+/>
+```
 ### Figma variants
 
 ```jsx

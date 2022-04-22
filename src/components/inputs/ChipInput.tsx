@@ -13,7 +13,7 @@ import React, {
 	useRef,
 	useState
 } from 'react';
-import { filter, map, slice, isEmpty, debounce, find, trim } from 'lodash';
+import { filter, map, slice, isEmpty, debounce, find, trim, reduce, uniq } from 'lodash';
 import styled, { css, SimpleInterpolation } from 'styled-components';
 import { IconButton } from './IconButton';
 import { ThemeObj } from '../../theme/theme';
@@ -272,10 +272,13 @@ function reducer(
 		| { type: 'pop'; index: number }
 		| { type: 'popLast' }
 		| { type: 'reset'; value: ChipItem[] | undefined }
+		| { type: 'pushMultiples'; items: ChipItem[] }
 ): ChipItem[] {
 	switch (action.type) {
 		case 'push':
 			return [...state, action.item];
+		case 'pushMultiples':
+			return [...state, ...action.items];
 		case 'replace':
 			return [action.item];
 		case 'pop':
@@ -395,6 +398,10 @@ interface ChipInputProps {
 	description?: string;
 	/** Custom Chip component */
 	ChipComponent?: typeof Chip;
+	/** allow to create chips from pasted values */
+	createChipOnPaste?: boolean;
+	/** Chip generation triggers on paste */
+	pasteSeparators?: string[];
 }
 
 type ChipInputType = React.ForwardRefExoticComponent<
@@ -426,6 +433,8 @@ const ChipInput: ChipInputType = React.forwardRef<HTMLDivElement, ChipInputProps
 			iconColor,
 			disabled = false,
 			requireUniqueChips = false,
+			createChipOnPaste = false,
+			pasteSeparators = [','],
 			maxChips = 20,
 			hasError = false,
 			hideBorder = false,
@@ -499,6 +508,15 @@ const ChipInput: ChipInputType = React.forwardRef<HTMLDivElement, ChipInputProps
 				}
 			},
 			[requireUniqueChips, items, inputElRef, onAdd, uncontrolledMode, onChange]
+		);
+
+		const savePastedValue = useCallback(
+			(valueToSave: string[]) => {
+				const pastedItems = map(valueToSave, (vts) => onAdd(vts));
+				uncontrolledMode && dispatch({ type: 'pushMultiples', items: pastedItems });
+				onChange && onChange([...items, ...pastedItems]);
+			},
+			[uncontrolledMode, onChange, items, onAdd]
 		);
 
 		const replaceValue = useCallback(
@@ -671,6 +689,26 @@ const ChipInput: ChipInputType = React.forwardRef<HTMLDivElement, ChipInputProps
 
 		const onInputFocus = useCallback(() => setIsActive(true), []);
 
+		const onPaste = useCallback<React.ClipboardEventHandler>(
+			(e) => {
+				if (createChipOnPaste) {
+					e.preventDefault();
+					const pastedText = e.clipboardData.getData('Text');
+					const separatorsRegex = new RegExp(pasteSeparators.join('|'), 'gi');
+					const reducedChips = reduce<string, string[]>(
+						pastedText.split(separatorsRegex),
+						(acc, v) => {
+							if (trim(v) !== '') acc.push(trim(v));
+							return acc;
+						},
+						[]
+					);
+					savePastedValue(requireUniqueChips ? uniq(reducedChips) : reducedChips);
+				}
+			},
+			[createChipOnPaste, pasteSeparators, requireUniqueChips, savePastedValue]
+		);
+
 		const ChipComp = useMemo(() => ChipComponent || Chip, [ChipComponent]);
 
 		return (
@@ -728,6 +766,7 @@ const ChipInput: ChipInputType = React.forwardRef<HTMLDivElement, ChipInputProps
 								separators={separatorKeys}
 								confirmChipOnBlur={confirmChipOnBlur}
 								dropdownDisabled={dropdownDisabled}
+								onPaste={onPaste}
 							/>
 							{placeholder && (
 								<Label
