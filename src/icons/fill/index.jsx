@@ -61,6 +61,7 @@ export { default as BottomView } from './BottomView';
 export { default as Briefcase } from './Briefcase';
 export { default as Browser } from './Browser';
 export { default as Brush } from './Brush';
+export { default as Bucket } from './Bucket';
 export { default as Bug } from './Bug';
 export { default as Bulb } from './Bulb';
 export { default as Cake } from './Cake';
