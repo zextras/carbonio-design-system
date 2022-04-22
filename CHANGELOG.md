@@ -2,6 +2,29 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.3.0](https://github.com/Zextras/carbonio-design-system/compare/v0.2.2...v0.3.0) (2022-04-22)
+
+
+### ⚠ BREAKING CHANGES
+
+* the RichTextEditor and Logo components are no longer exported by this library
+
+### Features
+
+* activeId flag on accordion ([1c347f3](https://github.com/Zextras/carbonio-design-system/commit/1c347f3f872f7714dc5fe5281268a7f23990dab2))
+* added Bucket icons, reviewed icon set ([4eae144](https://github.com/Zextras/carbonio-design-system/commit/4eae1442cadf5a95397d1d8e3154610cbee867a6))
+* create chips by pasting text ([#45](https://github.com/Zextras/carbonio-design-system/issues/45)) ([38f144d](https://github.com/Zextras/carbonio-design-system/commit/38f144dfd349a09db0a23030c812bfb5e914f0cb))
+* new icons ([fea626b](https://github.com/Zextras/carbonio-design-system/commit/fea626b3e805485487ac0bb04f6e35c63ec7d511))
+* openIds parameter on accordion ([ba91e60](https://github.com/Zextras/carbonio-design-system/commit/ba91e604345890dc10082bee849a89d82b10e895))
+
+
+### Bug Fixes
+
+* unsupported overflow value on firefox ([77a08e0](https://github.com/Zextras/carbonio-design-system/commit/77a08e024899c233c3b93534b78980f153c37314))
+
+
+* removed RichTextEditor and Logo components ([1473146](https://github.com/Zextras/carbonio-design-system/commit/14731466348ca13df396261c413f984a425900a2))
+
 ### [0.2.2](https://github.com/Zextras/carbonio-design-system/compare/v0.2.1...v0.2.2) (2022-04-12)
 
 
