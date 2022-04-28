@@ -5,9 +5,14 @@
  */
 
 import React, { useCallback, useMemo, useRef, useState } from 'react';
+import styled from 'styled-components';
 import { Button, ButtonProps } from '../basic/Button';
 import { Dropdown, DropdownProps } from '../display/Dropdown';
 import type { ThemeObj } from '../../theme/theme';
+
+const StyledDropdown = styled(Dropdown)<{ $containerWidth: string }>`
+	width: ${({ $containerWidth }): string => $containerWidth};
+`;
 
 type MultiButtonProps = {
 	/** MultiButton text */
@@ -28,6 +33,8 @@ type MultiButtonProps = {
 	items: DropdownProps['items'];
 	/** Button size */
 	size?: Extract<ButtonProps['size'], 'medium' | 'large' | 'extralarge'>;
+	/** Dropdown list width */
+	dropdownWidth?: DropdownProps['width'];
 } & Omit<ButtonProps, 'secondaryAction' | 'icon' | 'disabled'>;
 
 const MultiButton = React.forwardRef<HTMLButtonElement, MultiButtonProps>(function MultiButtonFn(
@@ -41,6 +48,8 @@ const MultiButton = React.forwardRef<HTMLButtonElement, MultiButtonProps>(functi
 		items,
 		onClick,
 		primaryIcon,
+		width,
+		dropdownWidth,
 		...rest
 	},
 	ref
@@ -71,13 +80,15 @@ const MultiButton = React.forwardRef<HTMLButtonElement, MultiButtonProps>(functi
 	);
 
 	return (
-		<Dropdown
+		<StyledDropdown
 			items={items}
 			placement="bottom-end"
 			forceOpen={dropdownOpen}
 			onClose={closeDropdown}
 			disabled
 			disableRestoreFocus
+			width={dropdownWidth}
+			$containerWidth={(width === 'fill' && '100%') || 'auto'}
 		>
 			<Button
 				backgroundColor={background}
@@ -88,9 +99,10 @@ const MultiButton = React.forwardRef<HTMLButtonElement, MultiButtonProps>(functi
 				icon={primaryIcon}
 				secondaryAction={secondaryAction}
 				ref={ref}
+				width={width}
 				{...rest}
 			/>
-		</Dropdown>
+		</StyledDropdown>
 	);
 });
 
