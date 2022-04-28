@@ -77,7 +77,9 @@ describe('Accordion', () => {
 	test('Render customized Accordion', () => {
 		const clickFn = jest.fn();
 
-		const CC1: AccordionItemType['CustomComponent'] = ({ item }) => <Button label={item.label} onClick={clickFn} />;
+		const CC1: AccordionItemType['CustomComponent'] = ({ item }) => (
+			<Button label={item.label} onClick={clickFn} />
+		);
 		const CC2: AccordionItemType['CustomComponent'] = ({ item }) => (
 			<div id="custom" style={{ width: '100%', border: '1px solid green' }}>
 				<AccordionItem item={item} />
