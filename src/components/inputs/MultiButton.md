@@ -91,14 +91,14 @@ const items = [
 
 <Container orientation="vertical" style={{ gap: '10px'}} >
     <Container orientation="horizontal" style={{ gap: '10px'}}>
-        <MultiButton width="fit" size="medium" label="Hello" onClick={console.log} items={items} />
-        <MultiButton width="fit" size="large" label="Hello" onClick={console.log} items={items} />
-        <MultiButton width="fit" size="extralarge" label="Hello" onClick={console.log} items={items} />
+        <MultiButton width="fit" size="medium" primaryIcon="Plus" iconPlacement="left" label="Hello" onClick={console.log} items={items} />
+        <MultiButton width="fit" size="large" primaryIcon="Plus" iconPlacement="left" label="Hello" onClick={console.log} items={items} />
+        <MultiButton width="fit" size="extralarge" primaryIcon="Plus" iconPlacement="left" label="Hello" onClick={console.log} items={items} />
     </Container>
     <Container orientation="horizontal" style={{ gap: '10px'}}>
-        <MultiButton width="fill" size="medium" primaryIcon="Plus" onClick={console.log} items={items} />
-        <MultiButton width="fill" size="large" primaryIcon="Plus" onClick={console.log} items={items} />
-        <MultiButton width="fill" size="extralarge" primaryIcon="Plus" onClick={console.log} items={items} />
+        <MultiButton width="fill" dropdownWidth="100%" size="medium" primaryIcon="Plus" iconPlacement="left" label="Hello" onClick={console.log} items={items} />
+        <MultiButton width="fill" dropdownWidth="100%" size="large" primaryIcon="Plus" iconPlacement="left" label="Hello" onClick={console.log} items={items} />
+        <MultiButton width="fill" dropdownWidth="100%" size="extralarge" primaryIcon="Plus" iconPlacement="left" label="Hello" onClick={console.log} items={items} />
     </Container>
 </Container>
 
