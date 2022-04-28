@@ -6,7 +6,6 @@
 import React from 'react';
 import styled, { css, SimpleInterpolation } from 'styled-components';
 import { Container } from '../layout/Container';
-import { ThemeContext } from '../../theme/theme-context-provider';
 
 const modalMinWidth = {
 	extrasmall: '20%',
