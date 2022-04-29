@@ -6,7 +6,15 @@
 
 import { noop } from 'lodash';
 /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
-import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import React, {
+	HTMLAttributes,
+	useCallback,
+	useContext,
+	useEffect,
+	useMemo,
+	useRef,
+	useState
+} from 'react';
 import styled, { css, SimpleInterpolation } from 'styled-components';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { KeyboardPreset, useKeyboard } from '../../hooks/useKeyboard';
@@ -89,7 +97,7 @@ const ConfirmButton = styled(Button)`
 	flex-shrink: 1;
 `;
 
-interface ModalProps {
+interface ModalProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
 	/** Modal background */
 	background?: string | keyof ThemeObj['palette'];
 	/** Modal type */
