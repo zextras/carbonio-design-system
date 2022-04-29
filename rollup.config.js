@@ -17,11 +17,7 @@ const plugins = [
 	babel({
 		babelHelpers: 'runtime',
 		presets: ['@babel/preset-react', '@babel/preset-typescript'],
-		plugins: [
-			'@babel/plugin-proposal-class-properties',
-			'babel-plugin-styled-components',
-			['@quickbaseoss/babel-plugin-styled-components-css-namespace', { cssNamespace: '&&&' }]
-		],
+		plugins: ['@babel/plugin-proposal-class-properties', 'babel-plugin-styled-components'],
 		extensions: ['.js', '.jsx', '.ts', '.tsx'],
 		ignore: ['node_modules']
 	})
