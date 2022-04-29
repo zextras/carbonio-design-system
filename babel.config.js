@@ -31,7 +31,6 @@ module.exports = (api) => {
 			'@babel/plugin-transform-runtime',
 			'@babel/plugin-proposal-class-properties',
 			'babel-plugin-styled-components',
-			['@quickbaseoss/babel-plugin-styled-components-css-namespace', { cssNamespace: '&&&' }],
 			'lodash'
 		]
 	};
