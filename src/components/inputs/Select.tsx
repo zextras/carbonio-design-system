@@ -10,7 +10,7 @@ import { some, isEmpty } from 'lodash';
 import type { ThemeObj } from '../../theme/theme';
 import { Container } from '../layout/Container';
 import { Divider } from '../layout/Divider';
-import { Dropdown } from '../display/Dropdown';
+import { Dropdown, DropdownProps } from '../display/Dropdown';
 import { Icon } from '../basic/Icon';
 import { Padding } from '../layout/Padding';
 import { Row } from '../layout/Row';
@@ -35,7 +35,7 @@ const ContainerEl = styled(Container)<{ $focus: boolean }>`
 		$focus &&
 		css`
 			background: ${getColor(`${background}.focus`, theme)};
-		`}
+		`};
 `;
 
 const CustomText = styled(Text)`
@@ -179,7 +179,7 @@ type SelectItem = {
 	customComponent?: React.ReactElement;
 };
 
-type SelectProps = {
+type SelectComponentProps = {
 	label?: string;
 	background?: string | keyof ThemeObj['palette'];
 	disabled?: boolean;
@@ -217,6 +217,9 @@ type SelectProps = {
 			onChange: (value: string | null) => void;
 	  }
 );
+
+type SelectProps = SelectComponentProps &
+	Omit<DropdownProps, keyof SelectComponentProps | 'children'>;
 
 const Select = React.forwardRef<HTMLDivElement, SelectProps>(function SelectFn(
 	{
