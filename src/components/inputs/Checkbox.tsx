@@ -50,7 +50,7 @@ const CustomText = styled(Text)`
 	line-height: 1.5;
 `;
 
-interface CheckboxProps {
+interface CheckboxProps extends Omit<ContainerProps, 'onChange' | 'onClick'> {
 	/** status of the Checkbox */
 	defaultChecked?: boolean;
 	/** Checkbox value */
