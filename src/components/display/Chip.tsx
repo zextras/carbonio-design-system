@@ -12,7 +12,7 @@ import { Tooltip } from './Tooltip';
 import { Icon } from '../basic/Icon';
 import { IconButton, IconButtonProps } from '../inputs/IconButton';
 import { Avatar } from '../basic/Avatar';
-import { Row } from '../layout/Row';
+import { Row, RowProps } from '../layout/Row';
 import { Text } from '../basic/Text';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { useTheme, pseudoClasses } from '../../theme/theme-utils';
@@ -44,7 +44,7 @@ type ChipAction = {
 	  }
 );
 
-interface ChipProps {
+interface ChipProps extends RowProps {
 	/** Chip actions (buttons or icons) */
 	actions?: ChipAction[];
 	/** Chip Avatar Icon */
@@ -134,7 +134,7 @@ const ChipContainer = styled(Row)<{
 		!disabled &&
 		(onClick || onDoubleClick) &&
 		theme.palette[background] &&
-		pseudoClasses(theme, background)}
+		pseudoClasses(theme, background)};
 	border-radius: ${(props): string => {
 		switch (props.borderRadius) {
 			case 'regular':
