@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { useMemo } from 'react';
+import React, { HTMLAttributes, useMemo } from 'react';
 import styled from 'styled-components';
 import { Icon } from './Icon';
 import type { ThemeObj } from '../../theme/theme';
@@ -171,7 +171,7 @@ const Avatar = React.forwardRef<HTMLDivElement, AvatarPropTypes>(function Avatar
 	);
 });
 
-interface AvatarPropTypes {
+interface AvatarPropTypes extends HTMLAttributes<HTMLDivElement> {
 	/** size of the Avatar circle */
 	size?: keyof ThemeObj['sizes']['avatar'];
 
