@@ -282,7 +282,7 @@ interface DropdownItem {
 	keepOpen?: boolean;
 }
 
-interface DropdownProps {
+interface DropdownProps extends Omit<HTMLAttributes<HTMLDivElement>, 'contextMenu'> {
 	/** Whether to disable the Dropdown or not */
 	disabled?: boolean;
 	/** Array of items to display */
