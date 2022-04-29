@@ -23,15 +23,15 @@ const StyledIconButton = styled(Button)<{
 				width: ${$iconSize};
 				height: ${$iconSize};
 			}
-		`}
+		`};
 	${({ $paddingSize }): SimpleInterpolation =>
 		$paddingSize &&
 		css`
 			padding: ${$paddingSize};
-		`}
+		`};
 `;
 
-interface IconButtonProps {
+type IconButtonProps = ButtonProps & {
 	/** Color of the icon */
 	iconColor?: string | keyof ThemeObj['palette'];
 	/** Color of the button */
@@ -56,7 +56,8 @@ interface IconButtonProps {
 	 * @deprecated use iconColor instead
 	 */
 	customIconColor?: string;
-}
+	secondaryAction?: never;
+};
 
 const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(function IconButtonFn(
 	{
@@ -69,6 +70,7 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(function
 		borderRadius = 'regular',
 		onClick,
 		customIconColor,
+		type = 'default',
 		...rest
 	},
 	ref
@@ -108,6 +110,7 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(function
 			size={size}
 			ref={iconButtonRef}
 			disabled={disabled}
+			type={type}
 			{...rest}
 		/>
 	);

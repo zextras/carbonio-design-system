@@ -138,7 +138,6 @@ const changeInputProp = useCallback(
 
 It could make sense to allow the normal Button to have no label and deprecate this component.
 ```jsx noEditor
-import { Container, Icon } from '@zextras/carbonio-design-system';
 import StatusTable from 'status-table';
 const items = [{
     feature: 'Graphics',
