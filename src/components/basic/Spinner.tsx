@@ -3,12 +3,12 @@
  *
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-import React from 'react';
+import React, { HTMLAttributes } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { ThemeObj } from '../../theme/theme';
 import { getColor } from '../../theme/theme-utils';
 
-interface SpinnerProps {
+interface SpinnerProps extends HTMLAttributes<HTMLDivElement> {
 	color: string | keyof ThemeObj['palette'];
 }
 
@@ -31,8 +31,11 @@ const StyledSpinner = styled.div<SpinnerProps>`
 	animation: ${rotateKeyframes} 0.75s linear infinite;
 `;
 
-const Spinner = React.forwardRef<HTMLDivElement, SpinnerProps>(function SpinnerFn({ color }, ref) {
-	return <StyledSpinner data-testid="spinner" color={color} ref={ref} />;
+const Spinner = React.forwardRef<HTMLDivElement, SpinnerProps>(function SpinnerFn(
+	{ color, ...rest },
+	ref
+) {
+	return <StyledSpinner data-testid="spinner" color={color} ref={ref} {...rest} />;
 });
 
 export default Spinner;
