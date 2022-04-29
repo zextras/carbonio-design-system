@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { useMemo, forwardRef } from 'react';
+import React, { useMemo, forwardRef, HTMLAttributes } from 'react';
 
 import styled from 'styled-components';
 
@@ -25,7 +25,7 @@ const Comp = styled.span<{ isRead: boolean; isNumber: boolean }>`
 	text-align: center;
 `;
 
-const Badge = forwardRef<HTMLElement, BadgeProps>(function BadgeFn(
+const Badge = forwardRef<HTMLSpanElement, BadgeProps>(function BadgeFn(
 	{ type = 'read', value, ...rest },
 	ref
 ) {
@@ -40,7 +40,7 @@ const Badge = forwardRef<HTMLElement, BadgeProps>(function BadgeFn(
 	);
 });
 
-interface BadgeProps {
+interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {
 	/** Badge type */
 	type?: 'read' | 'unread';
 	/** Badge text */
