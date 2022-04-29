@@ -7,6 +7,7 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
+import { within } from '@testing-library/react';
 import React from 'react';
 import { screen } from '@testing-library/dom';
 import { faker } from '@faker-js/faker';
@@ -147,7 +148,9 @@ describe('Chip', () => {
 		expect(actions[1].onClick).toHaveBeenCalled();
 		userEvent.click(screen.getByTestId('icon: Eye'));
 		expect(actions[2].onClick).not.toHaveBeenCalled();
-		expect(screen.getByTestId('icon: Share')).toHaveAttribute('disabled');
+		expect(
+			screen.getAllByRole('button').find((element) => within(element).queryByTestId('icon: Share'))
+		).toBeDisabled();
 		userEvent.click(screen.getByTestId('icon: Share'));
 		expect(actions[3].onClick).not.toHaveBeenCalled();
 	});
@@ -207,15 +210,21 @@ describe('Chip', () => {
 		userEvent.hover(screen.getByTestId('icon: People'));
 		expect(screen.queryByText('tooltip action1')).not.toBeInTheDocument();
 		userEvent.unhover(screen.getByTestId('icon: People'));
-		expect(screen.getByTestId('icon: People')).toHaveAttribute('disabled');
+		expect(
+			screen.getAllByRole('button').find((element) => within(element).queryByTestId('icon: People'))
+		).toBeDisabled();
 		userEvent.click(screen.getByTestId('icon: People'));
 		expect(actions[1].onClick).not.toHaveBeenCalled();
 		userEvent.click(screen.getByTestId('icon: Eye'));
 		expect(actions[2].onClick).not.toHaveBeenCalled();
-		expect(screen.getByTestId('icon: Share')).toHaveAttribute('disabled');
+		expect(
+			screen.getAllByRole('button').find((element) => within(element).queryByTestId('icon: Share'))
+		).toBeDisabled();
 		userEvent.click(screen.getByTestId('icon: Share'));
 		expect(actions[3].onClick).not.toHaveBeenCalled();
-		expect(screen.getByTestId('icon: Close')).toHaveAttribute('disabled');
+		expect(
+			screen.getAllByRole('button').find((element) => within(element).queryByTestId('icon: Close'))
+		).toBeDisabled();
 		userEvent.click(screen.getByTestId('icon: Close'));
 		expect(closeFn).not.toHaveBeenCalled();
 		expect(screen.getByText(label)).toHaveAttribute('disabled');
