@@ -4,12 +4,12 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { useContext, useMemo } from 'react';
+import React, { SVGAttributes, useContext, useMemo } from 'react';
 import styled, { css, SimpleInterpolation, ThemeContext } from 'styled-components';
 import { IconComponent, ThemeObj } from '../../theme/theme';
 import { getColor } from '../../theme/theme-utils';
 
-interface IconComponentProps {
+interface IconComponentProps extends SVGAttributes<SVGSVGElement> {
 	/** Icon to show. It can be a string key for the theme icons or a custom icon component */
 	icon: keyof ThemeObj['icons'] | IconComponent;
 	/** whether the icon is in a disabled element */
@@ -60,7 +60,7 @@ const Icon = styled(IconBase)
 	${({ size, theme }): SimpleInterpolation => css`
 		width: ${theme.sizes.icon[size]};
 		height: ${theme.sizes.icon[size]};
-	`}
+	`};
 `;
 
 export { Icon, IconProps, IconComponentProps };
