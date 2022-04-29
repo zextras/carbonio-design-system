@@ -4,13 +4,13 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React from 'react';
+import React, { HTMLAttributes } from 'react';
 import styled from 'styled-components';
 import { map } from 'lodash';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { Container } from '../layout/Container';
 import { Text } from '../basic/Text';
-import { Padding } from '../layout/Padding';
+import { Padding, PaddingProps } from '../layout/Padding';
 import { Dropdown, DropdownItem, DropdownProps } from '../display/Dropdown';
 import { useSplitVisibility } from '../../hooks/useSplitVisibility';
 
@@ -39,13 +39,17 @@ const BreadcrumbSeparator = ({ color }: BreadcrumbSeparatorProps): JSX.Element =
 	</Padding>
 );
 
-interface BreadcrumbsProps {
+export type Crumb = DropdownItem & HTMLAttributes<HTMLDivElement>;
+
+type BreadcrumbCollapersProps = { all: string } & PaddingProps;
+
+interface BreadcrumbsProps extends HTMLAttributes<HTMLDivElement> {
 	/** Array of items, check Dropdown items prop to see the shape of an item */
-	crumbs: DropdownProps['items'];
+	crumbs: Crumb[];
 	/** Props to spread to the collapser element */
-	collapserProps: React.ComponentPropsWithRef<typeof Padding>;
+	collapserProps?: Omit<BreadcrumbCollapersProps, 'all'>;
 	/** Props to spread to the dropdown element */
-	dropdownProps: Omit<DropdownProps, 'items'>;
+	dropdownProps?: Omit<DropdownProps, 'items' | 'children'>;
 }
 
 const Breadcrumbs = React.forwardRef<HTMLDivElement, BreadcrumbsProps>(function BreadcrumbsFn(
