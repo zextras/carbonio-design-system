@@ -53,7 +53,7 @@ const CustomText = styled(Text)`
 	line-height: 1.5;
 `;
 
-interface SwitchProps {
+interface SwitchProps extends Omit<ContainerProps, 'onChange' | 'onClick'> {
 	/** status of the Switch */
 	defaultChecked?: boolean;
 	/** Switch value */
