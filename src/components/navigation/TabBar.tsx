@@ -8,7 +8,7 @@ import React, { useState, useEffect, useCallback, useMemo, HTMLAttributes } from
 import styled, { css, SimpleInterpolation } from 'styled-components';
 import { map } from 'lodash';
 import { getColor } from '../../theme/theme-utils';
-import { Container } from '../layout/Container';
+import { Container, ContainerProps } from '../layout/Container';
 import { Text } from '../basic/Text';
 import { useKeyboard, getKeyboardPreset } from '../../hooks/useKeyboard';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
@@ -57,7 +57,7 @@ interface Item {
 	disabled?: boolean;
 }
 
-interface TabBarProps {
+interface TabBarProps extends Omit<ContainerProps, 'onChange'> {
 	/** List of elements, can have extra attributes to pass down to the CustomComponent */
 	items: Array<Item>;
 	/** id of the selected item */
@@ -72,11 +72,12 @@ interface TabBarProps {
 	/** background color of the tabBar */
 	background: string | keyof ThemeObj['palette'];
 	/** underline color of the selected tab */
-	underlineColor: string | keyof ThemeObj['palette'];
-	forceWidthEquallyDistributed: boolean;
+	underlineColor?: string | keyof ThemeObj['palette'];
+	/** Force tabs to have all the same width */
+	forceWidthEquallyDistributed?: boolean;
 }
 
-interface DefaultTabBarItemProps {
+interface DefaultTabBarItemProps extends ContainerProps {
 	item: Item;
 	selected: boolean;
 	background: string | keyof ThemeObj['palette'];
@@ -85,60 +86,59 @@ interface DefaultTabBarItemProps {
 	forceWidthEquallyDistributed: boolean;
 }
 
-const DefaultTabBarItem = React.forwardRef<
-	HTMLDivElement,
-	DefaultTabBarItemProps & HTMLAttributes<HTMLDivElement>
->(function DefaultTabBarItemFn(
-	{
-		item,
-		selected,
-		background,
-		onClick,
-		underlineColor = 'primary',
-		forceWidthEquallyDistributed = false,
-		children,
-		...rest
-	},
-	ref
-) {
-	const activationCb = useCallback(
-		(ev) => {
-			if (!item.disabled) onClick(ev);
+const DefaultTabBarItem = React.forwardRef<HTMLDivElement, DefaultTabBarItemProps>(
+	function DefaultTabBarItemFn(
+		{
+			item,
+			selected,
+			background,
+			onClick,
+			underlineColor = 'primary',
+			forceWidthEquallyDistributed = false,
+			children,
+			...rest
 		},
-		[item.disabled, onClick]
-	);
+		ref
+	) {
+		const activationCb = useCallback(
+			(ev) => {
+				if (!item.disabled) onClick(ev);
+			},
+			[item.disabled, onClick]
+		);
 
-	const combinedRef = useCombinedRefs<HTMLDivElement>(ref);
+		const combinedRef = useCombinedRefs<HTMLDivElement>(ref);
 
-	const keyEvents = useMemo(() => getKeyboardPreset('button', activationCb), [activationCb]);
-	useKeyboard(combinedRef, keyEvents);
+		const keyEvents = useMemo(() => getKeyboardPreset('button', activationCb), [activationCb]);
+		useKeyboard(combinedRef, keyEvents);
 
-	return (
-		<DefaultTabBarItemContainer
-			padding={{ horizontal: 'small' }}
-			onClick={activationCb}
-			$selected={selected}
-			background={background}
-			borderRadius="none"
-			$disabled={item.disabled}
-			$underlineColor={underlineColor}
-			ref={combinedRef}
-			$forceWidthEquallyDistributed={forceWidthEquallyDistributed}
-			{...rest}
-		>
-			{children || (
-				<CustomText
-					overflow="ellipsis"
-					size="small"
-					color={selected ? 'text' : 'secondary'}
-					disabled={item.disabled}
-				>
-					{item.label}
-				</CustomText>
-			)}
-		</DefaultTabBarItemContainer>
-	);
-});
+		return (
+			<DefaultTabBarItemContainer
+				padding={{ horizontal: 'small' }}
+				onClick={activationCb}
+				$selected={selected}
+				background={background}
+				borderRadius="none"
+				$disabled={item.disabled}
+				$underlineColor={underlineColor}
+				ref={combinedRef}
+				$forceWidthEquallyDistributed={forceWidthEquallyDistributed}
+				{...rest}
+			>
+				{children || (
+					<CustomText
+						overflow="ellipsis"
+						size="small"
+						color={selected ? 'text' : 'secondary'}
+						disabled={item.disabled}
+					>
+						{item.label}
+					</CustomText>
+				)}
+			</DefaultTabBarItemContainer>
+		);
+	}
+);
 
 const TabBar = React.forwardRef<HTMLDivElement, TabBarProps>(function TabBarFn(
 	{
