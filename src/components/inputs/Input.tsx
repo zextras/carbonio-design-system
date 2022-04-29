@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import React, { InputHTMLAttributes, useCallback, useMemo, useRef, useState } from 'react';
 import styled, { css, SimpleInterpolation } from 'styled-components';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { KeyboardPreset, useKeyboard } from '../../hooks/useKeyboard';
@@ -28,7 +28,7 @@ const ContainerEl = styled(Container)<{
 			: css`
 					cursor: text;
 					${pseudoClasses(theme, background)}
-			  `}
+			  `};
 	padding: ${({ $hasLabel }): string => ($hasLabel ? '1px' : '10px')} 12px;
 	gap: 8px;
 	min-height: calc(
@@ -111,7 +111,7 @@ const CustomText = styled(Text)<{ size: NonNullable<TextProps['size']> }>`
 	min-height: calc(${({ theme, size }): string => theme.sizes.font[size]} * 1.5);
 `;
 
-interface InputProps {
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 	/** Input's background color */
 	backgroundColor?: keyof ThemeObj['palette'];
 	/** whether to disable the Input or not */
@@ -123,9 +123,9 @@ interface InputProps {
 	/** Label of the input, will act (graphically) as placeholder when the input is not focused */
 	label?: string;
 	/** input change callback */
-	onChange?: (e: React.SyntheticEvent) => void;
+	onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 	/** ref to the input element */
-	inputRef?: React.MutableRefObject<HTMLInputElement> | null;
+	inputRef?: React.RefObject<HTMLInputElement>;
 	/** value of the input */
 	value?: string | number;
 	/** default value of the input */
