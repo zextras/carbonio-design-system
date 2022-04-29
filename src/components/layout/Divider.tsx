@@ -4,12 +4,12 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React from 'react';
+import React, { HTMLAttributes } from 'react';
 import styled from 'styled-components';
 import type { ThemeObj } from '../../theme/theme';
 import { getColor } from '../../theme/theme-utils';
 
-interface DividerProps {
+interface DividerProps extends HTMLAttributes<HTMLDivElement> {
 	/** Divider color */
 	color: string | keyof ThemeObj['palette'];
 }
