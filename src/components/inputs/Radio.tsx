@@ -29,7 +29,7 @@ const StyledIcon = styled(Icon)<{ checked: boolean }>`
 			checked &&
 			css`
 				transform: scale(1);
-			`}
+			`};
 	}
 `;
 const RadioContainer = styled(Container)<{
@@ -64,7 +64,7 @@ const CustomText = styled(Text)`
 	line-height: 1.5;
 `;
 
-interface RadioProps {
+interface RadioProps extends Omit<ContainerProps, 'onChange'> {
 	/** status of the Radio */
 	defaultChecked?: boolean;
 	/** Radio checked */
