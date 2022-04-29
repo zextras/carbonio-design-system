@@ -150,13 +150,13 @@ const StyledButton = styled.button.attrs<
 	align-items: center;
 	position: relative;
 	text-transform: uppercase;
-	// padding
+	/* padding */
 	padding: ${({ outerPadding }): string => outerPadding};
 	gap: ${({ gap }): string => gap};
-	// width
+	/* width */
 	width: ${({ width }): SimpleInterpolation =>
 		(width === 'fill' && '100%') || (width === 'fit' && 'fit-content')};
-	// order of elements
+	/* order of elements */
 	${StyledIcon} {
 		order: ${({ iconPlacement = 'left' }): number | false =>
 			(iconPlacement === 'left' && 1) || (iconPlacement === 'right' && 2)};
@@ -165,11 +165,11 @@ const StyledButton = styled.button.attrs<
 		order: ${({ iconPlacement = 'left' }): number | false =>
 			(iconPlacement === 'left' && 2) || (iconPlacement === 'right' && 1)};
 	}
-	// border
+	/* border */
 	border: ${({ border }): string => border};
 	border-radius: ${({ shape }): SimpleInterpolation =>
 		(shape === 'regular' && '4px') || (shape === 'round' && '50px')};
-	// colors
+	/* colors */
 	${({ color, backgroundColor, theme, forceActive }): SimpleInterpolation =>
 		forceActive
 			? css`
@@ -182,7 +182,7 @@ const StyledButton = styled.button.attrs<
 					${pseudoClasses(theme, color, 'border-color')};
 			  `};
 
-	// cursor
+	/* cursor */
 	cursor: pointer;
 	&:disabled {
 		cursor: default;
@@ -198,7 +198,7 @@ const StyledSecondaryAction = styled(StyledButton)<{ $loading: boolean }>`
 `;
 
 const StyledSecondaryActionPlaceholder = styled.span<{ padding: string }>`
-	// padding
+	/* padding */
 	padding: ${({ padding }): string => padding};
 	order: 3;
 	visibility: hidden;
@@ -223,6 +223,7 @@ const StyledGrid = styled.div<{ width: 'fill' | 'fit'; padding: string }>`
 		grid-column: 1;
 		justify-self: end;
 		margin-right: ${({ padding }): string => padding};
+	}
 `;
 
 const SIZES: Record<ButtonSize, { label: string; icon: string; padding: string; gap: string }> &
