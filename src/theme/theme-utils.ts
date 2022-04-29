@@ -250,4 +250,12 @@ function pseudoClasses(
 
 const useTheme = (): ThemeObj => useContext(ThemeContext);
 
-export { generateColorSet, getColor, getPadding, useTheme, PaddingObj, pseudoClasses };
+export {
+	generateColorSet,
+	getColor,
+	getPadding,
+	getPadding as parsePadding,
+	useTheme,
+	PaddingObj,
+	pseudoClasses
+};
