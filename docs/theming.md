@@ -29,7 +29,7 @@ const editTheme = (theme) => ({
 				Hello world
 			</Text>
 			<Button label="Pink Button" />
-			<Button label="Green Button" background="green"/>
+			<Button label="Green Button" backgroundColor="green" />
 		</Container>
 </ThemeProvider>
 ```
