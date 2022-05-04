@@ -71,9 +71,9 @@ import { Container } from '@zextras/carbonio-design-system';
 const click = () => console.log('click!');
 
 <Container orientation="horizontal" mainAlignment="space-around" background="gray5" padding={{ all: 'small' }}>
-    <IconButton size="extrasmall" icon="Pricetags" iconColor="gray6" backgroundColor="primary" onClick={click} customSize={{ iconSize: 'large', paddingSize: 'extrasmall' }} />
-    <IconButton size="extrasmall" icon="Pricetags" iconColor="gray6" backgroundColor="primary" onClick={click} customSize={{ iconSize: 'medium', paddingSize: 0 }} />
-    <IconButton size="extrasmall" icon="Pricetags" iconColor="gray6" backgroundColor="primary" onClick={click} customSize={{ iconSize: '20px', paddingSize: '15px' }} />
+    <IconButton icon="Pricetags" iconColor="gray6" backgroundColor="primary" onClick={click} customSize={{ iconSize: 'large', paddingSize: 'extrasmall' }} />
+    <IconButton icon="Pricetags" iconColor="gray6" backgroundColor="primary" onClick={click} customSize={{ iconSize: 'medium', paddingSize: 0 }} />
+    <IconButton icon="Pricetags" iconColor="gray6" backgroundColor="primary" onClick={click} customSize={{ iconSize: '20px', paddingSize: '15px' }} />
 </Container>
 ```
 
@@ -92,7 +92,7 @@ function mapToItems(values) {
 
 const theme = useTheme();
 
-const [iconButtonProps, setIconButtonProps] = useState({});
+const [iconButtonProps, setIconButtonProps] = useState({ size: 'medium' });
 
 const sizeItems = useMemo(() => mapToItems(['extrasmall', 'small', 'medium', 'large', 'extralarge']), []);
 const colorItems = useMemo(() => mapToItems(Object.keys(theme.palette)), [theme]);
@@ -123,10 +123,10 @@ const changeInputProp = useCallback(
 
 <Container style={{ gap: '10px' }} padding={{ all: 'small' }}>
     <Container orientation="horizontal" mainAlignment="flex-start" wrap="wrap" style={{ gap: '10px' }}>
-        <Select label="Size" items={sizeItems} onChange={changeSelectProp('size')} defaultSelection={iconButtonProps.size && { label: iconButtonProps.size, value: iconButtonProps.size }} style={{ width: '20%' }} />
-        <Select label="Icon Color" items={colorItems} onChange={changeSelectProp('iconColor')} defaultSelection={iconButtonProps.iconColor && { label: iconButtonProps.iconColor, value: iconButtonProps.iconColor }} style={{ width: '20%' }} />
-        <Select label="Background" items={colorItems} onChange={changeSelectProp('backgroundColor')} defaultSelection={iconButtonProps.backgroundColor && { label: iconButtonProps.backgroundColor, value: iconButtonProps.backgroundColor }} style={{ width: '20%' }} />
-        <Select label="Border radius" items={radiusItems} onChange={changeSelectProp('borderRadius')} defaultSelection={iconButtonProps.borderRadius && { label: iconButtonProps.borderRadius, value: iconButtonProps.borderRadius }} style={{ width: '20%' }} />
+        <Select label="Size" items={sizeItems} onChange={changeSelectProp('size')} style={{ width: '20%' }} defaultSelection={{ label: iconButtonProps.size, value: iconButtonProps.size }} />
+        <Select label="Icon Color" items={colorItems} onChange={changeSelectProp('iconColor')} style={{ width: '20%' }} />
+        <Select label="Background" items={colorItems} onChange={changeSelectProp('backgroundColor')} style={{ width: '20%' }} />
+        <Select label="Border radius" items={radiusItems} onChange={changeSelectProp('borderRadius')} style={{ width: '20%' }} />
         <Checkbox label="Disabled" onClick={changeCheckboxProp('disabled')} />
         <Container style={{ width: '25%' }}><Input label="Icon" onChange={changeInputProp('icon')} defaultValue="Pricetags" /></Container>
     </Container>

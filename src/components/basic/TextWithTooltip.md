@@ -4,6 +4,8 @@ SPDX-FileCopyrightText: 2021 Zextras <https://www.zextras.com>
 SPDX-License-Identifier: AGPL-3.0-only
 -->
 
+Text with a tooltip which is visible only when text is ellipsed.
+
 ```jsx
 import { Container } from '@zextras/carbonio-design-system';
 <Container orientation="horizontal" mainAlignment="space-around" height={100}>
@@ -12,7 +14,6 @@ import { Container } from '@zextras/carbonio-design-system';
 		color="primary"
 		weight="regular"
 		style={{ maxWidth: '100px' }}
-		overflowTooltip
 	>
 		Hellooooooooooooooooooooooo world!
 	</TextWithTooltip>
@@ -20,8 +21,7 @@ import { Container } from '@zextras/carbonio-design-system';
 		size="medium"
 		color="primary"
 		weight="regular"
-		style={{ maxWidth: '20%' }}
-		overflowTooltip
+		style={{ maxWidth: '30%' }}
 	>
 		Resize me to activate the tooltip!
 	</TextWithTooltip>
