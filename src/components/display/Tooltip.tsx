@@ -63,7 +63,7 @@ interface TooltipProps extends TextProps {
 	disabled?: boolean;
 	/** Flag to disable the Portal implementation */
 	disablePortal?: boolean;
-	/** Invoked by TextWithTooltip component */
+	/** Show tooltip only when child has class Text and text content is partially hidden */
 	overflowTooltip?: boolean;
 	/** Tooltip trigger */
 	children: React.ReactElement;
