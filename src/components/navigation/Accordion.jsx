@@ -23,7 +23,8 @@ import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { pseudoClasses } from '../utilities/functions';
 
 const AccordionContainerEl = styled(Container)`
-	padding-left: ${({ theme, level }) => css`calc(${level + 1} * ${theme.sizes.padding.small})`};
+	padding-left: ${({ theme, level }) =>
+		css`calc(${Math.min(level + 1, 5)} * ${theme.sizes.padding.small})`};
 	padding-right: ${({ theme }) => theme.sizes.padding.small};
 	background-color: ${({ theme, background, active }) =>
 		theme.palette[active ? 'highlight' : background].regular};
