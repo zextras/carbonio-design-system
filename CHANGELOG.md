@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.1](https://github.com/Zextras/carbonio-design-system/compare/v0.3.0...v0.3.1) (2022-05-11)
+
+
+### Bug Fixes
+
+* accordion padding and onOpen callback ([4243e35](https://github.com/Zextras/carbonio-design-system/commit/4243e35b9ae9337f01ae0a004808d24c92887564))
+
 ## [0.3.0](https://github.com/Zextras/carbonio-design-system/compare/v0.2.2...v0.3.0) (2022-04-22)
 
 
