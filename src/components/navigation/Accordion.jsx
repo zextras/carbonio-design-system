@@ -209,8 +209,7 @@ Accordion.propTypes = {
 			onOpen: PropTypes.func,
 			onClose: PropTypes.func,
 			background: Container.propTypes.background,
-			disableHover: PropTypes.bool,
-			onChevronClick: PropTypes.func
+			disableHover: PropTypes.bool
 		})
 	),
 	/** Depth level, internally used for recursion nesting */
