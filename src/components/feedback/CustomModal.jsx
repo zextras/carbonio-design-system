@@ -69,7 +69,7 @@ const CustomModal = React.forwardRef(function ModalFn(
 
 			windowObj.document.body.style.overflowY = 'hidden';
 			isBodyOverflowing(modalRef, windowObj) &&
-				(windowObj.document.body.style.paddingRight = `${getScrollbarSize()}px`);
+				(windowObj.document.body.style.paddingRight = `${getScrollbarSize(windowObj)}px`);
 
 			return () => {
 				windowObj.document.body.style.overflowY = defaultOverflowY;
