@@ -23,8 +23,9 @@ import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { pseudoClasses } from '../utilities/functions';
 
 const AccordionContainerEl = styled(Container)`
-	padding-left: ${({ theme, level }) => css`calc(${level} * ${theme.sizes.padding.large})`};
-	background-color: ${({ theme, background, item, active }) =>
+	padding-left: ${({ theme, level }) => css`calc(${level + 1} * ${theme.sizes.padding.small})`};
+	padding-right: ${({ theme }) => theme.sizes.padding.small};
+	background-color: ${({ theme, background, active }) =>
 		theme.palette[active ? 'highlight' : background].regular};
 	${({ theme, background, item }) =>
 		!item.disableHover && pseudoClasses(theme, item.active ? 'highlight' : background)};
@@ -127,7 +128,7 @@ const AccordionRoot = React.forwardRef(function AccordionRootFn(
 						<AccordionItem item={item} />
 					)}
 					{item.items && item.items.length > 0 && (
-						<Padding right="large">
+						<Padding right="small">
 							<IconButton
 								customSize={{ iconSize: 'large', paddingSize: 0 }}
 								onClick={expandOnIconClick}
