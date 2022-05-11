@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.2](https://github.com/Zextras/carbonio-design-system/compare/v0.3.1...v0.3.2) (2022-05-11)
+
+
+### Bug Fixes
+
+* cannot read properties of undefined in getScrollBarSize ([0c6d90c](https://github.com/Zextras/carbonio-design-system/commit/0c6d90c5c86293c913fc36a7adbdba13828e530f))
+
 ### [0.3.1](https://github.com/Zextras/carbonio-design-system/compare/v0.3.0...v0.3.1) (2022-05-11)
 
 
