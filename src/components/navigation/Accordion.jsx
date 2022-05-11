@@ -79,7 +79,13 @@ const AccordionRoot = React.forwardRef(function AccordionRootFn(
 
 	const handleClick = useCallback(
 		(e) => {
-			setOpen(true);
+			setOpen((op) => {
+				if (op) return op;
+				if (item.onOpen) {
+					item.onOpen(e);
+				}
+				return true;
+			});
 			if (item.onClick) item.onClick(e);
 		},
 		[item]
@@ -121,7 +127,7 @@ const AccordionRoot = React.forwardRef(function AccordionRootFn(
 						<AccordionItem item={item} />
 					)}
 					{item.items && item.items.length > 0 && (
-						<Padding right="small">
+						<Padding right="large">
 							<IconButton
 								customSize={{ iconSize: 'large', paddingSize: 0 }}
 								onClick={expandOnIconClick}
@@ -203,7 +209,8 @@ Accordion.propTypes = {
 			onOpen: PropTypes.func,
 			onClose: PropTypes.func,
 			background: Container.propTypes.background,
-			disableHover: PropTypes.bool
+			disableHover: PropTypes.bool,
+			onChevronClick: PropTypes.func
 		})
 	),
 	/** Depth level, internally used for recursion nesting */
