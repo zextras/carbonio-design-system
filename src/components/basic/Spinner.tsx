@@ -5,7 +5,7 @@
  */
 import React, { HTMLAttributes } from 'react';
 import styled, { keyframes } from 'styled-components';
-import { ThemeObj } from '../../theme/theme';
+import type { ThemeObj } from '../../theme/theme';
 import { getColor } from '../../theme/theme-utils';
 
 interface SpinnerProps extends HTMLAttributes<HTMLDivElement> {
@@ -38,4 +38,4 @@ const Spinner = React.forwardRef<HTMLDivElement, SpinnerProps>(function SpinnerF
 	return <StyledSpinner data-testid="spinner" color={color} ref={ref} {...rest} />;
 });
 
-export default Spinner;
+export { Spinner, SpinnerProps };

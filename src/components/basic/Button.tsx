@@ -11,7 +11,7 @@ import { getKeyboardPreset, useKeyboard } from '../../hooks/useKeyboard';
 import type { ThemeObj } from '../../theme/theme';
 import { getColor, pseudoClasses } from '../../theme/theme-utils';
 import { Icon, IconProps } from './Icon';
-import Spinner from './Spinner';
+import { Spinner } from './Spinner';
 import { Text } from './Text';
 
 type ButtonShape = 'regular' | 'round';
