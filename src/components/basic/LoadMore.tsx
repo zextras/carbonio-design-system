@@ -35,4 +35,4 @@ const LoadMore = React.forwardRef<HTMLDivElement, LoadMoreProps>(function LoadMo
 	);
 });
 
-export { LoadMore };
+export { LoadMore, LoadMoreProps };

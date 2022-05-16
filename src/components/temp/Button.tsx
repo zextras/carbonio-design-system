@@ -155,4 +155,4 @@ const Button = React.forwardRef<HTMLDivElement, ButtonProps>(function ButtonFn(
 	);
 });
 
-export { Button as ButtonOld };
+export { Button as ButtonOld, ButtonProps as ButtonOldProps };
