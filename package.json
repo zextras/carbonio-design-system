@@ -15,10 +15,10 @@
 		"build": "npx rollup -c rollup.config.js && npm run build:types",
 		"build:types": "tsc -p tsconfig.types.json; npx @microsoft/api-extractor run --local --verbose",
 		"clean": "rm -rf dist/*",
-		"prepublishOnly": "pinst --disable && npm run clean && npm run build",
-		"deploy": "npm run prepublishOnly && rm -rf $PKG_PATH/node_modules/@zextras/carbonio-design-system/dist/ && cp -r dist/ $PKG_PATH/node_modules/@zextras/carbonio-design-system/dist/ && cp package.json $PKG_PATH/node_modules/@zextras/carbonio-design-system/ && cd $PKG_PATH/node_modules/@zextras/carbonio-design-system/ && rm -rf node_modules && npm i --only=prod",
+		"prepack": "pinst --disable && npm run clean && npm run build",
+		"deploy": "npm run prepack && rm -rf $PKG_PATH/node_modules/@zextras/carbonio-design-system/dist/ && cp -r dist/ $PKG_PATH/node_modules/@zextras/carbonio-design-system/dist/ && cp package.json $PKG_PATH/node_modules/@zextras/carbonio-design-system/ && cd $PKG_PATH/node_modules/@zextras/carbonio-design-system/ && rm -rf node_modules && npm i --only=prod; npm run postpack",
 		"postinstall": "is-ci || husky install",
-		"postpublish": "pinst --enable",
+		"postpack": "pinst --enable",
 		"type-check": "tsc --noEmit"
 	},
 	"repository": {
