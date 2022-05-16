@@ -15,10 +15,9 @@
 		"build": "npx rollup -c rollup.config.js && npm run build:types",
 		"build:types": "tsc -p tsconfig.types.json && npx @microsoft/api-extractor run --local --verbose",
 		"clean": "rm -rf dist/* types/*",
-		"prepack": "pinst --disable && npm run clean && npm run build",
-		"deploy": "npm run prepack && rm -rf $PKG_PATH/node_modules/@zextras/carbonio-design-system/dist/ && cp -r dist/ $PKG_PATH/node_modules/@zextras/carbonio-design-system/dist/ && cp package.json $PKG_PATH/node_modules/@zextras/carbonio-design-system/ && cd $PKG_PATH/node_modules/@zextras/carbonio-design-system/ && rm -rf node_modules && npm i --only=prod; npm run postpack",
+		"prepack": "npm run clean && npm run build",
+		"deploy": "npm run prepack && rm -rf $PKG_PATH/node_modules/@zextras/carbonio-design-system/dist/ && cp -r dist/ $PKG_PATH/node_modules/@zextras/carbonio-design-system/dist/ && cp package.json $PKG_PATH/node_modules/@zextras/carbonio-design-system/ && cd $PKG_PATH/node_modules/@zextras/carbonio-design-system/ && rm -rf node_modules && npm i --only=prod",
 		"prepare": "is-ci || husky install",
-		"postpack": "pinst --enable",
 		"type-check": "tsc --noEmit"
 	},
 	"repository": {
@@ -73,7 +72,6 @@
 		"jest-junit": "13.0.0",
 		"jest-styled-components": "7.0.6",
 		"lodash": "^4.17.21",
-		"pinst": "2.1.6",
 		"process": "0.11.10",
 		"react": "^17.0.2",
 		"react-dom": "^17.0.2",
