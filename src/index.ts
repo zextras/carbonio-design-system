@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-/* eslint-disable import/no-cycle */
 /** Basic components */
 export * from './components/basic/Avatar';
 export * from './components/basic/Badge';
