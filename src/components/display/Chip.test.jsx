@@ -9,6 +9,7 @@
 
 import React from 'react';
 import { screen } from '@testing-library/dom';
+import { waitFor } from '@testing-library/react';
 import faker from 'faker';
 import userEvent from '@testing-library/user-event';
 import { render } from '../../test-utils';
@@ -128,11 +129,15 @@ describe('Chip', () => {
 		expect(screen.getByTestId('icon: Eye')).toBeVisible();
 		expect(screen.getByTestId('icon: Share')).toBeVisible();
 		userEvent.hover(screen.getByTestId('icon: Star'));
-		expect(screen.getByText('tooltip action0')).toBeVisible();
+		await waitFor(() => {
+			expect(screen.getByText('tooltip action0')).toBeVisible();
+		});
 		userEvent.unhover(screen.getByTestId('icon: Star'));
 		expect(screen.queryByText('tooltip action0')).not.toBeInTheDocument();
 		userEvent.hover(screen.getByTestId('icon: People'));
-		expect(screen.getByText('tooltip action1')).toBeVisible();
+		await waitFor(() => {
+			expect(screen.getByText('tooltip action1')).toBeVisible();
+		});
 		userEvent.unhover(screen.getByTestId('icon: People'));
 		expect(screen.queryByText('tooltip action1')).not.toBeInTheDocument();
 		userEvent.click(screen.getByTestId('icon: People'));
@@ -211,7 +216,9 @@ describe('Chip', () => {
 		expect(closeFn).not.toHaveBeenCalled();
 		expect(screen.getByText(label)).toHaveAttribute('disabled');
 		userEvent.hover(screen.getByText(label));
-		expect(screen.getByText('Message to explain disabled status')).toBeVisible();
+		await waitFor(() => {
+			expect(screen.getByText('Message to explain disabled status')).toBeVisible();
+		});
 		userEvent.unhover(screen.getByText(label));
 		expect(screen.queryByText('Message to explain disabled status')).not.toBeInTheDocument();
 	});
@@ -252,15 +259,21 @@ describe('Chip', () => {
 			setTimeout(r, 100);
 		});
 		userEvent.hover(screen.getByText(label));
-		expect(screen.getByText('Message for error')).toBeVisible();
+		await waitFor(() => {
+			expect(screen.getByText('Message for error')).toBeVisible();
+		});
 		userEvent.unhover(screen.getByText(label));
 		expect(screen.queryByText('Message for error')).not.toBeInTheDocument();
 		userEvent.hover(screen.getByTestId('icon: Star'));
-		expect(screen.getByText('tooltip action0')).toBeVisible();
+		await waitFor(() => {
+			expect(screen.getByText('tooltip action0')).toBeVisible();
+		});
 		expect(screen.queryByText('Message for error')).not.toBeInTheDocument();
 		userEvent.unhover(screen.getByTestId('icon: Star'));
 		userEvent.hover(screen.getByTestId('icon: People'));
-		expect(screen.getByText('tooltip action1')).toBeVisible();
+		await waitFor(() => {
+			expect(screen.getByText('tooltip action1')).toBeVisible();
+		});
 		expect(screen.queryByText('Message for error')).not.toBeInTheDocument();
 		userEvent.unhover(screen.getByTestId('icon: People'));
 	});

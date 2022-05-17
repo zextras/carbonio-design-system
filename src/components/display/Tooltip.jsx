@@ -52,7 +52,17 @@ const TooltipWrapperWithCss = styled(TooltipWrapper)`
 `;
 
 const Tooltip = React.forwardRef(function TooltipFn(
-	{ label, placement, maxWidth, children, disabled, disablePortal, overflowTooltip, ...rest },
+	{
+		label,
+		placement,
+		maxWidth,
+		children,
+		disabled,
+		disablePortal,
+		overflowTooltip,
+		triggerDelay,
+		...rest
+	},
 	ref
 ) {
 	const [open, setOpen] = useState(undefined);
@@ -60,6 +70,7 @@ const Tooltip = React.forwardRef(function TooltipFn(
 	const triggerRef = useRef(undefined);
 	const innerRef = useRef(undefined);
 	const tooltipRef = useCombinedRefs(ref, innerRef);
+	const timeout = useRef(undefined);
 
 	const showTooltip = useCallback(() => {
 		const textIsCropped =
@@ -67,10 +78,16 @@ const Tooltip = React.forwardRef(function TooltipFn(
 				triggerRef.current.clientWidth < triggerRef.current.scrollWidth) ||
 			triggerRef.current.clientHeight < triggerRef.current.scrollHeight;
 		if ((textIsCropped && overflowTooltip) || !overflowTooltip) {
-			setOpen(true);
+			timeout.current = setTimeout(() => {
+				setOpen(true);
+			}, triggerDelay);
 		}
-	}, [overflowTooltip, triggerRef]);
-	const hideTooltip = useCallback(() => setOpen(false), []);
+	}, [overflowTooltip, triggerRef, triggerDelay]);
+
+	const hideTooltip = useCallback(() => {
+		setOpen(false);
+		clearTimeout(timeout.current);
+	}, []);
 
 	useLayoutEffect(() => {
 		if (typeof open === 'undefined') return;
@@ -156,7 +173,9 @@ Tooltip.propTypes = {
 	/** Flag to disable the Portal implementation */
 	disablePortal: PropTypes.bool,
 	/** Invoked by TextWithTooltip component */
-	overflowTooltip: PropTypes.bool
+	overflowTooltip: PropTypes.bool,
+	/** time before tooltip shows, in milliseconds */
+	triggerDelay: PropTypes.number
 };
 
 Tooltip.defaultProps = {
@@ -165,7 +184,8 @@ Tooltip.defaultProps = {
 	label: undefined,
 	disabled: false,
 	disablePortal: false,
-	overflowTooltip: false
+	overflowTooltip: false,
+	triggerDelay: 500
 };
 
 export default Tooltip;
