@@ -5,7 +5,7 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { useMemo, useState, useCallback, useEffect, HTMLAttributes } from 'react';
+import React, { useMemo, useState, useCallback, useEffect } from 'react';
 import { map } from 'lodash';
 import styled, { css, SimpleInterpolation } from 'styled-components';
 import { ThemeObj } from '../../theme/theme';
@@ -29,7 +29,8 @@ const AccordionContainerEl = styled(Container)<{
 }>`
 	cursor: pointer;
 	padding-left: ${({ theme, $level }): SimpleInterpolation =>
-		css`calc(${$level} * ${theme.sizes.padding.large})`};
+		css`calc(${Math.min($level + 1, 5)} * ${theme.sizes.padding.small})`};
+	padding-right: ${({ theme }): string => theme.sizes.padding.small};
 	background-color: ${({ theme, background, $active }): string =>
 		theme.palette[$active ? 'highlight' : background].regular};
 	${({ theme, background, $disableHover, $active }): SimpleInterpolation =>
@@ -129,7 +130,13 @@ const AccordionRoot = React.forwardRef<HTMLDivElement, AccordionRootProps>(funct
 
 	const handleClick = useCallback(
 		(e: KeyboardEvent | React.SyntheticEvent) => {
-			setOpen(true);
+			setOpen((op) => {
+				if (op) return op;
+				if (item.onOpen) {
+					item.onOpen(e);
+				}
+				return true;
+			});
 			if (item.onClick) {
 				item.onClick(e);
 			}

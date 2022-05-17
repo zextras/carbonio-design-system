@@ -1,6 +1,6 @@
 {
 	"name": "@zextras/carbonio-design-system",
-	"version": "0.2.2",
+	"version": "0.3.2",
 	"description": "An awesome UI for Zextras Projects.",
 	"main": "dist/zapp-ui.bundle.js",
 	"types": "dist/zapp-ui.bundle.d.ts",
@@ -54,7 +54,6 @@
 		"@testing-library/react": "12.1.2",
 		"@testing-library/react-hooks": "7.0.2",
 		"@testing-library/user-event": "13.5.0",
-		"@types/faker": "^5.5.3",
 		"@types/lodash": "^4.14.178",
 		"@types/react-datepicker": "^4.3.4",
 		"@types/styled-components": "5.1.20",
