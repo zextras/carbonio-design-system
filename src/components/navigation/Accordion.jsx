@@ -23,8 +23,10 @@ import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { pseudoClasses } from '../utilities/functions';
 
 const AccordionContainerEl = styled(Container)`
-	padding-left: ${({ theme, level }) => css`calc(${level} * ${theme.sizes.padding.large})`};
-	background-color: ${({ theme, background, item, active }) =>
+	padding-left: ${({ theme, level }) =>
+		css`calc(${Math.min(level + 1, 5)} * ${theme.sizes.padding.small})`};
+	padding-right: ${({ theme }) => theme.sizes.padding.small};
+	background-color: ${({ theme, background, active }) =>
 		theme.palette[active ? 'highlight' : background].regular};
 	${({ theme, background, item }) =>
 		!item.disableHover && pseudoClasses(theme, item.active ? 'highlight' : background)};
@@ -79,7 +81,13 @@ const AccordionRoot = React.forwardRef(function AccordionRootFn(
 
 	const handleClick = useCallback(
 		(e) => {
-			setOpen(true);
+			setOpen((op) => {
+				if (op) return op;
+				if (item.onOpen) {
+					item.onOpen(e);
+				}
+				return true;
+			});
 			if (item.onClick) item.onClick(e);
 		},
 		[item]
