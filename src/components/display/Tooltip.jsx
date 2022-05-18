@@ -144,7 +144,6 @@ const Tooltip = React.forwardRef(function TooltipFn(
 		},
 		[]
 	);
-
 	return (
 		<>
 			{cloneElement(children, { ref: triggerRef })}
