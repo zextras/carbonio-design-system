@@ -10,10 +10,10 @@ import { Theme } from '../../theme/theme';
 import Tooltip from '../display/Tooltip';
 import Text from './Text';
 
-const TextWithTooltip = React.forwardRef(function TextFn({ children, ...rest }, ref) {
+const TextWithTooltip = React.forwardRef(function TextFn({ children, triggerDelay, ...rest }, ref) {
 	return (
-		<Tooltip label={children} overflowTooltip {...rest}>
-			<Text ref={ref}>{children}</Text>
+		<Tooltip label={children} overflowTooltip triggerDelay={triggerDelay}>
+			<Text ref={ref} {...rest}>{children}</Text>
 		</Tooltip>
 	);
 });
@@ -27,7 +27,8 @@ TextWithTooltip.propTypes = {
 	weight: PropTypes.oneOfType([PropTypes.string, PropTypes.oneOf(Object.keys(Theme.fonts.weight))]),
 	/** Overflow handling */
 	overflow: PropTypes.oneOf(['ellipsis', 'break-word']),
-	disabled: PropTypes.bool
+	disabled: PropTypes.bool,
+	triggerDelay: PropTypes.number
 };
 
 export default TextWithTooltip;
