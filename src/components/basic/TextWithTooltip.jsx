@@ -13,7 +13,9 @@ import Text from './Text';
 const TextWithTooltip = React.forwardRef(function TextFn({ children, triggerDelay, ...rest }, ref) {
 	return (
 		<Tooltip label={children} overflowTooltip triggerDelay={triggerDelay}>
-			<Text ref={ref} {...rest}>{children}</Text>
+			<Text ref={ref} {...rest}>
+				{children}
+			</Text>
 		</Tooltip>
 	);
 });
