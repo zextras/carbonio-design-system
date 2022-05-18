@@ -132,12 +132,18 @@ const Tooltip = React.forwardRef(function TooltipFn(
 				refSave.removeEventListener('blur', hideTooltip);
 				refSave.removeEventListener('mouseenter', showTooltip);
 				refSave.removeEventListener('mouseleave', hideTooltip);
-				if (timeoutRef.current) {
-					clearTimeout(timeoutRef.current);
-				}
 			}
 		};
 	}, [triggerRef, showTooltip, hideTooltip]);
+
+	useEffect(
+		() => () => {
+			if (timeoutRef.current) {
+				clearTimeout(timeoutRef.current);
+			}
+		},
+		[]
+	);
 
 	return (
 		<>
