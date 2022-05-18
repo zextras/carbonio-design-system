@@ -78,6 +78,7 @@ const Tooltip = React.forwardRef(function TooltipFn(
 				triggerRef.current.clientWidth < triggerRef.current.scrollWidth) ||
 			triggerRef.current.clientHeight < triggerRef.current.scrollHeight;
 		if ((textIsCropped && overflowTooltip) || !overflowTooltip) {
+			clearTimeout(timeoutRef.current);
 			timeoutRef.current = setTimeout(() => {
 				setOpen(true);
 			}, triggerDelay);
@@ -116,9 +117,9 @@ const Tooltip = React.forwardRef(function TooltipFn(
 	}, [disabled, open, placement, tooltipRef]);
 
 	useEffect(() => {
-		// Added timeoutRef to fix Preact weird bug
+		// Added timeout to fix Preact weird bug
 		setTimeout(() => {
-			if (triggerRef && triggerRef.current) {
+			if (triggerRef && triggerRef.current && !disabled) {
 				triggerRef.current.addEventListener('focus', showTooltip);
 				triggerRef.current.addEventListener('blur', hideTooltip);
 				triggerRef.current.addEventListener('mouseenter', showTooltip);
@@ -134,7 +135,7 @@ const Tooltip = React.forwardRef(function TooltipFn(
 				refSave.removeEventListener('mouseleave', hideTooltip);
 			}
 		};
-	}, [triggerRef, showTooltip, hideTooltip]);
+	}, [triggerRef, showTooltip, hideTooltip, disabled]);
 
 	useEffect(
 		() => () => {
