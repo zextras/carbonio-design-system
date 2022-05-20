@@ -5,7 +5,6 @@
  */
 
 import React, {
-	HTMLAttributes,
 	InputHTMLAttributes,
 	useCallback,
 	useEffect,
@@ -88,6 +87,7 @@ const InputEl = styled.input<{ color: keyof ThemeObj['palette'] }>`
 
 	&:disabled {
 		color: ${({ theme, color }): string => getColor(`${color}.disabled`, theme)};
+		pointer-events: none;
 	}
 
 	transition: background 0.2s ease-out;
@@ -100,10 +100,9 @@ const InputEl = styled.input<{ color: keyof ThemeObj['palette'] }>`
 	}
 `;
 
-const HiddenSpan = styled.span<{ disabledAndClickable: boolean }>`
+const HiddenSpan = styled.span`
 	position: absolute;
-	height: ${({ disabledAndClickable }): string | number => (disabledAndClickable ? '100%' : 0)};
-	width: ${({ disabledAndClickable }): string | false => disabledAndClickable && '100%'};
+	height: 0;
 	overflow: hidden;
 	white-space: pre;
 `;
@@ -114,19 +113,14 @@ const InputContainer = styled.div`
 `;
 
 /**
- * AdjustWidthInput has two goal:
- * 1) Adapt input width on typing
- * By default input html element has a fixed width and the content inside is hidden when overflowing,
+ * Adapt input width on typing
+ *
+ * By default, input html element has a fixed width and the content inside is hidden when overflowing,
  * but still reachable moving the caret. To avoid this behaviour and have instead an input which
  * extends its width on typing, a hidden span is used to set expand the width of the input container dynamically.
  * In order to accomplish this, the span is positioned over the input, but with height 0 and its content is set through
  * a listener (resizeInput), that keeps the span content synchronized with the input value.
  * Then, input receives its scroll width, which contains always the full content.
- *
- * 2) Fire onClick event even when input is disabled
- * Not all browsers fire events on a disabled input, but we need this to happen since disabled status for the input
- * does not mean the chip input is disabled (chip might be added with the dropdown). The hidden span in this case is used
- * to create a clickable layer over the input, so that mouse click is propagated and reach the dropdown
  *
  */
 const AdjustWidthInput = React.forwardRef<
@@ -135,9 +129,8 @@ const AdjustWidthInput = React.forwardRef<
 		color: keyof ThemeObj['palette'];
 		separators: string[];
 		confirmChipOnBlur: boolean;
-		dropdownDisabled: boolean;
 	} & InputHTMLAttributes<HTMLInputElement>
->(function AdjustWidthInputFn({ confirmChipOnBlur, dropdownDisabled, ...inputProps }, ref) {
+>(function AdjustWidthInputFn({ confirmChipOnBlur, ...inputProps }, ref) {
 	const hiddenSpanRef = useRef<HTMLSpanElement | null>(null);
 	const inputRef = useCombinedRefs<HTMLInputElement>(ref);
 
@@ -167,10 +160,7 @@ const AdjustWidthInput = React.forwardRef<
 
 	return (
 		<InputContainer>
-			<HiddenSpan
-				ref={hiddenSpanRef}
-				disabledAndClickable={!!inputProps.disabled && !dropdownDisabled}
-			/>
+			<HiddenSpan ref={hiddenSpanRef} />
 			<InputEl {...inputProps} ref={inputRef} />
 		</InputContainer>
 	);
@@ -397,7 +387,7 @@ interface ChipInputProps extends Omit<ContainerProps, 'defaultValue' | 'onChange
 	/** Description for the input */
 	description?: string;
 	/** Custom Chip component */
-	ChipComponent?: typeof Chip;
+	ChipComponent?: React.ComponentType<ChipItem>;
 	/** allow to create chips from pasted values */
 	createChipOnPaste?: boolean;
 	/** Chip generation triggers on paste */
@@ -764,7 +754,6 @@ const ChipInput: ChipInput = React.forwardRef<HTMLDivElement, ChipInputProps>(fu
 							placeholder={placeholder}
 							separators={separatorKeys}
 							confirmChipOnBlur={confirmChipOnBlur}
-							dropdownDisabled={dropdownDisabled}
 							onPaste={onPaste}
 						/>
 						{placeholder && (
