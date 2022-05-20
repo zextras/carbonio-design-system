@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.3](https://github.com/Zextras/carbonio-design-system/compare/v0.3.2...v0.3.3) (2022-05-20)
+
+
+### Bug Fixes
+
+* app icons change ([b700116](https://github.com/Zextras/carbonio-design-system/commit/b70011699dce1be451694cd5cf8910ee3cd54f63))
+* updated Chats icon ([30ed91a](https://github.com/Zextras/carbonio-design-system/commit/30ed91ac7e9291f27b68bcbb7d24d66588ba4ee6))
+
 ### [0.3.2](https://github.com/Zextras/carbonio-design-system/compare/v0.3.1...v0.3.2) (2022-05-11)
 
 
