@@ -8,12 +8,13 @@ import * as React from 'react';
 
 function SvgMailMod(props) {
 	return (
-		<svg width={24} height={24} xmlns="http://www.w3.org/2000/svg" {...props}>
-			<path
-				fillRule="evenodd"
-				clipRule="evenodd"
-				d="M4.277 4A2.278 2.278 0 002 6.28v11.483c0 1.258 1.02 2.279 2.277 2.279h15.446A2.278 2.278 0 0022 17.762V6.28C22 5.02 20.98 4 19.723 4H4.277zm9.754 8.02a2.032 2.032 0 01-4.062 0 2.032 2.032 0 014.062 0zm3.75-2.707a1.72 1.72 0 11-3.439-.002 1.72 1.72 0 013.44.002zm-8.125.104a1.407 1.407 0 11-2.814-.002 1.407 1.407 0 012.814.002z"
-			/>
+		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...props}>
+			<g data-name="Layer 2">
+				<path
+					d="M19 4H5a3 3 0 00-3 3v10a3 3 0 003 3h14a3 3 0 003-3V7a3 3 0 00-3-3zm0 2l-6.5 4.47a1 1 0 01-1 0L5 6z"
+					data-name="email"
+				/>
+			</g>
 		</svg>
 	);
 }
