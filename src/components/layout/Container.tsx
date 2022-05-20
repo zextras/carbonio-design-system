@@ -170,6 +170,7 @@ interface ContainerProps
 	extends Omit<ContainerElProps, 'orientation'>,
 		Omit<HTMLAttributes<HTMLDivElement>, keyof ContainerElProps> {
 	orientation?: 'vertical' | 'horizontal' | ContainerElProps['orientation'];
+	children?: React.ReactNode | React.ReactNode[];
 }
 
 const Container = React.forwardRef<HTMLDivElement, ContainerProps>(function ContainerFn(
