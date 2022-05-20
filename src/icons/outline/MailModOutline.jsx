@@ -8,17 +8,13 @@ import * as React from 'react';
 
 function SvgMailModOutline(props) {
 	return (
-		<svg width={24} height={24} xmlns="http://www.w3.org/2000/svg" {...props}>
-			<path
-				fillRule="evenodd"
-				clipRule="evenodd"
-				d="M9.89 9.656a1.268 1.268 0 11-2.535-.002 1.268 1.268 0 012.535.002zM17.203 9.562a1.548 1.548 0 01-3.093 0 1.548 1.548 0 013.093 0zM13.828 11.999a1.829 1.829 0 11-3.658 0 1.829 1.829 0 013.658 0z"
-			/>
-			<path
-				fillRule="evenodd"
-				clipRule="evenodd"
-				d="M4.276 4.003A2.277 2.277 0 002 6.283v11.484a2.277 2.277 0 002.276 2.28h15.448A2.277 2.277 0 0022 17.766V6.28A2.277 2.277 0 0019.724 4l-15.448.003zm.267 2.185a.353.353 0 00-.352.352V17.5c0 .194.158.352.352.352h14.92a.353.353 0 00.352-.352V6.543a.353.353 0 00-.352-.352l-14.92-.003z"
-			/>
+		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...props}>
+			<g data-name="Layer 2">
+				<path
+					d="M19 4H5a3 3 0 00-3 3v10a3 3 0 003 3h14a3 3 0 003-3V7a3 3 0 00-3-3zm-.67 2L12 10.75 5.67 6zM19 18H5a1 1 0 01-1-1V7.25l7.4 5.55a1 1 0 00.6.2 1 1 0 00.6-.2L20 7.25V17a1 1 0 01-1 1z"
+					data-name="email"
+				/>
+			</g>
 		</svg>
 	);
 }
