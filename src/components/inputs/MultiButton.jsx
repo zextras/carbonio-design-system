@@ -13,7 +13,19 @@ import Dropdown from '../display/Dropdown';
 import { Theme } from '../../theme/theme';
 
 const MultiButton = React.forwardRef(function MultiButtonFn(
-	{ background, color, label, disabledPrimary, disabledSecondary, icon, items, onClick, ...rest },
+	{
+		background,
+		color,
+		label,
+		disabledPrimary,
+		disabledSecondary,
+		icon,
+		items,
+		onClick,
+		btnProps,
+		dropdownProps,
+		...rest
+	},
 	ref
 ) {
 	return (
@@ -33,8 +45,14 @@ const MultiButton = React.forwardRef(function MultiButtonFn(
 				labelColor={color}
 				onClick={onClick}
 				disabled={disabledPrimary}
+				{...btnProps}
 			/>
-			<Dropdown items={items} placement="bottom-end" disabled={disabledSecondary}>
+			<Dropdown
+				items={items}
+				placement="bottom-end"
+				disabled={disabledSecondary}
+				{...dropdownProps}
+			>
 				<IconButton
 					icon={icon}
 					iconColor={color}
