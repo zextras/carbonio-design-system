@@ -109,6 +109,7 @@ const StyledIcon = styled(Icon)<{ $loading?: boolean; $size: string }>`
 		`};
 	width: ${({ $size }): string => $size};
 	height: ${({ $size }): string => $size};
+	flex-shrink: 0;
 `;
 
 const StyledText = styled(Text)<{ $loading: boolean; $size: string }>`
@@ -155,7 +156,9 @@ const StyledButton = styled.button.attrs<
 	gap: ${({ gap }): string => gap};
 	/* width */
 	width: ${({ width }): SimpleInterpolation =>
-		(width === 'fill' && '100%') || (width === 'fit' && 'fit-content')};
+		(width === 'fill' && '100%') || (width === 'fit' && 'auto')};
+	max-width: 100%;
+	min-width: 0;
 	/* order of elements */
 	${StyledIcon} {
 		order: ${({ iconPlacement = 'left' }): number | false =>
@@ -190,6 +193,7 @@ const StyledButton = styled.button.attrs<
 `;
 
 const StyledSecondaryAction = styled(StyledButton)<{ $loading: boolean }>`
+	flex-shrink: 0;
 	${({ $loading }): SimpleInterpolation =>
 		$loading &&
 		css`
@@ -207,6 +211,7 @@ const StyledSecondaryActionPlaceholder = styled.span<{ padding: string }>`
 const StyledGrid = styled.div<{ width: 'fill' | 'fit'; padding: string }>`
 	width: ${({ width }): SimpleInterpolation =>
 		(width === 'fill' && '100%') || (width === 'fit' && 'fit-content')};
+	max-width: 100%;
 
 	display: grid;
 	place-items: center;

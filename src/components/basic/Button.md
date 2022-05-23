@@ -122,6 +122,14 @@ import { Container } from '@zextras/carbonio-design-system';
 <Container orientation="vertical" mainAlignment="space-around" style={{ gap: '10px' }}>
     <Button label="Button" color="primary" width="fit" />
     <Button type="outlined" label="Button" width="fill" />
+  <Container orientation="horizontal" maxWidth="500px" gap="10px">
+    <Button label="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vestibulum dui varius eleifend pharetra. Suspendisse tempus euismod semper." color="primary" width="fit" icon="PeopleOutline" secondaryAction={{ icon: 'ChevronDown', onClick: () => undefined }} />
+    <Button type="outlined" label="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vestibulum dui varius eleifend pharetra. Suspendisse tempus euismod semper." width="fill" icon="PeopleOutline" secondaryAction={{ icon: 'ChevronDown', onClick: () => undefined }} />
+  </Container>
+	<Container orientation="vertical" maxWidth="500px" gap="10px">
+		<Button label="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vestibulum dui varius eleifend pharetra. Suspendisse tempus euismod semper." color="primary" width="fit" icon="PeopleOutline" secondaryAction={{ icon: 'ChevronDown', onClick: () => undefined }} />
+		<Button type="outlined" label="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vestibulum dui varius eleifend pharetra. Suspendisse tempus euismod semper." width="fill" icon="PeopleOutline" secondaryAction={{ icon: 'ChevronDown', onClick: () => undefined }} />
+	</Container>
 </Container>
 ```
 
