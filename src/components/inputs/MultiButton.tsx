@@ -35,6 +35,8 @@ type MultiButtonProps = {
 	size?: Extract<ButtonProps['size'], 'medium' | 'large' | 'extralarge'>;
 	/** Dropdown list width */
 	dropdownWidth?: DropdownProps['width'];
+	/** Dropdown properties */
+	dropdownProps?: DropdownProps;
 } & Omit<ButtonProps, 'secondaryAction' | 'icon' | 'disabled'>;
 
 const MultiButton = React.forwardRef<HTMLButtonElement, MultiButtonProps>(function MultiButtonFn(
@@ -50,6 +52,7 @@ const MultiButton = React.forwardRef<HTMLButtonElement, MultiButtonProps>(functi
 		primaryIcon,
 		width,
 		dropdownWidth,
+		dropdownProps,
 		...rest
 	},
 	ref
@@ -88,6 +91,7 @@ const MultiButton = React.forwardRef<HTMLButtonElement, MultiButtonProps>(functi
 			disabled
 			disableRestoreFocus
 			width={dropdownWidth}
+			{...dropdownProps}
 			$containerWidth={(width === 'fill' && '100%') || 'auto'}
 		>
 			<Button
