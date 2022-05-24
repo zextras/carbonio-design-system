@@ -96,9 +96,9 @@ const items = [
         <MultiButton width="fit" size="extralarge" primaryIcon="Plus" iconPlacement="left" label="Hello" onClick={console.log} items={items} />
     </Container>
     <Container orientation="horizontal" style={{ gap: '10px'}}>
-        <MultiButton width="fill" dropdownWidth="100%" size="medium" primaryIcon="Plus" iconPlacement="left" label="Hello" onClick={console.log} items={items} />
-        <MultiButton width="fill" dropdownWidth="100%" size="large" primaryIcon="Plus" iconPlacement="left" label="Hello" onClick={console.log} items={items} />
-        <MultiButton width="fill" dropdownWidth="100%" size="extralarge" primaryIcon="Plus" iconPlacement="left" label="Hello" onClick={console.log} items={items} />
+        <MultiButton width="fill" dropdownProps={{width:"100%"}} size="medium" primaryIcon="Plus" iconPlacement="left" label="Hello" onClick={console.log} items={items} />
+        <MultiButton width="fill" dropdownProps={{width:"100%"}} size="large" primaryIcon="Plus" iconPlacement="left" label="Hello" onClick={console.log} items={items} />
+        <MultiButton width="fill" dropdownProps={{width:"100%"}} size="extralarge" primaryIcon="Plus" iconPlacement="left" label="Hello" onClick={console.log} items={items} />
     </Container>
 </Container>
 

@@ -81,7 +81,8 @@ function ListItemContent({
 			<Text
 				size={itemTextSize}
 				weight={selected ? 'bold' : 'regular'}
-				color={disabled ? 'secondary' : 'text'}
+				color={disabled ? 'secondary.regular' : 'text'}
+				disabled={disabled}
 			>
 				{label}
 			</Text>
