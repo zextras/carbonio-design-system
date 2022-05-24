@@ -79,6 +79,16 @@ import { Avatar, Button, IconCheckbox, Container } from '@zextras/carbonio-desig
 </Container>
 ```
 
+### Change tooltip's trigger delay
+```jsx
+import { Button, Container } from '@zextras/carbonio-design-system';
+<Container orientation="horizontal" mainAlignment="flex-start">
+    <Tooltip label="Overflowing tooltip text, Lorem ipsum dolor sit amet" triggerDelay={2000}>
+        <Button label="Tooltip trigger after 2 seconds" />
+    </Tooltip>
+</Container>
+```
+
 ### Development status:
 ```jsx noEditor
 import { Container, Icon } from '@zextras/carbonio-design-system';

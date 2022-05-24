@@ -14,6 +14,7 @@ import React, {
 } from 'react';
 import { createPopper, Instance, Placement } from '@popperjs/core';
 import styled, { css, SimpleInterpolation } from 'styled-components';
+import { rgba } from 'polished';
 import { Portal } from '../utilities/Portal';
 import { Text, TextProps } from '../basic/Text';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
@@ -44,6 +45,7 @@ const TooltipWrapperWithCss = styled(TooltipWrapper)<{ $maxWidth: string }>`
 	background: ${({ theme }): string => theme.palette.gray3.regular};
 	border-radius: ${({ theme }): string => theme.borderRadius};
 	user-select: none;
+	box-shadow: 0px 0px 4px 0px ${({ theme }): string => rgba(theme.palette.gray0.regular, 0.5)};
 
 	${({ open }): SimpleInterpolation =>
 		open &&
@@ -67,6 +69,8 @@ interface TooltipProps extends TextProps {
 	overflowTooltip?: boolean;
 	/** Tooltip trigger */
 	children: React.ReactElement;
+	/** time before tooltip shows, in milliseconds */
+	triggerDelay?: number;
 }
 
 const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(function TooltipFn(
@@ -78,6 +82,7 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(function TooltipF
 		disabled = false,
 		disablePortal = false,
 		overflowTooltip = false,
+		triggerDelay = 500,
 		...rest
 	},
 	ref
@@ -86,6 +91,7 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(function TooltipF
 	const popperInstanceRef = useRef<Instance>();
 	const triggerRef = useRef<HTMLElement>();
 	const tooltipRef = useCombinedRefs<HTMLDivElement>(ref);
+	const timeoutRef = useRef<null | ReturnType<typeof setTimeout>>(null);
 
 	const showTooltip = useCallback(() => {
 		const triggerElement = triggerRef.current;
@@ -95,12 +101,18 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(function TooltipF
 					triggerElement.clientWidth < triggerElement.scrollWidth) ||
 				triggerElement.clientHeight < triggerElement.scrollHeight;
 			if ((textIsCropped && overflowTooltip) || !overflowTooltip) {
-				setOpen(true);
+				clearTimeout(timeoutRef.current as ReturnType<typeof setTimeout>);
+				timeoutRef.current = setTimeout(() => {
+					setOpen(true);
+				}, triggerDelay);
 			}
 		}
-	}, [overflowTooltip, triggerRef]);
+	}, [overflowTooltip, triggerRef, triggerDelay]);
 
-	const hideTooltip = useCallback(() => setOpen(false), []);
+	const hideTooltip = useCallback(() => {
+		setOpen(false);
+		clearTimeout(timeoutRef.current as ReturnType<typeof setTimeout>);
+	}, []);
 
 	useLayoutEffect(() => {
 		if (open && !disabled && triggerRef.current && tooltipRef.current) {
@@ -146,6 +158,15 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(function TooltipF
 			}
 		};
 	}, [triggerRef, showTooltip, hideTooltip]);
+
+	useEffect(
+		() => (): void => {
+			if (timeoutRef.current) {
+				clearTimeout(timeoutRef.current);
+			}
+		},
+		[]
+	);
 
 	return (
 		<>
