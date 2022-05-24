@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.4](https://github.com/Zextras/carbonio-design-system/compare/v0.3.3...v0.3.4) (2022-05-24)
+
+
+### Bug Fixes
+
+* accordion height reduced ([19dc04f](https://github.com/Zextras/carbonio-design-system/commit/19dc04f8f0076b62cf05518e18de1f3a0efc320f))
+
 ### [0.3.3](https://github.com/Zextras/carbonio-design-system/compare/v0.3.2...v0.3.3) (2022-05-20)
 
 
