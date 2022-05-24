@@ -55,10 +55,12 @@ const LIWrapper = memo(function LIWrapperFn({
 	activeBackground,
 	active,
 	selected,
+	item,
+	onClick,
+	focusBackground,
 	...rest
 }) {
 	const [inView, ref] = useIsVisible(listRef);
-
 	return (
 		<StyledDiv
 			tabIndex={rest.index}
@@ -68,16 +70,21 @@ const LIWrapper = memo(function LIWrapperFn({
 			selectedBackground={selectedBackground}
 			activeBackground={activeBackground}
 			background={background}
+			onClick={disabled ? undefined : item.onClick}
+			focusBackground={focusBackground}
 		>
 			<ItemComponent
 				visible={inView}
 				{...itemProps}
 				{...rest}
+				item={item}
+				onClick={onClick || item.onClick}
 				active={active}
 				selected={selected}
 				selectedBackground={selectedBackground}
 				activeBackground={activeBackground}
 				background={background}
+				disabled={disabled}
 			/>
 		</StyledDiv>
 	);
