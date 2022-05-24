@@ -147,7 +147,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 	/** on Enter key callback */
 	onEnter?: (e: KeyboardEvent) => void;
 	/** Description of the input */
-	description?: string;
+	description?: string | undefined;
 }
 
 type Input = React.ForwardRefExoticComponent<InputProps & React.RefAttributes<HTMLDivElement>> & {
@@ -265,14 +265,16 @@ const Input: Input = React.forwardRef<HTMLDivElement, InputProps>(function Input
 					borderColor
 				}
 			/>
-			<CustomText
-				size="extrasmall"
-				color={(hasError && 'error') || (hasFocus && 'primary') || 'secondary'}
-				disabled={disabled}
-				overflow="break-word"
-			>
-				{description}
-			</CustomText>
+			{description !== undefined && (
+				<CustomText
+					size="extrasmall"
+					color={(hasError && 'error') || (hasFocus && 'primary') || 'secondary'}
+					disabled={disabled}
+					overflow="break-word"
+				>
+					{description}
+				</CustomText>
+			)}
 		</Container>
 	);
 });

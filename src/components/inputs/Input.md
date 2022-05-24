@@ -19,7 +19,7 @@ const StyledContainer = styled(Container)`
   }
 `;
 
-<StyledContainer orientation="horizontal" mainAlignment="space-around" wrap="wrap" style={{ margin: 'auto' }}>
+<StyledContainer orientation="horizontal" mainAlignment="space-around" wrap="wrap" style={{ margin: 'auto' }} crossAlignment="flex-start">
     <Input autoComplete="on" autoFocus label="Input" defaultValue="Default Value" />
     <Input
         label="Some other Input"
@@ -90,15 +90,47 @@ const CustomElement = useMemo(() =>
 #### Optional description
 Optional description is set to break on new line on overflow
 ```typescript jsx
-import { useMemo } from 'react';
 import { Container } from '@zextras/carbonio-design-system';
-import styled from 'styled-components';
 
 <Container style={{ gap: '10px', margin: 'auto' }} width="50%">
 	<Input label="Input label" backgroundColor="gray5" borderColor="gray3" description="Optional short description" />
 	<Input label="Input label" backgroundColor="gray5" borderColor="gray3" description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas in tortor maximus, iaculis sem eget, scelerisque libero. Quisque fermentum massa odio, ut feugiat ipsum laoreet in. Phasellus aliquet leo et bibendum ultrices. Etiam eget iaculis odio. Nunc ut mi dignissim, sagittis purus vitae, tempor massa." />
 </Container>
 ```
+
+If you have mixed inputs, some with a description and some without a description, the components might have different heights.
+To avoid expansion of the external container components, there are a few possibilities:
+1. set description to an empty string to reserve space for the description (single line)
+2. set min height on external container
+
+However, a flex-start or baseline crossAlignment might be required in order to have components aligned nicely in a row.
+```jsx
+import { useState } from 'react';
+import { Container, Text } from '@zextras/carbonio-design-system';
+
+const [input3, setInput3] = useState('');
+const [input5, setInput5] = useState('');
+
+<Container gap="10px">
+    <Text>Flex-start alignment</Text>
+    <Container gap="10px" margin={{ left: 'auto', right: 'auto' }} orientation="horizontal" crossAlignment="flex-start">
+        <Input label="Input without description" backgroundColor="gray5" borderColor="gray3" />
+        <Input label="Input with description" backgroundColor="gray5" borderColor="gray3" description="Lorem ipsum dolor sit amet, consectetur adipiscing elit" />
+    </Container>
+    <Text>Baseline alignment</Text>
+    <Container gap="10px" margin={{ left: 'auto', right: 'auto' }} orientation="horizontal" crossAlignment="baseline" minHeight="70px">
+        <Input label="Input without description" backgroundColor="gray5" borderColor="gray3" />
+        <Input label="Input with error on typing" backgroundColor="gray5" borderColor="gray3" value={input3} onChange={(e) => setInput3(e.currentTarget.value)} hasError={input3} description={input3 ? 'Dynamic error message' : undefined} />
+    </Container>
+    <Text>Empty description to reserve space</Text>
+	<Container gap="10px" orientation="horizontal" crossAlignment="flex-start">
+		<Input label="Input without description" backgroundColor="gray5" borderColor="gray3" />
+        <Input label="Input with description on typing" backgroundColor="gray5" borderColor="gray3" value={input5} onChange={(e) => setInput5(e.currentTarget.value)} description={input5 ? 'Dynamic description' : ''} />
+	</Container>
+</Container>
+```
+
+
 
 ### Development status:
 ```jsx noEditor
