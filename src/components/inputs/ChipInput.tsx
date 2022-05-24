@@ -345,7 +345,7 @@ interface ChipInputProps extends Omit<ContainerProps, 'defaultValue' | 'onChange
 	 * Set the label for the error
 	 * @deprecated use description instead
 	 */
-	errorLabel?: string;
+	errorLabel?: string | undefined;
 	/** Background color for the error status */
 	errorBackgroundColor?: keyof ThemeObj['palette'];
 	/** Set the limit for chip inputs <br />
@@ -385,7 +385,7 @@ interface ChipInputProps extends Omit<ContainerProps, 'defaultValue' | 'onChange
 	/** Dropdown max height */
 	dropdownMaxHeight?: string;
 	/** Description for the input */
-	description?: string;
+	description?: string | undefined;
 	/** Custom Chip component */
 	ChipComponent?: React.ComponentType<ChipItem>;
 	/** allow to create chips from pasted values */
@@ -789,15 +789,17 @@ const ChipInput: ChipInput = React.forwardRef<HTMLDivElement, ChipInputProps>(fu
 					bottomBorderColor
 				}
 			/>
-			<CustomText
-				size="extrasmall"
-				color={(hasError && 'error') || (hasFocus && 'primary') || 'secondary'}
-				disabled={disabled && dropdownDisabled && (!iconAction || iconDisabled)}
-				overflow="break-word"
-				$backgroundColor={errorBackgroundColor}
-			>
-				{(hasError && errorLabel) || description}
-			</CustomText>
+			{((hasError && errorLabel !== undefined) || description !== undefined) && (
+				<CustomText
+					size="extrasmall"
+					color={(hasError && 'error') || (hasFocus && 'primary') || 'secondary'}
+					disabled={disabled && dropdownDisabled && (!iconAction || iconDisabled)}
+					overflow="break-word"
+					$backgroundColor={errorBackgroundColor}
+				>
+					{(hasError && errorLabel) || description}
+				</CustomText>
+			)}
 		</Container>
 	);
 });
