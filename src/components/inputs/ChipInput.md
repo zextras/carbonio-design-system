@@ -561,7 +561,7 @@ const options = [
 	{ id: '5', label: 'Fifth option' }
 ];
 <Container style={{ gap: '10px' }} orientation="horizontal">
-    <ChipInput placeholder="ChipInput enabled" options={options} disableOptions={false} background="gray5" bottomBorderColor="gray3" />
+    <ChipInput placeholder="ChipInput enabled" options={options} disableOptions={false} background="gray5" bottomBorderColor="gray3" description="" />
     <ChipInput placeholder="ChipInput disabled" options={options} disabled disableOptions={false} background="gray5" bottomBorderColor="gray3" description="Disabled" />
 </Container>
 ```

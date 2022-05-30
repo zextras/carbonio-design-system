@@ -108,7 +108,9 @@ const StyledIcon = styled(Icon)<{ $loading?: boolean; $size: string }>`
 			opacity: 0;
 		`};
 	width: ${({ $size }): string => $size};
+	min-width: ${({ $size }): string => $size};
 	height: ${({ $size }): string => $size};
+	min-height: ${({ $size }): string => $size};
 	flex-shrink: 0;
 `;
 
@@ -194,6 +196,7 @@ const StyledButton = styled.button.attrs<
 
 const StyledSecondaryAction = styled(StyledButton)<{ $loading: boolean }>`
 	flex-shrink: 0;
+	min-width: fit-content;
 	${({ $loading }): SimpleInterpolation =>
 		$loading &&
 		css`

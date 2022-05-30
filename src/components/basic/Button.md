@@ -126,9 +126,19 @@ import { Container } from '@zextras/carbonio-design-system';
     <Button label="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vestibulum dui varius eleifend pharetra. Suspendisse tempus euismod semper." color="primary" width="fit" icon="PeopleOutline" secondaryAction={{ icon: 'ChevronDown', onClick: () => undefined }} />
     <Button type="outlined" label="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vestibulum dui varius eleifend pharetra. Suspendisse tempus euismod semper." width="fill" icon="PeopleOutline" secondaryAction={{ icon: 'ChevronDown', onClick: () => undefined }} />
   </Container>
+	<Container orientation="horizontal" maxWidth="500px" gap="10px">
+		<Button label="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vestibulum dui varius eleifend pharetra. Suspendisse tempus euismod semper." color="primary" width="fit" icon="PeopleOutline" secondaryAction={{ icon: 'ChevronDown', onClick: () => undefined }} />
+		<Button type="default" label="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vestibulum dui varius eleifend pharetra. Suspendisse tempus euismod semper." width="fit" icon="PeopleOutline" secondaryAction={{ icon: 'ChevronDown', onClick: () => undefined }} />
+	</Container>
 	<Container orientation="vertical" maxWidth="500px" gap="10px">
 		<Button label="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vestibulum dui varius eleifend pharetra. Suspendisse tempus euismod semper." color="primary" width="fit" icon="PeopleOutline" secondaryAction={{ icon: 'ChevronDown', onClick: () => undefined }} />
 		<Button type="outlined" label="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vestibulum dui varius eleifend pharetra. Suspendisse tempus euismod semper." width="fill" icon="PeopleOutline" secondaryAction={{ icon: 'ChevronDown', onClick: () => undefined }} />
+	</Container>
+	<Container orientation="horizontal" maxWidth="500px" gap="10px">
+		<Button color="primary" width="fit" icon="PeopleOutline" secondaryAction={{ icon: 'ChevronDown', onClick: () => undefined }} />
+		<Button color="primary" width="fit" icon="PeopleOutline" />
+		<Button type="outlined" width="fill" icon="PeopleOutline" secondaryAction={{ icon: 'ChevronDown', onClick: () => undefined }} />
+		<Button type="outlined" width="fill" icon="PeopleOutline" />
 	</Container>
 </Container>
 ```
