@@ -21,7 +21,9 @@ const StyledIconButton = styled(Button)<{
 		css`
 			svg {
 				width: ${$iconSize};
+				min-width: ${$iconSize};
 				height: ${$iconSize};
+				min-height: ${$iconSize};
 			}
 		`};
 	${({ $paddingSize }): SimpleInterpolation =>

@@ -253,6 +253,7 @@ const ChipsContainer = styled.div`
 	gap: 8px;
 	justify-content: flex-start;
 	width: auto;
+	min-width: fit-content;
 `;
 
 function reducer(

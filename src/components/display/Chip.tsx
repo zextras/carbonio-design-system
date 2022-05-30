@@ -8,6 +8,7 @@ import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { map } from 'lodash';
 import styled, { css, SimpleInterpolation } from 'styled-components';
 import type { ThemeObj } from '../../theme/theme';
+import { Container, ContainerProps } from '../layout/Container';
 import { Tooltip } from './Tooltip';
 import { Icon } from '../basic/Icon';
 import { IconButton, IconButtonProps } from '../inputs/IconButton';
@@ -95,41 +96,33 @@ const ActionIcon = styled(Icon)``;
 
 const ActionIconButton = styled(IconButton)``;
 
-const ActionContainer = styled.span<{ $spacing: string }>`
-	& > ${ActionIcon}, & > ${ActionIconButton} {
+const ActionContainer = styled.div<{ $spacing: string }>`
+	min-width: fit-content;
+	& > ${ActionIcon} {
 		padding: ${({ $spacing }): SimpleInterpolation => css`calc(${$spacing} / 2)`};
 	}
 `;
 
-const LabelRow = styled(Row)``;
+const LabelContainer = styled(Container)``;
 
-const ContentRow = styled(Row)<{ $spacing: string }>`
-	gap: ${({ $spacing }): string => $spacing};
-	&:first-child > ${LabelRow}:first-child {
-		padding-left: ${({ $spacing }): SimpleInterpolation => css`calc(${$spacing} * 2)`};
+const ContentContainer = styled(Container)<{ gap: ContainerProps['gap'] }>`
+	&:first-child > ${LabelContainer}:first-child {
+		padding-left: ${({ gap }): SimpleInterpolation => css`calc(${gap} * 2)`};
 	}
-	& > ${LabelRow}:last-child {
-		padding-right: ${({ $spacing }): SimpleInterpolation => css`calc(${$spacing} * 2)`};
+	& > ${LabelContainer}:last-child {
+		padding-right: ${({ gap }): SimpleInterpolation => css`calc(${gap} * 2)`};
 	}
 `;
 
-const ActionsRow = styled(Row)<{ $spacing: string }>`
-	gap: ${({ $spacing }): SimpleInterpolation => css`calc(${$spacing} / 2)`};
-`;
-
-const ChipContainer = styled(Row)<{
+const ChipContainer = styled(Container)<{
 	background: keyof ThemeObj['palette'];
 	disabled: boolean;
 	onClick?: React.ReactEventHandler;
 	onDoubleClick?: React.ReactEventHandler;
-	$spacing: string;
 }>`
 	user-select: none;
 	vertical-align: middle;
 	line-height: 1.5;
-	padding: ${({ $spacing }): SimpleInterpolation =>
-		css`calc(${$spacing} / 4) calc(${$spacing} / 2)`};
-	gap: ${({ $spacing }): string => $spacing};
 	${({ background, disabled, onClick, onDoubleClick, theme }): SimpleInterpolation =>
 		!disabled &&
 		(onClick || onDoubleClick) &&
@@ -299,7 +292,7 @@ const Chip = React.forwardRef<HTMLDivElement, ChipProps>(function ChipFn(
 									onClick={clickHandler}
 									customSize={{
 										iconSize: SIZES[size].icon,
-										paddingSize: 0 // padding set through styled component
+										paddingSize: `calc(${SIZES[size].spacing} / 2)`
 									}}
 								/>
 							</ActionContainer>
@@ -350,19 +343,23 @@ const Chip = React.forwardRef<HTMLDivElement, ChipProps>(function ChipFn(
 			placement={tooltipPlacement}
 		>
 			<ChipContainer
-				display="inline-flex"
 				wrap="nowrap"
 				orientation="horizontal"
 				ref={chipRef}
 				background={error ? 'error' : background}
 				borderRadius={shape}
-				width="fit"
 				maxWidth={maxWidth}
 				mainAlignment="space-between"
-				$spacing={SIZES[size].spacing}
+				gap={SIZES[size].spacing}
+				padding={{
+					vertical: `calc(${SIZES[size].spacing} / 4)`,
+					horizontal: `calc(${SIZES[size].spacing} / 2)`
+				}}
 				onClick={onClick && clickHandler}
 				onDoubleClick={onDoubleClick && dblClickHandler}
 				disabled={!!disabled}
+				width="fit"
+				minWidth={maxWidth ? '0' : 'fit'}
 				{...rest}
 			>
 				{hasAvatar && (
@@ -377,8 +374,11 @@ const Chip = React.forwardRef<HTMLDivElement, ChipProps>(function ChipFn(
 						disabled={!!disabled}
 					/>
 				)}
-				<ContentRow
+				<ContentContainer
 					wrap="nowrap"
+					orientation="horizontal"
+					width="fit"
+					minWidth={maxWidth ? '0' : 'fit'}
 					minHeight={`calc(${theme.sizes.avatar[SIZES[size].avatar].diameter} + calc(${
 						SIZES[size].spacing
 					} / 4))`}
@@ -388,10 +388,10 @@ const Chip = React.forwardRef<HTMLDivElement, ChipProps>(function ChipFn(
 							SIZES[size].spacing
 						}))`
 					}
-					$spacing={SIZES[size].spacing}
+					gap={SIZES[size].spacing}
 				>
 					{keyLabel && (
-						<LabelRow wrap="nowrap" flexShrink={0}>
+						<LabelContainer wrap="nowrap" width="auto">
 							<Text
 								weight="regular"
 								size={SIZES[size].font}
@@ -400,16 +400,17 @@ const Chip = React.forwardRef<HTMLDivElement, ChipProps>(function ChipFn(
 							>
 								{keyLabel}
 							</Text>
-						</LabelRow>
+						</LabelContainer>
 					)}
 					{label && (
-						<LabelRow
-							wrap="nowrap"
-							takeAvailableSpace={!!maxWidth}
+						<LabelContainer
+							width="fit"
 							onMouseEnter={showLabelTooltip}
 							onMouseLeave={hideLabelTooltip}
 							onFocus={showLabelTooltip}
 							onBlur={hideLabelTooltip}
+							flexShrink={maxWidth ? 1 : 0}
+							minWidth="0"
 						>
 							<Tooltip
 								label={(typeof label === 'string' && label) || ''}
@@ -427,14 +428,20 @@ const Chip = React.forwardRef<HTMLDivElement, ChipProps>(function ChipFn(
 									{typeof label === 'string' ? label : <Row wrap="nowrap">{label}</Row>}
 								</Text>
 							</Tooltip>
-						</LabelRow>
+						</LabelContainer>
 					)}
 					{actionItems && actionItems.length > 0 && (
-						<ActionsRow wrap="nowrap" $spacing={SIZES[size].spacing}>
+						<Container
+							gap={`calc(${SIZES[size].spacing} / 2)`}
+							orientation="horizontal"
+							width="fit"
+							minWidth="fit"
+							flexShrink={0}
+						>
 							{actionItems}
-						</ActionsRow>
+						</Container>
 					)}
-				</ContentRow>
+				</ContentContainer>
 			</ChipContainer>
 		</Tooltip>
 	);
