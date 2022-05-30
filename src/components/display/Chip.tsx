@@ -359,7 +359,8 @@ const Chip = React.forwardRef<HTMLDivElement, ChipProps>(function ChipFn(
 				onDoubleClick={onDoubleClick && dblClickHandler}
 				disabled={!!disabled}
 				width="fit"
-				minWidth={maxWidth ? '0' : 'fit'}
+				height="fit"
+				minWidth={maxWidth ? '0' : 'max-content'}
 				{...rest}
 			>
 				{hasAvatar && (
