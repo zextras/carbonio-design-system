@@ -65,10 +65,17 @@ const Placeholder = styled(Text)`
 	${InputDiv}:active + & {
 		color: ${getColor('primary')};
 	}
+	${InputContainer}:first-child > & {
+		// top: ${getPadding('small')};
+
+		transform: translateY(0);
+		font-size: ${({ theme }) => theme.sizes.font.small};
+	}
 `;
 
 const ChipInputContainer = styled.div`
 	position: relative;
+	background: lightgreen;
 	width: 100%;
 	padding: ${getPadding('extrasmall large')};
 	background: ${({ theme, background }) => getColor(background, theme)};
@@ -93,18 +100,20 @@ const ChipInputWrapper = styled.div`
 	flex-wrap: ${({ wrap }) => wrap};
 	overflow-x: overlay;
 	padding: ${({ theme }) => theme.sizes.avatar.small.diameter} 0 0;
-	max-height: 100px;
+	max-height: ${({ maxHeight }) => `${maxHeight}px`};
 	overflow-y: scroll;
-	// -ms-overflow-style: none; /* IE and Edge */
-	// scrollbar-width: none; /* Firefox */
+	-ms-overflow-style: ${({ wrap }) => (wrap === 'wrap' ? 'auto' : 'none')}; /* IE and Edge */
+	scrollbar-width: ${({ wrap }) => (wrap === 'wrap' ? 'auto' : 'none')}; /* Firefox */
 
-	// > div {
-	// 	margin: calc(${getPadding('extrasmall')} / 2);
-	// 	margin-left: 0;
-	// }
-	// &::-webkit-scrollbar {
-	// 	display: none;
-	// }
+	margin-top: ${({ isOverflowing }) => (isOverflowing ? '18px' : 0)};
+
+	> div {
+		margin: calc(${getPadding('extrasmall')} / 2);
+		margin-left: 0;
+	}
+	&::-webkit-scrollbar {
+		display: ${({ wrap }) => (wrap === 'wrap' ? 'auto' : 'none')};
+	}
 `;
 
 const StyledContainer = styled(Container)`
@@ -166,7 +175,9 @@ const ChipInput = React.forwardRef(function ChipInputFn(
 		requireUniqueChips,
 		createChipOnPaste,
 		pasteSeparators,
+
 		wrap,
+		maxHeight,
 
 		maxChips,
 		hasError,
@@ -340,21 +351,29 @@ const ChipInput = React.forwardRef(function ChipInputFn(
 	}, [items]);
 
 	const wrapperRef = useRef();
-	// useEffect(() => {
-	// 	const r = wrapperRef.current;
-	// 	const flipScroll = (ev) => {
-	// 		ev.preventDefault();
-	// 		r.scrollLeft += ev.deltaY;
-	// 	};
-	// 	if (r) {
-	// 		r.addEventListener('wheel', flipScroll);
-	// 	}
-	// 	return () => {
-	// 		if (r) {
-	// 			r.removeEventListener('wheel', flipScroll);
-	// 		}
-	// 	};
-	// }, [wrapperRef]);
+
+	useEffect(() => {
+		const r = wrapperRef.current;
+		const flipScroll = (ev) => {
+			ev.preventDefault();
+			r.scrollLeft += ev.deltaY;
+		};
+
+		if (wrap !== 'wrap' && r) {
+			r.addEventListener('wheel', flipScroll);
+		}
+		return () => {
+			if (wrap !== 'wrap' && r) {
+				r.removeEventListener('wheel', flipScroll);
+			}
+		};
+	}, [wrap, wrapperRef]);
+
+	const isOverflowing = useMemo(
+		() => wrapperRef?.current?.offsetHeight > maxHeight + 15,
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+		[wrapperRef?.current?.offsetHeight, maxHeight]
+	);
 
 	const disableEditable = useMemo(() => items.length < maxChips, [items, maxChips]);
 	const dropdownDisabled = useMemo(
@@ -426,30 +445,12 @@ const ChipInput = React.forwardRef(function ChipInputFn(
 							hasError={hasError}
 							{...rest}
 						>
-							{/* <ChipInputWrapper ref={wrapperRef} wrap={wrap}>
-								{map(items, (item, index) => (
-									<Padding right="small" key={`p${index}-${item.value}`}>
-										<Chip
-											key={`${index}-${item.value}`}
-											{...item}
-											closable
-											onClose={() => onChipClose(index)}
-										/>
-									</Padding>
-								))}
-								<InputContainer>
-									<InputDiv
-										ref={contentEditableInput}
-										onBlur={onBlur}
-										onFocus={onFocus}
-										onKeyUp={onInputType && onKeyUp}
-										contentEditable={contentEditable}
-										onPaste={onPaste}
-									/>
-									<Placeholder hasError={hasError}>{placeholder}</Placeholder>
-								</InputContainer>
-							</ChipInputWrapper> */}
-							<ChipInputWrapper ref={wrapperRef} wrap={wrap}>
+							<ChipInputWrapper
+								ref={wrapperRef}
+								wrap={wrap}
+								maxHeight={maxHeight}
+								isOverflowing={isOverflowing}
+							>
 								{map(items, (item, index) => (
 									<Padding right="small" key={`p${index}-${item.value}`}>
 										<Chip
@@ -553,8 +554,10 @@ ChipInput.propTypes = {
 	createChipOnPaste: PropTypes.bool,
 	/** Chip generation triggers on paste */
 	pasteSeparators: PropTypes.arrayOf(PropTypes.string),
-	/** single line input or multiline */
-	wrap: PropTypes.oneOf(['wrap', 'nowrap'])
+	/** wrap the chips in single line or not */
+	wrap: PropTypes.oneOf(['wrap', 'nowrap']),
+	/** max height for the input */
+	maxHeight: PropTypes.number
 };
 
 ChipInput.defaultProps = {
@@ -574,7 +577,8 @@ ChipInput.defaultProps = {
 	requireUniqueChips: false,
 	createChipOnPaste: false,
 	pasteSeparators: [','],
-	wrap: 'nowrap'
+	wrap: 'nowrap',
+	maxHeight: 130
 };
 
 export default ChipInput;
