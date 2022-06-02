@@ -256,6 +256,7 @@ const onAdd = useCallback((valueToAdd) => {
 		defaultValue={[{ label: 'pippo@franco.it', background: 'gray3', color: 'text' }]}
 		background="gray5"
 		onAdd={onAdd}
+		wrap="wrap"
 		icon="FolderOutline"
 	/>
 </>;

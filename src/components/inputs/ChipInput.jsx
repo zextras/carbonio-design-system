@@ -90,19 +90,21 @@ const StyledPadding = styled(Padding)`
 const ChipInputWrapper = styled.div`
 	display: flex;
 	align-items: center;
-	flex-wrap: nowrap;
+	flex-wrap: ${({ wrap }) => wrap};
 	overflow-x: overlay;
 	padding: ${({ theme }) => theme.sizes.avatar.small.diameter} 0 0;
-	-ms-overflow-style: none; /* IE and Edge */
-	scrollbar-width: none; /* Firefox */
+	max-height: 100px;
+	overflow-y: scroll;
+	// -ms-overflow-style: none; /* IE and Edge */
+	// scrollbar-width: none; /* Firefox */
 
-	> div {
-		margin: calc(${getPadding('extrasmall')} / 2);
-		margin-left: 0;
-	}
-	&::-webkit-scrollbar {
-		display: none;
-	}
+	// > div {
+	// 	margin: calc(${getPadding('extrasmall')} / 2);
+	// 	margin-left: 0;
+	// }
+	// &::-webkit-scrollbar {
+	// 	display: none;
+	// }
 `;
 
 const StyledContainer = styled(Container)`
@@ -164,6 +166,7 @@ const ChipInput = React.forwardRef(function ChipInputFn(
 		requireUniqueChips,
 		createChipOnPaste,
 		pasteSeparators,
+		wrap,
 
 		maxChips,
 		hasError,
@@ -337,21 +340,21 @@ const ChipInput = React.forwardRef(function ChipInputFn(
 	}, [items]);
 
 	const wrapperRef = useRef();
-	useEffect(() => {
-		const r = wrapperRef.current;
-		const flipScroll = (ev) => {
-			ev.preventDefault();
-			r.scrollLeft += ev.deltaY;
-		};
-		if (r) {
-			r.addEventListener('wheel', flipScroll);
-		}
-		return () => {
-			if (r) {
-				r.removeEventListener('wheel', flipScroll);
-			}
-		};
-	}, [wrapperRef]);
+	// useEffect(() => {
+	// 	const r = wrapperRef.current;
+	// 	const flipScroll = (ev) => {
+	// 		ev.preventDefault();
+	// 		r.scrollLeft += ev.deltaY;
+	// 	};
+	// 	if (r) {
+	// 		r.addEventListener('wheel', flipScroll);
+	// 	}
+	// 	return () => {
+	// 		if (r) {
+	// 			r.removeEventListener('wheel', flipScroll);
+	// 		}
+	// 	};
+	// }, [wrapperRef]);
 
 	const disableEditable = useMemo(() => items.length < maxChips, [items, maxChips]);
 	const dropdownDisabled = useMemo(
@@ -423,7 +426,30 @@ const ChipInput = React.forwardRef(function ChipInputFn(
 							hasError={hasError}
 							{...rest}
 						>
-							<ChipInputWrapper ref={wrapperRef}>
+							{/* <ChipInputWrapper ref={wrapperRef} wrap={wrap}>
+								{map(items, (item, index) => (
+									<Padding right="small" key={`p${index}-${item.value}`}>
+										<Chip
+											key={`${index}-${item.value}`}
+											{...item}
+											closable
+											onClose={() => onChipClose(index)}
+										/>
+									</Padding>
+								))}
+								<InputContainer>
+									<InputDiv
+										ref={contentEditableInput}
+										onBlur={onBlur}
+										onFocus={onFocus}
+										onKeyUp={onInputType && onKeyUp}
+										contentEditable={contentEditable}
+										onPaste={onPaste}
+									/>
+									<Placeholder hasError={hasError}>{placeholder}</Placeholder>
+								</InputContainer>
+							</ChipInputWrapper> */}
+							<ChipInputWrapper ref={wrapperRef} wrap={wrap}>
 								{map(items, (item, index) => (
 									<Padding right="small" key={`p${index}-${item.value}`}>
 										<Chip
@@ -526,7 +552,9 @@ ChipInput.propTypes = {
 	/** allow to create chips from pasted values */
 	createChipOnPaste: PropTypes.bool,
 	/** Chip generation triggers on paste */
-	pasteSeparators: PropTypes.arrayOf(PropTypes.string)
+	pasteSeparators: PropTypes.arrayOf(PropTypes.string),
+	/** single line input or multiline */
+	wrap: PropTypes.oneOf(['wrap', 'nowrap'])
 };
 
 ChipInput.defaultProps = {
@@ -545,7 +573,8 @@ ChipInput.defaultProps = {
 	hideBorder: false,
 	requireUniqueChips: false,
 	createChipOnPaste: false,
-	pasteSeparators: [',']
+	pasteSeparators: [','],
+	wrap: 'nowrap'
 };
 
 export default ChipInput;
