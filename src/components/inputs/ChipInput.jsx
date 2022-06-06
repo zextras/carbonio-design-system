@@ -75,7 +75,6 @@ const Placeholder = styled(Text)`
 
 const ChipInputContainer = styled.div`
 	position: relative;
-	background: lightgreen;
 	width: 100%;
 	padding: ${getPadding('extrasmall large')};
 	background: ${({ theme, background }) => getColor(background, theme)};
