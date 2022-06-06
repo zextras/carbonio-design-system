@@ -577,7 +577,7 @@ ChipInput.defaultProps = {
 	requireUniqueChips: false,
 	createChipOnPaste: false,
 	pasteSeparators: [','],
-	wrap: 'nowrap',
+	wrap: 'wrap',
 	maxHeight: 130
 };
 
