@@ -65,12 +65,6 @@ const Placeholder = styled(Text)`
 	${InputDiv}:active + & {
 		color: ${getColor('primary')};
 	}
-	${InputContainer}:first-child > & {
-		// top: ${getPadding('small')};
-
-		transform: translateY(0);
-		font-size: ${({ theme }) => theme.sizes.font.small};
-	}
 `;
 
 const ChipInputContainer = styled.div`
