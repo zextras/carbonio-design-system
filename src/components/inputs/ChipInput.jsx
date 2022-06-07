@@ -93,7 +93,7 @@ const ChipInputWrapper = styled.div`
 	flex-wrap: ${({ wrap }) => wrap};
 	overflow-x: overlay;
 	padding: ${({ theme }) => theme.sizes.avatar.small.diameter} 0 0;
-	max-height: ${({ maxHeight }) => `${maxHeight}px`};
+	max-height: ${({ maxHeight }) => maxHeight};
 	overflow-y: scroll;
 	-ms-overflow-style: ${({ wrap }) => (wrap === 'wrap' ? 'auto' : 'none')}; /* IE and Edge */
 	scrollbar-width: ${({ wrap }) => (wrap === 'wrap' ? 'auto' : 'none')}; /* Firefox */
@@ -363,7 +363,15 @@ const ChipInput = React.forwardRef(function ChipInputFn(
 	}, [wrap, wrapperRef]);
 
 	const isOverflowing = useMemo(
-		() => wrapperRef?.current?.offsetHeight > maxHeight + 15,
+		() => {
+			if (/px$/.test(maxHeight)) {
+				// it is required to add 15 so that the chips will not go above/behind the placeholder when scrollable
+				return wrapperRef?.current?.offsetHeight > Number(maxHeight?.split('px')[0]) + 15;
+			}
+			return wrapperRef?.current?.offsetHeight > maxHeight;
+		},
+
+		//  necessary to add wrapperRef?.current?.offsetHeight to keep track of changing height on overflowing
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 		[wrapperRef?.current?.offsetHeight, maxHeight]
 	);
@@ -550,7 +558,7 @@ ChipInput.propTypes = {
 	/** wrap the chips in single line or not */
 	wrap: PropTypes.oneOf(['wrap', 'nowrap']),
 	/** max height for the input */
-	maxHeight: PropTypes.number
+	maxHeight: PropTypes.string
 };
 
 ChipInput.defaultProps = {
@@ -571,7 +579,7 @@ ChipInput.defaultProps = {
 	createChipOnPaste: false,
 	pasteSeparators: [','],
 	wrap: 'wrap',
-	maxHeight: 130
+	maxHeight: '130px'
 };
 
 export default ChipInput;

@@ -257,8 +257,7 @@ const onAdd = useCallback((valueToAdd) => {
 		background="gray5"
 		onAdd={onAdd}
 		wrap="wrap"
-		icon="FolderOutline"
-		maxHeight={200}
+		icon="FolderOutline"	
 	/>
 </>;
 ```
