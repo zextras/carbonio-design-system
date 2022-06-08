@@ -69,6 +69,8 @@ interface RadioProps extends Omit<ContainerProps, 'onChange'> {
 	defaultChecked?: boolean;
 	/** Radio checked */
 	checked?: boolean;
+	/** value of the Radio */
+	value?: string;
 	/** Radio text */
 	label?: string | React.ReactElement;
 	/** whether to disable the radio or not */
@@ -96,6 +98,7 @@ const Radio = React.forwardRef<HTMLDivElement, RadioProps>(function RadioFn(
 		padding = { bottom: 'small' },
 		size = 'medium',
 		iconColor = 'gray0',
+		value,
 		...rest
 	},
 	ref
