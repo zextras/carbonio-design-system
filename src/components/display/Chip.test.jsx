@@ -9,6 +9,7 @@
 
 import React from 'react';
 import { screen } from '@testing-library/dom';
+import { act, waitFor } from '@testing-library/react';
 import faker from 'faker';
 import userEvent from '@testing-library/user-event';
 import { render } from '../../test-utils';
@@ -128,11 +129,15 @@ describe('Chip', () => {
 		expect(screen.getByTestId('icon: Eye')).toBeVisible();
 		expect(screen.getByTestId('icon: Share')).toBeVisible();
 		userEvent.hover(screen.getByTestId('icon: Star'));
-		expect(screen.getByText('tooltip action0')).toBeVisible();
+		await waitFor(() => {
+			expect(screen.getByText('tooltip action0')).toBeVisible();
+		});
 		userEvent.unhover(screen.getByTestId('icon: Star'));
 		expect(screen.queryByText('tooltip action0')).not.toBeInTheDocument();
 		userEvent.hover(screen.getByTestId('icon: People'));
-		expect(screen.getByText('tooltip action1')).toBeVisible();
+		await waitFor(() => {
+			expect(screen.getByText('tooltip action1')).toBeVisible();
+		});
 		userEvent.unhover(screen.getByTestId('icon: People'));
 		expect(screen.queryByText('tooltip action1')).not.toBeInTheDocument();
 		userEvent.click(screen.getByTestId('icon: People'));
@@ -193,25 +198,32 @@ describe('Chip', () => {
 		expect(screen.getByTestId('icon: Share')).toBeVisible();
 		expect(screen.getByTestId('icon: Close')).toBeVisible();
 		userEvent.hover(screen.getByTestId('icon: Star'));
+		await screen.findByText(/Message to explain disabled status/i);
 		expect(screen.queryByText('tooltip action0')).not.toBeInTheDocument();
 		userEvent.unhover(screen.getByTestId('icon: Star'));
 		userEvent.hover(screen.getByTestId('icon: People'));
+		await screen.findByText(/Message to explain disabled status/i);
 		expect(screen.queryByText('tooltip action1')).not.toBeInTheDocument();
 		userEvent.unhover(screen.getByTestId('icon: People'));
 		expect(screen.getByTestId('icon: People').parentNode).toHaveAttribute('disabled');
 		userEvent.click(screen.getByTestId('icon: People'));
+		await screen.findByText(/Message to explain disabled status/i);
 		expect(actions[1].onClick).not.toHaveBeenCalled();
 		userEvent.click(screen.getByTestId('icon: Eye'));
 		expect(actions[2].onClick).not.toHaveBeenCalled();
 		expect(screen.getByTestId('icon: Share').parentNode).toHaveAttribute('disabled');
 		userEvent.click(screen.getByTestId('icon: Share'));
+		await screen.findByText(/Message to explain disabled status/i);
 		expect(actions[3].onClick).not.toHaveBeenCalled();
 		expect(screen.getByTestId('icon: Close').parentNode).toHaveAttribute('disabled');
 		userEvent.click(screen.getByTestId('icon: Close'));
+		await screen.findByText(/Message to explain disabled status/i);
 		expect(closeFn).not.toHaveBeenCalled();
 		expect(screen.getByText(label)).toHaveAttribute('disabled');
 		userEvent.hover(screen.getByText(label));
-		expect(screen.getByText('Message to explain disabled status')).toBeVisible();
+		await waitFor(() => {
+			expect(screen.getByText('Message to explain disabled status')).toBeVisible();
+		});
 		userEvent.unhover(screen.getByText(label));
 		expect(screen.queryByText('Message to explain disabled status')).not.toBeInTheDocument();
 	});
@@ -252,14 +264,18 @@ describe('Chip', () => {
 			setTimeout(r, 100);
 		});
 		userEvent.hover(screen.getByText(label));
+
+		await screen.findByText(/message for error/i);
 		expect(screen.getByText('Message for error')).toBeVisible();
 		userEvent.unhover(screen.getByText(label));
 		expect(screen.queryByText('Message for error')).not.toBeInTheDocument();
 		userEvent.hover(screen.getByTestId('icon: Star'));
+		await screen.findByText(/tooltip action0/i);
 		expect(screen.getByText('tooltip action0')).toBeVisible();
 		expect(screen.queryByText('Message for error')).not.toBeInTheDocument();
 		userEvent.unhover(screen.getByTestId('icon: Star'));
 		userEvent.hover(screen.getByTestId('icon: People'));
+		await screen.findByText(/tooltip action1/i);
 		expect(screen.getByText('tooltip action1')).toBeVisible();
 		expect(screen.queryByText('Message for error')).not.toBeInTheDocument();
 		userEvent.unhover(screen.getByTestId('icon: People'));
