@@ -93,7 +93,7 @@ const HorizontalScrollContainer = styled.div<{
 				min-height: (${isOverflowing ? 'fit' : `calc(${theme.sizes.font.extrasmall} * 1.5)`});
 				display: block;
 				width: 100%;
-				margin-bottom: -6px;
+				margin-bottom: -6px; /* remove gap but leave 2px distance */
 			}
 		`};
 `;
