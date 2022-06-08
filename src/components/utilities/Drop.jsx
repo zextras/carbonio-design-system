@@ -47,6 +47,7 @@ const Drop = React.forwardRef(function DropFn(
 	const coverStyle = { pointerEvents: 'none' };
 	const dropEvent = useCallback(
 		(e) => {
+			e.preventDefault();
 			e && e.stopPropagation();
 			setStyleObject({});
 			setOverlayAccept(null);
