@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.5](https://github.com/Zextras/carbonio-design-system/compare/v0.3.4...v0.3.5) (2022-06-08)
+
+
+### Features
+
+* added navigation on List ([ccb9b46](https://github.com/Zextras/carbonio-design-system/commit/ccb9b46ac634dcd8f9aed17af90e806f69ccf293))
+* dynamic tooltip & textWithTooltip display time with 0,5s fallback ([#56](https://github.com/Zextras/carbonio-design-system/issues/56)) ([4d3cba2](https://github.com/Zextras/carbonio-design-system/commit/4d3cba2e55891b1a6a274befcd12192ce9858005))
+
 ### [0.3.4](https://github.com/Zextras/carbonio-design-system/compare/v0.3.3...v0.3.4) (2022-05-24)
 
 
