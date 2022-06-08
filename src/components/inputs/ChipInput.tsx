@@ -58,7 +58,12 @@ const ContainerEl = styled(Container)<{
 	border-radius: 2px 2px 0 0;
 `;
 
-const HorizontalScrollContainer = styled.div<{ wrap: 'nowrap' | 'wrap'; hasLabel: boolean }>`
+const HorizontalScrollContainer = styled.div<{
+	wrap: 'nowrap' | 'wrap';
+	hasLabel: boolean;
+	isOverflowing: boolean;
+	maxHeight: string;
+}>`
 	display: flex;
 	flex: 1 1 auto;
 	justify-content: flex-start;
@@ -69,22 +74,26 @@ const HorizontalScrollContainer = styled.div<{ wrap: 'nowrap' | 'wrap'; hasLabel
 	flex-wrap: ${({ wrap }): string => wrap};
 	overflow-x: auto;
 	overflow-x: overlay;
-	-ms-overflow-style: none; /* IE and Edge */
-	scrollbar-width: none; /* Firefox */
+	-ms-overflow-style: ${({ wrap }): string =>
+		wrap === 'wrap' ? 'auto' : 'none'}; /* IE and Edge */
+	scrollbar-width: ${({ wrap }): string => (wrap === 'wrap' ? 'auto' : 'none')}; /* Firefox */
 
 	&::-webkit-scrollbar {
-		display: none;
+		display: ${({ wrap }): string => (wrap === 'wrap' ? 'auto' : 'none')};
 	}
-	${({ hasLabel, wrap, theme }): SimpleInterpolation =>
+	margin-top: ${({ isOverflowing }): string => (isOverflowing ? '18px' : '10px')};
+	max-height: ${({ maxHeight }): string => maxHeight};
+	overflow-y: scroll;
+	${({ hasLabel, wrap, theme, isOverflowing }): SimpleInterpolation =>
 		hasLabel &&
 		wrap === 'wrap' &&
 		css`
 			&::before {
 				content: '';
-				min-height: calc(${theme.sizes.font.extrasmall} * 1.5);
+				min-height: (${isOverflowing ? 'fit' : `calc(${theme.sizes.font.extrasmall} * 1.5)`});
 				display: block;
 				width: 100%;
-				margin-bottom: -6px; /* remove gap but leave 2px distance */
+				margin-bottom: -6px;
 			}
 		`};
 `;
@@ -406,6 +415,8 @@ interface ChipInputProps extends Omit<ContainerProps, 'defaultValue' | 'onChange
 	pasteSeparators?: string[];
 	/** Strategy on chips overflow */
 	wrap?: 'nowrap' | 'wrap';
+	/** maxHeight of Input in case of no horizontal scroll */
+	maxHeight?: string;
 }
 
 type ChipInput = React.ForwardRefExoticComponent<
@@ -450,12 +461,14 @@ const ChipInput: ChipInput = React.forwardRef<HTMLDivElement, ChipInputProps>(fu
 		description,
 		ChipComponent,
 		wrap = 'nowrap',
+		maxHeight = '130px',
 		...rest
 	},
 	ref
 ) {
 	const [items, dispatch] = useReducer(reducer, defaultValue || value || []);
 	const [isActive, setIsActive] = useState(false);
+	const [containerHeight, setContainerHeight] = useState(24);
 	const inputElRef = useCombinedRefs<HTMLInputElement>(inputRef);
 	const hScrollContainerRef = useRef<HTMLDivElement | null>(null);
 	const scrollAfterSaveRef = useRef(false);
@@ -717,6 +730,18 @@ const ChipInput: ChipInput = React.forwardRef<HTMLDivElement, ChipInputProps>(fu
 		[createChipOnPaste, pasteSeparators, requireUniqueChips, savePastedValue]
 	);
 
+	useEffect(() => {
+		const newHeight = hScrollContainerRef?.current?.offsetHeight || 24;
+		setContainerHeight(newHeight);
+	}, [items]);
+
+	const isOverflowing = useMemo(() => {
+		if (/px$/.test(maxHeight)) {
+			return containerHeight >= Number(maxHeight?.split('px')[0]) - 15;
+		}
+		return false;
+	}, [containerHeight, maxHeight]);
+
 	const ChipComp = useMemo(() => ChipComponent || Chip, [ChipComponent]);
 
 	return (
@@ -747,7 +772,13 @@ const ChipInput: ChipInput = React.forwardRef<HTMLDivElement, ChipInputProps>(fu
 					onClick={setFocus}
 					{...rest}
 				>
-					<HorizontalScrollContainer ref={hScrollContainerRef} wrap={wrap} hasLabel={!!placeholder}>
+					<HorizontalScrollContainer
+						ref={hScrollContainerRef}
+						wrap={wrap}
+						maxHeight={maxHeight}
+						isOverflowing={isOverflowing}
+						hasLabel={!!placeholder}
+					>
 						{items.length > 0 &&
 							map(items, (item, index) => (
 								<ChipComp
