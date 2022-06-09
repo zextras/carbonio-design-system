@@ -736,7 +736,6 @@ const ChipInput: ChipInput = React.forwardRef<HTMLDivElement, ChipInputProps>(fu
 			setIsOverflowing(scrollableElement.scrollHeight > scrollableElement.offsetHeight);
 	}, [items]);
 
-	console.log('vv: hieght', isOverflowing);
 	const ChipComp = useMemo(() => ChipComponent || Chip, [ChipComponent]);
 
 	return (
