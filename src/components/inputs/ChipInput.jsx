@@ -190,6 +190,7 @@ const ChipInput = React.forwardRef(function ChipInputFn(
 	const [items, dispatch] = useReducer(reducer, defaultValue ?? value);
 	const itemsRef = useRef(items);
 	const [isActive, setIsActive] = useState(false);
+	const [isOverflowing, setIsOverflowing] = useState(false);
 	const innerRef = useRef(undefined);
 	const contentEditableInput = useCombinedRefs(inputRef, innerRef);
 
@@ -362,20 +363,6 @@ const ChipInput = React.forwardRef(function ChipInputFn(
 		};
 	}, [wrap, wrapperRef]);
 
-	const isOverflowing = useMemo(
-		() => {
-			if (/px$/.test(maxHeight)) {
-				// it is required to add 15 so that the chips will not go above/behind the placeholder when scrollable
-				return wrapperRef?.current?.offsetHeight > Number(maxHeight?.split('px')[0]) + 15;
-			}
-			return wrapperRef?.current?.offsetHeight > maxHeight;
-		},
-
-		//  necessary to add wrapperRef?.current?.offsetHeight to keep track of changing height on overflowing
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-		[wrapperRef?.current?.offsetHeight, maxHeight]
-	);
-
 	const disableEditable = useMemo(() => items.length < maxChips, [items, maxChips]);
 	const dropdownDisabled = useMemo(
 		() => disableOptions || !disableEditable,
@@ -414,6 +401,12 @@ const ChipInput = React.forwardRef(function ChipInputFn(
 		},
 		[createChipOnPaste, pasteSeparators, requireUniqueChips, savePastedValue]
 	);
+
+	useEffect(() => {
+		const scrollableElement = wrapperRef.current;
+		if (scrollableElement)
+			setIsOverflowing(scrollableElement.scrollHeight > scrollableElement.offsetHeight);
+	}, [items]);
 
 	return (
 		<Container orientation="horizontal" background={background}>
