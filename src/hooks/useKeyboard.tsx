@@ -35,13 +35,6 @@ function getFocusableElement(
 	return getFocusableElement(siblingElement, direction);
 }
 
-const consoleLogKeySequence = (e: KeyboardEvent): void => {
-	// console.log(
-	// 	`keys pressed: %c  ${e.ctrlKey ? 'Ctrl/Cmd + ' : ''}${e.key} `,
-	// 	'color: white; background: #39b654; border-radius: 5px; padding: 6px; width: 100%; font-size:24px; font-weight: 800'
-	// );
-};
-
 function getKeyboardPreset(
 	type: ElementType,
 	callback: (e: KeyboardEvent) => void,
@@ -49,13 +42,12 @@ function getKeyboardPreset(
 	keys: string[] = [],
 	modifier = false
 ): KeyboardPreset {
-	function handleArrowUp(e: KeyboardEvent): void {
+	function handleArrowUp(): void {
 		if (ref?.current) {
 			const focusedElement = ref.current.querySelector<HTMLElement>('[tabindex]:focus');
 			if (focusedElement) {
 				const prevEl = getFocusableElement(focusedElement, 'previousElementSibling');
 				if (prevEl) {
-					consoleLogKeySequence(e);
 					prevEl.focus();
 				} else {
 					const lastChild = ref.current.querySelector<HTMLElement>('[tabindex]:last-child');
@@ -68,13 +60,12 @@ function getKeyboardPreset(
 		}
 	}
 
-	function handleArrowDown(e: KeyboardEvent): void {
+	function handleArrowDown(): void {
 		if (ref?.current) {
 			const focusedElement = ref.current.querySelector<HTMLElement>('[tabindex]:focus');
 			if (focusedElement) {
 				const nextEl = getFocusableElement(focusedElement, 'nextElementSibling');
 				if (nextEl) {
-					consoleLogKeySequence(e);
 					nextEl.focus();
 				} else {
 					const firstChild = ref.current.querySelector<HTMLElement>('[tabindex]:first-child');
@@ -87,27 +78,44 @@ function getKeyboardPreset(
 		}
 	}
 
-	function handleEscape(e: KeyboardEvent): void {
+	function handleEscape(): void {
 		if (ref?.current) {
 			const focusedElement = ref.current.querySelector<HTMLElement>('[tabindex]:focus');
 			if (focusedElement) {
-				consoleLogKeySequence(e);
 				focusedElement.blur();
 			}
 		}
 	}
 
-	function handleCtrlArrowUp(e: KeyboardEvent): void {
+	const findFirstChildWithClick = (element: HTMLElement): HTMLElement => {
+		let result = element;
+		while (!result?.onclick && result !== null) {
+			result = result.firstElementChild as HTMLElement;
+		}
+		return result;
+	};
+
+	const handleEnter = (): void => {
 		if (ref?.current) {
-			consoleLogKeySequence(e);
+			const focusedElement = ref.current.querySelector<HTMLElement>('[tabindex]:focus');
+			if (focusedElement) {
+				const firstChild = findFirstChildWithClick(focusedElement);
+				if (firstChild) {
+					firstChild.click();
+				}
+			}
+		}
+	};
+
+	function handleCtrlArrowUp(): void {
+		if (ref?.current) {
 			const firstChild = ref.current.querySelector<HTMLElement>('[tabindex]:first-child');
 			firstChild && firstChild.focus();
 		}
 	}
 
-	function handleCtrlArrowDown(e: KeyboardEvent): void {
+	function handleCtrlArrowDown(): void {
 		if (ref?.current) {
-			consoleLogKeySequence(e);
 			const lastChild = ref.current.querySelector<HTMLElement>('[tabindex]:last-child');
 			lastChild && lastChild.focus();
 		}
@@ -169,6 +177,12 @@ function getKeyboardPreset(
 				type: 'keydown',
 				callback: handleEscape,
 				keys: ['Escape'],
+				modifier
+			});
+			eventsArray.push({
+				type: 'keydown',
+				callback: handleEnter,
+				keys: ['Enter', 'NumpadEnter'],
 				modifier
 			});
 

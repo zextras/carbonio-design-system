@@ -66,6 +66,11 @@ const StyledDiv = styled.div<{
 		)};
 `;
 
+type ItemProps = {
+	id: string;
+	onClick: (evt: unknown) => void;
+	disabled: boolean;
+};
 interface ItemComponentProps {
 	visible: boolean;
 	active: boolean;
@@ -73,11 +78,14 @@ interface ItemComponentProps {
 	background: keyof ThemeObj['palette'];
 	selectedBackground: keyof ThemeObj['palette'];
 	activeBackground: keyof ThemeObj['palette'];
+	item: ItemProps;
+	onClick: (evt: Event) => void;
+	disabled: boolean;
 }
 
 interface LIWrapperProps {
 	listRef: React.RefObject<HTMLDivElement>;
-	item: { id: string };
+	item: ItemProps;
 	ItemComponent: React.ComponentType<ItemComponentProps>;
 	itemProps: Record<string, unknown>;
 	background: keyof ThemeObj['palette'];
@@ -87,6 +95,8 @@ interface LIWrapperProps {
 	selecting: boolean;
 	selected: boolean;
 	index: number;
+	onClick: (evt: unknown) => void;
+	disabled: boolean;
 }
 
 const LIWrapper = React.memo<LIWrapperProps>(function LIWrapperFn({
@@ -99,6 +109,9 @@ const LIWrapper = React.memo<LIWrapperProps>(function LIWrapperFn({
 	active,
 	selected,
 	index,
+	item,
+	onClick,
+	disabled,
 	...rest
 }) {
 	const [inView, ref] = useIsVisible<HTMLDivElement>(listRef);
@@ -112,11 +125,15 @@ const LIWrapper = React.memo<LIWrapperProps>(function LIWrapperFn({
 			selectedBackground={selectedBackground}
 			activeBackground={activeBackground}
 			background={background}
+			onClick={disabled ? undefined : item.onClick}
 		>
 			<ItemComponent
 				visible={inView}
 				{...itemProps}
 				{...rest}
+				item={item}
+				onClick={onClick || item.onClick}
+				disabled={disabled}
 				active={active}
 				selected={selected}
 				selectedBackground={selectedBackground}
@@ -144,7 +161,7 @@ const BottomElement: React.VFC<BottomElementProps> = ({ listRef, onVisible }) =>
 
 interface ListProps extends ContainerProps {
 	/** Array of items to be displayed */
-	items: Array<{ id: string }>;
+	items: Array<ItemProps>;
 	/** props to be passed down to each item */
 	itemProps?: Record<string, unknown>;
 	/** Component to be rendered for each item */
@@ -217,6 +234,8 @@ const List = React.forwardRef<HTMLDivElement, ListProps>(function ListFn(
 						selected={!!selected[item.id]}
 						selecting={selecting}
 						active={item.id === active}
+						onClick={item.onClick}
+						disabled={item.disabled}
 					/>
 				))}
 				{onListBottom && <BottomElement listRef={listRef} onVisible={onListBottom} />}
