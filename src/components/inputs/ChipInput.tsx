@@ -81,16 +81,16 @@ const HorizontalScrollContainer = styled.div<{
 	&::-webkit-scrollbar {
 		display: ${({ wrap }): string => (wrap === 'wrap' ? 'auto' : 'none')};
 	}
-	margin-top: ${({ isOverflowing }): string => (isOverflowing ? '18px' : '10px')};
+	margin-top: ${({ isOverflowing }): string => (isOverflowing ? '15px' : '0px')};
 	max-height: ${({ maxHeight }): string => maxHeight};
 	overflow-y: scroll;
-	${({ hasLabel, wrap, theme, isOverflowing }): SimpleInterpolation =>
+	${({ hasLabel, wrap, theme }): SimpleInterpolation =>
 		hasLabel &&
 		wrap === 'wrap' &&
 		css`
 			&::before {
 				content: '';
-				min-height: (${isOverflowing ? 'fit' : `calc(${theme.sizes.font.extrasmall} * 1.5)`});
+				min-height: calc(${theme.sizes.font.extrasmall} * 1.5);
 				display: block;
 				width: 100%;
 				margin-bottom: -6px; /* remove gap but leave 2px distance */
@@ -460,7 +460,7 @@ const ChipInput: ChipInput = React.forwardRef<HTMLDivElement, ChipInputProps>(fu
 		dropdownMaxHeight,
 		description,
 		ChipComponent,
-		wrap = 'nowrap',
+		wrap = 'wrap',
 		maxHeight = '130px',
 		...rest
 	},
@@ -468,7 +468,7 @@ const ChipInput: ChipInput = React.forwardRef<HTMLDivElement, ChipInputProps>(fu
 ) {
 	const [items, dispatch] = useReducer(reducer, defaultValue || value || []);
 	const [isActive, setIsActive] = useState(false);
-	const [containerHeight, setContainerHeight] = useState(24);
+	const [isOverflowing, setIsOverflowing] = useState(false);
 	const inputElRef = useCombinedRefs<HTMLInputElement>(inputRef);
 	const hScrollContainerRef = useRef<HTMLDivElement | null>(null);
 	const scrollAfterSaveRef = useRef(false);
@@ -731,17 +731,12 @@ const ChipInput: ChipInput = React.forwardRef<HTMLDivElement, ChipInputProps>(fu
 	);
 
 	useEffect(() => {
-		const newHeight = hScrollContainerRef?.current?.offsetHeight || 24;
-		setContainerHeight(newHeight);
+		const scrollableElement = hScrollContainerRef.current;
+		if (scrollableElement)
+			setIsOverflowing(scrollableElement.scrollHeight > scrollableElement.offsetHeight);
 	}, [items]);
 
-	const isOverflowing = useMemo(() => {
-		if (/px$/.test(maxHeight)) {
-			return containerHeight >= Number(maxHeight?.split('px')[0]) - 15;
-		}
-		return false;
-	}, [containerHeight, maxHeight]);
-
+	console.log('vv: hieght', isOverflowing);
 	const ChipComp = useMemo(() => ChipComponent || Chip, [ChipComponent]);
 
 	return (
