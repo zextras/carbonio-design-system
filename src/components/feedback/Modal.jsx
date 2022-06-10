@@ -348,6 +348,7 @@ const Modal = React.forwardRef(function ModalFn(
 				mounted={open}
 				screenMode={screenMode}
 				onClick={onBackdropClick}
+				data-testid="modal"
 				{...rest}
 			>
 				<div tabIndex={0} ref={startSentinelRef} />

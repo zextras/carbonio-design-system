@@ -549,6 +549,7 @@ const Dropdown = React.forwardRef(function DropdownFn(
 							maxHeight={maxHeight}
 							triggerRef={triggerRef}
 							onContextMenu={(ev) => preventDefault && ev.preventDefault()}
+							data-testid="dropdown-popper-list"
 						>
 							<div tabIndex={0} ref={startSentinelRef} />
 							<div ref={popperItemsRef} tabIndex={-1}>
@@ -576,6 +577,7 @@ const Dropdown = React.forwardRef(function DropdownFn(
 							maxHeight={maxHeight}
 							triggerRef={triggerRef}
 							onClick={(ev) => preventDefault && ev.preventDefault()}
+							data-testid="dropdown-popper-list"
 						>
 							<div tabIndex={0} ref={startSentinelRef} />
 							<div ref={popperItemsRef} tabIndex={-1}>
