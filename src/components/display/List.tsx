@@ -68,7 +68,7 @@ const StyledDiv = styled.div<{
 
 type ItemProps = {
 	id: string;
-	onClick: (evt: unknown) => void;
+	onClick: (evt: Event) => void;
 	disabled: boolean;
 };
 interface ItemComponentProps {
@@ -95,7 +95,7 @@ interface LIWrapperProps {
 	selecting: boolean;
 	selected: boolean;
 	index: number;
-	onClick: (evt: unknown) => void;
+	onClick: (evt: Event) => void;
 	disabled: boolean;
 }
 
