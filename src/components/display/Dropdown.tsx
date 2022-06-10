@@ -716,6 +716,7 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 					maxWidth={maxWidth}
 					maxHeight={maxHeight}
 					triggerRef={triggerRef}
+					data-testid="dropdown-popper-list"
 					{...popperListProps}
 				>
 					<div tabIndex={0} ref={startSentinelRef} />
