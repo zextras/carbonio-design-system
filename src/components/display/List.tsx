@@ -5,7 +5,7 @@
  */
 
 import React, { useRef, useEffect, useMemo } from 'react';
-import { map, some } from 'lodash';
+import { extend, map, some } from 'lodash';
 import styled, { SimpleInterpolation } from 'styled-components';
 import { getColor, pseudoClasses } from '../../theme/theme-utils';
 import { Container, ContainerProps } from '../layout/Container';
@@ -66,7 +66,12 @@ const StyledDiv = styled.div<{
 		)};
 `;
 
-interface ItemComponentProps {
+interface ItemType {
+	id: string;
+}
+
+interface ItemComponentProps<T extends ItemType> {
+	item: T;
 	visible: boolean;
 	active: boolean;
 	selected: boolean;
@@ -75,10 +80,10 @@ interface ItemComponentProps {
 	activeBackground: keyof ThemeObj['palette'];
 }
 
-interface LIWrapperProps {
+interface LIWrapperProps<T extends ItemType> {
 	listRef: React.RefObject<HTMLDivElement>;
-	item: { id: string };
-	ItemComponent: React.ComponentType<ItemComponentProps>;
+	item: T;
+	ItemComponent: React.ComponentType<ItemComponentProps<T>>;
 	itemProps: Record<string, unknown>;
 	background: keyof ThemeObj['palette'];
 	selectedBackground: keyof ThemeObj['palette'];
@@ -89,7 +94,8 @@ interface LIWrapperProps {
 	index: number;
 }
 
-const LIWrapper = React.memo<LIWrapperProps>(function LIWrapperFn({
+const LIWrapper = React.memo<LIWrapperProps<any>>(function LIWrapperFn({
+	item,
 	listRef,
 	ItemComponent,
 	itemProps,
@@ -115,6 +121,7 @@ const LIWrapper = React.memo<LIWrapperProps>(function LIWrapperFn({
 		>
 			<ItemComponent
 				visible={inView}
+				item={item}
 				{...itemProps}
 				{...rest}
 				active={active}
@@ -142,13 +149,13 @@ const BottomElement: React.VFC<BottomElementProps> = ({ listRef, onVisible }) =>
 	return <div ref={ref} />;
 };
 
-interface ListProps extends ContainerProps {
+interface ListProps<T extends ItemType> extends ContainerProps {
 	/** Array of items to be displayed */
-	items: Array<{ id: string }>;
+	items: Array<T>;
 	/** props to be passed down to each item */
 	itemProps?: Record<string, unknown>;
 	/** Component to be rendered for each item */
-	ItemComponent: React.ComponentType<ItemComponentProps>;
+	ItemComponent: React.ComponentType<ItemComponentProps<T>>;
 	/** object whose keys are the indexes of the selected items */
 	selected?: Record<string, unknown>;
 	/** id of the active item */
@@ -160,12 +167,12 @@ interface ListProps extends ContainerProps {
 	/** Selected list item background color */
 	selectedBackground?: keyof ThemeObj['palette'];
 	/** Active List item background color */
-	activeBackground: keyof ThemeObj['palette'];
+	activeBackground?: keyof ThemeObj['palette'];
 	/** Disable keyboard shortcuts */
 	keyboardShortcutsIsDisabled?: boolean;
 }
 
-const List = React.forwardRef<HTMLDivElement, ListProps>(function ListFn(
+const List = React.forwardRef<HTMLDivElement, ListProps<any>>(function ListFn(
 	{
 		items = [],
 		itemProps = {},
@@ -225,4 +232,4 @@ const List = React.forwardRef<HTMLDivElement, ListProps>(function ListFn(
 	);
 });
 
-export { List, ListProps, ItemComponentProps };
+export { List, ListProps, ItemType, ItemComponentProps };
