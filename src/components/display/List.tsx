@@ -5,7 +5,7 @@
  */
 
 import React, { useRef, useEffect, useMemo } from 'react';
-import { extend, map, some } from 'lodash';
+import { map, some } from 'lodash';
 import styled, { SimpleInterpolation } from 'styled-components';
 import { getColor, pseudoClasses } from '../../theme/theme-utils';
 import { Container, ContainerProps } from '../layout/Container';
