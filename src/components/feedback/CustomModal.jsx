@@ -110,6 +110,7 @@ const CustomModal = React.forwardRef(function ModalFn(
 				screenMode={screenMode}
 				onClick={onBackdropClick}
 				zIndex={zIndex}
+				data-testid="modal"
 				{...rest}
 			>
 				<div tabIndex={0} ref={startSentinelRef} />

@@ -90,6 +90,7 @@ const Snackbar = React.forwardRef(function SnackbarFn(
 					height="auto"
 					width="auto"
 					zIndex={zIndex}
+					data-testid="snackbar"
 					{...rest}
 				>
 					<Row
