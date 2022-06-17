@@ -101,14 +101,12 @@ describe('Accordion', () => {
 				<AccordionItem item={item} />
 			</div>
 		);
-		const onClick = jest.fn();
 		const { container } = render(
 			<Accordion
 				items={[
 					{
 						id: 'first',
 						label: 'First',
-						onClick,
 						CustomComponent: CC,
 						items: [
 							{ id: 'second', label: 'Second', CustomComponent: CC },
@@ -124,7 +122,9 @@ describe('Accordion', () => {
 		act(() => {
 			userEvent.click(screen.getByText('First'));
 		});
-		expect(onClick).toHaveBeenCalled();
+		act(() => {
+			userEvent.click(container.getElementsByTagName('svg')[0]);
+		});
 		expect(container.querySelector('#second')).toBeVisible();
 		act(() => {
 			userEvent.click(container.getElementsByTagName('svg')[0]);
