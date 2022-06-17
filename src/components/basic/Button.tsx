@@ -53,7 +53,7 @@ interface ButtonSecondaryAction {
 	ref?: React.RefObject<HTMLButtonElement>;
 }
 
-type ButtonProps = {
+type ButtonPropsInternal = {
 	/** Force active status */
 	forceActive?: boolean;
 	/** Disabled status */
@@ -87,6 +87,9 @@ type ButtonProps = {
 ) &
 	ButtonColorsByType;
 
+type ButtonProps = ButtonPropsInternal &
+	Omit<ButtonHTMLAttributes<HTMLButtonElement>, keyof ButtonPropsInternal>;
+
 interface StyledButtonProps {
 	backgroundColor: string;
 	color: string;
@@ -108,7 +111,9 @@ const StyledIcon = styled(Icon)<{ $loading?: boolean; $size: string }>`
 			opacity: 0;
 		`};
 	width: ${({ $size }): string => $size};
+	min-width: ${({ $size }): string => $size};
 	height: ${({ $size }): string => $size};
+	min-height: ${({ $size }): string => $size};
 	flex-shrink: 0;
 `;
 
@@ -194,6 +199,7 @@ const StyledButton = styled.button.attrs<
 
 const StyledSecondaryAction = styled(StyledButton)<{ $loading: boolean }>`
 	flex-shrink: 0;
+	min-width: fit-content;
 	${({ $loading }): SimpleInterpolation =>
 		$loading &&
 		css`
@@ -318,10 +324,7 @@ function getColors(
 	return colors;
 }
 
-const Button = React.forwardRef<
-	HTMLButtonElement,
-	ButtonProps & Omit<ButtonHTMLAttributes<HTMLButtonElement>, keyof ButtonProps>
->(function ButtonFn(
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(function ButtonFn(
 	{
 		type = 'default',
 		disabled = false,

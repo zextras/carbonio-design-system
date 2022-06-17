@@ -211,7 +211,7 @@ type SelectComponentProps = {
 	| {
 			multiple?: false;
 			/** Initial selection value */
-			defaultSelection: SelectItem;
+			defaultSelection?: SelectItem;
 			/** Selection value (controlled mode) */
 			selection?: SelectItem;
 			onChange: (value: string | null) => void;

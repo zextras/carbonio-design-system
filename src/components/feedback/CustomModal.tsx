@@ -143,6 +143,7 @@ const CustomModal = React.forwardRef<HTMLDivElement, CustomModalProps>(function 
 				mounted={open}
 				onClick={onBackdropClick}
 				zIndex={zIndex}
+				data-testid="modal"
 				{...rest}
 			>
 				<div tabIndex={0} ref={startSentinelRef} />

@@ -490,7 +490,7 @@ const onChangeChipInput1 = useCallback(
 ### Custom Chip
 
 ```jsx
-import { Chip, Popover, Text } from '@zextras/carbonio-design-system';
+import { Chip, Popover, Text, Container } from '@zextras/carbonio-design-system';
 import { useRef, useState, useCallback } from 'react';
 
 const chipInputRef = useRef();
@@ -513,9 +513,9 @@ const CustomChip = (props) => {
   
 	return (
 		<>
-            <div ref={chipRef}>
+            <Container ref={chipRef} flexShrink={0} width="fit">
                 <Chip {...props} onClick={openPopover} />
-            </div>
+            </Container>
 			<Popover open={open} anchorEl={chipRef} placement="bottom" onClose={closePopover}>
 				<Text>Popover for the chip: {props.label}</Text>
 			</Popover>
@@ -529,6 +529,7 @@ const CustomChip = (props) => {
 
 ### Chips overflowing management
 
+Horizontal scroll
 ```jsx
 import { useMemo } from 'react';
 
@@ -540,7 +541,22 @@ const defaultValue = useMemo(() => {
 	return initial;
 }, []);
 
-<ChipInput defaultValue={defaultValue} icon="PeopleOutline" maxChips={null} />
+<ChipInput defaultValue={defaultValue} icon="PeopleOutline" maxChips={null} placeholder="label for chipinput" />
+```
+
+Wrap on new line
+```jsx
+import { useMemo } from 'react';
+
+const defaultValue = useMemo(() => {
+	const initial = [];
+	for (let i = 0; i < 50; i += 1) {
+		initial.push({ label: `chip number ${i + 1}`});
+    }
+	return initial;
+}, []);
+
+<ChipInput defaultValue={defaultValue} icon="PeopleOutline" maxChips={null} wrap="wrap" placeholder="label for chipinput" confirmChipOnBlur={false} />
 ```
 
 ### ChipInput Options
@@ -561,7 +577,7 @@ const options = [
 	{ id: '5', label: 'Fifth option' }
 ];
 <Container style={{ gap: '10px' }} orientation="horizontal">
-    <ChipInput placeholder="ChipInput enabled" options={options} disableOptions={false} background="gray5" bottomBorderColor="gray3" />
+    <ChipInput placeholder="ChipInput enabled" options={options} disableOptions={false} background="gray5" bottomBorderColor="gray3" description="" />
     <ChipInput placeholder="ChipInput disabled" options={options} disabled disableOptions={false} background="gray5" bottomBorderColor="gray3" description="Disabled" />
 </Container>
 ```

@@ -16,12 +16,15 @@ const StyledIconButton = styled(Button)<{
 	$iconSize?: string;
 	$paddingSize?: string;
 }>`
+	min-width: fit-content;
 	${({ $iconSize }): SimpleInterpolation =>
 		$iconSize &&
 		css`
 			svg {
 				width: ${$iconSize};
+				min-width: ${$iconSize};
 				height: ${$iconSize};
+				min-height: ${$iconSize};
 			}
 		`};
 	${({ $paddingSize }): SimpleInterpolation =>

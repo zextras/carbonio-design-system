@@ -49,7 +49,7 @@ const ContainerEl = styled(Container)<{
 					background: ${getColor(`${background}.disabled`, theme)};
 			  `
 			: pseudoClasses(theme, background)};
-	padding: ${({ $hasLabel }): string => ($hasLabel ? '2px' : '10px')} 12px;
+	padding: ${({ $hasLabel }): string => ($hasLabel ? '1px' : '10px')} 12px;
 	gap: 8px;
 	min-height: calc(
 		${({ theme }): string => theme.sizes.font.medium} * 1.5 +
@@ -58,12 +58,15 @@ const ContainerEl = styled(Container)<{
 	border-radius: 2px 2px 0 0;
 `;
 
-const HorizontalScrollContainer = styled.div`
+const HorizontalScrollContainer = styled.div<{ wrap: 'nowrap' | 'wrap'; hasLabel: boolean }>`
 	display: flex;
 	flex: 1 1 auto;
+	justify-content: flex-start;
+	align-items: center;
+	width: auto;
 	gap: 8px;
 	/* handle horizontal scroll for chip overflowing */
-	flex-wrap: nowrap;
+	flex-wrap: ${({ wrap }): string => wrap};
 	overflow-x: auto;
 	overflow-x: overlay;
 	-ms-overflow-style: none; /* IE and Edge */
@@ -72,12 +75,24 @@ const HorizontalScrollContainer = styled.div`
 	&::-webkit-scrollbar {
 		display: none;
 	}
+	${({ hasLabel, wrap, theme }): SimpleInterpolation =>
+		hasLabel &&
+		wrap === 'wrap' &&
+		css`
+			&::before {
+				content: '';
+				min-height: calc(${theme.sizes.font.extrasmall} * 1.5);
+				display: block;
+				width: 100%;
+				margin-bottom: -6px; /* remove gap but leave 2px distance */
+			}
+		`};
 `;
 
 const InputEl = styled.input<{ color: keyof ThemeObj['palette'] }>`
 	border: none !important;
 	height: auto !important;
-	width: 100%;
+	width: 1em;
 	outline: 0;
 	background: transparent !important;
 	font-size: ${({ theme }): string => theme.sizes.font.medium};
@@ -94,6 +109,8 @@ const InputEl = styled.input<{ color: keyof ThemeObj['palette'] }>`
 	line-height: 1.5;
 	padding: 0;
 	min-width: 1em;
+	overflow-wrap: break-word;
+	max-width: 100%;
 
 	&::placeholder {
 		color: transparent;
@@ -109,7 +126,9 @@ const HiddenSpan = styled.span`
 
 const InputContainer = styled.div`
 	position: relative;
-	width: 100%;
+	flex: 1 1 auto;
+	overflow-wrap: break-word;
+	max-width: 100%;
 `;
 
 /**
@@ -197,7 +216,7 @@ const Label = styled.label<{
 	text-overflow: ellipsis;
 
 	${InputContainer}:focus-within + & {
-		top: 2px;
+		top: 1px;
 		transform: translateY(0);
 		font-size: ${({ theme }): string => theme.sizes.font.extrasmall};
 	}
@@ -205,7 +224,7 @@ const Label = styled.label<{
 	${({ hasItems, theme }): SimpleInterpolation =>
 		hasItems &&
 		css`
-			top: 2px;
+			top: 1px;
 			transform: translateY(0);
 			font-size: ${theme.sizes.font.extrasmall};
 		`};
@@ -246,13 +265,6 @@ const CustomIcon = styled(({ onClick, iconColor, ...rest }) =>
 			width: 20px;
 			height: 20px;
 		`};
-`;
-
-const ChipsContainer = styled.div`
-	display: flex;
-	gap: 8px;
-	justify-content: flex-start;
-	width: auto;
 `;
 
 function reducer(
@@ -392,6 +404,8 @@ interface ChipInputProps extends Omit<ContainerProps, 'defaultValue' | 'onChange
 	createChipOnPaste?: boolean;
 	/** Chip generation triggers on paste */
 	pasteSeparators?: string[];
+	/** Strategy on chips overflow */
+	wrap?: 'nowrap' | 'wrap';
 }
 
 type ChipInput = React.ForwardRefExoticComponent<
@@ -435,6 +449,7 @@ const ChipInput: ChipInput = React.forwardRef<HTMLDivElement, ChipInputProps>(fu
 		dropdownMaxHeight,
 		description,
 		ChipComponent,
+		wrap = 'nowrap',
 		...rest
 	},
 	ref
@@ -443,7 +458,6 @@ const ChipInput: ChipInput = React.forwardRef<HTMLDivElement, ChipInputProps>(fu
 	const [isActive, setIsActive] = useState(false);
 	const inputElRef = useCombinedRefs<HTMLInputElement>(inputRef);
 	const hScrollContainerRef = useRef<HTMLDivElement | null>(null);
-	const chipsContainerRef = useRef<HTMLDivElement | null>(null);
 	const scrollAfterSaveRef = useRef(false);
 
 	const [id] = useState(() => {
@@ -627,9 +641,14 @@ const ChipInput: ChipInput = React.forwardRef<HTMLDivElement, ChipInputProps>(fu
 
 	// allow horizontal scroll without a scroll bar
 	const flipScroll = useCallback<(e: WheelEvent) => void>((ev) => {
-		ev.preventDefault();
-		if (ev.currentTarget && ev.currentTarget instanceof HTMLElement) {
-			const scrollableElement = ev.currentTarget;
+		const scrollableElement = ev.currentTarget;
+		if (
+			scrollableElement &&
+			scrollableElement instanceof HTMLElement &&
+			// avoid to catch scroll if entire content is visible
+			scrollableElement.scrollWidth > scrollableElement.clientWidth
+		) {
+			ev.preventDefault();
 			scrollableElement.scrollLeft += ev.deltaY;
 		}
 	}, []);
@@ -728,19 +747,17 @@ const ChipInput: ChipInput = React.forwardRef<HTMLDivElement, ChipInputProps>(fu
 					onClick={setFocus}
 					{...rest}
 				>
-					<HorizontalScrollContainer ref={hScrollContainerRef}>
-						{items.length > 0 && (
-							<ChipsContainer ref={chipsContainerRef}>
-								{map(items, (item, index) => (
-									<ChipComp
-										key={`${index}-${item.value}`}
-										{...item}
-										closable
-										onClose={(): void => onChipClose(index)}
-									/>
-								))}
-							</ChipsContainer>
-						)}
+					<HorizontalScrollContainer ref={hScrollContainerRef} wrap={wrap} hasLabel={!!placeholder}>
+						{items.length > 0 &&
+							map(items, (item, index) => (
+								<ChipComp
+									key={`${index}-${item.value}`}
+									maxWidth={(wrap === 'wrap' && '100%') || undefined}
+									{...item}
+									closable
+									onClose={(): void => onChipClose(index)}
+								/>
+							))}
 						<AdjustWidthInput
 							color="text"
 							autoComplete="off"
