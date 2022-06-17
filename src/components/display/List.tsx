@@ -68,8 +68,6 @@ const StyledDiv = styled.div<{
 
 interface ItemType {
 	id: string;
-	onClick: (evt: Event) => void;
-	disabled: boolean;
 }
 
 interface ItemComponentProps<T extends ItemType> {
@@ -80,8 +78,6 @@ interface ItemComponentProps<T extends ItemType> {
 	background: keyof ThemeObj['palette'];
 	selectedBackground: keyof ThemeObj['palette'];
 	activeBackground: keyof ThemeObj['palette'];
-	onClick: (evt: Event) => void;
-	disabled: boolean;
 }
 
 interface LIWrapperProps<T extends ItemType> {
@@ -96,8 +92,6 @@ interface LIWrapperProps<T extends ItemType> {
 	selecting: boolean;
 	selected: boolean;
 	index: number;
-	onClick: (evt: Event) => void;
-	disabled: boolean;
 }
 
 const LIWrapper = React.memo<LIWrapperProps<any>>(function LIWrapperFn({
@@ -111,8 +105,6 @@ const LIWrapper = React.memo<LIWrapperProps<any>>(function LIWrapperFn({
 	active,
 	selected,
 	index,
-	onClick,
-	disabled,
 	...rest
 }) {
 	const [inView, ref] = useIsVisible<HTMLDivElement>(listRef);
@@ -126,15 +118,12 @@ const LIWrapper = React.memo<LIWrapperProps<any>>(function LIWrapperFn({
 			selectedBackground={selectedBackground}
 			activeBackground={activeBackground}
 			background={background}
-			onClick={disabled ? undefined : item.onClick}
 		>
 			<ItemComponent
 				visible={inView}
 				item={item}
 				{...itemProps}
 				{...rest}
-				onClick={onClick || item.onClick}
-				disabled={disabled}
 				active={active}
 				selected={selected}
 				selectedBackground={selectedBackground}
@@ -235,8 +224,6 @@ const List = React.forwardRef<HTMLDivElement, ListProps<any>>(function ListFn(
 						selected={!!selected[item.id]}
 						selecting={selecting}
 						active={item.id === active}
-						onClick={item.onClick}
-						disabled={item.disabled}
 					/>
 				))}
 				{onListBottom && <BottomElement listRef={listRef} onVisible={onListBottom} />}
