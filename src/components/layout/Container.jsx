@@ -103,6 +103,18 @@ const ContainerEl = styled.div`
 		}
 		return p.join(' ');
 	}};
+	&::-webkit-scrollbar {
+		width: 12px;
+	}
+
+	&::-webkit-scrollbar-track {
+		background-color: transparent;
+	}
+
+	&::-webkit-scrollbar-thumb {
+		background-color: ${({ theme }) => theme.palette.gray3.regular};
+		border-radius: 6px;
+	}
 `;
 
 const Container = React.forwardRef(function ContainerFn({ orientation, children, ...rest }, ref) {

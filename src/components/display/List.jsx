@@ -17,6 +17,19 @@ import { Theme } from '../../theme/theme';
 const StyledContainer = styled(Container)`
 	overflow-y: auto;
 	overflow-y: overlay;
+
+	&::-webkit-scrollbar {
+		width: 12px;
+	}
+
+	&::-webkit-scrollbar-track {
+		background-color: transparent;
+	}
+
+	&::-webkit-scrollbar-thumb {
+		background-color: ${({ theme }) => theme.palette.gray3.regular};
+		border-radius: 6px;
+	}
 `;
 
 const StyledDiv = styled.div`
