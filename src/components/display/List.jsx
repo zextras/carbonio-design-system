@@ -19,7 +19,7 @@ const StyledContainer = styled(Container)`
 	overflow-y: overlay;
 
 	&::-webkit-scrollbar {
-		width: 12px;
+		width: 8px;
 	}
 
 	&::-webkit-scrollbar-track {
@@ -28,7 +28,7 @@ const StyledContainer = styled(Container)`
 
 	&::-webkit-scrollbar-thumb {
 		background-color: ${({ theme }) => theme.palette.gray3.regular};
-		border-radius: 6px;
+		border-radius: 4px;
 	}
 `;
 

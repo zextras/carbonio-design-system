@@ -104,7 +104,7 @@ const ContainerEl = styled.div`
 		return p.join(' ');
 	}};
 	&::-webkit-scrollbar {
-		width: 12px;
+		width: 8px;
 	}
 
 	&::-webkit-scrollbar-track {
@@ -113,7 +113,7 @@ const ContainerEl = styled.div`
 
 	&::-webkit-scrollbar-thumb {
 		background-color: ${({ theme }) => theme.palette.gray3.regular};
-		border-radius: 6px;
+		border-radius: 4px;
 	}
 `;
 
