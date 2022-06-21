@@ -11,14 +11,16 @@ import { Text, TextProps } from './Text';
 interface TextWithTooltipProps extends TextProps {
 	/** Text content */
 	children: string;
+	/** Tooltip delay */
+	triggerDelay?: number;
 }
 
 const TextWithTooltip = React.forwardRef<HTMLDivElement, TextWithTooltipProps>(function TextFn(
-	{ children, ...rest },
+	{ children, triggerDelay, ...rest },
 	ref
 ) {
 	return (
-		<Tooltip label={children} overflowTooltip>
+		<Tooltip label={children} overflowTooltip triggerDelay={triggerDelay}>
 			<Text ref={ref} {...rest}>
 				{children}
 			</Text>
