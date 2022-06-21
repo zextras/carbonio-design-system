@@ -128,7 +128,9 @@ describe('Accordion', () => {
 		act(() => {
 			userEvent.click(screen.getByText('First'));
 		});
-		expect(onClick).toHaveBeenCalled();
+		act(() => {
+			userEvent.click(container.getElementsByTagName('svg')[0]);
+		});
 		expect(container.querySelector('#second')).toBeVisible();
 		act(() => {
 			userEvent.click(container.getElementsByTagName('svg')[0]);

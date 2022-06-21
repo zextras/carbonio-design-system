@@ -129,7 +129,6 @@ const AccordionRoot = React.forwardRef<HTMLDivElement, AccordionRootProps>(funct
 
 	const handleClick = useCallback(
 		(e: KeyboardEvent | React.SyntheticEvent) => {
-			setOpen(true);
 			if (item.onClick) {
 				item.onClick(e);
 			}
