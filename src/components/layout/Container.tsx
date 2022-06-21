@@ -164,6 +164,18 @@ const ContainerEl = styled.div<ContainerElProps>`
 		borderColor && `border: 1px solid ${getColor(borderColor, theme)}`};
 	padding: ${({ theme, padding }): SimpleInterpolation => padding && getPadding(padding, theme)};
 	gap: ${({ gap }): SimpleInterpolation => gap};
+	&::-webkit-scrollbar {
+		width: 8px;
+	}
+
+	&::-webkit-scrollbar-track {
+		background-color: transparent;
+	}
+
+	&::-webkit-scrollbar-thumb {
+		background-color: ${({ theme }): string => theme.palette.gray3.regular};
+		border-radius: 4px;
+	}
 `;
 
 interface ContainerProps
