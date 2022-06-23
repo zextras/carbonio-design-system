@@ -90,18 +90,22 @@ const StyledPadding = styled(Padding)`
 const ChipInputWrapper = styled.div`
 	display: flex;
 	align-items: center;
-	flex-wrap: nowrap;
+	flex-wrap: ${({ wrap }) => wrap};
 	overflow-x: overlay;
 	padding: ${({ theme }) => theme.sizes.avatar.small.diameter} 0 0;
-	-ms-overflow-style: none; /* IE and Edge */
-	scrollbar-width: none; /* Firefox */
+	max-height: ${({ maxHeight }) => maxHeight};
+	overflow-y: scroll;
+	-ms-overflow-style: ${({ wrap }) => (wrap === 'wrap' ? 'auto' : 'none')}; /* IE and Edge */
+	scrollbar-width: ${({ wrap }) => (wrap === 'wrap' ? 'auto' : 'none')}; /* Firefox */
+
+	margin-top: ${({ isOverflowing }) => (isOverflowing ? '18px' : 0)};
 
 	> div {
 		margin: calc(${getPadding('extrasmall')} / 2);
 		margin-left: 0;
 	}
 	&::-webkit-scrollbar {
-		display: none;
+		display: ${({ wrap }) => (wrap === 'wrap' ? 'auto' : 'none')};
 	}
 `;
 
@@ -165,6 +169,9 @@ const ChipInput = React.forwardRef(function ChipInputFn(
 		createChipOnPaste,
 		pasteSeparators,
 
+		wrap,
+		maxHeight,
+
 		maxChips,
 		hasError,
 		hideBorder,
@@ -183,6 +190,7 @@ const ChipInput = React.forwardRef(function ChipInputFn(
 	const [items, dispatch] = useReducer(reducer, defaultValue ?? value);
 	const itemsRef = useRef(items);
 	const [isActive, setIsActive] = useState(false);
+	const [isOverflowing, setIsOverflowing] = useState(false);
 	const innerRef = useRef(undefined);
 	const contentEditableInput = useCombinedRefs(inputRef, innerRef);
 
@@ -337,21 +345,23 @@ const ChipInput = React.forwardRef(function ChipInputFn(
 	}, [items]);
 
 	const wrapperRef = useRef();
+
 	useEffect(() => {
 		const r = wrapperRef.current;
 		const flipScroll = (ev) => {
 			ev.preventDefault();
 			r.scrollLeft += ev.deltaY;
 		};
-		if (r) {
+
+		if (wrap !== 'wrap' && r) {
 			r.addEventListener('wheel', flipScroll);
 		}
 		return () => {
-			if (r) {
+			if (wrap !== 'wrap' && r) {
 				r.removeEventListener('wheel', flipScroll);
 			}
 		};
-	}, [wrapperRef]);
+	}, [wrap, wrapperRef]);
 
 	const disableEditable = useMemo(() => items.length < maxChips, [items, maxChips]);
 	const dropdownDisabled = useMemo(
@@ -392,6 +402,12 @@ const ChipInput = React.forwardRef(function ChipInputFn(
 		[createChipOnPaste, pasteSeparators, requireUniqueChips, savePastedValue]
 	);
 
+	useEffect(() => {
+		const scrollableElement = wrapperRef.current;
+		if (scrollableElement)
+			setIsOverflowing(scrollableElement.scrollHeight > scrollableElement.offsetHeight);
+	}, [items]);
+
 	return (
 		<Container orientation="horizontal" background={background}>
 			<Dropdown
@@ -423,7 +439,12 @@ const ChipInput = React.forwardRef(function ChipInputFn(
 							hasError={hasError}
 							{...rest}
 						>
-							<ChipInputWrapper ref={wrapperRef}>
+							<ChipInputWrapper
+								ref={wrapperRef}
+								wrap={wrap}
+								maxHeight={maxHeight}
+								isOverflowing={isOverflowing}
+							>
 								{map(items, (item, index) => (
 									<Padding right="small" key={`p${index}-${item.value}`}>
 										<Chip
@@ -526,7 +547,11 @@ ChipInput.propTypes = {
 	/** allow to create chips from pasted values */
 	createChipOnPaste: PropTypes.bool,
 	/** Chip generation triggers on paste */
-	pasteSeparators: PropTypes.arrayOf(PropTypes.string)
+	pasteSeparators: PropTypes.arrayOf(PropTypes.string),
+	/** wrap the chips in single line or not */
+	wrap: PropTypes.oneOf(['wrap', 'nowrap']),
+	/** max height for the input */
+	maxHeight: PropTypes.string
 };
 
 ChipInput.defaultProps = {
@@ -545,7 +570,9 @@ ChipInput.defaultProps = {
 	hideBorder: false,
 	requireUniqueChips: false,
 	createChipOnPaste: false,
-	pasteSeparators: [',']
+	pasteSeparators: [','],
+	wrap: 'wrap',
+	maxHeight: '130px'
 };
 
 export default ChipInput;
