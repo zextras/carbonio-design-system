@@ -56,7 +56,7 @@ const TooltipWrapperWithCss = styled(TooltipWrapper)<{ $maxWidth: string }>`
 
 interface TooltipProps extends TextProps {
 	/** Tooltip text */
-	label: string | undefined;
+	label: string | React.ReactNode | undefined;
 	/** Tooltip placement */
 	placement?: Placement;
 	/** Tooltip max-width css property */

@@ -4,21 +4,30 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
+import { Placement } from '@popperjs/core/lib/enums';
 import React from 'react';
 import { Tooltip } from '../display/Tooltip';
 import { Text, TextProps } from './Text';
 
 interface TextWithTooltipProps extends TextProps {
 	/** Text content */
-	children: string;
+	children: string | React.ReactNode;
+	tooltipMaxWidth?: string;
+	tooltipPlacement?: Placement;
 }
 
 const TextWithTooltip = React.forwardRef<HTMLDivElement, TextWithTooltipProps>(function TextFn(
-	{ children, ...rest },
+	{ children, tooltipMaxWidth, tooltipPlacement, ...rest },
 	ref
 ) {
 	return (
-		<Tooltip label={children} overflowTooltip>
+		<Tooltip
+			label={children}
+			overflowTooltip
+			overflow="break-word"
+			maxWidth={tooltipMaxWidth}
+			placement={tooltipPlacement}
+		>
 			<Text ref={ref} {...rest}>
 				{children}
 			</Text>
