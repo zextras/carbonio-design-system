@@ -77,6 +77,7 @@ const Drop = React.forwardRef<HTMLDivElement, DropProps>(function DropFn(
 
 	const dropEvent = useCallback<React.DragEventHandler>(
 		(e) => {
+			e.preventDefault();
 			e && e.stopPropagation();
 			setStyleObject({});
 			setOverlayAccept(null);

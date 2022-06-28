@@ -74,6 +74,18 @@ const ModalBody = styled.div<{ maxHeight: string; centered: boolean }>`
 		css`
 			text-align: center;
 		`};
+	&::-webkit-scrollbar {
+		width: 8px;
+	}
+
+	&::-webkit-scrollbar-track {
+		background-color: transparent;
+	}
+
+	&::-webkit-scrollbar-thumb {
+		background-color: ${({ theme }): string => theme.palette.gray3.regular};
+		border-radius: 4px;
+	}
 `;
 const OptionalFooterContainer = styled(Container)`
 	min-width: 1px;
@@ -348,6 +360,7 @@ const Modal = React.forwardRef<HTMLDivElement, ModalProps>(function ModalFn(
 				mounted={open}
 				onClick={onBackdropClick}
 				zIndex={zIndex}
+				data-testid="modal"
 				{...rest}
 			>
 				<div tabIndex={0} ref={startSentinelRef} />

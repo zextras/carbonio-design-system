@@ -556,7 +556,7 @@ const defaultValue = useMemo(() => {
 	return initial;
 }, []);
 
-<ChipInput defaultValue={defaultValue} icon="PeopleOutline"  maxChips={null} wrap="wrap" placeholder="label for chipinput" confirmChipOnBlur={false} />
+<ChipInput defaultValue={defaultValue} icon="PeopleOutline" maxChips={null} wrap="wrap" placeholder="label for chipinput" confirmChipOnBlur={false} />
 ```
 
 ### ChipInput Options

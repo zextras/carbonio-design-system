@@ -121,6 +121,7 @@ const Snackbar = React.forwardRef<HTMLDivElement, SnackbarProps>(function Snackb
 					height="auto"
 					width="auto"
 					$zIndex={zIndex}
+					data-testid="snackbar"
 					{...rest}
 				>
 					<Row

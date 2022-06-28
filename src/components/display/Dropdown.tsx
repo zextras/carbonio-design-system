@@ -256,6 +256,19 @@ const PopperList = styled.div<{
 		width === '100%' && triggerRef.current ? `${triggerRef.current.clientWidth}px` : width};
 	overflow-y: auto;
 
+	&::-webkit-scrollbar {
+		width: 8px;
+	}
+
+	&::-webkit-scrollbar-track {
+		background-color: transparent;
+	}
+
+	&::-webkit-scrollbar-thumb {
+		background-color: ${({ theme }): string => theme.palette.gray3.regular};
+		border-radius: 4px;
+	}
+
 	&,
 	> [tabindex='-1']:focus {
 		outline: none;
@@ -716,6 +729,7 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 					maxWidth={maxWidth}
 					maxHeight={maxHeight}
 					triggerRef={triggerRef}
+					data-testid="dropdown-popper-list"
 					{...popperListProps}
 				>
 					<div tabIndex={0} ref={startSentinelRef} />
