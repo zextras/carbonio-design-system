@@ -58,10 +58,9 @@ const ContainerEl = styled(Container)<{
 	border-radius: 2px 2px 0 0;
 `;
 
-const HorizontalScrollContainer = styled.div<{
+const ScrollContainer = styled.div<{
 	wrap: 'nowrap' | 'wrap';
 	hasLabel: boolean;
-	isOverflowing: boolean;
 	maxHeight: string;
 }>`
 	display: flex;
@@ -81,21 +80,10 @@ const HorizontalScrollContainer = styled.div<{
 	&::-webkit-scrollbar {
 		display: ${({ wrap }): string => (wrap === 'wrap' ? 'auto' : 'none')};
 	}
-	margin-top: ${({ isOverflowing }): string => (isOverflowing ? '15px' : '0px')};
+	margin-top: ${({ hasLabel, theme }): SimpleInterpolation =>
+		hasLabel ? css`calc(${theme.sizes.font.extrasmall} * 1.5)` : '0px'};
 	max-height: ${({ maxHeight }): string => maxHeight};
 	overflow-y: scroll;
-	${({ hasLabel, wrap, theme }): SimpleInterpolation =>
-		hasLabel &&
-		wrap === 'wrap' &&
-		css`
-			&::before {
-				content: '';
-				min-height: calc(${theme.sizes.font.extrasmall} * 1.5);
-				display: block;
-				width: 100%;
-				margin-bottom: -6px; /* remove gap but leave 2px distance */
-			}
-		`};
 `;
 
 const InputEl = styled.input<{ color: keyof ThemeObj['palette'] }>`
@@ -468,9 +456,8 @@ const ChipInput: ChipInput = React.forwardRef<HTMLDivElement, ChipInputProps>(fu
 ) {
 	const [items, dispatch] = useReducer(reducer, defaultValue || value || []);
 	const [isActive, setIsActive] = useState(false);
-	const [isOverflowing, setIsOverflowing] = useState(false);
 	const inputElRef = useCombinedRefs<HTMLInputElement>(inputRef);
-	const hScrollContainerRef = useRef<HTMLDivElement | null>(null);
+	const scrollContainerRef = useRef<HTMLDivElement | null>(null);
 	const scrollAfterSaveRef = useRef(false);
 
 	const [id] = useState(() => {
@@ -667,12 +654,12 @@ const ChipInput: ChipInput = React.forwardRef<HTMLDivElement, ChipInputProps>(fu
 	}, []);
 
 	useEffect(() => {
-		const wrapperElement = hScrollContainerRef.current;
+		const wrapperElement = scrollContainerRef.current;
 		wrapperElement && wrapperElement.addEventListener('wheel', flipScroll);
 		return () => {
 			wrapperElement && wrapperElement.removeEventListener('wheel', flipScroll);
 		};
-	}, [flipScroll, hScrollContainerRef]);
+	}, [flipScroll, scrollContainerRef]);
 
 	useEffect(() => {
 		/*
@@ -681,9 +668,9 @@ const ChipInput: ChipInput = React.forwardRef<HTMLDivElement, ChipInputProps>(fu
 		 * This is done with an effect to be sure both keyboard and blur events trigger this
 		 * calc with the final dimensions of the container
 		 */
-		if (scrollAfterSaveRef.current && hScrollContainerRef.current) {
+		if (scrollAfterSaveRef.current && scrollContainerRef.current) {
 			// scroll to the end so the newly added chip is fully shown
-			hScrollContainerRef.current.scrollLeft = hScrollContainerRef.current.scrollWidth;
+			scrollContainerRef.current.scrollLeft = scrollContainerRef.current.scrollWidth;
 			scrollAfterSaveRef.current = false;
 		}
 	}, [items]);
@@ -730,12 +717,6 @@ const ChipInput: ChipInput = React.forwardRef<HTMLDivElement, ChipInputProps>(fu
 		[createChipOnPaste, pasteSeparators, requireUniqueChips, savePastedValue]
 	);
 
-	useEffect(() => {
-		const scrollableElement = hScrollContainerRef.current;
-		if (scrollableElement)
-			setIsOverflowing(scrollableElement.scrollHeight > scrollableElement.offsetHeight);
-	}, [items]);
-
 	const ChipComp = useMemo(() => ChipComponent || Chip, [ChipComponent]);
 
 	return (
@@ -766,11 +747,10 @@ const ChipInput: ChipInput = React.forwardRef<HTMLDivElement, ChipInputProps>(fu
 					onClick={setFocus}
 					{...rest}
 				>
-					<HorizontalScrollContainer
-						ref={hScrollContainerRef}
+					<ScrollContainer
+						ref={scrollContainerRef}
 						wrap={wrap}
 						maxHeight={maxHeight}
-						isOverflowing={isOverflowing}
 						hasLabel={!!placeholder}
 					>
 						{items.length > 0 &&
@@ -809,7 +789,7 @@ const ChipInput: ChipInput = React.forwardRef<HTMLDivElement, ChipInputProps>(fu
 								{placeholder}
 							</Label>
 						)}
-					</HorizontalScrollContainer>
+					</ScrollContainer>
 					{icon && (
 						<CustomIconContainer>
 							<CustomIcon
