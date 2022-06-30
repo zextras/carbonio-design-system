@@ -86,7 +86,7 @@ interface IconCheckboxProps extends Omit<ContainerProps, 'margin'> {
 	/** IconCheckbox size */
 	size?: 'small' | 'regular' | 'large';
 	/** IconCheckbox margin */
-	margin: keyof ThemeObj['sizes']['padding'];
+	margin?: keyof ThemeObj['sizes']['padding'];
 	/** IconCheckbox value */
 	value?: boolean;
 	/** change callback */
