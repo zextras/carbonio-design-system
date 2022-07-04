@@ -160,7 +160,7 @@ const Popper = React.forwardRef(function PopperFn(
 
 	return (
 		<Portal show={open} disablePortal={disablePortal}>
-			<PopperContainer ref={popperRef} open={open} {...rest}>
+			<PopperContainer ref={popperRef} open={open} data-testid="popper" {...rest}>
 				<div tabIndex={0} ref={startSentinelRef} />
 				<PopperWrapper ref={wrapperRef} tabIndex={-1}>
 					{children}
