@@ -7,7 +7,7 @@
 import React, { useMemo, forwardRef } from 'react';
 
 import styled from 'styled-components';
-import { Tooltip } from '../..';
+import Tooltip from '../display/Tooltip';
 
 const Comp = styled.span<{ isRead: boolean; isNumber: boolean }>`
 	display: inline-block;
@@ -27,25 +27,22 @@ const Comp = styled.span<{ isRead: boolean; isNumber: boolean }>`
 `;
 
 const Badge = forwardRef<HTMLElement, BadgeProps>(function BadgeFn({ type, value, ...rest }, ref) {
+	const MAX_VALUE = 999;
 	const isNumber = useMemo(() => typeof value === 'number', [value]);
-	const badgeText = useMemo(() => (isNumber && value > 999 ? '999+' : value), [value, isNumber]);
+	const badgeText = useMemo(
+		() => (isNumber && value > MAX_VALUE ? `${MAX_VALUE}+` : value),
+		[value, isNumber]
+	);
 	const isRead = useMemo(() => type === 'read', [type]);
-	const showTooltip = useMemo(() => !!(isNumber && value > 999), [value, isNumber]);
+	const showTooltip = useMemo(() => isNumber && value > MAX_VALUE, [value, isNumber]);
 
 	return (
 		<>
-			{showTooltip && (
-				<Tooltip label={String(value)}>
-					<Comp ref={ref} isRead={isRead} isNumber={isNumber} {...rest}>
-						{badgeText}
-					</Comp>
-				</Tooltip>
-			)}
-			{!showTooltip && (
+			<Tooltip label={String(value)} disabled={!showTooltip}>
 				<Comp ref={ref} isRead={isRead} isNumber={isNumber} {...rest}>
 					{badgeText}
 				</Comp>
-			)}
+			</Tooltip>
 		</>
 	);
 });
