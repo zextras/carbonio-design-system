@@ -58,7 +58,11 @@ const ContainerEl = styled(Container)<{
 	border-radius: 2px 2px 0 0;
 `;
 
-const HorizontalScrollContainer = styled.div<{ wrap: 'nowrap' | 'wrap'; hasLabel: boolean }>`
+const ScrollContainer = styled.div<{
+	wrap: 'nowrap' | 'wrap';
+	hasLabel: boolean;
+	maxHeight: string;
+}>`
 	display: flex;
 	flex: 1 1 auto;
 	justify-content: flex-start;
@@ -69,24 +73,17 @@ const HorizontalScrollContainer = styled.div<{ wrap: 'nowrap' | 'wrap'; hasLabel
 	flex-wrap: ${({ wrap }): string => wrap};
 	overflow-x: auto;
 	overflow-x: overlay;
-	-ms-overflow-style: none; /* IE and Edge */
-	scrollbar-width: none; /* Firefox */
+	-ms-overflow-style: ${({ wrap }): string =>
+		wrap === 'wrap' ? 'auto' : 'none'}; /* IE and Edge */
+	scrollbar-width: ${({ wrap }): string => (wrap === 'wrap' ? 'auto' : 'none')}; /* Firefox */
 
 	&::-webkit-scrollbar {
-		display: none;
+		display: ${({ wrap }): string => (wrap === 'wrap' ? 'auto' : 'none')};
 	}
-	${({ hasLabel, wrap, theme }): SimpleInterpolation =>
-		hasLabel &&
-		wrap === 'wrap' &&
-		css`
-			&::before {
-				content: '';
-				min-height: calc(${theme.sizes.font.extrasmall} * 1.5);
-				display: block;
-				width: 100%;
-				margin-bottom: -6px; /* remove gap but leave 2px distance */
-			}
-		`};
+	margin-top: ${({ hasLabel, theme }): SimpleInterpolation =>
+		hasLabel ? css`calc(${theme.sizes.font.extrasmall} * 1.5)` : '0px'};
+	max-height: ${({ maxHeight }): string => maxHeight};
+	overflow-y: scroll;
 `;
 
 const InputEl = styled.input<{ color: keyof ThemeObj['palette'] }>`
@@ -406,6 +403,8 @@ interface ChipInputProps extends Omit<ContainerProps, 'defaultValue' | 'onChange
 	pasteSeparators?: string[];
 	/** Strategy on chips overflow */
 	wrap?: 'nowrap' | 'wrap';
+	/** maxHeight of Input in case of no horizontal scroll */
+	maxHeight?: string;
 }
 
 type ChipInput = React.ForwardRefExoticComponent<
@@ -449,7 +448,8 @@ const ChipInput: ChipInput = React.forwardRef<HTMLDivElement, ChipInputProps>(fu
 		dropdownMaxHeight,
 		description,
 		ChipComponent,
-		wrap = 'nowrap',
+		wrap = 'wrap',
+		maxHeight = '130px',
 		...rest
 	},
 	ref
@@ -457,7 +457,7 @@ const ChipInput: ChipInput = React.forwardRef<HTMLDivElement, ChipInputProps>(fu
 	const [items, dispatch] = useReducer(reducer, defaultValue || value || []);
 	const [isActive, setIsActive] = useState(false);
 	const inputElRef = useCombinedRefs<HTMLInputElement>(inputRef);
-	const hScrollContainerRef = useRef<HTMLDivElement | null>(null);
+	const scrollContainerRef = useRef<HTMLDivElement | null>(null);
 	const scrollAfterSaveRef = useRef(false);
 
 	const [id] = useState(() => {
@@ -654,12 +654,12 @@ const ChipInput: ChipInput = React.forwardRef<HTMLDivElement, ChipInputProps>(fu
 	}, []);
 
 	useEffect(() => {
-		const wrapperElement = hScrollContainerRef.current;
+		const wrapperElement = scrollContainerRef.current;
 		wrapperElement && wrapperElement.addEventListener('wheel', flipScroll);
 		return () => {
 			wrapperElement && wrapperElement.removeEventListener('wheel', flipScroll);
 		};
-	}, [flipScroll, hScrollContainerRef]);
+	}, [flipScroll, scrollContainerRef]);
 
 	useEffect(() => {
 		/*
@@ -668,9 +668,9 @@ const ChipInput: ChipInput = React.forwardRef<HTMLDivElement, ChipInputProps>(fu
 		 * This is done with an effect to be sure both keyboard and blur events trigger this
 		 * calc with the final dimensions of the container
 		 */
-		if (scrollAfterSaveRef.current && hScrollContainerRef.current) {
+		if (scrollAfterSaveRef.current && scrollContainerRef.current) {
 			// scroll to the end so the newly added chip is fully shown
-			hScrollContainerRef.current.scrollLeft = hScrollContainerRef.current.scrollWidth;
+			scrollContainerRef.current.scrollLeft = scrollContainerRef.current.scrollWidth;
 			scrollAfterSaveRef.current = false;
 		}
 	}, [items]);
@@ -747,7 +747,12 @@ const ChipInput: ChipInput = React.forwardRef<HTMLDivElement, ChipInputProps>(fu
 					onClick={setFocus}
 					{...rest}
 				>
-					<HorizontalScrollContainer ref={hScrollContainerRef} wrap={wrap} hasLabel={!!placeholder}>
+					<ScrollContainer
+						ref={scrollContainerRef}
+						wrap={wrap}
+						maxHeight={maxHeight}
+						hasLabel={!!placeholder}
+					>
 						{items.length > 0 &&
 							map(items, (item, index) => (
 								<ChipComp
@@ -784,7 +789,7 @@ const ChipInput: ChipInput = React.forwardRef<HTMLDivElement, ChipInputProps>(fu
 								{placeholder}
 							</Label>
 						)}
-					</HorizontalScrollContainer>
+					</ScrollContainer>
 					{icon && (
 						<CustomIconContainer>
 							<CustomIcon

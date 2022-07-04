@@ -22,12 +22,16 @@ import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 interface TooltipWrapperProps extends TextProps {
 	open: boolean;
 }
+
 const TooltipWrapper = React.forwardRef<HTMLDivElement, TooltipWrapperProps>(
-	function TooltipWrapperFn({ open, children, ...rest }, ref) {
+	function TooltipWrapperFn(
+		{ open, children, size = 'extrasmall', overflow = 'break-word', ...rest },
+		ref
+	) {
 		if (!open) return null;
 
 		return (
-			<Text ref={ref} size="medium" {...rest}>
+			<Text ref={ref} size={size} overflow={overflow} {...rest}>
 				{children}
 			</Text>
 		);
@@ -56,9 +60,11 @@ const TooltipWrapperWithCss = styled(TooltipWrapper)<{ $maxWidth: string }>`
 
 interface TooltipProps extends TextProps {
 	/** Tooltip text */
-	label: string | undefined;
+	label: string | React.ReactNode | undefined;
 	/** Tooltip placement */
 	placement?: Placement;
+	/** Fallback placements to use when tooltip cannot fit in the primary placement */
+	fallbackPlacements?: Placement[];
 	/** Tooltip max-width css property */
 	maxWidth?: string;
 	/** Whether to disable the tooltip and render only the child component */
@@ -77,6 +83,7 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(function TooltipF
 	{
 		label = '',
 		placement = 'bottom',
+		fallbackPlacements = ['bottom', 'top', 'left'],
 		maxWidth = '284px',
 		children,
 		disabled = false,
@@ -128,7 +135,7 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(function TooltipF
 					{
 						name: 'flip',
 						options: {
-							fallbackPlacements: ['bottom', 'top', 'left']
+							fallbackPlacements
 						}
 					}
 				]
@@ -136,7 +143,7 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(function TooltipF
 		} else if (popperInstanceRef.current) {
 			popperInstanceRef.current.destroy();
 		}
-	}, [disabled, open, placement, tooltipRef]);
+	}, [disabled, fallbackPlacements, open, placement, tooltipRef]);
 
 	useEffect(() => {
 		// Added timeout to fix Preact weird bug
