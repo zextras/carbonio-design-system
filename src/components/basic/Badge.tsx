@@ -37,13 +37,11 @@ const Badge = forwardRef<HTMLElement, BadgeProps>(function BadgeFn({ type, value
 	const showTooltip = useMemo(() => isNumber && value > MAX_VALUE, [value, isNumber]);
 
 	return (
-		<>
-			<Tooltip label={String(value)} disabled={!showTooltip}>
-				<Comp ref={ref} isRead={isRead} isNumber={isNumber} {...rest}>
-					{badgeText}
-				</Comp>
-			</Tooltip>
-		</>
+		<Tooltip label={String(value)} disabled={!showTooltip}>
+			<Comp ref={ref} isRead={isRead} isNumber={isNumber} {...rest}>
+				{badgeText}
+			</Comp>
+		</Tooltip>
 	);
 });
 
