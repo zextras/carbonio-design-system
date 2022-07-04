@@ -14,16 +14,19 @@ interface TextWithTooltipProps extends TextProps {
 	children: string | React.ReactNode;
 	tooltipMaxWidth?: string;
 	tooltipPlacement?: Placement;
+	/** Tooltip delay */
+	triggerDelay?: number;
 }
 
 const TextWithTooltip = React.forwardRef<HTMLDivElement, TextWithTooltipProps>(function TextFn(
-	{ children, tooltipMaxWidth, tooltipPlacement, ...rest },
+	{ children, triggerDelay, tooltipMaxWidth, tooltipPlacement, ...rest },
 	ref
 ) {
 	return (
 		<Tooltip
 			label={children}
 			overflowTooltip
+			triggerDelay={triggerDelay}
 			overflow="break-word"
 			maxWidth={tooltipMaxWidth}
 			placement={tooltipPlacement}

@@ -29,7 +29,8 @@ const AccordionContainerEl = styled(Container)<{
 }>`
 	cursor: pointer;
 	padding-left: ${({ theme, $level }): SimpleInterpolation =>
-		css`calc(${$level} * ${theme.sizes.padding.large})`};
+		css`calc(${Math.min($level + 1, 5)} * ${theme.sizes.padding.small})`};
+	padding-right: ${({ theme }): string => theme.sizes.padding.small};
 	background-color: ${({ theme, background, $active }): string =>
 		theme.palette[$active ? 'highlight' : background].regular};
 	${({ theme, background, $disableHover, $active }): SimpleInterpolation =>
@@ -55,7 +56,7 @@ const AccordionItem = React.forwardRef<HTMLDivElement, AccordionItemProps>(funct
 			orientation="horizontal"
 			mainAlignment="flex-start"
 			padding={{ all: 'small' }}
-			height={48}
+			height={40}
 			ref={ref}
 			style={{ minWidth: 0, flexBasis: 0, flexGrow: 1 }}
 			{...rest}
@@ -129,7 +130,13 @@ const AccordionRoot = React.forwardRef<HTMLDivElement, AccordionRootProps>(funct
 
 	const handleClick = useCallback(
 		(e: KeyboardEvent | React.SyntheticEvent) => {
-			setOpen(true);
+			setOpen((op) => {
+				if (op) return op;
+				if (item.onOpen) {
+					item.onOpen(e);
+				}
+				return true;
+			});
 			if (item.onClick) {
 				item.onClick(e);
 			}

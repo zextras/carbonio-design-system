@@ -1,7 +1,4 @@
 {
-  "compilerOptions": {
-	  "jsx": "react"
-  },
   "extends": "@zextras/carbonio-ui-configs/rules/typescript.json",
   "include": [
     "src/**/*.ts",
