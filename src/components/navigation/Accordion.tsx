@@ -136,7 +136,7 @@ const AccordionRoot = React.forwardRef<HTMLDivElement, AccordionRootProps>(funct
 		[item]
 	);
 
-	const expandOnIconClick = useCallback(
+	const toggleOpen = useCallback(
 		(e: KeyboardEvent | React.SyntheticEvent) => {
 			e.stopPropagation();
 			setOpen((op) => {
@@ -175,7 +175,7 @@ const AccordionRoot = React.forwardRef<HTMLDivElement, AccordionRootProps>(funct
 					<Padding right="small">
 						<IconButton
 							customSize={{ iconSize: 'large', paddingSize: 0 }}
-							onClick={expandOnIconClick}
+							onClick={toggleOpen}
 							icon={open ? 'ChevronUp' : 'ChevronDown'}
 						/>
 					</Padding>
