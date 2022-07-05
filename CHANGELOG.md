@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.6](https://github.com/Zextras/carbonio-design-system/compare/v0.3.5...v0.3.6) (2022-07-05)
+
+
+### Features
+
+* add prop to wrap chips instead of enabling horizontal scroll ([4e6e1b0](https://github.com/Zextras/carbonio-design-system/commit/4e6e1b056d86950d733db19e6b7bc24766c48b61)), closes [#69](https://github.com/Zextras/carbonio-design-system/issues/69)
+
 ### [0.3.5](https://github.com/Zextras/carbonio-design-system/compare/v0.3.4...v0.3.5) (2022-06-08)
 
 
