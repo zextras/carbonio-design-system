@@ -7,6 +7,7 @@
 import React, { useMemo, forwardRef, HTMLAttributes } from 'react';
 
 import styled from 'styled-components';
+import { Tooltip } from '../display/Tooltip';
 
 const Comp = styled.span<{ isRead: boolean; isNumber: boolean }>`
 	display: inline-block;
@@ -29,14 +30,21 @@ const Badge = forwardRef<HTMLSpanElement, BadgeProps>(function BadgeFn(
 	{ type = 'read', value, ...rest },
 	ref
 ) {
+	const MAX_VALUE = 999;
 	const isNumber = useMemo(() => typeof value === 'number', [value]);
-	const badgeText = useMemo(() => (isNumber && value > 99 ? '99+' : value), [value, isNumber]);
+	const badgeText = useMemo(
+		() => (isNumber && value > MAX_VALUE ? `${MAX_VALUE}+` : value),
+		[value, isNumber]
+	);
 	const isRead = useMemo(() => type === 'read', [type]);
+	const showTooltip = useMemo(() => isNumber && value > MAX_VALUE, [value, isNumber]);
 
 	return (
-		<Comp ref={ref} isRead={isRead} isNumber={isNumber} {...rest}>
-			{badgeText}
-		</Comp>
+		<Tooltip label={String(value)} disabled={!showTooltip}>
+			<Comp ref={ref} isRead={isRead} isNumber={isNumber} {...rest}>
+				{badgeText}
+			</Comp>
+		</Tooltip>
 	);
 });
 

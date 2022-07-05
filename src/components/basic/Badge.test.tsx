@@ -12,24 +12,24 @@ import { render } from '../../test-utils';
 import { Badge } from './Badge';
 
 describe('Badge', () => {
-	test('Render a number < 99', () => {
+	test('Render a number < 999', () => {
 		const number = faker.datatype.number({
-			max: 98
+			max: 998
 		});
 		render(<Badge value={number} />);
 		expect(screen.getByText(number)).toBeInTheDocument();
 	});
 
-	test('Render a number > 99', () => {
+	test('Render a number > 999', () => {
 		const number = faker.datatype.number({
-			min: 100
+			min: 1000
 		});
 		render(<Badge value={number} />);
-		expect(screen.getByText('99+')).toBeInTheDocument();
+		expect(screen.getByText('999+')).toBeInTheDocument();
 	});
 
-	test('Render a number = 99', () => {
-		const number = 99;
+	test('Render a number = 999', () => {
+		const number = 999;
 		render(<Badge value={number} />);
 		expect(screen.getByText(number)).toBeInTheDocument();
 	});
