@@ -8,7 +8,7 @@
 
 import React from 'react';
 import { screen } from '@testing-library/dom';
-import { act } from '@testing-library/react';
+import { act, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { render } from '../../test-utils';
 import { Accordion, AccordionItem, AccordionItemType } from './Accordion';
@@ -99,40 +99,44 @@ describe('Accordion', () => {
 		expect(container.querySelector('#custom')).toBeInTheDocument();
 	});
 
-	test('Open and close an Accordion', () => {
-		const CC: AccordionItemType['CustomComponent'] = ({ item }) => (
-			<div id={item.id} style={{ width: '100%', border: '1px solid green' }}>
-				<AccordionItem item={item} />
-			</div>
-		);
+	test('Open and close an Accordion', async () => {
 		const onClick = jest.fn();
-		const { container } = render(
+		render(
 			<Accordion
 				items={[
 					{
 						id: 'first',
 						label: 'First',
 						onClick,
-						CustomComponent: CC,
 						items: [
-							{ id: 'second', label: 'Second', CustomComponent: CC },
-							{ id: 'third', label: 'Third', CustomComponent: CC },
-							{ id: 'fourth', label: 'Fourth', CustomComponent: CC }
+							{ id: 'second', label: 'Second' },
+							{ id: 'third', label: 'Third' },
+							{ id: 'fourth', label: 'Fourth' }
 						]
 					}
 				]}
 			/>
 		);
-		expect(container.querySelector('#first')).toBeVisible();
-		expect(container.querySelector('#second')).not.toBeVisible();
-		act(() => {
-			userEvent.click(screen.getByText('First'));
-		});
-		expect(onClick).toHaveBeenCalled();
-		expect(container.querySelector('#second')).toBeVisible();
-		act(() => {
-			userEvent.click(container.getElementsByTagName('svg')[0]);
-		});
-		setTimeout(() => expect(container.querySelector('#second')).not.toBeVisible(), 500);
+
+		expect(screen.getByText(/first/i)).toBeVisible();
+		expect(screen.getByText(/second/i)).not.toBeVisible();
+		// click on label does not expand the accordion
+		userEvent.click(screen.getByText('First'));
+		expect(onClick).toHaveBeenCalledTimes(1);
+		expect(screen.getByText(/second/i)).not.toBeVisible();
+		// click on chevron icon expand the accordion item
+		userEvent.click(screen.getByTestId('icon: ChevronDown'));
+		await waitFor(() => expect(screen.getByText(/second/i)).toBeVisible());
+		// click on chevron icon does not call onClick callback
+		expect(onClick).toHaveBeenCalledTimes(1);
+		expect(screen.getByText(/second/i)).toBeVisible();
+		expect(screen.getByTestId('icon: ChevronUp')).toBeVisible();
+		expect(screen.queryByTestId('icon: ChevronDown')).not.toBeInTheDocument();
+		// click on chevron icon of opened accordion close the accordion and does not call onClick callback
+		userEvent.click(screen.getByTestId('icon: ChevronUp'));
+		await waitFor(() => expect(screen.getByText(/second/i)).not.toBeVisible());
+		expect(onClick).toHaveBeenCalledTimes(1);
+		expect(screen.getByTestId('icon: ChevronDown')).toBeVisible();
+		expect(screen.queryByTestId('icon: ChevronUp')).not.toBeInTheDocument();
 	});
 });

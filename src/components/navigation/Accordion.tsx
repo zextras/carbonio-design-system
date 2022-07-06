@@ -130,13 +130,6 @@ const AccordionRoot = React.forwardRef<HTMLDivElement, AccordionRootProps>(funct
 
 	const handleClick = useCallback(
 		(e: KeyboardEvent | React.SyntheticEvent) => {
-			setOpen((op) => {
-				if (op) return op;
-				if (item.onOpen) {
-					item.onOpen(e);
-				}
-				return true;
-			});
 			if (item.onClick) {
 				item.onClick(e);
 			}
@@ -144,7 +137,7 @@ const AccordionRoot = React.forwardRef<HTMLDivElement, AccordionRootProps>(funct
 		[item]
 	);
 
-	const expandOnIconClick = useCallback(
+	const toggleOpen = useCallback(
 		(e: KeyboardEvent | React.SyntheticEvent) => {
 			e.stopPropagation();
 			setOpen((op) => {
@@ -183,7 +176,7 @@ const AccordionRoot = React.forwardRef<HTMLDivElement, AccordionRootProps>(funct
 					<Padding right="small">
 						<IconButton
 							customSize={{ iconSize: 'large', paddingSize: 0 }}
-							onClick={expandOnIconClick}
+							onClick={toggleOpen}
 							icon={open ? 'ChevronUp' : 'ChevronDown'}
 						/>
 					</Padding>
