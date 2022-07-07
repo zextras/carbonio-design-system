@@ -31,7 +31,6 @@ import { Container } from '@zextras/carbonio-design-system';
 ### Change TextWithTooltip's trigger delay
 ```jsx
 import { Container } from '@zextras/carbonio-design-system';
-import TextWithTooltip from '../basic/TextWithTooltip.jsx';
 <Container orientation="horizontal" mainAlignment="space-around" height={100}>
 	<TextWithTooltip
         label="3 seconds before tooltip trigger Lorem ipsum dolor sit amet"
