@@ -346,7 +346,7 @@ const Modal = React.forwardRef<HTMLDivElement, ModalProps>(function ModalFn(
 			endSentinelRefSave && endSentinelRefSave.removeEventListener('focus', onEndSentinelFocus);
 			open && focusedElement && (focusedElement as HTMLElement).focus();
 		};
-	}, [open, onStartSentinelFocus, onEndSentinelFocus, windowObj.document.activeElement]);
+	}, [open, onStartSentinelFocus, onEndSentinelFocus, windowObj]);
 
 	useEffect(() => {
 		setTimeout(() => setDelayedOpen(open), 1);

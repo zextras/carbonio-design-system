@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { InputHTMLAttributes, useCallback, useMemo, useRef, useState } from 'react';
+import React, { InputHTMLAttributes, useCallback, useEffect, useMemo, useState } from 'react';
 import styled, { css, SimpleInterpolation } from 'styled-components';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { KeyboardPreset, useKeyboard } from '../../hooks/useKeyboard';
@@ -179,8 +179,7 @@ const Input: Input = React.forwardRef<HTMLDivElement, InputProps>(function Input
 	ref
 ) {
 	const [hasFocus, setHasFocus] = useState(false);
-	const innerRef = useRef<HTMLInputElement | null>(null);
-	const comboRef = useCombinedRefs<HTMLInputElement>(inputRef, innerRef);
+	const innerRef = useCombinedRefs<HTMLInputElement>(inputRef);
 	const [id] = useState(() => {
 		if (!Input._newId) {
 			Input._newId = 0;
@@ -190,13 +189,15 @@ const Input: Input = React.forwardRef<HTMLDivElement, InputProps>(function Input
 	});
 
 	const onInputFocus = useCallback(() => {
-		if (!disabled && comboRef && comboRef.current) {
+		if (!disabled && innerRef && innerRef.current) {
 			setHasFocus(true);
-			comboRef.current.focus();
+			innerRef.current.focus();
 		}
-	}, [setHasFocus, comboRef, disabled]);
+	}, [innerRef, disabled]);
 
-	const onInputBlur = useCallback(() => setHasFocus(false), [setHasFocus]);
+	const onInputBlur = useCallback(() => {
+		setHasFocus(false);
+	}, []);
 
 	const keyboardEvents = useMemo<KeyboardPreset>(() => {
 		const events: KeyboardPreset = [];
@@ -212,7 +213,7 @@ const Input: Input = React.forwardRef<HTMLDivElement, InputProps>(function Input
 		return events;
 	}, [onEnter]);
 
-	useKeyboard(comboRef, keyboardEvents);
+	useKeyboard(innerRef, keyboardEvents);
 
 	return (
 		<Container height="fit" width="fill" crossAlignment="flex-start">
@@ -234,7 +235,7 @@ const Input: Input = React.forwardRef<HTMLDivElement, InputProps>(function Input
 					autoFocus={autoFocus || undefined}
 					autoComplete={autoComplete || 'off'} // This one seems to be a React quirk, 'off' doesn't really work
 					color={textColor}
-					ref={comboRef}
+					ref={innerRef}
 					type={type}
 					onFocus={onInputFocus}
 					onBlur={onInputBlur}

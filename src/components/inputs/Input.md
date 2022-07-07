@@ -13,14 +13,16 @@ import styled from 'styled-components';
 const [value, setValue] = useState('Some Controlled value');
 const [value2, setValue2] = useState('');
 
-const StyledContainer = styled(Container)`
-  & > * {
-    width: 48%;
-  }
-`;
-
-<StyledContainer orientation="horizontal" mainAlignment="space-around" wrap="wrap" style={{ margin: 'auto' }} crossAlignment="flex-start">
-    <Input autoComplete="on" autoFocus label="Input" defaultValue="Default Value" />
+<Container orientation="horizontal" mainAlignment="space-around" wrap="wrap" style={{ margin: 'auto' }} crossAlignment="flex-start">
+  <Container width="48%">
+    <Input autoComplete="on" label="Input" defaultValue="Default Value" />
+    <Input 
+        label="Input with custom icon"
+        CustomIcon={({ hasFocus }) => <Icon icon="AgendaOutline" size="large" color={hasFocus ? 'primary' : 'text'} />}
+    />
+    <Input />
+  </Container>
+  <Container width="48%">
     <Input
         label="Some other Input"
         value={value}
@@ -30,10 +32,6 @@ const StyledContainer = styled(Container)`
             }
         }
         backgroundColor="gray6"
-    />
-    <Input 
-        label="Input with custom icon"
-        CustomIcon={({ hasFocus }) => <Icon icon="AgendaOutline" size="large" color={hasFocus ? 'primary' : 'text'} />}
     />
     <Input
         label="Input with onEnter"
@@ -47,9 +45,9 @@ const StyledContainer = styled(Container)`
         onEnter={(e) => { console.log('onEnter called with text', e.target.value) }}
         backgroundColor="gray6"
     />
-    <Input />
     <Input description="empty with description" />
-</StyledContainer>
+  </Container>
+</Container>
 ```
 
 #### Colors

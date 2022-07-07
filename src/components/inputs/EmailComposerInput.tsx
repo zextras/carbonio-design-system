@@ -137,7 +137,7 @@ const EmailComposerInput = React.forwardRef<HTMLDivElement, EmailComposerInputPr
 
 		const checkIfSetActive = useCallback(() => {
 			setActive(windowObj.document.activeElement === inputRef.current || !!inputRef.current?.value);
-		}, [windowObj.document.activeElement]);
+		}, [windowObj]);
 
 		const onFocus = useCallback(() => {
 			checkIfSetActive();
