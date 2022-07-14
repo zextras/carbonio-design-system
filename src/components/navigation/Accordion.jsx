@@ -68,7 +68,7 @@ const AccordionItem = React.forwardRef(function AccordionItemFn({ item, children
 });
 
 const AccordionRoot = React.forwardRef(function AccordionRootFn(
-	{ level, item, background, activeId, openIds, ...rest },
+	{ level, item, background, activeId, openIds, disableTransition, ...rest },
 	ref
 ) {
 	const [open, setOpen] = useState(!!item.open);
@@ -138,6 +138,7 @@ const AccordionRoot = React.forwardRef(function AccordionRootFn(
 						orientation="vertical"
 						open={open}
 						maxSize={`${item.items.length * 64}px`}
+						disableTransition={disableTransition}
 					>
 						<Accordion
 							activeId={activeId}
@@ -145,6 +146,7 @@ const AccordionRoot = React.forwardRef(function AccordionRootFn(
 							items={item.items}
 							level={item.level !== undefined ? item.level : level + 1}
 							background={background}
+							disableTransition={disableTransition}
 						/>
 					</Collapse>
 				)}
@@ -154,7 +156,7 @@ const AccordionRoot = React.forwardRef(function AccordionRootFn(
 });
 
 const Accordion = React.forwardRef(function AccordionFn(
-	{ items, level, background, activeId, openIds, ...rest },
+	{ items, level, background, activeId, openIds, disableTransition, ...rest },
 	ref
 ) {
 	return (
@@ -175,6 +177,7 @@ const Accordion = React.forwardRef(function AccordionFn(
 					background={background}
 					activeId={activeId}
 					openIds={openIds}
+					disableTransition={disableTransition}
 				/>
 			))}
 		</Container>
@@ -204,7 +207,8 @@ Accordion.propTypes = {
 			onOpen: PropTypes.func,
 			onClose: PropTypes.func,
 			background: Container.propTypes.background,
-			disableHover: PropTypes.bool
+			disableHover: PropTypes.bool,
+			disableTransition: PropTypes.bool
 		})
 	),
 	/** Depth level, internally used for recursion nesting */
@@ -216,7 +220,8 @@ Accordion.propTypes = {
 Accordion.defaultProps = {
 	items: [],
 	level: 0,
-	background: 'gray5'
+	background: 'gray5',
+	disableTransition: false
 };
 
 export { Accordion, AccordionItem };

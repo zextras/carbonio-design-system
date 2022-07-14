@@ -15,7 +15,7 @@
 		"clean": "rm -rf dist/*",
 		"prepublishOnly": "pinst --disable && npm run clean && npm run build",
 		"deploy": "npm run prepublishOnly && rm -rf $PKG_PATH/node_modules/@zextras/carbonio-design-system/dist/ && cp -r dist/ $PKG_PATH/node_modules/@zextras/carbonio-design-system/dist/ && cp package.json $PKG_PATH/node_modules/@zextras/carbonio-design-system/ && cd $PKG_PATH/node_modules/@zextras/carbonio-design-system/ && rm -rf node_modules && npm i --only=prod",
-		"postinstall": "is-ci || husky install",
+		"_postinstall": "is-ci || husky install",
 		"postpublish": "pinst --enable",
 		"type-check": "tsc --noEmit"
 	},
