@@ -81,7 +81,9 @@ const Popover = React.forwardRef<HTMLDivElement, PopoverProps>(function PopoverF
 		}
 	}, [onMouseMove, anchorEl]);
 
-	const innerOnClose = useCallback(() => !activateOnHover && onClose(), [activateOnHover, onClose]);
+	const innerOnClose = useCallback(() => {
+		!activateOnHover && onClose();
+	}, [activateOnHover, onClose]);
 
 	const onMouseEnter = useCallback(
 		() =>

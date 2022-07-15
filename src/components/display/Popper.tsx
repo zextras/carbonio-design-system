@@ -173,15 +173,17 @@ const Popper = React.forwardRef<HTMLDivElement, PopperProps>(function PopperFn(
 	}, [open, placement, anchorEl, virtualElement, popperRef]);
 
 	useEffect(() => {
+		let listenerTimeout: ReturnType<typeof setTimeout>;
 		if (open) {
-			setTimeout(() => {
+			listenerTimeout = setTimeout(() => {
 				windowObj.document.addEventListener('click', closePopper);
 			}, 1);
 		}
 		return (): void => {
 			windowObj.document.removeEventListener('click', closePopper);
+			listenerTimeout && clearTimeout(listenerTimeout);
 		};
-	}, [open, closePopper, windowObj.document]);
+	}, [open, closePopper, windowObj]);
 
 	useEffect(() => {
 		const startSentinelRefSave = startSentinelRef.current;
