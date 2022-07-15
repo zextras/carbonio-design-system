@@ -132,12 +132,18 @@ const Popper = React.forwardRef(function PopperFn(
 	}, [open, placement, anchorEl, virtualElement, popperRef]);
 
 	useEffect(() => {
+		let listenerTimer;
 		if (open) {
-			setTimeout(() => windowObj.document.addEventListener('click', closePopper), 1);
-			return () => windowObj.document.removeEventListener('click', closePopper);
+			listenerTimer = setTimeout(() => {
+				windowObj.document.addEventListener('click', closePopper);
+			}, 1);
+			return () => {
+				windowObj.document.removeEventListener('click', closePopper);
+				listenerTimer && clearTimeout(listenerTimer);
+			};
 		}
 		return () => undefined;
-	}, [open, closePopper, windowObj.document]);
+	}, [open, closePopper, windowObj]);
 
 	useEffect(() => {
 		if (open) {
