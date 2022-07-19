@@ -421,12 +421,14 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 
 	const handleClick = useCallback<(e: React.SyntheticEvent | KeyboardEvent) => void>(
 		(e) => {
-			if (!disabled && !openRef.current) {
-				e.preventDefault();
+			e.preventDefault();
+			if (openRef.current) {
+				closePopper();
+			} else if (!disabled) {
 				openPopper();
 			}
 		},
-		[disabled, openPopper]
+		[closePopper, disabled, openPopper]
 	);
 
 	// TODO: it probably makes sense to merge this callback and the handleClick
@@ -470,6 +472,9 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 				dropdownRef.current &&
 				e.target !== dropdownRef.current &&
 				!dropdownRef.current.contains(e.target as Node | null) &&
+				triggerRef.current &&
+				e.target !== triggerRef.current &&
+				!triggerRef.current?.contains(e.target as Node | null) &&
 				// check if the attribute is in the event path
 				!find(
 					e.composedPath?.() ?? [],
