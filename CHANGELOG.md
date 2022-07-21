@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.7](https://github.com/Zextras/carbonio-design-system/compare/v0.3.6...v0.3.7) (2022-07-21)
+
+
+### Features
+
+* change badge maximum number shown ([4bbc924](https://github.com/Zextras/carbonio-design-system/commit/4bbc92420d7f7c62f71ba5db32e2f610efad2ff9)), closes [#85](https://github.com/Zextras/carbonio-design-system/issues/85)
+
+
+### Bug Fixes
+
+* avoid contents inside modal to lose focus on change of active node ([0f6ae04](https://github.com/Zextras/carbonio-design-system/commit/0f6ae045e43c62b8e4839d256ba40ccdca978dfb))
+* toggle open accordion status only on chevron click ([9a776d6](https://github.com/Zextras/carbonio-design-system/commit/9a776d60c56a86dbabdcccc06f755009a0e02e59))
+
 ### [0.3.6](https://github.com/Zextras/carbonio-design-system/compare/v0.3.5...v0.3.6) (2022-07-05)
 
 
