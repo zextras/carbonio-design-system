@@ -4,7 +4,7 @@ SPDX-FileCopyrightText: 2021 Zextras <https://www.zextras.com>
 SPDX-License-Identifier: AGPL-3.0-only
 -->
 
-### Counter Badge
+### Counter Badge 
 
 ```jsx
 <>
@@ -13,6 +13,9 @@ SPDX-License-Identifier: AGPL-3.0-only
     <Badge value={10} type="unread" />
     <br/>
     <Badge value={100} type="unread" />
+    <br/>
+    <Badge value={1000} type="unread" />
+
 </>
 ```
 
