@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.8](https://github.com/Zextras/carbonio-design-system/compare/v0.3.7...v0.3.8) (2022-07-25)
+
+
+### Features
+
+* added disableTransition prop to Accordion ([5811d4b](https://github.com/Zextras/carbonio-design-system/commit/5811d4b4af56b07533a8a810e4ae57926b4a480d))
+* added repeat exception icon ([346f6c8](https://github.com/Zextras/carbonio-design-system/commit/346f6c80652f084656bb9fbd6699dd3535eff88f)), closes [#96](https://github.com/Zextras/carbonio-design-system/issues/96)
+* added repeat exception icon ([b2da7ca](https://github.com/Zextras/carbonio-design-system/commit/b2da7ca7dc9e08a3bc547e5f161ee666cdbe5f92))
+
+
+### Bug Fixes
+
+* clear popper listener register on unmount ([06b5856](https://github.com/Zextras/carbonio-design-system/commit/06b58560109b441abcba027034cb6aa571aea0af))
+
 ### [0.3.7](https://github.com/Zextras/carbonio-design-system/compare/v0.3.6...v0.3.7) (2022-07-21)
 
 
