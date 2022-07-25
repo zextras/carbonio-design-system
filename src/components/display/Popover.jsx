@@ -56,7 +56,9 @@ const Popover = React.forwardRef(function PopoverFn(
 			anchorEl.current.removeEventListener('mousemove', onMouseMove);
 		}
 	}, [onMouseMove, anchorEl]);
-	const innerOnClose = useCallback(() => !activateOnHover && onClose(), [activateOnHover, onClose]);
+	const innerOnClose = useCallback(() => {
+		!activateOnHover && onClose();
+	}, [activateOnHover, onClose]);
 
 	const onMouseEnter = useCallback(
 		() =>
@@ -100,7 +102,7 @@ const Popover = React.forwardRef(function PopoverFn(
 			};
 		}
 		return () => undefined;
-	}, [anchorEl, activateOnHover, onMouseEnter, onMouseLeave, closePopover, windowObj.document]);
+	}, [anchorEl, activateOnHover, onMouseEnter, onMouseLeave, closePopover, windowObj]);
 
 	return (
 		<Popper
