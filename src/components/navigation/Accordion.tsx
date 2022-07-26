@@ -115,10 +115,11 @@ interface AccordionRootProps extends ContainerProps {
 	background: keyof ThemeObj['palette'];
 	activeId?: string;
 	openIds?: string[];
+	disableTransition?: boolean;
 }
 
 const AccordionRoot = React.forwardRef<HTMLDivElement, AccordionRootProps>(function AccordionRootFn(
-	{ level, item, background, activeId, openIds, ...rest },
+	{ level, item, background, activeId, openIds, disableTransition, ...rest },
 	ref
 ) {
 	const [open, setOpen] = useState(!!item.open);
@@ -183,13 +184,19 @@ const AccordionRoot = React.forwardRef<HTMLDivElement, AccordionRootProps>(funct
 				)}
 			</AccordionContainerEl>
 			{item.items && item.items.length > 0 && (
-				<Collapse crossSize="100%" orientation="vertical" open={open}>
+				<Collapse
+					crossSize="100%"
+					orientation="vertical"
+					open={open}
+					disableTransition={disableTransition}
+				>
 					<Accordion
 						activeId={activeId}
 						openIds={openIds}
 						items={item.items}
 						level={item.level !== undefined ? item.level : level + 1}
 						background={background}
+						disableTransition={disableTransition}
 					/>
 				</Collapse>
 			)}
@@ -208,6 +215,8 @@ interface AccordionProps extends ContainerProps {
 	activeId?: string;
 	/** list of ids of the currently open items (alternative to the open item flag) */
 	openIds?: string[];
+	/** disable animation of the accordion when expanding folders */
+	disableTransition?: boolean;
 }
 
 function isDivider(item: AccordionItemType | AccordionDivider): item is AccordionDivider {
@@ -215,7 +224,7 @@ function isDivider(item: AccordionItemType | AccordionDivider): item is Accordio
 }
 
 const Accordion = React.forwardRef<HTMLDivElement, AccordionProps>(function AccordionFn(
-	{ items = [], level = 0, background = 'gray5', activeId, openIds, ...rest },
+	{ items = [], level = 0, background = 'gray5', activeId, openIds, disableTransition, ...rest },
 	ref
 ) {
 	return (
@@ -239,6 +248,7 @@ const Accordion = React.forwardRef<HTMLDivElement, AccordionProps>(function Acco
 						background={background}
 						activeId={activeId}
 						openIds={openIds}
+						disableTransition={disableTransition}
 					/>
 				)
 			)}
