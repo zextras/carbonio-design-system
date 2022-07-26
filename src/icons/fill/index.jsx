@@ -280,6 +280,7 @@ export { default as ReadReceipt } from './ReadReceipt';
 export { default as Recording } from './Recording';
 export { default as Refresh } from './Refresh';
 export { default as Repeat } from './Repeat';
+export { default as RepeatException } from './RepeatException';
 export { default as ReplyAll } from './ReplyAll';
 export { default as Restore } from './Restore';
 export { default as RewindLeft } from './RewindLeft';
