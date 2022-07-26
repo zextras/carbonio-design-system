@@ -2,6 +2,33 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.8](https://github.com/Zextras/carbonio-design-system/compare/v0.3.7...v0.3.8) (2022-07-25)
+
+
+### Features
+
+* added disableTransition prop to Accordion ([5811d4b](https://github.com/Zextras/carbonio-design-system/commit/5811d4b4af56b07533a8a810e4ae57926b4a480d))
+* added repeat exception icon ([346f6c8](https://github.com/Zextras/carbonio-design-system/commit/346f6c80652f084656bb9fbd6699dd3535eff88f)), closes [#96](https://github.com/Zextras/carbonio-design-system/issues/96)
+* added repeat exception icon ([b2da7ca](https://github.com/Zextras/carbonio-design-system/commit/b2da7ca7dc9e08a3bc547e5f161ee666cdbe5f92))
+
+
+### Bug Fixes
+
+* clear popper listener register on unmount ([06b5856](https://github.com/Zextras/carbonio-design-system/commit/06b58560109b441abcba027034cb6aa571aea0af))
+
+### [0.3.7](https://github.com/Zextras/carbonio-design-system/compare/v0.3.6...v0.3.7) (2022-07-21)
+
+
+### Features
+
+* change badge maximum number shown ([4bbc924](https://github.com/Zextras/carbonio-design-system/commit/4bbc92420d7f7c62f71ba5db32e2f610efad2ff9)), closes [#85](https://github.com/Zextras/carbonio-design-system/issues/85)
+
+
+### Bug Fixes
+
+* avoid contents inside modal to lose focus on change of active node ([0f6ae04](https://github.com/Zextras/carbonio-design-system/commit/0f6ae045e43c62b8e4839d256ba40ccdca978dfb))
+* toggle open accordion status only on chevron click ([9a776d6](https://github.com/Zextras/carbonio-design-system/commit/9a776d60c56a86dbabdcccc06f755009a0e02e59))
+
 ### [0.3.6](https://github.com/Zextras/carbonio-design-system/compare/v0.3.5...v0.3.6) (2022-07-05)
 
 
