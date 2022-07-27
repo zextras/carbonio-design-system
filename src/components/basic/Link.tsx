@@ -4,18 +4,17 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { useMemo, useCallback, AnchorHTMLAttributes } from 'react';
+import React, { useMemo, useCallback } from 'react';
 import styled from 'styled-components';
-import type { ThemeObj } from '../../theme/theme';
 import { getColor } from '../../theme/theme-utils';
 
 import { Text, TextProps } from './Text';
 import { useKeyboard, getKeyboardPreset } from '../../hooks/useKeyboard';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 
-const StyledLink = styled(Text).attrs({
+const StyledLink = styled(Text).attrs(() => ({
 	forwardedAs: 'a'
-})<{
+}))<{
 	$underlined: boolean;
 }>`
 	cursor: pointer;
@@ -29,14 +28,14 @@ const StyledLink = styled(Text).attrs({
 	}
 `;
 
-interface LinkProps extends TextProps {
+type LinkProps = {
 	/** Whether the link should be underlined */
 	underlined?: boolean;
-	color?: string | keyof ThemeObj['palette'];
-}
+} & React.AnchorHTMLAttributes<HTMLAnchorElement> &
+	TextProps;
 
 const Link = React.forwardRef<HTMLDivElement, LinkProps>(function LinkFn(
-	{ children, size, underlined = false, color = 'primary', ...rest },
+	{ children, underlined = false, color = 'primary', ...rest },
 	ref
 ) {
 	const linkRef = useCombinedRefs<HTMLDivElement>(ref);
@@ -46,14 +45,7 @@ const Link = React.forwardRef<HTMLDivElement, LinkProps>(function LinkFn(
 	useKeyboard(linkRef, keyEvents);
 
 	return (
-		<StyledLink
-			ref={linkRef}
-			size={size}
-			$underlined={underlined}
-			color={color}
-			tabIndex={0}
-			{...rest}
-		>
+		<StyledLink ref={linkRef} $underlined={underlined} color={color} tabIndex={0} {...rest}>
 			{children}
 		</StyledLink>
 	);
