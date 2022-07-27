@@ -10,7 +10,7 @@
 		"lint": "eslint --ext .js,.jsx,.ts,.tsx --resolve-plugins-relative-to node_modules/@zextras/carbonio-ui-configs src",
 		"styleguide": "styleguidist server",
 		"styleguide:build": "styleguidist build",
-		"test": "jest",
+		"test": "(is-ci && jest --runInBand) || jest --maxWorkers=50%",
 		"icons:build": "npx @svgr/cli -d src/icons svg && npx create-index -ri ./src/icons --extensions js jsx --outputFile index.jsx",
 		"build": "npx rollup -c rollup.config.js && npm run build:types",
 		"build:types": "tsc -p tsconfig.types.json && npx @microsoft/api-extractor run --local --verbose",
