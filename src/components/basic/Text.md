@@ -4,151 +4,67 @@ SPDX-FileCopyrightText: 2021 Zextras <https://www.zextras.com>
 SPDX-License-Identifier: AGPL-3.0-only
 -->
 
+Text represents a simple text. It can be customized in size, color, weight and overflow.
+It accepts the disabled status, which is also set as attribute on the final div tag.
+
+### Sizes
 ```jsx
 import { Container } from '@zextras/carbonio-design-system';
-<Container orientation="horizontal" mainAlignment="space-between" height={500}>
-	<Container orientation="vertical" mainAlignment="space-around" height="fill">
-		<Text size="large" color="primary" weight="regular">
-			Hello world
-		</Text>
-		<Text size="medium" color="primary" weight="regular">
-			Hello world
-		</Text>
-		<Text size="small" color="primary" weight="regular">
-			Hello world
-		</Text>
-		<Text size="large" color="secondary" weight="regular">
-			Hello world
-		</Text>
-		<Text size="medium" color="secondary" weight="regular">
-			Hello world
-		</Text>
-		<Text size="small" color="secondary" weight="regular">
-			Hello world
-		</Text>
-		<Text size="large" color="text" weight="regular">
-			Hello world
-		</Text>
-		<Text size="medium" color="text" weight="regular">
-			Hello world
-		</Text>
-		<Text size="small" color="text" weight="regular">
-			Hello world
-		</Text>
-		<Text size="large" color="success" weight="regular">
-			Hello world
-		</Text>
-		<Text size="medium" color="success" weight="regular">
-			Hello world
-		</Text>
-		<Text size="small" color="success" weight="regular">
-			Hello world
-		</Text>
-		<Text size="large" color="error" weight="regular">
-			Hello world
-		</Text>
-		<Text size="medium" color="error" weight="regular">
-			Hello world
-		</Text>
-		<Text size="small" color="error" weight="regular">
-			Hello world
-		</Text>
-	</Container>
-	<Container orientation="vertical" mainAlignment="space-around" height="fill">
-		<Text size="large" color="primary" weight="medium">
-			Hello world
-		</Text>
-		<Text size="medium" color="primary" weight="medium">
-			Hello world
-		</Text>
-		<Text size="small" color="primary" weight="medium">
-			Hello world
-		</Text>
-		<Text size="large" color="secondary" weight="medium">
-			Hello world
-		</Text>
-		<Text size="medium" color="secondary" weight="medium">
-			Hello world
-		</Text>
-		<Text size="small" color="secondary" weight="medium">
-			Hello world
-		</Text>
-		<Text size="large" color="text" weight="medium">
-			Hello world
-		</Text>
-		<Text size="medium" color="text" weight="medium">
-			Hello world
-		</Text>
-		<Text size="small" color="text" weight="medium">
-			Hello world
-		</Text>
-		<Text size="large" color="success" weight="medium">
-			Hello world
-		</Text>
-		<Text size="medium" color="success" weight="medium">
-			Hello world
-		</Text>
-		<Text size="small" color="success" weight="medium">
-			Hello world
-		</Text>
-		<Text size="large" color="error" weight="medium">
-			Hello world
-		</Text>
-		<Text size="medium" color="error" weight="medium">
-			Hello world
-		</Text>
-		<Text size="small" color="error" weight="medium">
-			Hello world
-		</Text>
-	</Container>
-	<Container orientation="vertical" mainAlignment="space-around" height="fill">
-		<Text size="large" color="primary" weight="bold">
-			Hello world
-		</Text>
-		<Text size="medium" color="primary" weight="bold">
-			Hello world
-		</Text>
-		<Text size="small" color="primary" weight="bold">
-			Hello world
-		</Text>
-		<Text size="large" color="secondary" weight="bold">
-			Hello world
-		</Text>
-		<Text size="medium" color="secondary" weight="bold">
-			Hello world
-		</Text>
-		<Text size="small" color="secondary" weight="bold">
-			Hello world
-		</Text>
-		<Text size="large" color="text" weight="bold">
-			Hello world
-		</Text>
-		<Text size="medium" color="text" weight="bold">
-			Hello world
-		</Text>
-		<Text size="small" color="text" weight="bold">
-			Hello world
-		</Text>
-		<Text size="large" color="success" weight="bold">
-			Hello world
-		</Text>
-		<Text size="medium" color="success" weight="bold">
-			Hello world
-		</Text>
-		<Text size="small" color="success" weight="bold">
-			Hello world
-		</Text>
-		<Text size="large" color="error" weight="bold">
-			Hello world
-		</Text>
-		<Text size="medium" color="error" weight="bold">
-			Hello world
-		</Text>
-		<Text size="small" color="error" weight="bold">
-			Hello world
-		</Text>
-	</Container>
-</Container>;
+<Container orientation="horizontal" mainAlignment="space-around" height="fill">
+    <Text size="extralarge">Hello world</Text>
+    <Text size="large">Hello world</Text>
+    <Text size="medium">Hello world</Text>
+    <Text size="small">Hello world</Text>
+    <Text size="extrasmall">Hello world</Text>
+</Container>
+```
+
+### Colors
+```jsx
+import { Container } from '@zextras/carbonio-design-system';
+<Container orientation="horizontal" mainAlignment="space-around" height="fill">
+    <Text color="primary">Hello world</Text>
+    <Text color="secondary">Hello world</Text>
+    <Text color="text">Hello world</Text>
+    <Text color="success">Hello world</Text>
+    <Text color="error">Hello world</Text>
+</Container>
+```
+
+### Disabled
+```jsx
+import { Container } from '@zextras/carbonio-design-system';
+<Container orientation="horizontal" mainAlignment="space-around" height="fill">
+    <Text disabled color="primary">Hello world</Text>
+    <Text disabled color="secondary">Hello world</Text>
+    <Text disabled color="text">Hello world</Text>
+    <Text disabled color="success">Hello world</Text>
+    <Text disabled color="error">Hello world</Text>
+</Container>
+```
+
+### Weight
+
+```jsx
+import { Container } from '@zextras/carbonio-design-system';
+<Container orientation="horizontal" mainAlignment="space-around" height="fill">
+    <Text weight="light">Hello world</Text>
+    <Text weight="regular">Hello world</Text>
+    <Text weight="medium">Hello world</Text>
+    <Text weight="bold">Hello world</Text>
+</Container>
+```
+
+### Overflow
+```jsx
+import { Container } from '@zextras/carbonio-design-system';
+
+const lorem = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras et augue risus. In fringilla sodales augue eu porttitor. Integer faucibus aliquam venenatis. Fusce eleifend sodales tellus vel malesuada. Mauris posuere diam ac tellus sollicitudin porta. Vestibulum pretium nulla nulla, vel blandit elit fringilla quis. Quisque neque nisl, condimentum malesuada turpis ac, viverra fermentum est. Nullam dui arcu, imperdiet quis placerat viverra, euismod eget odio. Ut id accumsan neque, vitae varius urna. Vestibulum scelerisque, velit eget mollis faucibus, libero nunc accumsan arcu, a dignissim ligula nunc nec nibh. Cras efficitur lobortis purus sit amet suscipit. Quisque pretium metus ut erat sagittis sollicitudin. Maecenas varius nisi eget rhoncus euismod.';
+
+<Container orientation="horizontal" mainAlignment="space-around" height="fill">
+    <Text overflow="ellipsis">{lorem}</Text>
+    <Text overflow="break-word">{lorem}</Text>
+</Container>
 ```
 
 ### Development status:
@@ -164,13 +80,13 @@ const items = [
 	},
 	{
 		feature: 'Documentation',
-		status: 3,
+		status: 1,
 		notes: ''
 	},
 	{
 		feature: 'Examples',
 		status: 1,
-		notes: 'Could be improved by splitting up the prop examples'
+		notes: ''
 	},
 	{
 		feature: 'I18n Compatibility',

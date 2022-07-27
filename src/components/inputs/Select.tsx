@@ -8,13 +8,14 @@ import React, { useState, useMemo, useCallback, useReducer, useEffect, Reducer }
 import styled, { css, SimpleInterpolation } from 'styled-components';
 import { some, isEmpty } from 'lodash';
 import type { ThemeObj } from '../../theme/theme';
-import Container from '../layout/Container';
-import Divider from '../layout/Divider';
-import Dropdown from '../display/Dropdown';
-import Icon from '../basic/Icon';
-import Padding from '../layout/Padding';
-import Row from '../layout/Row';
-import Text from '../basic/Text';
+import { Container } from '../layout/Container';
+import { Divider } from '../layout/Divider';
+import { Dropdown, DropdownProps } from '../display/Dropdown';
+import { Icon } from '../basic/Icon';
+import { Padding } from '../layout/Padding';
+import { Row } from '../layout/Row';
+import { getColor } from '../../theme/theme-utils';
+import { Text } from '../basic/Text';
 
 const Label = styled(Text)<{ $selected: boolean }>`
 	position: absolute;
@@ -25,16 +26,16 @@ const Label = styled(Text)<{ $selected: boolean }>`
 	transition: 150ms ease-out;
 `;
 
-const ContainerEl = styled(Container)<{ background: keyof ThemeObj['palette'] }>`
+const ContainerEl = styled(Container)<{ $focus: boolean }>`
 	transition: background 0.2s ease-out;
 	&:hover {
-		background: ${({ theme, background }): string => theme.palette[background].hover};
+		background: ${({ theme, background }): string => getColor(`${background}.hover`, theme)};
 	}
-	${({ focus, theme, background }): SimpleInterpolation =>
-		focus &&
+	${({ $focus, theme, background }): SimpleInterpolation =>
+		$focus &&
 		css`
-			background: ${theme.palette[background].focus};
-		`}
+			background: ${getColor(`${background}.focus`, theme)};
+		`};
 `;
 
 const CustomText = styled(Text)`
@@ -84,10 +85,10 @@ const DefaultLabelFactory: React.VFC<LabelFactoryProps> = ({
 					vertical: 'small'
 				}}
 				background={background}
-				focus={focus}
+				$focus={focus}
 			>
 				<Row takeAvailableSpace mainAlignment="unset">
-					<Padding top="medium" style={{ width: '100%' }}>
+					<Padding top="medium" width="100%">
 						<CustomText size="medium" color={disabled ? 'secondary' : 'text'}>
 							{selectedLabels}
 						</CustomText>
@@ -178,7 +179,7 @@ type SelectItem = {
 	customComponent?: React.ReactElement;
 };
 
-type SelectProps = {
+type SelectComponentProps = {
 	label?: string;
 	background?: string | keyof ThemeObj['palette'];
 	disabled?: boolean;
@@ -210,12 +211,15 @@ type SelectProps = {
 	| {
 			multiple?: false;
 			/** Initial selection value */
-			defaultSelection: SelectItem;
+			defaultSelection?: SelectItem;
 			/** Selection value (controlled mode) */
 			selection?: SelectItem;
 			onChange: (value: string | null) => void;
 	  }
 );
+
+type SelectProps = SelectComponentProps &
+	Omit<DropdownProps, keyof SelectComponentProps | 'children'>;
 
 const Select = React.forwardRef<HTMLDivElement, SelectProps>(function SelectFn(
 	{
@@ -372,7 +376,7 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps>(function SelectFn(
 			disablePortal={disablePortal}
 			{...rest}
 		>
-			<TabContainer ref={ref} onFocus={onFocus} onBlur={onBlur} tabIndex="0">
+			<TabContainer ref={ref} onFocus={onFocus} onBlur={onBlur} tabIndex={0}>
 				<LabelFactory
 					label={label}
 					open={open}
@@ -387,4 +391,4 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps>(function SelectFn(
 	);
 });
 
-export { Select, SelectProps, SelectItem };
+export { Select, SelectProps, SelectItem, LabelFactoryProps };

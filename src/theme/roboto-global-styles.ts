@@ -6,7 +6,7 @@
 
 import { createGlobalStyle } from 'styled-components';
 
-const DefaultFontStyles = createGlobalStyle`
+const DefaultFontStyles = createGlobalStyle<Record<string, unknown>>`
 	/* roboto-300 - latin */
 	@font-face {
 		font-family: 'Roboto';
