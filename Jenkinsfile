@@ -195,8 +195,7 @@ pipeline {
                     steps {
                         script {
                             executeNpmLogin()
-                            // TODO: [IRIS-2131] remove the '|| true' bypass once the issue is solvable or the components are all converted to typescript
-                            nodeCmd('npm run styleguide:build || true')
+                            nodeCmd('npm run styleguide:build')
                             stash includes: 'styleguide/', name: 'doc'
                         }
                     }
