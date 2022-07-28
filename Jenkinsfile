@@ -50,7 +50,6 @@ pipeline {
     }
     parameters {
         booleanParam defaultValue: false, description: 'Release this version on npm', name: 'RELEASE'
-        booleanParam defaultValue: false, description: 'Simulate run on devel', name: 'DEVEL'
     }
     environment {
         BUCKET_NAME = 'zextras-artifacts'
@@ -184,7 +183,6 @@ pipeline {
                                 environment name: 'COMMIT_PARENTS_COUNT', value: '1'
                             }
                             expression { BRANCH_NAME ==~ /(devel)/ }
-                            expression { params.DEVEL == true }
                         }
                     }
                     agent {
@@ -250,21 +248,6 @@ pipeline {
                             executeNpmLogin()
                             nodeCmd("npm run release -- --no-verify --release-as ${getCurrentVersion()}-devel.${currentBuild.startTimeInMillis} --skip.commit --skip.tag --skip.changelog")
                             nodeCmd("NODE_ENV=\"production\" npm publish --tag devel")
-                        }
-                    }
-                }
-                stage('Fake Devel') {
-                    when {
-                        beforeAgent true
-                        anyOf {
-                           expression { params.DEVEL == true }
-                        }
-                    }
-                    steps {
-                        script {
-                            executeNpmLogin()
-                            nodeCmd("npm run release -- --no-verify --release-as ${getCurrentVersion()}-devel.${currentBuild.startTimeInMillis} --skip.commit --skip.tag --skip.changelog")
-                            nodeCmd("NODE_ENV=\"production\" npm publish --tag devel --dry-run")
                         }
                     }
                 }
