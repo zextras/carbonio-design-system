@@ -13,7 +13,7 @@
 		"test": "(is-ci && jest --runInBand) || jest --maxWorkers=50%",
 		"icons:build": "npx @svgr/cli -d src/icons svg && npx create-index -ri ./src/icons --extensions js jsx --outputFile index.jsx",
 		"build": "npx rollup -c rollup.config.js && npm run build:types",
-		"build:types": "tsc -p tsconfig.types.json && npx @microsoft/api-extractor run --local --verbose",
+		"build:types": "tsc -p tsconfig.types.json && npx @microsoft/api-extractor run --verbose",
 		"clean": "rm -rf dist/* types/*",
 		"prepack": "npm run clean && npm run build",
 		"packTo": "npm pack --pack-destination $PKG_PATH && cd $PKG_PATH && npm i zextras-carbonio-design-system-$npm_package_version.tgz",
