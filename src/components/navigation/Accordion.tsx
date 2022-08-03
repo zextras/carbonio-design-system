@@ -20,6 +20,7 @@ import { Collapse } from '../utilities/Collapse';
 import { useKeyboard, getKeyboardPreset } from '../../hooks/useKeyboard';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { pseudoClasses } from '../../theme/theme-utils';
+import { Tooltip } from '../display/Tooltip';
 
 const AccordionContainerEl = styled(Container)<{
 	$level: number;
@@ -37,12 +38,6 @@ const AccordionContainerEl = styled(Container)<{
 		!$disableHover && pseudoClasses(theme, $active ? 'highlight' : background)};
 `;
 
-const StyledText = styled(Text)`
-	min-width: 0;
-	flex-basis: 0;
-	flex-grow: 1;
-`;
-
 interface AccordionItemProps extends ContainerProps {
 	item: AccordionItemType;
 	children?: React.ReactNode | React.ReactNode[];
@@ -58,7 +53,12 @@ const AccordionItem = React.forwardRef<HTMLDivElement, AccordionItemProps>(funct
 			padding={{ all: 'small' }}
 			height={40}
 			ref={ref}
-			style={{ minWidth: 0, flexBasis: 0, flexGrow: 1 }}
+			style={{
+				minWidth: 0,
+				flexBasis: 0,
+				flexGrow: 1,
+				maxWidth: item.items && item.items.length > 0 ? 'calc(100% - 32px)' : '100%'
+			}}
 			{...rest}
 		>
 			{item.icon && (
@@ -72,9 +72,15 @@ const AccordionItem = React.forwardRef<HTMLDivElement, AccordionItemProps>(funct
 				</Padding>
 			)}
 			{item.label && (
-				<StyledText size="medium" {...item.textProps}>
-					{item.label}
-				</StyledText>
+				<Tooltip label={item.label} overflowTooltip>
+					<Text
+						size="medium"
+						style={{ minWidth: 0, flexBasis: 0, flexGrow: 1 }}
+						{...item.textProps}
+					>
+						{item.label}
+					</Text>
+				</Tooltip>
 			)}
 			{item.badgeCounter !== undefined && (
 				<Padding left="small">
