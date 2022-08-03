@@ -122,7 +122,7 @@ interface EmailComposerInputProps extends HTMLAttributes<HTMLDivElement> {
 	/** Input's value */
 	value?: string;
 	/** Callback to call when Input's value changes */
-	onChange?: () => void;
+	onChange?: (ev: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const EmailComposerInput = React.forwardRef<HTMLDivElement, EmailComposerInputProps>(
