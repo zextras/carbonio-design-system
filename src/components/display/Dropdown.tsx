@@ -396,8 +396,7 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 	const [open, setOpen] = useState<boolean>(forceOpen);
 	const openRef = useRef<boolean>(open);
 	const dropdownRef = useCombinedRefs<HTMLDivElement>(dropdownListRef);
-	const innerTriggerRef = useRef<HTMLElement | null>(null);
-	const combinedRef = useCombinedRefs(innerTriggerRef, triggerRef);
+	const innerTriggerRef = useCombinedRefs(triggerRef);
 	const popperItemsRef = useRef<HTMLDivElement | null>(null);
 	const startSentinelRef = useRef<HTMLDivElement | null>(null);
 	const endSentinelRef = useRef<HTMLDivElement | null>(null);
@@ -420,7 +419,7 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 			!disableRestoreFocus && innerTriggerRef.current && innerTriggerRef.current.focus();
 			onClose && onClose();
 		},
-		[disableRestoreFocus, forceOpen, onClose]
+		[disableRestoreFocus, forceOpen, innerTriggerRef, onClose]
 	);
 
 	const handleClick = useCallback<(e: React.SyntheticEvent | KeyboardEvent) => void>(
@@ -489,7 +488,7 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 				closePopper();
 			}
 		},
-		[closePopper, dropdownRef]
+		[closePopper, dropdownRef, innerTriggerRef]
 	);
 
 	const onStartSentinelFocus = useCallback(() => {
@@ -553,7 +552,7 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 			}
 		}
 		return (): void => popperInstance && popperInstance.destroy();
-	}, [open, placement, contextMenu, position, dropdownRef]);
+	}, [open, placement, contextMenu, position, dropdownRef, innerTriggerRef]);
 
 	useEffect(() => {
 		if (!disableAutoFocus) {
@@ -717,8 +716,8 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 
 	const triggerComponent = useMemo(() => {
 		const props = contextMenu ? { onContextMenu: handleRightClick } : { onClick: handleLeftClick };
-		return React.cloneElement(children, { ref: combinedRef, ...props });
-	}, [children, combinedRef, contextMenu, handleLeftClick, handleRightClick]);
+		return React.cloneElement(children, { ref: innerTriggerRef, ...props });
+	}, [children, innerTriggerRef, contextMenu, handleLeftClick, handleRightClick]);
 
 	const popperListProps = useMemo(
 		() =>
