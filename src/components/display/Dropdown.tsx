@@ -325,6 +325,8 @@ interface DropdownProps extends Omit<HTMLAttributes<HTMLDivElement>, 'contextMen
 	onClose?: () => void;
 	/** Only one component can be passed as children */
 	children: React.ReactElement;
+	/** trigger ref that can be used instead of lost children ref caused by cloneElement */
+	triggerRef?: React.Ref<HTMLElement>;
 	/** Placement of the dropdown */
 	placement?:
 		| 'auto'
@@ -378,6 +380,7 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 		onOpen,
 		onClose,
 		children,
+		triggerRef = createRef<HTMLElement>(),
 		disablePortal = false,
 		preventDefault = true,
 		selectedBackgroundColor,
@@ -393,7 +396,8 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 	const [open, setOpen] = useState<boolean>(forceOpen);
 	const openRef = useRef<boolean>(open);
 	const dropdownRef = useCombinedRefs<HTMLDivElement>(dropdownListRef);
-	const triggerRef = useRef<HTMLElement | null>(null);
+	const innerTriggerRef = useRef<HTMLElement | null>(null);
+	const combinedRef = useCombinedRefs(innerTriggerRef, triggerRef);
 	const popperItemsRef = useRef<HTMLDivElement | null>(null);
 	const startSentinelRef = useRef<HTMLDivElement | null>(null);
 	const endSentinelRef = useRef<HTMLDivElement | null>(null);
@@ -413,7 +417,7 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 		(e?: React.SyntheticEvent | KeyboardEvent) => {
 			e && e.stopPropagation();
 			setOpen(forceOpen);
-			!disableRestoreFocus && triggerRef.current && triggerRef.current.focus();
+			!disableRestoreFocus && innerTriggerRef.current && innerTriggerRef.current.focus();
 			onClose && onClose();
 		},
 		[disableRestoreFocus, forceOpen, onClose]
@@ -421,10 +425,11 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 
 	const handleClick = useCallback<(e: React.SyntheticEvent | KeyboardEvent) => void>(
 		(e) => {
-			e.preventDefault();
 			if (openRef.current) {
+				e.preventDefault();
 				closePopper();
 			} else if (!disabled) {
+				e.preventDefault();
 				openPopper();
 			}
 		},
@@ -472,9 +477,9 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 				dropdownRef.current &&
 				e.target !== dropdownRef.current &&
 				!dropdownRef.current.contains(e.target as Node | null) &&
-				triggerRef.current &&
-				e.target !== triggerRef.current &&
-				!triggerRef.current?.contains(e.target as Node | null) &&
+				innerTriggerRef.current &&
+				e.target !== innerTriggerRef.current &&
+				!innerTriggerRef.current?.contains(e.target as Node | null) &&
 				// check if the attribute is in the event path
 				!find(
 					e.composedPath?.() ?? [],
@@ -504,7 +509,7 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 		() => (handleTriggerEvents ? getKeyboardPreset('button', handleClick) : []),
 		[handleClick, handleTriggerEvents]
 	);
-	useKeyboard(triggerRef, triggerEvents);
+	useKeyboard(innerTriggerRef, triggerEvents);
 
 	// We need to add 'open' as dependency because we want to reattach these events each time we open the dropdown
 	const listEvents = useMemo(
@@ -538,7 +543,7 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 				strategy: 'fixed'
 			};
 
-			const popperReference = contextMenu ? position : triggerRef.current;
+			const popperReference = contextMenu ? position : innerTriggerRef.current;
 			if (popperReference && dropdownRef.current) {
 				popperInstance = createPopper<StrictModifiers>(
 					popperReference,
@@ -712,8 +717,8 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 
 	const triggerComponent = useMemo(() => {
 		const props = contextMenu ? { onContextMenu: handleRightClick } : { onClick: handleLeftClick };
-		return React.cloneElement(children, { ref: triggerRef, ...props });
-	}, [children, contextMenu, handleLeftClick, handleRightClick]);
+		return React.cloneElement(children, { ref: combinedRef, ...props });
+	}, [children, combinedRef, contextMenu, handleLeftClick, handleRightClick]);
 
 	const popperListProps = useMemo(
 		() =>
@@ -733,7 +738,7 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 					width={width}
 					maxWidth={maxWidth}
 					maxHeight={maxHeight}
-					triggerRef={triggerRef}
+					triggerRef={innerTriggerRef}
 					data-testid="dropdown-popper-list"
 					{...popperListProps}
 				>
