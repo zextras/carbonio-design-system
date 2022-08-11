@@ -89,6 +89,7 @@ const MultiButton = React.forwardRef<HTMLButtonElement, MultiButtonProps>(functi
 			disableRestoreFocus
 			{...dropdownProps}
 			$containerWidth={(width === 'fill' && '100%') || 'auto'}
+			triggerRef={ref}
 		>
 			<Button
 				backgroundColor={background}
@@ -98,7 +99,6 @@ const MultiButton = React.forwardRef<HTMLButtonElement, MultiButtonProps>(functi
 				disabled={disabledPrimary}
 				icon={primaryIcon}
 				secondaryAction={secondaryAction}
-				ref={ref}
 				width={width}
 				{...rest}
 			/>
