@@ -385,9 +385,9 @@ const Chip = React.forwardRef<HTMLDivElement, ChipProps>(function ChipFn(
 					} / 4))`}
 					maxWidth={
 						maxWidth &&
-						`calc(100% - calc(${theme.sizes.avatar[SIZES[size].avatar].diameter} + ${
-							SIZES[size].spacing
-						}))`
+						`calc(100% - calc(${
+							hasAvatar ? theme.sizes.avatar[SIZES[size].avatar].diameter : 0
+						} + ${SIZES[size].spacing}))`
 					}
 					gap={SIZES[size].spacing}
 				>
