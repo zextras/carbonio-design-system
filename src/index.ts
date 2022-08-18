@@ -53,6 +53,7 @@ export * from './components/display/Popover';
 export * from './components/display/Popper';
 export * from './components/display/Tooltip';
 export * from './components/display/Table';
+export * from './components/display/CollapsingActions';
 
 /** Feedback components */
 export * from './components/feedback/CustomModal';

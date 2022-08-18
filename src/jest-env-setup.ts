@@ -7,6 +7,7 @@
  */
 
 import '@testing-library/jest-dom/extend-expect';
+import { act } from '@testing-library/react';
 
 beforeAll(() => {
 	Object.defineProperty(window, 'matchMedia', {
@@ -40,5 +41,24 @@ beforeAll(() => {
 				takeRecords: (): IntersectionObserverEntry[] => []
 			})
 		)
+	});
+
+	// define resizeTo function so that it fire a resize event with wanted dimensions
+	window.resizeTo = function resizeTo(width, height): void {
+		Object.assign(this, {
+			innerWidth: width,
+			innerHeight: height,
+			outerWidth: width,
+			outerHeight: height
+		}).dispatchEvent(new this.Event('resize'));
+	};
+});
+
+afterEach(() => {
+	// Restores the original implementation of "spies"
+	// Replace mocks with jest.fn(), but replace spies with their original implementation.
+	jest.restoreAllMocks();
+	act(() => {
+		window.resizeTo(1024, 768);
 	});
 });
