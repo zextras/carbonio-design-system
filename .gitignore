@@ -4,6 +4,6 @@
 /styleguide/
 /*.tgz
 /junit.xml
-/coverage/cobertura-coverage.xml
+/coverage
 /types
 /.idea
