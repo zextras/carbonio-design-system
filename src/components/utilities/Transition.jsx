@@ -142,7 +142,7 @@ const TransitionOn = React.forwardRef(function TransitionOnFn(
 			};
 		}
 
-		setTimeout(() => {
+		const applyStyleTimeout = setTimeout(() => {
 			const fromStyles = from || styles[type].from;
 			const fromStylesKeys = Object.keys(fromStyles);
 
@@ -153,7 +153,7 @@ const TransitionOn = React.forwardRef(function TransitionOnFn(
 			combinedRef.current.style.transition = `${transitionTarget} ${duration}ms ${timing} ${transitionDelay}ms`;
 		}, 1);
 
-		const timeout = setTimeout(() => {
+		const resetStyleTimeout = setTimeout(() => {
 			combinedRef.current.style.transition = '';
 			const endStyles = end || styles[type].end || {};
 			const endStylesKeys = Object.keys(endStyles);
@@ -161,7 +161,10 @@ const TransitionOn = React.forwardRef(function TransitionOnFn(
 				combinedRef.current.style[key] = '';
 			});
 		}, duration);
-		return () => clearTimeout(timeout);
+		return () => {
+			clearTimeout(applyStyleTimeout);
+			clearTimeout(resetStyleTimeout);
+		};
 	}, [
 		apply,
 		type,

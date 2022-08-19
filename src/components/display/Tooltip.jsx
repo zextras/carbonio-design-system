@@ -70,7 +70,7 @@ const Tooltip = React.forwardRef(function TooltipFn(
 	const triggerRef = useRef(undefined);
 	const innerRef = useRef(undefined);
 	const tooltipRef = useCombinedRefs(ref, innerRef);
-	const timeoutRef = useRef(undefined);
+	const showTooltipTimeoutRef = useRef(undefined);
 
 	const showTooltip = useCallback(() => {
 		const textIsCropped =
@@ -78,8 +78,8 @@ const Tooltip = React.forwardRef(function TooltipFn(
 				triggerRef.current.clientWidth < triggerRef.current.scrollWidth) ||
 			triggerRef.current.clientHeight < triggerRef.current.scrollHeight;
 		if ((textIsCropped && overflowTooltip) || !overflowTooltip) {
-			clearTimeout(timeoutRef.current);
-			timeoutRef.current = setTimeout(() => {
+			clearTimeout(showTooltipTimeoutRef.current);
+			showTooltipTimeoutRef.current = setTimeout(() => {
 				setOpen(true);
 			}, triggerDelay);
 		}
@@ -87,7 +87,7 @@ const Tooltip = React.forwardRef(function TooltipFn(
 
 	const hideTooltip = useCallback(() => {
 		setOpen(false);
-		clearTimeout(timeoutRef.current);
+		clearTimeout(showTooltipTimeoutRef.current);
 	}, []);
 
 	useLayoutEffect(() => {
@@ -118,7 +118,7 @@ const Tooltip = React.forwardRef(function TooltipFn(
 
 	useEffect(() => {
 		// Added timeout to fix Preact weird bug
-		setTimeout(() => {
+		const timeout = setTimeout(() => {
 			if (triggerRef && triggerRef.current && !disabled) {
 				triggerRef.current.addEventListener('focus', showTooltip);
 				triggerRef.current.addEventListener('blur', hideTooltip);
@@ -134,13 +134,14 @@ const Tooltip = React.forwardRef(function TooltipFn(
 				refSave.removeEventListener('mouseenter', showTooltip);
 				refSave.removeEventListener('mouseleave', hideTooltip);
 			}
+			clearTimeout(timeout);
 		};
 	}, [triggerRef, showTooltip, hideTooltip, disabled]);
 
 	useEffect(
 		() => () => {
-			if (timeoutRef.current) {
-				clearTimeout(timeoutRef.current);
+			if (showTooltipTimeoutRef.current) {
+				clearTimeout(showTooltipTimeoutRef.current);
 			}
 		},
 		[]

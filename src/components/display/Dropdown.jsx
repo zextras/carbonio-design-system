@@ -270,6 +270,16 @@ const Dropdown = React.forwardRef(function DropdownFn(
 	const endSentinelRef = useRef(undefined);
 	const [position, setPosition] = useState(null);
 	const [currentHover, setCurrentHover] = useState(null);
+	const openPopperTimoutRef = useRef(undefined);
+
+	// clear timeouts on unmount
+	useEffect(
+		() => () => {
+			openPopperTimoutRef.current && clearTimeout(openPopperTimoutRef.current);
+		},
+		[]
+	);
+
 	useEffect(() => {
 		setOpen(forceOpen);
 	}, [forceOpen]);
@@ -313,7 +323,7 @@ const Dropdown = React.forwardRef(function DropdownFn(
 				})
 			};
 			setPosition(virtualElement);
-			setTimeout(() => {
+			openPopperTimoutRef.current = setTimeout(() => {
 				if (!disabled && !openRef.current) {
 					openPopper();
 				}
@@ -396,35 +406,42 @@ const Dropdown = React.forwardRef(function DropdownFn(
 	}, [open, placement, contextMenu, position, dropdownRef]);
 
 	useEffect(() => {
-		if (!disableAutoFocus) {
-			open &&
-				setTimeout(() => {
-					const selectedItems = dropdownRef.current
-						? dropdownRef.current.querySelectorAll('.zapp-selected')
-						: [];
-					selectedItems.length > 0
-						? selectedItems[0].focus()
-						: popperItemsRef.current &&
-						  popperItemsRef.current.children[0] &&
-						  popperItemsRef.current.children[0].focus();
-				}, 1);
+		let timeout;
+		if (!disableAutoFocus && open) {
+			timeout = setTimeout(() => {
+				const selectedItems = dropdownRef.current
+					? dropdownRef.current.querySelectorAll('.zapp-selected')
+					: [];
+				selectedItems.length > 0
+					? selectedItems[0].focus()
+					: popperItemsRef.current &&
+					  popperItemsRef.current.children[0] &&
+					  popperItemsRef.current.children[0].focus();
+			}, 1);
 		}
+
+		return () => {
+			timeout && clearTimeout(timeout);
+		};
 	}, [disableAutoFocus, dropdownRef, open]);
 
 	useEffect(() => {
 		openRef.current = open;
-		open &&
-			setTimeout(() => windowObj.document.addEventListener('click', clickOutsidePopper, true), 1);
-		contextMenu &&
-			open &&
-			setTimeout(
-				() => windowObj.document.addEventListener('contextmenu', clickOutsidePopper, true),
-				1
-			);
+		let timeout;
+
+		if (open) {
+			timeout = setTimeout(() => {
+				windowObj.document.addEventListener('click', clickOutsidePopper, true);
+				if (contextMenu) {
+					windowObj.document.addEventListener('contextmenu', clickOutsidePopper, true);
+				}
+			}, 1);
+		}
 
 		return () => {
 			windowObj.document.removeEventListener('click', clickOutsidePopper, true);
 			windowObj.document.removeEventListener('contextmenu', clickOutsidePopper, true);
+			timeout && clearTimeout(timeout);
 		};
 	}, [open, closePopper, clickOutsidePopper, contextMenu, windowObj.document]);
 

@@ -98,7 +98,10 @@ const CustomModal = React.forwardRef(function ModalFn(
 	}, [open, onStartSentinelFocus, onEndSentinelFocus, windowObj]);
 
 	useEffect(() => {
-		setTimeout(() => setDelayedOpen(open), 1);
+		const timeout = setTimeout(() => setDelayedOpen(open), 1);
+		return () => {
+			clearTimeout(timeout);
+		};
 	}, [open]);
 
 	return (
