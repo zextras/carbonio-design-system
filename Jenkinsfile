@@ -221,7 +221,7 @@ pipeline {
                     steps {
                         script {
                             executeNpmLogin()
-                            nodeCmd("NODE_ENV=\"production\" npm dist-tag add ${getPackageName()}@${getCurrentVersion()} latest && npm dist-tag rm ${getPackageName()}@${getCurrentVersion()} rc")
+                            nodeCmd("NODE_ENV=\"production\" npm dist-tag add ${getPackageName()}@${getCurrentVersion()} latest && npm dist-tag rm ${getPackageName()} rc")
                         }
                     }
                 }
