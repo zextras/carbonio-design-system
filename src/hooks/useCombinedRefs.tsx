@@ -6,7 +6,7 @@
 
 import React, { useRef, useEffect } from 'react';
 
-export function useCombinedRefs<T>(...refs: React.ForwardedRef<T>[]): React.RefObject<T> {
+function useCombinedRefs<T>(...refs: React.ForwardedRef<T>[]): React.RefObject<T> {
 	const targetRef = useRef<T>(null);
 	useEffect(() => {
 		refs.forEach((ref) => {
@@ -22,3 +22,5 @@ export function useCombinedRefs<T>(...refs: React.ForwardedRef<T>[]): React.RefO
 	}, [refs]);
 	return targetRef;
 }
+
+export { useCombinedRefs };

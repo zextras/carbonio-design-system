@@ -26,7 +26,55 @@ const closeHandler = () => setOpen(false);
         open={open}
         onConfirm={closeHandler}
         onClose={closeHandler}
-    >
+		showCloseIcon={true}
+		>
+        <Text overflow="break-word">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</Text>
+    </Modal>
+</>
+```
+
+#### Modal size variants
+```jsx
+import { useState } from 'react';
+import { Button, Checkbox, Text, Row } from '@zextras/carbonio-design-system';
+
+const [open, setOpen] = useState(false);
+const [size, setSize] = useState('extrasmall');
+
+const clickHandlerExtrasmall = () => {
+	setOpen(true);
+	setSize('extrasmall');
+};
+const clickHandlerSmall = () => {
+	setOpen(true);
+	setSize('small');
+};
+const clickHandlerMedium = () => {
+	setOpen(true);
+	setSize('medium');
+};
+const clickHandlerLarge = () => {
+	setOpen(true);
+	setSize('large');
+};
+
+const closeHandler = () => setOpen(false);
+
+<>
+    <Row takeAvailableSpace mainAlignment='space-around' >
+      <Button label="extrasmall" onClick={clickHandlerExtrasmall}/>
+	  <Button label="small" onClick={clickHandlerSmall}/>
+	  <Button label="medium" onClick={clickHandlerMedium}/>
+	  <Button label="large" onClick={clickHandlerLarge}/>
+    </Row>
+	<Modal
+        title="Title_bold_dark"
+        open={open}
+        onConfirm={closeHandler}
+        onClose={closeHandler}
+		showCloseIcon={true}
+        size={size}
+		>
         <Text overflow="break-word">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</Text>
     </Modal>
 </>
@@ -50,7 +98,8 @@ const closeHandler = () => setOpen(false);
         open={open}
         onConfirm={closeHandler}
         onClose={closeHandler}
-    >
+		showCloseIcon={true}
+		>
         <Text overflow="break-word">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</Text>
     </Modal>
 </>
@@ -74,7 +123,8 @@ const closeHandler = () => setOpen(false);
         centered
         onConfirm={closeHandler}
         onClose={closeHandler}
-    >
+		showCloseIcon={true}
+		>
         <Text overflow="break-word">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</Text>
     </Modal>
 </>
@@ -99,6 +149,7 @@ const closeHandler = () => setOpen(false);
         confirmLabel="Proceed"
         onClose={closeHandler}
         optionalFooter={<Checkbox label="Never ask again!" />}
+		showCloseIcon={true}
     >
         <Text overflow="break-word">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</Text>
     </Modal>
@@ -124,7 +175,8 @@ const closeHandler = () => setOpen(false);
         onSecondaryAction={closeHandler}
         secondaryActionLabel="Secondary Action"
         onClose={closeHandler}
-    >
+		showCloseIcon={true}
+		>
         <Text overflow="break-word">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</Text>
     </Modal>
 </>

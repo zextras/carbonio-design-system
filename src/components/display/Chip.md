@@ -25,7 +25,7 @@ The given colors are used with their set for the pseudo statuses
 
 The chip has two special statuses: disabled and error.
 - When a chip is disabled, all elements within are disabled. 
-  In the disabled status the click and double click callbacks remain active.
+  **In the disabled status the click and double click callbacks remain active.**
   It's up to the dev the definition of what these two functions should do when the chip is disabled.
 - When a chip is in error, the elements remain enabled, but they take the error status too.
 
@@ -48,6 +48,7 @@ import { Container } from '@zextras/carbonio-design-system';
     label="Saul Goodman"
     background="primary"
     color="gray6"
+    hasAvatar={false}
     onClose={() => console.log('closed')}
   />
   <Chip
@@ -56,7 +57,7 @@ import { Container } from '@zextras/carbonio-design-system';
     color="gray6"
     onClose={() => console.log('closed')}
   />
-  <Chip label="Walter Hartwell White Jr. " hasAvatar={false} background="warning" color="text" />
+  <Chip label="Walter Hartwell White Jr." hasAvatar={false} background="warning" color="text" />
   <Chip
     label="Gus Fring"
     avatarPicture="https://static.wikia.nocookie.net/breakingbad/images/b/be/Season_4_-_Gus.jpg"
@@ -76,11 +77,35 @@ import { Container } from '@zextras/carbonio-design-system';
 ```jsx
 import { Container } from '@zextras/carbonio-design-system';
 
+const actions = [
+          {
+            id: 'action1',
+            label: 'One ring to rule them all',
+            type: 'icon',
+            icon: 'EyeOutline'
+          }
+        ];
+
 <Container orientation="horizontal" wrap="wrap" mainAlignment="flex-start" maxWidth="700px" style={{gap: '8px'}}>
-  <Chip label="Frodo Baggins" onClose={() => console.log('closed')} avatarIcon="Eye" disabled />
-  <Chip label="Samwise (Sam) Gamgee" onClose={() => console.log('closed')} error  />
+  <Chip label="Frodo Baggins" onClose={() => console.log('closed')} avatarIcon="Eye" disabled actions={actions} />
+  <Chip label="Samwise (Sam) Gamgee" onClose={() => console.log('closed')} error actions={actions} />
   <Chip label="Gandalf the Grey" disabled="Message to tell user why this chip is disabled" />
   <Chip label="Legolas" avatarIcon="DiagonalArrowRightUp" error="Message to tell user why this chip is in error" />
+</Container>
+```
+
+#### Tooltip
+
+Tooltip for label is shown only on overflow
+
+```jsx
+import { Container } from '@zextras/carbonio-design-system';
+
+<Container orientation="horizontal" wrap="wrap" mainAlignment="flex-start" maxWidth="700px" style={{gap: '8px'}}>
+  <Chip label="Harry James Potter" maxWidth="150px" onClose={console.log} tooltipPlacement="top" />
+  <Chip label="Hermione Jean Granger" maxWidth="150px" onClose={console.log} tooltipPlacement="bottom" />
+  <Chip label="Ronald Bilius Weasley" maxWidth="150px" onClose={console.log} tooltipPlacement="right" />
+  <Chip label="Albus Percival Wulfric Brian Dumbledore" onClose={console.log} maxWidth="150px" tooltipPlacement="left" />
 </Container>
 ```
 
@@ -196,9 +221,9 @@ import { Button, Container, Row, Text, Tooltip } from '@zextras/carbonio-design-
     keyLabel="The Mandalorian:"
     label={(
       <Tooltip label="Din Djarin (Mandalorians Bounty Hunter's Guild Children of the Watch)" maxWidth="unset">
-        <Row wrap="nowrap">
-          <Text overflow="break-word" size="small">Din Djarin&nbsp;</Text>
-          <Text color="secondary" size="small">Mandalorians Bounty Hunter's Guild Children of the Watch</Text>
+        <Row wrap="nowrap" minWidth={0}>
+          <Text overflow="break-word" size="extrasmall">Din Djarin&nbsp;</Text>
+          <Text color="secondary" size="extrasmall">Mandalorians Bounty Hunter's Guild Children of the Watch</Text>
         </Row>
       </Tooltip>
     )}
@@ -206,7 +231,6 @@ import { Button, Container, Row, Text, Tooltip } from '@zextras/carbonio-design-
     maxWidth="250px"
     onClose={() => console.log('This is the way')}
   />
-  
   <Chip
     keyLabel="The Mandalorian:"
     label={'Carasynthia "Cara" Dune'}
@@ -400,6 +424,49 @@ import { Button, Container, Row, Text, Tooltip } from '@zextras/carbonio-design-
 </Container>
 ```
 
+#### Interaction (for click events)
+Css pseudo classes are applied only if chip has a click or double click callback and is not disabled.
+
+For now, double click handler does not prevent the click event.
+It's up to the dev to eventually avoid the click callback to be called when double click is fired.
+```jsx
+import { Container } from '@zextras/carbonio-design-system';
+<Container orientation="horizontal" wrap="wrap" mainAlignment="flex-start" maxWidth="700px" style={{ gap: '8px' }}>
+  <Chip
+    label="Buffy Summers"
+    shape="round"
+    onClose={() => console.log('What are we gonna do now?')}
+    actions={[
+      {
+        id: 'action1',
+        label: 'Vampire Slayer',
+        type: 'icon',
+        icon: 'MoonOutline'
+      }
+    ]}
+    onClick={() => console.log('click')}
+  />
+  <Chip
+      label="Xander Harris"
+      shape="round"
+      onClick={() => console.log('click')}
+      onDoubleClick={() => console.log('double click')}
+  />
+  <Chip
+      label="Willow Rosenberg"
+      shape="round"
+      onDoubleClick={() => console.log('double click')}
+  />
+  <Chip
+      label="Cordelia Chase"
+      shape="regular"
+      onClick={() => console.log('click')}
+      onDoubleClick={() => console.log('double click')}
+      disabled
+  />
+</Container>
+```
+
 ### Development status:
 
 ```jsx noEditor
@@ -438,8 +505,8 @@ const items = [
 	},
 	{
 		feature: 'Prop Types',
-		status: 2,
-		notes: 'Props need a rework to allow better manipulation of the avatar'
+		status: 1,
+		notes: ''
 	},
 	{
 		feature: 'Index Export',
@@ -448,8 +515,8 @@ const items = [
 	},
 	{
 		feature: 'Customizability',
-		status: 2,
-		notes: 'Needs custom content'
+		status: 1,
+		notes: ''
 	}
 ];
 

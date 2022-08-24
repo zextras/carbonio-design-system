@@ -1,0 +1,14 @@
+{
+  "extends": "./tsconfig.json",
+  "exclude": [
+    "src/**/*.test.*",
+    "src/test-utils.tsx"
+  ],
+  "compilerOptions": {
+    "declaration": true,
+    "declarationMap": true,
+    "declarationDir": "types",
+    "emitDeclarationOnly": true,
+    "allowJs": true
+  }
+}

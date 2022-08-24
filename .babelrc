@@ -14,13 +14,7 @@
   "plugins": [
     "@babel/plugin-transform-runtime",
     "@babel/plugin-proposal-class-properties",
-    "babel-plugin-styled-components",
-    [
-      "@quickbaseoss/babel-plugin-styled-components-css-namespace",
-      {
-        "cssNamespace": "&&&"
-      }
-    ]
+    "babel-plugin-styled-components"
   ],
   "env": {
     "test": {

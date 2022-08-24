@@ -25,4 +25,4 @@ const ThemeProvider: React.FC<ThemeProviderProps> = ({ children, extension, load
 	);
 };
 
-export { ThemeContext, ThemeProvider };
+export { ThemeContext, ThemeProvider, ThemeProviderProps };

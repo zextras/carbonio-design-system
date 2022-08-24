@@ -21,3 +21,6 @@
 /LICENSES
 tsconfig.json
 /.reuse
+/types
+tsconfig.types.json
+api-extractor.json

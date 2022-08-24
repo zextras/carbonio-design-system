@@ -5,6 +5,10 @@
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/build" />
       <excludeFolder url="file://$MODULE_DIR$/pkg" />
+      <excludeFolder url="file://$MODULE_DIR$/styleguide" />
+      <excludeFolder url="file://$MODULE_DIR$/docs/asset" />
+      <excludeFolder url="file://$MODULE_DIR$/types" />
+      <excludeFolder url="file://$MODULE_DIR$/dist" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
   </component>

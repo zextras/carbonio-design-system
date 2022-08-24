@@ -6,7 +6,7 @@
 
 import { darken, desaturate, lighten, setLightness } from 'polished';
 import { useContext } from 'react';
-import { parsePadding } from '../components/utilities/functions';
+import { css, FlattenSimpleInterpolation } from 'styled-components';
 import { ThemeObj, ThemeColorObj, ThemeSizeObj } from './theme';
 import { ThemeContext } from './theme-context-provider';
 
@@ -22,11 +22,11 @@ function isThemeVariant(
 	return variant in theme.palette[color];
 }
 
-function isThemeColor(color: string, theme: ThemeObj): color is ThemePaletteColorKey {
+export function isThemeColor(color: string, theme: ThemeObj): color is ThemePaletteColorKey {
 	return color in theme.palette;
 }
 
-function isThemeSize(size: string, sizeObj: ThemeSizeObj): size is keyof ThemeSizeObj {
+export function isThemeSize(size: string, sizeObj: ThemeSizeObj): size is keyof ThemeSizeObj {
 	return size in sizeObj;
 }
 
@@ -47,14 +47,10 @@ const colorsSet: ColorSet = {
 	}
 };
 
-export const getVariantColor = (
-	color: string,
-	variant: keyof ThemeColorObj,
-	dark = false
-): string =>
+const getVariantColor = (color: string, variant: keyof ThemeColorObj, dark = false): string =>
 	colorsSet[dark ? 'dark' : 'light'][variant] && colorsSet[dark ? 'dark' : 'light'][variant](color);
 
-export const generateColorSet = (
+const generateColorSet = (
 	{
 		regular,
 		hover,
@@ -108,7 +104,7 @@ function getColorValue(color: string, theme: ThemeObj): string {
  * `
  * @returns {({theme?: Theme}) => string} a function that, given the theme, returns the wanted color
  */
-export function getColor(color: string): (args: { theme: ThemeObj }) => string;
+function getColor(color: string): (args: { theme: ThemeObj }) => string;
 /**
  * Retrieve the color of the given name based on the theme palette if the name is a palette key,
  * generating a set with the colorSet utility if the color is not a palette key
@@ -124,9 +120,9 @@ export function getColor(color: string): (args: { theme: ThemeObj }) => string;
  * `
  * @returns {string} The wanted color
  */
-export function getColor(color: string, theme: ThemeObj): string;
+function getColor(color: string, theme: ThemeObj): string;
 // see overloads for documentation
-export function getColor(
+function getColor(
 	color: string,
 	theme?: ThemeObj
 ): string | ((args: { theme: ThemeObj }) => string) {
@@ -135,7 +131,19 @@ export function getColor(
 	return getColorValue(color, theme);
 }
 
-const simpleParsePadding = (size: string, theme: ThemeObj): string => {
+type PaddingString = `${string | keyof ThemeObj['sizes']['padding']}`;
+type PaddingStringComposition =
+	| PaddingString // all
+	| `${PaddingString} | ${PaddingString}` // vertical horizontal
+	| `${PaddingString} ${PaddingString} ${PaddingString}` // top horizontal bottom
+	| `${PaddingString} ${PaddingString} ${PaddingString} ${PaddingString}`; // top right bottom left
+/**
+ * Given a string for the css padding, where there are both css dimensions and theme tokens,
+ * it replaces theme tokens with the theme value
+ * @param size
+ * @param theme
+ */
+const simpleParsePadding = (size: PaddingStringComposition, theme: ThemeObj): string => {
 	const explodedSizes = size.split(' ');
 	explodedSizes.forEach((padding, index) => {
 		explodedSizes[index] =
@@ -143,18 +151,111 @@ const simpleParsePadding = (size: string, theme: ThemeObj): string => {
 	});
 	return explodedSizes.join(' ');
 };
-export const getPadding = (
-	size: string,
+
+type RequireAtLeastOne<T, Keys extends keyof T = keyof T> = Pick<T, Exclude<keyof T, Keys>> &
+	{
+		[K in Keys]-?: Required<Pick<T, K>> & Partial<Pick<T, Exclude<Keys, K>>>;
+	}[Keys];
+
+type PaddingObj =
+	| {
+			value: string | keyof ThemeObj['sizes']['padding'] | 0;
+	  }
+	| {
+			all: string | keyof ThemeObj['sizes']['padding'] | 0;
+	  }
+	| RequireAtLeastOne<{
+			vertical: string | keyof ThemeObj['sizes']['padding'] | 0;
+			horizontal: string | keyof ThemeObj['sizes']['padding'] | 0;
+	  }>
+	| RequireAtLeastOne<{
+			top: string | keyof ThemeObj['sizes']['padding'] | 0;
+			right: string | keyof ThemeObj['sizes']['padding'] | 0;
+			bottom: string | keyof ThemeObj['sizes']['padding'] | 0;
+			left: string | keyof ThemeObj['sizes']['padding'] | 0;
+	  }>;
+
+function getPadding(
+	padding: PaddingStringComposition | PaddingObj
+): (args: { theme: ThemeObj }) => string;
+function getPadding(padding: PaddingStringComposition | PaddingObj, theme: ThemeObj): string;
+function getPadding(
+	padding: PaddingStringComposition | PaddingObj,
 	theme?: ThemeObj
-): string | ((args: { theme: ThemeObj }) => string) => {
-	if (!theme) return ({ theme: iTheme }): string => simpleParsePadding(size, iTheme);
-	return simpleParsePadding(size, theme);
+): string | ((args: { theme: ThemeObj }) => string);
+function getPadding(
+	padding: PaddingStringComposition | PaddingObj,
+	theme?: ThemeObj
+): string | ((args: { theme: ThemeObj }) => string) {
+	if (typeof padding === 'string') {
+		if (!theme) return ({ theme: iTheme }): string => simpleParsePadding(padding, iTheme);
+		return simpleParsePadding(padding, theme);
+	}
+	if ('value' in padding && padding.value) {
+		return getPadding(padding.value, theme);
+	}
+	if ('all' in padding && padding.all) {
+		return getPadding(padding.all, theme);
+	}
+	const p = ['0', '0', '0', '0'];
+	if ('vertical' in padding && padding.vertical) {
+		p[0] = padding.vertical;
+		p[2] = padding.vertical;
+	}
+	if ('horizontal' in padding && padding.horizontal) {
+		p[1] = padding.horizontal;
+		p[3] = padding.horizontal;
+	}
+	if ('top' in padding && padding.top) {
+		p[0] = padding.top;
+	}
+	if ('right' in padding && padding.right) {
+		p[1] = padding.right;
+	}
+	if ('bottom' in padding && padding.bottom) {
+		p[2] = padding.bottom;
+	}
+	if ('left' in padding && padding.left) {
+		p[3] = padding.left;
+	}
+	return getPadding(p.join(' '), theme);
+}
+
+function pseudoClasses(
+	theme: ThemeObj,
+	color: string | keyof ThemeObj['palette'],
+	cssProperty = 'background'
+): FlattenSimpleInterpolation {
+	return css`
+		transition: background 0.2s ease-out;
+		${cssProperty}: ${getColor(color, theme)};
+		&:focus {
+			outline: none;
+			${cssProperty}: ${getColor(`${color}.focus`, theme)};
+		}
+		&:hover {
+			outline: none;
+			${cssProperty}: ${getColor(`${color}.hover`, theme)};
+		}
+		&:active {
+			outline: none;
+			${cssProperty}: ${getColor(`${color}.active`, theme)};
+		}
+		&:disabled {
+			outline: none;
+			${cssProperty}: ${getColor(`${color}.disabled`, theme)};
+		}
+	`;
+}
+
+const useTheme = (): ThemeObj => useContext(ThemeContext);
+
+export {
+	generateColorSet,
+	getColor,
+	getPadding,
+	getPadding as parsePadding,
+	useTheme,
+	PaddingObj,
+	pseudoClasses
 };
-export const getParsedPadding =
-	(size: string) =>
-	({ theme }: { theme: ThemeObj }): string | ((args: { theme: ThemeObj }) => string) =>
-		parsePadding(size, theme);
-
-export const useTheme = (): ThemeObj => useContext(ThemeContext);
-
-export default ThemeContext;

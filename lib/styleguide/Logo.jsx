@@ -3,12 +3,12 @@
  *
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-import React, {useEffect, useState, useMemo} from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { enable, disable, auto, isEnabled } from 'darkreader';
-import Text from '../../src/components/basic/Text';
-import Button from '../../src/components/basic/Button';
-import Container from '../../src/components/layout/Container';
-import Padding from '../../src/components/layout/Padding';
+import { Text } from '../../src/components/basic/Text';
+import { Button } from '../../src/components/basic/Button';
+import { Container } from '../../src/components/layout/Container';
+import { Padding } from '../../src/components/layout/Padding';
 import { ThemeProvider } from '../../src/theme/theme-context-provider';
 
 const Logo = () => {

@@ -4,90 +4,88 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-/* eslint-disable import/no-cycle */
 /** Basic components */
-export { default as Avatar } from './components/basic/Avatar';
-export { default as Badge } from './components/basic/Badge';
-export { default as Button } from './components/basic/Button';
-export { default as Icon } from './components/basic/Icon';
-export { default as Link } from './components/basic/Link';
-export { default as LoadMore } from './components/basic/LoadMore';
-export { FormSection, FormSubSection, FormRow } from './components/basic/FormSection';
-export { default as Text } from './components/basic/Text';
-export { default as TextWithTooltip } from './components/basic/TextWithTooltip';
+export * from './components/basic/Avatar';
+export * from './components/basic/Badge';
+export * from './components/basic/Button';
+export * from './components/temp/Button';
+export * from './components/basic/Icon';
+export * from './components/basic/Link';
+export * from './components/basic/LoadMore';
+export * from './components/basic/FormSection';
+export * from './components/basic/Text';
+export * from './components/basic/TextWithTooltip';
+export * from './components/basic/Spinner';
 /** Layout components */
-export { default as Container } from './components/layout/Container';
-export { default as Divider } from './components/layout/Divider';
-export { default as Padding } from './components/layout/Padding';
-export { default as Paragraph } from './components/layout/Paragraph';
-export { default as Row } from './components/layout/Row';
+export * from './components/layout/Container';
+export * from './components/layout/Divider';
+export * from './components/layout/Padding';
+export * from './components/layout/Paragraph';
+export * from './components/layout/Row';
 
 /** Inputs components */
-export { default as Checkbox } from './components/inputs/Checkbox';
-export { default as ChipInput } from './components/inputs/ChipInput';
-export { default as EmailComposerInput } from './components/inputs/EmailComposerInput';
-export { default as FileLoader } from './components/inputs/FileLoader';
-export { default as IconButton } from './components/inputs/IconButton';
-export { default as IconCheckbox } from './components/inputs/IconCheckbox';
-export { default as MultiButton } from './components/inputs/MultiButton';
-export { default as Input } from './components/inputs/Input';
-export { default as PasswordInput } from './components/inputs/PasswordInput';
-export { default as Radio } from './components/inputs/Radio';
-export { default as RadioGroup } from './components/inputs/RadioGroup';
-export { default as SearchInput } from './components/inputs/SearchInput';
-export { Select } from './components/inputs/Select';
-export { default as Switch } from './components/inputs/Switch';
-export { default as DateTimePicker } from './components/inputs/DateTimePicker';
+export * from './components/inputs/Checkbox';
+export * from './components/inputs/ChipInput';
+export * from './components/inputs/EmailComposerInput';
+export * from './components/inputs/FileLoader';
+export * from './components/inputs/IconButton';
+export * from './components/inputs/IconCheckbox';
+export * from './components/inputs/MultiButton';
+export * from './components/inputs/Input';
+export * from './components/inputs/PasswordInput';
+export * from './components/inputs/Radio';
+export * from './components/inputs/RadioGroup';
+export * from './components/inputs/SearchInput';
+export * from './components/inputs/Select';
+export * from './components/inputs/Switch';
+export * from './components/inputs/DateTimePicker';
 
 /** navigation components */
-export { Accordion, AccordionItem } from './components/navigation/Accordion';
-export { default as Breadcrumbs } from './components/navigation/Breadcrumbs';
-export { TabBar, DefaultTabBarItem } from './components/navigation/TabBar';
+export * from './components/navigation/Accordion';
+export * from './components/navigation/Breadcrumbs';
+export * from './components/navigation/TabBar';
 
 /** display components */
-export { default as Chip } from './components/display/Chip';
-export { default as Dropdown } from './components/display/Dropdown';
-export { default as List } from './components/display/List';
-export { default as Popover } from './components/display/Popover';
-export { default as Popper } from './components/display/Popper';
-export { default as Tooltip } from './components/display/Tooltip';
-export { default as Table } from './components/display/Table';
+export * from './components/display/Chip';
+export * from './components/display/Dropdown';
+export * from './components/display/List';
+export * from './components/display/Popover';
+export * from './components/display/Popper';
+export * from './components/display/Tooltip';
+export * from './components/display/Table';
 
 /** Feedback components */
-export { default as CustomModal } from './components/feedback/CustomModal';
-export { default as Modal } from './components/feedback/Modal';
-export { default as Quota } from './components/feedback/Quota';
-export { default as Snackbar } from './components/feedback/Snackbar';
+export * from './components/feedback/CustomModal';
+export * from './components/feedback/Modal';
+export * from './components/feedback/Quota';
+export * from './components/feedback/Snackbar';
 
 /** Utilities components */
-export { default as Collapse, Collapser } from './components/utilities/Collapse';
-export { default as Catcher } from './components/utilities/Catcher';
-export { default as Portal } from './components/utilities/Portal';
-export { default as Responsive } from './components/utilities/Responsive';
-export { SnackbarManagerContext, SnackbarManager } from './components/utilities/SnackbarManager';
-export { ModalManagerContext, ModalManager } from './components/utilities/ModalManager';
-export { default as Transition } from './components/utilities/Transition';
-export { default as Drag } from './components/utilities/Drag';
-export { default as Drop } from './components/utilities/Drop';
-export { default as Shimmer } from './components/utilities/Shimmer';
+export * from './components/utilities/Collapse';
+export * from './components/utilities/Catcher';
+export * from './components/utilities/Portal';
+export * from './components/utilities/Responsive';
+export * from './components/utilities/SnackbarManager';
+export * from './components/utilities/ModalManager';
+export * from './components/utilities/Transition';
+export * from './components/utilities/Drag';
+export * from './components/utilities/Drop';
+export * from './components/utilities/Shimmer';
 
-export {
-	generateColorSet,
-	useTheme,
-	getColor,
-	getPadding,
-	getParsedPadding
-} from './theme/theme-utils';
-export { ThemeContext, ThemeProvider } from './theme/theme-context-provider';
-export { default as ZimbraClassicThemeContextProvider } from './theme/zimbra-classic-theme-context-provider';
-export { useIsVisible } from './hooks/useIsVisible';
-export { useCheckbox } from './hooks/useCheckbox';
-export { useCombinedRefs } from './hooks/useCombinedRefs';
-export { useHiddenCount } from './hooks/useHiddenCount';
-export { useKeyboard, getKeyboardPreset } from './hooks/useKeyboard';
-export { useScreenMode } from './hooks/useScreenMode';
-export { useSnackbar } from './hooks/useSnackbar';
-export { useModal } from './hooks/useModal';
-export { useSplitVisibility } from './hooks/useSplitVisibility';
+export * from './theme/theme-utils';
+export * from './theme/theme-context-provider';
+export * from './theme/zimbra-classic-theme-context-provider';
+export * from './hooks/useIsVisible';
+export * from './hooks/useCheckbox';
+export * from './hooks/useCombinedRefs';
+export * from './hooks/useHiddenCount';
+export * from './hooks/useKeyboard';
+export * from './hooks/useScreenMode';
+export * from './hooks/useSnackbar';
+export * from './hooks/useModal';
+export * from './hooks/useSplitVisibility';
 
-export { pseudoClasses } from './components/utilities/functions';
+// export types
+// @see https://github.com/rollup/rollup-plugin-typescript/issues/28#issuecomment-546387825
+export type Theme = import('./theme/theme').ThemeObj;
+export * from './globals';
