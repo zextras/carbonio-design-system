@@ -1,6 +1,6 @@
 {
 	"name": "@zextras/carbonio-design-system",
-	"version": "0.3.8",
+	"version": "0.3.9",
 	"description": "An awesome UI for Zextras Projects.",
 	"main": "dist/zapp-ui.bundle.js",
 	"types": "dist/zapp-ui.bundle.d.ts",
@@ -33,7 +33,7 @@
 	],
 	"author": "Zextras Frontend Tribe <https://www.zextras.com/carbonio/>",
 	"license": "AGPL-3.0-only",
-	"homepage": "https://bitbucket.org/zextras/zapp-ui#readme",
+	"homepage": "https://github.com/Zextras/carbonio-design-system",
 	"sideEffects": false,
 	"devDependencies": {
 		"@babel/core": "7.16.0",

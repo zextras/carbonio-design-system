@@ -16,6 +16,10 @@ def getCommitParentsCount() {
     ''', returnStdout: true).trim()
 }
 
+def getPackageName() {
+    return sh(script: 'grep \'"name":\' package.json | sed -n --regexp-extended \'s/.*"name": "([^"]+).*/\\1/p\' ', returnStdout: true).trim()
+}
+
 def getCurrentVersion() {
     return sh(script: 'grep \'"version":\' package.json | sed -n --regexp-extended \'s/.*"version": "([^"]+).*/\\1/p\' ', returnStdout: true).trim()
 }
@@ -216,7 +220,7 @@ pipeline {
                     steps {
                         script {
                             executeNpmLogin()
-                            nodeCmd("NODE_ENV=\"production\" npm publish")
+                            nodeCmd("NODE_ENV=\"production\" npm dist-tag add ${getPackageName()}@${getCurrentVersion()} latest && npm dist-tag rm ${getPackageName()} rc")
                         }
                     }
                 }
