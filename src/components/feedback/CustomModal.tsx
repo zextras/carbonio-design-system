@@ -126,7 +126,10 @@ const CustomModal = React.forwardRef<HTMLDivElement, CustomModalProps>(function 
 	}, [open, onStartSentinelFocus, onEndSentinelFocus, windowObj]);
 
 	useEffect(() => {
-		setTimeout(() => setDelayedOpen(open), 1);
+		const timeout = setTimeout(() => setDelayedOpen(open), 1);
+		return (): void => {
+			clearTimeout(timeout);
+		};
 	}, [open]);
 
 	const modalWrapperClickHandler = useCallback<React.MouseEventHandler>((e) => {

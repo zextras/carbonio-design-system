@@ -191,7 +191,7 @@ const TransitionOn = React.forwardRef<HTMLElement, TransitionOnProps>(function T
 			};
 		}
 
-		setTimeout(() => {
+		const applyStyleTimeout = setTimeout(() => {
 			if (childElement) {
 				const fromStyles = from || STYLES[type].from;
 				applyStyle(fromStyles, childElement);
@@ -199,7 +199,7 @@ const TransitionOn = React.forwardRef<HTMLElement, TransitionOnProps>(function T
 			}
 		}, 1);
 
-		const timeout = setTimeout(() => {
+		const resetStyleTimeout = setTimeout(() => {
 			if (childElement) {
 				childElement.style.transition = '';
 				const endStyles = end || STYLES[type].end || {};
@@ -208,7 +208,8 @@ const TransitionOn = React.forwardRef<HTMLElement, TransitionOnProps>(function T
 		}, duration);
 
 		return (): void => {
-			clearTimeout(timeout);
+			clearTimeout(applyStyleTimeout);
+			clearTimeout(resetStyleTimeout);
 		};
 	}, [
 		apply,

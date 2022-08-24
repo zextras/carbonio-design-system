@@ -23,7 +23,7 @@ import {
 	StrictModifiers,
 	VirtualElement
 } from '@popperjs/core';
-import { find } from 'lodash';
+import { find, forEach } from 'lodash';
 import styled, { css, SimpleInterpolation } from 'styled-components';
 import { pseudoClasses } from '../../theme/theme-utils';
 import { Padding } from '../layout/Padding';
@@ -402,6 +402,15 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 	const endSentinelRef = useRef<HTMLDivElement | null>(null);
 	const [position, setPosition] = useState<VirtualElement | null>(null);
 	const [currentHover, setCurrentHover] = useState<string | null>(null);
+	const openPopperTimoutRef = useRef<ReturnType<typeof setTimeout>>();
+
+	useEffect(
+		// clear timers on unmount
+		() => (): void => {
+			openPopperTimoutRef.current && clearTimeout(openPopperTimoutRef.current);
+		},
+		[]
+	);
 
 	useEffect(() => {
 		setOpen(forceOpen);
@@ -461,7 +470,7 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 				})
 			};
 			setPosition(virtualElement);
-			setTimeout(() => {
+			openPopperTimoutRef.current = setTimeout(() => {
 				if (!disabled && !openRef.current) {
 					openPopper();
 				}
@@ -555,36 +564,40 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 	}, [open, placement, contextMenu, position, dropdownRef, innerTriggerRef]);
 
 	useEffect(() => {
-		if (!disableAutoFocus) {
-			open &&
-				setTimeout(() => {
-					const selectedItems = dropdownRef.current
-						? dropdownRef.current.querySelectorAll<HTMLElement>('.zapp-selected')
-						: [];
-					selectedItems.length > 0
-						? selectedItems[0].focus()
-						: popperItemsRef.current &&
-						  popperItemsRef.current.children[0] &&
-						  popperItemsRef.current.children[0] instanceof HTMLElement &&
-						  popperItemsRef.current.children[0].focus();
-				}, 1);
+		let timeout: ReturnType<typeof setTimeout>;
+		if (!disableAutoFocus && open) {
+			timeout = setTimeout(() => {
+				const selectedItems = dropdownRef.current
+					? dropdownRef.current.querySelectorAll<HTMLElement>('.zapp-selected')
+					: [];
+				selectedItems.length > 0
+					? selectedItems[0].focus()
+					: popperItemsRef.current &&
+					  popperItemsRef.current.children[0] &&
+					  popperItemsRef.current.children[0] instanceof HTMLElement &&
+					  popperItemsRef.current.children[0].focus();
+			}, 1);
 		}
+
+		return (): void => {
+			timeout && clearTimeout(timeout);
+		};
 	}, [disableAutoFocus, dropdownRef, open]);
 
 	useEffect(() => {
 		openRef.current = open;
+		let timeout: ReturnType<typeof setTimeout>;
 		if (open) {
-			setTimeout(() => windowObj.document.addEventListener('click', clickOutsidePopper, true), 1);
-			contextMenu &&
-				setTimeout(
-					() => windowObj.document.addEventListener('contextmenu', clickOutsidePopper, true),
-					1
-				);
+			timeout = setTimeout(() => {
+				windowObj.document.addEventListener('click', clickOutsidePopper, true);
+				contextMenu && windowObj.document.addEventListener('contextmenu', clickOutsidePopper, true);
+			}, 1);
 		}
 
 		return (): void => {
 			windowObj.document.removeEventListener('click', clickOutsidePopper, true);
 			windowObj.document.removeEventListener('contextmenu', clickOutsidePopper, true);
+			timeout && clearTimeout(timeout);
 		};
 	}, [open, closePopper, clickOutsidePopper, contextMenu, windowObj.document]);
 

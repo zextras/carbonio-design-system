@@ -147,7 +147,7 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(function TooltipF
 
 	useEffect(() => {
 		// Added timeout to fix Preact weird bug
-		setTimeout(() => {
+		const timeout = setTimeout(() => {
 			if (triggerRef.current && !disabled) {
 				triggerRef.current.addEventListener('focus', showTooltip);
 				triggerRef.current.addEventListener('blur', hideTooltip);
@@ -163,6 +163,7 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(function TooltipF
 				refSave.removeEventListener('mouseenter', showTooltip);
 				refSave.removeEventListener('mouseleave', hideTooltip);
 			}
+			clearTimeout(timeout);
 		};
 	}, [triggerRef, showTooltip, hideTooltip, disabled]);
 
