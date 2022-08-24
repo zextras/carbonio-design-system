@@ -31,7 +31,7 @@
 	],
 	"author": "Zextras Frontend Tribe <https://www.zextras.com/carbonio/>",
 	"license": "AGPL-3.0-only",
-	"homepage": "https://bitbucket.org/zextras/zapp-ui#readme",
+	"homepage": "https://github.com/Zextras/carbonio-design-system",
 	"sideEffects": false,
 	"devDependencies": {
 		"@babel/core": "7.16.0",
