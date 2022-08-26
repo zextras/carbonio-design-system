@@ -58,7 +58,7 @@ const Breadcrumbs = React.forwardRef<HTMLDivElement, BreadcrumbsProps>(function 
 ) {
 	const [visibleCrumbs, hiddenCrumbs, innerRef] = useSplitVisibility<DropdownItem, HTMLDivElement>(
 		crumbs,
-		'start'
+		{ removeFrom: 'start' }
 	);
 	const containerRef = useCombinedRefs<HTMLDivElement>(innerRef, ref);
 
