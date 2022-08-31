@@ -4,7 +4,8 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 import React, { useContext } from 'react';
-import styled, { DefaultTheme } from 'styled-components';
+import styled from 'styled-components';
+import { ThemeObj } from '../../src/theme/theme';
 import { ThemeContext } from '../../src/theme/theme-context-provider';
 
 const Pre = styled.pre`
@@ -12,7 +13,7 @@ const Pre = styled.pre`
 `;
 
 export default function ThemePrinter(): JSX.Element {
-	const theme = useContext<DefaultTheme>(ThemeContext);
+	const { windowObj, ...theme } = useContext<ThemeObj>(ThemeContext);
 
 	return <Pre>{JSON.stringify(theme, null, 2)}</Pre>;
 }

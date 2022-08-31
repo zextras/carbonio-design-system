@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { ReactNode, useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { map, forEach } from 'lodash';
 
 type HtmlElementKeyboardEventKey = {
@@ -16,10 +16,10 @@ type KeyboardPresetObj = {
 	type: HtmlElementKeyboardEventKey;
 	callback: (e: KeyboardEvent) => void;
 	keys: string[];
-	modifier: boolean;
+	modifier?: boolean;
 	haveToPreventDefault?: boolean;
 };
-export type KeyboardPreset = Array<KeyboardPresetObj>;
+type KeyboardPreset = Array<KeyboardPresetObj>;
 
 function getFocusableElement(
 	focusedElement: HTMLElement,
@@ -35,10 +35,10 @@ function getFocusableElement(
 	return getFocusableElement(siblingElement, direction);
 }
 
-export function getKeyboardPreset(
+function getKeyboardPreset(
 	type: ElementType,
 	callback: (e: KeyboardEvent) => void,
-	ref: React.MutableRefObject<HTMLElement> | undefined = undefined,
+	ref: React.MutableRefObject<HTMLElement | null> | undefined = undefined,
 	keys: string[] = [],
 	modifier = false
 ): KeyboardPreset {
@@ -86,6 +86,7 @@ export function getKeyboardPreset(
 			}
 		}
 	}
+
 	const findFirstChildWithClick = (element: HTMLElement): HTMLElement => {
 		let result = element;
 		while (!result?.onclick && result !== null) {
@@ -191,16 +192,6 @@ export function getKeyboardPreset(
 			eventsArray.push({ type: 'keypress', callback, keys, modifier });
 			break;
 		}
-		case 'chipInputSpace': {
-			eventsArray.push({ type: 'keyup', callback, keys: ['Space'], modifier });
-			eventsArray.push({
-				type: 'keypress',
-				callback: (e: KeyboardEvent) => e.preventDefault(),
-				keys: ['Space'],
-				modifier
-			});
-			break;
-		}
 		default: {
 			break;
 		}
@@ -208,12 +199,12 @@ export function getKeyboardPreset(
 	return eventsArray;
 }
 
-export function useKeyboard(ref: React.RefObject<HTMLElement>, events: KeyboardPreset): void {
+function useKeyboard(ref: React.RefObject<HTMLElement>, events: KeyboardPreset): void {
 	const keyEvents = useMemo(
 		() =>
 			map<KeyboardPresetObj, (e: KeyboardEvent) => void>(
 				events,
-				({ keys, modifier, callback, haveToPreventDefault = true }) =>
+				({ keys, modifier = false, callback, haveToPreventDefault = true }) =>
 					(e): void => {
 						if (
 							!keys.length ||
@@ -245,5 +236,7 @@ export function useKeyboard(ref: React.RefObject<HTMLElement>, events: KeyboardP
 			}
 		};
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [events, keyEvents, ref.current]);
+	}, [events, keyEvents, ref, ref.current]);
 }
+
+export { useKeyboard, getKeyboardPreset, KeyboardPreset };

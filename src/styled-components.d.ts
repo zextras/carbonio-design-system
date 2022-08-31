@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import { ThemeObj } from './theme/theme';
+import type { ThemeObj } from './theme/theme';
 
 declare module 'styled-components' {
 	// Augment DefaultTheme as suggested inside styled-components module
