@@ -91,10 +91,11 @@ const ChipInputWrapper = styled.div`
 	display: flex;
 	align-items: center;
 	flex-wrap: ${({ wrap }) => wrap};
+	overflow-x: auto;
 	overflow-x: overlay;
 	padding: ${({ theme }) => theme.sizes.avatar.small.diameter} 0 0;
 	max-height: ${({ maxHeight }) => maxHeight};
-	overflow-y: scroll;
+	overflow-y: auto;
 	-ms-overflow-style: ${({ wrap }) => (wrap === 'wrap' ? 'auto' : 'none')}; /* IE and Edge */
 	scrollbar-width: ${({ wrap }) => (wrap === 'wrap' ? 'auto' : 'none')}; /* Firefox */
 
