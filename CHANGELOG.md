@@ -2,6 +2,86 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.4.0](https://github.com/Zextras/carbonio-design-system/compare/v0.3.10...v0.4.0) (2022-09-02)
+
+
+### ⚠ BREAKING CHANGES
+
+* **Button:** rename old "size" prop in "width"
+* **Button:** remove "isSmall" prop in favor of new "size" prop to set button size
+* **Button:** set medium as default size
+refs: CDS-39
+* **ChipInput:** fix typo in singleSelection prop name
+* **ChipInput:** remove dropdownTopBorderColor from props since it was not used
+refs: CDS-14
+* **Modal:** move showCloseIcon default to true
+* **Modal:** add onClose default (noop)
+
+refs: CDS-13
+
+### Features
+
+* add action to useKeyboard ([adf37e7](https://github.com/Zextras/carbonio-design-system/commit/adf37e7f564b8f5d9825fdbe6a7cbbf5b5f0ac3f)), closes [#73](https://github.com/Zextras/carbonio-design-system/issues/73)
+* add disabled in pseudo classes generator utility ([6d7bc9a](https://github.com/Zextras/carbonio-design-system/commit/6d7bc9a1735ece2a898d43de4a8b6cd7d9383083))
+* added disableTransition prop to Accordion ([89ef4fc](https://github.com/Zextras/carbonio-design-system/commit/89ef4fc3b10a6e9f2a1b0e5d26e0605b6667ef80)), closes [#93](https://github.com/Zextras/carbonio-design-system/issues/93)
+* added maxHeight and vertical scroll in chip Input ([ffc478b](https://github.com/Zextras/carbonio-design-system/commit/ffc478b7ec6ea7f06a23d6e8b593d0ff90608fea)), closes [#70](https://github.com/Zextras/carbonio-design-system/issues/70)
+* added repeat exception icon  ([b90439e](https://github.com/Zextras/carbonio-design-system/commit/b90439ea2b792944a3dffeb7019c42ad65701962)), closes [#97](https://github.com/Zextras/carbonio-design-system/issues/97)
+* added tooltip props to TextWithTooltip ([8aa324f](https://github.com/Zextras/carbonio-design-system/commit/8aa324f5a82656651b2ace49f1e97733c4290b43))
+* **Button:** allow set of ref for secondary action button ([64cb468](https://github.com/Zextras/carbonio-design-system/commit/64cb468c07412c9bb7d05cbcf970259291a76031))
+* **Button:** update style and add support to IconButton and MultiButton ([89dbb0b](https://github.com/Zextras/carbonio-design-system/commit/89dbb0b1bf688ff1e234bb073c52ac52edbe8fad))
+* **Chip:** allow different placement for tooltips ([8909f65](https://github.com/Zextras/carbonio-design-system/commit/8909f657f73b52c2d6ff6ca70785e41770f85415))
+* **ChipInput:** add prop to wrap chips instead of enabling horizontal scroll ([30018cf](https://github.com/Zextras/carbonio-design-system/commit/30018cfe75fd9ca1640ecd4104c201f01ba1802f))
+* **CollapsingActions:** add new CollapsingAction component ([bd7bbad](https://github.com/Zextras/carbonio-design-system/commit/bd7bbadc792050f101b35bd695bdd759f70426aa))
+* dynamic tooltip & textWithTooltip display time with 0,5s fallback ([501b371](https://github.com/Zextras/carbonio-design-system/commit/501b371c53dc21d5fe8a34d7111454a84d51f009))
+* export ButtonOld to make migration easier ([ec7d6ee](https://github.com/Zextras/carbonio-design-system/commit/ec7d6ee97429e1f346f8e3e40c208f3c30d461ed))
+* generic item type for List component ([7edab28](https://github.com/Zextras/carbonio-design-system/commit/7edab289716ed92e79dbd7b3aee4ce44340f48e5))
+* improve Link props and export LabelFactory for Select ([025fa48](https://github.com/Zextras/carbonio-design-system/commit/025fa481917854d06852092b3b5d898570bba28c)), closes [#98](https://github.com/Zextras/carbonio-design-system/issues/98)
+* **Input:** add optional description on Input ([7dd9365](https://github.com/Zextras/carbonio-design-system/commit/7dd9365b68ea97940e3e743f8feec83e6f6039d1))
+* propagate inner component props in multibutton ([3e39346](https://github.com/Zextras/carbonio-design-system/commit/3e393468e5eedbb7829163d2549ee4ac20d22b30)), closes [#61](https://github.com/Zextras/carbonio-design-system/issues/61)
+* scrollbars restyling ([6794a8c](https://github.com/Zextras/carbonio-design-system/commit/6794a8ce2fc0653c83342ca9881dfdea7904274a))
+* **useSplitVisibility:** add optional max number of visibile items ([13769e0](https://github.com/Zextras/carbonio-design-system/commit/13769e01fccbf07a6f9b879d5c540ac316e829c8))
+
+
+### Bug Fixes
+
+* add missing exports of types ([3d39993](https://github.com/Zextras/carbonio-design-system/commit/3d399937f9e8151924186f704601f597f4f7b3c1))
+* added value prop on SelectComponentProps ([6bf834e](https://github.com/Zextras/carbonio-design-system/commit/6bf834e0e559cbe9750820d434a35ef6d9b1701e))
+* **Avatar:** avoid to propagate size prop to Icon component ([c66d1a0](https://github.com/Zextras/carbonio-design-system/commit/c66d1a06bc5c2cd1e1af726cbf7b6c215ea624a3))
+* **Avatar:** make shape prop optional ([2159eb9](https://github.com/Zextras/carbonio-design-system/commit/2159eb9ea3d002bf75ba88ef8f626790174215b5))
+* avoid contents inside modal to lose focus on change of active node ([fe07401](https://github.com/Zextras/carbonio-design-system/commit/fe07401fed33fdde3c0ddefa502eef118a74f85f))
+* **Button:** set max-width to make text ellipse on overflow ([59ca4f2](https://github.com/Zextras/carbonio-design-system/commit/59ca4f2dccc9a61dd59b643dce943da97abba013))
+* **Checkbox:** align items at the top ([2db26e9](https://github.com/Zextras/carbonio-design-system/commit/2db26e94de8cc8aa707d625b71047f1593eb9fcc))
+* chip content width when avatar is not shown ([5927545](https://github.com/Zextras/carbonio-design-system/commit/5927545a79c57cc18ee859a261cbf9cc8b0436e6)), closes [#109](https://github.com/Zextras/carbonio-design-system/issues/109)
+* **Chip:** avoid to collapse text if chip has no max width ([f8dae36](https://github.com/Zextras/carbonio-design-system/commit/f8dae36ec4fc2f32af1ff8bc1256da241803fef1))
+* **ChipInput:** fix typing ([0f56a30](https://github.com/Zextras/carbonio-design-system/commit/0f56a30f4307266003504e7a79cc760af88aff7a))
+* **ChipInput:** force space for description only if description is set ([84b2d20](https://github.com/Zextras/carbonio-design-system/commit/84b2d2090b6dc44b497425d88dbc3079a2f7d28d))
+* **ChipInput:** make description area always visible with min-height ([e07f041](https://github.com/Zextras/carbonio-design-system/commit/e07f041d7e6623d9b9ecef30b01cbb877ff710b9))
+* **ChipInput:** simplify management of disabled on input to handle click ([5d5c6a7](https://github.com/Zextras/carbonio-design-system/commit/5d5c6a7ce468c811ed39d28982191a6f1ccb1e26))
+* **Chip:** remove tabIndex from action button ([c2e7c30](https://github.com/Zextras/carbonio-design-system/commit/c2e7c3082ac87c1d6bb7f3946f9300b771fb82a0))
+* cleanup timeouts on component unmount ([c11934b](https://github.com/Zextras/carbonio-design-system/commit/c11934bab016205dd12049985b0aa1f6ee48e508)), closes [#113](https://github.com/Zextras/carbonio-design-system/issues/113)
+* clear popper listener register on unmount ([7c8facd](https://github.com/Zextras/carbonio-design-system/commit/7c8facdc4fc166c0c5b7841375be90dc1cc7f7d8)), closes [#95](https://github.com/Zextras/carbonio-design-system/issues/95)
+* click on trigger component should close the popper if currently open ([7fc387e](https://github.com/Zextras/carbonio-design-system/commit/7fc387e86183c31583baccb82355a1d625899256))
+* **Container:** add children prop ([c5d2642](https://github.com/Zextras/carbonio-design-system/commit/c5d2642e5e3d2c9f0588a50213ced8cc33a5fd72))
+* **Dropdown:** propagate disable to text inside dropdown item ([4c89dc5](https://github.com/Zextras/carbonio-design-system/commit/4c89dc5ccc3cfa6d436ed4db0936b27188c7090b))
+* **Dropdown:** respect forceOpen when closing dropdown ([4490c21](https://github.com/Zextras/carbonio-design-system/commit/4490c219dce4a5913dd373fb88bc9af760d2e4de))
+* emailComposerInput change callback param ([d733ad8](https://github.com/Zextras/carbonio-design-system/commit/d733ad8bb8e5828d35d8b0e99e205af8fe784e64))
+* hide portal if show is false even when portal is disabled ([8e47a62](https://github.com/Zextras/carbonio-design-system/commit/8e47a62bf57e5138fb94efb9c5cd0f0d6a85ec38))
+* **IconButton:** avoid IconButton to collapse in width ([5e23a5c](https://github.com/Zextras/carbonio-design-system/commit/5e23a5c8a29f7479c41385c0ba0b62d1a8cfe06a))
+* **Input:** force space for description only if description is set ([9c26dcc](https://github.com/Zextras/carbonio-design-system/commit/9c26dcc93b8fecc6dc7a9c896376e65a5d64b981))
+* **Input:** reserve area for description and hide native placeholder ([84fbddd](https://github.com/Zextras/carbonio-design-system/commit/84fbddd7598dc51c5761fd9683d5f18de81fd86b))
+* make modifier optional in keyboard preset ([d07fe5f](https://github.com/Zextras/carbonio-design-system/commit/d07fe5f0ea779b5c6c284586a3ec1d2eac21faa7))
+* **MultiButton:** make multibutton respect width prop ([ec2990d](https://github.com/Zextras/carbonio-design-system/commit/ec2990d031e45eb1d68484b9cbcfcb83456a9a8a))
+* on SelectComponentProps set defaultSelection as optional ([eaab7b8](https://github.com/Zextras/carbonio-design-system/commit/eaab7b8e6f2499565b9ff8302d39ca19e2dbaff4))
+* propagate rest props on Button component ([33119db](https://github.com/Zextras/carbonio-design-system/commit/33119dbf59b6e7593530d9551a94c820397e4a80))
+* toggle open accordion status only on chevron click ([fc59ab5](https://github.com/Zextras/carbonio-design-system/commit/fc59ab56c440ad6c86781ff3caf68cd1ab9b1240)), closes [#82](https://github.com/Zextras/carbonio-design-system/issues/82)
+* **Tooltip:** update sizes and change defaults ([c17ef12](https://github.com/Zextras/carbonio-design-system/commit/c17ef127d245b383297e169be546d5ef582977c1))
+* update import/export to named and to fix build of types ([c3dbc1f](https://github.com/Zextras/carbonio-design-system/commit/c3dbc1f9b6ebafd1797101d4a2d5895265b6bcb3))
+
+
+* **Button:** change sizes and spaces ([51ac92a](https://github.com/Zextras/carbonio-design-system/commit/51ac92ae04f1c5c7c9a7bfd244341eeb927e4fad))
+* **ChipInput:** move to typescript and refactor spaces ([16679ff](https://github.com/Zextras/carbonio-design-system/commit/16679ff4557770b1f0b11319a570e886f9d0fc48))
+* **Modal:** modify props default ([a681d88](https://github.com/Zextras/carbonio-design-system/commit/a681d887d2df4588fd4c5c33b2cddaafce475fad))
+
 ### [0.3.10](https://github.com/Zextras/carbonio-design-system/compare/v0.3.9...v0.3.10) (2022-08-31)
 
 
