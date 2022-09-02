@@ -6,7 +6,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 
 Input whose entered values are showed as Chip elements.
 
-The values are added when
+By default, values are added when
 
 - the 'space', 'enter' or 'comma' key are pressed
 - ChipInput lose the focus (onBlur)
@@ -20,9 +20,41 @@ The view of single elements in the Dropdown can be modified passing down a ['cus
 
 **It's necessary to memoize** 'onChange' and 'onAdd' callbacks to avoid unusual behaviors.
 
+A custom Chip can be used in order to have more control on what a chip can do, but the component has to be an instance of the base Chip.
+
+
+## onAdd vs onChange
+**onAdd** and **onChange** have two different meaning in the chip input:
+- onAdd: has to be used only for converting a value in a chip. The value received by arg can be a string or the value of a dropdown option, 
+if present (value intended as the field _value_ of the Dropdown option object)
+- onChange: onChange is called when a chip is added/removed/replaced from "inside" the chip input component. This means that if you
+have to update the value from the outside, you can just change the value prop you pass to your ChipInput, and onChange will not be called.
+
+## Disabled variants
+
+ChipInput elements can be disabled independently.
+
+To disable only the input, use the _disable_ prop.
+
+To disable the dropdown (hide it), use the _disableOptions_ prop and also leave the _options_ prop empty (or valued with an empty array)
+
+To disable the icon / iconButton, use the _iconDisabled_ prop
+
+To entirely disable the chipInput, all the three disabling props has to be set to false and the _options_ prop has to be empty.
+If options are provided, they will be visible by clicking on the chip input, and chips can be added through them (see usage examples below)
+
 ---
 
 ### Controlled ChipInput
+
+In controlled mode value can be updated from outside the ChipInput.
+When updated, the new value is applied to the ChipInput **without any internal check**,
+so **you need to perform any additional check before setting the new value** (e.g. if you intend to have only uniq chips
+or a max number of chips).
+
+In the example below, the ChipInput has both the requireUniqChips and the maxChips prop valued. When chips are added directly
+through the ChipInput, the checks are done, but when you set a new value through the Input (and Button), more than 8 chips are allowed,
+and so are duplicates.
 
 ```jsx
 import { useState, useRef, useCallback, useEffect } from 'react';
@@ -73,56 +105,56 @@ useEffect(() => {
 		.then((posts) => setResults(posts));
 }, []);
 
-<>
-	<div>
-		<Container
-			orientation="horizontal"
-			mainAlignment="flex-start"
-			width="500px"
-			padding={{ bottom: 'medium' }}
-		>
-			<Input
-				value={inputValue}
-				onChange={(e) => setInputValue(e.target.value)}
-				label="Contact to add"
-			/>
-			<Button onClick={(e) => addValue()} label="Add Element" />
-		</Container>
-		<ChipInput
-			placeholder="To:"
-			value={contactsTo}
-			onChange={onChange}
-			onInputType={(e) => {
-				if (e.textContent && e.textContent !== '')
-					setOptions(
-						results
-							.filter((result) => result.title.includes(e.textContent))
-							.map((result) => ({ id: result.id, value: result.title, label: result.title }))
-					);
-				else setOptions([]);
-			}}
-			options={options}
-		/>
-		<Container
-			mainAlignment="flex-start"
-			crossAlignment="flex-start"
-			width="500px"
-			padding={{ top: 'medium' }}
-		>
-			<Text padding={{ bottom: 'medium' }}>State value:</Text>
-			{contactsTo.length > 0 && (
-				<ul>
-					{contactsTo.map((contact, index) => (
-						<li key={index}>
-							<Text>{JSON.stringify(contact)}</Text>
-						</li>
-					))}
-				</ul>
-			)}
-			{!contactsTo.length && <Text>Empty!</Text>}
-		</Container>
-	</div>
-</>;
+<div>
+    <Container
+        orientation="horizontal"
+        mainAlignment="flex-start"
+        width="500px"
+        padding={{ bottom: 'medium' }}
+    >
+        <Input
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+            label="Contact to add"
+        />
+        <Button onClick={(e) => addValue()} label="Add Element" />
+    </Container>
+    <ChipInput
+        placeholder="To:"
+        value={contactsTo}
+        onChange={onChange}
+        onInputType={(e) => {
+            if (e.textContent && e.textContent !== '')
+                setOptions(
+                    results
+                        .filter((result) => result.title.includes(e.textContent))
+                        .map((result) => ({ id: result.id, value: result.title, label: result.title }))
+                );
+            else setOptions([]);
+        }}
+        options={options}
+        maxChips={8}
+        requireUniqueChips
+    />
+    <Container
+        mainAlignment="flex-start"
+        crossAlignment="flex-start"
+        width="500px"
+        padding={{ top: 'medium' }}
+    >
+        <Text padding={{ bottom: 'medium' }}>State value:</Text>
+        {contactsTo.length > 0 && (
+            <ul>
+                {contactsTo.map((contact, index) => (
+                    <li key={index}>
+                        <Text>{JSON.stringify(contact)}</Text>
+                    </li>
+                ))}
+            </ul>
+        )}
+        {!contactsTo.length && <Text>Empty!</Text>}
+    </Container>
+</div>
 ```
 
 ### Uncontrolled ChipInput
@@ -157,47 +189,45 @@ useEffect(() => {
 		.then((posts) => setResults(posts));
 }, []);
 
-<>
-	<div>
-		<ChipInput
-			placeholder="To:"
-			defaultValue={initial}
-			onChange={onChange}
-			maxChips={2}
-			onInputType={(e) => {
-				console.log(e.textContent);
-				if (e.textContent && e.textContent !== '')
-					setOptions(
-						results
-							.filter((result) => result.title.includes(e.textContent))
-							.map((result) => ({ id: result.id, value: result.title, label: result.title }))
-					);
-				else setOptions([]);
-			}}
-			options={options}
-		/>
-		<Container
-			orientation="horizontal"
-			mainAlignment="flex-start"
-			crossAlignment="center"
-			width="500px"
-			padding={{ top: 'medium', bottom: 'medium' }}
-		>
-			<Text style={{ margin: '0 50px 0 0' }}>Changes log:</Text>
-			<Button label="Clear" onClick={() => setLogs([])} />
-		</Container>
-		{logs.length > 0 && (
-			<ul>
-				{logs.map((log, index) => (
-					<li key={index}>
-						<Text>{JSON.stringify(log.change)}</Text>
-					</li>
-				))}
-			</ul>
-		)}
-		{!logs.length && <Text>Empty!</Text>}
-	</div>
-</>;
+<div>
+    <ChipInput
+        placeholder="To:"
+        defaultValue={initial}
+        onChange={onChange}
+        maxChips={2}
+        onInputType={(e) => {
+            console.log(e.textContent);
+            if (e.textContent && e.textContent !== '')
+                setOptions(
+                    results
+                        .filter((result) => result.title.includes(e.textContent))
+                        .map((result) => ({ id: result.id, value: result.title, label: result.title }))
+                );
+            else setOptions([]);
+        }}
+        options={options}
+    />
+    <Container
+        orientation="horizontal"
+        mainAlignment="flex-start"
+        crossAlignment="center"
+        width="500px"
+        padding={{ top: 'medium', bottom: 'medium' }}
+    >
+        <Text style={{ margin: '0 50px 0 0' }}>Changes log:</Text>
+        <Button label="Clear" onClick={() => setLogs([])} />
+    </Container>
+    {logs.length > 0 && (
+        <ul>
+            {logs.map((log, index) => (
+                <li key={index}>
+                    <Text>{JSON.stringify(log.change)}</Text>
+                </li>
+            ))}
+        </ul>
+    )}
+    {!logs.length && <Text>Empty!</Text>}
+</div>
 ```
 
 ### Emails example
@@ -205,9 +235,6 @@ useEffect(() => {
 ```jsx
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { Button, Container, Divider, Input, Text } from '@zextras/carbonio-design-system';
-
-const [options, setOptions] = useState([]);
-const [results, setResults] = useState();
 
 function isValidEmail(email) {
 	var re = /\S+@\S+\.\S+/;
@@ -221,13 +248,11 @@ const onAdd = useCallback((valueToAdd) => {
 	return chip;
 }, []);
 
-<>
-	<ChipInput
-		placeholder="Emails"
-		defaultValue={[{ label: 'pippo@franco.it', background: 'gray3', color: 'text' }]}
-		onAdd={onAdd}
-	/>
-</>;
+<ChipInput
+    placeholder="Emails"
+    defaultValue={[{ label: 'pippo@franco.it', background: 'gray3', color: 'text' }]}
+    onAdd={onAdd}
+/>
 ```
 
 ### Different Style
@@ -235,9 +260,6 @@ const onAdd = useCallback((valueToAdd) => {
 ```jsx
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { Button, Container, Divider, Input, Text } from '@zextras/carbonio-design-system';
-
-const [options, setOptions] = useState([]);
-const [results, setResults] = useState();
 
 function isValidEmail(email) {
 	var re = /\S+@\S+\.\S+/;
@@ -250,16 +272,14 @@ const onAdd = useCallback((valueToAdd) => {
 	return chip;
 }, []);
 
-<>
-	<ChipInput
-		placeholder="Emails"
-		defaultValue={[{ label: 'pippo@franco.it', background: 'gray3', color: 'text' }]}
-		background="gray5"
-		onAdd={onAdd}
-		wrap="wrap"
-		icon="FolderOutline"	
-	/>
-</>;
+<ChipInput
+    placeholder="Emails"
+    defaultValue={[{ label: 'pippo@franco.it', background: 'gray3', color: 'text' }]}
+    background="gray5"
+    onAdd={onAdd}
+    wrap="wrap"
+    icon="FolderOutline"
+/>
 ```
 
 ### Custom Separators
@@ -315,7 +335,7 @@ const initial = [
 />;
 ```
 
-### Chipinput with unique chips
+### ChipInput with unique chips
 
 ```jsx
 import { useState } from 'react';
@@ -345,7 +365,7 @@ const initial = [
 		}
 	},
 	{
-		id: '3',
+		id: '2',
 		address: 'pierrejohnson@rhyta.com',
 		lastName: 'Johnson',
 		firstName: 'Pierre',
@@ -356,8 +376,8 @@ const initial = [
 			anotherProps: 'ss'
 		}
 	},
-	{ id: '2', phone: '33683', label: 'Test user' },
-	{ id: '3', value: 'something', label: 'asd4' }
+	{ id: '3', phone: '33683', label: 'Test user' },
+	{ id: '4', value: 'something', label: 'asd4' }
 ];
 
 const [options, setOptions] = useState([]);
@@ -392,12 +412,281 @@ const onChange = (chips) => {
 <ChipInput
 	placeholder="Chips:"
 	defaultValue={options}
+	separators={['Enter', ',', ';']}
 	pasteSeparators={[',']}
+	confirmChipOnSpace={false}
 	createChipOnPaste
-	confirmChipOnSpace={false}	
 	onChange={onChange}
 />
 ```
+### Figma variants
+
+```jsx
+import { useCallback, useState } from 'react';
+import { Container } from '@zextras/carbonio-design-system';
+
+const [value1, setValue1] = useState([]);
+const [value2, setValue2] = useState([]);
+const [error, setError] = useState(false);
+
+const onChangeChipInput1 = useCallback(
+	(items) => {
+		setValue1(items);
+		setError(items.length > 0)
+	},
+	[],
+);
+
+
+<Container style={{ gap: '10px' }}>
+	<ChipInput
+		placeholder="Chip input 1"
+		description="Optional description"
+		icon="EyeOutline"
+		iconAction={console.log}
+		value={value1}
+		onChange={onChangeChipInput1}
+        background="gray5"
+        bottomBorderColor="gray3"
+	/>
+	<ChipInput
+		placeholder="Chip input 2"
+		description="Optional description"
+		icon="EyeOutline"
+		iconAction={console.log}
+		value={value2}
+		onChange={setValue2}
+        background="gray5"
+        bottomBorderColor="gray3"
+	/>
+	<ChipInput
+		description="Chip input 3"
+		icon="EyeOutline"
+		iconAction={console.log}
+        background="gray5"
+        bottomBorderColor="gray3"
+	/>
+	<ChipInput
+		placeholder="Chip input 4"
+		description={!error ? 'Fill chip input 1 to set error state' : 'Clear chip input 1 to remove error'}
+		icon="EyeOutline"
+		iconAction={console.log}
+		hasError={error}
+        background="gray5"
+        bottomBorderColor="gray3"
+	/>
+	<ChipInput
+		placeholder="Chip input 5"
+		description="Disabled status"
+		icon="EyeOutline"
+		iconAction={console.log}
+        iconDisabled
+        disabled
+        background="gray5"
+        bottomBorderColor="gray3"
+	/>
+</Container>
+```
+
+### Custom Chip
+
+```jsx
+import { Chip, Popover, Text, Container } from '@zextras/carbonio-design-system';
+import { useRef, useState, useCallback } from 'react';
+
+const chipInputRef = useRef();
+
+const CustomChip = (props) => {
+	const [open, setOpen] = useState(false);
+	const chipRef = useRef(undefined);
+	const openPopover = useCallback(
+        (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setOpen(true);
+        },
+        [],
+    );
+	
+	const closePopover = useCallback(() => {
+        setOpen(false)
+    }, [])
+  
+	return (
+		<>
+            <Container ref={chipRef} flexShrink={0} width="fit">
+                <Chip {...props} onClick={openPopover} />
+            </Container>
+			<Popover open={open} anchorEl={chipRef} placement="bottom" onClose={closePopover}>
+				<Text>Popover for the chip: {props.label}</Text>
+			</Popover>
+		</>
+	);
+};
+
+<ChipInput placeholder="With custom chip" ChipComponent={CustomChip} ref={chipInputRef} />
+
+```
+
+### Chips overflowing management
+
+Horizontal scroll
+```jsx
+import { useMemo } from 'react';
+
+const defaultValue = useMemo(() => {
+	const initial = [];
+	for (let i = 0; i < 50; i += 1) {
+		initial.push({ label: `chip number ${i + 1}`});
+    }
+	return initial;
+}, []);
+
+<ChipInput defaultValue={defaultValue} wrap="nowrap" icon="PeopleOutline" maxChips={null} placeholder="label for chipinput" />
+```
+
+Wrap on new line
+```jsx
+import { useMemo } from 'react';
+
+const defaultValue = useMemo(() => {
+	const initial = [];
+	for (let i = 0; i < 50; i += 1) {
+		initial.push({ label: `chip number ${i + 1}`});
+    }
+	return initial;
+}, []);
+
+<ChipInput defaultValue={defaultValue} icon="PeopleOutline" maxChips={null} wrap="wrap" placeholder="label for chipinput" confirmChipOnBlur={false} />
+```
+
+### ChipInput Options
+
+Dropdown is accessible even if chipInput is disabled. This allows chips to be entered only through options and not with typing.
+To entirely disable the chipInput, both the disable options have to be set to false.
+
+When options are provided, and there is some option in the dropdown, blur event does not create a chip.
+
+```jsx
+import { Container } from '@zextras/carbonio-design-system';
+
+const options = [
+	{ id: '1', label: 'First option' },
+	{ id: '2', label: 'Second option' },
+	{ id: '3', label: 'Third option' },
+	{ id: '4', label: 'Fourth option' },
+	{ id: '5', label: 'Fifth option' }
+];
+<Container style={{ gap: '10px' }} orientation="horizontal">
+    <ChipInput placeholder="ChipInput enabled" options={options} disableOptions={false} background="gray5" bottomBorderColor="gray3" description="" />
+    <ChipInput placeholder="ChipInput disabled" options={options} disabled disableOptions={false} background="gray5" bottomBorderColor="gray3" description="Disabled" />
+</Container>
+```
+
+To simulate a suggestion mode, value the option prop dinamically, leaving the disableOptions prop set to false
+
+```jsx
+import { useCallback, useState, useRef } from 'react';
+import { Container } from '@zextras/carbonio-design-system';
+import { filter } from 'lodash';
+
+const allOptions = [
+	{ id: '1', label: 'First option' },
+	{ id: '2', label: 'Second option' },
+	{ id: '3', label: 'Third option' },
+	{ id: '4', label: 'Fourth option' },
+	{ id: '5', label: 'Fifth option' }
+];
+
+const [options, setOptions] = useState([]);
+const inputRef = useRef(null);
+
+const filterOptions = useCallback(({ textContent }) => {
+  setOptions(filter(allOptions, (option) => option.label.toLowerCase().includes(textContent.toLowerCase())));
+}, []);
+
+const iconAction = useCallback(() => {
+	setOptions((prevState) => {
+		if (inputRef.current && inputRef.current.value.length > 0) {
+			return prevState;
+        }
+		return [...allOptions];
+    });
+}, []);
+
+<Container style={{ gap: '10px' }}>
+    <ChipInput
+      placeholder="Options are filtered on typing"
+      options={options}
+      disableOptions
+      background="gray5"
+      bottomBorderColor="gray3"
+      onInputType={filterOptions}
+      icon="ChevronDown"
+      iconAction={iconAction}
+      inputRef={inputRef}
+      description="Here options are shown when user starts typing or when the chevron icon is clicked"
+    />
+</Container>
+```
+
+To show all options also on focus an additional listener is required
+
+```jsx
+import { useCallback, useState, useRef, useEffect } from 'react';
+import { Container } from '@zextras/carbonio-design-system';
+import { filter } from 'lodash';
+
+const allOptions = [
+	{ id: '1', label: 'First option' },
+	{ id: '2', label: 'Second option' },
+	{ id: '3', label: 'Third option' },
+	{ id: '4', label: 'Fourth option' },
+	{ id: '5', label: 'Fifth option' }
+];
+
+const [options, setOptions] = useState([]);
+const inputRef = useRef(null);
+
+const filterOptions = useCallback(({ textContent }) => {
+	if (textContent) {
+      console.log(textContent)
+      setOptions(filter(allOptions, (option) => option.label.toLowerCase().includes(textContent.toLowerCase())));
+    } else {
+	  setOptions([...allOptions]);
+    }
+}, []);
+
+const iconAction = useCallback(() => {
+	setOptions((prevState) => {
+		if (inputRef.current && inputRef.current.value.length > 0) {
+			return prevState;
+        }
+		return [...allOptions];
+    });
+}, []);
+
+const initOptions = useCallback(() => {
+    filterOptions({ textContent: inputRef.current ? inputRef.current.value : '' });
+}, [filterOptions]);
+  
+
+<Container style={{ gap: '10px' }} onClick={initOptions}>
+    <ChipInput
+      placeholder="Options are filtered on typing"
+      options={options}
+      disableOptions
+      background="gray5"
+      bottomBorderColor="gray3"
+      onInputType={filterOptions}
+      icon="ChevronDown"
+      iconAction={iconAction}
+      inputRef={inputRef}
+      description="Here options are shown when user starts typing or when the chevron icon is clicked"
+    />
+</Container>
+```
+
 ### Development status:
 
 ```jsx noEditor

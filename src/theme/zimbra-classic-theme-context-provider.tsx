@@ -6,7 +6,7 @@
 
 import React, { useContext } from 'react';
 import { StyleSheetManager } from 'styled-components';
-import { ThemeObj } from './theme';
+import type { ThemeObj } from './theme';
 import { ThemeProvider, ThemeContext } from './theme-context-provider';
 
 interface ZimbraClassicThemeContextProviderProps {
@@ -35,4 +35,4 @@ function ZimbraClassicThemeContextProvider({
 	);
 }
 
-export default ZimbraClassicThemeContextProvider;
+export { ZimbraClassicThemeContextProvider, ZimbraClassicThemeContextProviderProps };

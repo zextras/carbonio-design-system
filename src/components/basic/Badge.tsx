@@ -4,10 +4,10 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { useMemo, forwardRef } from 'react';
+import React, { useMemo, forwardRef, HTMLAttributes } from 'react';
 
 import styled from 'styled-components';
-import Tooltip from '../display/Tooltip';
+import { Tooltip } from '../display/Tooltip';
 
 const Comp = styled.span<{ isRead: boolean; isNumber: boolean }>`
 	display: inline-block;
@@ -26,7 +26,10 @@ const Comp = styled.span<{ isRead: boolean; isNumber: boolean }>`
 	text-align: center;
 `;
 
-const Badge = forwardRef<HTMLElement, BadgeProps>(function BadgeFn({ type, value, ...rest }, ref) {
+const Badge = forwardRef<HTMLSpanElement, BadgeProps>(function BadgeFn(
+	{ type = 'read', value, ...rest },
+	ref
+) {
 	const MAX_VALUE = 999;
 	const isNumber = useMemo(() => typeof value === 'number', [value]);
 	const badgeText = useMemo(
@@ -45,15 +48,11 @@ const Badge = forwardRef<HTMLElement, BadgeProps>(function BadgeFn({ type, value
 	);
 });
 
-interface BadgeProps {
+interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {
 	/** Badge type */
 	type?: 'read' | 'unread';
 	/** Badge text */
 	value: string | number;
 }
 
-Badge.defaultProps = {
-	type: 'read'
-};
-
-export default Badge;
+export { Badge, BadgeProps };

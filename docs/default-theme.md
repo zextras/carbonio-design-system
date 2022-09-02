@@ -21,8 +21,8 @@ import { Theme } from '../src/theme/theme';
 ```jsx noeditor
 import { map } from 'lodash';
 import { Theme } from '../src/theme/theme';
-import Text from '../src/components/basic/Text';
-import Container from '../src/components/layout/Container';
+import { Text } from '../src/components/basic/Text';
+import { Container } from '../src/components/layout/Container';
 
 <Container orientation="vertical" padding={{ all: 'large' }}>
 	{

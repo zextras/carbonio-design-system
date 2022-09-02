@@ -105,7 +105,7 @@ const itemsSet2 = [
 const [open, setOpen] = useState(false);
 <>
 	<Container orientation="horizontal" mainAlignment="flex-start">
-		<IconButton icon="Activity" onClick={() => setOpen(!open)} />
+		<IconButton icon="Activity" onClick={() => setOpen((prevState) => !prevState)} />
 		<Dropdown items={items} forceOpen={open}>
 			<IconButton icon="ArrowDown" />
 		</Dropdown>
@@ -148,6 +148,38 @@ const [open, setOpen] = useState(false);
 ### `KeepOpen`
 
 The `keepOpen` item property can be used to block the automatic closure of the dropdown on clicking the item. This allows a finer control of the dropdown in mixed behavior cases.
+
+### Force open
+Force open prop can be used to create a controlled dropdown. If dropdown should be opened with single click, just value
+the outside state with the onOpen and onClose callbacks. If dropdown should not be opened with single click, but only from outside,
+then the dropdown must be set as disabled, to disable the click callback on the children element.
+
+```jsx
+import { useState } from 'react';
+import { Button, Container, Text } from '@zextras/carbonio-design-system';
+
+const [openD1, setOpenD1] = useState(false);
+const [openD2, setOpenD2] = useState(false);
+const items = [{ id: 'item1', label: 'item1' }, { id: 'item2', label: 'item2' }];
+
+<Container padding={{ vertical: 'small' }} style={{ gap: '50px' }}>
+    <Text weight="bold">Dropdown with click enabled, but controlled from outside</Text>
+	<Container orientation="horizontal" mainAlignment="space-around">
+		<Dropdown items={items} forceOpen={openD1} onOpen={() => setOpenD1(true)}>
+			<Button label="click here to open" />
+		</Dropdown>
+		<Button label="click here to close" onClick={() => setOpenD1(false)} />
+	</Container>
+    <Text weight="bold">Dropdown with click disabled, entirely controlled from outside</Text>
+    <Container orientation="horizontal" mainAlignment="space-around">
+        <Dropdown items={items} forceOpen={openD2} disabled>
+          <Text>Dropdown is {openD2 ? 'open' : 'close'}</Text>
+        </Dropdown>
+        <Button label="click here to open" onClick={() => setOpenD2(true)} />
+        <Button label="click here to close" onClick={() => setOpenD2(false)} />
+    </Container>
+</Container>
+```
 
 ### Development status:
 

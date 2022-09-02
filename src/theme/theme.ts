@@ -26,6 +26,10 @@ export interface ThemeColorObj {
 	disabled: string;
 }
 
+export type IconComponent = React.ComponentType<
+	React.SVGProps<SVGSVGElement> & { ref: React.ForwardedRef<SVGSVGElement> }
+>;
+
 // augment this interface to extend theme type
 export interface ThemeObj {
 	windowObj: Window;
@@ -39,15 +43,15 @@ export interface ThemeObj {
 		weight: { light: number; regular: number; medium: number; bold: number };
 	};
 	sizes: {
-		font: ThemeSizeObj;
+		font: ThemeSizeObjExtended;
 		icon: ThemeSizeObj;
 		avatar: Omit<ThemeSizeObjExtended<{ diameter: string; font: string }>, 'extrasmall'>;
 		padding: ThemeSizeObjExtended;
 	};
-	icons: Record<string, React.ReactElement>;
+	icons: Record<string, IconComponent>;
 	loginBackground: string;
 	logo: {
-		svg: React.ReactElement;
+		svg: IconComponent;
 		size: ThemeSizeObj;
 	};
 	palette: Record<
@@ -86,7 +90,13 @@ export const Theme: ThemeObj = {
 		weight: { light: 300, regular: 400, medium: 500, bold: 700 }
 	},
 	sizes: {
-		font: { small: '10px', medium: '12px', large: '14px' },
+		font: {
+			extrasmall: '12px',
+			small: '14px',
+			medium: '16px',
+			large: '18px',
+			extralarge: '20px'
+		},
 		icon: { small: '12px', medium: '16px', large: '24px' },
 		avatar: {
 			small: { diameter: '16px', font: '5px' },

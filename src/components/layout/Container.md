@@ -149,7 +149,7 @@ import { Padding, Text, Icon, IconData } from '@zextras/carbonio-design-system';
 import { Container, Text, Icon, IconData } from '@zextras/carbonio-design-system';
 <Container padding={{ all: 'small'}} orientation="vertical">
     <Text size="large">
-        Center
+        Center / Center
     </Text>
     <Container background="gray5" width={200} height={200} mainAlignment="center" crossAlignment="center">
         <div style={{ background: 'lightblue', width: '24px', height: '24px' }}/>   
@@ -158,7 +158,7 @@ import { Container, Text, Icon, IconData } from '@zextras/carbonio-design-system
         <div style={{ background: 'blue', width: '24px', height: '24px' }}/>
     </Container>
     <Text size="large">
-        Start
+        Start / Start
     </Text>
     <Container background="gray5" width={200} height={200} mainAlignment="flex-start" crossAlignment="flex-start">
         <div style={{ background: 'lightblue', width: '24px', height: '24px' }}/>   
@@ -167,7 +167,7 @@ import { Container, Text, Icon, IconData } from '@zextras/carbonio-design-system
         <div style={{ background: 'blue', width: '24px', height: '24px' }}/>
     </Container>
     <Text size="large">
-        Space Between / Center
+        Space Between / End
     </Text>
     <Container background="gray5" width={200} height={200} mainAlignment="space-between" crossAlignment="flex-end">
         <div style={{ background: 'lightblue', width: '24px', height: '24px' }}/>   
