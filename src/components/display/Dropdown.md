@@ -14,57 +14,56 @@ import { Container, Padding, Text, Button, IconButton } from '@zextras/carbonio-
 
 const items = [
 	{
-		id: 'activity-1',
+		id: 'item-1',
 		icon: 'Activity',
 		label: 'Some Item',
-		click: () => console.log('click1'),
+		click: () => console.log('click item 1'),
 		items: [
 			{
 				id: 'sub1',
 				icon: 'Activity',
-				label: 'Some Item',
-				keepOpen: true,
-				click: () => console.log('click1')
+				label: 'Sub Item 1',
+				click: () => console.log('click item 1 sub 1')
 			},
 			{
 				id: 'sub2',
 				icon: 'Activity',
-				label: 'Some Item',
+				label: 'Sub Item 2',
 				keepOpen: true,
-				click: () => console.log('click1')
+				click: () => console.log('click item 1 sub 2')
 			},
 			{
 				id: 'sub3',
 				icon: 'Activity',
-				label: 'Some Item',
+				label: 'Sub Item 3',
 				keepOpen: true,
-				click: () => console.log('click1')
+				click: () => console.log('click item 1 sub 3')
 			},
 			{
 				id: 'sub4',
 				icon: 'Activity',
-				label: 'Some Item',
+				label: 'Sub Item 4',
 				keepOpen: true,
-				click: () => console.log('click1')
+				click: () => console.log('click item 1 sub 4')
 			}
 		]
 	},
 	{
-		id: 'activity-2',
+		id: 'item-2',
 		icon: 'Plus',
 		label: 'Some Other Item',
-		click: () => console.log('click2'),
+		click: () => console.log('click item 2'),
 		disabled: true
 	},
 	{ type: 'divider', id: 'divider', label: 'divider' },
 	{
-		id: 'activity-3',
+		id: 'item-3',
 		icon: 'Activity',
 		label: 'Yet Another Item',
-		click: () => console.log('click3')
+		click: () => console.log('click item 3')
 	},
 	{
-		id: 'activity-4',
+		id: 'item-4',
 		icon: 'Activity',
 		label: 'Some Item',
 		keepOpen: true,
@@ -74,13 +73,13 @@ const items = [
 
 const itemsSet2 = [
 	{
-		id: 'activity-1',
+		id: 'item-1',
 		icon: 'Activity',
 		label: 'Some Item',
-		click: () => console.log('click1')
+		click: () => console.log('click item 1')
 	},
 	{
-		id: 'activity-3',
+		id: 'item-3',
 		icon: 'Activity',
 		label: 'Yet Another Item',
 		selected: true,
@@ -90,13 +89,13 @@ const itemsSet2 = [
 				icon: 'Activity',
 				label: 'Some Item',
 				selected: true,
-				click: () => console.log('click1')
+				click: () => console.log('click item 3 sub 1')
 			},
 			{
 				id: 'sub2',
 				icon: 'Activity',
 				label: 'Some Item',
-				click: () => console.log('click1')
+				click: () => console.log('click item 3 sub 2')
 			}
 		]
 	}
