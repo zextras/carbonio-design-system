@@ -213,7 +213,7 @@ function NestListItem({
 				itemPaddingBetween={itemPaddingBetween}
 				dropdownListRef={dropdownListRef}
 			>
-				<Container orientation="horizontal" mainAlignment="space-between">
+				<Container orientation="horizontal" mainAlignment="flex-start">
 					{customComponent || (
 						<ListItemContent
 							icon={icon}
@@ -225,7 +225,11 @@ function NestListItem({
 							itemPaddingBetween={itemPaddingBetween}
 						/>
 					)}
-					<Icon size={itemIconSize} icon="ChevronRight" style={{ alignSelf: 'flex-end' }} />
+					<Icon
+						size={itemIconSize}
+						icon="ChevronRight"
+						style={{ marginRight: 0, marginLeft: 'auto' }}
+					/>
 				</Container>
 			</Dropdown>
 		</ContainerEl>
