@@ -21,12 +21,15 @@ const closeHandler = () => setOpen(false);
 
 <>
     <Button label="Trigger Modal" onClick={clickHandler}/>
-    <Modal
-        title="Title_bold_dark"
-        open={open}
-        onConfirm={closeHandler}
-        onClose={closeHandler}
-		showCloseIcon={true}
+		<Modal
+			optionalFooter={<Button label="opt footer"/>}
+			secondaryActionLabel="very long secondary label"
+			onSecondaryAction={() => {}}
+			title="Title_bold_dark"
+			open={open}
+			onConfirm={closeHandler}
+			onClose={closeHandler}
+			showCloseIcon={true}
 		>
         <Text overflow="break-word">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</Text>
     </Modal>
