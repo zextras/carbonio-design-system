@@ -6,7 +6,8 @@ SPDX-License-Identifier: AGPL-3.0-only
 
 Dropdowns are toggleable, contextual overlays for displaying lists of links and more. They’re toggled by clicking.
 
-Dropdown list items can be customized with components and/or disabled.
+Dropdown list items can be customized with components and/or disabled. Disabled items has a tooltip which content can be 
+configurable by the _tooltipLabel_ prop of the item.
 
 ```jsx
 import { useMemo, useState } from 'react';
@@ -18,12 +19,13 @@ const items = [
 		icon: 'Activity',
 		label: 'Some Item',
 		click: () => console.log('click1'),
+        tooltipLabel: 'Activity 1 tooltip content',
 		items: [
 			{
 				id: 'sub1',
 				icon: 'Activity',
 				label: 'Some Item',
-				keepOpen: true,
+                tooltipLabel: 'Activity 1 Sub 1 tooltip content',
 				click: () => console.log('click1')
 			},
 			{
@@ -31,6 +33,7 @@ const items = [
 				icon: 'Activity',
 				label: 'Some Item',
 				keepOpen: true,
+                tooltipLabel: 'Activity 1 Sub 2 tooltip content',
 				click: () => console.log('click1')
 			},
 			{
@@ -38,6 +41,7 @@ const items = [
 				icon: 'Activity',
 				label: 'Some Item',
 				keepOpen: true,
+                tooltipLabel: 'Activity 1 Sub 3 tooltip content',
 				click: () => console.log('click1')
 			},
 			{
@@ -45,6 +49,7 @@ const items = [
 				icon: 'Activity',
 				label: 'Some Item',
 				keepOpen: true,
+                tooltipLabel: 'Activity 1 Sub 4 tooltip content',
 				click: () => console.log('click1')
 			}
 		]
@@ -53,6 +58,7 @@ const items = [
 		id: 'activity-2',
 		icon: 'Plus',
 		label: 'Some Other Item',
+        tooltipLabel: 'Activity 2 tooltip content',
 		click: () => console.log('click2'),
 		disabled: true
 	},
@@ -61,6 +67,7 @@ const items = [
 		id: 'activity-3',
 		icon: 'Activity',
 		label: 'Yet Another Item',
+        tooltipLabel: 'Activity 3 tooltip content',
 		click: () => console.log('click3')
 	},
 	{
@@ -68,6 +75,7 @@ const items = [
 		icon: 'Activity',
 		label: 'Some Item',
 		keepOpen: true,
+        tooltipLabel: 'Activity 4 tooltip content',
 		customComponent: <Button label="click me!" onClick={() => console.log('click4')} />
 	}
 ];
@@ -77,12 +85,14 @@ const itemsSet2 = [
 		id: 'activity-1',
 		icon: 'Activity',
 		label: 'Some Item',
+        tooltipLabel: 'Activity 1 tooltip content',
 		click: () => console.log('click1')
 	},
 	{
 		id: 'activity-3',
 		icon: 'Activity',
 		label: 'Yet Another Item',
+        tooltipLabel: 'Activity 3 tooltip content',
 		selected: true,
 		items: [
 			{
@@ -90,12 +100,14 @@ const itemsSet2 = [
 				icon: 'Activity',
 				label: 'Some Item',
 				selected: true,
+                tooltipLabel: 'Activity 3 Sub 1 tooltip content',
 				click: () => console.log('click1')
 			},
 			{
 				id: 'sub2',
 				icon: 'Activity',
 				label: 'Some Item',
+                tooltipLabel: 'Activity 3 Sub 2 tooltip content',
 				click: () => console.log('click1')
 			}
 		]
@@ -178,6 +190,35 @@ const items = [{ id: 'item1', label: 'item1' }, { id: 'item2', label: 'item2' }]
         <Button label="click here to open" onClick={() => setOpenD2(true)} />
         <Button label="click here to close" onClick={() => setOpenD2(false)} />
     </Container>
+</Container>
+```
+
+```jsx
+import { Button, Container } from '@zextras/carbonio-design-system';
+
+const items = [
+	{
+		id: 'item1',
+        label: 'item1',
+        tooltipLabel: 'item 1 tooltip'
+    },
+    { 
+        id: 'item2',
+        label: 'item2',
+        tooltipLabel: 'item 2 tooltip'
+    }
+];
+
+const toggleDisabled = (itemIndex) => {
+	items[itemIndex].disabled = !items[itemIndex].disabled;
+}
+
+<Container orientation="horizontal" mainAlignment="space-around">
+    <Dropdown items={items}>
+        <Button label="click here to open" onClick={() => undefined} />
+    </Dropdown>
+    <Button label="toggle item 1 disabled" onClick={() => toggleDisabled(0)} />
+    <Button label="toggle item 2 disabled" onClick={() => toggleDisabled(1)} />
 </Container>
 ```
 

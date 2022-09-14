@@ -23,7 +23,7 @@ import {
 	StrictModifiers,
 	VirtualElement
 } from '@popperjs/core';
-import { find, forEach } from 'lodash';
+import { find } from 'lodash';
 import styled, { css, SimpleInterpolation } from 'styled-components';
 import { pseudoClasses } from '../../theme/theme-utils';
 import { Padding } from '../layout/Padding';
@@ -36,6 +36,7 @@ import { useKeyboard, getKeyboardPreset, KeyboardPreset } from '../../hooks/useK
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import type { ThemeObj } from '../../theme/theme';
 import { ThemeContext } from '../../theme/theme-context-provider';
+import { Tooltip } from './Tooltip';
 
 const ContainerEl = styled(Container)<{
 	$selectedBackgroundColor?: keyof ThemeObj['palette'];
@@ -55,6 +56,7 @@ interface ListItemContentProps {
 	itemIconSize: React.ComponentPropsWithRef<typeof Icon>['size'];
 	itemTextSize: React.ComponentProps<typeof Text>['size'];
 	itemPaddingBetween: keyof ThemeObj['sizes']['padding'];
+	tooltipLabel?: string;
 }
 
 function ListItemContent({
@@ -64,29 +66,32 @@ function ListItemContent({
 	disabled,
 	itemIconSize,
 	itemTextSize,
-	itemPaddingBetween
+	itemPaddingBetween,
+	tooltipLabel
 }: ListItemContentProps): JSX.Element {
 	return (
-		<>
-			{icon && (
-				<Padding right={itemPaddingBetween}>
-					<Icon
-						icon={icon}
-						size={itemIconSize}
-						color={disabled ? 'secondary' : 'text'}
-						style={{ pointerEvents: 'none' }}
-					/>
-				</Padding>
-			)}
-			<Text
-				size={itemTextSize}
-				weight={selected ? 'bold' : 'regular'}
-				color={disabled ? 'secondary.regular' : 'text'}
-				disabled={disabled}
-			>
-				{label}
-			</Text>
-		</>
+		<Tooltip disabled={!disabled || !tooltipLabel} label={tooltipLabel} placement="bottom-end">
+			<Container orientation="horizontal" mainAlignment="flex-start">
+				{icon && (
+					<Padding right={itemPaddingBetween}>
+						<Icon
+							icon={icon}
+							size={itemIconSize}
+							color={disabled ? 'secondary' : 'text'}
+							style={{ pointerEvents: 'none' }}
+						/>
+					</Padding>
+				)}
+				<Text
+					size={itemTextSize}
+					weight={selected ? 'bold' : 'regular'}
+					color={disabled ? 'secondary.regular' : 'text'}
+					disabled={disabled}
+				>
+					{label}
+				</Text>
+			</Container>
+		</Tooltip>
 	);
 }
 
@@ -109,6 +114,7 @@ function PopperListItem({
 	itemTextSize,
 	keepOpen,
 	itemPaddingBetween,
+	tooltipLabel,
 	...rest
 }: PopperListItemProps): JSX.Element {
 	const itemRef = useRef<HTMLDivElement | null>(null);
@@ -153,6 +159,7 @@ function PopperListItem({
 					itemIconSize={itemIconSize}
 					itemTextSize={itemTextSize}
 					itemPaddingBetween={itemPaddingBetween}
+					tooltipLabel={tooltipLabel}
 				/>
 			)}
 		</ContainerEl>
@@ -178,12 +185,14 @@ function NestListItem({
 	itemTextSize,
 	itemPaddingBetween,
 	keepOpen,
+	tooltipLabel,
 	...rest
 }: NestListItemProps): JSX.Element {
 	const itemRef = useRef<HTMLDivElement | null>(null);
 
 	const keyEvents = useMemo(() => (click && getKeyboardPreset('listItem', click)) || [], [click]);
 	useKeyboard(itemRef, keyEvents);
+
 	return (
 		<ContainerEl
 			data-keep-open={keepOpen}
@@ -220,6 +229,7 @@ function NestListItem({
 							itemIconSize={itemIconSize}
 							itemTextSize={itemTextSize}
 							itemPaddingBetween={itemPaddingBetween}
+							tooltipLabel={tooltipLabel}
 						/>
 					)}
 					<Icon size={itemIconSize} icon="ChevronRight" style={{ alignSelf: 'flex-end' }} />
@@ -294,6 +304,7 @@ interface DropdownItem {
 	disabled?: boolean;
 	items?: Array<DropdownItem>;
 	keepOpen?: boolean;
+	tooltipLabel?: string | undefined;
 }
 
 interface DropdownProps extends Omit<HTMLAttributes<HTMLDivElement>, 'contextMenu'> {
