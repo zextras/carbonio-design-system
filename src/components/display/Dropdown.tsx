@@ -23,7 +23,7 @@ import {
 	StrictModifiers,
 	VirtualElement
 } from '@popperjs/core';
-import { find } from 'lodash';
+import { find, some } from 'lodash';
 import styled, { css, SimpleInterpolation } from 'styled-components';
 import { pseudoClasses } from '../../theme/theme-utils';
 import { Padding } from '../layout/Padding';
@@ -169,6 +169,7 @@ function PopperListItem({
 interface NestListItemProps extends PopperListItemProps {
 	open?: boolean;
 	items: Array<DropdownItem>;
+	dropdownListRef?: DropdownProps['dropdownListRef'];
 }
 
 function NestListItem({
@@ -185,6 +186,7 @@ function NestListItem({
 	itemTextSize,
 	itemPaddingBetween,
 	keepOpen,
+	dropdownListRef,
 	tooltipLabel,
 	...rest
 }: NestListItemProps): JSX.Element {
@@ -218,8 +220,9 @@ function NestListItem({
 				itemIconSize={itemIconSize}
 				itemTextSize={itemTextSize}
 				itemPaddingBetween={itemPaddingBetween}
+				dropdownListRef={dropdownListRef}
 			>
-				<Container orientation="horizontal" mainAlignment="space-between">
+				<Container orientation="horizontal" mainAlignment="flex-start">
 					{customComponent || (
 						<ListItemContent
 							icon={icon}
@@ -232,7 +235,11 @@ function NestListItem({
 							tooltipLabel={tooltipLabel}
 						/>
 					)}
-					<Icon size={itemIconSize} icon="ChevronRight" style={{ alignSelf: 'flex-end' }} />
+					<Icon
+						size={itemIconSize}
+						icon="ChevronRight"
+						style={{ marginRight: 0, marginLeft: 'auto' }}
+					/>
 				</Container>
 			</Dropdown>
 		</ContainerEl>
@@ -414,6 +421,7 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 	const [position, setPosition] = useState<VirtualElement | null>(null);
 	const [currentHover, setCurrentHover] = useState<string | null>(null);
 	const openPopperTimoutRef = useRef<ReturnType<typeof setTimeout>>();
+	const nestedDropdownsRef = useRef<React.RefObject<HTMLDivElement>[]>([]);
 
 	useEffect(
 		// clear timers on unmount
@@ -436,6 +444,7 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 		(e?: React.SyntheticEvent | KeyboardEvent) => {
 			e && e.stopPropagation();
 			setOpen(forceOpen);
+			setCurrentHover(null);
 			!disableRestoreFocus && innerTriggerRef.current && innerTriggerRef.current.focus();
 			onClose && onClose();
 		},
@@ -492,13 +501,24 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 
 	const clickOutsidePopper = useCallback(
 		(e: Event) => {
-			if (
+			const clickedOnDropdown =
 				dropdownRef.current &&
-				e.target !== dropdownRef.current &&
-				!dropdownRef.current.contains(e.target as Node | null) &&
+				(e.target === dropdownRef.current || dropdownRef.current.contains(e.target as Node | null));
+			const clickedOnTrigger =
 				innerTriggerRef.current &&
-				e.target !== innerTriggerRef.current &&
-				!innerTriggerRef.current?.contains(e.target as Node | null) &&
+				(e.target === innerTriggerRef.current ||
+					innerTriggerRef.current?.contains(e.target as Node | null));
+			const clickedOnNestedItem =
+				nestedDropdownsRef.current &&
+				some(
+					nestedDropdownsRef.current,
+					(nestedItemRef) =>
+						nestedItemRef.current && nestedItemRef.current.contains(e.target as Node | null)
+				);
+			if (
+				!clickedOnDropdown &&
+				!clickedOnTrigger &&
+				!clickedOnNestedItem &&
 				// check if the attribute is in the event path
 				!find(
 					e.composedPath?.() ?? [],
@@ -658,10 +678,10 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 		[]
 	);
 
-	const popperListItems = useMemo(
-		() =>
-			items &&
-			items.map(
+	const popperListItems = useMemo(() => {
+		nestedDropdownsRef.current = [];
+		if (items) {
+			return items.map(
 				(
 					{
 						id,
@@ -677,59 +697,64 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 						...itemProps
 					},
 					index
-				) =>
-					(type === 'divider' && <Divider key={id ?? `divider-${index}`} />) ||
-					(subItems && (
-						<NestListItem
-							icon={icon}
-							label={label}
-							click={listItemClickHandler(click, keepOpen)}
-							keepOpen={keepOpen}
-							selected={selected}
-							open={currentHover === id}
-							key={id}
-							customComponent={customComponent}
-							disabled={itemDisabled}
-							items={subItems}
-							onMouseEnter={listItemMouseEnterHandler(id)}
-							selectedBackgroundColor={selectedBackgroundColor}
-							itemIconSize={itemIconSize}
-							itemTextSize={itemTextSize}
-							itemPaddingBetween={itemPaddingBetween}
-							{...itemProps}
-						/>
-					)) || (
-						<PopperListItem
-							icon={icon}
-							label={label}
-							click={listItemClickHandler(click, keepOpen)}
-							keepOpen={keepOpen}
-							selected={selected}
-							key={id}
-							customComponent={customComponent}
-							disabled={itemDisabled}
-							onMouseEnter={(): void => {
-								setCurrentHover(id);
-							}}
-							selectedBackgroundColor={selectedBackgroundColor}
-							itemIconSize={itemIconSize}
-							itemTextSize={itemTextSize}
-							itemPaddingBetween={itemPaddingBetween}
-							{...itemProps}
-						/>
-					)
-			),
-		[
-			items,
-			listItemClickHandler,
-			currentHover,
-			listItemMouseEnterHandler,
-			selectedBackgroundColor,
-			itemIconSize,
-			itemTextSize,
-			itemPaddingBetween
-		]
-	);
+				) => {
+					const nestedRef = React.createRef<HTMLDivElement>();
+					nestedDropdownsRef.current.push(nestedRef);
+					return (
+						(type === 'divider' && <Divider key={id ?? `divider-${index}`} />) ||
+						(subItems && (
+							<NestListItem
+								icon={icon}
+								label={label}
+								click={listItemClickHandler(click, keepOpen)}
+								keepOpen={keepOpen}
+								selected={selected}
+								open={currentHover === id}
+								key={id}
+								customComponent={customComponent}
+								disabled={itemDisabled}
+								items={subItems}
+								onMouseEnter={listItemMouseEnterHandler(id)}
+								selectedBackgroundColor={selectedBackgroundColor}
+								itemIconSize={itemIconSize}
+								itemTextSize={itemTextSize}
+								itemPaddingBetween={itemPaddingBetween}
+								dropdownListRef={nestedRef}
+								{...itemProps}
+							/>
+						)) || (
+							<PopperListItem
+								icon={icon}
+								label={label}
+								click={listItemClickHandler(click, keepOpen)}
+								keepOpen={keepOpen}
+								selected={selected}
+								key={id}
+								customComponent={customComponent}
+								disabled={itemDisabled}
+								onMouseEnter={listItemMouseEnterHandler(id)}
+								selectedBackgroundColor={selectedBackgroundColor}
+								itemIconSize={itemIconSize}
+								itemTextSize={itemTextSize}
+								itemPaddingBetween={itemPaddingBetween}
+								{...itemProps}
+							/>
+						)
+					);
+				}
+			);
+		}
+		return null;
+	}, [
+		items,
+		listItemClickHandler,
+		currentHover,
+		listItemMouseEnterHandler,
+		selectedBackgroundColor,
+		itemIconSize,
+		itemTextSize,
+		itemPaddingBetween
+	]);
 
 	const popperListPreventDefaultHandler = useCallback<React.MouseEventHandler>(
 		(event) => {
