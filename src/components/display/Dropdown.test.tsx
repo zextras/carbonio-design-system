@@ -7,7 +7,7 @@
 import React from 'react';
 import userEvent from '@testing-library/user-event';
 import { screen } from '@testing-library/dom';
-import { waitFor } from '@testing-library/react';
+import { act, waitFor } from '@testing-library/react';
 import { render } from '../../test-utils';
 import { Button } from '../basic/Button';
 import { Dropdown, DropdownItem } from './Dropdown';
@@ -243,5 +243,74 @@ describe('Dropdown', () => {
 		expect(item3ClickFn).toHaveBeenCalled();
 		expect(item3ClickInternalFn).not.toHaveBeenCalled();
 		expect(screen.queryByText(/item 4/i)).not.toBeInTheDocument();
+	});
+
+	test('Disabled items show a tooltip if tooltipLabel is provided', async () => {
+		const dropdownItems: DropdownItem[] = [
+			{
+				id: 'item1',
+				label: 'item 1',
+				disabled: false,
+				tooltipLabel: 'tooltip 1'
+			},
+			{
+				id: 'item2',
+				label: 'item 2',
+				disabled: true,
+				tooltipLabel: 'tooltip 2'
+			},
+			{
+				id: 'item3',
+				label: 'item 3',
+				disabled: true,
+				tooltipLabel: undefined
+			}
+		];
+		const onClick = jest.fn();
+		render(
+			<Dropdown items={dropdownItems}>
+				<Button label="opener" onClick={onClick} />
+			</Dropdown>
+		);
+
+		expect(screen.getByRole('button', { name: /opener/i })).toBeInTheDocument();
+		// dropdown is closed
+		expect(screen.queryByText(/item/i)).not.toBeInTheDocument();
+		// open dropdown
+		userEvent.click(screen.getByRole('button', { name: /opener/i }));
+		await screen.findAllByText(/item/i);
+		// wait for listeners to be registered
+		await waitFor(
+			() =>
+				new Promise((resolve) => {
+					setTimeout(resolve, 1);
+				})
+		);
+		expect(screen.getByText('item 1')).toBeVisible();
+		expect(screen.getByText('item 2')).toBeVisible();
+		expect(screen.getByText('item 3')).toBeVisible();
+		expect(screen.queryByText(/tooltip/i)).not.toBeInTheDocument();
+		userEvent.hover(screen.getByText('item 1'));
+		await waitFor(
+			() =>
+				new Promise((resolve) => {
+					setTimeout(resolve, 500);
+				})
+		);
+		expect(screen.queryByText(/tooltip/i)).not.toBeInTheDocument();
+		userEvent.hover(screen.getByText('item 2'));
+		await screen.findByText(/tooltip/i);
+		expect(screen.getByText('tooltip 2')).toBeVisible();
+		act(() => {
+			userEvent.unhover(screen.getByText('item 2'));
+		});
+		userEvent.hover(screen.getByText('item 3'));
+		await waitFor(
+			() =>
+				new Promise((resolve) => {
+					setTimeout(resolve, 500);
+				})
+		);
+		expect(screen.queryByText(/tooltip/i)).not.toBeInTheDocument();
 	});
 });
