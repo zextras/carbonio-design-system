@@ -83,7 +83,7 @@ const ScrollContainer = styled.div<{
 	margin-top: ${({ hasLabel, theme }): SimpleInterpolation =>
 		hasLabel ? css`calc(${theme.sizes.font.extrasmall} * 1.5)` : '0px'};
 	max-height: ${({ maxHeight }): string => maxHeight};
-	overflow-y: scroll;
+	overflow-y: auto;
 `;
 
 const InputEl = styled.input<{ color: keyof ThemeObj['palette'] }>`
