@@ -4,7 +4,9 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 import React, { HTMLAttributes } from 'react';
+
 import styled, { keyframes } from 'styled-components';
+
 import type { ThemeObj } from '../../theme/theme';
 import { getColor } from '../../theme/theme-utils';
 

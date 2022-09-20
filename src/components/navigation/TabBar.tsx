@@ -5,14 +5,16 @@
  */
 
 import React, { useCallback, useMemo, HTMLAttributes } from 'react';
-import styled, { css, SimpleInterpolation } from 'styled-components';
+
 import { map } from 'lodash';
-import { getColor } from '../../theme/theme-utils';
-import { Container, ContainerProps } from '../layout/Container';
-import { Text } from '../basic/Text';
-import { useKeyboard, getKeyboardPreset } from '../../hooks/useKeyboard';
+import styled, { css, SimpleInterpolation } from 'styled-components';
+
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
+import { useKeyboard, getKeyboardPreset } from '../../hooks/useKeyboard';
 import type { ThemeObj } from '../../theme/theme';
+import { getColor } from '../../theme/theme-utils';
+import { Text } from '../basic/Text';
+import { Container, ContainerProps } from '../layout/Container';
 
 const CustomText = styled(Text)`
 	line-height: 1.5;

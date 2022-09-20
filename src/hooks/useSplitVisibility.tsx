@@ -5,6 +5,7 @@
  */
 
 import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+
 import { drop, head, last, slice } from 'lodash';
 
 type Options = {

@@ -12,6 +12,7 @@ import React, {
 	useEffect,
 	useMemo
 } from 'react';
+
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 
 type CSSObject = {

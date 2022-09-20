@@ -5,6 +5,7 @@
  */
 
 import React, { useEffect, useState, useMemo, useCallback } from 'react';
+
 import { getKeyboardPreset, useKeyboard } from './useKeyboard';
 
 type UseCheckboxArgs = {

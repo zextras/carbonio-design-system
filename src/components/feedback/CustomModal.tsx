@@ -14,10 +14,12 @@ import React, {
 	useContext,
 	HTMLAttributes
 } from 'react';
+
+import { useCombinedRefs } from '../../hooks/useCombinedRefs';
+import { KeyboardPreset, useKeyboard } from '../../hooks/useKeyboard';
+import { ThemeContext } from '../../theme/theme-context-provider';
 import { Portal } from '../utilities/Portal';
 import { Transition } from '../utilities/Transition';
-import { KeyboardPreset, useKeyboard } from '../../hooks/useKeyboard';
-import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { ModalProps } from './Modal';
 import {
 	getScrollbarSize,
@@ -26,7 +28,6 @@ import {
 	ModalContent,
 	ModalWrapper
 } from './ModalComponents';
-import { ThemeContext } from '../../theme/theme-context-provider';
 
 type CustomModalProps = Pick<
 	ModalProps,

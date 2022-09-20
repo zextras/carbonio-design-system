@@ -5,9 +5,10 @@
  */
 
 import React, { useCallback, createContext, useReducer, Reducer, useContext } from 'react';
-import { Modal, ModalProps } from '../feedback/Modal';
-import { CustomModal, CustomModalProps } from '../feedback/CustomModal';
+
 import { ThemeContext } from '../../theme/theme-context-provider';
+import { CustomModal, CustomModalProps } from '../feedback/CustomModal';
+import { Modal, ModalProps } from '../feedback/Modal';
 
 type CloseModalFn = () => void;
 type CreateModalArgs =

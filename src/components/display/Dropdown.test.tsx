@@ -3,15 +3,15 @@
  *
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-/* eslint-disable import/no-extraneous-dependencies, no-console */
 import React from 'react';
+
+import { screen, act, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { screen } from '@testing-library/dom';
-import { act, waitFor } from '@testing-library/react';
+
 import { render } from '../../test-utils';
 import { Button } from '../basic/Button';
-import { Dropdown, DropdownItem } from './Dropdown';
 import { Modal } from '../feedback/Modal';
+import { Dropdown, DropdownItem } from './Dropdown';
 
 const items = [
 	{

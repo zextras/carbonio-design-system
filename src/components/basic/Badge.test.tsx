@@ -3,11 +3,12 @@
  *
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-/* eslint-disable import/no-extraneous-dependencies */
 
 import React from 'react';
-import { screen } from '@testing-library/dom';
+
 import { faker } from '@faker-js/faker';
+import { screen } from '@testing-library/react';
+
 import { render } from '../../test-utils';
 import { Badge } from './Badge';
 

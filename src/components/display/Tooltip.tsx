@@ -12,12 +12,14 @@ import React, {
 	useRef,
 	cloneElement
 } from 'react';
+
 import { createPopper, Instance, Placement } from '@popperjs/core';
-import styled, { css, SimpleInterpolation } from 'styled-components';
 import { rgba } from 'polished';
-import { Portal } from '../utilities/Portal';
-import { Text, TextProps } from '../basic/Text';
+import styled, { css, SimpleInterpolation } from 'styled-components';
+
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
+import { Text, TextProps } from '../basic/Text';
+import { Portal } from '../utilities/Portal';
 
 interface TooltipWrapperProps extends TextProps {
 	open: boolean;

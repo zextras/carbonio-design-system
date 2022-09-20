@@ -1,20 +1,18 @@
-/* eslint-disable no-promise-executor-return */
-/* eslint-disable import/no-extraneous-dependencies */
-
 /*
  * SPDX-FileCopyrightText: 2021 Zextras <https://www.zextras.com>
  *
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import { waitFor, within } from '@testing-library/react';
 import React from 'react';
-import { screen } from '@testing-library/dom';
+
 import { faker } from '@faker-js/faker';
+import { screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+
+import { Text } from '../../index';
 import { render } from '../../test-utils';
 import { Chip } from './Chip';
-import { Text } from '../../index';
 
 describe('Chip', () => {
 	test('Render Chip with capitals', () => {

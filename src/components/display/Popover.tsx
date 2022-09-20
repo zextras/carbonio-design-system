@@ -4,13 +4,15 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import { VirtualElement } from '@popperjs/core';
 import React, { useEffect, useState, useCallback, useMemo, useContext } from 'react';
+
+import { VirtualElement } from '@popperjs/core';
 import { debounce } from 'lodash';
 import styled from 'styled-components';
-import { Popper, PopperProps } from './Popper';
+
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { ThemeContext } from '../../theme/theme-context-provider';
+import { Popper, PopperProps } from './Popper';
 
 const PopoverContainer = styled.div<{ styleAsModal: boolean }>`
 	padding: ${({ theme }): string => theme.sizes.padding.small};

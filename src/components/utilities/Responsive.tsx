@@ -5,6 +5,7 @@
  */
 
 import React from 'react';
+
 import { ScreenMode, useScreenMode } from '../../hooks/useScreenMode';
 
 interface ResponsiveProps {

@@ -4,8 +4,10 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import { Placement } from '@popperjs/core/lib/enums';
 import React from 'react';
+
+import { Placement } from '@popperjs/core/lib/enums';
+
 import { Tooltip } from '../display/Tooltip';
 import { Text, TextProps } from './Text';
 

@@ -5,6 +5,7 @@
  */
 
 import React from 'react';
+
 import IconData from '../icons';
 
 export interface ThemeSizeObj<T = string> {

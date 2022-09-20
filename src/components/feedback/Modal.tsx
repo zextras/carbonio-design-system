@@ -4,8 +4,6 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import { noop } from 'lodash';
-/* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 import React, {
 	HTMLAttributes,
 	useCallback,
@@ -15,7 +13,11 @@ import React, {
 	useRef,
 	useState
 } from 'react';
+
+import { noop } from 'lodash';
+/* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 import styled, { css, SimpleInterpolation } from 'styled-components';
+
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { KeyboardPreset, useKeyboard } from '../../hooks/useKeyboard';
 import type { ThemeObj } from '../../theme/theme';
@@ -201,16 +203,18 @@ const ModalFooter: React.VFC<
 			button = <DismissButton onClick={onCopyClipboard} color="secondary" label={copyLabel} />;
 		} else {
 			button =
-				onSecondaryAction && secondaryActionLabel ? (
+				(onSecondaryAction && secondaryActionLabel && (
 					<DismissButton
 						color="primary"
 						type="outlined"
 						onClick={onSecondaryAction}
 						label={secondaryActionLabel}
 					/>
-				) : dismissLabel && onClose ? (
+				)) ||
+				(dismissLabel && onClose && (
 					<DismissButton color="secondary" onClick={onClose} label={dismissLabel} />
-				) : undefined;
+				)) ||
+				undefined;
 		}
 		return button;
 	}, [

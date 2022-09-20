@@ -5,13 +5,15 @@
  */
 
 import React, { useRef, useEffect, useMemo } from 'react';
+
 import { map, some } from 'lodash';
 import styled, { SimpleInterpolation } from 'styled-components';
-import { getColor, pseudoClasses } from '../../theme/theme-utils';
-import { Container, ContainerProps } from '../layout/Container';
+
 import { useIsVisible } from '../../hooks/useIsVisible';
 import { useKeyboard, getKeyboardPreset, KeyboardPreset } from '../../hooks/useKeyboard';
 import type { ThemeObj } from '../../theme/theme';
+import { getColor, pseudoClasses } from '../../theme/theme-utils';
+import { Container, ContainerProps } from '../layout/Container';
 
 const StyledContainer = styled(Container)`
 	overflow-y: auto;
@@ -94,6 +96,7 @@ interface LIWrapperProps<T extends ItemType> {
 	index: number;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const LIWrapper = React.memo<LIWrapperProps<any>>(function LIWrapperFn({
 	item,
 	listRef,
@@ -172,6 +175,7 @@ interface ListProps<T extends ItemType> extends ContainerProps {
 	keyboardShortcutsIsDisabled?: boolean;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const List = React.forwardRef<HTMLDivElement, ListProps<any>>(function ListFn(
 	{
 		items = [],

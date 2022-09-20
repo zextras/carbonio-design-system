@@ -4,8 +4,10 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import { reduce } from 'lodash';
 import React, { useCallback, useMemo, useRef } from 'react';
+
+import { reduce } from 'lodash';
+
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { useKeyboard, getKeyboardPreset } from '../../hooks/useKeyboard';
 import { ThemeObj } from '../../theme/theme';

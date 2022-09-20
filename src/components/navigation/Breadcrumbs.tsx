@@ -5,14 +5,16 @@
  */
 
 import React, { HTMLAttributes } from 'react';
-import styled from 'styled-components';
+
 import { map } from 'lodash';
+import styled from 'styled-components';
+
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
-import { Container } from '../layout/Container';
-import { Text } from '../basic/Text';
-import { Padding, PaddingProps } from '../layout/Padding';
-import { Dropdown, DropdownItem, DropdownProps } from '../display/Dropdown';
 import { useSplitVisibility } from '../../hooks/useSplitVisibility';
+import { Text } from '../basic/Text';
+import { Dropdown, DropdownItem, DropdownProps } from '../display/Dropdown';
+import { Container } from '../layout/Container';
+import { Padding, PaddingProps } from '../layout/Padding';
 
 const CheckDiv = styled.div`
 	width: 100%;

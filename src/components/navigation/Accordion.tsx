@@ -1,25 +1,26 @@
-/* eslint-disable @typescript-eslint/no-use-before-define */
 /*
  * SPDX-FileCopyrightText: 2021 Zextras <https://www.zextras.com>
  *
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { useMemo, useState, useCallback, useEffect, HTMLAttributes } from 'react';
+import React, { useMemo, useState, useCallback, useEffect } from 'react';
+
 import { map } from 'lodash';
 import styled, { css, SimpleInterpolation } from 'styled-components';
-import { ThemeObj } from '../../theme/theme';
-import { Container, ContainerProps } from '../layout/Container';
-import { Text, TextProps } from '../basic/Text';
-import { Icon } from '../basic/Icon';
-import { IconButton } from '../inputs/IconButton';
-import { Padding } from '../layout/Padding';
-import { Badge } from '../basic/Badge';
-import { Divider } from '../layout/Divider';
-import { Collapse } from '../utilities/Collapse';
-import { useKeyboard, getKeyboardPreset } from '../../hooks/useKeyboard';
+
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
+import { useKeyboard, getKeyboardPreset } from '../../hooks/useKeyboard';
+import { ThemeObj } from '../../theme/theme';
 import { pseudoClasses } from '../../theme/theme-utils';
+import { Badge } from '../basic/Badge';
+import { Icon } from '../basic/Icon';
+import { Text, TextProps } from '../basic/Text';
+import { IconButton } from '../inputs/IconButton';
+import { Container, ContainerProps } from '../layout/Container';
+import { Divider } from '../layout/Divider';
+import { Padding } from '../layout/Padding';
+import { Collapse } from '../utilities/Collapse';
 
 const AccordionContainerEl = styled(Container)<{
 	$level: number;
@@ -190,6 +191,7 @@ const AccordionRoot = React.forwardRef<HTMLDivElement, AccordionRootProps>(funct
 					open={open}
 					disableTransition={disableTransition}
 				>
+					{/* eslint-disable-next-line @typescript-eslint/no-use-before-define */}
 					<Accordion
 						activeId={activeId}
 						openIds={openIds}

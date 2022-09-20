@@ -14,13 +14,15 @@ import React, {
 	Reducer,
 	HTMLAttributes
 } from 'react';
+
 import { isEmpty } from 'lodash';
 import styled, { css, SimpleInterpolation } from 'styled-components';
-import { Checkbox } from '../inputs/Checkbox';
-import { Container } from '../layout/Container';
+
 import { Icon } from '../basic/Icon';
-import { Select, SelectProps } from '../inputs/Select';
 import { Text } from '../basic/Text';
+import { Checkbox } from '../inputs/Checkbox';
+import { Select, SelectProps } from '../inputs/Select';
+import { Container } from '../layout/Container';
 import { Row } from '../layout/Row';
 
 const TableRow = styled.tr<{

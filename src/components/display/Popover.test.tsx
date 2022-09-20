@@ -1,5 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
-
 /*
  * SPDX-FileCopyrightText: 2021 Zextras <https://www.zextras.com>
  *
@@ -7,13 +5,15 @@
  */
 
 import React, { useRef, useState } from 'react';
-import { screen } from '@testing-library/dom';
+
+import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+
 import { render } from '../../test-utils';
-import { Popover } from './Popover';
 import { Button } from '../basic/Button';
-import { Container } from '../layout/Container';
 import { Input } from '../inputs/Input';
+import { Container } from '../layout/Container';
+import { Popover } from './Popover';
 
 const CustomPopover = (): JSX.Element => {
 	const [open, setOpen] = useState(false);
