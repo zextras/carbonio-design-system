@@ -79,7 +79,7 @@ const ListItem = useMemo(
 				</Container>
 			</Drag>
 		) : (
-			<div style={{ height: '64px' }} />
+			<div style={{ height: '4rem' }} />
 		);
 	},
 	[]
@@ -178,7 +178,7 @@ const ListItem = useMemo(
 				</Container>
 			</Drag>
 		) : (
-			<div style={{ height: '64px' }} />
+			<div style={{ height: '4rem' }} />
 		);
 	},
 	[]

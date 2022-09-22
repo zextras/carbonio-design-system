@@ -13,13 +13,13 @@ import { Container } from '../../layout/Container';
 import { Padding } from '../../layout/Padding';
 
 const OptionalFooterContainer = styled(Container)`
-	min-width: 1px;
+	min-width: 0.0625rem;
 	flex-basis: auto;
 	flex-grow: 1;
 `;
 
 const ButtonContainer = styled(Container)<{ $pushLeftFirstChild?: boolean }>`
-	min-width: 1px;
+	min-width: 0.0625rem;
 	flex-basis: auto;
 	flex-grow: 1;
 	${({ $pushLeftFirstChild }): SimpleInterpolation =>

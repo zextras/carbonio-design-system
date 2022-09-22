@@ -84,7 +84,7 @@ const StyledTable = styled.table`
 	}
 	th,
 	td {
-		padding: 0 8px;
+		padding: 0 0.5rem;
 	}
 `;
 
@@ -302,7 +302,7 @@ const DefaultRowFactory: React.VFC<TRowProps> = ({
 			clickable={row.clickable}
 			showCheckbox={showCheckbox}
 		>
-			<td width="30px" height="30px" align="center">
+			<td width="1.875rem" height="1.875rem" align="center">
 				{showCheckbox && (showCkb || selected || (multiSelect && selectionMode)) ? (
 					<Checkbox
 						ref={ckbRef}

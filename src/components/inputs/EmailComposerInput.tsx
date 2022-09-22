@@ -56,7 +56,7 @@ const EmailComposerInputContainer = styled.div<{
 		active &&
 		css`
 			${PlaceholderDefault} {
-				top: 3px;
+				top: 0.1875rem;
 				font-size: ${theme.sizes.font.small};
 				transform: translateY(0);
 			}

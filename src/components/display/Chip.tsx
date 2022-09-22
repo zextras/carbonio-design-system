@@ -157,19 +157,19 @@ const SIZES: Record<
 		avatar: 'small',
 		font: 'extrasmall',
 		icon: 'small',
-		spacing: '4px'
+		spacing: '0.25rem'
 	},
 	medium: {
 		avatar: 'medium',
 		font: 'small',
 		icon: 'medium',
-		spacing: '8px'
+		spacing: '0.5rem'
 	},
 	large: {
 		avatar: 'large',
 		font: 'medium',
 		icon: 'large',
-		spacing: '12px'
+		spacing: '0.75rem'
 	}
 };
 

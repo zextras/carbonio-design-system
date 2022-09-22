@@ -25,7 +25,7 @@ const Label = styled.label<{ active: boolean }>`
 	position: absolute;
 	left: calc(
 		${({ theme }): string => theme.sizes.padding.large} +
-			${({ theme }): string => theme.sizes.icon.large} + 2px
+			${({ theme }): string => theme.sizes.icon.large} + 0.125rem
 	);
 	font-size: ${({ theme }): string => theme.sizes.font.medium};
 	font-weight: ${({ theme }): number => theme.fonts.weight.regular};

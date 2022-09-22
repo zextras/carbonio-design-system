@@ -60,7 +60,7 @@ const headers = [
     id: 'type',
     label: "Type",
     i18nAllLabel: 'All',
-    width: "60px",
+    width: "3.75rem",
     align: 'center',
     items: [
       { label: 'Information', value: '1'},
@@ -156,7 +156,7 @@ const headers = [
     id: 'type',
     label: "Type",
     i18nAllLabel: 'All',
-    width: "60px",
+    width: "3.75rem",
     align: 'center',
     items: [
       { label: 'Information', value: '1'},
@@ -255,7 +255,7 @@ const headers = [
     id: 'type',
     label: "Type",
     i18nAllLabel: 'All',
-    width: "60px",
+    width: "3.75rem",
     align: 'center',
     bold: true,
     items: [

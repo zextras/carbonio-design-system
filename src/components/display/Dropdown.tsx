@@ -265,7 +265,7 @@ const PopperList = styled.div<{
 	visibility: hidden;
 	pointer-events: none;
 	background-color: ${({ theme }): string => theme.palette.gray5.regular};
-	box-shadow: 0 0 4px 0 rgba(166, 166, 166, 0.5);
+	box-shadow: 0 0 0.25rem 0 rgba(166, 166, 166, 0.5);
 	z-index: 999;
 
 	padding: ${({ theme }): string => theme.sizes.padding.small} 0;
@@ -276,7 +276,7 @@ const PopperList = styled.div<{
 	overflow-y: auto;
 
 	&::-webkit-scrollbar {
-		width: 8px;
+		width: 0.5rem;
 	}
 
 	&::-webkit-scrollbar-track {
@@ -285,7 +285,7 @@ const PopperList = styled.div<{
 
 	&::-webkit-scrollbar-thumb {
 		background-color: ${({ theme }): string => theme.palette.gray3.regular};
-		border-radius: 4px;
+		border-radius: 0.25rem;
 	}
 
 	&,
@@ -390,7 +390,7 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 		placement = 'bottom-start',
 		display = 'inline-block',
 		width = 'auto',
-		maxWidth = '300px',
+		maxWidth = '18.75rem',
 		maxHeight = '50vh',
 		handleTriggerEvents = false,
 		disableRestoreFocus = false,

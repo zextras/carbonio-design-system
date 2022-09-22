@@ -26,17 +26,17 @@ const Styler = styled(Container)`
 	.react-datepicker__navigation-icon::before {
 		border-color: #ccc;
 		border-style: solid;
-		border-width: 3px 3px 0 0;
+		border-width: 0.1875rem 0.1875rem 0 0;
 		content: '';
 		display: block;
-		height: 9px;
+		height: 0.5625rem;
 		position: absolute;
-		top: 6px;
-		width: 9px;
+		top: 0.375rem;
+		width: 0.5625rem;
 	}
 	.react-datepicker-popper[data-placement^='top'] .react-datepicker__triangle,
 	.react-datepicker-popper[data-placement^='bottom'] .react-datepicker__triangle {
-		margin-left: -4px;
+		margin-left: -0.25rem;
 		position: absolute;
 		width: 0;
 	}
@@ -46,12 +46,12 @@ const Styler = styled(Container)`
 	.react-datepicker-popper[data-placement^='bottom'] .react-datepicker__triangle::after {
 		box-sizing: content-box;
 		position: absolute;
-		border: 8px solid transparent;
+		border: 0.5rem solid transparent;
 		height: 0;
-		width: 1px;
+		width: 0.0625rem;
 		content: '';
 		z-index: -1;
-		left: -8px;
+		left: -0.5rem;
 	}
 	.react-datepicker-popper[data-placement^='top'] .react-datepicker__triangle::before,
 	.react-datepicker-popper[data-placement^='bottom'] .react-datepicker__triangle::before {
@@ -60,7 +60,7 @@ const Styler = styled(Container)`
 
 	.react-datepicker-popper[data-placement^='bottom'] .react-datepicker__triangle {
 		top: 0;
-		margin-top: -8px;
+		margin-top: -0.5rem;
 	}
 	.react-datepicker-popper[data-placement^='bottom'] .react-datepicker__triangle::before,
 	.react-datepicker-popper[data-placement^='bottom'] .react-datepicker__triangle::after {
@@ -71,13 +71,13 @@ const Styler = styled(Container)`
 		top: 0;
 	}
 	.react-datepicker-popper[data-placement^='bottom'] .react-datepicker__triangle::before {
-		top: -1px;
+		top: -0.0625rem;
 		border-bottom-color: #aeaeae;
 	}
 
 	.react-datepicker-popper[data-placement^='top'] .react-datepicker__triangle {
 		bottom: 0;
-		margin-bottom: -8px;
+		margin-bottom: -0.5rem;
 	}
 	.react-datepicker-popper[data-placement^='top'] .react-datepicker__triangle::before,
 	.react-datepicker-popper[data-placement^='top'] .react-datepicker__triangle::after {
@@ -88,7 +88,7 @@ const Styler = styled(Container)`
 		bottom: 0;
 	}
 	.react-datepicker-popper[data-placement^='top'] .react-datepicker__triangle::before {
-		bottom: -1px;
+		bottom: -0.0625rem;
 		border-top-color: #aeaeae;
 	}
 
@@ -104,14 +104,14 @@ const Styler = styled(Container)`
 		font-size: 0.8rem;
 		background-color: #fff;
 		color: #000;
-		border: 1px solid #aeaeae;
+		border: 0.0625rem solid #aeaeae;
 		border-radius: 0.3rem;
 		display: inline-block;
 		position: relative;
 	}
 
 	.react-datepicker--time-only .react-datepicker__triangle {
-		left: 35px;
+		left: 2.1875rem;
 	}
 	.react-datepicker--time-only .react-datepicker__time-container {
 		border-left: 0;
@@ -124,50 +124,50 @@ const Styler = styled(Container)`
 
 	.react-datepicker__triangle {
 		position: absolute;
-		left: 50px;
+		left: 3.125rem;
 	}
 
 	.react-datepicker-popper {
 		z-index: 1;
 	}
 	.react-datepicker-popper[data-placement^='bottom'] {
-		padding-top: 10px;
+		padding-top: 0.625rem;
 	}
 	.react-datepicker-popper[data-placement='bottom-end'] .react-datepicker__triangle,
 	.react-datepicker-popper[data-placement='top-end'] .react-datepicker__triangle {
 		left: auto;
-		right: 50px;
+		right: 3.125rem;
 	}
 	.react-datepicker-popper[data-placement^='top'] {
-		padding-bottom: 10px;
+		padding-bottom: 0.625rem;
 	}
 	.react-datepicker-popper[data-placement^='right'] {
-		padding-left: 8px;
+		padding-left: 0.5rem;
 	}
 	.react-datepicker-popper[data-placement^='right'] .react-datepicker__triangle {
 		left: auto;
-		right: 42px;
+		right: 2.625rem;
 	}
 	.react-datepicker-popper[data-placement^='left'] {
-		padding-right: 8px;
+		padding-right: 0.5rem;
 	}
 	.react-datepicker-popper[data-placement^='left'] .react-datepicker__triangle {
-		left: 42px;
+		left: 2.625rem;
 		right: auto;
 	}
 
 	.react-datepicker__header {
 		text-align: center;
 		background-color: #f0f0f0;
-		border-bottom: 1px solid #aeaeae;
+		border-bottom: 0.0625rem solid #aeaeae;
 		border-top-left-radius: 0.3rem;
-		padding: 8px 0;
+		padding: 0.5rem 0;
 		position: relative;
 	}
 	.react-datepicker__header--time {
-		padding-bottom: 8px;
-		padding-left: 5px;
-		padding-right: 5px;
+		padding-bottom: 0.5rem;
+		padding-left: 0.3125rem;
+		padding-right: 0.3125rem;
 	}
 	.react-datepicker__header--time:not(.react-datepicker__header--time--only) {
 		border-top-left-radius: 0;
@@ -183,7 +183,7 @@ const Styler = styled(Container)`
 	.react-datepicker__month-dropdown-container--scroll,
 	.react-datepicker__month-year-dropdown-container--scroll {
 		display: inline-block;
-		margin: 0 2px;
+		margin: 0 0.125rem;
 	}
 
 	.react-datepicker__current-month,
@@ -209,23 +209,23 @@ const Styler = styled(Container)`
 		text-align: center;
 		cursor: pointer;
 		position: absolute;
-		top: 2px;
+		top: 0.125rem;
 		padding: 0;
 		border: none;
 		z-index: 1;
-		height: 32px;
-		width: 32px;
-		text-indent: -999em;
+		height: 2rem;
+		width: 2rem;
+		text-indent: -999rem;
 		overflow: hidden;
 	}
 	.react-datepicker__navigation--previous {
-		left: 2px;
+		left: 0.125rem;
 	}
 	.react-datepicker__navigation--next {
-		right: 2px;
+		right: 0.125rem;
 	}
 	.react-datepicker__navigation--next--with-time:not(.react-datepicker__navigation--next--with-today-button) {
-		right: 85px;
+		right: 5.3125rem;
 	}
 	.react-datepicker__navigation--years {
 		position: relative;
@@ -235,10 +235,10 @@ const Styler = styled(Container)`
 		margin-right: auto;
 	}
 	.react-datepicker__navigation--years-previous {
-		top: 4px;
+		top: 0.25rem;
 	}
 	.react-datepicker__navigation--years-upcoming {
-		top: -4px;
+		top: -0.25rem;
 	}
 	.react-datepicker__navigation:hover *::before {
 		border-color: #a6a6a6;
@@ -246,23 +246,23 @@ const Styler = styled(Container)`
 
 	.react-datepicker__navigation-icon {
 		position: relative;
-		top: -1px;
-		font-size: 20px;
+		top: -0.0625rem;
+		font-size: 1.25rem;
 		width: 0;
 	}
 	.react-datepicker__navigation-icon--next {
-		left: -2px;
+		left: -0.125rem;
 	}
 	.react-datepicker__navigation-icon--next::before {
 		transform: rotate(45deg);
-		left: -7px;
+		left: -0.4375rem;
 	}
 	.react-datepicker__navigation-icon--previous {
-		right: -2px;
+		right: -0.125rem;
 	}
 	.react-datepicker__navigation-icon--previous::before {
 		transform: rotate(225deg);
-		right: -7px;
+		right: -0.4375rem;
 	}
 
 	.react-datepicker__month-container {
@@ -276,12 +276,12 @@ const Styler = styled(Container)`
 	.react-datepicker__year-wrapper {
 		display: flex;
 		flex-wrap: wrap;
-		max-width: 180px;
+		max-width: 11.25rem;
 	}
 	.react-datepicker__year .react-datepicker__year-text {
 		display: inline-block;
 		width: 4rem;
-		margin: 2px;
+		margin: 0.125rem;
 	}
 
 	.react-datepicker__month {
@@ -292,14 +292,14 @@ const Styler = styled(Container)`
 	.react-datepicker__month .react-datepicker__quarter-text {
 		display: inline-block;
 		width: 4rem;
-		margin: 2px;
+		margin: 0.125rem;
 	}
 
 	.react-datepicker__input-time-container {
 		clear: both;
 		width: 100%;
 		float: left;
-		margin: 5px 0 10px 15px;
+		margin: 0.3125rem 0 0.625rem 0.9375rem;
 		text-align: left;
 	}
 	.react-datepicker__input-time-container .react-datepicker-time__caption {
@@ -312,7 +312,7 @@ const Styler = styled(Container)`
 		.react-datepicker-time__input-container
 		.react-datepicker-time__input {
 		display: inline-block;
-		margin-left: 10px;
+		margin-left: 0.625rem;
 	}
 	.react-datepicker__input-time-container
 		.react-datepicker-time__input-container
@@ -340,21 +340,21 @@ const Styler = styled(Container)`
 	.react-datepicker__input-time-container
 		.react-datepicker-time__input-container
 		.react-datepicker-time__delimiter {
-		margin-left: 5px;
+		margin-left: 0.3125rem;
 		display: inline-block;
 	}
 
 	.react-datepicker__time-container {
 		float: right;
-		border-left: 1px solid #aeaeae;
-		width: 85px;
+		border-left: 0.0625rem solid #aeaeae;
+		width: 5.3125rem;
 	}
 	.react-datepicker__time-container--with-today-button {
 		display: inline;
-		border: 1px solid #aeaeae;
+		border: 0.0625rem solid #aeaeae;
 		border-radius: 0.3rem;
 		position: absolute;
-		right: -72px;
+		right: -4.5rem;
 		top: 0;
 	}
 	.react-datepicker__time-container .react-datepicker__time {
@@ -363,7 +363,7 @@ const Styler = styled(Container)`
 		border-bottom-right-radius: 0.3rem;
 	}
 	.react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box {
-		width: 85px;
+		width: 5.3125rem;
 		overflow-x: hidden;
 		margin: 0 auto;
 		text-align: center;
@@ -375,7 +375,7 @@ const Styler = styled(Container)`
 		ul.react-datepicker__time-list {
 		list-style: none;
 		margin: 0;
-		height: calc(195px + (1.7rem / 2));
+		height: calc(12.1875rem + (1.7rem / 2));
 		overflow-y: scroll;
 		padding-right: 0;
 		padding-left: 0;
@@ -387,8 +387,8 @@ const Styler = styled(Container)`
 		.react-datepicker__time-box
 		ul.react-datepicker__time-list
 		li.react-datepicker__time-list-item {
-		height: 30px;
-		padding: 5px 10px;
+		height: 1.875rem;
+		padding: 0.3125rem 0.625rem;
 		white-space: nowrap;
 	}
 	.react-datepicker__time-container
@@ -453,7 +453,7 @@ const Styler = styled(Container)`
 	}
 
 	.react-datepicker__day-names {
-		margin-bottom: -8px;
+		margin-bottom: -0.5rem;
 	}
 
 	.react-datepicker__day-name,
@@ -640,7 +640,7 @@ const Styler = styled(Container)`
 	.react-datepicker__year-read-view,
 	.react-datepicker__month-read-view,
 	.react-datepicker__month-year-read-view {
-		border: 1px solid transparent;
+		border: 0.0625rem solid transparent;
 		border-radius: 0.3rem;
 		position: relative;
 	}
@@ -661,7 +661,7 @@ const Styler = styled(Container)`
 	.react-datepicker__month-read-view--down-arrow,
 	.react-datepicker__month-year-read-view--down-arrow {
 		transform: rotate(135deg);
-		right: -16px;
+		right: -1rem;
 		top: 0;
 	}
 
@@ -672,11 +672,11 @@ const Styler = styled(Container)`
 		position: absolute;
 		width: 50%;
 		left: 25%;
-		top: 30px;
+		top: 1.875rem;
 		z-index: 1;
 		text-align: center;
 		border-radius: 0.3rem;
-		border: 1px solid #aeaeae;
+		border: 0.0625rem solid #aeaeae;
 	}
 	.react-datepicker__year-dropdown:hover,
 	.react-datepicker__month-dropdown:hover,
@@ -686,14 +686,14 @@ const Styler = styled(Container)`
 	.react-datepicker__year-dropdown--scrollable,
 	.react-datepicker__month-dropdown--scrollable,
 	.react-datepicker__month-year-dropdown--scrollable {
-		height: 150px;
+		height: 9.375rem;
 		overflow-y: scroll;
 	}
 
 	.react-datepicker__year-option,
 	.react-datepicker__month-option,
 	.react-datepicker__month-year-option {
-		line-height: 20px;
+		line-height: 1.25rem;
 		width: 100%;
 		display: block;
 		margin-left: auto;
@@ -734,7 +734,7 @@ const Styler = styled(Container)`
 	.react-datepicker__month-option--selected,
 	.react-datepicker__month-year-option--selected {
 		position: absolute;
-		left: 15px;
+		left: 0.9375rem;
 	}
 
 	.react-datepicker__close-icon {
@@ -742,7 +742,7 @@ const Styler = styled(Container)`
 		background-color: transparent;
 		border: 0;
 		outline: 0;
-		padding: 0 6px 0 0;
+		padding: 0 0.375rem 0 0;
 		position: absolute;
 		top: 0;
 		right: 0;
@@ -755,10 +755,10 @@ const Styler = styled(Container)`
 		background-color: #216ba5;
 		color: #fff;
 		border-radius: 50%;
-		height: 16px;
-		width: 16px;
-		padding: 2px;
-		font-size: 12px;
+		height: 1rem;
+		width: 1rem;
+		padding: 0.125rem;
+		font-size: 0.75rem;
 		line-height: 1;
 		text-align: center;
 		display: table-cell;
@@ -768,11 +768,11 @@ const Styler = styled(Container)`
 
 	.react-datepicker__today-button {
 		background: #f0f0f0;
-		border-top: 1px solid #aeaeae;
+		border-top: 0.0625rem solid #aeaeae;
 		cursor: pointer;
 		text-align: center;
 		font-weight: bold;
-		padding: 5px 0;
+		padding: 0.3125rem 0;
 		clear: left;
 	}
 
@@ -817,12 +817,12 @@ const Styler = styled(Container)`
 
 const InputIconsContainer = styled.div`
 	display: flex;
-	gap: 8px;
+	gap: 0.5rem;
 	width: fit-content;
 `;
 
 const CustomIconButton = styled(IconButton)`
-	padding: 2px;
+	padding: 0.125rem;
 `;
 
 interface DateTimePickerProps extends Omit<ReactDatePickerProps, 'onChange'> {
@@ -873,7 +873,7 @@ interface DateTimePickerProps extends Omit<ReactDatePickerProps, 'onChange'> {
 const DateTimePicker = React.forwardRef<ReactDatePicker, DateTimePickerProps>(
 	function DateTimePickerFn(
 		{
-			width = '250px',
+			width = '15.625rem',
 			hasError,
 			label,
 			includeTime = true,

@@ -53,11 +53,11 @@ const crumbs = [
 ];
 
 <>
-	<div style={{ width: '50%', height: '400px', border: '1px solid grey' }}>
+	<div style={{ width: '50%', height: '25rem', border: '0.0625rem solid grey' }}>
 		<Breadcrumbs crumbs={crumbs}/>
 	</div>
 	<h3>Collapsed</h3>
-	<div style={{ width: '200px', maxWidth: '100%', border: '1px solid grey' }}>
+	<div style={{ width: '12.5rem', maxWidth: '100%', border: '0.0625rem solid grey' }}>
 		<Breadcrumbs crumbs={crumbs}/>
 	</div>
 </>
@@ -161,7 +161,7 @@ const crumbs = [
 		onDragLeave: dragLeaveHandler,
 		onDragOver: dragOverHandler,
 		onDrop: dropHandler,
-        style: { cursor: 'pointer', borderRadius: '2px' }
+        style: { cursor: 'pointer', borderRadius: '0.125rem' }
 	},
 	{
 		id: 'crumb-2',
@@ -171,7 +171,7 @@ const crumbs = [
 		onDragLeave: dragLeaveHandler,
 		onDragOver: dragOverHandler,
 		onDrop: dropHandler,
-        style: { cursor: 'pointer', borderRadius: '2px' }
+        style: { cursor: 'pointer', borderRadius: '0.125rem' }
 	},
 	{
 		id: 'crumb-3',
@@ -181,7 +181,7 @@ const crumbs = [
 		onDragLeave: dragLeaveHandler,
 		onDragOver: dragOverHandler,
 		onDrop: dropHandler,
-        style: { cursor: 'pointer', borderRadius: '2px' }
+        style: { cursor: 'pointer', borderRadius: '0.125rem' }
 	},
 	{
 		id: 'crumb-4',
@@ -191,7 +191,7 @@ const crumbs = [
 		onDragLeave: dragLeaveHandler,
 		onDragOver: dragOverHandler,
 		onDrop: dropHandler,
-        style: { cursor: 'pointer', borderRadius: '2px' }
+        style: { cursor: 'pointer', borderRadius: '0.125rem' }
 	},
 	{
 		id: 'crumb-5',
@@ -201,7 +201,7 @@ const crumbs = [
 		onDragLeave: dragLeaveHandler,
 		onDragOver: dragOverHandler,
 		onDrop: dropHandler,
-        style: { cursor: 'pointer', borderRadius: '2px' }
+        style: { cursor: 'pointer', borderRadius: '0.125rem' }
 	}
 ];
 
@@ -209,13 +209,13 @@ const crumbs = [
 <div ref={containerRef}>
 	<div
 		draggable
-		style={{border: '1px solid red', width: 'fit-content'}}
+		style={{border: '0.0625rem solid red', width: 'fit-content'}}
 		onDragStart={dragStartHandler}
 		onDragEnd={dragEndHandler}
 	>
 		Drag me
 	</div>
-	<div style={{ padding: '10px', border: '1px solid gray', margin: '10px 0' }}>
+	<div style={{ padding: '0.625rem', border: '0.0625rem solid gray', margin: '0.625rem 0' }}>
 			<Breadcrumbs
 				crumbs={crumbs}
 				collapserProps={{
@@ -223,7 +223,7 @@ const crumbs = [
 					onDragOver: collapserDragOverHandler,
 					onDragLeave: collapserDragLeaveHandler,
 					onDrop: collapserDropHandler,
-                    style: { cursor: 'pointer', borderRadius: '2px' }
+                    style: { cursor: 'pointer', borderRadius: '0.125rem' }
 				}}
 				dropdownProps={{
 					onDragEnter: preventDropdownClose
@@ -231,7 +231,7 @@ const crumbs = [
 			/>
 	</div>
     <h3>Collapsed</h3>
-	<div style={{ width: '200px', maxWidth: '100%', padding: '10px', border: '1px solid gray', margin: '10px 0', boxSizing: 'border-box' }} onDragEnter={preventDropdownClose}>
+	<div style={{ width: '12.5rem', maxWidth: '100%', padding: '0.625rem', border: '0.0625rem solid gray', margin: '0.625rem 0', boxSizing: 'border-box' }} onDragEnter={preventDropdownClose}>
 			<Breadcrumbs
 				crumbs={crumbs}
 				collapserProps={{
@@ -239,7 +239,7 @@ const crumbs = [
 					onDragOver: collapserDragOverHandler,
 					onDragLeave: collapserDragLeaveHandler,
 					onDrop: collapserDropHandler,
-                    style: { cursor: 'pointer', borderRadius: '2px' }
+                    style: { cursor: 'pointer', borderRadius: '0.125rem' }
 				}}
 				dropdownProps={{
 					onDragEnter: preventDropdownClose
@@ -269,7 +269,7 @@ crumbs[crumbs.length - 1].className = `${crumbs[crumbs.length - 1].className} cu
 
 const CustomBreadcrumbs = styled(Breadcrumbs)`
 	.breadcrumbCrumb {
-		border-radius: 2px;
+		border-radius: 0.125rem;
 		&:not([disabled]):hover {
 			background-color: ${getColor('gray5.hover')};
 		}
@@ -286,7 +286,7 @@ const CustomBreadcrumbs = styled(Breadcrumbs)`
 	}
 
 	.breadcrumbCollapser {
-		border-radius: 2px;
+		border-radius: 0.125rem;
 		&:active,
 		&.active {
 			background-color: ${getColor('gray4.active')};
@@ -298,11 +298,11 @@ const CustomBreadcrumbs = styled(Breadcrumbs)`
 `;
 
 <div>
-	<div style={{ width: '50%', border: '1px solid grey', padding: '4px 0' }}>
+	<div style={{ width: '50%', border: '0.0625rem solid grey', padding: '0.25rem 0' }}>
 		<CustomBreadcrumbs crumbs={crumbs} collapserProps={{ className: 'breadcrumbCollapser' }} />
 	</div>
 	<h3>Collapsed</h3>
-	<div style={{ width: '200px', maxWidth: '100%', border: '1px solid grey', padding: '4px 0' }}>
+	<div style={{ width: '12.5rem', maxWidth: '100%', border: '0.0625rem solid grey', padding: '0.25rem 0' }}>
 		<CustomBreadcrumbs 
           crumbs={crumbs}
           collapserProps={{ className: 'breadcrumbCollapser' }}

@@ -46,7 +46,7 @@ const AvatarContainer = styled.div<AvatarContainerProps>`
 		} ${picture && !selecting ? `url(${picture}) no-repeat center center/cover` : ''}`};
 	border-radius: ${({ shape }): string => (shape === 'round' ? '50%' : '15%')};
 	border: ${({ theme, selecting }): string =>
-		selecting ? `2px solid ${getColor('primary', theme)}` : 'none'};
+		selecting ? `0.125rem solid ${getColor('primary', theme)}` : 'none'};
 `;
 
 type CapitalsPropsType = {

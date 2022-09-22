@@ -4,23 +4,25 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 import React, { Fragment } from 'react';
-import styled from 'styled-components';
+
 import { map } from 'lodash';
-import { Container } from '../../src/components/layout/Container';
+import styled from 'styled-components';
+
 import { Text } from '../../src/components/basic/Text';
+import { Container } from '../../src/components/layout/Container';
 import { Padding } from '../../src/components/layout/Padding';
 
 const PaletteEl = styled.div`
-	width: 150px;
-	height: 100px;
+	width: 13.125rem;
+	height: 6.25rem;
 	background: ${(props) => props.color};
-	border-radius: 8px;
-	box-shadow: 6px 4px 10px 0px rgba(136, 136, 136, 0.5);
+	border-radius: 0.5rem;
+	box-shadow: 0.375rem 0.25rem 0.625rem 0 rgba(136, 136, 136, 0.5);
 `;
 const TextFrame = styled.div`
 	background: rgba(200, 200, 200, 0.8);
-	padding: 4px 8px;
-	border-radius: 8px 8px 0 0;
+	padding: 0.25rem 0.5rem;
+	border-radius: 0.5rem 0.5rem 0 0;
 `;
 const ScrollFrame = styled.div`
 	width: 100%;

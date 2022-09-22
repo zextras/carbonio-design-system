@@ -48,7 +48,7 @@ const CustomTable = (): JSX.Element => {
 			id: 'type1',
 			label: 'Type1',
 			i18nAllLabel: 'All',
-			width: '60px',
+			width: '3.75rem',
 			items: [
 				{ label: 'Information', value: '1' },
 				{ label: 'Warning', value: '2' },
@@ -92,7 +92,7 @@ const CustomTable = (): JSX.Element => {
 			id: 'type2',
 			label: 'Type2',
 			i18nAllLabel: 'All',
-			width: '60px',
+			width: '3.75rem',
 			items: [
 				{ label: 'Information', value: '1' },
 				{ label: 'Warning', value: '2' },
