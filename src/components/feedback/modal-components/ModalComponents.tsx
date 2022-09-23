@@ -7,7 +7,7 @@ import React from 'react';
 
 import styled, { css, SimpleInterpolation } from 'styled-components';
 
-import { Container } from '../layout/Container';
+import { Container } from '../../layout/Container';
 
 const modalMinWidth = {
 	extrasmall: '20%',
@@ -64,6 +64,7 @@ const ModalContainer = styled.div<{ mounted: boolean; open: boolean; zIndex: num
 	z-index: -1;
 	justify-content: center;
 	align-items: center;
+	overflow-y: auto;
 
 	${({ mounted, open, zIndex }): SimpleInterpolation =>
 		(mounted || open) &&
@@ -78,6 +79,7 @@ const ModalContainer = styled.div<{ mounted: boolean; open: boolean; zIndex: num
 			pointer-events: auto;
 		`};
 `;
+
 const ModalWrapper = styled.div`
 	max-width: 100%;
 	width: 100%;
@@ -85,16 +87,24 @@ const ModalWrapper = styled.div`
 	box-sizing: border-box;
 	pointer-events: none;
 `;
-const ModalContent = styled(Container)<{
+
+const ModalContent = styled(Container).attrs<{
+	$size: keyof typeof modalMinWidth & keyof typeof modalWidth;
+}>(({ minHeight = '250px', $size }) => ({
+	minHeight,
+	maxWidth: '100%',
+	minWidth: modalMinWidth[$size],
+	width: modalWidth[$size],
+	padding: '32px',
+	mainAlignment: 'flex-start',
+	crossAlignment: 'flex-start',
+	height: 'auto',
+	tabIndex: -1
+}))<{
 	$size: keyof typeof modalMinWidth & keyof typeof modalWidth;
 }>`
 	position: relative;
-	margin: 0 auto ${(props): string => props.theme.sizes.padding.medium};
-	padding: 32px;
-	max-width: 100%;
-	min-width: ${({ $size }): string => modalMinWidth[$size]};
-	width: ${({ $size }): string => modalWidth[$size]};
-
+	margin: 0 auto ${({ theme }): string => theme.sizes.padding.medium};
 	border-radius: 16px;
 	box-shadow: 0 0 4px 0 rgba(166, 166, 166, 0.5);
 	outline: none;
