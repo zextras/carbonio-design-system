@@ -56,7 +56,7 @@ describe('TabBar', () => {
 		});
 		expect(changeFn).toBeCalled();
 
-		// the second tab is clicked but in not select until new new selected TabBar prop is provided
+		// the second tab is clicked but is not selected until new new selected TabBar prop is provided
 		expect(within(teb0).getByText('First Tab is selected')).toBeVisible();
 		expect(within(tab1).getByText('Second Tab is not selected')).toBeVisible();
 
