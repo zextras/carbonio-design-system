@@ -25,6 +25,7 @@ import { Text } from '../basic/Text';
 import { IconButton } from '../inputs/IconButton';
 import { Container } from '../layout/Container';
 import { Divider } from '../layout/Divider';
+import { Padding } from '../layout/Padding';
 import { Row } from '../layout/Row';
 import { Portal } from '../utilities/Portal';
 import { Transition } from '../utilities/Transition';
@@ -92,10 +93,19 @@ const OptionalFooterContainer = styled(Container)`
 	flex-basis: auto;
 	flex-grow: 1;
 `;
-const ButtonContainer = styled(Container)`
+const ButtonContainer = styled(Container)<{ $pushLeftFirstChild?: boolean }>`
 	min-width: 1px;
 	flex-basis: auto;
 	flex-grow: 1;
+	${({ $pushLeftFirstChild }): SimpleInterpolation =>
+		$pushLeftFirstChild &&
+		css`
+			> * {
+				&:first-child {
+					margin-right: auto;
+				}
+			}
+		`}
 `;
 const DismissButton = styled(Button)`
 	margin-right: ${(props): string => props.theme.sizes.padding.large};
@@ -215,16 +225,22 @@ const ModalFooter: React.VFC<
 
 	return (
 		<>
-			{optionalFooter && (
+			{optionalFooter && centered && (
 				<OptionalFooterContainer
-					padding={centered ? { bottom: 'large' } : { right: 'large' }}
+					padding={{ bottom: 'large' }}
 					orientation="horizontal"
 					mainAlignment="flex-start"
 				>
 					{optionalFooter}
 				</OptionalFooterContainer>
 			)}
-			<ButtonContainer orientation="horizontal" mainAlignment={centered ? 'center' : 'flex-end'}>
+			<ButtonContainer
+				orientation="horizontal"
+				mainAlignment={centered ? 'center' : 'flex-end'}
+				$pushLeftFirstChild={optionalFooter != null && !centered}
+			>
+				{!centered && optionalFooter}
+				{!centered && <Padding right="large" />}
 				{secondaryButton}
 				{(onConfirm || onClose) && (
 					<ConfirmButton

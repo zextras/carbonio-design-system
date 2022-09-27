@@ -7,31 +7,51 @@
 import React from 'react';
 import userEvent from '@testing-library/user-event';
 import { screen } from '@testing-library/dom';
-import { waitFor } from '@testing-library/react';
+import { act, waitFor } from '@testing-library/react';
 import { render } from '../../test-utils';
 import { Button } from '../basic/Button';
-import { Dropdown } from './Dropdown';
+import { Dropdown, DropdownItem } from './Dropdown';
 import { Modal } from '../feedback/Modal';
 
 const items = [
 	{
-		id: 'activity-1',
-		icon: 'Activity',
+		id: 'item-1',
+		icon: 'item',
 		label: 'Some Item',
-		click: (): void => console.log('click1')
+		click: jest.fn()
 	},
 	{
-		id: 'activity-2',
+		id: 'item-2',
 		icon: 'Plus',
 		label: 'Some Other Item',
-		click: (): void => console.log('click2'),
+		click: jest.fn(),
 		disabled: true
 	},
 	{
-		id: 'activity-3',
-		icon: 'Activity',
+		id: 'item-3',
+		icon: 'item',
 		label: 'Yet Another Item',
-		click: (): void => console.log('click3')
+		click: jest.fn()
+	},
+	{
+		id: 'item-4',
+		icon: 'item',
+		label: 'Item 4',
+		click: jest.fn(),
+		items: [
+			{
+				id: 'item-4-1',
+				icon: 'item',
+				label: 'item 4 sub 1',
+				click: jest.fn()
+			},
+			{
+				id: 'item-4-2',
+				icon: 'item',
+				label: 'item 4 sub 2',
+				click: jest.fn()
+			}
+		]
 	}
 ];
 
@@ -174,5 +194,123 @@ describe('Dropdown', () => {
 		expect(screen.queryByText(/Yet Another Item/i)).not.toBeInTheDocument();
 		// modal close callback is not called
 		expect(onClose).not.toHaveBeenCalled();
+	});
+
+	test('Click on a nested item calls nested item click callback and close dropdown', async () => {
+		const onClick = jest.fn();
+		const item3Sub1ClickFn = jest.fn((e: React.SyntheticEvent | KeyboardEvent) => {
+			e.preventDefault();
+		});
+		const item3ClickInternalFn = jest.fn();
+		const item3ClickFn = jest.fn((e: React.SyntheticEvent | KeyboardEvent) => {
+			if (!e.defaultPrevented) {
+				item3ClickInternalFn();
+			}
+		});
+		(items[3].items as DropdownItem[])[0].click = item3Sub1ClickFn;
+		items[3].click = item3ClickFn;
+		render(
+			<Dropdown items={items}>
+				<Button label="opener" onClick={onClick} />
+			</Dropdown>
+		);
+		expect(screen.getByRole('button', { name: /opener/i })).toBeInTheDocument();
+		// dropdown is closed
+		expect(screen.queryByText(/some item/i)).not.toBeInTheDocument();
+		// first click trigger open
+		userEvent.click(screen.getByRole('button', { name: /opener/i }));
+		await screen.findByText(/item 4/i);
+		// wait for listeners to be registered
+		await waitFor(
+			() =>
+				new Promise((resolve) => {
+					setTimeout(resolve, 1);
+				})
+		);
+		expect(screen.getByTestId('icon: ChevronRight')).toBeVisible();
+		userEvent.hover(screen.getByTestId('icon: ChevronRight'));
+		await screen.findByText(/item 4 sub 1/i);
+		// wait for listeners to be registered
+		await waitFor(
+			() =>
+				new Promise((resolve) => {
+					setTimeout(resolve, 1);
+				})
+		);
+		expect(screen.getByText(/item 4 sub 1/i)).toBeVisible();
+		userEvent.click(screen.getByText(/item 4 sub 1/i));
+		expect(item3Sub1ClickFn).toHaveBeenCalled();
+		expect(item3ClickFn).toHaveBeenCalled();
+		expect(item3ClickInternalFn).not.toHaveBeenCalled();
+		expect(screen.queryByText(/item 4/i)).not.toBeInTheDocument();
+	});
+
+	test('Disabled items show a tooltip if tooltipLabel is provided', async () => {
+		const dropdownItems: DropdownItem[] = [
+			{
+				id: 'item1',
+				label: 'item 1',
+				disabled: false,
+				tooltipLabel: 'tooltip 1'
+			},
+			{
+				id: 'item2',
+				label: 'item 2',
+				disabled: true,
+				tooltipLabel: 'tooltip 2'
+			},
+			{
+				id: 'item3',
+				label: 'item 3',
+				disabled: true,
+				tooltipLabel: undefined
+			}
+		];
+		const onClick = jest.fn();
+		render(
+			<Dropdown items={dropdownItems}>
+				<Button label="opener" onClick={onClick} />
+			</Dropdown>
+		);
+
+		expect(screen.getByRole('button', { name: /opener/i })).toBeInTheDocument();
+		// dropdown is closed
+		expect(screen.queryByText(/item/i)).not.toBeInTheDocument();
+		// open dropdown
+		userEvent.click(screen.getByRole('button', { name: /opener/i }));
+		await screen.findAllByText(/item/i);
+		// wait for listeners to be registered
+		await waitFor(
+			() =>
+				new Promise((resolve) => {
+					setTimeout(resolve, 1);
+				})
+		);
+		expect(screen.getByText('item 1')).toBeVisible();
+		expect(screen.getByText('item 2')).toBeVisible();
+		expect(screen.getByText('item 3')).toBeVisible();
+		expect(screen.queryByText(/tooltip/i)).not.toBeInTheDocument();
+		userEvent.hover(screen.getByText('item 1'));
+		await waitFor(
+			() =>
+				new Promise((resolve) => {
+					setTimeout(resolve, 500);
+				})
+		);
+		expect(screen.queryByText(/tooltip/i)).not.toBeInTheDocument();
+		userEvent.hover(screen.getByText('item 2'));
+		await screen.findByText(/tooltip/i);
+		expect(screen.getByText('tooltip 2')).toBeVisible();
+		act(() => {
+			userEvent.unhover(screen.getByText('item 2'));
+		});
+		userEvent.hover(screen.getByText('item 3'));
+		await waitFor(
+			() =>
+				new Promise((resolve) => {
+					setTimeout(resolve, 500);
+				})
+		);
+		expect(screen.queryByText(/tooltip/i)).not.toBeInTheDocument();
 	});
 });
