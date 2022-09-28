@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.4.1](https://github.com/Zextras/carbonio-design-system/compare/v0.4.0...v0.4.1) (2022-09-27)
+
+
+### Features
+
+* **Dropdown:** add tooltip on disabled items ([4dce432](https://github.com/Zextras/carbonio-design-system/commit/4dce43254a6221e8c6e93be9aaab53ae4aa3f83b)), closes [#124](https://github.com/Zextras/carbonio-design-system/issues/124)
+
+
+### Bug Fixes
+
+* **ChipInput:** hide scrollbar when not in overflow ([2da4ea6](https://github.com/Zextras/carbonio-design-system/commit/2da4ea6b18f7cd124a4dcb84d2ec9f28adf23965))
+* **Dropdown:** align content to flex-start when item has subitems ([6d755a5](https://github.com/Zextras/carbonio-design-system/commit/6d755a5d681f8f715908ebf59118a3ad2149662c))
+* **Dropdown:** prevent dropdown from closing before calling click callback of nested items ([e8cea00](https://github.com/Zextras/carbonio-design-system/commit/e8cea004d7cf64a542dac0bce774201244801c97))
+* **Modal:** avoid button text overflow, if is it possible, when optionalFooter is provided ([3a10888](https://github.com/Zextras/carbonio-design-system/commit/3a10888e9597801a0dc04cbfa3f156b6a11b3377))
+
 ## [0.4.0](https://github.com/Zextras/carbonio-design-system/compare/v0.3.10...v0.4.0) (2022-09-02)
 
 
