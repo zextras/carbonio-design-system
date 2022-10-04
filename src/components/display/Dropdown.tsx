@@ -505,6 +505,7 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 				dropdownRef.current &&
 				(e.target === dropdownRef.current || dropdownRef.current.contains(e.target as Node | null));
 			const clickedOnTrigger =
+				!contextMenu &&
 				innerTriggerRef.current &&
 				(e.target === innerTriggerRef.current ||
 					innerTriggerRef.current?.contains(e.target as Node | null));
@@ -528,7 +529,7 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 				closePopper();
 			}
 		},
-		[closePopper, dropdownRef, innerTriggerRef]
+		[closePopper, contextMenu, dropdownRef, innerTriggerRef]
 	);
 
 	const onStartSentinelFocus = useCallback(() => {
