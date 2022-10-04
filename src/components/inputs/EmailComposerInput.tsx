@@ -5,9 +5,11 @@
  */
 
 import React, { useState, useEffect, useRef, useCallback, useContext, HTMLAttributes } from 'react';
+
 import styled, { css, SimpleInterpolation } from 'styled-components';
-import { Text } from '../basic/Text';
+
 import { ThemeContext } from '../../theme/theme-context-provider';
+import { Text } from '../basic/Text';
 
 const PlaceholderInline = styled(Text)`
 	font-size: ${({ theme }): string => theme.sizes.font.medium};

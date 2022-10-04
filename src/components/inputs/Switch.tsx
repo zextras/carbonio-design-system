@@ -5,15 +5,16 @@
  */
 
 import React, { useRef } from 'react';
+
 import styled, { css, SimpleInterpolation } from 'styled-components';
+
+import { useCheckbox } from '../../hooks/useCheckbox';
+import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import type { ThemeObj } from '../../theme/theme';
 import { Icon } from '../basic/Icon';
-
+import { Text } from '../basic/Text';
 import { Container, ContainerProps } from '../layout/Container';
 import { Padding } from '../layout/Padding';
-import { Text } from '../basic/Text';
-import { useCombinedRefs } from '../../hooks/useCombinedRefs';
-import { useCheckbox } from '../../hooks/useCheckbox';
 
 type SwitchSize = 'medium' | 'small';
 

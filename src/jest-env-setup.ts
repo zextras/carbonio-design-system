@@ -1,5 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
-
 /*
  * SPDX-FileCopyrightText: 2021 Zextras <https://www.zextras.com>
  *

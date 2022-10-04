@@ -3,11 +3,11 @@
  *
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-/* eslint-disable import/no-extraneous-dependencies */
-
 import React from 'react';
-import { screen } from '@testing-library/dom';
+
 import { faker } from '@faker-js/faker';
+import { screen } from '@testing-library/react';
+
 import { render } from '../../test-utils';
 import { Avatar } from './Avatar';
 
@@ -30,18 +30,18 @@ describe('Avatar', () => {
 
 	test('Render an avatar with an icon and a themed background', () => {
 		const words = faker.lorem.words(2);
-		const { container } = render(<Avatar label={words} background="primary" icon="BulbOutline" />);
-		expect(container.querySelector('svg')).toBeInTheDocument();
+		render(<Avatar label={words} background="primary" icon="BulbOutline" />);
+		expect(screen.getByTestId('icon: BulbOutline')).toBeInTheDocument();
 	});
 
 	test('Render an avatar with an empty label, must render the default icon', () => {
-		const { container } = render(<Avatar label="" />);
-		expect(container.querySelector('svg')).toBeInTheDocument();
+		render(<Avatar label="" />);
+		expect(screen.getByTestId('icon: QuestionMark')).toBeInTheDocument();
 	});
 
 	test('Render an avatar with label composed by spaces, must render the default icon', () => {
-		const { container } = render(<Avatar label="     " />);
-		expect(container.querySelector('svg')).toBeInTheDocument();
+		render(<Avatar label="     " />);
+		expect(screen.getByTestId('icon: QuestionMark')).toBeInTheDocument();
 	});
 
 	test('Render an avatar with a label with a single letter', () => {

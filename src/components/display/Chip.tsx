@@ -5,18 +5,20 @@
  */
 
 import React, { useCallback, useMemo, useRef, useState } from 'react';
+
 import { map } from 'lodash';
 import styled, { css, SimpleInterpolation } from 'styled-components';
-import type { ThemeObj } from '../../theme/theme';
-import { Container, ContainerProps } from '../layout/Container';
-import { Tooltip } from './Tooltip';
-import { Icon } from '../basic/Icon';
-import { IconButton, IconButtonProps } from '../inputs/IconButton';
-import { Avatar } from '../basic/Avatar';
-import { Row, RowProps } from '../layout/Row';
-import { Text } from '../basic/Text';
+
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
+import type { ThemeObj } from '../../theme/theme';
 import { useTheme, pseudoClasses } from '../../theme/theme-utils';
+import { Avatar } from '../basic/Avatar';
+import { Icon } from '../basic/Icon';
+import { Text } from '../basic/Text';
+import { IconButton, IconButtonProps } from '../inputs/IconButton';
+import { Container, ContainerProps } from '../layout/Container';
+import { Row, RowProps } from '../layout/Row';
+import { Tooltip } from './Tooltip';
 
 type ChipAction = {
 	/** Chip action icon color */

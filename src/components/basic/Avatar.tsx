@@ -5,10 +5,12 @@
  */
 
 import React, { HTMLAttributes, useMemo } from 'react';
+
 import styled from 'styled-components';
-import { Icon } from './Icon';
+
 import type { ThemeObj } from '../../theme/theme';
 import { getColor } from '../../theme/theme-utils';
+import { Icon } from './Icon';
 
 type ShapeType = 'round' | 'square';
 

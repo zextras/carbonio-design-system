@@ -1,38 +1,31 @@
-/* eslint-disable no-console */
-/* eslint-disable import/no-extraneous-dependencies */
-
 /*
  * SPDX-FileCopyrightText: 2021 Zextras <https://www.zextras.com>
  *
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { useCallback, useState } from 'react';
-import { screen } from '@testing-library/dom';
+import React, { useState } from 'react';
+
+import { screen } from '@testing-library/react';
+
 import { render } from '../../test-utils';
-import { Container } from '../layout/Container';
 import { Button } from '../basic/Button';
-import { Padding } from '../layout/Padding';
-import { Text } from '../basic/Text';
-import { THeader, Table, TRow } from './Table';
-import { Row } from '../layout/Row';
 import { Icon } from '../basic/Icon';
+import { Text } from '../basic/Text';
+import { Container } from '../layout/Container';
+import { Padding } from '../layout/Padding';
+import { Row } from '../layout/Row';
+import { THeader, Table, TRow } from './Table';
 
 const CustomTable = (): JSX.Element => {
 	const [selectedRows, setSelectedRows] = useState<string[]>([]);
-	const changeHandler = useCallback<THeader['onChange']>((items) => {
-		console.log('Filter changed', items);
-	}, []);
-	const rowClickHandler = useCallback((e) => {
-		console.log('Row clicked', e);
-	}, []);
 
 	const headers: THeader[] = [
 		{
 			id: 'date1',
 			label: 'Date1',
 			width: '20%',
-			onChange: changeHandler
+			onChange: jest.fn()
 		},
 		{
 			id: 'server1',
@@ -49,7 +42,7 @@ const CustomTable = (): JSX.Element => {
 				{ label: 'Servername_7', value: '7' },
 				{ label: 'Servername_8', value: '8' }
 			],
-			onChange: changeHandler
+			onChange: jest.fn()
 		},
 		{
 			id: 'type1',
@@ -61,13 +54,13 @@ const CustomTable = (): JSX.Element => {
 				{ label: 'Warning', value: '2' },
 				{ label: 'Error', value: '3' }
 			],
-			onChange: changeHandler
+			onChange: jest.fn()
 		},
 		{
 			id: 'obj1',
 			label: 'Object1',
 			width: '40%',
-			onChange: changeHandler
+			onChange: jest.fn()
 		}
 	];
 
@@ -76,7 +69,7 @@ const CustomTable = (): JSX.Element => {
 			id: 'date2',
 			label: 'Date2',
 			width: '20%',
-			onChange: changeHandler
+			onChange: jest.fn()
 		},
 		{
 			id: 'server2',
@@ -93,7 +86,7 @@ const CustomTable = (): JSX.Element => {
 				{ label: 'Servername_7', value: '7' },
 				{ label: 'Servername_8', value: '8' }
 			],
-			onChange: changeHandler
+			onChange: jest.fn()
 		},
 		{
 			id: 'type2',
@@ -105,13 +98,13 @@ const CustomTable = (): JSX.Element => {
 				{ label: 'Warning', value: '2' },
 				{ label: 'Error', value: '3' }
 			],
-			onChange: changeHandler
+			onChange: jest.fn()
 		},
 		{
 			id: 'obj2',
 			label: 'Object2',
 			width: '40%',
-			onChange: changeHandler
+			onChange: jest.fn()
 		}
 	];
 
@@ -126,7 +119,7 @@ const CustomTable = (): JSX.Element => {
 				</Container>,
 				'Zextras Backup Notifcation, Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
 			],
-			onClick: rowClickHandler,
+			onClick: jest.fn(),
 			clickable: true
 		},
 		{
@@ -139,7 +132,7 @@ const CustomTable = (): JSX.Element => {
 				</Container>,
 				'Zextras Backup Notifcation, Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
 			],
-			onClick: rowClickHandler,
+			onClick: jest.fn(),
 			clickable: true
 		},
 		{
@@ -152,7 +145,7 @@ const CustomTable = (): JSX.Element => {
 				</Container>,
 				'Zextras Backup Notifcation, Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
 			],
-			onClick: rowClickHandler,
+			onClick: jest.fn(),
 			clickable: true
 		},
 		{
@@ -165,7 +158,7 @@ const CustomTable = (): JSX.Element => {
 				</Container>,
 				'Zextras Backup Notifcation, Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
 			],
-			onClick: rowClickHandler,
+			onClick: jest.fn(),
 			clickable: true
 		}
 	];
@@ -181,9 +174,7 @@ const CustomTable = (): JSX.Element => {
 				rows={items}
 				headers={headers}
 				defaultSelection={['2', '3']}
-				onSelectionChange={(selected): void =>
-					console.log('Uncontrolled selection onChange', selected)
-				}
+				onSelectionChange={jest.fn()}
 			/>
 			<Row
 				padding={{ top: 'extralarge', bottom: 'large' }}

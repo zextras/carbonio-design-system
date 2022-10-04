@@ -1,5 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
-
 /*
  * SPDX-FileCopyrightText: 2021 Zextras <https://www.zextras.com>
  *
@@ -7,12 +5,14 @@
  */
 
 import React, { useState } from 'react';
-import { screen } from '@testing-library/dom';
+
+import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { Button } from '../basic/Button';
-import { Modal } from './Modal';
-import { Text } from '../basic/Text';
+
 import { render } from '../../test-utils';
+import { Button } from '../basic/Button';
+import { Text } from '../basic/Text';
+import { Modal } from './Modal';
 
 const CustomModal = (): JSX.Element => {
 	const [open, setOpen] = useState(false);

@@ -4,8 +4,10 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import { screen } from '@testing-library/dom';
 import React from 'react';
+
+import { screen } from '@testing-library/react';
+
 import { render } from '../../test-utils';
 import { Link } from './Link';
 

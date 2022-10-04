@@ -1,5 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
-
 /*
  * SPDX-FileCopyrightText: 2021 Zextras <https://www.zextras.com>
  *
@@ -7,12 +5,13 @@
  */
 
 import React from 'react';
-import { screen } from '@testing-library/dom';
-import { act, waitFor } from '@testing-library/react';
+
+import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+
 import { render } from '../../test-utils';
-import { Accordion, AccordionItem, AccordionItemType } from './Accordion';
 import { Button } from '../basic/Button';
+import { Accordion, AccordionItem, AccordionItemType } from './Accordion';
 
 describe('Accordion', () => {
 	test('Render root level Accordion items', () => {
@@ -26,7 +25,7 @@ describe('Accordion', () => {
 				]}
 			/>
 		);
-		expect(container.textContent).toEqual('FirstSecondThirdFourth');
+		expect(container).toHaveTextContent('FirstSecondThirdFourth');
 	});
 
 	test('Render deep level Accordion items', () => {
@@ -71,7 +70,7 @@ describe('Accordion', () => {
 				]}
 			/>
 		);
-		expect(container.textContent).toEqual('Deep');
+		expect(container).toHaveTextContent('Deep');
 	});
 
 	test('Render customized Accordion', () => {
@@ -81,11 +80,11 @@ describe('Accordion', () => {
 			<Button label={item.label} onClick={clickFn} />
 		);
 		const CC2: AccordionItemType['CustomComponent'] = ({ item }) => (
-			<div id="custom" style={{ width: '100%', border: '1px solid green' }}>
+			<div id="custom" data-testid="custom" style={{ width: '100%', border: '1px solid green' }}>
 				<AccordionItem item={item} />
 			</div>
 		);
-		const { container } = render(
+		render(
 			<Accordion
 				items={[
 					{ id: 'first', label: 'First', icon: 'Activity', CustomComponent: CC1 },
@@ -96,7 +95,7 @@ describe('Accordion', () => {
 			/>
 		);
 		expect(screen.getByRole('button', { name: /first/i })).toBeInTheDocument();
-		expect(container.querySelector('#custom')).toBeInTheDocument();
+		expect(screen.getByTestId('custom')).toBeInTheDocument();
 	});
 
 	test('Open and close an Accordion', async () => {

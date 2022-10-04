@@ -5,6 +5,7 @@
  */
 
 import { useLayoutEffect, useState, useContext, useCallback } from 'react';
+
 import { ThemeContext } from 'styled-components';
 
 type ScreenMode = 'mobile' | 'desktop';

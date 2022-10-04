@@ -13,19 +13,21 @@ import React, {
 	useRef,
 	useState
 } from 'react';
+
 import { filter, map, slice, isEmpty, debounce, find, trim, reduce, uniq } from 'lodash';
 import styled, { css, SimpleInterpolation } from 'styled-components';
-import { IconButton } from './IconButton';
+
+import { useCombinedRefs } from '../../hooks/useCombinedRefs';
+import { useKeyboard, getKeyboardPreset, KeyboardPreset } from '../../hooks/useKeyboard';
 import { ThemeObj } from '../../theme/theme';
+import { getColor, pseudoClasses } from '../../theme/theme-utils';
+import { Icon } from '../basic/Icon';
+import { Text, TextProps } from '../basic/Text';
 import { Chip, ChipProps } from '../display/Chip';
 import { Dropdown, DropdownItem } from '../display/Dropdown';
-import { Text, TextProps } from '../basic/Text';
-import { useKeyboard, getKeyboardPreset, KeyboardPreset } from '../../hooks/useKeyboard';
-import { useCombinedRefs } from '../../hooks/useCombinedRefs';
-import { getColor, pseudoClasses } from '../../theme/theme-utils';
 import { Container, ContainerProps } from '../layout/Container';
-import { Icon } from '../basic/Icon';
 import { Divider, DividerProps } from '../layout/Divider';
+import { IconButton } from './IconButton';
 
 const ContainerEl = styled(Container)<{
 	background: keyof ThemeObj['palette'];

@@ -5,10 +5,12 @@
  */
 
 import React from 'react';
+
 import styled, { keyframes, SimpleInterpolation } from 'styled-components';
+
 import type { ThemeObj } from '../../theme/theme';
-import { Container } from '../layout/Container';
 import { FormSection, FormSubSection } from '../basic/FormSection';
+import { Container } from '../layout/Container';
 import { Padding } from '../layout/Padding';
 
 const SIZES = {

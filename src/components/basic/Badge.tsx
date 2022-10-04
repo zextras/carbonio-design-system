@@ -7,6 +7,7 @@
 import React, { useMemo, forwardRef, HTMLAttributes } from 'react';
 
 import styled from 'styled-components';
+
 import { Tooltip } from '../display/Tooltip';
 
 const Comp = styled.span<{ isRead: boolean; isNumber: boolean }>`

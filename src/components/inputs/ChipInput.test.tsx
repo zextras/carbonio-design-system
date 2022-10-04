@@ -5,9 +5,10 @@
  */
 
 import React from 'react';
-import { waitFor } from '@testing-library/react';
+
+import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { screen } from '@testing-library/dom';
+
 import { render } from '../../test-utils';
 import { ChipInput, ChipItem } from './ChipInput';
 

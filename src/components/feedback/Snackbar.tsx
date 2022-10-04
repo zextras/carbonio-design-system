@@ -5,7 +5,9 @@
  */
 
 import React, { useCallback, useEffect } from 'react';
+
 import styled, { css, SimpleInterpolation } from 'styled-components';
+
 import { ScreenMode, useScreenMode } from '../../hooks/useScreenMode';
 import { Button } from '../basic/Button';
 import { Icon } from '../basic/Icon';
@@ -13,8 +15,8 @@ import { Text } from '../basic/Text';
 import { Container, ContainerProps } from '../layout/Container';
 import { Padding } from '../layout/Padding';
 import { Row } from '../layout/Row';
-import { Transition } from '../utilities/Transition';
 import { Portal } from '../utilities/Portal';
+import { Transition } from '../utilities/Transition';
 
 const SnackContainer = styled(Container)<{ $zIndex: number; $screenMode: ScreenMode }>`
 	position: fixed;

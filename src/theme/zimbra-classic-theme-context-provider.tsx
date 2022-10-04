@@ -5,7 +5,9 @@
  */
 
 import React, { useContext } from 'react';
+
 import { StyleSheetManager } from 'styled-components';
+
 import type { ThemeObj } from './theme';
 import { ThemeProvider, ThemeContext } from './theme-context-provider';
 

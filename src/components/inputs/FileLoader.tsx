@@ -5,7 +5,9 @@
  */
 
 import React, { useRef, useCallback } from 'react';
+
 import styled from 'styled-components';
+
 import { IconButton, IconButtonProps } from './IconButton';
 
 const FileInput = styled.input`

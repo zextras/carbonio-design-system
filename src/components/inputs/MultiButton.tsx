@@ -5,10 +5,12 @@
  */
 
 import React, { useCallback, useMemo, useRef, useState } from 'react';
+
 import styled from 'styled-components';
+
+import type { ThemeObj } from '../../theme/theme';
 import { Button, ButtonProps } from '../basic/Button';
 import { Dropdown, DropdownProps } from '../display/Dropdown';
-import type { ThemeObj } from '../../theme/theme';
 
 const StyledDropdown = styled(Dropdown)<{ $containerWidth: string }>`
 	width: ${({ $containerWidth }): string => $containerWidth};

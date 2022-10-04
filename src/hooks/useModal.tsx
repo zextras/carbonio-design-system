@@ -5,6 +5,7 @@
  */
 
 import { useContext } from 'react';
+
 import { CreateModalFn, ModalManagerContext } from '../components/utilities/ModalManager';
 
 function useModal(): CreateModalFn {

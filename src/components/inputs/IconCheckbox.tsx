@@ -5,14 +5,16 @@
  */
 
 import React, { useRef, useCallback, useMemo } from 'react';
+
 import styled, { css, SimpleInterpolation } from 'styled-components';
-import { Container, ContainerProps } from '../layout/Container';
-import { Icon } from '../basic/Icon';
-import { Text } from '../basic/Text';
-import { Padding } from '../layout/Padding';
+
+import { useCheckbox } from '../../hooks/useCheckbox';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import type { ThemeObj } from '../../theme/theme';
-import { useCheckbox } from '../../hooks/useCheckbox';
+import { Icon } from '../basic/Icon';
+import { Text } from '../basic/Text';
+import { Container, ContainerProps } from '../layout/Container';
+import { Padding } from '../layout/Padding';
 
 const IconWrapper = styled.div<{
 	borderRadius: 'regular' | 'round';
