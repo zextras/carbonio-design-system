@@ -37,6 +37,7 @@ const clickStandardHandler = () => {
             title="Custom modal composition"
             showCloseIcon
             onClose={closeCustomHandler}
+            closeIconTooltip="Close"
         />
         <Divider />
         <ModalBody>
@@ -57,6 +58,7 @@ const clickStandardHandler = () => {
         showCloseIcon={true}
         confirmLabel="Confirm"
         onClick={clickStandardHandler}
+        closeIconTooltip="Close"
     >
       <Text>This is a standard modal composed by modal components</Text>
     </Modal>

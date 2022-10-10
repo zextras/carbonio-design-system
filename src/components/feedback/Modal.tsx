@@ -72,6 +72,8 @@ type ModalProps = Omit<ModalFooterProps, 'errorActionLabel' | 'onErrorAction'> &
 	children?: React.ReactNode | React.ReactNode[];
 	/** Label for copy button in the Error Modal */
 	copyLabel?: ModalFooterProps['errorActionLabel'];
+	/** Close icon tooltip label */
+	closeIconTooltip?: string;
 } & Omit<HTMLAttributes<HTMLDivElement>, 'title'>;
 
 const Modal = React.forwardRef<HTMLDivElement, ModalProps>(function ModalFn(
@@ -100,6 +102,7 @@ const Modal = React.forwardRef<HTMLDivElement, ModalProps>(function ModalFn(
 		disablePortal = false,
 		zIndex = 999,
 		onClick,
+		closeIconTooltip,
 		...rest
 	},
 	ref
@@ -226,6 +229,7 @@ const Modal = React.forwardRef<HTMLDivElement, ModalProps>(function ModalFn(
 								title={Title}
 								showCloseIcon={showCloseIcon}
 								onClose={onClose}
+								closeIconTooltip={closeIconTooltip}
 							/>
 							<Divider />
 							<ModalBody centered={centered} ref={modalBodyRef}>
