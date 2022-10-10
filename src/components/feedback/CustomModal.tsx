@@ -56,6 +56,7 @@ const CustomModal = React.forwardRef<HTMLDivElement, CustomModalProps>(function 
 		minHeight,
 		maxHeight,
 		zIndex = 999,
+		onClick,
 		...rest
 	},
 	ref
@@ -69,7 +70,7 @@ const CustomModal = React.forwardRef<HTMLDivElement, CustomModalProps>(function 
 	const endSentinelRef = useRef<HTMLDivElement>(null);
 
 	const onBackdropClick = useCallback(
-		(e: KeyboardEvent | React.MouseEvent) => {
+		(e: KeyboardEvent | React.MouseEvent<HTMLDivElement>) => {
 			if (e) {
 				e.stopPropagation();
 			}
@@ -175,6 +176,7 @@ const CustomModal = React.forwardRef<HTMLDivElement, CustomModalProps>(function 
 							$size={size}
 							minHeight={minHeight}
 							maxHeight={maxHeight}
+							onClick={onClick}
 						>
 							{children}
 						</ModalContent>

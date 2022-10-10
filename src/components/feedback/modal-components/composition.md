@@ -6,25 +6,32 @@ import { Button, CustomModal, Text, ModalHeader, ModalBody, ModalFooter, Divider
 
 const [openCustomModal, setOpenCustomModal] = useState(false);
 const [openStandardModal, setOpenStandardModal] = useState(false);
-const clickCustomHandler = () => setOpenCustomModal(true);
+const openCustomHandler = () => setOpenCustomModal(true);
 const closeCustomHandler = () => setOpenCustomModal(false);
 const confirmCustomHandler = () => {
 	console.log('confirm custom');
     closeCustomHandler()
 }
-const clickStandardHandler = () => setOpenStandardModal(true);
+const clickCustomHandler = () => {
+	console.log('click custom modal content');
+}
+const openStandardHandler = () => setOpenStandardModal(true);
 const closeStandardHandler = () => setOpenStandardModal(false);
 const confirmStandardHandler = () => {
 	console.log('confirm standard');
 	closeStandardHandler();
 }
+const clickStandardHandler = () => {
+	console.log('click standard modal content');
+}
 
 <Container orientation="horizontal" gap="10px">
-    <Button label="Trigger Custom Modal" onClick={clickCustomHandler}/>
-    <Button label="Trigger Standard Modal" onClick={clickStandardHandler}/>
+    <Button label="Trigger Custom Modal" onClick={openCustomHandler}/>
+    <Button label="Trigger Standard Modal" onClick={openStandardHandler}/>
     <CustomModal
         open={openCustomModal}
         onClose={closeCustomHandler}
+        onClick={clickCustomHandler}
     >
         <ModalHeader
             title="Custom modal composition"
@@ -49,6 +56,7 @@ const confirmStandardHandler = () => {
         onClose={closeStandardHandler}
         showCloseIcon={true}
         confirmLabel="Confirm"
+        onClick={clickStandardHandler}
     >
       <Text>This is a standard modal composed by modal components</Text>
     </Modal>

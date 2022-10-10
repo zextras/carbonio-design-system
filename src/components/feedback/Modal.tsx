@@ -99,6 +99,7 @@ const Modal = React.forwardRef<HTMLDivElement, ModalProps>(function ModalFn(
 		children,
 		disablePortal = false,
 		zIndex = 999,
+		onClick,
 		...rest
 	},
 	ref
@@ -217,6 +218,7 @@ const Modal = React.forwardRef<HTMLDivElement, ModalProps>(function ModalFn(
 							$size={size}
 							minHeight={minHeight}
 							maxHeight={maxHeight}
+							onClick={onClick}
 						>
 							<ModalHeader
 								centered={centered}
