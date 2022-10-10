@@ -36,6 +36,7 @@ const ModalBody = styled.div.attrs<{
 		background-color: ${({ theme }): string => theme.palette.gray3.regular};
 		border-radius: 4px;
 	}
+	flex-grow: 1;
 `;
 
 export { ModalBody };
