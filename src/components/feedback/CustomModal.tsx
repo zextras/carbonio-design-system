@@ -27,13 +27,23 @@ import {
 	ModalContainer,
 	ModalContent,
 	ModalWrapper
-} from './ModalComponents';
+} from './modal-components/ModalComponents';
 
-type CustomModalProps = Pick<
+type PickedModal = Pick<
 	ModalProps,
-	'background' | 'size' | 'open' | 'onClose' | 'zIndex' | 'maxHeight' | 'disablePortal' | 'children'
-> &
-	Omit<HTMLAttributes<HTMLDivElement>, keyof ModalProps>;
+	| 'background'
+	| 'size'
+	| 'open'
+	| 'onClose'
+	| 'zIndex'
+	| 'minHeight'
+	| 'maxHeight'
+	| 'disablePortal'
+	| 'children'
+>;
+
+type CustomModalProps = PickedModal &
+	Omit<HTMLAttributes<HTMLDivElement>, keyof PickedModal | 'title'>;
 
 const CustomModal = React.forwardRef<HTMLDivElement, CustomModalProps>(function ModalFn(
 	{
@@ -43,8 +53,10 @@ const CustomModal = React.forwardRef<HTMLDivElement, CustomModalProps>(function 
 		onClose,
 		children,
 		disablePortal = false,
-		maxHeight = '60vh',
+		minHeight,
+		maxHeight,
 		zIndex = 999,
+		onClick,
 		...rest
 	},
 	ref
@@ -58,14 +70,19 @@ const CustomModal = React.forwardRef<HTMLDivElement, CustomModalProps>(function 
 	const endSentinelRef = useRef<HTMLDivElement>(null);
 
 	const onBackdropClick = useCallback(
-		(e: KeyboardEvent | React.MouseEvent) => {
+		(e: KeyboardEvent | React.MouseEvent<HTMLDivElement>) => {
 			if (e) {
 				e.stopPropagation();
 			}
-			modalContentRef.current &&
+			if (
+				!e.defaultPrevented &&
+				modalContentRef.current &&
 				onClose &&
-				!modalContentRef.current.contains(e.target as Node | null) &&
+				e.target instanceof Node &&
+				!modalContentRef.current.contains(e.target)
+			) {
 				onClose(e);
+			}
 		},
 		[onClose]
 	);
@@ -135,7 +152,7 @@ const CustomModal = React.forwardRef<HTMLDivElement, CustomModalProps>(function 
 
 	const modalWrapperClickHandler = useCallback<React.MouseEventHandler>((e) => {
 		if (e) {
-			e.stopPropagation();
+			e.preventDefault();
 		}
 	}, []);
 
@@ -156,11 +173,10 @@ const CustomModal = React.forwardRef<HTMLDivElement, CustomModalProps>(function 
 						<ModalContent
 							ref={modalContentRef}
 							background={background}
-							tabIndex={-1}
 							$size={size}
-							crossAlignment="flex-start"
-							height="auto"
+							minHeight={minHeight}
 							maxHeight={maxHeight}
+							onClick={onClick}
 						>
 							{children}
 						</ModalContent>

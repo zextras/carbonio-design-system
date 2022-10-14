@@ -90,9 +90,18 @@ module.exports = {
 				},
 				{
 					name: 'Feedback',
-					components: 'src/components/feedback/**/*.[j|t]sx',
+					components: 'src/components/feedback/*.[j|t]sx',
 					exampleMode: 'collapse',
-					usageMode: 'expand'
+					usageMode: 'expand',
+					sections: [
+						{
+							name: 'Modal Components',
+							content: 'src/components/feedback/modal-components/composition.md',
+							components: 'src/components/feedback/modal-components/*.[j|t]sx',
+							exampleMode: 'collapse',
+							usageMode: 'expand'
+						}
+					]
 				},
 				{
 					name: 'Utilities',

@@ -11,6 +11,7 @@ import { CustomModal, CustomModalProps } from '../feedback/CustomModal';
 import { Modal, ModalProps } from '../feedback/Modal';
 
 type CloseModalFn = () => void;
+
 type CreateModalArgs =
 	| [modalProps: ModalProps, customModal?: false]
 	| [customModalProps: CustomModalProps, customModal: true];
@@ -124,7 +125,7 @@ function ModalManager({ children }: ModalManagerProps): JSX.Element {
 
 			return closeModal;
 		},
-		[windowObj.document.body.style]
+		[windowObj]
 	);
 
 	return (

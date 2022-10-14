@@ -12,9 +12,9 @@ import userEvent from '@testing-library/user-event';
 import { render } from '../../test-utils';
 import { Button } from '../basic/Button';
 import { Text } from '../basic/Text';
-import { Modal, ModalProps } from './Modal';
+import { CustomModal, CustomModalProps } from './CustomModal';
 
-const ModalTester = (props: ModalProps): JSX.Element => {
+const ModalTester = (props: CustomModalProps): JSX.Element => {
 	const [open, setOpen] = useState(false);
 	const clickHandler = (): void => setOpen(true);
 	const closeHandler = (): void => setOpen(false);
@@ -22,20 +22,15 @@ const ModalTester = (props: ModalProps): JSX.Element => {
 	return (
 		<>
 			<Button label="Trigger Modal" onClick={clickHandler} />
-			<Modal
-				{...props}
-				title="My Title"
-				open={open}
-				onConfirm={closeHandler}
-				onClose={closeHandler}
-			>
+			<CustomModal {...props} open={open} onClose={closeHandler}>
+				<Text>My Title</Text>
 				<Text overflow="break-word">Lorem ipsum dolor sit amet.</Text>
-			</Modal>
+			</CustomModal>
 		</>
 	);
 };
 
-describe('Modal', () => {
+describe('Custom Modal', () => {
 	test('Render Modal', () => {
 		render(<ModalTester />);
 
