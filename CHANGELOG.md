@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.5.0](https://github.com/Zextras/carbonio-design-system/compare/v0.4.1...v0.5.0) (2022-10-14)
+
+
+### ⚠ BREAKING CHANGES
+
+* **TabBar:** removed onItemClick and defaultSelected props
+
+### Features
+
+* **Modal,CustomModal:** export modal components and add onClick on content ([090ef33](https://github.com/Zextras/carbonio-design-system/commit/090ef337e9902ae790ed2eeb52fdebb59bb36c1e)), closes [#130](https://github.com/Zextras/carbonio-design-system/issues/130)
+
+
+### Bug Fixes
+
+* **Dropdown:** close dropdown of type contextMenu when click is on trigger component ([3367540](https://github.com/Zextras/carbonio-design-system/commit/33675405f55aac9cc966a5a000b0ba12a4f528cc)), closes [#128](https://github.com/Zextras/carbonio-design-system/issues/128)
+
+
+* **TabBar:** remove TabBar uncontrolled mode ([f69777e](https://github.com/Zextras/carbonio-design-system/commit/f69777e758a1b3a1db8c3e0c26db5d6960c80c0e)), closes [#126](https://github.com/Zextras/carbonio-design-system/issues/126)
+
 ### [0.4.1](https://github.com/Zextras/carbonio-design-system/compare/v0.4.0...v0.4.1) (2022-09-27)
 
 
