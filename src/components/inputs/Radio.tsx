@@ -5,13 +5,15 @@
  */
 
 import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
+
 import styled, { css, SimpleInterpolation } from 'styled-components';
-import type { ThemeObj } from '../../theme/theme';
-import { Container, ContainerProps } from '../layout/Container';
-import { Text } from '../basic/Text';
-import { Icon } from '../basic/Icon';
-import { getKeyboardPreset, useKeyboard } from '../../hooks/useKeyboard';
+
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
+import { getKeyboardPreset, useKeyboard } from '../../hooks/useKeyboard';
+import type { ThemeObj } from '../../theme/theme';
+import { Icon } from '../basic/Icon';
+import { Text } from '../basic/Text';
+import { Container, ContainerProps } from '../layout/Container';
 
 type RadioSize = 'medium' | 'small';
 

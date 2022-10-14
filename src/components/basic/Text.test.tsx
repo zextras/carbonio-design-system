@@ -4,9 +4,11 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 import React from 'react';
+
 import { screen } from '@testing-library/react';
-import { Text } from './Text';
+
 import { render } from '../../test-utils';
+import { Text } from './Text';
 
 describe('Text', () => {
 	test('render a text with string content', () => {

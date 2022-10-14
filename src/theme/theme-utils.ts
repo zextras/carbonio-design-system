@@ -4,9 +4,11 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import { darken, desaturate, lighten, setLightness } from 'polished';
 import { useContext } from 'react';
+
+import { darken, desaturate, lighten, setLightness } from 'polished';
 import { css, FlattenSimpleInterpolation } from 'styled-components';
+
 import { ThemeObj, ThemeColorObj, ThemeSizeObj } from './theme';
 import { ThemeContext } from './theme-context-provider';
 

@@ -1,5 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
-
 /*
  * SPDX-FileCopyrightText: 2021 Zextras <https://www.zextras.com>
  *
@@ -7,11 +5,13 @@
  */
 
 import React, { useState } from 'react';
-import { screen } from '@testing-library/dom';
+
+import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+
+import { render } from '../../test-utils';
 import { Button } from '../basic/Button';
 import { Container } from '../layout/Container';
-import { render } from '../../test-utils';
 import { Snackbar } from './Snackbar';
 
 const CustomSnackbar = (): JSX.Element => {

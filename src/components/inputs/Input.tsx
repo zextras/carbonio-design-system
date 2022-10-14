@@ -4,14 +4,16 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { InputHTMLAttributes, useCallback, useEffect, useMemo, useState } from 'react';
+import React, { InputHTMLAttributes, useCallback, useMemo, useState } from 'react';
+
 import styled, { css, SimpleInterpolation } from 'styled-components';
+
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { KeyboardPreset, useKeyboard } from '../../hooks/useKeyboard';
 import type { ThemeObj } from '../../theme/theme';
 import { getColor, pseudoClasses } from '../../theme/theme-utils';
-import { Container } from '../layout/Container';
 import { Text, TextProps } from '../basic/Text';
+import { Container } from '../layout/Container';
 import { Divider } from '../layout/Divider';
 
 const ContainerEl = styled(Container)<{

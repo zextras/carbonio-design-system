@@ -3,15 +3,15 @@
  *
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-/* eslint-disable import/no-extraneous-dependencies, no-console */
 import React from 'react';
+
+import { screen, act, waitFor, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { screen } from '@testing-library/dom';
-import { act, waitFor } from '@testing-library/react';
+
 import { render } from '../../test-utils';
 import { Button } from '../basic/Button';
-import { Dropdown, DropdownItem } from './Dropdown';
 import { Modal } from '../feedback/Modal';
+import { Dropdown, DropdownItem } from './Dropdown';
 
 const items = [
 	{
@@ -312,5 +312,49 @@ describe('Dropdown', () => {
 				})
 		);
 		expect(screen.queryByText(/tooltip/i)).not.toBeInTheDocument();
+	});
+
+	test('Click on trigger component of a contextMenu dropdown close the dropdown', async () => {
+		const onClick = jest.fn();
+		render(
+			<Dropdown items={items} contextMenu>
+				<Button label="opener" onClick={onClick} />
+			</Dropdown>
+		);
+
+		expect(screen.getByRole('button', { name: /opener/i })).toBeInTheDocument();
+		// dropdown is closed
+		expect(screen.queryByText(/some item/i)).not.toBeInTheDocument();
+		// right click trigger open
+		fireEvent.contextMenu(screen.getByRole('button', { name: /opener/i }));
+		await screen.findByText(/some item/i);
+		// wait for listeners to be registered
+		await waitFor(
+			() =>
+				new Promise((resolve) => {
+					setTimeout(resolve, 1);
+				})
+		);
+		expect(screen.getByText(/some item/i)).toBeInTheDocument();
+		expect(screen.getByText(/Some Other Item/i)).toBeInTheDocument();
+		expect(screen.getByText(/Yet Another Item/i)).toBeInTheDocument();
+		// second right click trigger open of a new dropdown, closing the previous one
+		fireEvent.contextMenu(screen.getByRole('button', { name: /opener/i }));
+		await screen.findByText(/some item/i);
+		// wait for listeners to be registered
+		await waitFor(
+			() =>
+				new Promise((resolve) => {
+					setTimeout(resolve, 1);
+				})
+		);
+		expect(screen.getByText(/some item/i)).toBeInTheDocument();
+		expect(screen.getByText(/Some Other Item/i)).toBeInTheDocument();
+		expect(screen.getByText(/Yet Another Item/i)).toBeInTheDocument();
+		// left click trigger close
+		userEvent.click(screen.getByRole('button', { name: /opener/i }));
+		expect(screen.queryByText(/some item/i)).not.toBeInTheDocument();
+		expect(screen.queryByText(/Some Other Item/i)).not.toBeInTheDocument();
+		expect(screen.queryByText(/Yet Another Item/i)).not.toBeInTheDocument();
 	});
 });

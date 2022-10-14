@@ -5,12 +5,14 @@
  */
 
 import React, { useCallback, useMemo } from 'react';
+
 import styled, { css, SimpleInterpolation } from 'styled-components';
+
+import { useCombinedRefs } from '../../hooks/useCombinedRefs';
+import { useKeyboard, getKeyboardPreset } from '../../hooks/useKeyboard';
+import type { ThemeObj } from '../../theme/theme';
 import { getPadding, isThemeSize, useTheme } from '../../theme/theme-utils';
 import { Button, ButtonProps } from '../basic/Button';
-import { useKeyboard, getKeyboardPreset } from '../../hooks/useKeyboard';
-import { useCombinedRefs } from '../../hooks/useCombinedRefs';
-import type { ThemeObj } from '../../theme/theme';
 
 const StyledIconButton = styled(Button)<{
 	$iconSize?: string;

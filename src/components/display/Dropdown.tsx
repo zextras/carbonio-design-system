@@ -16,6 +16,7 @@ import React, {
 	createRef,
 	HTMLAttributes
 } from 'react';
+
 import {
 	createPopper,
 	Instance,
@@ -25,17 +26,18 @@ import {
 } from '@popperjs/core';
 import { find, some } from 'lodash';
 import styled, { css, SimpleInterpolation } from 'styled-components';
+
+import { useCombinedRefs } from '../../hooks/useCombinedRefs';
+import { useKeyboard, getKeyboardPreset, KeyboardPreset } from '../../hooks/useKeyboard';
+import type { ThemeObj } from '../../theme/theme';
+import { ThemeContext } from '../../theme/theme-context-provider';
 import { pseudoClasses } from '../../theme/theme-utils';
-import { Padding } from '../layout/Padding';
 import { Icon } from '../basic/Icon';
 import { Text } from '../basic/Text';
 import { Container } from '../layout/Container';
-import { Portal } from '../utilities/Portal';
 import { Divider } from '../layout/Divider';
-import { useKeyboard, getKeyboardPreset, KeyboardPreset } from '../../hooks/useKeyboard';
-import { useCombinedRefs } from '../../hooks/useCombinedRefs';
-import type { ThemeObj } from '../../theme/theme';
-import { ThemeContext } from '../../theme/theme-context-provider';
+import { Padding } from '../layout/Padding';
+import { Portal } from '../utilities/Portal';
 import { Tooltip } from './Tooltip';
 
 const ContainerEl = styled(Container)<{
@@ -505,6 +507,7 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 				dropdownRef.current &&
 				(e.target === dropdownRef.current || dropdownRef.current.contains(e.target as Node | null));
 			const clickedOnTrigger =
+				!contextMenu &&
 				innerTriggerRef.current &&
 				(e.target === innerTriggerRef.current ||
 					innerTriggerRef.current?.contains(e.target as Node | null));
@@ -528,7 +531,7 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 				closePopper();
 			}
 		},
-		[closePopper, dropdownRef, innerTriggerRef]
+		[closePopper, contextMenu, dropdownRef, innerTriggerRef]
 	);
 
 	const onStartSentinelFocus = useCallback(() => {

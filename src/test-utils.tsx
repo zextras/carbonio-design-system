@@ -5,7 +5,9 @@
  */
 
 import React from 'react';
+
 import { render as rtlRender, RenderResult } from '@testing-library/react';
+
 import { ThemeProvider } from './theme/theme-context-provider';
 
 export function render(ui: React.ReactElement, { ...options } = {}): RenderResult {

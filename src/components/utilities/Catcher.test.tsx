@@ -1,5 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
-
 /*
  * SPDX-FileCopyrightText: 2021 Zextras <https://www.zextras.com>
  *
@@ -7,7 +5,9 @@
  */
 
 import React from 'react';
-import { screen } from '@testing-library/dom';
+
+import { screen } from '@testing-library/react';
+
 import { render } from '../../test-utils';
 import { Catcher } from './Catcher';
 

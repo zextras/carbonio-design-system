@@ -5,7 +5,9 @@
  */
 
 import React, { SVGAttributes, useContext, useMemo } from 'react';
+
 import styled, { css, SimpleInterpolation, ThemeContext } from 'styled-components';
+
 import { IconComponent, ThemeObj } from '../../theme/theme';
 import { getColor } from '../../theme/theme-utils';
 

@@ -4,15 +4,17 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { useState, useEffect, useCallback, useMemo, HTMLAttributes } from 'react';
-import styled, { css, SimpleInterpolation } from 'styled-components';
+import React, { useCallback, useMemo, HTMLAttributes } from 'react';
+
 import { map } from 'lodash';
-import { getColor } from '../../theme/theme-utils';
-import { Container, ContainerProps } from '../layout/Container';
-import { Text } from '../basic/Text';
-import { useKeyboard, getKeyboardPreset } from '../../hooks/useKeyboard';
+import styled, { css, SimpleInterpolation } from 'styled-components';
+
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
+import { useKeyboard, getKeyboardPreset } from '../../hooks/useKeyboard';
 import type { ThemeObj } from '../../theme/theme';
+import { getColor } from '../../theme/theme-utils';
+import { Text } from '../basic/Text';
+import { Container, ContainerProps } from '../layout/Container';
 
 const CustomText = styled(Text)`
 	line-height: 1.5;
@@ -61,14 +63,9 @@ interface TabBarProps extends Omit<ContainerProps, 'onChange'> {
 	/** List of elements, can have extra attributes to pass down to the CustomComponent */
 	items: Array<Item>;
 	/** id of the selected item */
-	selected?: string;
-	/** id of the default selected item */
-	defaultSelected?: string;
+	selected: string;
 	/** change callback, is called with the new selected id */
-	onChange: (selectedId: string) => void;
-	/** click (or also keyboard in the default component) event,
-	 * the selectedItemId field is added to the event object */
-	onItemClick: (ev: React.SyntheticEvent & { selectedItemId: string }) => void;
+	onChange: (ev: React.SyntheticEvent, selectedId: string) => void;
 	/** background color of the tabBar */
 	background: string | keyof ThemeObj['palette'];
 	/** underline color of the selected tab */
@@ -144,9 +141,7 @@ const TabBar = React.forwardRef<HTMLDivElement, TabBarProps>(function TabBarFn(
 	{
 		items,
 		selected,
-		defaultSelected,
 		onChange,
-		onItemClick,
 		background,
 		underlineColor = 'primary',
 		forceWidthEquallyDistributed = false,
@@ -154,21 +149,12 @@ const TabBar = React.forwardRef<HTMLDivElement, TabBarProps>(function TabBarFn(
 	},
 	ref
 ) {
-	const [currentSelection, setCurrentSelection] = useState(defaultSelected);
-	useEffect(() => {
-		if (typeof selected !== 'undefined') {
-			setCurrentSelection(selected);
-			onChange(selected);
-		}
-	}, [selected, onChange]);
 	const onItemClickCb = useCallback(
 		(id: string) =>
 			(ev: React.SyntheticEvent): void => {
-				setCurrentSelection(id);
-				onChange(id);
-				onItemClick({ ...ev, selectedItemId: id });
+				onChange(ev, id);
 			},
-		[onChange, onItemClick]
+		[onChange]
 	);
 	return (
 		<Container
@@ -178,12 +164,13 @@ const TabBar = React.forwardRef<HTMLDivElement, TabBarProps>(function TabBarFn(
 			mainAlignment="flex-start"
 			{...rest}
 		>
-			{map(items, (item) =>
+			{map(items, (item, index) =>
 				item.CustomComponent ? (
 					<item.CustomComponent
+						data-testid={`tab${index}`}
 						key={item.id}
 						item={item}
-						selected={item.id === currentSelection}
+						selected={item.id === selected}
 						onClick={onItemClickCb(item.id)}
 						tabIndex={item.disabled ? undefined : 0}
 						background={background}
@@ -192,9 +179,10 @@ const TabBar = React.forwardRef<HTMLDivElement, TabBarProps>(function TabBarFn(
 					/>
 				) : (
 					<DefaultTabBarItem
+						data-testid={`tab${index}`}
 						key={item.id}
 						item={item}
-						selected={item.id === currentSelection}
+						selected={item.id === selected}
 						background={background}
 						onClick={onItemClickCb(item.id)}
 						tabIndex={item.disabled ? undefined : 0}

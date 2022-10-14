@@ -3,9 +3,11 @@
  *
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-import { map } from 'lodash';
 import React, { HTMLAttributes, useMemo } from 'react';
+
+import { map } from 'lodash';
 import styled from 'styled-components';
+
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { useSplitVisibility } from '../../hooks/useSplitVisibility';
 import { IconButton, IconButtonProps } from '../inputs/IconButton';

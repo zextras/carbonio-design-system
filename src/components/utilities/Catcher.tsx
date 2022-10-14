@@ -5,8 +5,9 @@
  */
 
 import React, { ErrorInfo } from 'react';
-import { Container } from '../layout/Container';
+
 import { Text } from '../basic/Text';
+import { Container } from '../layout/Container';
 
 interface CatcherProps {
 	/** error callback, use this to perform operations when an error is caught */

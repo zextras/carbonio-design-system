@@ -5,10 +5,12 @@
  */
 
 import React, { useState, useCallback } from 'react';
+
 import styled from 'styled-components';
-import { Container, ContainerProps } from '../layout/Container';
-import { Icon } from '../basic/Icon';
+
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
+import { Icon } from '../basic/Icon';
+import { Container, ContainerProps } from '../layout/Container';
 
 const InputEl = styled.input`
 	border: none;

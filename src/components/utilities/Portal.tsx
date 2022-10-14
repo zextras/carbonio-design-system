@@ -5,7 +5,9 @@
  */
 
 import React, { useContext } from 'react';
+
 import ReactDOM from 'react-dom';
+
 import { ThemeContext } from '../../theme/theme-context-provider';
 
 interface PortalProps {
@@ -24,7 +26,7 @@ interface PortalProps {
 
 const Portal = React.forwardRef<React.ReactPortal, PortalProps>(function PortalFn(
 	{ children, container, show = false, disablePortal = false },
-	ref
+	_ref
 ): React.ReactElement | null {
 	const { windowObj } = useContext(ThemeContext);
 

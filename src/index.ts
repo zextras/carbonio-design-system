@@ -58,6 +58,9 @@ export * from './components/display/CollapsingActions';
 /** Feedback components */
 export * from './components/feedback/CustomModal';
 export * from './components/feedback/Modal';
+export * from './components/feedback/modal-components/ModalHeader';
+export * from './components/feedback/modal-components/ModalBody';
+export * from './components/feedback/modal-components/ModalFooter';
 export * from './components/feedback/Quota';
 export * from './components/feedback/Snackbar';
 

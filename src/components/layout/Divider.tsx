@@ -5,7 +5,9 @@
  */
 
 import React, { HTMLAttributes } from 'react';
+
 import styled from 'styled-components';
+
 import type { ThemeObj } from '../../theme/theme';
 import { getColor } from '../../theme/theme-utils';
 

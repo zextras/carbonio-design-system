@@ -5,34 +5,35 @@
  */
 
 import React from 'react';
+
+import { screen } from '@testing-library/react';
+
 import { render } from '../../test-utils';
 import { Icon } from './Icon';
 
 describe('Icon', () => {
 	test('Render an icon', () => {
-		const { container } = render(<Icon icon="BulbOutline" />);
-		expect(container.querySelector('svg')).toBeInTheDocument();
+		render(<Icon icon="BulbOutline" />);
+		expect(screen.getByTestId('icon: BulbOutline')).toBeInTheDocument();
 	});
 
 	test('Render an icon with a color of the palette with the variant', () => {
-		const { container } = render(<Icon icon="BulbOutline" color="primary.hover" />);
-		expect(container.querySelector('svg')).toBeInTheDocument();
+		render(<Icon icon="BulbOutline" color="primary.hover" />);
+		expect(screen.getByTestId('icon: BulbOutline')).toBeInTheDocument();
 	});
 
 	test('Render an icon with a color not of the palette with the variant', () => {
-		const { container } = render(<Icon icon="BulbOutline" color="cadetblue.disabled" />);
-		expect(container.querySelector('svg')).toBeInTheDocument();
+		render(<Icon icon="BulbOutline" color="cadetblue.disabled" />);
+		expect(screen.getByTestId('icon: BulbOutline')).toBeInTheDocument();
 	});
 
 	test('Render an icon with a color in the rgb form and a variant', () => {
-		const { container } = render(
-			<Icon icon="BulbOutline" color="rgba(100, 50, 50, 0.7).disabled" />
-		);
-		expect(container.querySelector('svg')).toBeInTheDocument();
+		render(<Icon icon="BulbOutline" color="rgba(100, 50, 50, 0.7).disabled" />);
+		expect(screen.getByTestId('icon: BulbOutline')).toBeInTheDocument();
 	});
 
 	test('Render an icon with a custom color', () => {
-		const { container } = render(<Icon icon="BulbOutline" color="rgba(100, 50, 50, 0.7)" />);
-		expect(container.querySelector('svg')).toBeInTheDocument();
+		render(<Icon icon="BulbOutline" color="rgba(100, 50, 50, 0.7)" />);
+		expect(screen.getByTestId('icon: BulbOutline')).toBeInTheDocument();
 	});
 });

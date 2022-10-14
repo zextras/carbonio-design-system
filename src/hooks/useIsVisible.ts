@@ -4,8 +4,9 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import { some } from 'lodash';
 import React, { useState, useEffect, useRef, useMemo } from 'react';
+
+import { some } from 'lodash';
 
 const useIsVisible = <T extends HTMLElement>(
 	listRef: React.RefObject<HTMLDivElement>

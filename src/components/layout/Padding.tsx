@@ -5,7 +5,9 @@
  */
 
 import React, { HTMLAttributes } from 'react';
+
 import styled, { SimpleInterpolation } from 'styled-components';
+
 import { getPadding, PaddingObj } from '../../theme/theme-utils';
 
 type PaddingProps = {

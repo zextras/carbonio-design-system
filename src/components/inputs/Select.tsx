@@ -5,17 +5,19 @@
  */
 
 import React, { useState, useMemo, useCallback, useReducer, useEffect, Reducer } from 'react';
-import styled, { css, SimpleInterpolation } from 'styled-components';
+
 import { some, isEmpty } from 'lodash';
+import styled, { css, SimpleInterpolation } from 'styled-components';
+
 import type { ThemeObj } from '../../theme/theme';
+import { getColor } from '../../theme/theme-utils';
+import { Icon } from '../basic/Icon';
+import { Text } from '../basic/Text';
+import { Dropdown, DropdownProps } from '../display/Dropdown';
 import { Container } from '../layout/Container';
 import { Divider } from '../layout/Divider';
-import { Dropdown, DropdownProps } from '../display/Dropdown';
-import { Icon } from '../basic/Icon';
 import { Padding } from '../layout/Padding';
 import { Row } from '../layout/Row';
-import { getColor } from '../../theme/theme-utils';
-import { Text } from '../basic/Text';
 
 const Label = styled(Text)<{ $selected: boolean }>`
 	position: absolute;

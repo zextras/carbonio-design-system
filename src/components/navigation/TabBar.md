@@ -6,41 +6,6 @@ SPDX-License-Identifier: AGPL-3.0-only
 
 The TabBar is a customizable navigation component, which can be used for in-page navigation between different tabs.
 
-### Uncontrolled Plain TabBar
-```jsx
-import {useState} from 'react';
-import {Container, Divider, Text} from '@zextras/carbonio-design-system';
-const items = [
-  { id: 'tab-one', label: 'First Tab' },
-  { id: 'tab-two', label: 'Second Tab' },
-  { id: 'tab-three', label: 'Disabled', disabled: true }
-];
-const [change, setChange] = useState('');
-const [click, setClick] = useState('');
-<>
-  <TabBar
-    items={items}
-    defaultSelected="tab-one"
-    onChange={setChange}
-    onItemClick={setClick}
-    width={512}
-    height={48}
-  />
-  <Container
-    background="gray4"
-    width={512}
-    padding={{ all: 'small'}}
-    crossAlignment="flex-start"
-  >
-    <Text style={{ fontFamily: 'monospace' }}>
-      {`Change Event: '${change}'`}
-    </Text>
-    <Text style={{ fontFamily: 'monospace' }}>
-      {`ClickEvent.selectedItemId: '${click.selectedItemId}'`}
-    </Text>
-  </Container>
-</>
-```
 ### Controlled Plain TabBar
 ```jsx
 import {useState} from 'react';
@@ -54,8 +19,11 @@ const [selected, setSelected] = useState('tab-one');
   <TabBar
     items={items}
     selected={selected}
-    onChange={console.log}
-    onItemClick={(ev) => setSelected(ev.selectedItemId)}
+    onChange={(ev, selectedId) => {
+			console.log(ev);
+			console.log(selectedId);
+			setSelected(selectedId);
+		}}
     width={512}
     height={48}
   />
@@ -67,9 +35,6 @@ const [selected, setSelected] = useState('tab-one');
   >
     <Text size="large">
       {`Selected: '${selected}'`}
-    </Text>
-    <Text style={{ fontFamily: 'monospace' }}>
-      {`ClickEvent.selectedItemId: '${selected}'`}
     </Text>
     <Row>
       {items.map(
@@ -105,16 +70,22 @@ const [selected, setSelected] = useState('tab-one');
   <TabBar
     items={items}
 	selected={selected}
-	onChange={console.log}
-	onItemClick={(ev) => setSelected(ev.selectedItemId)}
+	onChange={(ev, selectedId) => {
+			console.log(ev);
+			console.log(selectedId);
+			setSelected(selectedId);
+		}}
     width={512}
     height={48}
   />
   <TabBar
    	items={items}
 	selected={selected}
-	onChange={console.log}
-	onItemClick={(ev) => setSelected(ev.selectedItemId)}
+	onChange={(ev, selectedId) => {
+		console.log(ev);
+		console.log(selectedId);
+		setSelected(selectedId);
+	}}
 	width={512}
 	height={48}
     forceWidthEquallyDistributed
@@ -184,14 +155,16 @@ const items = [
   { id: 'tab-three', label: 'Another Tab', CustomComponent },
   { id: 'tab-four', label: 'Car Tab', CustomComponent: ReusedDefaultTabBar, icon: 'CarOutline' }
 ];
-const [change, setChange] = useState('');
-const [click, setClick] = useState('');
+const [selected, setSelected] = useState('');
 <>
   <TabBar
     items={items}
-    defaultSelected="tab-one"
-    onChange={setChange}
-    onItemClick={setClick}
+	onChange={(ev, selectedId) => {
+		console.log(ev);
+		console.log(selectedId);
+		setSelected(selectedId);
+	}}
+	selected={selected}
     width={512}
     height={48}
   />
@@ -202,10 +175,7 @@ const [click, setClick] = useState('');
     crossAlignment="flex-start"
   >
     <Text style={{ fontFamily: 'monospace' }}>
-      {`Change Event: '${change}'`}
-    </Text>
-    <Text style={{ fontFamily: 'monospace' }}>
-      {`ClickEvent.selectedItemId: '${click.selectedItemId}'`}
+      {`selected: '${selected}'`}
     </Text>
   </Container>
 </>
@@ -246,15 +216,17 @@ const items = [
   { id: 'four', label: 'Hello', CustomComponent, icon: 'SmilingFaceOutline' },
   { id: 'five', label: 'Hello', disabled: true }
 ];
-const [change, setChange] = useState('');
-const [click, setClick] = useState('');
+const [selected, setSelected] = useState('tab-one');
 <>
   <TabBar
     items={items}
-    defaultSelected="tab-one"
-    onChange={setChange}
-    onItemClick={setClick}
-    width={512}
+	selected={selected}
+	onChange={(ev, selectedId) => {
+		console.log(ev);
+		console.log(selectedId);
+		setSelected(selectedId);
+	}}
+	width={512}
     height={48}
     underlineColor="success"
   />
@@ -265,10 +237,7 @@ const [click, setClick] = useState('');
     crossAlignment="flex-start"
   >
     <Text style={{ fontFamily: 'monospace' }}>
-      {`Change Event: '${change}'`}
-    </Text>
-    <Text style={{ fontFamily: 'monospace' }}>
-      {`ClickEvent.selectedItemId: '${click.selectedItemId}'`}
+      {`selected: '${selected}'`}
     </Text>
   </Container>
 </>

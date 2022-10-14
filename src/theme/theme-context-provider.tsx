@@ -5,9 +5,11 @@
  */
 
 import React, { useMemo } from 'react';
+
 import { ThemeProvider as SCThemeProvider, ThemeContext } from 'styled-components';
-import { Theme as defaultTheme, ThemeObj } from './theme';
+
 import DefaultFontStyles from './roboto-global-styles';
+import { Theme as defaultTheme, ThemeObj } from './theme';
 
 interface ThemeProviderProps {
 	extension?: (theme: ThemeObj) => ThemeObj;

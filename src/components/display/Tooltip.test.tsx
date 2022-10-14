@@ -1,6 +1,3 @@
-/* eslint-disable no-promise-executor-return */
-/* eslint-disable import/no-extraneous-dependencies */
-
 /*
  * SPDX-FileCopyrightText: 2021 Zextras <https://www.zextras.com>
  *
@@ -8,12 +5,14 @@
  */
 
 import React from 'react';
-import { screen } from '@testing-library/dom';
+
+import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+
 import { render } from '../../test-utils';
-import { Tooltip } from './Tooltip';
-import { Container } from '../layout/Container';
 import { Button } from '../basic/Button';
+import { Container } from '../layout/Container';
+import { Tooltip } from './Tooltip';
 
 describe('Tooltip', () => {
 	test('Render Tooltip', async () => {

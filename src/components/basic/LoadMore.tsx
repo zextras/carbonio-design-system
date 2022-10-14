@@ -4,12 +4,14 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { HTMLAttributes } from 'react';
+import React from 'react';
+
 import styled from 'styled-components';
+
 import { Container, ContainerProps } from '../layout/Container';
-import { Text, TextProps } from './Text';
-import { Icon } from './Icon';
 import { Padding } from '../layout/Padding';
+import { Icon } from './Icon';
+import { Text, TextProps } from './Text';
 
 const CustomText = styled(Text)`
 	user-select: none;

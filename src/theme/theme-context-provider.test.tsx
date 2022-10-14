@@ -1,5 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
-
 /*
  * SPDX-FileCopyrightText: 2021 Zextras <https://www.zextras.com>
  *
@@ -7,11 +5,12 @@
  */
 
 import React from 'react';
-import { screen } from '@testing-library/dom';
-import { render as rtlRender } from '@testing-library/react';
+
+import { screen, render as rtlRender } from '@testing-library/react';
+
+import { Theme, ThemeColorObj, ThemeObj } from './theme';
 import { ThemeProvider } from './theme-context-provider';
 import { useTheme, generateColorSet, getColor } from './theme-utils';
-import { Theme, ThemeColorObj, ThemeObj } from './theme';
 
 const CUSTOM_THEME_COLOR = '#FF7514';
 
@@ -32,7 +31,7 @@ describe('ThemeProvider', () => {
 			</ThemeProvider>
 		);
 
-		expect(screen.getByTestId('regular-primary-color').textContent).toBe(
+		expect(screen.getByTestId('regular-primary-color')).toHaveTextContent(
 			Theme.palette.primary.regular
 		);
 	});
@@ -49,7 +48,7 @@ describe('ThemeProvider', () => {
 			</ThemeProvider>
 		);
 		expect(recipe).toBeCalledTimes(1);
-		expect(screen.getByTestId('regular-primary-color').textContent).toBe(CUSTOM_THEME_COLOR);
+		expect(screen.getByTestId('regular-primary-color')).toHaveTextContent(CUSTOM_THEME_COLOR);
 	});
 
 	test('Add a custom theme color', () => {
@@ -67,6 +66,6 @@ describe('ThemeProvider', () => {
 			</ThemeProvider>
 		);
 		expect(recipe).toBeCalledTimes(1);
-		expect(screen.getByTestId('regular-extra-color').textContent).toBe(CUSTOM_THEME_COLOR);
+		expect(screen.getByTestId('regular-extra-color')).toHaveTextContent(CUSTOM_THEME_COLOR);
 	});
 });

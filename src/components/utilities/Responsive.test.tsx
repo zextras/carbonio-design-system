@@ -1,5 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
-
 /*
  * SPDX-FileCopyrightText: 2021 Zextras <https://www.zextras.com>
  *
@@ -7,10 +5,11 @@
  */
 
 import React from 'react';
-import { screen } from '@testing-library/dom';
-import { act } from '@testing-library/react';
-import { Responsive } from './Responsive';
+
+import { screen, act } from '@testing-library/react';
+
 import { render } from '../../test-utils';
+import { Responsive } from './Responsive';
 
 describe('Responsive', () => {
 	let prevWidth: number;
