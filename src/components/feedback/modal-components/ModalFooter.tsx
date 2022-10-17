@@ -35,13 +35,13 @@ const ButtonContainer = styled(Container)<{ $pushLeftFirstChild?: boolean }>`
 const DismissButton = styled(Button)`
 	margin-right: ${(props): string => props.theme.sizes.padding.large};
 	flex-basis: auto;
-	min-width: 100px;
+	min-width: 6.25rem;
 	flex-shrink: 1;
 `;
 
 const ConfirmButton = styled(Button)`
 	flex-basis: auto;
-	min-width: 100px;
+	min-width: 6.25rem;
 	flex-shrink: 1;
 `;
 

@@ -25,7 +25,7 @@ const clickStandardHandler = () => {
 	console.log('click standard modal content');
 }
 
-<Container orientation="horizontal" gap="10px">
+<Container orientation="horizontal" gap="0.625rem">
     <Button label="Trigger Custom Modal" onClick={openCustomHandler}/>
     <Button label="Trigger Standard Modal" onClick={openStandardHandler}/>
     <CustomModal

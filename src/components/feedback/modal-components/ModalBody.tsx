@@ -25,7 +25,7 @@ const ModalBody = styled.div.attrs<{
 			text-align: center;
 		`};
 	&::-webkit-scrollbar {
-		width: 8px;
+		width: 0.5rem;
 	}
 
 	&::-webkit-scrollbar-track {
@@ -34,7 +34,7 @@ const ModalBody = styled.div.attrs<{
 
 	&::-webkit-scrollbar-thumb {
 		background-color: ${({ theme }): string => theme.palette.gray3.regular};
-		border-radius: 4px;
+		border-radius: 0.25rem;
 	}
 	flex-grow: 1;
 `;
