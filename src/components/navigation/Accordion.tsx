@@ -7,11 +7,10 @@
 import React, { useMemo, useState, useCallback, useEffect } from 'react';
 
 import { map } from 'lodash';
-import styled, { css, SimpleInterpolation } from 'styled-components';
+import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-components';
 
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { useKeyboard, getKeyboardPreset } from '../../hooks/useKeyboard';
-import { ThemeObj } from '../../theme/theme';
 import { pseudoClasses } from '../../theme/theme-utils';
 import { Badge } from '../basic/Badge';
 import { Icon } from '../basic/Icon';
@@ -24,7 +23,7 @@ import { Collapse } from '../utilities/Collapse';
 
 const AccordionContainerEl = styled(Container)<{
 	$level: number;
-	background: keyof ThemeObj['palette'];
+	background: keyof DefaultTheme['palette'];
 	$active?: boolean;
 	$disableHover?: boolean;
 }>`
@@ -92,14 +91,14 @@ type AccordionItemType = {
 	label?: string;
 	items?: AccordionItemType[];
 	onClick?: (event: KeyboardEvent | React.SyntheticEvent) => void;
-	icon?: keyof ThemeObj['icons'];
+	icon?: keyof DefaultTheme['icons'];
 	CustomComponent?: React.ComponentType<{ item: AccordionItemType }>;
 	iconCustomColor?: string;
 	iconColor?: string;
 	badgeType?: 'read' | 'unread';
 	badgeCounter?: number;
 	open?: boolean;
-	background?: keyof ThemeObj['palette'];
+	background?: keyof DefaultTheme['palette'];
 	disableHover?: boolean;
 	active?: boolean;
 	level?: number;
@@ -113,7 +112,7 @@ type AccordionDivider = { divider: true };
 interface AccordionRootProps extends ContainerProps {
 	level: number;
 	item: AccordionItemType;
-	background: keyof ThemeObj['palette'];
+	background: keyof DefaultTheme['palette'];
 	activeId?: string;
 	openIds?: string[];
 	disableTransition?: boolean;
@@ -212,7 +211,7 @@ interface AccordionProps extends ContainerProps {
 	/** Depth level, internally used for recursion nesting */
 	level?: number;
 	/** Accordion background */
-	background?: keyof ThemeObj['palette'];
+	background?: keyof DefaultTheme['palette'];
 	/** id of the currently active item (alternative to the active item flag) */
 	activeId?: string;
 	/** list of ids of the currently open items (alternative to the open item flag) */

@@ -9,9 +9,8 @@
 import React, { useCallback, useState, useEffect } from 'react';
 
 import DatePicker, { ReactDatePicker, ReactDatePickerProps } from 'react-datepicker';
-import styled from 'styled-components';
+import styled, { DefaultTheme } from 'styled-components';
 
-import type { ThemeObj } from '../../theme/theme';
 import { ChipProps } from '../display/Chip';
 import { Container } from '../layout/Container';
 import { ChipInput } from './ChipInput';
@@ -827,7 +826,7 @@ const CustomIconButton = styled(IconButton)`
 
 interface DateTimePickerProps extends Omit<ReactDatePickerProps, 'onChange'> {
 	/** Input's background color */
-	backgroundColor?: keyof ThemeObj['palette'];
+	backgroundColor?: keyof DefaultTheme['palette'];
 	/** Close icon to clear the Input */
 	isClearable?: boolean;
 	/** Label for input */

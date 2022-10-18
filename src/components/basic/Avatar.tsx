@@ -6,18 +6,17 @@
 
 import React, { HTMLAttributes, useMemo } from 'react';
 
-import styled from 'styled-components';
+import styled, { DefaultTheme } from 'styled-components';
 
-import type { ThemeObj } from '../../theme/theme';
 import { getColor } from '../../theme/theme-utils';
 import { Icon } from './Icon';
 
 type ShapeType = 'round' | 'square';
 
 type AvatarContainerProps = {
-	size: keyof ThemeObj['sizes']['avatar'];
+	size: keyof DefaultTheme['sizes']['avatar'];
 	background?: string;
-	color: keyof ThemeObj['avatarColors'];
+	color: keyof DefaultTheme['avatarColors'];
 	picture?: string;
 	selecting?: boolean;
 	selected?: boolean;
@@ -50,7 +49,7 @@ const AvatarContainer = styled.div<AvatarContainerProps>`
 `;
 
 type CapitalsPropsType = {
-	$size: keyof ThemeObj['sizes']['avatar'];
+	$size: keyof DefaultTheme['sizes']['avatar'];
 	color?: string;
 };
 
@@ -98,7 +97,7 @@ function calcCapitals(label: string): string | null {
 	return label[0] + label[label.length - 1];
 }
 
-function calcColor(label: string): keyof ThemeObj['avatarColors'] {
+function calcColor(label: string): keyof DefaultTheme['avatarColors'] {
 	let sum = 0;
 	// eslint-disable-next-line no-plusplus
 	for (let i = 0; i < label.length; i++) {
@@ -175,7 +174,7 @@ const Avatar = React.forwardRef<HTMLDivElement, AvatarPropTypes>(function Avatar
 
 interface AvatarPropTypes extends HTMLAttributes<HTMLDivElement> {
 	/** size of the Avatar circle */
-	size?: keyof ThemeObj['sizes']['avatar'];
+	size?: keyof DefaultTheme['sizes']['avatar'];
 
 	/** url to the profile picture */
 	picture?: string;

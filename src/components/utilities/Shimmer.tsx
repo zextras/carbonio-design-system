@@ -6,9 +6,8 @@
 
 import React from 'react';
 
-import styled, { keyframes, SimpleInterpolation } from 'styled-components';
+import styled, { DefaultTheme, keyframes, SimpleInterpolation } from 'styled-components';
 
-import type { ThemeObj } from '../../theme/theme';
 import { FormSection, FormSubSection } from '../basic/FormSection';
 import { Container } from '../layout/Container';
 import { Padding } from '../layout/Padding';
@@ -19,28 +18,31 @@ const SIZES = {
 	large: 15
 } as const;
 
-const backgroundColorShimmer = (theme: ThemeObj): string => `linear-gradient(
+const backgroundColorShimmer = (theme: DefaultTheme): string => `linear-gradient(
 	to right,
 	${theme.palette.gray4.regular} 20%,
 	${theme.palette.gray5.regular} 40%,
 	${theme.palette.gray4.regular} 100%
 )`;
 
-const backgroundColorShimmerDark = (theme: ThemeObj): string => `linear-gradient(
+const backgroundColorShimmerDark = (theme: DefaultTheme): string => `linear-gradient(
 	to right,
 	${theme.palette.gray3.regular} 20%,
 	${theme.palette.gray4.regular} 40%,
 	${theme.palette.gray3.regular} 100%
 )`;
 
-const backgroundColorShimmerExtraDark = (theme: ThemeObj): string => `linear-gradient(
+const backgroundColorShimmerExtraDark = (theme: DefaultTheme): string => `linear-gradient(
 	to right,
 	${theme.palette.gray2.regular} 20%,
 	${theme.palette.gray3.regular} 40%,
 	${theme.palette.gray2.regular} 100%
 )`;
 
-const backgroundFunction = (variant: 'dark' | 'extraDark' | string, theme: ThemeObj): string => {
+const backgroundFunction = (
+	variant: 'dark' | 'extraDark' | string,
+	theme: DefaultTheme
+): string => {
 	switch (variant) {
 		case 'dark':
 			return backgroundColorShimmerDark(theme);

@@ -6,11 +6,10 @@
 
 import React, { useCallback, useMemo } from 'react';
 
-import styled, { css, SimpleInterpolation } from 'styled-components';
+import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-components';
 
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { useKeyboard, getKeyboardPreset } from '../../hooks/useKeyboard';
-import type { ThemeObj } from '../../theme/theme';
 import { getPadding, isThemeSize, useTheme } from '../../theme/theme-utils';
 import { Button, ButtonProps } from '../basic/Button';
 
@@ -38,20 +37,20 @@ const StyledIconButton = styled(Button)<{
 
 type IconButtonProps = ButtonProps & {
 	/** Color of the icon */
-	iconColor?: string | keyof ThemeObj['palette'];
+	iconColor?: string | keyof DefaultTheme['palette'];
 	/** Color of the button */
-	backgroundColor?: string | keyof ThemeObj['palette'];
+	backgroundColor?: string | keyof DefaultTheme['palette'];
 	/** whether to disable the IconButton or not */
 	disabled?: boolean;
 	/** button size */
 	size?: ButtonProps['size'];
 	/** Custom button size */
 	customSize?: {
-		iconSize: string | keyof ThemeObj['sizes']['icon'];
-		paddingSize: 0 | string | keyof ThemeObj['sizes']['padding'];
+		iconSize: string | keyof DefaultTheme['sizes']['icon'];
+		paddingSize: 0 | string | keyof DefaultTheme['sizes']['padding'];
 	};
 	/** icon name */
-	icon: keyof ThemeObj['icons'];
+	icon: keyof DefaultTheme['icons'];
 	/** IconButton border radius */
 	borderRadius?: 'regular' | 'round';
 	/** Click callback */

@@ -6,9 +6,8 @@
 
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 
-import styled from 'styled-components';
+import styled, { DefaultTheme } from 'styled-components';
 
-import type { ThemeObj } from '../../theme/theme';
 import { Button, ButtonProps } from '../basic/Button';
 import { Dropdown, DropdownProps } from '../display/Dropdown';
 
@@ -24,9 +23,9 @@ type MultiButtonProps = {
 	/** whether to disable the Secondary Dropdown or not */
 	disabledSecondary?: boolean;
 	/** MultiButton icon */
-	icon?: keyof ThemeObj['icons'];
+	icon?: keyof DefaultTheme['icons'];
 	/** Main icon */
-	primaryIcon?: keyof ThemeObj['icons'];
+	primaryIcon?: keyof DefaultTheme['icons'];
 	/** Color of the Button label */
 	color?: string;
 	/** Color of the Button background */

@@ -5,9 +5,8 @@
  */
 import React, { useMemo } from 'react';
 
-import styled, { css, SimpleInterpolation } from 'styled-components';
+import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-components';
 
-import { ThemeObj } from '../../../theme/theme';
 import { Button } from '../../basic/Button';
 import { Container } from '../../layout/Container';
 import { Padding } from '../../layout/Padding';
@@ -57,7 +56,7 @@ interface ModalFooterProps {
 	/** Disabled status for main action Button */
 	confirmDisabled?: boolean;
 	/** BackgroundColor for the Main action Button */
-	confirmColor?: string | keyof ThemeObj['palette'];
+	confirmColor?: string | keyof DefaultTheme['palette'];
 	/** Callback for secondary action */
 	onSecondaryAction?: (event: React.MouseEvent<HTMLButtonElement> | KeyboardEvent) => void;
 	/** Label for the Secondary action Button */

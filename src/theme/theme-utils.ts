@@ -7,24 +7,23 @@
 import { useContext } from 'react';
 
 import { darken, desaturate, lighten, setLightness } from 'polished';
-import { css, FlattenSimpleInterpolation } from 'styled-components';
+import { css, DefaultTheme, FlattenSimpleInterpolation, ThemeContext } from 'styled-components';
 
-import { ThemeObj, ThemeColorObj, ThemeSizeObj } from './theme';
-import { ThemeContext } from './theme-context-provider';
+import { ThemeColorObj, ThemeSizeObj } from './theme';
 
 type ColorSet = Record<'light' | 'dark', Record<keyof ThemeColorObj, (color: string) => string>>;
-type ThemePaletteObj = ThemeObj['palette'];
+type ThemePaletteObj = DefaultTheme['palette'];
 type ThemePaletteColorKey = keyof ThemePaletteObj;
 
 function isThemeVariant(
 	variant: string,
-	theme: ThemeObj,
+	theme: DefaultTheme,
 	color: ThemePaletteColorKey = 'primary'
 ): variant is keyof ThemeColorObj {
 	return variant in theme.palette[color];
 }
 
-export function isThemeColor(color: string, theme: ThemeObj): color is ThemePaletteColorKey {
+export function isThemeColor(color: string, theme: DefaultTheme): color is ThemePaletteColorKey {
 	return color in theme.palette;
 }
 
@@ -79,7 +78,7 @@ const generateColorSet = (
  * @param theme {Theme} - the theme object used to retrieve the palette colors
  * @returns {string} - the css color of the palette or the one generated with the colorSet
  */
-function getColorValue(color: string, theme: ThemeObj): string {
+function getColorValue(color: string, theme: DefaultTheme): string {
 	const variants = Object.keys(colorsSet.light);
 	const splitRegexp = RegExp(`.(${variants.join('|')})`, 'g');
 	const [iColor, iVariant = 'regular'] = color.split(splitRegexp);
@@ -106,12 +105,12 @@ function getColorValue(color: string, theme: ThemeObj): string {
  * `
  * @returns {({theme?: Theme}) => string} a function that, given the theme, returns the wanted color
  */
-function getColor(color: string): (args: { theme: ThemeObj }) => string;
+function getColor(color: string): (args: { theme: DefaultTheme }) => string;
 /**
  * Retrieve the color of the given name based on the theme palette if the name is a palette key,
  * generating a set with the colorSet utility if the color is not a palette key
  * @param {string} color - It can contain also the variant in the form color[.variant]
- * @param {ThemeObj} theme - The theme object
+ * @param {DefaultTheme} theme - The theme object
  * @example
  * const theme = useTheme();
  * getColor('gray5', theme);
@@ -122,18 +121,18 @@ function getColor(color: string): (args: { theme: ThemeObj }) => string;
  * `
  * @returns {string} The wanted color
  */
-function getColor(color: string, theme: ThemeObj): string;
+function getColor(color: string, theme: DefaultTheme): string;
 // see overloads for documentation
 function getColor(
 	color: string,
-	theme?: ThemeObj
-): string | ((args: { theme: ThemeObj }) => string) {
+	theme?: DefaultTheme
+): string | ((args: { theme: DefaultTheme }) => string) {
 	if (!color) return color;
 	if (!theme) return ({ theme: iTheme }): string => getColorValue(color, iTheme);
 	return getColorValue(color, theme);
 }
 
-type PaddingString = `${string | keyof ThemeObj['sizes']['padding']}`;
+type PaddingString = `${string | keyof DefaultTheme['sizes']['padding']}`;
 type PaddingStringComposition =
 	| PaddingString // all
 	| `${PaddingString} | ${PaddingString}` // vertical horizontal
@@ -145,7 +144,7 @@ type PaddingStringComposition =
  * @param size
  * @param theme
  */
-const simpleParsePadding = (size: PaddingStringComposition, theme: ThemeObj): string => {
+const simpleParsePadding = (size: PaddingStringComposition, theme: DefaultTheme): string => {
 	const explodedSizes = size.split(' ');
 	explodedSizes.forEach((padding, index) => {
 		explodedSizes[index] =
@@ -161,34 +160,34 @@ type RequireAtLeastOne<T, Keys extends keyof T = keyof T> = Pick<T, Exclude<keyo
 
 type PaddingObj =
 	| {
-			value: string | keyof ThemeObj['sizes']['padding'] | 0;
+			value: string | keyof DefaultTheme['sizes']['padding'] | 0;
 	  }
 	| {
-			all: string | keyof ThemeObj['sizes']['padding'] | 0;
+			all: string | keyof DefaultTheme['sizes']['padding'] | 0;
 	  }
 	| RequireAtLeastOne<{
-			vertical: string | keyof ThemeObj['sizes']['padding'] | 0;
-			horizontal: string | keyof ThemeObj['sizes']['padding'] | 0;
+			vertical: string | keyof DefaultTheme['sizes']['padding'] | 0;
+			horizontal: string | keyof DefaultTheme['sizes']['padding'] | 0;
 	  }>
 	| RequireAtLeastOne<{
-			top: string | keyof ThemeObj['sizes']['padding'] | 0;
-			right: string | keyof ThemeObj['sizes']['padding'] | 0;
-			bottom: string | keyof ThemeObj['sizes']['padding'] | 0;
-			left: string | keyof ThemeObj['sizes']['padding'] | 0;
+			top: string | keyof DefaultTheme['sizes']['padding'] | 0;
+			right: string | keyof DefaultTheme['sizes']['padding'] | 0;
+			bottom: string | keyof DefaultTheme['sizes']['padding'] | 0;
+			left: string | keyof DefaultTheme['sizes']['padding'] | 0;
 	  }>;
 
 function getPadding(
 	padding: PaddingStringComposition | PaddingObj
-): (args: { theme: ThemeObj }) => string;
-function getPadding(padding: PaddingStringComposition | PaddingObj, theme: ThemeObj): string;
+): (args: { theme: DefaultTheme }) => string;
+function getPadding(padding: PaddingStringComposition | PaddingObj, theme: DefaultTheme): string;
 function getPadding(
 	padding: PaddingStringComposition | PaddingObj,
-	theme?: ThemeObj
-): string | ((args: { theme: ThemeObj }) => string);
+	theme?: DefaultTheme
+): string | ((args: { theme: DefaultTheme }) => string);
 function getPadding(
 	padding: PaddingStringComposition | PaddingObj,
-	theme?: ThemeObj
-): string | ((args: { theme: ThemeObj }) => string) {
+	theme?: DefaultTheme
+): string | ((args: { theme: DefaultTheme }) => string) {
 	if (typeof padding === 'string') {
 		if (!theme) return ({ theme: iTheme }): string => simpleParsePadding(padding, iTheme);
 		return simpleParsePadding(padding, theme);
@@ -224,8 +223,8 @@ function getPadding(
 }
 
 function pseudoClasses(
-	theme: ThemeObj,
-	color: string | keyof ThemeObj['palette'],
+	theme: DefaultTheme,
+	color: string | keyof DefaultTheme['palette'],
 	cssProperty = 'background'
 ): FlattenSimpleInterpolation {
 	return css`
@@ -250,7 +249,7 @@ function pseudoClasses(
 	`;
 }
 
-const useTheme = (): ThemeObj => useContext(ThemeContext);
+const useTheme = (): DefaultTheme => useContext(ThemeContext);
 
 export {
 	generateColorSet,

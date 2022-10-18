@@ -15,11 +15,10 @@ import React, {
 } from 'react';
 
 import { filter, map, slice, isEmpty, debounce, find, trim, reduce, uniq } from 'lodash';
-import styled, { css, SimpleInterpolation } from 'styled-components';
+import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-components';
 
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { useKeyboard, getKeyboardPreset, KeyboardPreset } from '../../hooks/useKeyboard';
-import { ThemeObj } from '../../theme/theme';
 import { getColor, pseudoClasses } from '../../theme/theme-utils';
 import { Icon } from '../basic/Icon';
 import { Text, TextProps } from '../basic/Text';
@@ -30,7 +29,7 @@ import { Divider, DividerProps } from '../layout/Divider';
 import { IconButton } from './IconButton';
 
 const ContainerEl = styled(Container)<{
-	background: keyof ThemeObj['palette'];
+	background: keyof DefaultTheme['palette'];
 	$hasLabel: boolean;
 	$inputDisabled: boolean;
 	$dropdownDisabled: boolean;
@@ -88,7 +87,7 @@ const ScrollContainer = styled.div<{
 	overflow-y: auto;
 `;
 
-const InputEl = styled.input<{ color: keyof ThemeObj['palette'] }>`
+const InputEl = styled.input<{ color: keyof DefaultTheme['palette'] }>`
 	border: none !important;
 	height: auto !important;
 	width: 1em;
@@ -144,7 +143,7 @@ const InputContainer = styled.div`
 const AdjustWidthInput = React.forwardRef<
 	HTMLInputElement,
 	{
-		color: keyof ThemeObj['palette'];
+		color: keyof DefaultTheme['palette'];
 		separators: string[];
 		confirmChipOnBlur: boolean;
 	} & InputHTMLAttributes<HTMLInputElement>
@@ -347,7 +346,7 @@ interface ChipInputProps extends Omit<ContainerProps, 'defaultValue' | 'onChange
 	 */
 	confirmChipOnSpace?: boolean;
 	/** ChipInput backgroundColor */
-	background?: keyof ThemeObj['palette'];
+	background?: keyof DefaultTheme['palette'];
 	/** Chip generation triggers */
 	separators?: string[];
 	/** Show the error  */
@@ -358,7 +357,7 @@ interface ChipInputProps extends Omit<ContainerProps, 'defaultValue' | 'onChange
 	 */
 	errorLabel?: string | undefined;
 	/** Background color for the error status */
-	errorBackgroundColor?: keyof ThemeObj['palette'];
+	errorBackgroundColor?: keyof DefaultTheme['palette'];
 	/** Set the limit for chip inputs <br />
 	 * <strong>Warning</strong>: be aware that this check is performed only on internal changes on items.
 	 * If you change the value from outside, you are in charge of apply this check on the new value itself.
@@ -372,13 +371,13 @@ interface ChipInputProps extends Omit<ContainerProps, 'defaultValue' | 'onChange
 	 */
 	disableOptions?: boolean;
 	/** Icon on the right of the input */
-	icon?: keyof ThemeObj['icons'];
+	icon?: keyof DefaultTheme['icons'];
 	/** Action on Icon click */
 	iconAction?: React.ReactEventHandler;
 	/** Disable the icon */
 	iconDisabled?: boolean;
 	/** Icon color */
-	iconColor?: string | keyof ThemeObj['palette'];
+	iconColor?: string | keyof DefaultTheme['palette'];
 	/** select single replaceable value from options */
 	singleSelection?: boolean;
 	/** hide the input's bottom border */

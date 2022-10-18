@@ -8,10 +8,9 @@ import React, { useEffect, useState, useCallback, useMemo, useContext } from 're
 
 import { VirtualElement } from '@popperjs/core';
 import { debounce } from 'lodash';
-import styled from 'styled-components';
+import styled, { ThemeContext } from 'styled-components';
 
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
-import { ThemeContext } from '../../theme/theme-context-provider';
 import { Popper, PopperProps } from './Popper';
 
 const PopoverContainer = styled.div<{ styleAsModal: boolean }>`

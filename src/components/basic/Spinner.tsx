@@ -5,13 +5,12 @@
  */
 import React, { HTMLAttributes } from 'react';
 
-import styled, { keyframes } from 'styled-components';
+import styled, { DefaultTheme, keyframes } from 'styled-components';
 
-import type { ThemeObj } from '../../theme/theme';
 import { getColor } from '../../theme/theme-utils';
 
 interface SpinnerProps extends HTMLAttributes<HTMLDivElement> {
-	color: string | keyof ThemeObj['palette'];
+	color: string | keyof DefaultTheme['palette'];
 }
 
 const rotateKeyframes = keyframes`
