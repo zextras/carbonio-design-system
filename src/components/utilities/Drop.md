@@ -94,8 +94,6 @@ const overlayDenyComponent = (<BackDropLayout><DropBackgroundGray/></BackDropLay
 		<Drop
 			acceptType={['message']}
 			onDrop={(data) => console.log(data)}
-			//acceptStyle={{ border: '2px solid rgba(43, 115, 210, 0,4)' }}
-			//rejectStyle={{ border: '2px solid red' }}
 			overlayAcceptComponent={overlayComponent}
 			overlayDenyComponent={overlayDenyComponent}
 			onDragEnter={(data) => {

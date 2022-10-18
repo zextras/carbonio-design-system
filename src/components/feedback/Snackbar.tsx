@@ -20,7 +20,7 @@ import { Transition } from '../utilities/Transition';
 
 const SnackContainer = styled(Container)<{ $zIndex: number; $screenMode: ScreenMode }>`
 	position: fixed;
-	box-shadow: 0 0 4px 0 rgba(166, 166, 166, 0.5);
+	box-shadow: 0 0 4px 0 ${({ theme }): string => theme.palette.shadow.regular};
 	user-select: none;
 	z-index: ${({ $zIndex }): number => $zIndex};
 	${({ $screenMode, theme }): SimpleInterpolation =>
