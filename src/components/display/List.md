@@ -44,7 +44,7 @@ const ListItem = useMemo(
 			<Drag type="item" data={item} style={{ width: '100%' }}>
 				<Container
 					onClick={select(item.id)}
-					height={64}
+					height="4rem"
 					orientation="vertical"
 					mainAlignment="flex-start"
 				>
@@ -143,7 +143,7 @@ const ListItem = useMemo(
 			<Drag type="item" data={item} style={{ width: '100%' }} >
 				<Container
 					onClick={select(item.id)}
-					height={64}
+					height="4rem"
 					orientation="vertical"
 					mainAlignment="flex-start"
 				>
