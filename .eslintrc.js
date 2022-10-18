@@ -54,12 +54,6 @@ module.exports = {
 	},
 	overrides: [
 		{
-			files: ['src/icons/**/*.jsx'],
-			rules: {
-				'notice/notice': 0
-			}
-		},
-		{
 			// enable eslint-plugin-testing-library rules or preset only for test files
 			files: ['**/__tests__/**/*.[jt]s?(x)', '**/?(*.)+(spec|test).[jt]s?(x)'],
 			extends: ['plugin:jest-dom/recommended', 'plugin:testing-library/react'],
@@ -71,5 +65,6 @@ module.exports = {
 				'testing-library/prefer-user-event': 'warn'
 			}
 		}
-	]
+	],
+	ignorePatterns: ['**/tsTemplate.js']
 };
