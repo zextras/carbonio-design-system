@@ -17,7 +17,7 @@ module.exports = {
 		extensions: ['.js', '.jsx', '.ts', '.tsx'],
 		alias: {
 			'@zextras/carbonio-design-system': path.resolve(__dirname, './src/index.ts'),
-			'carbonio-design-system-icons': path.resolve(__dirname, './src/icons/index.jsx'),
+			'carbonio-design-system-icons': path.resolve(__dirname, './src/icons/index.ts'),
 			'status-table': path.resolve(__dirname, './docs/components/StatusTable.jsx')
 		}
 	},
@@ -25,7 +25,7 @@ module.exports = {
 	module: {
 		rules: [
 			{
-				test: /\.(j|t)sx?$/,
+				test: /\.[jt]sx?$/,
 				exclude: /node_modules/,
 				loader: 'babel-loader'
 			}
