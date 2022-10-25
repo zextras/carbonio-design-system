@@ -54,6 +54,12 @@ module.exports = {
 	},
 	overrides: [
 		{
+			files: ['src/icons/**/*.[jt]sx'],
+			rules: {
+				'notice/notice': 0
+			}
+		},
+		{
 			// enable eslint-plugin-testing-library rules or preset only for test files
 			files: ['**/__tests__/**/*.[jt]s?(x)', '**/?(*.)+(spec|test).[jt]s?(x)'],
 			extends: ['plugin:jest-dom/recommended', 'plugin:testing-library/react'],
