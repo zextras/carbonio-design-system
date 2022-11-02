@@ -1,19 +1,9 @@
-/*
- * SPDX-FileCopyrightText: 2021 Zextras <https://www.zextras.com>
- *
- * SPDX-License-Identifier: AGPL-3.0-only
- */
-
-import React, { SVGProps } from 'react';
+import * as React from 'react';
+import { SVGProps } from 'react';
 
 const SvgTeam = (props: SVGProps<SVGSVGElement>): JSX.Element => (
-	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...props}>
-		<g data-name="Layer 2">
-			<path
-				d="M19.07 4.93a10 10 0 00-16.28 11 1.06 1.06 0 01.09.64L2 20.8a1 1 0 00.27.91A1 1 0 003 22h.2l4.28-.86a1.26 1.26 0 01.64.09 10 10 0 0011-16.28zM8 13a1 1 0 111-1 1 1 0 01-1 1zm4 0a1 1 0 111-1 1 1 0 01-1 1zm4 0a1 1 0 111-1 1 1 0 01-1 1z"
-				data-name="message-circle"
-			/>
-		</g>
+	<svg width={24} height={24} xmlns="http://www.w3.org/2000/svg" {...props}>
+		<path d="M11.988 2.014a9.972 9.972 0 0 0-9.974 9.974 9.972 9.972 0 0 0 11.614 9.838l6.258-1.247c.585-.107.631-.442.7-.746l1.24-6.199a9.972 9.972 0 0 0-9.837-11.62Zm1.827 9.974a1.827 1.827 0 1 1-3.655-.001 1.827 1.827 0 0 1 3.655.001Zm-4.636 0a1.546 1.546 0 1 1-3.093-.001 1.546 1.546 0 0 1 3.093.001Zm8.148 0a1.265 1.265 0 1 1-2.53-.001 1.265 1.265 0 0 1 2.53.001Z" />
 	</svg>
 );
 
