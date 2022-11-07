@@ -1,14 +1,21 @@
-import * as React from 'react';
-import { SVGProps } from 'react';
+/*
+ * SPDX-FileCopyrightText: 2021 Zextras <https://www.zextras.com>
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+
+import React, { SVGProps } from 'react';
 
 const SvgTeamOutline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
-	<svg width={24} height={24} xmlns="http://www.w3.org/2000/svg" {...props}>
-		<path d="M11.988 2.014a9.972 9.972 0 0 0-9.974 9.974 9.972 9.972 0 0 0 11.614 9.838l6.258-1.247c.444-.114.592-.161.7-.746l1.24-6.199a9.972 9.972 0 0 0-9.837-11.62Zm0 1.967a8.011 8.011 0 0 1 8.008 8.007 8.011 8.011 0 0 1-8.008 8.008 8.011 8.011 0 0 1-8.007-8.008 8.011 8.011 0 0 1 8.007-8.007Z" />
-		<path
-			fillRule="evenodd"
-			clipRule="evenodd"
-			d="M17.327 11.988a1.265 1.265 0 1 1-2.53-.001 1.265 1.265 0 0 1 2.53.001ZM9.179 11.988a1.546 1.546 0 1 1-3.093-.001 1.546 1.546 0 0 1 3.093.001ZM13.815 11.988a1.827 1.827 0 1 1-3.655-.001 1.827 1.827 0 0 1 3.655.001Z"
-		/>
+	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...props}>
+		<g data-name="Layer 2">
+			<g data-name="message-circle">
+				<circle cx={12} cy={12} r={1} />
+				<circle cx={16} cy={12} r={1} />
+				<circle cx={8} cy={12} r={1} />
+				<path d="M19.07 4.93a10 10 0 00-16.28 11 1.06 1.06 0 01.09.64L2 20.8a1 1 0 00.27.91A1 1 0 003 22h.2l4.28-.86a1.26 1.26 0 01.64.09 10 10 0 0011-16.28zm.83 8.36a8 8 0 01-11 6.08 3.26 3.26 0 00-1.25-.26 3.43 3.43 0 00-.56.05l-2.82.57.57-2.82a3.09 3.09 0 00-.21-1.81 8 8 0 016.08-11 8 8 0 019.19 9.19z" />
+			</g>
+		</g>
 	</svg>
 );
 

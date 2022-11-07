@@ -1,5 +1,10 @@
-import * as React from 'react';
-import { SVGProps } from 'react';
+/*
+ * SPDX-FileCopyrightText: 2021 2018 Akveo
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+import React, { SVGProps } from 'react';
 
 const SvgMenu2 = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...props}>
