@@ -1,19 +1,13 @@
-/*
- * SPDX-FileCopyrightText: 2021 Zextras <https://www.zextras.com>
- *
- * SPDX-License-Identifier: AGPL-3.0-only
- */
-
-import React, { SVGProps } from 'react';
+import * as React from 'react';
+import { SVGProps } from 'react';
 
 const SvgSearchModOutline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
-	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...props}>
-		<g data-name="Layer 2">
-			<path
-				d="M20.71 19.29l-3.4-3.39A7.92 7.92 0 0019 11a8 8 0 10-8 8 7.92 7.92 0 004.9-1.69l3.39 3.4a1 1 0 001.42 0 1 1 0 000-1.42zM5 11a6 6 0 116 6 6 6 0 01-6-6z"
-				data-name="search"
-			/>
-		</g>
+	<svg width={24} height={24} xmlns="http://www.w3.org/2000/svg" {...props}>
+		<path
+			fillRule="evenodd"
+			clipRule="evenodd"
+			d="M18.327 19.683a9.93 9.93 0 0 1-6.354 2.288C6.468 21.971 2 17.503 2 11.998c0-5.504 4.468-9.972 9.973-9.972 5.504 0 9.972 4.468 9.972 9.973 0 2.385-.839 4.58-2.24 6.294l2.006 2.006a.978.978 0 1 1-1.384 1.384l-2-2Zm-6.354-15.7a8.02 8.02 0 0 1 8.015 8.015 8.02 8.02 0 0 1-8.015 8.016 8.018 8.018 0 0 1-8.016-8.015 8.018 8.018 0 0 1 8.016-8.016ZM7.83 15.277a1.548 1.548 0 0 1 3.093 0 1.548 1.548 0 0 1-3.093 0Zm2.75-3.033a1.829 1.829 0 1 1 3.658 0 1.829 1.829 0 0 1-3.658 0Zm3.49-3.093a1.268 1.268 0 1 1 2.535.001 1.268 1.268 0 0 1-2.535-.001Z"
+		/>
 	</svg>
 );
 

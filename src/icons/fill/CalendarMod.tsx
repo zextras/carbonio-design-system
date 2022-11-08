@@ -1,19 +1,13 @@
-/*
- * SPDX-FileCopyrightText: 2021 Zextras <https://www.zextras.com>
- *
- * SPDX-License-Identifier: AGPL-3.0-only
- */
-
-import React, { SVGProps } from 'react';
+import * as React from 'react';
+import { SVGProps } from 'react';
 
 const SvgCalendarMod = (props: SVGProps<SVGSVGElement>): JSX.Element => (
-	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...props}>
-		<g data-name="Layer 2">
-			<path
-				d="M18 4h-1V3a1 1 0 00-2 0v1H9V3a1 1 0 00-2 0v1H6a3 3 0 00-3 3v12a3 3 0 003 3h12a3 3 0 003-3V7a3 3 0 00-3-3zM8 17a1 1 0 111-1 1 1 0 01-1 1zm8 0h-4a1 1 0 010-2h4a1 1 0 010 2zm3-6H5V7a1 1 0 011-1h1v1a1 1 0 002 0V6h6v1a1 1 0 002 0V6h1a1 1 0 011 1z"
-				data-name="calendar"
-			/>
-		</g>
+	<svg width={24} height={24} xmlns="http://www.w3.org/2000/svg" {...props}>
+		<path
+			fillRule="evenodd"
+			clipRule="evenodd"
+			d="M17.01 2.997h1.923c1.122 0 2.046.924 2.047 2.046v13.89a2.056 2.056 0 0 1-2.047 2.047H5.044a2.056 2.056 0 0 1-2.047-2.046V5.043c0-1.123.925-2.046 2.047-2.046h1.88V5.08a.984.984 0 0 0 1.967 0V2.997h6.151V5.08a.984.984 0 0 0 1.967 0V2.997Zm-2.914 8.991a1.827 1.827 0 1 1-3.655-.001 1.827 1.827 0 0 1 3.655.001Zm-4.636 0a1.546 1.546 0 1 1-3.093 0 1.546 1.546 0 0 1 3.093 0Zm8.148 0a1.265 1.265 0 1 1-2.53-.001 1.265 1.265 0 0 1 2.53.001Z"
+		/>
 	</svg>
 );
 

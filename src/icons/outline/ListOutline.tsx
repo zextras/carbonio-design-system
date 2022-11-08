@@ -1,10 +1,5 @@
-/*
- * SPDX-FileCopyrightText: 2021 2018 Akveo
- *
- * SPDX-License-Identifier: MIT
- */
-
-import React, { SVGProps } from 'react';
+import * as React from 'react';
+import { SVGProps } from 'react';
 
 const SvgListOutline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...props}>
