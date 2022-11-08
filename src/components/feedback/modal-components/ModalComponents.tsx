@@ -90,8 +90,7 @@ const ModalWrapper = styled.div`
 
 const ModalContent = styled(Container).attrs<{
 	$size: keyof typeof modalMinWidth & keyof typeof modalWidth;
-}>(({ minHeight = '250px', $size }) => ({
-	minHeight,
+}>(({ $size }) => ({
 	maxWidth: '100%',
 	minWidth: modalMinWidth[$size],
 	width: modalWidth[$size],
