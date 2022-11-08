@@ -19,7 +19,7 @@ const PopoverContainer = styled.div<{ styleAsModal: boolean }>`
 	border-radius: ${({ styleAsModal, theme }): string =>
 		styleAsModal ? '16px' : theme.borderRadius};
 	background-color: ${({ theme }): string => theme.palette.gray6.regular};
-	box-shadow: 0 0 4px 0 rgba(166, 166, 166, 0.5);
+	box-shadow: 0 0 4px 0 ${({ theme }): string => theme.palette.shadow.regular};
 	max-width: 92vw;
 	outline: none;
 `;
