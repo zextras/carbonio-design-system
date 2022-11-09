@@ -345,7 +345,7 @@ const CC2 = ({ item }) => (
 	</AccordionItem>
 );
 const CC3 = ({ item }) => (
-	<div style={{ width: '100%', border: '1px solid green' }}>
+	<div style={{ width: '100%', border: '0.0625rem solid green' }}>
 		<AccordionItem item={item} />
 	</div>
 );

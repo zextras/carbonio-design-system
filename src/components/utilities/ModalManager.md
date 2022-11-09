@@ -19,7 +19,7 @@ import { Button, Container, useModal, ModalManager, Text } from '@zextras/carbon
 function App() {
 	const createModal = useModal();
 	return (
-		<Container orientation="horizontal" mainAlignment="space-between" width="400px">
+		<Container orientation="horizontal" mainAlignment="space-between" width="25rem">
 			<Button
 				type="outlined"
 				color="success"

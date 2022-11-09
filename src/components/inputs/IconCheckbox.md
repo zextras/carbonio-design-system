@@ -25,7 +25,7 @@ const invert = useCallback(() => {
     setChecked2((c) => !c);
 }, []);
 <>
-    <Button style={{marginBottom: '20px'}} onClick={invert} label="Invert state" />
+    <Button style={{marginBottom: '1.25rem'}} onClick={invert} label="Invert state" />
     <Container orientation="horizontal" mainAlignment="flex-start" width="fill">
         <IconCheckbox value={checked1} onChange={onChange1} icon="Text" size="small" />
         <IconCheckbox value={checked2} onChange={onChange2} icon="ArrowUpward" size="small" />
@@ -34,7 +34,7 @@ const invert = useCallback(() => {
         <IconCheckbox value={checked2} onChange={onChange2} icon="AttachOutline" size="small" />
     </Container>
 
-    <Container orientation="horizontal" mainAlignment="flex-start" width="fill" style={{marginTop: '25px'}}>
+    <Container orientation="horizontal" mainAlignment="flex-start" width="fill" style={{marginTop: '1.5rem'}}>
         <IconCheckbox value={checked1} onChange={onChange1} icon="Text" />
         <IconCheckbox value={checked2} onChange={onChange2} icon="ArrowUpward" />
         <IconCheckbox value={checked2} onChange={onChange2} icon="CheckmarkSquare" />
@@ -42,7 +42,7 @@ const invert = useCallback(() => {
         <IconCheckbox value={checked2} onChange={onChange2} icon="AttachOutline" />
     </Container>
 
-    <Container orientation="horizontal" mainAlignment="flex-start" width="fill" style={{marginTop: '25px'}}>
+    <Container orientation="horizontal" mainAlignment="flex-start" width="fill" style={{marginTop: '1.5rem'}}>
         <IconCheckbox value={checked1} onChange={onChange1} icon="Text" size="large" />
         <IconCheckbox value={checked2} onChange={onChange2} icon="ArrowUpward" size="large" />
         <IconCheckbox disabled value={checked2} onChange={onChange2} icon="CheckmarkSquare" size="large" />
@@ -50,7 +50,7 @@ const invert = useCallback(() => {
         <IconCheckbox value={checked2} onChange={onChange2} icon="AttachOutline" size="large" />
     </Container>
 
-    <Container orientation="horizontal" mainAlignment="flex-start" width="fill" style={{marginTop: '25px'}}>
+    <Container orientation="horizontal" mainAlignment="flex-start" width="fill" style={{marginTop: '1.5rem'}}>
         <IconCheckbox value={checked1} onChange={onChange1} icon="Text" size="large" margin="small" />
         <IconCheckbox value={checked2} onChange={onChange2} icon="ArrowUpward" size="large" margin="small" />
         <IconCheckbox value={checked2} onChange={onChange2} icon="CheckmarkSquare" size="large" margin="small" />
@@ -75,7 +75,7 @@ import {Container} from '@zextras/carbonio-design-system';
         <IconCheckbox defaultChecked={true} onChange={console.log} borderRadius="regular" icon="AttachOutline" size="large" margin="medium" />
     </Container>
     
-    <Container orientation="horizontal" mainAlignment="flex-start" width="fill" style={{marginTop: '25px'}}>
+    <Container orientation="horizontal" mainAlignment="flex-start" width="fill" style={{marginTop: '1.5rem'}}>
         <IconCheckbox defaultChecked={true} onChange={console.log} icon="BookOpen" />
         <IconCheckbox defaultChecked={false} onChange={console.log} icon="Camera" label="I have a label!" />
     </Container>

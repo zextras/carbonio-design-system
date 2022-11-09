@@ -26,7 +26,7 @@ const LoadMore = React.forwardRef<HTMLDivElement, LoadMoreProps>(function LoadMo
 	ref
 ) {
 	return (
-		<Container ref={ref} orientation="horizontal" width="fill" height="40px" {...rest}>
+		<Container ref={ref} orientation="horizontal" width="fill" height="2.5rem" {...rest}>
 			<Icon icon="Sync" />
 			{label && (
 				<Padding left="small">

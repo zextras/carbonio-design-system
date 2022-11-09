@@ -8,7 +8,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 import { Container } from '@zextras/carbonio-design-system';
 
 <Container orientation="horizontal" mainAlignment="center" background="gray5" height="fill" width="fill">
-    <Container orientation="vertical" mainAlignment="space-around" height="300px" width="50%">
+    <Container orientation="vertical" mainAlignment="space-around" height="18.75rem" width="50%">
         <SearchInput />
     </Container>    
 </Container>

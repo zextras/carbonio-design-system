@@ -80,7 +80,11 @@ describe('Accordion', () => {
 			<Button label={item.label} onClick={clickFn} />
 		);
 		const CC2: AccordionItemType['CustomComponent'] = ({ item }) => (
-			<div id="custom" data-testid="custom" style={{ width: '100%', border: '1px solid green' }}>
+			<div
+				id="custom"
+				data-testid="custom"
+				style={{ width: '100%', border: '0.0625rem solid green' }}
+			>
 				<AccordionItem item={item} />
 			</div>
 		);

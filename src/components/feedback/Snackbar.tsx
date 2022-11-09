@@ -20,7 +20,7 @@ import { Transition } from '../utilities/Transition';
 
 const SnackContainer = styled(Container)<{ $zIndex: number; $screenMode: ScreenMode }>`
 	position: fixed;
-	box-shadow: 0 0 4px 0 rgba(166, 166, 166, 0.5);
+	box-shadow: 0 0 0.25rem 0 ${({ theme }): string => theme.palette.shadow.regular};
 	user-select: none;
 	z-index: ${({ $zIndex }): number => $zIndex};
 	${({ $screenMode, theme }): SimpleInterpolation =>
@@ -28,8 +28,8 @@ const SnackContainer = styled(Container)<{ $zIndex: number; $screenMode: ScreenM
 		css`
 			right: 0;
 			bottom: 5vh;
-			max-width: 400px;
-			min-width: calc(320px - ${theme.sizes.padding.small} - ${theme.sizes.padding.small});
+			max-width: 25rem;
+			min-width: calc(20rem - ${theme.sizes.padding.small} - ${theme.sizes.padding.small});
 		`};
 	${({ $screenMode, theme }): SimpleInterpolation =>
 		$screenMode === 'mobile' &&
@@ -37,7 +37,7 @@ const SnackContainer = styled(Container)<{ $zIndex: number; $screenMode: ScreenM
 			right: 50%;
 			transform: translateX(50%);
 			bottom: ${theme.sizes.padding.small};
-			min-width: calc(320px - ${theme.sizes.padding.small} - ${theme.sizes.padding.small});
+			min-width: calc(20rem - ${theme.sizes.padding.small} - ${theme.sizes.padding.small});
 			max-width: calc(100% - ${theme.sizes.padding.small} - ${theme.sizes.padding.small});
 		`};
 `;
@@ -142,7 +142,7 @@ const Snackbar = React.forwardRef<HTMLDivElement, SnackbarProps>(function Snackb
 							style={{
 								flexBasis: 0,
 								flexGrow: 1,
-								minWidth: '1px'
+								minWidth: '0.0625rem'
 							}}
 						>
 							<Text color="gray6" size="large" overflow={singleLine ? 'ellipsis' : 'break-word'}>

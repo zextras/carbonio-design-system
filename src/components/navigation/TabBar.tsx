@@ -37,7 +37,9 @@ const DefaultTabBarItemContainer = styled(Container)<{
 	height: 100%;
 	transition: 0.2s ease-out;
 	border-bottom: ${({ theme, $selected, $underlineColor }): string =>
-		$selected ? `1px solid ${getColor($underlineColor, theme)}` : '1px solid transparent'};
+		$selected
+			? `0.0625rem solid ${getColor($underlineColor, theme)}`
+			: '0.0625rem solid transparent'};
 	cursor: pointer;
 	user-select: none;
 

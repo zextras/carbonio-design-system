@@ -30,11 +30,11 @@ const ContainerEl = styled(Container)<{
 					cursor: text;
 					${pseudoClasses(theme, background)}
 			  `};
-	padding: ${({ $hasLabel }): string => ($hasLabel ? '1px' : '10px')} 12px;
-	gap: 8px;
+	padding: ${({ $hasLabel }): string => ($hasLabel ? '0.0625rem' : '0.625rem')} 0.75rem;
+	gap: 0.5rem;
 	min-height: calc(
 		${({ theme }): string => theme.sizes.font.medium} * 1.5 +
-			${({ theme }): string => theme.sizes.font.extrasmall} * 1.5 + 2px
+			${({ theme }): string => theme.sizes.font.extrasmall} * 1.5 + 0.125rem
 	);
 `;
 
@@ -66,7 +66,7 @@ const InputEl = styled.input<{ color: keyof DefaultTheme['palette'] }>`
 const Label = styled.label<{ hasError: boolean; hasFocus: boolean; disabled: boolean }>`
 	position: absolute;
 	top: 50%;
-	left: 12px;
+	left: 0.75rem;
 	font-size: ${({ theme }): string => theme.sizes.font.medium};
 	font-weight: ${({ theme }): number => theme.fonts.weight.regular};
 	font-family: ${({ theme }): string => theme.fonts.default};
@@ -90,7 +90,7 @@ const Label = styled.label<{ hasError: boolean; hasFocus: boolean; disabled: boo
 
 	${InputEl}:focus + &,
   ${InputEl}:not(:placeholder-shown) + & {
-		top: 1px;
+		top: 0.0625rem;
 		transform: translateY(0);
 		font-size: ${({ theme }): string => theme.sizes.font.extrasmall};
 	}
@@ -108,7 +108,7 @@ const DividerEl = styled(Divider)`
 
 const CustomText = styled(Text)<{ size: NonNullable<TextProps['size']> }>`
 	line-height: 1.5;
-	padding-top: 4px;
+	padding-top: 0.25rem;
 	min-height: calc(${({ theme, size }): string => theme.sizes.font[size]} * 1.5);
 `;
 

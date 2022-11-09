@@ -12,16 +12,16 @@ import { Icon, Container, Padding, Text, Input, SnackbarManagerContext, Snackbar
 import styled from 'styled-components';
 const iconKeys = Object.keys(icons).sort();
 const CustomIcon = styled(Icon)`
-    width: 32px;
-    height: 32px;
+    width: 2rem;
+    height: 2rem;
 `;
 const CustomText = styled(Text)`
     font-family: monospace !important;
-    font-size: 10px;
+    font-size: 0.625rem;
 `;
 const CustomContainer = styled(Container)`
-    border: 1px solid #eee;
-    borderWidth: 1px 0 0 1px;
+    border: 0.0625rem solid #eee;
+    borderWidth: 0.0625rem 0 0 0.0625rem;
     min-width: 19.9%;
     max-width: 19.9%;
     cursor: pointer;
@@ -62,8 +62,8 @@ function App() {
                 style={{
                     userSelect: 'none',
                     flexWrap: 'wrap',
-                    border: '1px solid #eee',
-                    borderWidth: '0 1px 1px 0'
+                    border: '0.0625rem solid #eee',
+                    borderWidth: '0 0.0625rem 0.0625rem 0'
                 }}
             >
                 { map(

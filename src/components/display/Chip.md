@@ -38,7 +38,7 @@ The chip has two special statuses: disabled and error.
 ```jsx
 import { Container } from '@zextras/carbonio-design-system';
 
-<Container orientation="horizontal" wrap="wrap" mainAlignment="flex-start" maxWidth="700px" style={{gap: '8px'}}>
+<Container orientation="horizontal" wrap="wrap" mainAlignment="flex-start" maxWidth="44rem" style={{gap: '0.5rem'}}>
   <Chip label="Walter White" onClose={() => console.log('closed')} />
   <Chip label="Jessy Pinkman" error onClose={() => console.log('closed')} />
   <Chip label="Tuco" color="primary" />
@@ -86,7 +86,7 @@ const actions = [
           }
         ];
 
-<Container orientation="horizontal" wrap="wrap" mainAlignment="flex-start" maxWidth="700px" style={{gap: '8px'}}>
+<Container orientation="horizontal" wrap="wrap" mainAlignment="flex-start" maxWidth="44rem" style={{gap: '0.5rem'}}>
   <Chip label="Frodo Baggins" onClose={() => console.log('closed')} avatarIcon="Eye" disabled actions={actions} />
   <Chip label="Samwise (Sam) Gamgee" onClose={() => console.log('closed')} error actions={actions} />
   <Chip label="Gandalf the Grey" disabled="Message to tell user why this chip is disabled" />
@@ -101,11 +101,11 @@ Tooltip for label is shown only on overflow
 ```jsx
 import { Container } from '@zextras/carbonio-design-system';
 
-<Container orientation="horizontal" wrap="wrap" mainAlignment="flex-start" maxWidth="700px" style={{gap: '8px'}}>
-  <Chip label="Harry James Potter" maxWidth="150px" onClose={console.log} tooltipPlacement="top" />
-  <Chip label="Hermione Jean Granger" maxWidth="150px" onClose={console.log} tooltipPlacement="bottom" />
-  <Chip label="Ronald Bilius Weasley" maxWidth="150px" onClose={console.log} tooltipPlacement="right" />
-  <Chip label="Albus Percival Wulfric Brian Dumbledore" onClose={console.log} maxWidth="150px" tooltipPlacement="left" />
+<Container orientation="horizontal" wrap="wrap" mainAlignment="flex-start" maxWidth="44rem" style={{gap: '0.5rem'}}>
+  <Chip label="Harry James Potter" maxWidth="13.125rem" onClose={console.log} tooltipPlacement="top" />
+  <Chip label="Hermione Jean Granger" maxWidth="13.125rem" onClose={console.log} tooltipPlacement="bottom" />
+  <Chip label="Ronald Bilius Weasley" maxWidth="13.125rem" onClose={console.log} tooltipPlacement="right" />
+  <Chip label="Albus Percival Wulfric Brian Dumbledore" onClose={console.log} maxWidth="13.125rem" tooltipPlacement="left" />
 </Container>
 ```
 
@@ -114,9 +114,9 @@ import { Container } from '@zextras/carbonio-design-system';
 ```jsx
 import { Container, Row, Text } from '@zextras/carbonio-design-system';
 
-<Container wrap="wrap" mainAlignment="flex-start" crossAlignment="flex-start" maxWidth="700px" style={{ gap: '8px' }}>
+<Container wrap="wrap" mainAlignment="flex-start" crossAlignment="flex-start" maxWidth="44rem" style={{ gap: '0.5rem' }}>
   <Text size="large" weight="bold">Small</Text>
-  <Row style={{ gap: '8px' }}>
+  <Row style={{ gap: '0.5rem' }}>
     <Chip
       label="SpongeBob SquarePants"
       shape="regular"
@@ -131,7 +131,7 @@ import { Container, Row, Text } from '@zextras/carbonio-design-system';
     />
   </Row>
   <Text size="large" weight="bold">Medium</Text>
-  <Row style={{ gap: '8px' }}>
+  <Row style={{ gap: '0.5rem' }}>
     <Chip
       label="Squidward Tentacles"
       shape="regular"
@@ -146,7 +146,7 @@ import { Container, Row, Text } from '@zextras/carbonio-design-system';
     />
   </Row>
   <Text size="large" weight="bold">Large</Text>
-  <Row style={{ gap: '8px' }}>
+  <Row style={{ gap: '0.5rem' }}>
     <Chip
       label="Plankton and Karen"
       shape="regular"
@@ -167,7 +167,7 @@ import { Container, Row, Text } from '@zextras/carbonio-design-system';
 
 ```jsx
 import { Container } from '@zextras/carbonio-design-system';
-<Container orientation="horizontal" wrap="wrap" mainAlignment="flex-start" maxWidth="700px" style={{gap: '8px'}}>
+<Container orientation="horizontal" wrap="wrap" mainAlignment="flex-start" maxWidth="44rem" style={{gap: '0.5rem'}}>
   <Chip
     label="Anakin Skywalker"
     avatarPicture="https://pbs.twimg.com/profile_images/726995002660810752/38zzuVUY_400x400.jpg"
@@ -203,19 +203,19 @@ import { Container } from '@zextras/carbonio-design-system';
 
 ```jsx
 import { Button, Container, Row, Text, Tooltip } from '@zextras/carbonio-design-system';
-<Container orientation="horizontal" wrap="wrap" mainAlignment="flex-start" maxWidth="700px" style={{gap: '8px'}}>
+<Container orientation="horizontal" wrap="wrap" mainAlignment="flex-start" maxWidth="44rem" style={{gap: '0.5rem'}}>
   <Chip
     keyLabel="The Mandalorian:"
     label="Kuiil"
     shape="regular"
-    maxWidth="250px"
+    maxWidth="23.125rem"
   />
   <Chip
     keyLabel="The Mandalorian:"
     label="Greef Karga (Leader of the Bounty Hunters' Guild)"
     shape="regular"
     icon="PersonOutline"
-    maxWidth="250px"
+    maxWidth="23.125rem"
   />
   <Chip
     keyLabel="The Mandalorian:"
@@ -228,13 +228,13 @@ import { Button, Container, Row, Text, Tooltip } from '@zextras/carbonio-design-
       </Tooltip>
     )}
     icon="PersonOutline"
-    maxWidth="250px"
+    maxWidth="23.125rem"
     onClose={() => console.log('This is the way')}
   />
   <Chip
     keyLabel="The Mandalorian:"
     label={'Carasynthia "Cara" Dune'}
-    maxWidth="250px"
+    maxWidth="23.125rem"
     disabled="Disabled tooltip"
   />
   <Chip
@@ -256,7 +256,7 @@ import { Button, Container, Row, Text, Tooltip } from '@zextras/carbonio-design-
 
 ```jsx
 import { Button, Container, Row, Text, Tooltip } from '@zextras/carbonio-design-system';
-<Container orientation="horizontal" wrap="wrap" mainAlignment="flex-start" maxWidth="700px" style={{gap: '8px'}}>
+<Container orientation="horizontal" wrap="wrap" mainAlignment="flex-start" maxWidth="44rem" style={{gap: '0.5rem'}}>
   <Chip
     label="Daenerys Targaryen"
     shape="round"
@@ -431,7 +431,7 @@ For now, double click handler does not prevent the click event.
 It's up to the dev to eventually avoid the click callback to be called when double click is fired.
 ```jsx
 import { Container } from '@zextras/carbonio-design-system';
-<Container orientation="horizontal" wrap="wrap" mainAlignment="flex-start" maxWidth="700px" style={{ gap: '8px' }}>
+<Container orientation="horizontal" wrap="wrap" mainAlignment="flex-start" maxWidth="44rem" style={{ gap: '0.5rem' }}>
   <Chip
     label="Buffy Summers"
     shape="round"

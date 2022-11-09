@@ -13,8 +13,8 @@ const BackDropLayout = styled(Container)`
 	position: absolute;
 	height: 100%;
 	z-index: 2;
-	top: 0px;
-	left: 0px;
+	top: 0;
+	left: 0;
 `;
 const DropBackground = styled(Container)`
 	background: ${(props) => props.theme.palette.primary.regular}b9;
@@ -26,24 +26,24 @@ const DropBackgroundGray = styled(Container)`
 `;
 const BackDropLayoutInnerBox = styled(Container)`
 	background: ${(props) => props.theme.palette.gray6.regular};
-	border-radius: 10px;
-	min-height: 180px;
-	max-width: 380px;
-	max-height: 210px;
+	border-radius: 0.625rem;
+	min-height: 11.25rem;
+	max-width: 23.75rem;
+	max-height: 13.125rem;
 `;
 
 const BackDropLayoutContentBox = styled(Container)`
 	border-style: dashed;
-	border-width: 2px;
-	border-radius: 5px;
+	border-width: 0.125rem;
+	border-radius: 0.3125rem;
 	border-color: ${(props) => props.theme.palette.primary.regular};
 	box-sizing: border-box;
-	padding: 40px;
+	padding: 2.5rem;
 `;
 
 const DropBoxIconGroup = styled(Container)`
-	margin-bottom: 8px;
-	height: 40px;
+	margin-bottom: 0.5rem;
+	height: 2.5rem;
 `;
 
 const DetailText = styled(Text)`
@@ -59,13 +59,13 @@ const overlayComponent = (
 						<Container mainAlignment="center">
 							<DropBoxIconGroup mainAlignment="center" orientation="horizontal">
 								<Padding right="small" left="small">
-									<Icon icon="ImageOutline" height="35px" width="35px" color="primary"></Icon>
+									<Icon icon="ImageOutline" height="2.1875rem" width="2.1875rem" color="primary"></Icon>
 								</Padding>
 								<Padding right="small" left="small">
-									<Icon icon="FileAddOutline" height="35px" width="35px" color="primary"></Icon>
+									<Icon icon="FileAddOutline" height="2.1875rem" width="2.1875rem" color="primary"></Icon>
 								</Padding>
 								<Padding right="small" left="small">
-									<Icon icon="FilmOutline" height="35px" width="35px" color="primary"></Icon>
+									<Icon icon="FilmOutline" height="2.1875rem" width="2.1875rem" color="primary"></Icon>
 								</Padding>
 							</DropBoxIconGroup>
 							<Container mainAlignment="center" height="auto">
@@ -94,8 +94,6 @@ const overlayDenyComponent = (<BackDropLayout><DropBackgroundGray/></BackDropLay
 		<Drop
 			acceptType={['message']}
 			onDrop={(data) => console.log(data)}
-			//acceptStyle={{ border: '2px solid rgba(43, 115, 210, 0,4)' }}
-			//rejectStyle={{ border: '2px solid red' }}
 			overlayAcceptComponent={overlayComponent}
 			overlayDenyComponent={overlayDenyComponent}
 			onDragEnter={(data) => {
@@ -104,7 +102,7 @@ const overlayDenyComponent = (<BackDropLayout><DropBackgroundGray/></BackDropLay
 				}
 			}}
 		>
-			<Container background="#cacaca" height="300px" width="100%">
+			<Container background="#cacaca" height="18.75rem" width="100%">
 				{' '}
 			</Container>
 		</Drop>

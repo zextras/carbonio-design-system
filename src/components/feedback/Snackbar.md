@@ -16,7 +16,7 @@ const [snack2, setSnack2] = useState(false);
 const [snack3, setSnack3] = useState(false);
 const [snack4, setSnack4] = useState(false);
 <>
-    <Container orientation="horizontal" mainAlignment="space-between" width="400px">
+    <Container orientation="horizontal" mainAlignment="space-between" width="25rem">
         <Button type="outlined" color="success" label="Success" onClick={() => setSnack1(true)} />
         <Button type="outlined" color="info" label="Info" onClick={() => setSnack2(true)} />
         <Button type="outlined" color="warning" label="Warning" onClick={() => setSnack3(true)} />

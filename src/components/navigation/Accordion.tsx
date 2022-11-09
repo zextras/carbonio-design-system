@@ -56,7 +56,7 @@ const AccordionItem = React.forwardRef<HTMLDivElement, AccordionItemProps>(funct
 			orientation="horizontal"
 			mainAlignment="flex-start"
 			padding={{ all: 'small' }}
-			height={40}
+			height="2.5rem"
 			ref={ref}
 			style={{ minWidth: 0, flexBasis: 0, flexGrow: 1 }}
 			{...rest}

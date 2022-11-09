@@ -103,8 +103,8 @@ const Collapse = React.forwardRef<HTMLElement, CollapseProps>(function CollapseF
 });
 
 const CollapserNotch = styled.div`
-	width: 4px;
-	height: 24px;
+	width: 0.25rem;
+	height: 1.5rem;
 	background: ${({ theme }): string => theme.palette.gray1.regular};
 	border-radius: ${({ theme }): string => theme.borderRadius};
 `;

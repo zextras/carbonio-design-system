@@ -51,7 +51,7 @@ const TooltipWrapperWithCss = styled(TooltipWrapper)<{ $maxWidth: string }>`
 	background: ${({ theme }): string => theme.palette.gray3.regular};
 	border-radius: ${({ theme }): string => theme.borderRadius};
 	user-select: none;
-	box-shadow: 0px 0px 4px 0px ${({ theme }): string => rgba(theme.palette.gray0.regular, 0.5)};
+	box-shadow: 0 0 0.25rem 0 ${({ theme }): string => rgba(theme.palette.gray0.regular, 0.5)};
 
 	${({ open }): SimpleInterpolation =>
 		open &&
@@ -86,7 +86,7 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(function TooltipF
 		label = '',
 		placement = 'bottom',
 		fallbackPlacements = ['bottom', 'top', 'left'],
-		maxWidth = '284px',
+		maxWidth = '17.75rem',
 		children,
 		disabled = false,
 		disablePortal = false,
