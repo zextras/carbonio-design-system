@@ -5,6 +5,7 @@
  */
 import React from 'react';
 
+import { rgba } from 'polished';
 import styled, { css, SimpleInterpolation } from 'styled-components';
 
 import { Container } from '../../layout/Container';
@@ -57,7 +58,7 @@ const ModalContainer = styled.div<{ mounted: boolean; open: boolean; zIndex: num
 	right: 0;
 	padding: ${(props): string =>
 		`${props.theme.sizes.padding.medium} ${props.theme.sizes.padding.medium} 0`};
-	background-color: rgba(0, 0, 0, 0);
+	background-color: ${({ theme }): string => theme.palette.transparent.regular};
 	opacity: 0;
 	pointer-events: none;
 	transition: 0.3s ease-out;
@@ -71,10 +72,10 @@ const ModalContainer = styled.div<{ mounted: boolean; open: boolean; zIndex: num
 		css`
 			z-index: ${zIndex};
 		`};
-	${({ open }): SimpleInterpolation =>
+	${({ open, theme }): SimpleInterpolation =>
 		open &&
 		css`
-			background-color: rgba(0, 0, 0, 0.5);
+			background-color: ${rgba(theme.palette.black.regular, 0.5)};
 			opacity: 1;
 			pointer-events: auto;
 		`};
@@ -90,8 +91,7 @@ const ModalWrapper = styled.div`
 
 const ModalContent = styled(Container).attrs<{
 	$size: keyof typeof modalMinWidth & keyof typeof modalWidth;
-}>(({ minHeight = '15.625rem', $size }) => ({
-	minHeight,
+}>(({ $size }) => ({
 	maxWidth: '100%',
 	minWidth: modalMinWidth[$size],
 	width: modalWidth[$size],
@@ -106,7 +106,7 @@ const ModalContent = styled(Container).attrs<{
 	position: relative;
 	margin: 0 auto ${({ theme }): string => theme.sizes.padding.medium};
 	border-radius: 1rem;
-	box-shadow: 0 0 0.25rem 0 rgba(166, 166, 166, 0.5);
+	box-shadow: 0 0 0.25rem 0 ${({ theme }): string => theme.palette.shadow.regular};
 	outline: none;
 	pointer-events: auto;
 `;

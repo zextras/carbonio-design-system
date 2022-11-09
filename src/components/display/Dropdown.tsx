@@ -265,7 +265,7 @@ const PopperList = styled.div<{
 	visibility: hidden;
 	pointer-events: none;
 	background-color: ${({ theme }): string => theme.palette.gray5.regular};
-	box-shadow: 0 0 0.25rem 0 rgba(166, 166, 166, 0.5);
+	box-shadow: 0 0 0.25rem 0 ${({ theme }): string => theme.palette.shadow.regular};
 	z-index: 999;
 
 	padding: ${({ theme }): string => theme.sizes.padding.small} 0;

@@ -73,7 +73,10 @@ export interface ThemeObj {
 		| 'error'
 		| 'success'
 		| 'info'
-		| 'text',
+		| 'text'
+		| 'shadow'
+		| 'black'
+		| 'white',
 		ThemeColorObj
 	>;
 	avatarColors: Record<`avatar_${number}`, string>;
@@ -247,6 +250,27 @@ export const Theme: ThemeObj = {
 			active: '#0d0d0d',
 			focus: '#1a1a1a',
 			disabled: '#cccccc'
+		},
+		shadow: {
+			regular: 'rgba(166, 166, 166, 0.5)',
+			hover: 'rgba(166, 166, 166, 0.5)',
+			active: 'rgba(166, 166, 166, 0.5)',
+			focus: 'rgba(166, 166, 166, 0.5)',
+			disabled: 'rgba(166, 166, 166, 0.5)'
+		},
+		black: {
+			regular: '#000000',
+			hover: '#000000',
+			active: '#000000',
+			focus: '#000000',
+			disabled: '#000000'
+		},
+		white: {
+			regular: '#FFFFFF',
+			hover: '#FFFFFF',
+			active: '#FFFFFF',
+			focus: '#FFFFFF',
+			disabled: '#FFFFFF'
 		}
 	},
 	avatarColors: {
