@@ -17,9 +17,9 @@ import { Popper, PopperProps } from './Popper';
 const PopoverContainer = styled.div<{ styleAsModal: boolean }>`
 	padding: ${({ theme }): string => theme.sizes.padding.small};
 	border-radius: ${({ styleAsModal, theme }): string =>
-		styleAsModal ? '16px' : theme.borderRadius};
+		styleAsModal ? '1rem' : theme.borderRadius};
 	background-color: ${({ theme }): string => theme.palette.gray6.regular};
-	box-shadow: 0 0 4px 0 ${({ theme }): string => theme.palette.shadow.regular};
+	box-shadow: 0 0 0.25rem 0 ${({ theme }): string => theme.palette.shadow.regular};
 	max-width: 92vw;
 	outline: none;
 `;

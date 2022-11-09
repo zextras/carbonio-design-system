@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-import React, {useMemo} from 'react';
+import React, { useMemo } from 'react';
 import { Table, Container, Icon } from '../../src';
 
 const icon = (status) => {
@@ -39,7 +39,7 @@ const headers = [
 	{
 		id: 'status',
 		label: 'Status',
-		width: '32px',
+		width: '2rem',
 		align: 'center',
 		bold: true
 	},

@@ -31,7 +31,8 @@ const AvatarContainer = styled.div<AvatarContainerProps>`
 	justify-content: center;
 	align-items: center;
 	min-width: ${({ theme, size }): string => theme.sizes.avatar[size].diameter};
-	height: ${({ theme, size }): string => theme.sizes.avatar[size].diameter};
+	max-width: ${({ theme, size }): string => theme.sizes.avatar[size].diameter};
+	max-height: ${({ theme, size }): string => theme.sizes.avatar[size].diameter};
 	min-height: ${({ theme, size }): string => theme.sizes.avatar[size].diameter};
 	background: ${({ theme, background, color, picture, selecting, selected, disabled }): string =>
 		`${
@@ -46,7 +47,7 @@ const AvatarContainer = styled.div<AvatarContainerProps>`
 		} ${picture && !selecting ? `url(${picture}) no-repeat center center/cover` : ''}`};
 	border-radius: ${({ shape }): string => (shape === 'round' ? '50%' : '15%')};
 	border: ${({ theme, selecting }): string =>
-		selecting ? `2px solid ${getColor('primary', theme)}` : 'none'};
+		selecting ? `0.125rem solid ${getColor('primary', theme)}` : 'none'};
 `;
 
 type CapitalsPropsType = {
@@ -63,10 +64,10 @@ const Capitals = styled.p<CapitalsPropsType>`
 `;
 
 const AvatarIcon = styled(Icon)<CapitalsPropsType>`
-	width: calc(${({ theme, $size }): string => theme.sizes.avatar[$size].diameter} - 25%);
-	min-width: calc(${({ theme, $size }): string => theme.sizes.avatar[$size].diameter} - 25%);
-	height: calc(${({ theme, $size }): string => theme.sizes.avatar[$size].diameter} - 25%);
-	min-height: calc(${({ theme, $size }): string => theme.sizes.avatar[$size].diameter} - 25%);
+	width: calc(${({ theme, $size }): string => theme.sizes.avatar[$size].diameter} * 0.75);
+	min-width: calc(${({ theme, $size }): string => theme.sizes.avatar[$size].diameter} * 0.75);
+	height: calc(${({ theme, $size }): string => theme.sizes.avatar[$size].diameter} * 0.75);
+	min-height: calc(${({ theme, $size }): string => theme.sizes.avatar[$size].diameter} * 0.75);
 `;
 
 const _SPECIAL_CHARS_REGEX = /[&/\\#,+()$~%.'":*?!<>{}@^_`=]/g;

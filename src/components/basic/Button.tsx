@@ -148,8 +148,8 @@ const StyledButton = styled.button.attrs<
 		outerPadding: string;
 	}
 >(({ buttonType, padding, disabled }) => ({
-	border: buttonType === 'outlined' ? '1px solid' : 'none',
-	outerPadding: buttonType === 'outlined' ? `calc(${padding} - 1px)` : padding,
+	border: buttonType === 'outlined' ? '0.0625rem solid' : 'none',
+	outerPadding: buttonType === 'outlined' ? `calc(${padding} - 0.0625rem)` : padding,
 	tabIndex: disabled ? -1 : 0
 }))<StyledButtonProps>`
 	line-height: 1;
@@ -178,7 +178,7 @@ const StyledButton = styled.button.attrs<
 	/* border */
 	border: ${({ border }): string => border};
 	border-radius: ${({ shape }): SimpleInterpolation =>
-		(shape === 'regular' && '4px') || (shape === 'round' && '50px')};
+		(shape === 'regular' && '0.25rem') || (shape === 'round' && '3.125rem')};
 	/* colors */
 	${({ color, backgroundColor, theme, forceActive }): SimpleInterpolation =>
 		forceActive
@@ -245,45 +245,45 @@ const SIZES: Record<ButtonSize, { label: string; icon: string; padding: string; 
 		{ secondaryButton: { icon: string; padding: string } }
 	> = {
 	extrasmall: {
-		label: '8px',
-		icon: '8px',
-		padding: '4px',
-		gap: '4px'
+		label: '0.5rem',
+		icon: '0.5rem',
+		padding: '0.25rem',
+		gap: '0.25rem'
 	},
 	small: {
-		label: '12px',
-		icon: '12px',
-		padding: '4px',
-		gap: '4px'
+		label: '0.75rem',
+		icon: '0.75rem',
+		padding: '0.25rem',
+		gap: '0.25rem'
 	},
 	medium: {
-		label: '16px',
-		icon: '16px',
-		padding: '8px',
-		gap: '8px',
+		label: '1rem',
+		icon: '1rem',
+		padding: '0.5rem',
+		gap: '0.5rem',
 		secondaryButton: {
-			icon: '16px',
-			padding: '0px'
+			icon: '1rem',
+			padding: '0rem'
 		}
 	},
 	large: {
-		label: '20px',
-		icon: '20px',
-		padding: '8px',
-		gap: '8px',
+		label: '1.25rem',
+		icon: '1.25rem',
+		padding: '0.5rem',
+		gap: '0.5rem',
 		secondaryButton: {
-			icon: '20px',
-			padding: '0px'
+			icon: '1.25rem',
+			padding: '0rem'
 		}
 	},
 	extralarge: {
-		label: '20px',
-		icon: '20px',
-		padding: '12px',
-		gap: '8px',
+		label: '1.25rem',
+		icon: '1.25rem',
+		padding: '0.75rem',
+		gap: '0.5rem',
 		secondaryButton: {
-			icon: '20px',
-			padding: '0px'
+			icon: '1.25rem',
+			padding: '0rem'
 		}
 	}
 } as const;

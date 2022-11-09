@@ -17,10 +17,10 @@ const modalMinWidth = {
 	large: '50%'
 };
 const modalWidth = {
-	extrasmall: '400px',
-	small: '500px',
-	medium: '650px',
-	large: '800px'
+	extrasmall: '25rem',
+	small: '31.25rem',
+	medium: '63.125rem',
+	large: '50rem'
 };
 
 function isBodyOverflowing(modalRef: React.RefObject<HTMLDivElement>, windowObj: Window): boolean {
@@ -95,7 +95,7 @@ const ModalContent = styled(Container).attrs<{
 	maxWidth: '100%',
 	minWidth: modalMinWidth[$size],
 	width: modalWidth[$size],
-	padding: '32px',
+	padding: '2rem',
 	mainAlignment: 'flex-start',
 	crossAlignment: 'flex-start',
 	height: 'auto',
@@ -105,8 +105,8 @@ const ModalContent = styled(Container).attrs<{
 }>`
 	position: relative;
 	margin: 0 auto ${({ theme }): string => theme.sizes.padding.medium};
-	border-radius: 16px;
-	box-shadow: 0 0 4px 0 ${({ theme }): string => theme.palette.shadow.regular};
+	border-radius: 1rem;
+	box-shadow: 0 0 0.25rem 0 ${({ theme }): string => theme.palette.shadow.regular};
 	outline: none;
 	pointer-events: auto;
 `;

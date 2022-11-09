@@ -42,7 +42,7 @@ const STYLES: Record<
 	},
 	'fade-in-left': {
 		from: {
-			transform: 'translateX(-50px)',
+			transform: 'translateX(-3.125rem)',
 			opacity: '0'
 		},
 		to: {
@@ -52,7 +52,7 @@ const STYLES: Record<
 	},
 	'fade-in-right': {
 		from: {
-			transform: 'translateX(50px)',
+			transform: 'translateX(3.125rem)',
 			opacity: '0'
 		},
 		to: {
@@ -62,7 +62,7 @@ const STYLES: Record<
 	},
 	'fade-in-top': {
 		from: {
-			transform: 'translateY(-50px)',
+			transform: 'translateY(-3.125rem)',
 			opacity: '0'
 		},
 		to: {
@@ -72,7 +72,7 @@ const STYLES: Record<
 	},
 	'fade-in-bottom': {
 		from: {
-			transform: 'translateY(50px)',
+			transform: 'translateY(3.125rem)',
 			opacity: '0'
 		},
 		to: {

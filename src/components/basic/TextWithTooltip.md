@@ -13,7 +13,7 @@ import { Container } from '@zextras/carbonio-design-system';
 		size="large"
 		color="primary"
 		weight="regular"
-		style={{ maxWidth: '100px' }}
+		style={{ maxWidth: '6.25rem' }}
 	>
 		Hellooooooooooooooooooooooo world!
 	</TextWithTooltip>
@@ -35,7 +35,7 @@ import { Container } from '@zextras/carbonio-design-system';
 	<TextWithTooltip
         label="3 seconds before tooltip trigger Lorem ipsum dolor sit amet"
         triggerDelay={3000}
-        style={{ maxWidth: '100px' }}
+        style={{ maxWidth: '6.25rem' }}
 		overflowTooltip
 	>
 		3 seconds before tooltip trigger Lorem ipsum dolor sit amet

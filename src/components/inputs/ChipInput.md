@@ -109,7 +109,7 @@ useEffect(() => {
     <Container
         orientation="horizontal"
         mainAlignment="flex-start"
-        width="500px"
+        width="31.25rem"
         padding={{ bottom: 'medium' }}
     >
         <Input
@@ -139,7 +139,7 @@ useEffect(() => {
     <Container
         mainAlignment="flex-start"
         crossAlignment="flex-start"
-        width="500px"
+        width="31.25rem"
         padding={{ top: 'medium' }}
     >
         <Text padding={{ bottom: 'medium' }}>State value:</Text>
@@ -211,10 +211,10 @@ useEffect(() => {
         orientation="horizontal"
         mainAlignment="flex-start"
         crossAlignment="center"
-        width="500px"
+        width="31.25rem"
         padding={{ top: 'medium', bottom: 'medium' }}
     >
-        <Text style={{ margin: '0 50px 0 0' }}>Changes log:</Text>
+        <Text style={{ margin: '0 3.125rem 0 0' }}>Changes log:</Text>
         <Button label="Clear" onClick={() => setLogs([])} />
     </Container>
     {logs.length > 0 && (
@@ -438,7 +438,7 @@ const onChangeChipInput1 = useCallback(
 );
 
 
-<Container style={{ gap: '10px' }}>
+<Container style={{ gap: '0.625rem' }}>
 	<ChipInput
 		placeholder="Chip input 1"
 		description="Optional description"
@@ -577,7 +577,7 @@ const options = [
 	{ id: '4', label: 'Fourth option' },
 	{ id: '5', label: 'Fifth option' }
 ];
-<Container style={{ gap: '10px' }} orientation="horizontal">
+<Container style={{ gap: '0.625rem' }} orientation="horizontal">
     <ChipInput placeholder="ChipInput enabled" options={options} disableOptions={false} background="gray5" bottomBorderColor="gray3" description="" />
     <ChipInput placeholder="ChipInput disabled" options={options} disabled disableOptions={false} background="gray5" bottomBorderColor="gray3" description="Disabled" />
 </Container>
@@ -614,7 +614,7 @@ const iconAction = useCallback(() => {
     });
 }, []);
 
-<Container style={{ gap: '10px' }}>
+<Container style={{ gap: '0.625rem' }}>
     <ChipInput
       placeholder="Options are filtered on typing"
       options={options}
@@ -671,7 +671,7 @@ const initOptions = useCallback(() => {
 }, [filterOptions]);
   
 
-<Container style={{ gap: '10px' }} onClick={initOptions}>
+<Container style={{ gap: '0.625rem' }} onClick={initOptions}>
     <ChipInput
       placeholder="Options are filtered on typing"
       options={options}

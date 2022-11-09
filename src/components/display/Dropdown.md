@@ -174,7 +174,7 @@ const [openD1, setOpenD1] = useState(false);
 const [openD2, setOpenD2] = useState(false);
 const items = [{ id: 'item1', label: 'item1' }, { id: 'item2', label: 'item2' }];
 
-<Container padding={{ vertical: 'small' }} style={{ gap: '50px' }}>
+<Container padding={{ vertical: 'small' }} style={{ gap: '3.125rem' }}>
     <Text weight="bold">Dropdown with click enabled, but controlled from outside</Text>
 	<Container orientation="horizontal" mainAlignment="space-around">
 		<Dropdown items={items} forceOpen={openD1} onOpen={() => setOpenD1(true)}>

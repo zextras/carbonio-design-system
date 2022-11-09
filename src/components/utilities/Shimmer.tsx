@@ -14,9 +14,9 @@ import { Container } from '../layout/Container';
 import { Padding } from '../layout/Padding';
 
 const SIZES = {
-	small: 5,
-	medium: 10,
-	large: 15
+	small: 0.3125,
+	medium: 0.625,
+	large: 0.9375
 } as const;
 
 const backgroundColorShimmer = (theme: ThemeObj): string => `linear-gradient(
@@ -75,7 +75,7 @@ const AvatarSkeletonComponent = styled.div<AvatarSkeletonComponentProps>`
 	background-size: ${backgroundSize};
 	aspect-ratio: 1/1;
 	border-radius: ${({ radius }): string => radius ?? '50%'};
-	width: ${({ size, width }): SimpleInterpolation => width ?? (size && `${SIZES[size] * 3.2}px`)};
+	width: ${({ size, width }): SimpleInterpolation => width ?? (size && `${SIZES[size] * 3.2}rem`)};
 `;
 
 type BadgeSkeletonProps = {
@@ -92,10 +92,10 @@ const BadgeSkeletonComponent = styled.div<BadgeSkeletonProps>`
 	background: ${({ variant, theme }): string => backgroundFunction(variant || '', theme)};
 	background-size: ${backgroundSize};
 	display: inline-block;
-	border-radius: ${({ radius }): string => radius ?? '2em'};
-	width: ${({ size, width }): SimpleInterpolation => width ?? (size && `${SIZES[size] * 3.6}px`)};
+	border-radius: ${({ radius }): string => radius ?? '2rem'};
+	width: ${({ size, width }): SimpleInterpolation => width ?? (size && `${SIZES[size] * 3.6}rem`)};
 	height: ${({ size, height }): SimpleInterpolation =>
-		height ?? (size && `${SIZES[size] * 1.9}px`)};
+		height ?? (size && `${SIZES[size] * 1.9}rem`)};
 `;
 
 type ButtonSkeletonProps = {
@@ -110,9 +110,9 @@ const ButtonSkeletonComponent = styled.div<ButtonSkeletonProps>`
 	animation: ${shimmerEffect} 1.5s linear infinite;
 	background: ${({ variant, theme }): string => backgroundFunction(variant, theme)};
 	background-size: ${backgroundSize};
-	border-radius: ${({ radius }): string => radius ?? '2px'};
-	width: ${({ size, width }): string => width ?? `${SIZES[size] * 8.9}px`};
-	height: ${({ size, height }): string => height ?? `${SIZES[size] * 3.2}px`};
+	border-radius: ${({ radius }): string => radius ?? '0.125rem'};
+	width: ${({ size, width }): string => width ?? `${SIZES[size] * 8.9}rem`};
+	height: ${({ size, height }): string => height ?? `${SIZES[size] * 3.2}rem`};
 `;
 
 const FormSectionSkeletonComponent = styled(FormSection)<{
@@ -145,8 +145,8 @@ const IconSkeletonComponent = styled.div<IconSkeletonProps>`
 	background: ${({ variant, theme }): string => backgroundFunction(variant || '', theme)};
 	background-size: ${backgroundSize};
 	aspect-ratio: 1/1;
-	border-radius: 2px;
-	width: ${({ size, width }): SimpleInterpolation => width ?? (size && `${SIZES[size] * 1.6}px`)};
+	border-radius: 0.125rem;
+	width: ${({ size, width }): SimpleInterpolation => width ?? (size && `${SIZES[size] * 1.6}rem`)};
 `;
 
 type LogoSkeletonProps = {
@@ -162,9 +162,10 @@ const LogoSkeletonComponent = styled.div<LogoSkeletonProps>`
 	animation: ${shimmerEffect} 1.5s linear infinite;
 	background: ${({ variant, theme }): string => backgroundFunction(variant || '', theme)};
 	background-size: ${backgroundSize};
-	border-radius: ${({ radius }): string => radius ?? '10px'};
-	width: ${({ size, width }): SimpleInterpolation => width ?? (size && `${SIZES[size] * 20}px`)};
-	height: ${({ size, height }): SimpleInterpolation => height ?? (size && `${SIZES[size] * 10}px`)};
+	border-radius: ${({ radius }): string => radius ?? '0.625rem'};
+	width: ${({ size, width }): SimpleInterpolation => width ?? (size && `${SIZES[size] * 20}rem`)};
+	height: ${({ size, height }): SimpleInterpolation =>
+		height ?? (size && `${SIZES[size] * 10}rem`)};
 `;
 
 type SkeletonProps = {
@@ -180,11 +181,11 @@ const SkeletonComponent = styled.div<SkeletonProps>`
 	animation: ${shimmerEffect} 1.5s linear infinite;
 	background: ${({ variant, theme }): string => backgroundFunction(variant || '', theme)};
 	background-size: ${backgroundSize};
-	border-radius: ${({ radius }): string => radius ?? '2px'};
+	border-radius: ${({ radius }): string => radius ?? '0.125rem'};
 	${({ orientation }): string => (orientation && `orientation: ${orientation}}`) || ''};
 	${({ mainAlignment }): string => (mainAlignment && `mainAlignment: ${mainAlignment}}`) || ''};
 	width: ${({ width }): string => width ?? '100%'};
-	height: ${({ height }): string => height ?? '16px'};
+	height: ${({ height }): string => height ?? '1rem'};
 `;
 
 const ShimmerObject = {
@@ -202,7 +203,7 @@ const ShimmerObject = {
 		<SkeletonComponent
 			style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}
 			width={width}
-			height="52px"
+			height="3.25rem"
 		>
 			<Container style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start' }}>
 				<Padding left="large" />
@@ -217,13 +218,13 @@ const ShimmerObject = {
 				) : null}
 				<SkeletonComponent
 					variant="dark"
-					style={{ margin: '0 0 0 12px' }}
+					style={{ margin: '0 0 0 0.75rem' }}
 					width="70%"
-					height="16px"
+					height="1rem"
 				/>
 				{badge ? (
 					<Padding left="small">
-						<BadgeSkeletonComponent variant="dark" height="16px" size="large" />
+						<BadgeSkeletonComponent variant="dark" height="1rem" size="large" />
 					</Padding>
 				) : null}
 				{iconEnd ? (
@@ -252,7 +253,7 @@ const ShimmerObject = {
 		<Container orientation="horizontal" mainAlignment="flex-start" width="fill">
 			<IconSkeletonComponent size={size} {...rest} />
 			<Padding right="small" />
-			<SkeletonComponent height="16px" width="150px" {...rest} />
+			<SkeletonComponent height="1rem" width="13.125rem" {...rest} />
 		</Container>
 	),
 	EmailChip: ({
@@ -268,7 +269,7 @@ const ShimmerObject = {
 	}): JSX.Element => (
 		<SkeletonComponent
 			width={width}
-			height="20px"
+			height="1.25rem"
 			style={{
 				borderRadius: '2em',
 				display: 'flex',
@@ -278,28 +279,28 @@ const ShimmerObject = {
 			{iconStart ? (
 				<IconSkeletonComponent
 					variant="dark"
-					style={{ borderRadius: '50%', height: '16px', margin: 'auto 0 auto 4px' }}
+					style={{ borderRadius: '50%', height: '1rem', margin: 'auto 0 auto 0.25rem' }}
 				/>
 			) : null}
 			<Padding left={iconStart ? 'extrasmall' : 'small'} />
 			<SkeletonComponent
 				variant="dark"
 				width="100%"
-				height="12px"
-				radius="2px"
-				style={{ margin: 'auto 0px' }}
+				height="0.75rem"
+				radius="0.125rem"
+				style={{ margin: 'auto 0' }}
 			/>
 			<Padding right={iconEnd ? 'extrasmall' : 'small'} />
 			{iconEnd ? (
 				<IconSkeletonComponent
 					variant="dark"
-					style={{ borderRadius: '50%', height: '16px', margin: 'auto 4px auto 0' }}
+					style={{ borderRadius: '50%', height: '1rem', margin: 'auto 0.25rem auto 0' }}
 				/>
 			) : null}
 			{iconEndAdditional && iconEnd ? (
 				<IconSkeletonComponent
 					variant="dark"
-					style={{ borderRadius: '50%', height: '16px', margin: 'auto 4px auto 0' }}
+					style={{ borderRadius: '50%', height: '1rem', margin: 'auto 0.25rem auto 0' }}
 				/>
 			) : null}
 		</SkeletonComponent>
@@ -319,16 +320,16 @@ const ShimmerObject = {
 				<SkeletonComponent
 					variant="dark"
 					width="fill"
-					style={{ margin: '5px 0 0 12px' }}
-					height="12px"
+					style={{ margin: '0.3125rem 0 0 0.75rem' }}
+					height="0.75rem"
 				/>
 				<SkeletonComponent
 					variant="dark"
 					width="fill"
-					style={{ margin: '5px 0 6px 12px' }}
-					height="16px"
+					style={{ margin: '0.3125rem 0 0.375rem 0.75rem' }}
+					height="1rem"
 				/>
-				<Padding bottom="6px" />
+				<Padding bottom="0.375rem" />
 			</SkeletonComponent>
 			{checkbox ? (
 				<SkeletonComponent
@@ -337,7 +338,7 @@ const ShimmerObject = {
 					height="fit"
 					style={{ margin: 'auto 0 auto 0' }}
 				>
-					<IconSkeletonComponent variant="dark" size="medium" style={{ marginRight: '16px' }} />
+					<IconSkeletonComponent variant="dark" size="medium" style={{ marginRight: '1rem' }} />
 				</SkeletonComponent>
 			) : null}
 		</SkeletonComponent>
@@ -346,10 +347,10 @@ const ShimmerObject = {
 		switch (type) {
 			case 1:
 				return (
-					<SkeletonComponent height="64px" width={width}>
+					<SkeletonComponent height="4rem" width={width}>
 						<Container orientation="horizontal" mainAlignment="flex-start">
 							<Padding left="medium" vertical="small">
-								<AvatarSkeletonComponent variant="dark" width="48px" />
+								<AvatarSkeletonComponent variant="dark" width="3rem" />
 							</Padding>
 							<Container
 								height="fill"
@@ -358,9 +359,9 @@ const ShimmerObject = {
 								mainAlignment="flex-start"
 							>
 								<Padding left="large" vertical="medium">
-									<SkeletonComponent variant="dark" width="150px" />
+									<SkeletonComponent variant="dark" width="13.125rem" />
 									<Padding top="small" />
-									<SkeletonComponent variant="dark" width="220px" />
+									<SkeletonComponent variant="dark" width="13.75rem" />
 								</Padding>
 							</Container>
 							<Container height="fit" width="fill" orientation="vertical" mainAlignment="flex-end">
@@ -370,7 +371,7 @@ const ShimmerObject = {
 									orientation="horizontal"
 									mainAlignment="flex-end"
 								>
-									<SkeletonComponent variant="dark" width="60px" />
+									<SkeletonComponent variant="dark" width="3.75rem" />
 									<Padding right="medium" />
 								</Container>
 								<Padding top="small" />
@@ -380,7 +381,7 @@ const ShimmerObject = {
 									orientation="horizontal"
 									mainAlignment="flex-end"
 								>
-									<BadgeSkeletonComponent variant="dark" width="38px" height="21px" />{' '}
+									<BadgeSkeletonComponent variant="dark" width="2.375rem" height="1.3125rem" />{' '}
 									<Padding right="medium" />
 								</Container>
 							</Container>
@@ -389,10 +390,10 @@ const ShimmerObject = {
 				);
 			case 2:
 				return (
-					<SkeletonComponent height="64px" width={width}>
+					<SkeletonComponent height="4rem" width={width}>
 						<Container orientation="horizontal" mainAlignment="flex-start">
 							<Padding left="medium" vertical="small">
-								<AvatarSkeletonComponent variant="dark" width="48px" />
+								<AvatarSkeletonComponent variant="dark" width="3rem" />
 							</Padding>
 							<Container
 								height="fill"
@@ -401,9 +402,9 @@ const ShimmerObject = {
 								mainAlignment="flex-start"
 							>
 								<Padding left="large" vertical="medium">
-									<SkeletonComponent variant="dark" width="195px" />
+									<SkeletonComponent variant="dark" width="12.1875rem" />
 									<Padding top="small" />
-									<SkeletonComponent variant="dark" width="83px" />
+									<SkeletonComponent variant="dark" width="5.1875rem" />
 								</Padding>
 							</Container>
 							<Container height="fill" width="fill" orientation="vertical" mainAlignment="flex-end">
@@ -424,10 +425,10 @@ const ShimmerObject = {
 				);
 			case 3:
 				return (
-					<SkeletonComponent height="64px" width={width}>
+					<SkeletonComponent height="4rem" width={width}>
 						<Container orientation="horizontal" mainAlignment="flex-start">
 							<Padding left="medium" vertical="small">
-								<AvatarSkeletonComponent variant="dark" width="48px" radius="10px" />
+								<AvatarSkeletonComponent variant="dark" width="3rem" radius="0.625rem" />
 							</Padding>
 							<Container
 								height="fill"
@@ -436,9 +437,9 @@ const ShimmerObject = {
 								mainAlignment="flex-start"
 							>
 								<Padding left="large" vertical="medium">
-									<SkeletonComponent variant="dark" width="134px" />
+									<SkeletonComponent variant="dark" width="8.375rem" />
 									<Padding top="small" />
-									<SkeletonComponent variant="dark" width="83px" />
+									<SkeletonComponent variant="dark" width="5.1875rem" />
 								</Padding>
 							</Container>
 							<Container height="fill" width="fill" orientation="vertical" mainAlignment="flex-end">
@@ -450,7 +451,7 @@ const ShimmerObject = {
 									crossAlignment="flex-start"
 								>
 									<Padding all="medium">
-										<SkeletonComponent variant="dark" width="46px" />
+										<SkeletonComponent variant="dark" width="2.875rem" />
 									</Padding>
 								</Container>
 							</Container>
@@ -459,10 +460,10 @@ const ShimmerObject = {
 				);
 			case 4:
 				return (
-					<SkeletonComponent height="64px" width={width}>
+					<SkeletonComponent height="4rem" width={width}>
 						<Container orientation="horizontal" mainAlignment="flex-start">
 							<Padding left="medium" vertical="small">
-								<AvatarSkeletonComponent variant="dark" width="48px" radius="10px" />
+								<AvatarSkeletonComponent variant="dark" width="3rem" radius="0.625rem" />
 							</Padding>
 							<Container
 								height="fill"
@@ -471,9 +472,9 @@ const ShimmerObject = {
 								mainAlignment="flex-start"
 							>
 								<Padding left="large" vertical="medium">
-									<SkeletonComponent variant="dark" width="134px" />
+									<SkeletonComponent variant="dark" width="8.375rem" />
 									<Padding top="small" />
-									<SkeletonComponent variant="dark" width="83px" />
+									<SkeletonComponent variant="dark" width="5.1875rem" />
 								</Padding>
 							</Container>
 							<Container height="fit" width="fill" orientation="vertical" mainAlignment="flex-end">
@@ -483,7 +484,7 @@ const ShimmerObject = {
 									orientation="horizontal"
 									mainAlignment="flex-end"
 								>
-									<SkeletonComponent variant="dark" width="60px" />
+									<SkeletonComponent variant="dark" width="3.75rem" />
 									<Padding right="medium" />
 								</Container>
 								<Padding top="small" />
@@ -493,7 +494,7 @@ const ShimmerObject = {
 									orientation="horizontal"
 									mainAlignment="flex-end"
 								>
-									<SkeletonComponent variant="dark" width="112px" />
+									<SkeletonComponent variant="dark" width="7rem" />
 									<Padding right="medium" />
 								</Container>
 							</Container>
@@ -502,10 +503,10 @@ const ShimmerObject = {
 				);
 			case 5:
 				return (
-					<SkeletonComponent height="64px" width={width}>
+					<SkeletonComponent height="4rem" width={width}>
 						<Container orientation="horizontal" mainAlignment="flex-start">
 							<Padding left="medium" vertical="small">
-								<AvatarSkeletonComponent variant="dark" width="48px" />
+								<AvatarSkeletonComponent variant="dark" width="3rem" />
 							</Padding>
 							<Container
 								height="fill"
@@ -514,9 +515,9 @@ const ShimmerObject = {
 								mainAlignment="flex-start"
 							>
 								<Padding left="large" vertical="medium">
-									<SkeletonComponent variant="dark" width="134px" />
+									<SkeletonComponent variant="dark" width="8.375rem" />
 									<Padding top="small" />
-									<SkeletonComponent variant="dark" width="83px" />
+									<SkeletonComponent variant="dark" width="5.1875rem" />
 								</Padding>
 							</Container>
 							<Container height="fit" width="fill" orientation="vertical" mainAlignment="flex-end">
@@ -526,7 +527,7 @@ const ShimmerObject = {
 									orientation="horizontal"
 									mainAlignment="flex-end"
 								>
-									<SkeletonComponent variant="dark" width="112px" />
+									<SkeletonComponent variant="dark" width="7rem" />
 									<Padding right="medium" />
 								</Container>
 								<Padding top="small" />
@@ -545,10 +546,10 @@ const ShimmerObject = {
 				);
 			default:
 				return (
-					<SkeletonComponent height="64px" width={width}>
+					<SkeletonComponent height="4rem" width={width}>
 						<Container orientation="horizontal" mainAlignment="flex-start">
 							<Padding left="medium" vertical="small">
-								<AvatarSkeletonComponent variant="dark" width="48px" />
+								<AvatarSkeletonComponent variant="dark" width="3rem" />
 							</Padding>
 							<Container
 								height="fill"
@@ -557,9 +558,9 @@ const ShimmerObject = {
 								mainAlignment="flex-start"
 							>
 								<Padding left="large" vertical="medium">
-									<SkeletonComponent variant="dark" width="150px" />
+									<SkeletonComponent variant="dark" width="13.125rem" />
 									<Padding top="small" />
-									<SkeletonComponent variant="dark" width="220px" />
+									<SkeletonComponent variant="dark" width="13.75rem" />
 								</Padding>
 							</Container>
 							<Container height="fit" width="fill" orientation="vertical" mainAlignment="flex-end">
@@ -569,7 +570,7 @@ const ShimmerObject = {
 									orientation="horizontal"
 									mainAlignment="flex-end"
 								>
-									<SkeletonComponent variant="dark" width="60px" />
+									<SkeletonComponent variant="dark" width="3.75rem" />
 									<Padding right="medium" />
 								</Container>
 								<Padding top="small" />
@@ -579,7 +580,7 @@ const ShimmerObject = {
 									orientation="horizontal"
 									mainAlignment="flex-end"
 								>
-									<BadgeSkeletonComponent variant="dark" width="38px" height="21px" />{' '}
+									<BadgeSkeletonComponent variant="dark" width="2.375rem" height="1.3125rem" />{' '}
 									<Padding right="medium" />
 								</Container>
 							</Container>
@@ -604,7 +605,7 @@ const ShimmerObject = {
 	Searchbar: (props: SkeletonProps): JSX.Element => (
 		<SkeletonComponent
 			style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}
-			height="36px"
+			height="2.25rem"
 			{...props}
 		>
 			<Container
@@ -613,9 +614,9 @@ const ShimmerObject = {
 			>
 				<SkeletonComponent
 					variant="dark"
-					style={{ margin: '0 0 0 12px' }}
+					style={{ margin: '0 0 0 0.75rem' }}
 					width="70%"
-					height="12px"
+					height="0.75rem"
 				/>
 				<Padding left="small" />
 				<IconSkeletonComponent variant="dark" size="medium" style={{ margin: 'auto 0 auto 0' }} />
@@ -628,11 +629,11 @@ const ShimmerObject = {
 			>
 				<SkeletonComponent
 					variant="dark"
-					style={{ margin: 'auto 0 auto 12px', width: '50%' }}
-					height="12px"
+					style={{ margin: 'auto 0 auto 0.75rem', width: '50%' }}
+					height="0.75rem"
 				/>
 				<Padding left="small" />
-				<IconSkeletonComponent variant="dark" size="large" style={{ marginRight: '16px' }} />
+				<IconSkeletonComponent variant="dark" size="large" style={{ marginRight: '1rem' }} />
 			</Container>
 		</SkeletonComponent>
 	),
@@ -649,7 +650,7 @@ const ShimmerObject = {
 			width={width}
 			height="fit"
 			style={{
-				borderRadius: '2px',
+				borderRadius: '0.125rem',
 				display: 'flex',
 				flexDirection: 'row',
 				alignItems: 'center'
@@ -658,19 +659,19 @@ const ShimmerObject = {
 			<Padding left={elementStart ? 0 : 'extralarge'} />
 			{elementStart ? (
 				<Padding all="large" left="extralarge">
-					<IconSkeletonComponent variant="dark" width="32px" />
+					<IconSkeletonComponent variant="dark" width="2rem" />
 				</Padding>
 			) : null}
 			<SkeletonComponent
 				variant="dark"
 				width="100%"
-				height="16px"
-				radius="2px"
-				style={{ margin: '16px 0' }}
+				height="1rem"
+				radius="0.125rem"
+				style={{ margin: '1rem 0' }}
 			/>
 			{elementEnd ? (
-				<Padding right="24px" left="16px">
-					<SkeletonComponent variant="dark" height="24px" width="94px" />
+				<Padding right="1.5rem" left="1rem">
+					<SkeletonComponent variant="dark" height="1.5rem" width="5.875rem" />
 				</Padding>
 			) : (
 				<Padding right={elementEnd ? 0 : 'extralarge'} />
@@ -687,7 +688,11 @@ const ShimmerObject = {
 			_steppers.push(
 				<Container key={i} orientation="horizontal" mainAlignment="flex-start" width="fit">
 					<Padding top="medium" right="small">
-						<SkeletonComponent height="1px" width="80px" style={{ margin: 'auto 0 auto 0' }} />
+						<SkeletonComponent
+							height="0.0625rem"
+							width="5rem"
+							style={{ margin: 'auto 0 auto 0' }}
+						/>
 					</Padding>
 					<Padding top="medium" right="small">
 						<AvatarSkeletonComponent size={size} {...rest} />
@@ -711,22 +716,22 @@ const ShimmerObject = {
 					<SkeletonComponent
 						style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around' }}
 						width={width}
-						height="40px"
+						height="2.5rem"
 					>
 						<Padding vertical="medium" left="large">
-							<SkeletonComponent variant="dark" width="80px" />
+							<SkeletonComponent variant="dark" width="5rem" />
 						</Padding>
 						<Padding vertical="medium" left="large">
-							<SkeletonComponent variant="dark" width="49px" />
+							<SkeletonComponent variant="dark" width="3.0625rem" />
 						</Padding>
 						<Padding vertical="medium" left="large">
-							<SkeletonComponent variant="dark" width="75px" />
+							<SkeletonComponent variant="dark" width="4.6875rem" />
 						</Padding>
 						<Padding vertical="medium" left="large">
-							<SkeletonComponent variant="dark" width="63px" />
+							<SkeletonComponent variant="dark" width="3.9375rem" />
 						</Padding>
 						<Padding vertical="medium" horizontal="large">
-							<SkeletonComponent variant="dark" width="30px" />
+							<SkeletonComponent variant="dark" width="1.875rem" />
 						</Padding>
 					</SkeletonComponent>
 				);
@@ -735,22 +740,22 @@ const ShimmerObject = {
 					<Container
 						style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around' }}
 						width={width}
-						height="40px"
+						height="2.5rem"
 					>
 						<Padding vertical="medium" left="large">
-							<SkeletonComponent variant="dark" width="80px" />
+							<SkeletonComponent variant="dark" width="5rem" />
 						</Padding>
 						<Padding vertical="medium" left="large">
-							<SkeletonComponent variant="dark" width="49px" />
+							<SkeletonComponent variant="dark" width="3.0625rem" />
 						</Padding>
 						<Padding vertical="medium" left="large">
-							<SkeletonComponent variant="dark" width="75px" />
+							<SkeletonComponent variant="dark" width="4.6875rem" />
 						</Padding>
 						<Padding vertical="medium" left="large">
-							<SkeletonComponent variant="dark" width="63px" />
+							<SkeletonComponent variant="dark" width="3.9375rem" />
 						</Padding>
 						<Padding vertical="medium" horizontal="large">
-							<SkeletonComponent variant="dark" width="30px" />
+							<SkeletonComponent variant="dark" width="1.875rem" />
 						</Padding>
 					</Container>
 				);
@@ -760,22 +765,22 @@ const ShimmerObject = {
 						variant="dark"
 						style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around' }}
 						width={width}
-						height="40px"
+						height="2.5rem"
 					>
 						<Padding vertical="medium" left="large">
-							<SkeletonComponent variant="extraDark" width="80px" />
+							<SkeletonComponent variant="extraDark" width="5rem" />
 						</Padding>
 						<Padding vertical="medium" left="large">
-							<SkeletonComponent variant="extraDark" width="49px" />
+							<SkeletonComponent variant="extraDark" width="3.0625rem" />
 						</Padding>
 						<Padding vertical="medium" left="large">
-							<SkeletonComponent variant="extraDark" width="75px" />
+							<SkeletonComponent variant="extraDark" width="4.6875rem" />
 						</Padding>
 						<Padding vertical="medium" left="large">
-							<SkeletonComponent variant="extraDark" width="63px" />
+							<SkeletonComponent variant="extraDark" width="3.9375rem" />
 						</Padding>
 						<Padding vertical="medium" horizontal="large">
-							<SkeletonComponent variant="extraDark" width="30px" />
+							<SkeletonComponent variant="extraDark" width="1.875rem" />
 						</Padding>
 					</SkeletonComponent>
 				);
@@ -784,22 +789,22 @@ const ShimmerObject = {
 					<SkeletonComponent
 						style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around' }}
 						width={width}
-						height="40px"
+						height="2.5rem"
 					>
 						<Padding vertical="medium" left="large">
-							<SkeletonComponent variant="dark" width="80px" />
+							<SkeletonComponent variant="dark" width="5rem" />
 						</Padding>
 						<Padding vertical="medium" left="large">
-							<SkeletonComponent variant="dark" width="49px" />
+							<SkeletonComponent variant="dark" width="3.0625rem" />
 						</Padding>
 						<Padding vertical="medium" left="large">
-							<SkeletonComponent variant="dark" width="75px" />
+							<SkeletonComponent variant="dark" width="4.6875rem" />
 						</Padding>
 						<Padding vertical="medium" left="large">
-							<SkeletonComponent variant="dark" width="63px" />
+							<SkeletonComponent variant="dark" width="3.9375rem" />
 						</Padding>
 						<Padding vertical="medium" horizontal="large">
-							<SkeletonComponent variant="dark" width="30px" />
+							<SkeletonComponent variant="dark" width="1.875rem" />
 						</Padding>
 					</SkeletonComponent>
 				);

@@ -163,11 +163,11 @@ const ContainerEl = styled.div<ContainerElProps>`
 		return maxHeight;
 	}};
 	${({ borderColor, theme }): SimpleInterpolation =>
-		borderColor && `border: 1px solid ${getColor(borderColor, theme)}`};
+		borderColor && `border: 0.0625rem solid ${getColor(borderColor, theme)}`};
 	padding: ${({ theme, padding }): SimpleInterpolation => padding && getPadding(padding, theme)};
 	gap: ${({ gap }): SimpleInterpolation => gap};
 	&::-webkit-scrollbar {
-		width: 8px;
+		width: 0.5rem;
 	}
 
 	&::-webkit-scrollbar-track {
@@ -176,7 +176,7 @@ const ContainerEl = styled.div<ContainerElProps>`
 
 	&::-webkit-scrollbar-thumb {
 		background-color: ${({ theme }): string => theme.palette.gray3.regular};
-		border-radius: 4px;
+		border-radius: 0.25rem;
 	}
 `;
 

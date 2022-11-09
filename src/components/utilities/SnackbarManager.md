@@ -21,7 +21,7 @@ import { Button, Container, SnackbarManagerContext, SnackbarManagerProvider } fr
 function App() {
     const createSnackbar = useContext(SnackbarManagerContext);
     return (
-        <Container orientation="horizontal" mainAlignment="space-between" width="400px">
+        <Container orientation="horizontal" mainAlignment="space-between" width="25rem">
             <Button
                 type="outlined"
                 color="success"

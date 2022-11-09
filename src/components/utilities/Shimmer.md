@@ -22,11 +22,11 @@ import { Container } from '../layout/Container';
     <Padding left="large" />
     <Shimmer.Avatar size="small" />
     <Padding left="large" />
-    <Shimmer.Avatar size="large" radius="10px" />
+    <Shimmer.Avatar size="large" radius="0.625rem" />
     <Padding left="large" />
-    <Shimmer.Avatar size="medium" radius="5px" />
+    <Shimmer.Avatar size="medium" radius="0.3125rem" />
     <Padding left="large" />
-    <Shimmer.Avatar size="small" radius="2px" />
+    <Shimmer.Avatar size="small" radius="0.125rem" />
 </Container>
 ```
 
@@ -107,7 +107,7 @@ import { Container } from '../layout/Container';
 
 <Container orientation="vertical" mainAlignment="flex-start" width="fill">
     <Container orientation="horizontal" width="100%" mainAlignment="flex-start">
-        <Shimmer.Text size="large" width="500px" />
+        <Shimmer.Text size="large" width="31.25rem" />
     </Container>
     <Padding top="medium" />
     <Container orientation="horizontal" width="100%" mainAlignment="flex-start">
@@ -149,9 +149,9 @@ import { Padding } from '../layout/Padding';
 import { Container } from '../layout/Container';
 
 <Container orientation="horizontal" mainAlignment="flex-start" width="fill">
-    <Shimmer.Input width="300px" />
+    <Shimmer.Input width="18.75rem" />
     <Padding left="large" />
-    <Shimmer.Input width="250px" checkbox />
+    <Shimmer.Input width="23.125rem" checkbox />
 </Container>
 ```
 
@@ -164,7 +164,7 @@ import { Container } from '../layout/Container';
 
 <Container orientation="horizontal" mainAlignment="flex-start" width="fill">
     <Padding top="medium" />
-    <Shimmer.Searchbar width="300px" />
+    <Shimmer.Searchbar width="18.75rem" />
 </Container>
 ```
 
@@ -180,19 +180,19 @@ import { Container } from '../layout/Container';
 <Container orientation="vertical" mainAlignment="flex-start" width="100%">
     <Padding top="medium" />
     <Container orientation="horizontal" width="100%" mainAlignment="flex-start">
-        <Shimmer.Accordion width="182px" />
+        <Shimmer.Accordion width="11.375rem" />
     </Container>
     <Padding top="medium" />
     <Container orientation="horizontal" width="100%" mainAlignment="flex-start">
-        <Shimmer.Accordion width="206px" iconStart />
+        <Shimmer.Accordion width="12.875rem" iconStart />
     </Container>
     <Padding top="medium" />
     <Container orientation="horizontal" width="100%" mainAlignment="flex-start">
-        <Shimmer.Accordion width="252px" iconStart badge />
+        <Shimmer.Accordion width="15.75rem" iconStart badge />
     </Container>
     <Padding top="medium" />
     <Container orientation="horizontal" width="100%" mainAlignment="flex-start">
-        <Shimmer.Accordion width="276px" iconStart badge iconEnd />
+        <Shimmer.Accordion width="17.25rem" iconStart badge iconEnd />
     </Container>
 </Container>
 ```
@@ -225,19 +225,19 @@ import { Container } from '../layout/Container';
 <Container orientation="vertical" mainAlignment="flex-start" width="100%">
     <Padding top="medium" />
     <Container orientation="horizontal" width="100%" mainAlignment="flex-start">
-        <Shimmer.EmailChip width="89px" />
+        <Shimmer.EmailChip width="5.5625rem" />
     </Container>
     <Padding top="medium" />
     <Container orientation="horizontal" width="100%" mainAlignment="flex-start">
-        <Shimmer.EmailChip width="105px" iconStart />
+        <Shimmer.EmailChip width="6.5625rem" iconStart />
     </Container>
     <Padding top="medium" />
     <Container orientation="horizontal" width="100%" mainAlignment="flex-start">
-        <Shimmer.EmailChip width="121px" iconStart iconEnd />
+        <Shimmer.EmailChip width="7.5625rem" iconStart iconEnd />
     </Container>
     <Padding top="medium" />
     <Container orientation="horizontal" width="100%" mainAlignment="flex-start">
-        <Shimmer.EmailChip width="141px" iconStart iconEnd iconEndAdditional />
+        <Shimmer.EmailChip width="8.8125rem" iconStart iconEnd iconEndAdditional />
     </Container>
 </Container>
 ```
@@ -248,7 +248,7 @@ import { Container } from '../layout/Container';
 
 ```jsx
 import { Shimmer } from '@zextras/carbonio-design-system';
-<Shimmer.Quota height="8px" width="80%" />
+<Shimmer.Quota height="0.5rem" width="80%" />
 ```
 
 #### Skeleton.Snackbar
@@ -261,15 +261,15 @@ import { Container } from '../layout/Container';
 <Container orientation="vertical" mainAlignment="flex-start" width="100%">
     <Padding top="medium" />
     <Container orientation="horizontal" width="100%" mainAlignment="flex-start">
-        <Shimmer.Snackbar width="198px" />
+        <Shimmer.Snackbar width="12.375rem" />
     </Container>
     <Padding top="medium" />
     <Container orientation="horizontal" width="100%" mainAlignment="flex-start">
-        <Shimmer.Snackbar width="264px" elementStart />
+        <Shimmer.Snackbar width="16.5rem" elementStart />
     </Container>
     <Padding top="medium" />
     <Container orientation="horizontal" width="100%" mainAlignment="flex-start">
-        <Shimmer.Snackbar width="358px" elementStart elementEnd />
+        <Shimmer.Snackbar width="22.375rem" elementStart elementEnd />
     </Container>
 </Container>
 ```
@@ -282,15 +282,15 @@ import { Container } from '../layout/Container';
 import { Shimmer } from '@zextras/carbonio-design-system';
 import { Padding } from '../layout/Padding';
 <>
-    <Shimmer.ListItem width="455px" type={1} />
+    <Shimmer.ListItem width="28.4375rem" type={1} />
     <Padding top="extralarge" />
-    <Shimmer.ListItem width="455px" type={2} />
+    <Shimmer.ListItem width="28.4375rem" type={2} />
     <Padding top="extralarge" />
-    <Shimmer.ListItem width="455px" type={3} />
+    <Shimmer.ListItem width="28.4375rem" type={3} />
     <Padding top="extralarge" />
-    <Shimmer.ListItem width="455px" type={4} />
+    <Shimmer.ListItem width="28.4375rem" type={4} />
     <Padding top="extralarge" />
-    <Shimmer.ListItem width="455px" type={5} />
+    <Shimmer.ListItem width="28.4375rem" type={5} />
 </>
 ```
 
@@ -301,11 +301,11 @@ import { Shimmer } from '@zextras/carbonio-design-system';
 import { Padding } from '../layout/Padding';
 
 <>
-    <Shimmer.TableListItem width="455px" type={1} />
+    <Shimmer.TableListItem width="28.4375rem" type={1} />
     <Padding top="extralarge" />
-    <Shimmer.TableListItem width="455px" type={2} />
+    <Shimmer.TableListItem width="28.4375rem" type={2} />
     <Padding top="extralarge" />
-    <Shimmer.TableListItem width="455px" type={3} />
+    <Shimmer.TableListItem width="28.4375rem" type={3} />
 </>
 ```
 

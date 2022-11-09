@@ -22,7 +22,7 @@ import { Row } from '../layout/Row';
 const Label = styled(Text)<{ $selected: boolean }>`
 	position: absolute;
 	top: ${({ $selected, theme }): string =>
-		$selected ? `calc(${theme.sizes.padding.small} - 1px)` : '50%'};
+		$selected ? `calc(${theme.sizes.padding.small} - 0.0625rem)` : '50%'};
 	left: ${({ theme }): string => theme.sizes.padding.large};
 	transform: translateY(${({ $selected }): string => ($selected ? '0' : '-50%')});
 	transition: 150ms ease-out;

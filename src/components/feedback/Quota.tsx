@@ -12,7 +12,7 @@ import type { ThemeObj } from '../../theme/theme';
 import { Container, ContainerProps } from '../layout/Container';
 
 const QuotaBar = styled(Container)`
-	min-width: 64px;
+	min-width: 4rem;
 `;
 
 interface QuotaProps extends ContainerProps {
@@ -27,7 +27,7 @@ interface QuotaProps extends ContainerProps {
 }
 
 const Quota = React.forwardRef<HTMLDivElement, QuotaProps>(function QuotaFn(
-	{ background = 'gray6', fill, fillBackground = 'primary', height = '8px', ...rest },
+	{ background = 'gray6', fill, fillBackground = 'primary', height = '0.5rem', ...rest },
 	ref
 ) {
 	return (
