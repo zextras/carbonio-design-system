@@ -6,11 +6,10 @@
 
 import React, { ButtonHTMLAttributes, useCallback, useMemo } from 'react';
 
-import styled, { css, SimpleInterpolation } from 'styled-components';
+import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-components';
 
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { getKeyboardPreset, useKeyboard } from '../../hooks/useKeyboard';
-import type { ThemeObj } from '../../theme/theme';
 import { getColor, pseudoClasses } from '../../theme/theme-utils';
 import { Icon, IconProps } from './Icon';
 import { Spinner } from './Spinner';
@@ -26,19 +25,19 @@ type ButtonColorsByType =
 	  } & (
 			| {
 					/** Main color */
-					color?: string | keyof ThemeObj['palette'];
+					color?: string | keyof DefaultTheme['palette'];
 			  }
 			| {
 					/** Background color of the button (only for 'default' and 'outlined' types, to use instead of color for more specificity) */
-					backgroundColor?: string | keyof ThemeObj['palette'];
+					backgroundColor?: string | keyof DefaultTheme['palette'];
 					/** Specific color of the content (only for 'default' and 'outlined' types, to use instead of color for more specificity) */
-					labelColor?: string | keyof ThemeObj['palette'];
+					labelColor?: string | keyof DefaultTheme['palette'];
 			  }
 	  ))
 	| {
 			type: 'ghost';
 			/** Main color */
-			color?: string | keyof ThemeObj['palette'];
+			color?: string | keyof DefaultTheme['palette'];
 	  };
 type ButtonType = NonNullable<ButtonColorsByType['type']>;
 

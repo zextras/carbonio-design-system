@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React from 'react';
+import { SVGProps } from 'react';
 
 import IconData from '../icons';
 
@@ -27,9 +27,7 @@ export interface ThemeColorObj {
 	disabled: string;
 }
 
-export type IconComponent = React.ComponentType<
-	React.SVGProps<SVGSVGElement> & { ref: React.ForwardedRef<SVGSVGElement> }
->;
+export type IconComponent = (props: SVGProps<SVGSVGElement>) => JSX.Element;
 
 // augment this interface to extend theme type
 export interface ThemeObj {
@@ -51,7 +49,7 @@ export interface ThemeObj {
 	};
 	icons: Record<string, IconComponent>;
 	loginBackground: string;
-	logo: {
+	logo?: {
 		svg: IconComponent;
 		size: ThemeSizeObj;
 	};
@@ -120,10 +118,6 @@ export const Theme: ThemeObj = {
 		...IconData
 	},
 	loginBackground: 'assets/login-bg.jpg',
-	logo: {
-		svg: IconData.Logo,
-		size: { small: '1rem', medium: '1.25rem', large: '1.5rem' }
-	},
 	palette: {
 		currentColor: {
 			regular: 'currentColor',

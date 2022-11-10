@@ -54,7 +54,7 @@ module.exports = {
 	},
 	overrides: [
 		{
-			files: ['src/icons/**/*.jsx'],
+			files: ['src/icons/**/*.[jt]sx'],
 			rules: {
 				'notice/notice': 0
 			}
@@ -71,5 +71,6 @@ module.exports = {
 				'testing-library/prefer-user-event': 'warn'
 			}
 		}
-	]
+	],
+	ignorePatterns: ['**/tsTemplate.js']
 };

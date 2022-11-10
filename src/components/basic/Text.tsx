@@ -6,20 +6,19 @@
 
 import React, { HTMLAttributes } from 'react';
 
-import styled, { css, SimpleInterpolation } from 'styled-components';
+import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-components';
 
-import type { ThemeObj } from '../../theme/theme';
 import { getColor } from '../../theme/theme-utils';
 
 type TextOverflow = 'ellipsis' | 'break-word';
 
 interface TextProps extends HTMLAttributes<HTMLDivElement> {
 	/** Text color */
-	color?: string | keyof ThemeObj['palette'];
+	color?: string | keyof DefaultTheme['palette'];
 	/** Text size */
-	size?: keyof ThemeObj['sizes']['font'];
+	size?: keyof DefaultTheme['sizes']['font'];
 	/** Text weight */
-	weight?: keyof ThemeObj['fonts']['weight'];
+	weight?: keyof DefaultTheme['fonts']['weight'];
 	/** Overflow handling */
 	overflow?: TextOverflow;
 	/** Disabled status */
@@ -30,8 +29,8 @@ interface TextProps extends HTMLAttributes<HTMLDivElement> {
 
 const Comp = styled.div<{
 	disabled: boolean;
-	size: keyof ThemeObj['sizes']['font'];
-	weight: keyof ThemeObj['fonts']['weight'];
+	size: keyof DefaultTheme['sizes']['font'];
+	weight: keyof DefaultTheme['fonts']['weight'];
 	overflow: string;
 }>`
 	color: ${({ theme, color, disabled }): string =>

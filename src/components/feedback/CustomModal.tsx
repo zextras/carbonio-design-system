@@ -15,9 +15,10 @@ import React, {
 	HTMLAttributes
 } from 'react';
 
+import { ThemeContext } from 'styled-components';
+
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { KeyboardPreset, useKeyboard } from '../../hooks/useKeyboard';
-import { ThemeContext } from '../../theme/theme-context-provider';
 import { Portal } from '../utilities/Portal';
 import { Transition } from '../utilities/Transition';
 import { ModalProps } from './Modal';

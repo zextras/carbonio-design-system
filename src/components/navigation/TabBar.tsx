@@ -7,11 +7,10 @@
 import React, { useCallback, useMemo, HTMLAttributes } from 'react';
 
 import { map } from 'lodash';
-import styled, { css, SimpleInterpolation } from 'styled-components';
+import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-components';
 
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { useKeyboard, getKeyboardPreset } from '../../hooks/useKeyboard';
-import type { ThemeObj } from '../../theme/theme';
 import { getColor } from '../../theme/theme-utils';
 import { Text } from '../basic/Text';
 import { Container, ContainerProps } from '../layout/Container';
@@ -23,7 +22,7 @@ const CustomText = styled(Text)`
 const DefaultTabBarItemContainer = styled(Container)<{
 	$forceWidthEquallyDistributed: boolean;
 	$selected: boolean;
-	$underlineColor: string | keyof ThemeObj['palette'];
+	$underlineColor: string | keyof DefaultTheme['palette'];
 	$disabled?: boolean;
 }>`
 	outline: none;
@@ -69,9 +68,9 @@ interface TabBarProps extends Omit<ContainerProps, 'onChange'> {
 	/** change callback, is called with the new selected id */
 	onChange: (ev: React.SyntheticEvent, selectedId: string) => void;
 	/** background color of the tabBar */
-	background: string | keyof ThemeObj['palette'];
+	background: string | keyof DefaultTheme['palette'];
 	/** underline color of the selected tab */
-	underlineColor?: string | keyof ThemeObj['palette'];
+	underlineColor?: string | keyof DefaultTheme['palette'];
 	/** Force tabs to have all the same width */
 	forceWidthEquallyDistributed?: boolean;
 }
@@ -79,9 +78,9 @@ interface TabBarProps extends Omit<ContainerProps, 'onChange'> {
 interface DefaultTabBarItemProps extends ContainerProps {
 	item: Item;
 	selected: boolean;
-	background: string | keyof ThemeObj['palette'];
+	background: string | keyof DefaultTheme['palette'];
 	onClick: React.ReactEventHandler;
-	underlineColor: string | keyof ThemeObj['palette'];
+	underlineColor: string | keyof DefaultTheme['palette'];
 	forceWidthEquallyDistributed: boolean;
 }
 

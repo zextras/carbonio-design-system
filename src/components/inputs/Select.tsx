@@ -7,9 +7,8 @@
 import React, { useState, useMemo, useCallback, useReducer, useEffect, Reducer } from 'react';
 
 import { some, isEmpty } from 'lodash';
-import styled, { css, SimpleInterpolation } from 'styled-components';
+import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-components';
 
-import type { ThemeObj } from '../../theme/theme';
 import { getColor } from '../../theme/theme-utils';
 import { Icon } from '../basic/Icon';
 import { Text } from '../basic/Text';
@@ -53,7 +52,7 @@ interface LabelFactoryProps {
 	label: string | undefined;
 	open: boolean;
 	focus: boolean;
-	background: string | keyof ThemeObj['palette'];
+	background: string | keyof DefaultTheme['palette'];
 	multiple: boolean;
 	disabled: boolean;
 	selected: SelectItem[];
@@ -183,7 +182,7 @@ type SelectItem = {
 
 type SelectComponentProps = {
 	label?: string;
-	background?: string | keyof ThemeObj['palette'];
+	background?: string | keyof DefaultTheme['palette'];
 	disabled?: boolean;
 	items?: SelectItem[];
 	/** Css display property of select */

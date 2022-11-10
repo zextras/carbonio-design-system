@@ -6,9 +6,8 @@
 
 import React from 'react';
 
-import styled from 'styled-components';
+import styled, { DefaultTheme } from 'styled-components';
 
-import type { ThemeObj } from '../../theme/theme';
 import { Container, ContainerProps } from '../layout/Container';
 
 const QuotaBar = styled(Container)`
@@ -17,11 +16,11 @@ const QuotaBar = styled(Container)`
 
 interface QuotaProps extends ContainerProps {
 	/** Quota background color */
-	background?: keyof ThemeObj['palette'];
+	background?: keyof DefaultTheme['palette'];
 	/** Quota percentage */
 	fill: number;
 	/** Quota fill background color */
-	fillBackground?: keyof ThemeObj['palette'];
+	fillBackground?: keyof DefaultTheme['palette'];
 	/** Quota height */
 	height?: number | string;
 }

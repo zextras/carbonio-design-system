@@ -17,11 +17,10 @@ import React, {
 } from 'react';
 
 import { noop } from 'lodash';
+import { DefaultTheme, ThemeContext } from 'styled-components';
 
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { KeyboardPreset, useKeyboard } from '../../hooks/useKeyboard';
-import type { ThemeObj } from '../../theme/theme';
-import { ThemeContext } from '../../theme/theme-context-provider';
 import { Divider } from '../layout/Divider';
 import { Portal } from '../utilities/Portal';
 import { Transition } from '../utilities/Transition';
@@ -49,7 +48,7 @@ function copyToClipboard(node: HTMLDivElement | null, windowObj: Window): void {
 
 type ModalProps = Omit<ModalFooterProps, 'errorActionLabel' | 'onErrorAction'> & {
 	/** Modal background */
-	background?: string | keyof ThemeObj['palette'];
+	background?: string | keyof DefaultTheme['palette'];
 	/** Modal title */
 	title?: string | React.ReactElement;
 	/** Modal size */

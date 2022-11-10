@@ -7,10 +7,9 @@
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 
 import { map } from 'lodash';
-import styled, { css, SimpleInterpolation } from 'styled-components';
+import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-components';
 
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
-import type { ThemeObj } from '../../theme/theme';
 import { useTheme, pseudoClasses } from '../../theme/theme-utils';
 import { Avatar } from '../basic/Avatar';
 import { Icon } from '../basic/Icon';
@@ -22,11 +21,11 @@ import { Tooltip } from './Tooltip';
 
 type ChipAction = {
 	/** Chip action icon color */
-	color?: keyof ThemeObj['palette'];
+	color?: keyof DefaultTheme['palette'];
 	/** Chip action disabled status */
 	disabled?: boolean;
 	/** Chip action icon */
-	icon: keyof ThemeObj['icons'];
+	icon: keyof DefaultTheme['icons'];
 	/** Chip action id (required for key attribute) */
 	id: string;
 	/** Chip action label value. It is shown in a tooltip. To not render the tooltip, just don't value the prop.
@@ -39,7 +38,7 @@ type ChipAction = {
 			/** Chip action click callback (button type only). NB: onClick event IS propagated. It's up to the dev to eventually stop the propagation */
 			onClick: IconButtonProps['onClick'];
 			/** Chip action background (button type only) */
-			background?: keyof ThemeObj['palette'];
+			background?: keyof DefaultTheme['palette'];
 	  }
 	| {
 			/** Chip action type */
@@ -51,24 +50,24 @@ interface ChipProps extends RowProps {
 	/** Chip actions (buttons or icons) */
 	actions?: ChipAction[];
 	/** Chip Avatar Icon */
-	avatarIcon?: keyof ThemeObj['icons'];
+	avatarIcon?: keyof DefaultTheme['icons'];
 	/** Chip Avatar Background Color */
-	avatarBackground?: keyof ThemeObj['palette'];
+	avatarBackground?: keyof DefaultTheme['palette'];
 	/** Chip avatar color (icon color or capitals color) */
-	avatarColor?: keyof ThemeObj['palette'];
+	avatarColor?: keyof DefaultTheme['palette'];
 	/** Chip avatar label. It allows to override the capitals for the avatar.
 	 * If the main label is not a string, you have to fill this prop to show capitals in the avatar */
 	avatarLabel?: string;
 	/** Chip avatar picture */
 	avatarPicture?: string;
 	/** Chip background color */
-	background?: keyof ThemeObj['palette'];
+	background?: keyof DefaultTheme['palette'];
 	/** Chip shape  */
 	shape?: 'regular' | 'round';
 	/** If an onClose callback is provided, this prop defines if the close action should be active or disabled */
 	closable?: boolean;
 	/** Chip text color */
-	color?: keyof ThemeObj['palette'];
+	color?: keyof DefaultTheme['palette'];
 	/** Chip disabled status. If a string is provided it is shown in a tooltip */
 	disabled?: boolean | string;
 	/** Chip error. If a string is provided it is shown in a tooltip */
@@ -117,7 +116,7 @@ const ContentContainer = styled(Container)<{ gap: ContainerProps['gap'] }>`
 `;
 
 const ChipContainer = styled(Container)<{
-	background: keyof ThemeObj['palette'];
+	background: keyof DefaultTheme['palette'];
 	disabled: boolean;
 	onClick?: React.ReactEventHandler;
 	onDoubleClick?: React.ReactEventHandler;
@@ -147,8 +146,8 @@ const ChipContainer = styled(Container)<{
 const SIZES: Record<
 	NonNullable<ChipProps['size']>,
 	{
-		avatar: keyof ThemeObj['sizes']['avatar'];
-		font: keyof ThemeObj['sizes']['font'];
+		avatar: keyof DefaultTheme['sizes']['avatar'];
+		font: keyof DefaultTheme['sizes']['font'];
 		icon: React.ComponentPropsWithoutRef<typeof Icon>['size'];
 		spacing: string;
 	}

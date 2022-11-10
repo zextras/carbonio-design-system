@@ -7,11 +7,10 @@
 import React, { useRef, useEffect, useMemo } from 'react';
 
 import { map, some } from 'lodash';
-import styled, { SimpleInterpolation } from 'styled-components';
+import styled, { DefaultTheme, SimpleInterpolation } from 'styled-components';
 
 import { useIsVisible } from '../../hooks/useIsVisible';
 import { useKeyboard, getKeyboardPreset, KeyboardPreset } from '../../hooks/useKeyboard';
-import type { ThemeObj } from '../../theme/theme';
 import { getColor, pseudoClasses } from '../../theme/theme-utils';
 import { Container, ContainerProps } from '../layout/Container';
 
@@ -34,9 +33,9 @@ const StyledContainer = styled(Container)`
 `;
 
 const StyledDiv = styled.div<{
-	background: keyof ThemeObj['palette'];
-	selectedBackground: keyof ThemeObj['palette'];
-	activeBackground: keyof ThemeObj['palette'];
+	background: keyof DefaultTheme['palette'];
+	selectedBackground: keyof DefaultTheme['palette'];
+	activeBackground: keyof DefaultTheme['palette'];
 	selected: boolean;
 	active: boolean;
 }>`
@@ -77,9 +76,9 @@ interface ItemComponentProps<T extends ItemType> {
 	visible: boolean;
 	active: boolean;
 	selected: boolean;
-	background: keyof ThemeObj['palette'];
-	selectedBackground: keyof ThemeObj['palette'];
-	activeBackground: keyof ThemeObj['palette'];
+	background: keyof DefaultTheme['palette'];
+	selectedBackground: keyof DefaultTheme['palette'];
+	activeBackground: keyof DefaultTheme['palette'];
 }
 
 interface LIWrapperProps<T extends ItemType> {
@@ -87,9 +86,9 @@ interface LIWrapperProps<T extends ItemType> {
 	item: T;
 	ItemComponent: React.ComponentType<ItemComponentProps<T>>;
 	itemProps: Record<string, unknown>;
-	background: keyof ThemeObj['palette'];
-	selectedBackground: keyof ThemeObj['palette'];
-	activeBackground: keyof ThemeObj['palette'];
+	background: keyof DefaultTheme['palette'];
+	selectedBackground: keyof DefaultTheme['palette'];
+	activeBackground: keyof DefaultTheme['palette'];
 	active: boolean;
 	selecting: boolean;
 	selected: boolean;
@@ -166,11 +165,11 @@ interface ListProps<T extends ItemType> extends ContainerProps {
 	/** callback to be executed when the bottom element is rendered */
 	onListBottom?: () => void;
 	/** List background color */
-	background?: keyof ThemeObj['palette'];
+	background?: keyof DefaultTheme['palette'];
 	/** Selected list item background color */
-	selectedBackground?: keyof ThemeObj['palette'];
+	selectedBackground?: keyof DefaultTheme['palette'];
 	/** Active List item background color */
-	activeBackground?: keyof ThemeObj['palette'];
+	activeBackground?: keyof DefaultTheme['palette'];
 	/** Disable keyboard shortcuts */
 	keyboardShortcutsIsDisabled?: boolean;
 }

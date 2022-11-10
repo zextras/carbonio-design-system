@@ -6,7 +6,8 @@
 
 import React, { useCallback, createContext, useReducer, Reducer, useContext } from 'react';
 
-import { ThemeContext } from '../../theme/theme-context-provider';
+import { ThemeContext } from 'styled-components';
+
 import { CustomModal, CustomModalProps } from '../feedback/CustomModal';
 import { Modal, ModalProps } from '../feedback/Modal';
 

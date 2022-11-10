@@ -6,9 +6,8 @@
 
 import React, { useState, useEffect, useRef, useCallback, useContext, HTMLAttributes } from 'react';
 
-import styled, { css, SimpleInterpolation } from 'styled-components';
+import styled, { css, SimpleInterpolation, ThemeContext } from 'styled-components';
 
-import { ThemeContext } from '../../theme/theme-context-provider';
 import { Text } from '../basic/Text';
 
 const PlaceholderInline = styled(Text)`

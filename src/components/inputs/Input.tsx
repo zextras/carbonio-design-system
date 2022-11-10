@@ -6,18 +6,17 @@
 
 import React, { InputHTMLAttributes, useCallback, useMemo, useState } from 'react';
 
-import styled, { css, SimpleInterpolation } from 'styled-components';
+import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-components';
 
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { KeyboardPreset, useKeyboard } from '../../hooks/useKeyboard';
-import type { ThemeObj } from '../../theme/theme';
 import { getColor, pseudoClasses } from '../../theme/theme-utils';
 import { Text, TextProps } from '../basic/Text';
 import { Container } from '../layout/Container';
 import { Divider } from '../layout/Divider';
 
 const ContainerEl = styled(Container)<{
-	background: keyof ThemeObj['palette'];
+	background: keyof DefaultTheme['palette'];
 	$disabled: boolean;
 	$hasLabel: boolean;
 }>`
@@ -39,7 +38,7 @@ const ContainerEl = styled(Container)<{
 	);
 `;
 
-const InputEl = styled.input<{ color: keyof ThemeObj['palette'] }>`
+const InputEl = styled.input<{ color: keyof DefaultTheme['palette'] }>`
 	border: none !important;
 	height: auto !important;
 	width: 100%;
@@ -115,13 +114,13 @@ const CustomText = styled(Text)<{ size: NonNullable<TextProps['size']> }>`
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 	/** Input's background color */
-	backgroundColor?: keyof ThemeObj['palette'];
+	backgroundColor?: keyof DefaultTheme['palette'];
 	/** whether to disable the Input or not */
 	disabled?: boolean;
 	/** Input's text color */
-	textColor?: keyof ThemeObj['palette'];
+	textColor?: keyof DefaultTheme['palette'];
 	/** Input's bottom border color */
-	borderColor?: keyof ThemeObj['palette'];
+	borderColor?: keyof DefaultTheme['palette'];
 	/** Label of the input, will act (graphically) as placeholder when the input is not focused */
 	label?: string;
 	/** input change callback */

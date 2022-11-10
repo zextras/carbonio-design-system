@@ -6,14 +6,13 @@
 
 import React, { HTMLAttributes } from 'react';
 
-import styled from 'styled-components';
+import styled, { DefaultTheme } from 'styled-components';
 
-import type { ThemeObj } from '../../theme/theme';
 import { getColor } from '../../theme/theme-utils';
 
 interface DividerProps extends HTMLAttributes<HTMLDivElement> {
 	/** Divider color */
-	color: string | keyof ThemeObj['palette'];
+	color: string | keyof DefaultTheme['palette'];
 }
 
 const DividerEl = styled.div<DividerProps>`
