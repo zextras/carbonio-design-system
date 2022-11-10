@@ -19,7 +19,7 @@ const modalMinWidth = {
 const modalWidth = {
 	extrasmall: '25rem',
 	small: '31.25rem',
-	medium: '63.125rem',
+	medium: '40.625rem',
 	large: '50rem'
 };
 
