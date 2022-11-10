@@ -6,9 +6,8 @@
 
 import React, { HTMLAttributes, useMemo } from 'react';
 
-import styled, { css, SimpleInterpolation } from 'styled-components';
+import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-components';
 
-import { ThemeObj } from '../../theme/theme';
 import { getColor, getPadding, PaddingObj } from '../../theme/theme-utils';
 
 interface ContainerElProps {
@@ -16,9 +15,9 @@ interface ContainerElProps {
 	orientation?: 'row' | 'column' | 'row-reverse' | 'column-reverse';
 	/** Type of the Container's corners */
 	borderRadius?: 'regular' | 'round' | 'half' | 'none';
-	borderColor?: string | keyof ThemeObj['palette'];
+	borderColor?: string | keyof DefaultTheme['palette'];
 	/** Container background color */
-	background?: string | keyof ThemeObj['palette'];
+	background?: string | keyof DefaultTheme['palette'];
 	/** Container height: <br/>
 	 *  	`fit`: shorthand for fit-content
 	 *  	`fill`: semantic alternative for `100%`
@@ -163,11 +162,11 @@ const ContainerEl = styled.div<ContainerElProps>`
 		return maxHeight;
 	}};
 	${({ borderColor, theme }): SimpleInterpolation =>
-		borderColor && `border: 1px solid ${getColor(borderColor, theme)}`};
+		borderColor && `border: 0.0625rem solid ${getColor(borderColor, theme)}`};
 	padding: ${({ theme, padding }): SimpleInterpolation => padding && getPadding(padding, theme)};
 	gap: ${({ gap }): SimpleInterpolation => gap};
 	&::-webkit-scrollbar {
-		width: 8px;
+		width: 0.5rem;
 	}
 
 	&::-webkit-scrollbar-track {
@@ -176,7 +175,7 @@ const ContainerEl = styled.div<ContainerElProps>`
 
 	&::-webkit-scrollbar-thumb {
 		background-color: ${({ theme }): string => theme.palette.gray3.regular};
-		border-radius: 4px;
+		border-radius: 0.25rem;
 	}
 `;
 

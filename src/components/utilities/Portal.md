@@ -22,16 +22,16 @@ const handleClick = () => {
     type="outlined"
     label={show ? 'Unmount children' : 'Mount children'}
     onClick={handleClick}
-    style={{ marginBottom: '8px' }}
+    style={{ marginBottom: '0.5rem' }}
   />
   <Padding
     ref={containerRef}
     value={show ? 'large' : '0'}
-    style={{ border: show ? '2px solid red' : 'none', width: '100%' }}
+    style={{ border: show ? '0.125rem solid red' : 'none', width: '100%' }}
   ></Padding>
   <Padding
     value="large large 0"
-    style={{ border: '1px dashed green', marginTop: '8px', width: '100%' }}    
+    style={{ border: '0.0625rem dashed green', marginTop: '0.5rem', width: '100%' }}    
   >
     <Padding value="0 0 small" style={{ width: '100%' }}>
       <Text>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin nulla at bibendum fermentum. Interdum et malesuada fames ac ante ipsum primis in faucibus.</Text>

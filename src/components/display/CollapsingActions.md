@@ -62,7 +62,7 @@ const actions = [
 	}
 ];
 
-<Container maxWidth="50%" background="gray5" orientation="vertical" gap="10px">
+<Container maxWidth="50%" background="gray5" orientation="vertical" gap="0.625rem">
     <Text>Default</Text>
     <CollapsingActions actions={actions} />
     <Text>Align at start</Text>

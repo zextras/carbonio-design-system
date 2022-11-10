@@ -5,6 +5,7 @@
  */
 import React from 'react';
 
+import { rgba } from 'polished';
 import styled, { css, SimpleInterpolation } from 'styled-components';
 
 import { Container } from '../../layout/Container';
@@ -16,10 +17,10 @@ const modalMinWidth = {
 	large: '50%'
 };
 const modalWidth = {
-	extrasmall: '400px',
-	small: '500px',
-	medium: '650px',
-	large: '800px'
+	extrasmall: '25rem',
+	small: '31.25rem',
+	medium: '40.625rem',
+	large: '50rem'
 };
 
 function isBodyOverflowing(modalRef: React.RefObject<HTMLDivElement>, windowObj: Window): boolean {
@@ -57,7 +58,7 @@ const ModalContainer = styled.div<{ mounted: boolean; open: boolean; zIndex: num
 	right: 0;
 	padding: ${(props): string =>
 		`${props.theme.sizes.padding.medium} ${props.theme.sizes.padding.medium} 0`};
-	background-color: rgba(0, 0, 0, 0);
+	background-color: ${({ theme }): string => theme.palette.transparent.regular};
 	opacity: 0;
 	pointer-events: none;
 	transition: 0.3s ease-out;
@@ -71,10 +72,10 @@ const ModalContainer = styled.div<{ mounted: boolean; open: boolean; zIndex: num
 		css`
 			z-index: ${zIndex};
 		`};
-	${({ open }): SimpleInterpolation =>
+	${({ open, theme }): SimpleInterpolation =>
 		open &&
 		css`
-			background-color: rgba(0, 0, 0, 0.5);
+			background-color: ${rgba(theme.palette.black.regular, 0.5)};
 			opacity: 1;
 			pointer-events: auto;
 		`};
@@ -90,12 +91,11 @@ const ModalWrapper = styled.div`
 
 const ModalContent = styled(Container).attrs<{
 	$size: keyof typeof modalMinWidth & keyof typeof modalWidth;
-}>(({ minHeight = '250px', $size }) => ({
-	minHeight,
+}>(({ $size }) => ({
 	maxWidth: '100%',
 	minWidth: modalMinWidth[$size],
 	width: modalWidth[$size],
-	padding: '32px',
+	padding: '2rem',
 	mainAlignment: 'flex-start',
 	crossAlignment: 'flex-start',
 	height: 'auto',
@@ -105,8 +105,8 @@ const ModalContent = styled(Container).attrs<{
 }>`
 	position: relative;
 	margin: 0 auto ${({ theme }): string => theme.sizes.padding.medium};
-	border-radius: 16px;
-	box-shadow: 0 0 4px 0 rgba(166, 166, 166, 0.5);
+	border-radius: 1rem;
+	box-shadow: 0 0 0.25rem 0 ${({ theme }): string => theme.palette.shadow.regular};
 	outline: none;
 	pointer-events: auto;
 `;

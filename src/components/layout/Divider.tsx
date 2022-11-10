@@ -6,22 +6,21 @@
 
 import React, { HTMLAttributes } from 'react';
 
-import styled from 'styled-components';
+import styled, { DefaultTheme } from 'styled-components';
 
-import type { ThemeObj } from '../../theme/theme';
 import { getColor } from '../../theme/theme-utils';
 
 interface DividerProps extends HTMLAttributes<HTMLDivElement> {
 	/** Divider color */
-	color: string | keyof ThemeObj['palette'];
+	color: string | keyof DefaultTheme['palette'];
 }
 
 const DividerEl = styled.div<DividerProps>`
 	box-sizing: border-box;
-	border-bottom: 1px solid ${({ theme, color }): string => getColor(color, theme)};
-	height: 1px;
-	max-height: 1px;
-	min-height: 1px;
+	border-bottom: 0.0625rem solid ${({ theme, color }): string => getColor(color, theme)};
+	height: 0.0625rem;
+	max-height: 0.0625rem;
+	min-height: 0.0625rem;
 	width: 100%;
 `;
 

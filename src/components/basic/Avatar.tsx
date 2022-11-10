@@ -6,18 +6,17 @@
 
 import React, { HTMLAttributes, useMemo } from 'react';
 
-import styled from 'styled-components';
+import styled, { DefaultTheme } from 'styled-components';
 
-import type { ThemeObj } from '../../theme/theme';
 import { getColor } from '../../theme/theme-utils';
 import { Icon } from './Icon';
 
 type ShapeType = 'round' | 'square';
 
 type AvatarContainerProps = {
-	size: keyof ThemeObj['sizes']['avatar'];
+	size: keyof DefaultTheme['sizes']['avatar'];
 	background?: string;
-	color: keyof ThemeObj['avatarColors'];
+	color: keyof DefaultTheme['avatarColors'];
 	picture?: string;
 	selecting?: boolean;
 	selected?: boolean;
@@ -31,7 +30,8 @@ const AvatarContainer = styled.div<AvatarContainerProps>`
 	justify-content: center;
 	align-items: center;
 	min-width: ${({ theme, size }): string => theme.sizes.avatar[size].diameter};
-	height: ${({ theme, size }): string => theme.sizes.avatar[size].diameter};
+	max-width: ${({ theme, size }): string => theme.sizes.avatar[size].diameter};
+	max-height: ${({ theme, size }): string => theme.sizes.avatar[size].diameter};
 	min-height: ${({ theme, size }): string => theme.sizes.avatar[size].diameter};
 	background: ${({ theme, background, color, picture, selecting, selected, disabled }): string =>
 		`${
@@ -46,11 +46,11 @@ const AvatarContainer = styled.div<AvatarContainerProps>`
 		} ${picture && !selecting ? `url(${picture}) no-repeat center center/cover` : ''}`};
 	border-radius: ${({ shape }): string => (shape === 'round' ? '50%' : '15%')};
 	border: ${({ theme, selecting }): string =>
-		selecting ? `2px solid ${getColor('primary', theme)}` : 'none'};
+		selecting ? `0.125rem solid ${getColor('primary', theme)}` : 'none'};
 `;
 
 type CapitalsPropsType = {
-	$size: keyof ThemeObj['sizes']['avatar'];
+	$size: keyof DefaultTheme['sizes']['avatar'];
 	color?: string;
 };
 
@@ -63,10 +63,10 @@ const Capitals = styled.p<CapitalsPropsType>`
 `;
 
 const AvatarIcon = styled(Icon)<CapitalsPropsType>`
-	width: calc(${({ theme, $size }): string => theme.sizes.avatar[$size].diameter} - 25%);
-	min-width: calc(${({ theme, $size }): string => theme.sizes.avatar[$size].diameter} - 25%);
-	height: calc(${({ theme, $size }): string => theme.sizes.avatar[$size].diameter} - 25%);
-	min-height: calc(${({ theme, $size }): string => theme.sizes.avatar[$size].diameter} - 25%);
+	width: calc(${({ theme, $size }): string => theme.sizes.avatar[$size].diameter} * 0.75);
+	min-width: calc(${({ theme, $size }): string => theme.sizes.avatar[$size].diameter} * 0.75);
+	height: calc(${({ theme, $size }): string => theme.sizes.avatar[$size].diameter} * 0.75);
+	min-height: calc(${({ theme, $size }): string => theme.sizes.avatar[$size].diameter} * 0.75);
 `;
 
 const _SPECIAL_CHARS_REGEX = /[&/\\#,+()$~%.'":*?!<>{}@^_`=]/g;
@@ -98,7 +98,7 @@ function calcCapitals(label: string): string | null {
 	return label[0] + label[label.length - 1];
 }
 
-function calcColor(label: string): keyof ThemeObj['avatarColors'] {
+function calcColor(label: string): keyof DefaultTheme['avatarColors'] {
 	let sum = 0;
 	// eslint-disable-next-line no-plusplus
 	for (let i = 0; i < label.length; i++) {
@@ -175,7 +175,7 @@ const Avatar = React.forwardRef<HTMLDivElement, AvatarPropTypes>(function Avatar
 
 interface AvatarPropTypes extends HTMLAttributes<HTMLDivElement> {
 	/** size of the Avatar circle */
-	size?: keyof ThemeObj['sizes']['avatar'];
+	size?: keyof DefaultTheme['sizes']['avatar'];
 
 	/** url to the profile picture */
 	picture?: string;

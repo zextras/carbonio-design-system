@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React from 'react';
+import { SVGProps } from 'react';
 
 import IconData from '../icons';
 
@@ -27,9 +27,7 @@ export interface ThemeColorObj {
 	disabled: string;
 }
 
-export type IconComponent = React.ComponentType<
-	React.SVGProps<SVGSVGElement> & { ref: React.ForwardedRef<SVGSVGElement> }
->;
+export type IconComponent = (props: SVGProps<SVGSVGElement>) => JSX.Element;
 
 // augment this interface to extend theme type
 export interface ThemeObj {
@@ -51,7 +49,7 @@ export interface ThemeObj {
 	};
 	icons: Record<string, IconComponent>;
 	loginBackground: string;
-	logo: {
+	logo?: {
 		svg: IconComponent;
 		size: ThemeSizeObj;
 	};
@@ -73,7 +71,10 @@ export interface ThemeObj {
 		| 'error'
 		| 'success'
 		| 'info'
-		| 'text',
+		| 'text'
+		| 'shadow'
+		| 'black'
+		| 'white',
 		ThemeColorObj
 	>;
 	avatarColors: Record<`avatar_${number}`, string>;
@@ -85,42 +86,38 @@ export const Theme: ThemeObj = {
 		width: 960,
 		aspectRatio: 2 / 3
 	},
-	borderRadius: '2px',
+	borderRadius: '0.125rem',
 	fonts: {
 		default: "'Roboto', sans-serif",
 		weight: { light: 300, regular: 400, medium: 500, bold: 700 }
 	},
 	sizes: {
 		font: {
-			extrasmall: '12px',
-			small: '14px',
-			medium: '16px',
-			large: '18px',
-			extralarge: '20px'
+			extrasmall: '0.75rem',
+			small: '0.875rem',
+			medium: '1rem',
+			large: '1.125rem',
+			extralarge: '1.25rem'
 		},
-		icon: { small: '12px', medium: '16px', large: '24px' },
+		icon: { small: '0.75rem', medium: '1rem', large: '1.5rem' },
 		avatar: {
-			small: { diameter: '16px', font: '5px' },
-			medium: { diameter: '32px', font: '12px' },
-			large: { diameter: '48px', font: '18px' },
-			extralarge: { diameter: '64px', font: '28px' }
+			small: { diameter: '1rem', font: '0.3125rem' },
+			medium: { diameter: '2rem', font: '0.75rem' },
+			large: { diameter: '3rem', font: '1.125rem' },
+			extralarge: { diameter: '4rem', font: '1.75rem' }
 		},
 		padding: {
-			extrasmall: '4px',
-			small: '8px',
-			medium: '12px',
-			large: '16px',
-			extralarge: '24px'
+			extrasmall: '0.25rem',
+			small: '0.5rem',
+			medium: '0.75rem',
+			large: '1rem',
+			extralarge: '1.5rem'
 		}
 	},
 	icons: {
 		...IconData
 	},
 	loginBackground: 'assets/login-bg.jpg',
-	logo: {
-		svg: IconData.Logo,
-		size: { small: '16px', medium: '20px', large: '24px' }
-	},
 	palette: {
 		currentColor: {
 			regular: 'currentColor',
@@ -247,6 +244,27 @@ export const Theme: ThemeObj = {
 			active: '#0d0d0d',
 			focus: '#1a1a1a',
 			disabled: '#cccccc'
+		},
+		shadow: {
+			regular: 'rgba(166, 166, 166, 0.5)',
+			hover: 'rgba(166, 166, 166, 0.5)',
+			active: 'rgba(166, 166, 166, 0.5)',
+			focus: 'rgba(166, 166, 166, 0.5)',
+			disabled: 'rgba(166, 166, 166, 0.5)'
+		},
+		black: {
+			regular: '#000000',
+			hover: '#000000',
+			active: '#000000',
+			focus: '#000000',
+			disabled: '#000000'
+		},
+		white: {
+			regular: '#FFFFFF',
+			hover: '#FFFFFF',
+			active: '#FFFFFF',
+			focus: '#FFFFFF',
+			disabled: '#FFFFFF'
 		}
 	},
 	avatarColors: {

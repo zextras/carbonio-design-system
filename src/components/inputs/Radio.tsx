@@ -6,11 +6,10 @@
 
 import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 
-import styled, { css, SimpleInterpolation } from 'styled-components';
+import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-components';
 
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { getKeyboardPreset, useKeyboard } from '../../hooks/useKeyboard';
-import type { ThemeObj } from '../../theme/theme';
 import { Icon } from '../basic/Icon';
 import { Text } from '../basic/Text';
 import { Container, ContainerProps } from '../layout/Container';
@@ -35,7 +34,7 @@ const StyledIcon = styled(Icon)<{ checked: boolean }>`
 	}
 `;
 const RadioContainer = styled(Container)<{
-	$iconColor: keyof ThemeObj['palette'];
+	$iconColor: keyof DefaultTheme['palette'];
 	$disabled: boolean;
 }>`
 	${({ theme, $disabled, $iconColor }): SimpleInterpolation =>
@@ -86,7 +85,7 @@ interface RadioProps extends Omit<ContainerProps, 'onChange'> {
 	/** available sizes */
 	size?: RadioSize;
 	/** icon color */
-	iconColor?: keyof ThemeObj['palette'];
+	iconColor?: keyof DefaultTheme['palette'];
 }
 
 const Radio = React.forwardRef<HTMLDivElement, RadioProps>(function RadioFn(

@@ -6,18 +6,17 @@
 
 import React, { InputHTMLAttributes, useCallback, useMemo, useState } from 'react';
 
-import styled, { css, SimpleInterpolation } from 'styled-components';
+import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-components';
 
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { KeyboardPreset, useKeyboard } from '../../hooks/useKeyboard';
-import type { ThemeObj } from '../../theme/theme';
 import { getColor, pseudoClasses } from '../../theme/theme-utils';
 import { Text, TextProps } from '../basic/Text';
 import { Container } from '../layout/Container';
 import { Divider } from '../layout/Divider';
 
 const ContainerEl = styled(Container)<{
-	background: keyof ThemeObj['palette'];
+	background: keyof DefaultTheme['palette'];
 	$disabled: boolean;
 	$hasLabel: boolean;
 }>`
@@ -31,15 +30,15 @@ const ContainerEl = styled(Container)<{
 					cursor: text;
 					${pseudoClasses(theme, background)}
 			  `};
-	padding: ${({ $hasLabel }): string => ($hasLabel ? '1px' : '10px')} 12px;
-	gap: 8px;
+	padding: ${({ $hasLabel }): string => ($hasLabel ? '0.0625rem' : '0.625rem')} 0.75rem;
+	gap: 0.5rem;
 	min-height: calc(
 		${({ theme }): string => theme.sizes.font.medium} * 1.5 +
-			${({ theme }): string => theme.sizes.font.extrasmall} * 1.5 + 2px
+			${({ theme }): string => theme.sizes.font.extrasmall} * 1.5 + 0.125rem
 	);
 `;
 
-const InputEl = styled.input<{ color: keyof ThemeObj['palette'] }>`
+const InputEl = styled.input<{ color: keyof DefaultTheme['palette'] }>`
 	border: none !important;
 	height: auto !important;
 	width: 100%;
@@ -67,7 +66,7 @@ const InputEl = styled.input<{ color: keyof ThemeObj['palette'] }>`
 const Label = styled.label<{ hasError: boolean; hasFocus: boolean; disabled: boolean }>`
 	position: absolute;
 	top: 50%;
-	left: 12px;
+	left: 0.75rem;
 	font-size: ${({ theme }): string => theme.sizes.font.medium};
 	font-weight: ${({ theme }): number => theme.fonts.weight.regular};
 	font-family: ${({ theme }): string => theme.fonts.default};
@@ -91,7 +90,7 @@ const Label = styled.label<{ hasError: boolean; hasFocus: boolean; disabled: boo
 
 	${InputEl}:focus + &,
   ${InputEl}:not(:placeholder-shown) + & {
-		top: 1px;
+		top: 0.0625rem;
 		transform: translateY(0);
 		font-size: ${({ theme }): string => theme.sizes.font.extrasmall};
 	}
@@ -109,19 +108,19 @@ const DividerEl = styled(Divider)`
 
 const CustomText = styled(Text)<{ size: NonNullable<TextProps['size']> }>`
 	line-height: 1.5;
-	padding-top: 4px;
+	padding-top: 0.25rem;
 	min-height: calc(${({ theme, size }): string => theme.sizes.font[size]} * 1.5);
 `;
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 	/** Input's background color */
-	backgroundColor?: keyof ThemeObj['palette'];
+	backgroundColor?: keyof DefaultTheme['palette'];
 	/** whether to disable the Input or not */
 	disabled?: boolean;
 	/** Input's text color */
-	textColor?: keyof ThemeObj['palette'];
+	textColor?: keyof DefaultTheme['palette'];
 	/** Input's bottom border color */
-	borderColor?: keyof ThemeObj['palette'];
+	borderColor?: keyof DefaultTheme['palette'];
 	/** Label of the input, will act (graphically) as placeholder when the input is not focused */
 	label?: string;
 	/** input change callback */

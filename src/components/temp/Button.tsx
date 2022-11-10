@@ -7,15 +7,15 @@
 import React, { useCallback, useMemo, useRef } from 'react';
 
 import { reduce } from 'lodash';
+import { DefaultTheme } from 'styled-components';
 
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { useKeyboard, getKeyboardPreset } from '../../hooks/useKeyboard';
-import { ThemeObj } from '../../theme/theme';
 import { Button as ButtonNew } from '../basic/Button';
 
 type ButtonType = 'default' | 'outlined' | 'ghost';
 
-const colors: Array<keyof ThemeObj['palette']> = [
+const colors: Array<keyof DefaultTheme['palette']> = [
 	'primary',
 	'secondary',
 	'warning',
@@ -25,18 +25,18 @@ const colors: Array<keyof ThemeObj['palette']> = [
 ];
 
 type FixedColorsObj = Record<
-	keyof ThemeObj['palette'],
+	keyof DefaultTheme['palette'],
 	Record<
 		ButtonType,
 		{
-			color?: keyof ThemeObj['palette'];
-			background?: keyof ThemeObj['palette'];
-			border?: keyof ThemeObj['palette'];
+			color?: keyof DefaultTheme['palette'];
+			background?: keyof DefaultTheme['palette'];
+			border?: keyof DefaultTheme['palette'];
 		}
 	>
 >;
 
-const fixedColors = reduce<keyof ThemeObj['palette'], FixedColorsObj>(
+const fixedColors = reduce<keyof DefaultTheme['palette'], FixedColorsObj>(
 	colors,
 	(prev, currentValue) => {
 		// eslint-disable-next-line no-param-reassign
@@ -61,11 +61,11 @@ interface ButtonProps {
 	/** Type of button */
 	type?: ButtonType;
 	/** Color of button */
-	color?: string | keyof ThemeObj['palette'];
+	color?: string | keyof DefaultTheme['palette'];
 	/** Color of the Button label */
-	labelColor?: string | keyof ThemeObj['palette'];
+	labelColor?: string | keyof DefaultTheme['palette'];
 	/** Color of the Button background */
-	backgroundColor?: string | keyof ThemeObj['palette'];
+	backgroundColor?: string | keyof DefaultTheme['palette'];
 	/** Button text */
 	label: string;
 	/** `fit`: assume the size of the content
@@ -74,7 +74,7 @@ interface ButtonProps {
 	 */
 	size?: 'fit' | 'fill';
 	/** optional icon to display beside the label */
-	icon?: keyof ThemeObj['icons'];
+	icon?: keyof DefaultTheme['icons'];
 	/** Icon position */
 	iconPlacement?: 'left' | 'right';
 	/** whether to show the loading icon */

@@ -78,7 +78,7 @@ import { Container, Padding } from '@zextras/carbonio-design-system';
 ```jsx
 import { Container, Padding } from '@zextras/carbonio-design-system';
 
-<Quota fill={40} height="20px" background="gray4" /> 
+<Quota fill={40} height="1.25rem" background="gray4" /> 
 
 ```
 

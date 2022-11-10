@@ -97,7 +97,7 @@ const items = [
 		items={items}
 		multiple={true}
 		background="gray5"
-		maxHeight="80px"
+		maxHeight="5rem"
 		label="Select items"
 		onChange={console.log}
 	/>

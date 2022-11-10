@@ -6,14 +6,14 @@
 
 import React, { SVGAttributes, useContext, useMemo } from 'react';
 
-import styled, { css, SimpleInterpolation, ThemeContext } from 'styled-components';
+import styled, { css, DefaultTheme, SimpleInterpolation, ThemeContext } from 'styled-components';
 
-import { IconComponent, ThemeObj } from '../../theme/theme';
+import { IconComponent } from '../../theme/theme';
 import { getColor } from '../../theme/theme-utils';
 
 interface IconComponentProps extends SVGAttributes<SVGSVGElement> {
 	/** Icon to show. It can be a string key for the theme icons or a custom icon component */
-	icon: keyof ThemeObj['icons'] | IconComponent;
+	icon: keyof DefaultTheme['icons'] | IconComponent;
 	/** whether the icon is in a disabled element */
 	disabled?: boolean;
 	/** action to perform on Icon Click
@@ -24,13 +24,13 @@ interface IconComponentProps extends SVGAttributes<SVGSVGElement> {
 
 interface IconProps extends IconComponentProps {
 	/** Icon Color */
-	color?: string | keyof ThemeObj['palette'];
+	color?: string | keyof DefaultTheme['palette'];
 	/** Custom color, css syntax
 	 * @deprecated use color instead
 	 */
 	customColor?: string;
 	/** Icon size */
-	size?: keyof ThemeObj['sizes']['icon'];
+	size?: keyof DefaultTheme['sizes']['icon'];
 }
 
 const IconBase = React.forwardRef<SVGSVGElement, IconComponentProps>(function IconFn(

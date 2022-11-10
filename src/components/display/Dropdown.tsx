@@ -25,12 +25,10 @@ import {
 	VirtualElement
 } from '@popperjs/core';
 import { find, some } from 'lodash';
-import styled, { css, SimpleInterpolation } from 'styled-components';
+import styled, { css, DefaultTheme, SimpleInterpolation, ThemeContext } from 'styled-components';
 
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { useKeyboard, getKeyboardPreset, KeyboardPreset } from '../../hooks/useKeyboard';
-import type { ThemeObj } from '../../theme/theme';
-import { ThemeContext } from '../../theme/theme-context-provider';
 import { pseudoClasses } from '../../theme/theme-utils';
 import { Icon } from '../basic/Icon';
 import { Text } from '../basic/Text';
@@ -41,7 +39,7 @@ import { Portal } from '../utilities/Portal';
 import { Tooltip } from './Tooltip';
 
 const ContainerEl = styled(Container)<{
-	$selectedBackgroundColor?: keyof ThemeObj['palette'];
+	$selectedBackgroundColor?: keyof DefaultTheme['palette'];
 	$disabled: boolean;
 }>`
 	user-select: none;
@@ -57,7 +55,7 @@ interface ListItemContentProps {
 	disabled?: boolean;
 	itemIconSize: React.ComponentPropsWithRef<typeof Icon>['size'];
 	itemTextSize: React.ComponentProps<typeof Text>['size'];
-	itemPaddingBetween: keyof ThemeObj['sizes']['padding'];
+	itemPaddingBetween: keyof DefaultTheme['sizes']['padding'];
 	tooltipLabel?: string;
 }
 
@@ -100,7 +98,7 @@ function ListItemContent({
 interface PopperListItemProps extends ListItemContentProps, HTMLAttributes<HTMLDivElement> {
 	click?: (e: React.SyntheticEvent<HTMLElement> | KeyboardEvent) => void;
 	customComponent?: React.ReactNode;
-	selectedBackgroundColor?: keyof ThemeObj['palette'];
+	selectedBackgroundColor?: keyof DefaultTheme['palette'];
 	keepOpen?: boolean;
 }
 
@@ -265,7 +263,7 @@ const PopperList = styled.div<{
 	visibility: hidden;
 	pointer-events: none;
 	background-color: ${({ theme }): string => theme.palette.gray5.regular};
-	box-shadow: 0 0 4px 0 rgba(166, 166, 166, 0.5);
+	box-shadow: 0 0 0.25rem 0 ${({ theme }): string => theme.palette.shadow.regular};
 	z-index: 999;
 
 	padding: ${({ theme }): string => theme.sizes.padding.small} 0;
@@ -276,7 +274,7 @@ const PopperList = styled.div<{
 	overflow-y: auto;
 
 	&::-webkit-scrollbar {
-		width: 8px;
+		width: 0.5rem;
 	}
 
 	&::-webkit-scrollbar-track {
@@ -285,7 +283,7 @@ const PopperList = styled.div<{
 
 	&::-webkit-scrollbar-thumb {
 		background-color: ${({ theme }): string => theme.palette.gray3.regular};
-		border-radius: 4px;
+		border-radius: 0.25rem;
 	}
 
 	&,
@@ -371,13 +369,13 @@ interface DropdownProps extends Omit<HTMLAttributes<HTMLDivElement>, 'contextMen
 	/** Whether to preventDefault on Dropdown click */
 	preventDefault?: boolean;
 	/** Customize selected background color */
-	selectedBackgroundColor?: keyof ThemeObj['palette'];
+	selectedBackgroundColor?: keyof DefaultTheme['palette'];
 	/** Item Icon size */
 	itemIconSize?: React.ComponentPropsWithRef<typeof Icon>['size'];
 	/** Item Text size */
 	itemTextSize?: React.ComponentPropsWithRef<typeof Text>['size'];
 	/** Item Padding Between */
-	itemPaddingBetween?: keyof ThemeObj['sizes']['padding'];
+	itemPaddingBetween?: keyof DefaultTheme['sizes']['padding'];
 	/** Ref assign to the dropdown list popper container */
 	dropdownListRef?: React.RefObject<HTMLDivElement>;
 }
@@ -390,7 +388,7 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 		placement = 'bottom-start',
 		display = 'inline-block',
 		width = 'auto',
-		maxWidth = '300px',
+		maxWidth = '18.75rem',
 		maxHeight = '50vh',
 		handleTriggerEvents = false,
 		disableRestoreFocus = false,

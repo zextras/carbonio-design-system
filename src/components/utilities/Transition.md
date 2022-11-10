@@ -16,9 +16,9 @@ const [buttons, setButtons] = useState(effects.reduce((acc, currentValue) => { r
       { effects.map((effect, index) => {
         return (
           <React.Fragment key={index}>
-            <Text size="large" style={{ textTransform: 'capitalize', paddingBottom: '8px' }}>{ effect }</Text>
+            <Text size="large" style={{ textTransform: 'capitalize', paddingBottom: '0.5rem' }}>{ effect }</Text>
             <Row padding={{bottom: 'large'}}>
-              <Row width="40px">
+              <Row width="2.5rem">
                 <Tooltip label={effect} placement="left">
                   <IconButton
                     icon="PlayCircle"
@@ -48,7 +48,7 @@ const [open, setOpen] = useState(false);
   <Container crossAlignment="unset">
     <Text size="large">Custom easing and timing</Text>
     <Row padding={{bottom: 'large'}}>
-      <Row width="40px">
+      <Row width="2.5rem">
         <IconButton
           icon="PlayCircle"
           onClick={() => setOpen(!open)}
@@ -101,7 +101,7 @@ const [effect, setEffect] = useState('fade');
       { !toDos.length && <Text>No element added</Text> }
       { toDos.length > 0 && toDos.map((toDo, index) =>
         <Transition key={index} type={effect}>
-          <Padding value="2px"><Button label={ toDo } /></Padding>
+          <Padding value="0.125rem"><Button label={ toDo } /></Padding>
         </Transition>
       )}
     </Row>

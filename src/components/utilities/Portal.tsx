@@ -7,8 +7,7 @@
 import React, { useContext } from 'react';
 
 import ReactDOM from 'react-dom';
-
-import { ThemeContext } from '../../theme/theme-context-provider';
+import { ThemeContext } from 'styled-components';
 
 interface PortalProps {
 	/** The children to render into the `container` */

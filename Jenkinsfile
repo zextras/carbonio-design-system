@@ -212,7 +212,10 @@ pipeline {
                     when {
                         beforeAgent true
                         allOf {
-                            expression { BRANCH_NAME ==~ /(release)/ }
+                            anyOf {
+                                expression { BRANCH_NAME ==~ /(release)/ }
+                                buildingTag()
+                            }
                             environment name: 'COMMIT_PARENTS_COUNT', value: '1'
                             expression { params.RELEASE == true }
                         }
@@ -220,7 +223,7 @@ pipeline {
                     steps {
                         script {
                             executeNpmLogin()
-                            nodeCmd("NODE_ENV=\"production\" npm dist-tag add ${getPackageName()}@${getCurrentVersion()} latest && npm dist-tag rm ${getPackageName()} rc")
+                            nodeCmd("NODE_ENV=\"production\" npm dist-tag add ${getPackageName()}@${getCurrentVersion()} latest")
                         }
                     }
                 }

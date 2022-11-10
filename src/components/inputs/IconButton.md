@@ -11,7 +11,7 @@ The IconButton is a button that contains just an Icon and no label.
 import { Container } from '@zextras/carbonio-design-system';
 
 const click = () => console.log('click!');
-<Container style={{ gap: '10px' }} background="gray5" padding={{ all: 'small' }}>
+<Container style={{ gap: '0.625rem' }} background="gray5" padding={{ all: 'small' }}>
     <Container orientation="horizontal" mainAlignment="space-around">
         <IconButton icon="Pricetags" iconColor="gray6" backgroundColor="primary" onClick={click}/>
         <IconButton iconColor="gray6" backgroundColor="gray1" icon="Plus" onClick={click}/>
@@ -33,27 +33,27 @@ import { Container, Text } from '@zextras/carbonio-design-system';
 
 const click = () => console.log('click!');
 <Container orientation="horizontal" mainAlignment="space-around" background="gray5" crossAlignment="flex-start">
-    <Container style={{ gap: '10px' }} background="gray5" padding={{ all: 'small' }}>
+    <Container style={{ gap: '0.625rem' }} background="gray5" padding={{ all: 'small' }}>
         <Text>Extrasmall</Text>
         <IconButton size="extrasmall" icon="Pricetags" iconColor="gray6" backgroundColor="primary" onClick={click}/>
         <IconButton borderRadius="round" size="extrasmall" icon="Pricetags" iconColor="gray6" backgroundColor="primary" onClick={click}/>
     </Container>
-    <Container style={{ gap: '10px' }} background="gray5" padding={{ all: 'small' }}>
+    <Container style={{ gap: '0.625rem' }} background="gray5" padding={{ all: 'small' }}>
         <Text>Small</Text>
         <IconButton size="small" icon="Pricetags" iconColor="gray6" backgroundColor="primary" onClick={click}/>
         <IconButton borderRadius="round" size="small" icon="Pricetags" iconColor="gray6" backgroundColor="primary" onClick={click}/>
     </Container>
-    <Container style={{ gap: '10px' }} background="gray5" padding={{ all: 'small' }}>
+    <Container style={{ gap: '0.625rem' }} background="gray5" padding={{ all: 'small' }}>
         <Text>Medium</Text>
         <IconButton size="medium" icon="Pricetags" iconColor="gray6" backgroundColor="primary" onClick={click}/>
         <IconButton borderRadius="round" size="medium" icon="Pricetags" iconColor="gray6" backgroundColor="primary" onClick={click}/>
     </Container>
-    <Container style={{ gap: '10px' }} background="gray5" padding={{ all: 'small' }}>
+    <Container style={{ gap: '0.625rem' }} background="gray5" padding={{ all: 'small' }}>
         <Text>Large</Text>
         <IconButton size="large" icon="Pricetags" iconColor="gray6" backgroundColor="primary" onClick={click}/>
         <IconButton borderRadius="round" size="large" icon="Pricetags" iconColor="gray6" backgroundColor="primary" onClick={click}/>
     </Container>
-	<Container style={{ gap: '10px' }} background="gray5" padding={{ all: 'small' }}>
+	<Container style={{ gap: '0.625rem' }} background="gray5" padding={{ all: 'small' }}>
 		<Text>Extralarge</Text>
 		<IconButton size="extralarge" icon="Pricetags" iconColor="gray6" backgroundColor="primary" onClick={click}/>
 		<IconButton borderRadius="round" size="extralarge" icon="Pricetags" iconColor="gray6" backgroundColor="primary" onClick={click}/>
@@ -73,7 +73,7 @@ const click = () => console.log('click!');
 <Container orientation="horizontal" mainAlignment="space-around" background="gray5" padding={{ all: 'small' }}>
     <IconButton icon="Pricetags" iconColor="gray6" backgroundColor="primary" onClick={click} customSize={{ iconSize: 'large', paddingSize: 'extrasmall' }} />
     <IconButton icon="Pricetags" iconColor="gray6" backgroundColor="primary" onClick={click} customSize={{ iconSize: 'medium', paddingSize: 0 }} />
-    <IconButton icon="Pricetags" iconColor="gray6" backgroundColor="primary" onClick={click} customSize={{ iconSize: '20px', paddingSize: '15px' }} />
+    <IconButton icon="Pricetags" iconColor="gray6" backgroundColor="primary" onClick={click} customSize={{ iconSize: '1.25rem', paddingSize: '1rem' }} />
 </Container>
 ```
 
@@ -121,8 +121,8 @@ const changeInputProp = useCallback(
 );
 
 
-<Container style={{ gap: '10px' }} padding={{ all: 'small' }}>
-    <Container orientation="horizontal" mainAlignment="flex-start" wrap="wrap" style={{ gap: '10px' }}>
+<Container style={{ gap: '0.625rem' }} padding={{ all: 'small' }}>
+    <Container orientation="horizontal" mainAlignment="flex-start" wrap="wrap" style={{ gap: '0.625rem' }}>
         <Select label="Size" items={sizeItems} onChange={changeSelectProp('size')} style={{ width: '20%' }} defaultSelection={{ label: iconButtonProps.size, value: iconButtonProps.size }} />
         <Select label="Icon Color" items={colorItems} onChange={changeSelectProp('iconColor')} style={{ width: '20%' }} />
         <Select label="Background" items={colorItems} onChange={changeSelectProp('backgroundColor')} style={{ width: '20%' }} />

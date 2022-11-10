@@ -22,11 +22,10 @@ import {
 	StrictModifiers,
 	VirtualElement
 } from '@popperjs/core';
-import styled, { css, SimpleInterpolation } from 'styled-components';
+import styled, { css, SimpleInterpolation, ThemeContext } from 'styled-components';
 
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { KeyboardPreset, useKeyboard } from '../../hooks/useKeyboard';
-import { ThemeContext } from '../../theme/theme-context-provider';
 import { Portal } from '../utilities/Portal';
 
 const PopperContainer = styled.div<{ open: boolean }>`

@@ -6,36 +6,36 @@ SPDX-License-Identifier: AGPL-3.0-only
 
 Vertical Padding
 ```jsx
-<div style={{ border: '1px solid black' }}>
+<div style={{ border: '0.0625rem solid black' }}>
     <Padding vertical="small">
-        <div style={{ backgroundColor: 'grey', height: '10px', width: '10px' }}/>
+        <div style={{ backgroundColor: 'grey', height: '0.625rem', width: '0.625rem' }}/>
     </Padding>
 </div>
 ```
 
 Horizontal Padding
 ```jsx
-<div style={{ border: '1px solid black' }}>
+<div style={{ border: '0.0625rem solid black' }}>
     <Padding horizontal="small">
-        <div style={{ backgroundColor: 'grey', height: '10px', width: '10px' }}/>
+        <div style={{ backgroundColor: 'grey', height: '0.625rem', width: '0.625rem' }}/>
     </Padding>
 </div>
 ```
 
 Selective Padding
 ```jsx
-<div style={{ border: '1px solid black' }}>
+<div style={{ border: '0.0625rem solid black' }}>
     <Padding top="extrasmall" right="small" bottom="small" left="extrasmall">
-        <div style={{ backgroundColor: 'grey', height: '10px', width: '10px' }}/>
+        <div style={{ backgroundColor: 'grey', height: '0.625rem', width: '0.625rem' }}/>
     </Padding>
 </div>
 ```
 
 Padding through value
 ```jsx
-<div style={{ border: '1px solid black' }}>
-    <Padding value="10px small extralarge">
-        <div style={{ backgroundColor: 'grey', height: '10px', width: '10px' }}/>
+<div style={{ border: '0.0625rem solid black' }}>
+    <Padding value="0.625rem small extralarge">
+        <div style={{ backgroundColor: 'grey', height: '0.625rem', width: '0.625rem' }}/>
     </Padding>
 </div>
 ```

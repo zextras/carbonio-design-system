@@ -6,11 +6,10 @@
 
 import React, { useMemo, useRef } from 'react';
 
-import styled, { css, SimpleInterpolation } from 'styled-components';
+import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-components';
 
 import { useCheckbox } from '../../hooks/useCheckbox';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
-import type { ThemeObj } from '../../theme/theme';
 import { getColor } from '../../theme/theme-utils';
 import { Icon } from '../basic/Icon';
 import { Text } from '../basic/Text';
@@ -21,7 +20,7 @@ type CheckboxSize = 'medium' | 'small';
 
 const IconWrapper = styled.div<{
 	disabled: boolean;
-	iconColor: keyof ThemeObj['palette'] | string;
+	iconColor: keyof DefaultTheme['palette'] | string;
 }>`
 	${({ theme, disabled, iconColor }): SimpleInterpolation =>
 		!disabled &&
@@ -60,9 +59,9 @@ interface CheckboxProps extends Omit<ContainerProps, 'onChange' | 'onClick'> {
 	/** Checkbox size
 	 * @deprecated use size instead
 	 */
-	iconSize?: keyof ThemeObj['sizes']['icon'];
+	iconSize?: keyof DefaultTheme['sizes']['icon'];
 	/** Checkbox color */
-	iconColor?: keyof ThemeObj['palette'] | string;
+	iconColor?: keyof DefaultTheme['palette'] | string;
 	/** Checkbox text */
 	label?: string;
 	/** Checkbox padding */
