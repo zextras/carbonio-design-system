@@ -23,7 +23,7 @@ const plugins = [
 	})
 ];
 
-const external = ['core-js', 'lodash', 'prop-types', 'react', 'react-dom', 'styled-components'];
+const external = ['core-js', 'lodash', 'react', 'react-dom', 'styled-components'];
 
 export default [
 	{
