@@ -1,18 +1,19 @@
-/*
- * SPDX-FileCopyrightText: 2021 Zextras <https://www.zextras.com>
- *
- * SPDX-License-Identifier: AGPL-3.0-only
- */
-
-import React, { SVGProps } from 'react';
+import * as React from 'react';
+import { SVGProps } from 'react';
 
 const SvgContactsModOutline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
-	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...props}>
-		<g data-name="Layer 2">
-			<g data-name="people">
-				<path d="M9 11a4 4 0 10-4-4 4 4 0 004 4zm0-6a2 2 0 11-2 2 2 2 0 012-2zM17 13a3 3 0 10-3-3 3 3 0 003 3zm0-4a1 1 0 11-1 1 1 1 0 011-1zM17 14a5 5 0 00-3.06 1.05A7 7 0 002 20a1 1 0 002 0 5 5 0 0110 0 1 1 0 002 0 6.9 6.9 0 00-.86-3.35A3 3 0 0120 19a1 1 0 002 0 5 5 0 00-5-5z" />
-			</g>
-		</g>
+	<svg width={24} height={24} xmlns="http://www.w3.org/2000/svg" {...props}>
+		<path d="M11.465 11.862a3.2 3.2 0 0 1 3.187 1.267l.043.06c.494.719.69 1.606.55 2.473a.544.544 0 0 1-.516.454H9.45c-.017 0-.034.003-.051 0a.546.546 0 0 1-.516-.454 4.415 4.415 0 0 1-.038-.334l-.002-.025c-.003-.06-.006-.117-.006-.177 0-.69.203-1.367.593-1.938l.043-.06a3.22 3.22 0 0 1 1.992-1.266Z" />
+		<path
+			fillRule="evenodd"
+			clipRule="evenodd"
+			d="M11.999 2.015c5.51 0 9.984 4.474 9.984 9.984s-4.474 9.984-9.984 9.984-9.984-4.474-9.984-9.984 4.474-9.984 9.984-9.984Zm0 1.968A8.02 8.02 0 0 1 20.014 12a8.018 8.018 0 0 1-8.015 8.015 8.017 8.017 0 0 1-8.016-8.015A8.018 8.018 0 0 1 12 3.983Z"
+		/>
+		<path
+			fillRule="evenodd"
+			clipRule="evenodd"
+			d="M9.425 10.575a1.266 1.266 0 1 1-2.445.659 1.266 1.266 0 0 1 2.445-.66ZM17.665 10.5a1.548 1.548 0 1 1-2.989.807 1.548 1.548 0 0 1 2.99-.806ZM13.765 8.438a1.827 1.827 0 1 1-3.529.95 1.827 1.827 0 0 1 3.529-.95Z"
+		/>
 	</svg>
 );
 
