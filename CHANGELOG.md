@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.5.1](https://github.com/Zextras/carbonio-design-system/compare/v0.5.0...v0.5.1) (2022-11-10)
+
+
+### Features
+
+* convert px to rem ([67e898f](https://github.com/Zextras/carbonio-design-system/commit/67e898f40d4cc40452d75cb33e91a2f3050f3984)), closes [#134](https://github.com/Zextras/carbonio-design-system/issues/134)
+* **icons:** migrate icons to ts and update icon set ([b7660e9](https://github.com/Zextras/carbonio-design-system/commit/b7660e97cd0580487e6b606c6e5ca717ffe0cba5)), closes [#135](https://github.com/Zextras/carbonio-design-system/issues/135) [#139](https://github.com/Zextras/carbonio-design-system/issues/139)
+
+
+### Bug Fixes
+
+* apply right conversion to modal medium size ([83a4a8b](https://github.com/Zextras/carbonio-design-system/commit/83a4a8bb22c7bc167c577bda73e140beb4cc8e4c)), closes [#140](https://github.com/Zextras/carbonio-design-system/issues/140)
+* **ModalContent:** remove default for min-height ([dfd7e37](https://github.com/Zextras/carbonio-design-system/commit/dfd7e376817f44bdf041aca51960aafffde015d7)), closes [#138](https://github.com/Zextras/carbonio-design-system/issues/138)
+
 ## [0.5.0](https://github.com/Zextras/carbonio-design-system/compare/v0.4.1...v0.5.0) (2022-10-14)
 
 
