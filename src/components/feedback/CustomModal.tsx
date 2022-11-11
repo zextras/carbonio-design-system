@@ -188,4 +188,4 @@ const CustomModal = React.forwardRef<HTMLDivElement, CustomModalProps>(function 
 	);
 });
 
-export { CustomModal, CustomModalProps };
+export { CustomModal, CustomModalProps, PickedModal };

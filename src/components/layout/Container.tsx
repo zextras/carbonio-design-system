@@ -219,4 +219,4 @@ Container.defaultProps = {
 	wrap: 'nowrap'
 };
 
-export { Container, ContainerProps };
+export { Container, ContainerProps, ContainerElProps };

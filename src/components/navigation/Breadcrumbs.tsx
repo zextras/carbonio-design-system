@@ -96,4 +96,4 @@ const Breadcrumbs = React.forwardRef<HTMLDivElement, BreadcrumbsProps>(function 
 	);
 });
 
-export { Breadcrumbs, BreadcrumbsProps };
+export { Breadcrumbs, BreadcrumbsProps, BreadcrumbCollapersProps };

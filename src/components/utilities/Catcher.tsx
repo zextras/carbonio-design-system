@@ -59,4 +59,4 @@ class Catcher extends React.Component<CatcherProps, CatcherState> {
 	}
 }
 
-export { Catcher, CatcherProps };
+export { Catcher, CatcherProps, CatcherState };

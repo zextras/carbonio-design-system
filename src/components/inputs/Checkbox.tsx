@@ -147,4 +147,4 @@ const Checkbox = React.forwardRef<HTMLDivElement, CheckboxProps>(function Checkb
 	);
 });
 
-export { Checkbox, CheckboxProps };
+export { Checkbox, CheckboxProps, CheckboxSize };

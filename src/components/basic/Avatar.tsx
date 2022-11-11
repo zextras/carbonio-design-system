@@ -212,4 +212,4 @@ interface AvatarPropTypes extends HTMLAttributes<HTMLDivElement> {
 	disabled?: boolean;
 }
 
-export { AvatarPropTypes, Avatar };
+export { AvatarPropTypes, Avatar, ShapeType };

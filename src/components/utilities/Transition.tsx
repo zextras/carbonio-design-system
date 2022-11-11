@@ -262,4 +262,4 @@ Transition.defaultProps = {
 	disabled: false
 };
 
-export { Transition, TransitionProps };
+export { Transition, TransitionProps, TransitionOnProps };

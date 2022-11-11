@@ -174,4 +174,4 @@ const Radio = React.forwardRef<HTMLDivElement, RadioProps>(function RadioFn(
 	);
 });
 
-export { Radio, RadioProps };
+export { Radio, RadioProps, RadioSize };

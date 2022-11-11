@@ -393,4 +393,4 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps>(function SelectFn(
 	);
 });
 
-export { Select, SelectProps, SelectItem, LabelFactoryProps };
+export { Select, SelectProps, SelectItem, LabelFactoryProps, SelectComponentProps };
