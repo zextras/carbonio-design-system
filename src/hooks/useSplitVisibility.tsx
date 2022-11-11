@@ -90,4 +90,4 @@ function useSplitVisibility<T, R extends HTMLElement = HTMLElement>(
 	return [visibleItems, hiddenItems, containerRef];
 }
 
-export { useSplitVisibility, Options };
+export { useSplitVisibility };

@@ -240,11 +240,4 @@ function useKeyboard(ref: React.RefObject<HTMLElement>, events: KeyboardPreset):
 	}, [events, keyEvents, ref, ref.current]);
 }
 
-export {
-	useKeyboard,
-	getKeyboardPreset,
-	KeyboardPreset,
-	KeyboardPresetObj,
-	ElementType,
-	HtmlElementKeyboardEventKey
-};
+export { useKeyboard, getKeyboardPreset, KeyboardPreset };

@@ -443,14 +443,4 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(function ButtonF
 	);
 });
 
-export {
-	Button,
-	ButtonProps,
-	ButtonSecondaryAction,
-	ButtonPropsInternal,
-	ButtonColorsByType,
-	ButtonIconPlacement,
-	ButtonShape,
-	ButtonWidth,
-	ButtonSize
-};
+export { Button, ButtonProps, ButtonSecondaryAction };

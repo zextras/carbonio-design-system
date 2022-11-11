@@ -137,4 +137,4 @@ const Switch = React.forwardRef<HTMLDivElement, SwitchProps>(function SwitchFn(
 	);
 });
 
-export { Switch, SwitchProps, SwitchSize };
+export { Switch, SwitchProps };
