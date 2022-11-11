@@ -73,6 +73,8 @@ type ButtonPropsInternal = {
 	shape?: ButtonShape;
 	/** Width of the button */
 	width?: ButtonWidth;
+	/** min width of the button */
+	minWidth?: string;
 } & (
 	| {
 			/** Size variant of the button */
@@ -103,6 +105,7 @@ interface StyledButtonProps {
 	disabled: boolean;
 	forceActive: boolean;
 	width: ButtonWidth;
+	minWidth?: string;
 }
 
 const StyledIcon = styled(Icon)<{ $loading?: boolean; $size: string }>`
@@ -146,10 +149,11 @@ const StyledButton = styled.button.attrs<
 		border: string;
 		outerPadding: string;
 	}
->(({ buttonType, padding, disabled }) => ({
+>(({ buttonType, padding, disabled, minWidth }) => ({
 	border: buttonType === 'outlined' ? '0.0625rem solid' : 'none',
 	outerPadding: buttonType === 'outlined' ? `calc(${padding} - 0.0625rem)` : padding,
-	tabIndex: disabled ? -1 : 0
+	tabIndex: disabled ? -1 : 0,
+	minWidth: minWidth || '0'
 }))<StyledButtonProps>`
 	line-height: 1;
 	display: flex;
@@ -215,10 +219,11 @@ const StyledSecondaryActionPlaceholder = styled.span<{ padding: string }>`
 	visibility: hidden;
 `;
 
-const StyledGrid = styled.div<{ width: 'fill' | 'fit'; padding: string }>`
+const StyledGrid = styled.div<{ width: 'fill' | 'fit'; padding: string; minWidth?: string }>`
 	width: ${({ width }): SimpleInterpolation =>
 		(width === 'fill' && '100%') || (width === 'fit' && 'fit-content')};
 	max-width: 100%;
+	min-width: ${({ minWidth }): SimpleInterpolation => minWidth};
 
 	display: grid;
 	place-items: center;
@@ -339,6 +344,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(function ButtonF
 		forceActive = false,
 		shape = 'regular',
 		secondaryAction,
+		minWidth,
 		...rest
 	},
 	ref
@@ -370,7 +376,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(function ButtonF
 	const colors = useMemo(() => getColors(type, { type, ...rest }), [type, rest]);
 
 	return (
-		<StyledGrid width={width} padding={SIZES[size].padding}>
+		<StyledGrid width={width} minWidth={minWidth} padding={SIZES[size].padding}>
 			<StyledButton
 				{...rest}
 				backgroundColor={colors.backgroundColor}
@@ -385,6 +391,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(function ButtonF
 				onClick={clickHandler}
 				ref={buttonRef}
 				width={width}
+				minWidth={minWidth}
 			>
 				{icon && (
 					<StyledIcon
