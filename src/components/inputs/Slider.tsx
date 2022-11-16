@@ -9,6 +9,7 @@ import { rgba } from 'polished';
 import styled, { DefaultTheme } from 'styled-components';
 
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
+import { Tooltip } from '../display/Tooltip';
 import { Container } from '../layout/Container';
 
 const SLIDER_SIZES = {
@@ -90,16 +91,22 @@ const SliderInput = styled.input.attrs({
 		transform: translateY(var(--track-half-height));
 	}
 
-	&::-webkit-slider-thumb:hover,
+	&::-webkit-slider-thumb:hover {
+		background-color: var(--color-thumb-hover);
+	}
+
 	&::-webkit-slider-thumb:active {
 		cursor: grabbing;
 		background-color: var(--color-thumb-hover);
 	}
 
-	&::-moz-range-thumb:hover,
+	&::-moz-range-thumb:hover {
+		background-color: var(--color-thumb-hover);
+	}
+
 	&::-moz-range-thumb:active {
 		cursor: grabbing;
-		background-color: var(--color-thumb-focus);
+		background-color: var(--color-thumb-hover);
 	}
 
 	&::-webkit-slider-thumb:focus {
@@ -246,15 +253,11 @@ const Slider: Slider = React.forwardRef<HTMLDivElement, SliderProps>(function Sl
 	const stepComponents = useMemo(
 		() =>
 			options.map((option, index) => (
-				<option
-					key={index}
-					value={index}
-					onClick={onOptionClick}
-					disabled={disabled}
-					label={option}
-				>
-					{option}
-				</option>
+				<Tooltip label={option} key={index}>
+					<option value={index} onClick={onOptionClick} disabled={disabled} label={option}>
+						{option}
+					</option>
+				</Tooltip>
 			)),
 		[options, onOptionClick, disabled]
 	);
