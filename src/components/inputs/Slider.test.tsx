@@ -5,7 +5,7 @@
  */
 import React from 'react';
 
-import { fireEvent, screen } from '@testing-library/react';
+import { fireEvent, screen, within } from '@testing-library/react';
 import user from '@testing-library/user-event';
 import { fireInputEvent } from '@testing-library/user-event/dist/keyboard/shared';
 
@@ -19,6 +19,20 @@ describe('Slider', () => {
 		expect(screen.getByRole('slider')).toBeVisible();
 		expect(screen.getByRole('listbox')).toBeVisible();
 		expect(screen.getAllByRole('option')).toHaveLength(options.length);
+	});
+
+	test('option shows tooltip', async () => {
+		const options = ['opt1', 'opt2', 'opt3', 'opt4', 'opt5'];
+		render(<Slider options={options} />);
+		const option1 = screen.getByRole('option', { name: 'opt1' });
+		expect(option1).toBeVisible();
+		// wait so tooltip can register the listeners
+		await new Promise((r) => {
+			setTimeout(r, 100);
+		});
+		user.hover(option1);
+		const tooltip = await screen.findByTestId('tooltip');
+		expect(within(tooltip).getByText(/opt1/)).toBeVisible();
 	});
 
 	describe('Uncontrolled component', () => {

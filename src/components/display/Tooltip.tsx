@@ -33,7 +33,7 @@ const TooltipWrapper = React.forwardRef<HTMLDivElement, TooltipWrapperProps>(
 		if (!open) return null;
 
 		return (
-			<Text ref={ref} size={size} overflow={overflow} {...rest}>
+			<Text ref={ref} size={size} overflow={overflow} data-testid={'tooltip'} {...rest}>
 				{children}
 			</Text>
 		);
