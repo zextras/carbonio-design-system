@@ -236,11 +236,11 @@ const Slider: Slider = React.forwardRef<HTMLDivElement, SliderProps>(function Sl
 
 	const onOptionClick = useCallback<React.MouseEventHandler<HTMLOptionElement>>(
 		(event) => {
-			if (event.target instanceof HTMLOptionElement) {
+			if (!disabled && event.target instanceof HTMLOptionElement) {
 				updateValue(event, Number(event.target.value));
 			}
 		},
-		[updateValue]
+		[disabled, updateValue]
 	);
 
 	const onInputChange = useCallback<React.ChangeEventHandler<HTMLInputElement>>(

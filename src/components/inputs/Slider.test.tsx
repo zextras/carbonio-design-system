@@ -35,6 +35,14 @@ describe('Slider', () => {
 		expect(within(tooltip).getByText(/opt1/)).toBeVisible();
 	});
 
+	test('Click on option does nothing if element is disabled', async () => {
+		const options = ['opt1', 'opt2', 'opt3', 'opt4', 'opt5'];
+		render(<Slider options={options} value={4} disabled />);
+		expect(screen.getByRole('slider')).toHaveDisplayValue('4');
+		user.click(screen.getByRole('option', { name: 'opt1' }));
+		expect(screen.getByRole('slider')).toHaveDisplayValue('4');
+	});
+
 	describe('Uncontrolled component', () => {
 		test('Click on option change value of the slider', async () => {
 			const options = ['opt1', 'opt2', 'opt3', 'opt4', 'opt5'];
