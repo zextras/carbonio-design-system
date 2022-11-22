@@ -135,8 +135,8 @@ import { Container } from '@zextras/carbonio-design-system';
 		<Button type="outlined" label="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vestibulum dui varius eleifend pharetra. Suspendisse tempus euismod semper." width="fill" icon="PeopleOutline" secondaryAction={{ icon: 'ChevronDown', onClick: () => undefined }} />
 	</Container>
 	<Container orientation="horizontal" maxWidth="31.25rem" gap="0.625rem">
-		<Button color="primary" width="fit" icon="PeopleOutline" secondaryAction={{ icon: 'ChevronDown', onClick: () => undefined }} />
-		<Button color="primary" width="fit" icon="PeopleOutline" />
+		<Button color="primary" width="fit" icon="PeopleOutline" secondaryAction={{ icon: 'ChevronDown', onClick: () => undefined }} minWidth="fit-content" />
+		<Button color="primary" width="fit" icon="PeopleOutline" minWidth="fit-content" />
 		<Button type="outlined" width="fill" icon="PeopleOutline" secondaryAction={{ icon: 'ChevronDown', onClick: () => undefined }} />
 		<Button type="outlined" width="fill" icon="PeopleOutline" />
 	</Container>

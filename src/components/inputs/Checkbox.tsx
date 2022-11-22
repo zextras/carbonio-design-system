@@ -21,7 +21,11 @@ type CheckboxSize = 'medium' | 'small';
 const IconWrapper = styled.div<{
 	disabled: boolean;
 	iconColor: keyof DefaultTheme['palette'] | string;
+	size: CheckboxSize;
 }>`
+	height: ${({ theme, size }): SimpleInterpolation => css`calc(${theme.sizes.font[size]} * 1.5)`};
+	display: flex;
+	align-items: center;
 	${({ theme, disabled, iconColor }): SimpleInterpolation =>
 		!disabled &&
 		css`
@@ -121,7 +125,12 @@ const Checkbox = React.forwardRef<HTMLDivElement, CheckboxProps>(function Checkb
 			crossAlignment="flex-start"
 			{...rest}
 		>
-			<IconWrapper iconColor={iconColor} disabled={disabled} tabIndex={disabled ? -1 : 0}>
+			<IconWrapper
+				iconColor={iconColor}
+				disabled={disabled}
+				tabIndex={disabled ? -1 : 0}
+				size={size}
+			>
 				<Icon
 					size={computedIconSize}
 					icon={checked ? 'CheckmarkSquare' : 'Square'}
@@ -132,7 +141,7 @@ const Checkbox = React.forwardRef<HTMLDivElement, CheckboxProps>(function Checkb
 			{label && (
 				<Padding left="small">
 					<CustomText
-						size={size === 'medium' ? 'medium' : 'small'}
+						size={size}
 						weight="regular"
 						overflow="break-word"
 						disabled={disabled}
