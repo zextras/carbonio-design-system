@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.5.2](https://github.com/Zextras/carbonio-design-system/compare/v0.5.1...v0.5.2) (2022-11-22)
+
+
+### Features
+
+* **Slider:** create Slider component ([975cc91](https://github.com/Zextras/carbonio-design-system/commit/975cc91b4dd4554fed1eb9c3a03a6022c08dc052)), closes [#143](https://github.com/Zextras/carbonio-design-system/issues/143)
+
+
+### Bug Fixes
+
+* **icons:** update icon set to use new module icons ([e8e455c](https://github.com/Zextras/carbonio-design-system/commit/e8e455cb7d8ad3c36bdabda06923b69417b833b1)), closes [#144](https://github.com/Zextras/carbonio-design-system/issues/144)
+
 ### [0.5.1](https://github.com/Zextras/carbonio-design-system/compare/v0.5.0...v0.5.1) (2022-11-10)
 
 
