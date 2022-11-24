@@ -11,7 +11,7 @@ import styled from 'styled-components';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { useSplitVisibility } from '../../hooks/useSplitVisibility';
 import { IconButton, IconButtonProps } from '../inputs/IconButton';
-import { Container } from '../layout/Container';
+import { Container, ContainerProps } from '../layout/Container';
 import { Dropdown, DropdownItem } from './Dropdown';
 import { Tooltip } from './Tooltip';
 
@@ -36,6 +36,8 @@ interface CollapsingActionsProps extends HTMLAttributes<HTMLDivElement> {
 	alignment?: 'start' | 'end';
 	/** Color for the collapser and default color for the icons (can be overwritten with the single action prop) */
 	color?: IconButtonProps['color'];
+	/** Gap for the visible items */
+	gap?: ContainerProps['gap'];
 }
 
 const CollapsingActions = React.forwardRef<HTMLDivElement, CollapsingActionsProps>(
@@ -46,6 +48,7 @@ const CollapsingActions = React.forwardRef<HTMLDivElement, CollapsingActionsProp
 			size: globalIconSize,
 			alignment = 'end',
 			color: globalIconColor,
+			gap,
 			...rest
 		},
 		ref
@@ -85,6 +88,7 @@ const CollapsingActions = React.forwardRef<HTMLDivElement, CollapsingActionsProp
 						left: alignment === 'start' ? '0' : 'auto',
 						right: alignment === 'end' ? '0' : 'auto'
 					}}
+					gap={gap}
 				>
 					{visibleActions}
 					{hiddenItems.length > 0 && (
