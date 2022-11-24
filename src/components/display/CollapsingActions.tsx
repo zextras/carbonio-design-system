@@ -5,7 +5,7 @@
  */
 import React, { HTMLAttributes, useMemo } from 'react';
 
-import { map } from 'lodash';
+import { map, noop } from 'lodash';
 import styled from 'styled-components';
 
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
@@ -28,17 +28,26 @@ interface CollapsingActionsProps extends HTMLAttributes<HTMLDivElement> {
 	 * <code>type Action = { type?: never; iconType?: IconButtonProps['type'] } & IconButtonProps & DropdownItem;</code>
 	 */
 	actions: Action[];
-	/** Size for all the icon buttons. Can be overwritten by the single action prop */
+	/** Size for the collapser and default size for the icons (can be overwritten with the single action prop) */
 	size?: IconButtonProps['size'];
 	/** Max number of actions to show when there is plenty of space */
 	maxVisible?: number;
 	/** Alignment of the actions inside the container */
 	alignment?: 'start' | 'end';
+	/** Color for the collapser and default color for the icons (can be overwritten with the single action prop) */
+	color?: IconButtonProps['color'];
 }
 
 const CollapsingActions = React.forwardRef<HTMLDivElement, CollapsingActionsProps>(
 	function CollapsingActionsFn(
-		{ actions, maxVisible, size: globalIconSize, alignment = 'end', ...rest },
+		{
+			actions,
+			maxVisible,
+			size: globalIconSize,
+			alignment = 'end',
+			color: globalIconColor,
+			...rest
+		},
 		ref
 	) {
 		const [visibleItems, hiddenItems, visibilityRef] = useSplitVisibility<Action, HTMLDivElement>(
@@ -53,7 +62,7 @@ const CollapsingActions = React.forwardRef<HTMLDivElement, CollapsingActionsProp
 					visibleItems,
 					({
 						iconType = 'ghost',
-						color = 'primary',
+						color = globalIconColor,
 						size = globalIconSize,
 						label,
 						...itemRest
@@ -63,7 +72,7 @@ const CollapsingActions = React.forwardRef<HTMLDivElement, CollapsingActionsProp
 						</Tooltip>
 					)
 				),
-			[globalIconSize, visibleItems]
+			[globalIconColor, globalIconSize, visibleItems]
 		);
 
 		return (
@@ -83,8 +92,8 @@ const CollapsingActions = React.forwardRef<HTMLDivElement, CollapsingActionsProp
 							<IconButton
 								icon="MoreVertical"
 								size={globalIconSize}
-								iconColor="primary"
-								onClick={(): void => undefined}
+								iconColor={globalIconColor}
+								onClick={noop}
 							/>
 						</Dropdown>
 					)}
