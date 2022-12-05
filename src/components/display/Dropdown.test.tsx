@@ -13,43 +13,43 @@ import { Button } from '../basic/Button';
 import { Modal } from '../feedback/Modal';
 import { Dropdown, DropdownItem } from './Dropdown';
 
-const items = [
+const items: DropdownItem[] = [
 	{
 		id: 'item-1',
 		icon: 'item',
 		label: 'Some Item',
-		click: jest.fn()
+		onClick: jest.fn()
 	},
 	{
 		id: 'item-2',
 		icon: 'Plus',
 		label: 'Some Other Item',
-		click: jest.fn(),
+		onClick: jest.fn(),
 		disabled: true
 	},
 	{
 		id: 'item-3',
 		icon: 'item',
 		label: 'Yet Another Item',
-		click: jest.fn()
+		onClick: jest.fn()
 	},
 	{
 		id: 'item-4',
 		icon: 'item',
 		label: 'Item 4',
-		click: jest.fn(),
+		onClick: jest.fn(),
 		items: [
 			{
 				id: 'item-4-1',
 				icon: 'item',
 				label: 'item 4 sub 1',
-				click: jest.fn()
+				onClick: jest.fn()
 			},
 			{
 				id: 'item-4-2',
 				icon: 'item',
 				label: 'item 4 sub 2',
-				click: jest.fn()
+				onClick: jest.fn()
 			}
 		]
 	}
@@ -207,8 +207,8 @@ describe('Dropdown', () => {
 				item3ClickInternalFn();
 			}
 		});
-		(items[3].items as DropdownItem[])[0].click = item3Sub1ClickFn;
-		items[3].click = item3ClickFn;
+		(items[3].items as DropdownItem[])[0].onClick = item3Sub1ClickFn;
+		items[3].onClick = item3ClickFn;
 		render(
 			<Dropdown items={items}>
 				<Button label="opener" onClick={onClick} />
@@ -356,5 +356,70 @@ describe('Dropdown', () => {
 		expect(screen.queryByText(/some item/i)).not.toBeInTheDocument();
 		expect(screen.queryByText(/Some Other Item/i)).not.toBeInTheDocument();
 		expect(screen.queryByText(/Yet Another Item/i)).not.toBeInTheDocument();
+	});
+
+	// TODO: remove once the prop click will be removed from DropdownItem
+	describe('keep compatibility of click prop for item', () => {
+		function recursiveMapToOld(itemsToMap?: DropdownItem[]): DropdownItem[] | undefined {
+			if (itemsToMap) {
+				return itemsToMap.map((item) => ({
+					...item,
+					click: item.onClick,
+					onClick: undefined,
+					items: recursiveMapToOld(item.items)
+				}));
+			}
+			return undefined;
+		}
+		const itemsOld = recursiveMapToOld(items) as DropdownItem[];
+
+		test('Click on a nested item calls nested item click callback and close dropdown', async () => {
+			const onClick = jest.fn();
+			const item3Sub1ClickFn = jest.fn((e: React.SyntheticEvent | KeyboardEvent) => {
+				e.preventDefault();
+			});
+			const item3ClickInternalFn = jest.fn();
+			const item3ClickFn = jest.fn((e: React.SyntheticEvent | KeyboardEvent) => {
+				if (!e.defaultPrevented) {
+					item3ClickInternalFn();
+				}
+			});
+			(itemsOld[3].items as DropdownItem[])[0].click = item3Sub1ClickFn;
+			itemsOld[3].click = item3ClickFn;
+			render(
+				<Dropdown items={itemsOld}>
+					<Button label="opener" onClick={onClick} />
+				</Dropdown>
+			);
+			expect(screen.getByRole('button', { name: /opener/i })).toBeInTheDocument();
+			// dropdown is closed
+			expect(screen.queryByText(/some item/i)).not.toBeInTheDocument();
+			// first click trigger open
+			userEvent.click(screen.getByRole('button', { name: /opener/i }));
+			await screen.findByText(/item 4/i);
+			// wait for listeners to be registered
+			await waitFor(
+				() =>
+					new Promise((resolve) => {
+						setTimeout(resolve, 1);
+					})
+			);
+			expect(screen.getByTestId('icon: ChevronRight')).toBeVisible();
+			userEvent.hover(screen.getByTestId('icon: ChevronRight'));
+			await screen.findByText(/item 4 sub 1/i);
+			// wait for listeners to be registered
+			await waitFor(
+				() =>
+					new Promise((resolve) => {
+						setTimeout(resolve, 1);
+					})
+			);
+			expect(screen.getByText(/item 4 sub 1/i)).toBeVisible();
+			userEvent.click(screen.getByText(/item 4 sub 1/i));
+			expect(item3Sub1ClickFn).toHaveBeenCalled();
+			expect(item3ClickFn).toHaveBeenCalled();
+			expect(item3ClickInternalFn).not.toHaveBeenCalled();
+			expect(screen.queryByText(/item 4/i)).not.toBeInTheDocument();
+		});
 	});
 });

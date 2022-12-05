@@ -96,7 +96,7 @@ function ListItemContent({
 }
 
 interface PopperListItemProps extends ListItemContentProps, HTMLAttributes<HTMLDivElement> {
-	click?: (e: React.SyntheticEvent<HTMLElement> | KeyboardEvent) => void;
+	onClick?: (e: React.SyntheticEvent<HTMLElement> | KeyboardEvent) => void;
 	customComponent?: React.ReactNode;
 	selectedBackgroundColor?: keyof DefaultTheme['palette'];
 	keepOpen?: boolean;
@@ -105,7 +105,7 @@ interface PopperListItemProps extends ListItemContentProps, HTMLAttributes<HTMLD
 function PopperListItem({
 	icon,
 	label,
-	click,
+	onClick,
 	selected,
 	customComponent,
 	disabled = false,
@@ -119,19 +119,22 @@ function PopperListItem({
 }: PopperListItemProps): JSX.Element {
 	const itemRef = useRef<HTMLDivElement | null>(null);
 
-	const keyEvents = useMemo(() => (click && getKeyboardPreset('listItem', click)) || [], [click]);
+	const keyEvents = useMemo(
+		() => (onClick && getKeyboardPreset('listItem', onClick)) || [],
+		[onClick]
+	);
 	useKeyboard(itemRef, keyEvents);
 
-	const onClick = useCallback<React.MouseEventHandler<HTMLElement>>(
+	const onClickHandler = useCallback<React.MouseEventHandler<HTMLElement>>(
 		(e) => {
 			if (keepOpen) {
 				e.stopPropagation();
 			}
-			if (!disabled && click) {
-				click(e);
+			if (!disabled && onClick) {
+				onClick(e);
 			}
 		},
-		[click, disabled, keepOpen]
+		[onClick, disabled, keepOpen]
 	);
 
 	return (
@@ -142,8 +145,8 @@ function PopperListItem({
 			orientation="horizontal"
 			mainAlignment="flex-start"
 			padding={{ vertical: 'small', horizontal: 'large' }}
-			style={{ cursor: click && !disabled ? 'pointer' : 'default' }}
-			onClick={onClick}
+			style={{ cursor: onClick && !disabled ? 'pointer' : 'default' }}
+			onClick={onClickHandler}
 			tabIndex={disabled ? -1 : 0}
 			$disabled={disabled}
 			$selectedBackgroundColor={selected ? selectedBackgroundColor : undefined}
@@ -175,7 +178,7 @@ interface NestListItemProps extends PopperListItemProps {
 function NestListItem({
 	icon,
 	label,
-	click,
+	onClick,
 	selected,
 	open,
 	customComponent,
@@ -192,7 +195,10 @@ function NestListItem({
 }: NestListItemProps): JSX.Element {
 	const itemRef = useRef<HTMLDivElement | null>(null);
 
-	const keyEvents = useMemo(() => (click && getKeyboardPreset('listItem', click)) || [], [click]);
+	const keyEvents = useMemo(
+		() => (onClick && getKeyboardPreset('listItem', onClick)) || [],
+		[onClick]
+	);
 	useKeyboard(itemRef, keyEvents);
 
 	return (
@@ -203,8 +209,8 @@ function NestListItem({
 			orientation="horizontal"
 			mainAlignment="flex-start"
 			padding={{ vertical: 'small', horizontal: 'large' }}
-			style={{ cursor: click && !disabled ? 'pointer' : 'default' }}
-			onClick={disabled ? undefined : click}
+			style={{ cursor: onClick && !disabled ? 'pointer' : 'default' }}
+			onClick={disabled ? undefined : onClick}
 			tabIndex={disabled ? undefined : 0}
 			$disabled={disabled}
 			$selectedBackgroundColor={selected ? selectedBackgroundColor : undefined}
@@ -305,7 +311,13 @@ interface DropdownItem {
 	id: string;
 	label: string;
 	icon?: string;
+	/**
+	 * @deprecated
+	 * Use onClick instead
+	 * TODO(BREAKING CHANGE): remove click prop
+	 */
 	click?: (e: React.SyntheticEvent<HTMLElement> | KeyboardEvent) => void;
+	onClick?: (e: React.SyntheticEvent<HTMLElement> | KeyboardEvent) => void;
 	selected?: boolean;
 	customComponent?: React.ReactNode;
 	disabled?: boolean;
@@ -660,7 +672,7 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 
 	const listItemClickHandler = useCallback<
 		(
-			onClick?: PopperListItemProps['click'],
+			onClick?: PopperListItemProps['onClick'],
 			keepOpen?: boolean
 		) => (event: React.SyntheticEvent<HTMLElement> | KeyboardEvent) => void
 	>(
@@ -689,6 +701,7 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 						icon,
 						label,
 						click,
+						onClick = click, // TODO: remove default assignation once click prop will be removed from DropdownItem interface
 						selected,
 						customComponent,
 						items: subItems,
@@ -707,7 +720,7 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 							<NestListItem
 								icon={icon}
 								label={label}
-								click={listItemClickHandler(click, keepOpen)}
+								onClick={listItemClickHandler(onClick, keepOpen)}
 								keepOpen={keepOpen}
 								selected={selected}
 								open={currentHover === id}
@@ -727,7 +740,7 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 							<PopperListItem
 								icon={icon}
 								label={label}
-								click={listItemClickHandler(click, keepOpen)}
+								onClick={listItemClickHandler(onClick, keepOpen)}
 								keepOpen={keepOpen}
 								selected={selected}
 								key={id}
