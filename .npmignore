@@ -24,3 +24,10 @@ tsconfig.json
 /types
 tsconfig.types.json
 api-extractor.json
+svgo.config.js
+svgr.config.js
+/styleguide
+styleguide.zip
+junit.xml
+jest.config.ts
+/coverage
