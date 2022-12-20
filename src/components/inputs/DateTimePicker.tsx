@@ -9,7 +9,13 @@
 import React, { useCallback, useState, useEffect } from 'react';
 
 import { rgba } from 'polished';
-import DatePicker, { ReactDatePicker, ReactDatePickerProps } from 'react-datepicker';
+import DatePicker, {
+	getDefaultLocale,
+	ReactDatePicker,
+	ReactDatePickerProps,
+	registerLocale,
+	setDefaultLocale
+} from 'react-datepicker';
 import styled, { DefaultTheme } from 'styled-components';
 
 import { ChipProps } from '../display/Chip';
@@ -1024,4 +1030,4 @@ const DateTimePicker = React.forwardRef<ReactDatePicker, DateTimePickerProps>(
 	}
 );
 
-export { DateTimePicker, DateTimePickerProps };
+export { DateTimePicker, DateTimePickerProps, getDefaultLocale, setDefaultLocale, registerLocale };

@@ -75,6 +75,75 @@ import { Padding } from '@zextras/carbonio-design-system';
 </>;
 ```
 
+### Localization
+
+Accept locale both as a string (and perform the required [registration of react-datepicker](https://github.com/Hacker0x01/react-datepicker#localization) automatically)
+or as an object, imported from date-fns library.
+
+Locale does not change the "time" label, which requires to be translated from the outside and pass it in the **timeLabel** prop.
+
+#### Important note about bundle
+The lib react-datepicker works only with _date-fns_ and not moment.
+To avoid importing all locales inside the bundle of the DS, it's left up to the external
+project to install date-fns and configure it to limit the bundle size.
+See https://date-fns.org/v2.29.3/docs/webpack for more details.
+
+**Important:** check inside installed dependency date-fns/locale for available locales (e.g.: en does not exists, en-US is the default)
+
+Locale can be set in 3 ways:
+1) By registering the locale and set it as default. Locale can be overridden for a single component by passing the locale prop.
+If not specified differently, default locale is en-US.
+```tsx
+import es from 'date-fns/locale/es';
+import ptBR from 'date-fns/locale/pt-BR';
+import ru from 'date-fns/locale/ru';
+import { Container, registerLocale, setDefaultLocale } from '@zextras/carbonio-design-system';
+
+registerLocale('es', es);
+registerLocale('pt-BR', ptBR);
+registerLocale('ru', ru);
+
+setDefaultLocale('es');
+
+<Container gap={'0.5rem'} orientation={'horizontal'}>
+    <DateTimePicker timeCaption="need translation" />
+    <DateTimePicker locale={'pt-BR'} timeCaption="need translation" />
+    <DateTimePicker locale={'ru'} timeCaption="need translation" />
+</Container>
+```
+
+2) By registering the locale and pass the locale key as in the locale prop
+```tsx
+import es from 'date-fns/locale/es';
+import ru from 'date-fns/locale/ru';
+import ptBR from 'date-fns/locale/pt-BR';
+import { Container, registerLocale } from '@zextras/carbonio-design-system';
+
+registerLocale('es', es);
+registerLocale('pt-BR', ptBR);
+registerLocale('ru', ru);
+
+<Container gap={'0.5rem'} orientation={'horizontal'}>
+  <DateTimePicker locale={'es'} timeCaption="need translation" />
+  <DateTimePicker locale={'pt-BR'} timeCaption="need translation" />
+  <DateTimePicker locale={'ru'} timeCaption="need translation" />
+</Container>
+```
+
+3) By passing the locale object in the locale prop
+```tsx
+import es from 'date-fns/locale/es';
+import ru from 'date-fns/locale/ru';
+import ptBR from 'date-fns/locale/pt-BR';
+import { Container, Row } from '@zextras/carbonio-design-system';
+
+<Container gap={'0.5rem'} orientation={'horizontal'}>
+    <DateTimePicker locale={es} timeCaption="need translation" />
+    <DateTimePicker locale={ptBR} timeCaption="need translation" />
+    <DateTimePicker locale={ru} timeCaption="need translation" />
+</Container>
+```
+
 ### Development status:
 
 ```jsx noEditor

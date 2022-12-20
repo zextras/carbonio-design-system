@@ -9,6 +9,9 @@ const CopyPlugin = require('copy-webpack-plugin');
 const path = require('path');
 const webpack = require('webpack');
 
+// supported locales for documentation. Limited in order to reduce bundle size
+const supportedLocales = ['en-US', 'es', 'pt-BR', 'ru'];
+
 module.exports = {
 	mode: 'development',
 	devtool: 'source-map',
@@ -37,6 +40,10 @@ module.exports = {
 		}),
 		new CopyPlugin({
 			patterns: [{ from: path.resolve(__dirname, './src/fonts/'), to: 'fonts' }]
-		})
+		}),
+		new webpack.ContextReplacementPlugin(
+			/^date-fns[/\\]locale$/,
+			new RegExp(`\\.[/\\\\](${supportedLocales.join('|')})[/\\\\]index\\.js$`)
+		)
 	]
 };

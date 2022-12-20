@@ -14,7 +14,7 @@ import { Theme } from '../../theme/theme';
 import { Action, CollapsingActions } from './CollapsingActions';
 
 describe('Collapsing Actions', () => {
-	test('Render a collapsing actione', () => {
+	test('Render a collapsing actions component', () => {
 		const actions: Action[] = [
 			{
 				id: 'action1',

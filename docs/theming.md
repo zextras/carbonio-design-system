@@ -10,7 +10,7 @@ The theme customization can be accomplished by providing a modifier function to 
 
 ```jsx
 import { useContext } from 'react';
-import { Text, Container, ThemeProvider, ThemeContext, useSetCustomTheme, Button, generateColorSet } from '@zextras/carbonio-design-system';
+import { Text, Container, ThemeProvider, Button, generateColorSet } from '@zextras/carbonio-design-system';
 import { map } from 'lodash';
 
 const editTheme = (theme) => ({
