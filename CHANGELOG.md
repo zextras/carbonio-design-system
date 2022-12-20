@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.5.3](https://github.com/Zextras/carbonio-design-system/compare/v0.5.2...v0.5.3) (2022-12-20)
+
+
+### Features
+
+* **CollapsingActions:** improve configuration through props ([c2ac490](https://github.com/Zextras/carbonio-design-system/commit/c2ac4905e31b05b6ab9d56cc1c1df0f61063fb5c)), closes [#148](https://github.com/Zextras/carbonio-design-system/issues/148)
+* **DateTimePicker:** allow localization of DateTimePicker with global functions  ([d91405c](https://github.com/Zextras/carbonio-design-system/commit/d91405cde33f93b587336984207a0c1b56e2525a))
+
 ### [0.5.2](https://github.com/Zextras/carbonio-design-system/compare/v0.5.1...v0.5.2) (2022-11-22)
 
 
