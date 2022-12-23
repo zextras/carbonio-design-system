@@ -26,10 +26,14 @@ const RadioGroup = React.forwardRef<HTMLDivElement, RadioGroupProps>(function Ra
 
 	const handleOnClick = useCallback(
 		(v) => {
-			uncontrolledMode && setCurrentValue(v);
-			onChange && onChange(v);
+			if (uncontrolledMode) {
+				setCurrentValue(v);
+				onChange && onChange(v);
+			} else if (currentValue !== v) {
+				onChange && onChange(v);
+			}
 		},
-		[onChange, uncontrolledMode]
+		[currentValue, onChange, uncontrolledMode]
 	);
 
 	useEffect(() => {
