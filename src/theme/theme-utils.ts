@@ -6,10 +6,12 @@
 
 import { useContext } from 'react';
 
-import { darken, desaturate, lighten, setLightness } from 'polished';
+import { reduce } from 'lodash';
+import { darken, desaturate, lighten, parseToHsl, setLightness, toColorString } from 'polished';
+import { HslColor } from 'polished/lib/types/color';
 import { css, DefaultTheme, FlattenSimpleInterpolation, ThemeContext } from 'styled-components';
 
-import { ThemeColorObj, ThemeSizeObj } from './theme';
+import type { ThemeColorObj, ThemeSizeObj } from './theme';
 
 type ColorSet = Record<'light' | 'dark', Record<keyof ThemeColorObj, (color: string) => string>>;
 type ThemePaletteObj = DefaultTheme['palette'];
@@ -67,6 +69,30 @@ const generateColorSet = (
 	active: active ?? colorsSet[dark ? 'dark' : 'light'].active(regular),
 	disabled: disabled ?? colorsSet[dark ? 'dark' : 'light'].disabled(regular)
 });
+
+function calcHighlight(fromColor: string): string {
+	const fromHsl = parseToHsl(fromColor);
+	const highlightRegular: HslColor = {
+		hue: Math.round(fromHsl.hue) + 1,
+		saturation: (Math.round(fromHsl.saturation * 100) - 1) / 100,
+		lightness: Math.min(Math.round(fromHsl.lightness * 100 + 40), 90) / 100
+	};
+	return toColorString(highlightRegular);
+}
+function generateHighlightSet(fromColorSet: Parameters<typeof generateColorSet>[0]): ThemeColorObj {
+	const highlightPartialSet = reduce(
+		fromColorSet,
+		(accumulator, colorValue, colorKey) => {
+			if (colorValue) {
+				accumulator[colorKey as keyof typeof fromColorSet] = calcHighlight(colorValue);
+			}
+			return accumulator;
+		},
+		{} as typeof fromColorSet
+	);
+
+	return generateColorSet(highlightPartialSet);
+}
 
 /**
  * Retrieve the color from the colorSet
@@ -253,6 +279,8 @@ const useTheme = (): DefaultTheme => useContext(ThemeContext);
 
 export {
 	generateColorSet,
+	calcHighlight,
+	generateHighlightSet,
 	getColor,
 	getPadding,
 	getPadding as parsePadding,
