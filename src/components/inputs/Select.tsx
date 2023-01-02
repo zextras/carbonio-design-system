@@ -199,25 +199,44 @@ type SelectComponentProps = {
 	disablePortal?: boolean;
 	/** Whether to show checkboxes */
 	showCheckbox?: boolean;
-	onChange: (arg: SelectItem[] | string | null) => void;
 } & (
-	| {
-			multiple: true;
-			/** Initial selection value */
-			defaultSelection?: SelectItem[];
-			/** Selection value (controlled mode) */
-			selection?: SelectItem[];
-			onChange: (items: SelectItem[]) => void;
-	  }
-	| {
-			multiple?: false;
-			/** Initial selection value */
-			defaultSelection?: SelectItem;
-			/** Selection value (controlled mode) */
-			selection?: SelectItem;
-			onChange: (value: string | null) => void;
-	  }
+	| UncontrolledMultipleSelection
+	| ControlledMultipleSelection
+	| UncontrolledSingleSelection
+	| ControlledSingleSelection
 );
+
+type MultipleSelectionOnChange = (value: Array<SelectItem>) => void;
+
+type SingleSelectionOnChange = (value: string | null) => void;
+
+type UncontrolledMultipleSelection = {
+	multiple: true;
+	selection?: never;
+	defaultSelection?: Array<SelectItem>;
+	onChange: MultipleSelectionOnChange;
+};
+
+type ControlledMultipleSelection = {
+	multiple: true;
+	selection?: Array<SelectItem>;
+	defaultSelection?: never;
+	onChange: MultipleSelectionOnChange;
+};
+
+type UncontrolledSingleSelection = {
+	multiple?: false;
+	selection?: never;
+	defaultSelection?: SelectItem;
+	onChange: SingleSelectionOnChange;
+};
+
+type ControlledSingleSelection = {
+	multiple?: false;
+	selection?: SelectItem;
+	defaultSelection?: never;
+	onChange: SingleSelectionOnChange;
+};
 
 type SelectProps = SelectComponentProps &
 	Omit<DropdownProps, keyof SelectComponentProps | 'children'>;
@@ -254,22 +273,28 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps>(function SelectFn(
 	useEffect(() => {
 		if (selection) {
 			if (multiple) {
-				dispatchSelected({
-					multiple: true,
-					items: selection as SelectItem[],
-					type: SELECT_ACTION.SET
-				});
-			} else {
+				if (selection instanceof Array) {
+					dispatchSelected({
+						multiple: true,
+						items: selection,
+						type: SELECT_ACTION.SET
+					});
+				}
+			} else if (!(selection instanceof Array)) {
 				dispatchSelected({
 					multiple: false,
-					item: selection as SelectItem
+					item: selection
 				});
 			}
 		}
 	}, [multiple, selection]);
 
 	useEffect(() => {
-		onChange?.(multiple ? selected : selected[0]?.value ?? null);
+		if (multiple) {
+			(onChange as MultipleSelectionOnChange)?.(selected);
+		} else {
+			(onChange as SingleSelectionOnChange)?.(selected[0]?.value ?? null);
+		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [selected, multiple]);
 
