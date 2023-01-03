@@ -25,9 +25,16 @@ const RadioGroup = React.forwardRef<HTMLDivElement, RadioGroupProps>(function Ra
 	const uncontrolledMode = useMemo(() => typeof value === 'undefined', [value]);
 
 	const handleOnClick = useCallback(
-		(v) => {
-			uncontrolledMode && setCurrentValue(v);
-			onChange && onChange(v);
+		(newValue: string) => {
+			setCurrentValue((prevValue) => {
+				if (uncontrolledMode) {
+					return newValue;
+				}
+				if (newValue !== prevValue) {
+					onChange && onChange(newValue);
+				}
+				return prevValue;
+			});
 		},
 		[onChange, uncontrolledMode]
 	);
