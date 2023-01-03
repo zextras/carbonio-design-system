@@ -295,6 +295,11 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps>(function SelectFn(
 		} else {
 			(onChange as SingleSelectionOnChange)?.(selected[0]?.value ?? null);
 		}
+		/* ********************************************************************************************************************** *
+		 * todo: keep onChange out from the dependencies! It will not behave as expected and may cause memory leaks.              *
+		 * Do not remove eslint react-hooks/exhaustive-deps for the above reason. Make sure to double check all dependencies.     *
+		 * A revision/refactoring of the Select component is highly recommended in order to fix this unexpected behaviour.        *
+		 * ********************************************************************************************************************** */
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [selected, multiple]);
 
