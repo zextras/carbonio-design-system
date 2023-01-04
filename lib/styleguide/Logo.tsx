@@ -4,27 +4,31 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 import React, { useEffect, useState, useMemo } from 'react';
+
 import { enable, disable, auto, isEnabled } from 'darkreader';
-import { Text } from '../../src/components/basic/Text';
+
 import { Button } from '../../src/components/basic/Button';
+import { Text } from '../../src/components/basic/Text';
 import { Container } from '../../src/components/layout/Container';
 import { Padding } from '../../src/components/layout/Padding';
 import { ThemeProvider } from '../../src/theme/theme-context-provider';
 
-const Logo = () => {
+const Logo = (): JSX.Element => {
 	const [mode, setMode] = useState('auto');
 
 	useEffect(() => {
 		switch (mode) {
 			case 'light':
+				auto(false);
 				disable();
 				break;
 			case 'dark':
+				auto(false);
 				enable({ sepia: -10 });
 				break;
 			case 'auto':
 			default:
-				auto();
+				auto({});
 				break;
 		}
 	}, [mode]);
@@ -65,7 +69,7 @@ const Logo = () => {
 					Style Guide
 				</Text>
 				<Padding top="medium">
-					<Button width="fill" icon={icon} onClick={() => setMode(next)} label="MODE" />
+					<Button width="fill" icon={icon} onClick={(): void => setMode(next)} label="MODE" />
 				</Padding>
 			</Container>
 		</ThemeProvider>

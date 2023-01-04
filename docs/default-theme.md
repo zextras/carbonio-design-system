@@ -8,9 +8,11 @@ SPDX-License-Identifier: AGPL-3.0-only
 
 ```jsx noeditor
 import Palette from './components/Palette';
-import { Theme } from '../src/theme/theme';
+import { useTheme } from '@zextras/carbonio-design-system';
 
-<Palette palette={ Theme.palette }/>;
+const theme = useTheme();
+
+<Palette palette={theme.palette} />;
 
 ```
 
@@ -20,14 +22,14 @@ import { Theme } from '../src/theme/theme';
 
 ```jsx noeditor
 import { map } from 'lodash';
-import { Theme } from '../src/theme/theme';
-import { Text } from '../src/components/basic/Text';
-import { Container } from '../src/components/layout/Container';
+import { useTheme, Container, Text } from '@zextras/carbonio-design-system';
+
+const theme = useTheme();
 
 <Container orientation="vertical" padding={{ all: 'large' }}>
 	{
 		map(
-			Theme.sizes.font,
+			theme.sizes.font,
 			(size, key) => (
 				<Text key={key} size={key}>This text is {size}</Text>
 			)
