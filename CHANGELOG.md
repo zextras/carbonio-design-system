@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.0.0](https://github.com/Zextras/carbonio-design-system/compare/v0.5.3...v1.0.0) (2023-01-04)
+
+
+### Features
+
+* generate highlight set of theme from primary color set ([a69cb93](https://github.com/Zextras/carbonio-design-system/commit/a69cb933784fb10984f228b298aadc9410eb125a)), closes [#154](https://github.com/Zextras/carbonio-design-system/issues/154)
+
+
+### Bug Fixes
+
+* **RadioGroup:** trigger onChange in controlled mode only if radioGro… ([#152](https://github.com/Zextras/carbonio-design-system/issues/152)) ([c62124f](https://github.com/Zextras/carbonio-design-system/commit/c62124f79976498566653cb352bd7d554a14f608))
+
 ### [0.5.3](https://github.com/Zextras/carbonio-design-system/compare/v0.5.2...v0.5.3) (2022-12-20)
 
 
