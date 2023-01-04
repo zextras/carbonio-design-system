@@ -96,32 +96,34 @@ pipeline {
                 script {
                     def commitVersion = getCommitVersion();
                     if (commitVersion) {
-                        nodeCmd("npm run release -- --no-verify --release-as ${commitVersion}")
+                           echo "Run release with commitVersion ${commitVersion}"
+//                         nodeCmd("npm run release -- --no-verify --release-as ${commitVersion}")
                     } else {
-                        nodeCmd 'npm run release -- --no-verify'
+                            echo "Run release auto"
+//                         nodeCmd 'npm run release -- --no-verify'
                     }
                 }
-                script {
-                    sh(script: """#!/bin/bash
-                        git push --follow-tags origin HEAD:$BRANCH_NAME
-                        git push origin HEAD:refs/heads/version-bumper/v${getCurrentVersion()}
-                    """)
-                    withCredentials([usernameColonPassword(credentialsId: 'tarsier-bot-pr-token-github', variable: 'ZXBOT_TOKEN')]) {
-                        sh(script: """
-                            curl https://api.github.com/repos/$REPOSITORY_NAME/pulls \
-                            -X POST \
-                            -H 'Accept: application/vnd.github.v3+json' \
-                            -H 'Authorization: token ${ZXBOT_TOKEN}' \
-                            -d '{
-                                    \"title\": \"Bumped version ${getCurrentVersion()}\",
-                                    \"head\": \"version-bumper/v${getCurrentVersion()}\",
-                                    \"base\": \"devel\",
-                                    \"maintainer_can_modify\": true,
-                                    \"close_source_branch\": true
-                                }'
-                            """)
-                    }
-                }
+//                 script {
+//                     sh(script: """#!/bin/bash
+//                         git push --follow-tags origin HEAD:$BRANCH_NAME
+//                         git push origin HEAD:refs/heads/version-bumper/v${getCurrentVersion()}
+//                     """)
+//                     withCredentials([usernameColonPassword(credentialsId: 'tarsier-bot-pr-token-github', variable: 'ZXBOT_TOKEN')]) {
+//                         sh(script: """
+//                             curl https://api.github.com/repos/$REPOSITORY_NAME/pulls \
+//                             -X POST \
+//                             -H 'Accept: application/vnd.github.v3+json' \
+//                             -H 'Authorization: token ${ZXBOT_TOKEN}' \
+//                             -d '{
+//                                     \"title\": \"Bumped version ${getCurrentVersion()}\",
+//                                     \"head\": \"version-bumper/v${getCurrentVersion()}\",
+//                                     \"base\": \"devel\",
+//                                     \"maintainer_can_modify\": true,
+//                                     \"close_source_branch\": true
+//                                 }'
+//                             """)
+//                     }
+//                 }
             }
         }
 
