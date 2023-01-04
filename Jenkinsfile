@@ -42,6 +42,10 @@ def executeNpmLogin() {
     }
 }
 
+def getCommitVersion() {
+    return sh(script: 'git log -1 | grep \'version:\' | sed -n \'s/version://p\' ', returnStdout: true).trim()
+}
+
 pipeline {
     agent {
         node {
@@ -89,7 +93,14 @@ pipeline {
                 executeNpmLogin()
                 nodeCmd 'npm ci'
                 nodeCmd 'npx pinst --enable'
-                nodeCmd 'npm run release -- --no-verify'
+                script {
+                    def commitVersion = getCommitVersion();
+                    if (commitVersion) {
+                        nodeCmd("npm run release -- --no-verify --release-as ${commitVersion}")
+                    } else {
+                        nodeCmd 'npm run release -- --no-verify'
+                    }
+                }
                 script {
                     sh(script: """#!/bin/bash
                         git push --follow-tags origin HEAD:$BRANCH_NAME
