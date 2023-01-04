@@ -43,7 +43,7 @@ def executeNpmLogin() {
 }
 
 def getCommitVersion() {
-    return sh(script: 'git log -1 | grep \'version:\' | sed -n \'s/version://p\' ', returnStdout: true).trim()
+    return sh(script: 'git log -1 | grep \'version:\' | sed -n \'s/.*version:\\s*//p\' ', returnStdout: true).trim()
 }
 
 pipeline {
