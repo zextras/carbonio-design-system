@@ -155,11 +155,11 @@ export const Theme: ThemeObj = {
 			disabled: '#cfd5dc'
 		},
 		highlight: {
-			regular: '#d5e3f6',
-			hover: '#abc7ed',
-			active: '#96b8e8',
-			focus: '#abc7ed',
-			disabled: '#d5e3f6'
+			regular: '', // will be calculated programmatically
+			hover: '', // will be calculated programmatically
+			active: '', // will be calculated programmatically
+			focus: '', // will be calculated programmatically
+			disabled: '' // will be calculated programmatically
 		},
 		gray0: {
 			regular: '#414141',
