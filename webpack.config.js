@@ -5,7 +5,6 @@
  */
 
 /* eslint-disable @typescript-eslint/no-var-requires */
-const CopyPlugin = require('copy-webpack-plugin');
 const path = require('path');
 const webpack = require('webpack');
 
@@ -13,7 +12,6 @@ const webpack = require('webpack');
 const supportedLocales = ['en-US', 'es', 'pt-BR', 'ru'];
 
 module.exports = {
-	mode: 'development',
 	devtool: 'source-map',
 	entry: './src/index.js',
 	resolve: {
@@ -31,15 +29,19 @@ module.exports = {
 				test: /\.[jt]sx?$/,
 				exclude: /node_modules/,
 				loader: 'babel-loader'
+			},
+			{
+				test: /\.(woff(2)?|ttf|eot|svg)$/,
+				type: 'asset/resource',
+				generator: {
+					filename: 'fonts/[base]'
+				}
 			}
 		]
 	},
 	plugins: [
 		new webpack.ProvidePlugin({
 			process: 'process/browser'
-		}),
-		new CopyPlugin({
-			patterns: [{ from: path.resolve(__dirname, './src/fonts/'), to: 'fonts' }]
 		}),
 		new webpack.ContextReplacementPlugin(
 			/^date-fns[/\\]locale$/,

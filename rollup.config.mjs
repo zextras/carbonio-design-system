@@ -4,12 +4,22 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import babel from '@rollup/plugin-babel';
+import { babel } from '@rollup/plugin-babel';
 import commonjs from '@rollup/plugin-commonjs';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
-import copy from 'rollup-plugin-copy';
+import url from 'rollup-plugin-url';
 
 const plugins = [
+	url({
+		include: [
+			'**/fonts/**/*.woff',
+			'**/fonts/**/*.woff2',
+			'**/fonts/**/*.ttf',
+			'**/fonts/**/*.eot',
+			'**/fonts/**/*.svg'
+		],
+		limit: Infinity
+	}),
 	nodeResolve({
 		extensions: ['.js', '.jsx', '.ts', '.tsx']
 	}),
@@ -32,12 +42,7 @@ export default [
 			file: 'dist/zapp-ui.bundle.js',
 			format: 'cjs'
 		},
-		plugins: [
-			...plugins,
-			copy({
-				targets: [{ src: 'src/fonts/*', dest: 'dist/fonts' }]
-			})
-		],
+		plugins,
 		external
 	}
 ];

@@ -16,7 +16,7 @@
 /.eslintrc.js
 /.prettierrc.js
 /commitlint.config.js
-/rollup.config.js
+/rollup.config.mjs
 /.github
 /LICENSES
 tsconfig.json
