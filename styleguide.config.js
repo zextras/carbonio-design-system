@@ -3,10 +3,9 @@
  *
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+/* eslint-disable @typescript-eslint/no-var-requires */
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const path = require('path');
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const propsParser = require('react-docgen-typescript');
 
 module.exports = {
@@ -119,7 +118,5 @@ module.exports = {
 		}
 	],
 	pagePerSection: true,
-	theme: {
-		color: {}
-	}
+	theme: './styleguide.theme.js'
 };
