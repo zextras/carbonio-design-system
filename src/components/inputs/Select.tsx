@@ -6,7 +6,7 @@
 
 import React, { useState, useMemo, useCallback, useReducer, useEffect, Reducer } from 'react';
 
-import { some, isEmpty, isEqual, xorWith } from 'lodash';
+import { some, isEmpty, isEqual } from 'lodash';
 import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-components';
 
 import { getColor } from '../../theme/theme-utils';
@@ -273,18 +273,16 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps>(function SelectFn(
 	},
 	ref
 ) {
-	const _selection = defaultSelection ?? selection;
 	const [selected, dispatchSelected] = useReducer<
 		Reducer<SelectItem[], SelectReducerAction>,
 		SelectItem[]
-	>(selectedReducer, initialValue(_selection), (initial) => initial);
+	>(selectedReducer, initialValue(defaultSelection ?? selection), (initial) => initial);
 	const [open, setOpen] = useState(false);
 	const [focus, setFocus] = useState(false);
 
 	const clickItemHandler = useCallback(
 		(item: SelectItem, isSelected: boolean) => (): void => {
 			if (multiple && isSelected) {
-				console.log('@@@ remove');
 				dispatchSelected({
 					type: SELECT_ACTION.REMOVE,
 					item,
@@ -292,7 +290,6 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps>(function SelectFn(
 					multiple: true
 				});
 			} else if (multiple) {
-				console.log('@@@ push');
 				dispatchSelected({
 					type: SELECT_ACTION.PUSH,
 					item,
@@ -300,7 +297,6 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps>(function SelectFn(
 					multiple: true
 				});
 			} else if (isEmpty(selected) || item.value !== selected[0].value) {
-				console.log('@@@ push', item.value, selected?.[0]?.value);
 				dispatchSelected({
 					type: SELECT_ACTION.PUSH,
 					item,
@@ -337,14 +333,12 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps>(function SelectFn(
 	const toggleSelectAll = useCallback(
 		(isSelected: boolean) => (): void => {
 			if (isSelected) {
-				console.log('@@@ reset');
 				dispatchSelected({
 					type: SELECT_ACTION.RESET,
 					onChange: onChange as MultipleSelectionOnChange,
 					multiple: true
 				});
 			} else {
-				console.log('@@@ select all');
 				dispatchSelected({
 					type: SELECT_ACTION.SELECT_ALL,
 					items,
@@ -382,9 +376,7 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps>(function SelectFn(
 	useEffect(() => {
 		if (selection) {
 			if (multiple && selection instanceof Array) {
-				const diff = xorWith(selected, selection, isEqual)?.length;
-				if (diff && diff > 0) {
-					console.log('@@@ set', selection, selected);
+				if (!isEqual(selected, selection)) {
 					dispatchSelected({
 						type: SELECT_ACTION.SET,
 						items: selection,
@@ -397,7 +389,6 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps>(function SelectFn(
 				!(selection instanceof Array) &&
 				selection?.value !== selected?.[0]?.value
 			) {
-				console.log('@@@ set', selection, selected);
 				dispatchSelected({
 					type: SELECT_ACTION.SET,
 					item: selection as SelectItem,
