@@ -6,7 +6,7 @@
 
 import React, { useState, useMemo, useCallback, useReducer, useEffect, Reducer } from 'react';
 
-import { some, isEmpty } from 'lodash';
+import { some, isEmpty, isEqual, xorWith } from 'lodash';
 import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-components';
 
 import { getColor } from '../../theme/theme-utils';
@@ -131,8 +131,8 @@ const SELECT_ACTION = {
 } as const;
 
 type SelectReducerAction =
-	| { multiple?: false; item: SelectItem }
-	| ({ multiple: true } & (
+	| { multiple?: false; item: SelectItem; onChange: SingleSelectionOnChange }
+	| ({ multiple: true; onChange: MultipleSelectionOnChange } & (
 			| { type: typeof SELECT_ACTION.PUSH | typeof SELECT_ACTION.REMOVE; item: SelectItem }
 			| { type: typeof SELECT_ACTION.SELECT_ALL; items: SelectItem[] }
 			| { type: typeof SELECT_ACTION.RESET }
@@ -151,22 +151,32 @@ const initialValue = (value: SelectItem | SelectItem[] | undefined): SelectItem[
 
 function selectedReducer(state: SelectItem[], action: SelectReducerAction): SelectItem[] {
 	if (!action.multiple) {
-		return action.item ? [action.item] : [];
+		const value = action.item ? [action.item] : [];
+		action.onChange(action.item.value);
+		return value;
 	}
 	switch (action.type) {
 		case SELECT_ACTION.PUSH: {
-			return [...state, { ...action.item }];
+			const value = [...state, { ...action.item }];
+			action.onChange(value);
+			return value;
 		}
 		case SELECT_ACTION.REMOVE: {
-			return state.filter((obj) => obj.value !== action.item.value);
+			const value = state.filter((obj) => obj.value !== action.item.value);
+			action.onChange(value);
+			return value;
 		}
 		case SELECT_ACTION.SELECT_ALL: {
-			return [...action.items];
+			const value = [...action.items];
+			action.onChange(value);
+			return value;
 		}
 		case SELECT_ACTION.RESET: {
+			action.onChange([]);
 			return [];
 		}
 		case SELECT_ACTION.SET: {
+			action.onChange(action.items);
 			return action.items;
 		}
 		default:
@@ -263,69 +273,43 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps>(function SelectFn(
 	},
 	ref
 ) {
+	const _selection = defaultSelection ?? selection;
 	const [selected, dispatchSelected] = useReducer<
 		Reducer<SelectItem[], SelectReducerAction>,
 		SelectItem[]
-	>(selectedReducer, initialValue(defaultSelection ?? selection), (initial) => initial);
+	>(selectedReducer, initialValue(_selection), (initial) => initial);
 	const [open, setOpen] = useState(false);
 	const [focus, setFocus] = useState(false);
-
-	useEffect(() => {
-		if (selection) {
-			if (multiple) {
-				if (selection instanceof Array) {
-					dispatchSelected({
-						multiple: true,
-						items: selection,
-						type: SELECT_ACTION.SET
-					});
-				}
-			} else if (!(selection instanceof Array)) {
-				dispatchSelected({
-					multiple: false,
-					item: selection
-				});
-			}
-		}
-	}, [multiple, selection]);
-
-	useEffect(() => {
-		if (multiple) {
-			(onChange as MultipleSelectionOnChange)?.(selected);
-		} else {
-			(onChange as SingleSelectionOnChange)?.(selected[0]?.value ?? null);
-		}
-		/* ********************************************************************************************************************** *
-		 * todo: keep onChange out from the dependencies! It will not behave as expected and may cause memory leaks.              *
-		 * Do not remove eslint react-hooks/exhaustive-deps for the above reason. Make sure to double check all dependencies.     *
-		 * A revision/refactoring of the Select component is highly recommended in order to fix this unexpected behaviour.        *
-		 * ********************************************************************************************************************** */
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [selected, multiple]);
 
 	const clickItemHandler = useCallback(
 		(item: SelectItem, isSelected: boolean) => (): void => {
 			if (multiple && isSelected) {
+				console.log('@@@ remove');
 				dispatchSelected({
 					type: SELECT_ACTION.REMOVE,
 					item,
+					onChange: onChange as MultipleSelectionOnChange,
 					multiple: true
 				});
 			} else if (multiple) {
+				console.log('@@@ push');
 				dispatchSelected({
 					type: SELECT_ACTION.PUSH,
 					item,
+					onChange: onChange as MultipleSelectionOnChange,
 					multiple: true
 				});
 			} else if (isEmpty(selected) || item.value !== selected[0].value) {
+				console.log('@@@ push', item.value, selected?.[0]?.value);
 				dispatchSelected({
 					type: SELECT_ACTION.PUSH,
 					item,
+					onChange: onChange as SingleSelectionOnChange,
 					multiple: false
 				});
 			}
 		},
-		[multiple, selected]
+		[multiple, onChange, selected]
 	);
 
 	const mappedItems = useMemo(
@@ -353,19 +337,23 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps>(function SelectFn(
 	const toggleSelectAll = useCallback(
 		(isSelected: boolean) => (): void => {
 			if (isSelected) {
+				console.log('@@@ reset');
 				dispatchSelected({
 					type: SELECT_ACTION.RESET,
+					onChange: onChange as MultipleSelectionOnChange,
 					multiple: true
 				});
 			} else {
+				console.log('@@@ select all');
 				dispatchSelected({
 					type: SELECT_ACTION.SELECT_ALL,
 					items,
+					onChange: onChange as MultipleSelectionOnChange,
 					multiple: true
 				});
 			}
 		},
-		[items]
+		[items, onChange]
 	);
 
 	const multipleMappedItems = useMemo(() => {
@@ -390,6 +378,35 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps>(function SelectFn(
 		toggleSelectAll,
 		mappedItems
 	]);
+
+	useEffect(() => {
+		if (selection) {
+			if (multiple && selection instanceof Array) {
+				const diff = xorWith(selected, selection, isEqual)?.length;
+				if (diff && diff > 0) {
+					console.log('@@@ set', selection, selected);
+					dispatchSelected({
+						type: SELECT_ACTION.SET,
+						items: selection,
+						onChange: onChange as MultipleSelectionOnChange,
+						multiple: true
+					});
+				}
+			} else if (
+				!multiple &&
+				!(selection instanceof Array) &&
+				selection?.value !== selected?.[0]?.value
+			) {
+				console.log('@@@ set', selection, selected);
+				dispatchSelected({
+					type: SELECT_ACTION.SET,
+					item: selection as SelectItem,
+					onChange: onChange as SingleSelectionOnChange,
+					multiple: false
+				});
+			}
+		}
+	}, [multiple, onChange, selected, selection]);
 
 	return (
 		<Dropdown
@@ -422,4 +439,11 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps>(function SelectFn(
 	);
 });
 
-export { Select, SelectProps, SelectItem, LabelFactoryProps };
+export {
+	Select,
+	SelectProps,
+	SelectItem,
+	LabelFactoryProps,
+	MultipleSelectionOnChange,
+	SingleSelectionOnChange
+};

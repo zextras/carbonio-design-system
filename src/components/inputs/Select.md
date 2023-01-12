@@ -46,12 +46,16 @@ const items = [
 	}
 ];
 const [selected, setSelected] = useState(4);
+const onChange = (ev) => {
+    console.log(ev);
+    setSelected(ev);
+};
 <>
 	<Select
 		items={items}
 		background="gray5"
 		label="Select an item"
-		onChange={setSelected}
+		onChange={onChange}
 		defaultSelection={{ value: '4', label: 'goodnight' }}
 	/>
 	<Text>Currently selected: {items[selected - 1].label}</Text>
@@ -244,14 +248,17 @@ const items = [
 	}
 ];
 const [selected, setSelected] = useState(4);
-
+const onChange = (ev) => {
+    console.log(ev);
+    setSelected(ev);
+};
 <>
 	<Button type="outlined" label="Button" color="error" onClick={() => setSelected(2)} />
 	<Select
 		items={items}
 		background="gray5"
 		label="Select an item"
-		onChange={setSelected}
+		onChange={onChange}
 		selection={items[selected - 1]}
 	/>
 	<Text>Currently selected: {items[selected - 1].label}</Text>
@@ -343,7 +350,8 @@ const onC = (v) => {
 };
 
 <>
-	<Button type="outlined" label="Button" color="error" onClick={() => setSelected([items[1]])} />
+	<Button type="outlined" label="Select one" color="error" onClick={() => setSelected([items[1]])} />
+    <Button type="outlined" label="Select all" color="error" onClick={() => setSelected(items)} />
 	<Select
 		items={items}
 		background="gray5"

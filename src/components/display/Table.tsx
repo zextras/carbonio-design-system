@@ -21,7 +21,7 @@ import styled, { css, SimpleInterpolation } from 'styled-components';
 import { Icon } from '../basic/Icon';
 import { Text } from '../basic/Text';
 import { Checkbox } from '../inputs/Checkbox';
-import { Select, SelectItem, SelectProps } from '../inputs/Select';
+import { MultipleSelectionOnChange, Select, SelectProps } from '../inputs/Select';
 import { Container } from '../layout/Container';
 import { Row } from '../layout/Row';
 
@@ -384,7 +384,7 @@ type THeader = {
 	/** Whether the label should be bold */
 	bold?: boolean;
 	/** De/Select all rows callback */
-	onChange: (value: Array<SelectItem>) => void;
+	onChange: MultipleSelectionOnChange;
 };
 
 interface TableProps extends HTMLAttributes<HTMLDivElement> {
