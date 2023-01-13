@@ -6,7 +6,7 @@
 
 import React, { useState, useMemo, useCallback, useReducer, useEffect, Reducer } from 'react';
 
-import { some, isEmpty, isEqual } from 'lodash';
+import { some, isEmpty, isNil } from 'lodash';
 import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-components';
 
 import { getColor } from '../../theme/theme-utils';
@@ -129,14 +129,19 @@ const SELECT_ACTION = {
 	RESET: 'reset',
 	SET: 'set'
 } as const;
-
 type SelectReducerAction =
-	| { multiple?: false; item: SelectItem; onChange: SingleSelectionOnChange }
-	| ({ multiple: true; onChange: MultipleSelectionOnChange } & (
-			| { type: typeof SELECT_ACTION.PUSH | typeof SELECT_ACTION.REMOVE; item: SelectItem }
+	| ({ multiple?: false; onChange: SingleSelectionOnChange; isControlled: boolean } & {
+			type: typeof SELECT_ACTION.PUSH | typeof SELECT_ACTION.REMOVE | typeof SELECT_ACTION.SET;
+			item: SelectItem;
+	  })
+	| ({ multiple: true; onChange: MultipleSelectionOnChange; isControlled: boolean } & (
 			| { type: typeof SELECT_ACTION.SELECT_ALL; items: SelectItem[] }
 			| { type: typeof SELECT_ACTION.RESET }
 			| { type: typeof SELECT_ACTION.SET; items: SelectItem[] }
+			| {
+					type: typeof SELECT_ACTION.PUSH | typeof SELECT_ACTION.REMOVE;
+					item: SelectItem;
+			  }
 	  ));
 
 const initialValue = (value: SelectItem | SelectItem[] | undefined): SelectItem[] => {
@@ -150,34 +155,41 @@ const initialValue = (value: SelectItem | SelectItem[] | undefined): SelectItem[
 };
 
 function selectedReducer(state: SelectItem[], action: SelectReducerAction): SelectItem[] {
+	if (action.type === SELECT_ACTION.SET) {
+		if (action.multiple) {
+			return action.items;
+		}
+		return [action.item];
+	}
 	if (!action.multiple) {
 		const value = action.item ? [action.item] : [];
+		console.log('@@@ DS onChange anyAction single value');
 		action.onChange(action.item.value);
-		return value;
+		return action.isControlled ? state : value;
 	}
 	switch (action.type) {
 		case SELECT_ACTION.PUSH: {
 			const value = [...state, { ...action.item }];
+			console.log('@@@ DS onChange push multiple value');
 			action.onChange(value);
-			return value;
+			return action.isControlled ? state : value;
 		}
 		case SELECT_ACTION.REMOVE: {
+			console.log('@@@ DS onChange remove multiple value');
 			const value = state.filter((obj) => obj.value !== action.item.value);
 			action.onChange(value);
-			return value;
+			return action.isControlled ? state : value;
 		}
 		case SELECT_ACTION.SELECT_ALL: {
+			console.log('@@@ DS onChange selectAll multiple value');
 			const value = [...action.items];
 			action.onChange(value);
-			return value;
+			return action.isControlled ? state : value;
 		}
 		case SELECT_ACTION.RESET: {
+			console.log('@@@ DS onChange reset multiple value');
 			action.onChange([]);
-			return [];
-		}
-		case SELECT_ACTION.SET: {
-			action.onChange(action.items);
-			return action.items;
+			return action.isControlled ? state : [];
 		}
 		default:
 			throw new Error();
@@ -280,6 +292,7 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps>(function SelectFn(
 	const [open, setOpen] = useState(false);
 	const [focus, setFocus] = useState(false);
 
+	const isControlled = !isNil(selection);
 	const clickItemHandler = useCallback(
 		(item: SelectItem, isSelected: boolean) => (): void => {
 			if (multiple && isSelected) {
@@ -287,25 +300,28 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps>(function SelectFn(
 					type: SELECT_ACTION.REMOVE,
 					item,
 					onChange: onChange as MultipleSelectionOnChange,
-					multiple: true
+					multiple: true,
+					isControlled
 				});
 			} else if (multiple) {
 				dispatchSelected({
 					type: SELECT_ACTION.PUSH,
 					item,
 					onChange: onChange as MultipleSelectionOnChange,
-					multiple: true
+					multiple: true,
+					isControlled
 				});
 			} else if (isEmpty(selected) || item.value !== selected[0].value) {
 				dispatchSelected({
 					type: SELECT_ACTION.PUSH,
 					item,
 					onChange: onChange as SingleSelectionOnChange,
-					multiple: false
+					multiple: false,
+					isControlled
 				});
 			}
 		},
-		[multiple, onChange, selected]
+		[isControlled, multiple, onChange, selected]
 	);
 
 	const mappedItems = useMemo(
@@ -336,18 +352,20 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps>(function SelectFn(
 				dispatchSelected({
 					type: SELECT_ACTION.RESET,
 					onChange: onChange as MultipleSelectionOnChange,
-					multiple: true
+					multiple: true,
+					isControlled
 				});
 			} else {
 				dispatchSelected({
 					type: SELECT_ACTION.SELECT_ALL,
 					items,
 					onChange: onChange as MultipleSelectionOnChange,
-					multiple: true
+					multiple: true,
+					isControlled
 				});
 			}
 		},
-		[items, onChange]
+		[isControlled, items, onChange]
 	);
 
 	const multipleMappedItems = useMemo(() => {
@@ -376,28 +394,28 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps>(function SelectFn(
 	useEffect(() => {
 		if (selection) {
 			if (multiple && selection instanceof Array) {
-				if (!isEqual(selected, selection)) {
-					dispatchSelected({
-						type: SELECT_ACTION.SET,
-						items: selection,
-						onChange: onChange as MultipleSelectionOnChange,
-						multiple: true
-					});
-				}
-			} else if (
-				!multiple &&
-				!(selection instanceof Array) &&
-				selection?.value !== selected?.[0]?.value
-			) {
+				dispatchSelected({
+					type: SELECT_ACTION.SET,
+					items: selection,
+					onChange: onChange as MultipleSelectionOnChange,
+					multiple: true,
+					isControlled
+				});
+			} else if (!multiple && !(selection instanceof Array)) {
 				dispatchSelected({
 					type: SELECT_ACTION.SET,
 					item: selection as SelectItem,
 					onChange: onChange as SingleSelectionOnChange,
-					multiple: false
+					multiple: false,
+					isControlled
 				});
 			}
 		}
-	}, [multiple, onChange, selected, selection]);
+	}, [isControlled, multiple, onChange, selection]);
+
+	useEffect(() => {
+		console.log('@@@ DS select current value is: ', selected);
+	}, [selected]);
 
 	return (
 		<Dropdown
