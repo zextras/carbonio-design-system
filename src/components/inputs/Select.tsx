@@ -163,31 +163,26 @@ function selectedReducer(state: SelectItem[], action: SelectReducerAction): Sele
 	}
 	if (!action.multiple) {
 		const value = action.item ? [action.item] : [];
-		console.log('@@@ DS onChange anyAction single value');
 		action.onChange(action.item.value);
 		return action.isControlled ? state : value;
 	}
 	switch (action.type) {
 		case SELECT_ACTION.PUSH: {
 			const value = [...state, { ...action.item }];
-			console.log('@@@ DS onChange push multiple value');
 			action.onChange(value);
 			return action.isControlled ? state : value;
 		}
 		case SELECT_ACTION.REMOVE: {
-			console.log('@@@ DS onChange remove multiple value');
 			const value = state.filter((obj) => obj.value !== action.item.value);
 			action.onChange(value);
 			return action.isControlled ? state : value;
 		}
 		case SELECT_ACTION.SELECT_ALL: {
-			console.log('@@@ DS onChange selectAll multiple value');
 			const value = action.items.filter((obj) => !obj.disabled);
 			action.onChange(value);
 			return action.isControlled ? state : value;
 		}
 		case SELECT_ACTION.RESET: {
-			console.log('@@@ DS onChange reset multiple value');
 			action.onChange([]);
 			return action.isControlled ? state : [];
 		}
@@ -405,10 +400,6 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps>(function SelectFn(
 			}
 		}
 	}, [isControlled, multiple, onChange, selection]);
-
-	useEffect(() => {
-		console.log('@@@ DS select current value is: ', selected);
-	}, [selected]);
 
 	return (
 		<Dropdown
