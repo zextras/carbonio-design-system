@@ -7,7 +7,7 @@
 import { useContext } from 'react';
 
 import { reduce } from 'lodash';
-import { darken, desaturate, lighten, parseToHsl, setLightness, toColorString } from 'polished';
+import { darken, lighten, parseToHsl, setLightness, toColorString } from 'polished';
 import { HslColor } from 'polished/lib/types/color';
 import { css, DefaultTheme, FlattenSimpleInterpolation, ThemeContext } from 'styled-components';
 
@@ -39,7 +39,7 @@ const colorsSet: ColorSet = {
 		hover: (color) => darken(0.1, color),
 		focus: (color) => darken(0.1, color),
 		active: (color) => darken(0.15, color),
-		disabled: (color) => desaturate(0.3, darken(0.3, color))
+		disabled: (color) => setLightness(0.8, color)
 	},
 	dark: {
 		regular: (color) => color,
