@@ -151,7 +151,7 @@ export default {
 	// ],
 
 	// An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
-	testPathIgnorePatterns: ['/node_modules/']
+	testPathIgnorePatterns: ['/node_modules/'],
 
 	// The regexp pattern or array of patterns that Jest uses to detect test files
 	// testRegex: [],
@@ -169,9 +169,11 @@ export default {
 	// timers: "real",
 
 	// A map from regular expressions to paths to transformers
-	// "transform": {
-	//   "^.+\\.[t|j]sx?$": "babel-jest"
-	// },
+	transform: {
+		'^.+\\.[t|j]sx?$': ['babel-jest', { configFile: './babel.config.js' }],
+		'\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$':
+			'<rootDir>/src/testUtils/fileTransformer.js'
+	}
 
 	// An array of regexp pattern strings that are matched against all source file paths, matched files will skip transformation
 	// transformIgnorePatterns: [
