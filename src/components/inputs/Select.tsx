@@ -182,7 +182,7 @@ function selectedReducer(state: SelectItem[], action: SelectReducerAction): Sele
 		}
 		case SELECT_ACTION.SELECT_ALL: {
 			console.log('@@@ DS onChange selectAll multiple value');
-			const value = [...action.items];
+			const value = action.items.filter((obj) => !obj.disabled);
 			action.onChange(value);
 			return action.isControlled ? state : value;
 		}
@@ -370,7 +370,8 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps>(function SelectFn(
 
 	const multipleMappedItems = useMemo(() => {
 		if (!multiple) return [];
-		const isSelected = selected.length === items.length;
+		const selectableItems = items.filter((obj) => !obj.disabled);
+		const isSelected = selected.length === selectableItems.length;
 		return [
 			{
 				id: 'all',
@@ -381,15 +382,7 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps>(function SelectFn(
 			},
 			...mappedItems
 		];
-	}, [
-		multiple,
-		selected.length,
-		items.length,
-		i18nAllLabel,
-		showCheckbox,
-		toggleSelectAll,
-		mappedItems
-	]);
+	}, [multiple, items, selected.length, i18nAllLabel, showCheckbox, toggleSelectAll, mappedItems]);
 
 	useEffect(() => {
 		if (selection) {
