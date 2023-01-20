@@ -140,6 +140,7 @@ function PopperListItem({
 	return (
 		<ContainerEl
 			ref={itemRef}
+			data-testid={label}
 			data-keep-open={keepOpen}
 			className={selected ? 'zapp-selected' : ''}
 			orientation="horizontal"

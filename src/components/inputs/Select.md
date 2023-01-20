@@ -12,8 +12,9 @@ The dropdown menu and the items are rendered like [Dropdown](#/Components/Primit
 **Single selection - uncontrolled mode - no default selection**
 
 ```jsx
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Input, Text, Container, Icon } from '@zextras/carbonio-design-system';
+import { find } from 'lodash';
 const items = [
 	{
 		label: 'hi',
@@ -48,10 +49,14 @@ const items = [
 	}
 ];
 const [selected, setSelected] = useState();
-const onChange = (ev) => {
-    console.log(ev);
-    setSelected(ev);
+const onChange = (newValue) => {
+    console.log(newValue);
+    setSelected(newValue);
 };
+const selectedLabel = useMemo(() => {
+    const item = find(items, ['value', selected]);
+    return item ? item.label : 'no selection';
+}, [selected]);
 <>
 	<Select
 		items={items}
@@ -59,69 +64,17 @@ const onChange = (ev) => {
 		label="Select an item"
 		onChange={onChange}
 	/>
-    <Text>Currently selected: {selected ? items[selected - 1].label : 'no selection'}</Text>
+    <Text>Currently selected: {selectedLabel}</Text>
 </>;
 ```
 
 **Single selection - uncontrolled mode - default selection**
 
 ```jsx
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Input, Text, Container, Icon } from '@zextras/carbonio-design-system';
-const items = [
-	{
-		label: 'hi',
-		value: '1'
-	},
-	{
-		label: 'hello',
-		value: '2'
-	},
-	{
-		label: 'good day',
-		value: '3'
-	},
-	{
-		label: 'goodnight',
-		value: '4'
-	},
-	{
-		label: 'nothing',
-		value: '5',
-		disabled: true
-	},
-	{
-		label: 'custom',
-		value: '6',
-		customComponent: (
-			<Container width="fit" mainAlignment="flex-start" orientation="horizontal">
-				<Icon icon="People" color="primary" />
-				<Text weight="bold">Special Greeting</Text>
-			</Container>
-		)
-	}
-];
-const [selected, setSelected] = useState(4);
-const onChange = (ev) => {
-    console.log(ev);
-    setSelected(ev);
-};
-<>
-	<Select
-		items={items}
-		background="gray5"
-		label="Select an item"
-		onChange={onChange}
-        defaultSelection={items[selected - 1]}
-	/>
-    <Text>Currently selected: {selected ? items[selected - 1].label : 'no selection'}</Text>
-</>;
-```
-**Single selection - controlled mode - no default selection**
+import { find } from 'lodash';
 
-```jsx
-import { useState } from 'react';
-import { Input, Text, Container, Icon } from '@zextras/carbonio-design-system';
 const items = [
 	{
 		label: 'hi',
@@ -155,28 +108,34 @@ const items = [
 		)
 	}
 ];
-const [selected, setSelected] = useState();
-const onChange = (ev) => {
-    console.log(ev);
-    setSelected(items[ev - 1]);
+const [selected, setSelected] = useState('4');
+const onChange = (newValue) => {
+    console.log(newValue);
+    setSelected(newValue);
 };
+const selection = useMemo(() => {
+    return find(items, ['value', selected]);
+}, [selected, items]);
+const selectedLabel = useMemo(() => selection ? selection.label : 'no selection', [selection]);
 <>
 	<Select
 		items={items}
 		background="gray5"
 		label="Select an item"
 		onChange={onChange}
-        selection={selected}
+        defaultSelection={selection}
 	/>
-	<Text>Currently selected: {selected ? selected.label : 'no selection'}</Text>
+    <Text>Currently selected: {selectedLabel}</Text>
 </>;
 ```
 
-**Single selection - controlled mode - default selection**
+**Single selection - controlled mode**
 
 ```jsx
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Input, Text, Container, Icon } from '@zextras/carbonio-design-system';
+import { find } from 'lodash';
+
 const items = [
 	{
 		label: 'hi',
@@ -210,20 +169,24 @@ const items = [
 		)
 	}
 ];
-const [selected, setSelected] = useState(4);
-const onChange = (ev) => {
-    console.log(ev);
-    setSelected(items[ev - 1]);
+const [selected, setSelected] = useState('4');
+const onChange = (newValue) => {
+    console.log(newValue);
+    setSelected(newValue);
 };
+const selection = useMemo(() => {
+    return find(items, ['value', selected]);
+}, [selected]);
+const selectedLabel = useMemo(() => selection ? selection.label : 'no selection', [selection]);
 <>
 	<Select
 		items={items}
 		background="gray5"
 		label="Select an item"
 		onChange={onChange}
-        selection={items[selected - 1]}
+        selection={selection}
 	/>
-    <Text>Currently selected: {selected ? items[selected - 1].label : 'no selection'}</Text>
+    <Text>Currently selected: {selectedLabel}</Text>
 </>;
 ```
 

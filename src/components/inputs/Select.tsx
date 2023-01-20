@@ -6,7 +6,7 @@
 
 import React, { useState, useMemo, useCallback, useReducer, useEffect, Reducer } from 'react';
 
-import { some, isEmpty, isNil } from 'lodash';
+import { some, isEmpty, isNil, filter } from 'lodash';
 import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-components';
 
 import { getColor } from '../../theme/theme-utils';
@@ -173,12 +173,12 @@ function selectedReducer(state: SelectItem[], action: SelectReducerAction): Sele
 			return action.isControlled ? state : value;
 		}
 		case SELECT_ACTION.REMOVE: {
-			const value = state.filter((obj) => obj.value !== action.item.value);
+			const value = filter(state, (obj) => obj.value !== action.item.value);
 			action.onChange(value);
 			return action.isControlled ? state : value;
 		}
 		case SELECT_ACTION.SELECT_ALL: {
-			const value = action.items.filter((obj) => !obj.disabled);
+			const value = filter(action.items, (obj) => !obj.disabled);
 			action.onChange(value);
 			return action.isControlled ? state : value;
 		}
@@ -236,7 +236,7 @@ type UncontrolledMultipleSelection = {
 
 type ControlledMultipleSelection = {
 	multiple: true;
-	selection?: Array<SelectItem>;
+	selection: Array<SelectItem>;
 	defaultSelection?: never;
 	onChange: MultipleSelectionOnChange;
 };
@@ -250,7 +250,7 @@ type UncontrolledSingleSelection = {
 
 type ControlledSingleSelection = {
 	multiple?: false;
-	selection?: SelectItem;
+	selection: SelectItem;
 	defaultSelection?: never;
 	onChange: SingleSelectionOnChange;
 };
@@ -365,8 +365,9 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps>(function SelectFn(
 
 	const multipleMappedItems = useMemo(() => {
 		if (!multiple) return [];
-		const selectableItems = items.filter((obj) => !obj.disabled);
-		const isSelected = selected.length === selectableItems.length;
+		const selectableItems = filter(items, (obj) => !obj.disabled);
+		const alreadySelected = filter(selected, (obj) => !obj.disabled);
+		const isSelected = alreadySelected.length === selectableItems.length;
 		return [
 			{
 				id: 'all',
@@ -377,7 +378,7 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps>(function SelectFn(
 			},
 			...mappedItems
 		];
-	}, [multiple, items, selected.length, i18nAllLabel, showCheckbox, toggleSelectAll, mappedItems]);
+	}, [multiple, items, selected, i18nAllLabel, showCheckbox, toggleSelectAll, mappedItems]);
 
 	useEffect(() => {
 		if (selection) {
