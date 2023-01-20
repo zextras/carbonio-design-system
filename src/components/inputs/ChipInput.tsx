@@ -19,6 +19,7 @@ import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-component
 
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { useKeyboard, getKeyboardPreset, KeyboardPreset } from '../../hooks/useKeyboard';
+import { usePrevious } from '../../hooks/usePrevious';
 import { getColor, pseudoClasses } from '../../theme/theme-utils';
 import { Icon } from '../basic/Icon';
 import { Text, TextProps } from '../basic/Text';
@@ -680,6 +681,14 @@ const ChipInput: ChipInput = React.forwardRef<HTMLDivElement, ChipInputProps>(fu
 		() => !!maxChips && items.length >= maxChips,
 		[items.length, maxChips]
 	);
+
+	const previousInputDisabled = usePrevious<boolean>(inputDisabled);
+
+	useEffect(() => {
+		if (inputDisabled && !previousInputDisabled) {
+			setIsActive(false);
+		}
+	}, [previousInputDisabled, inputDisabled]);
 
 	// dropdown disabled does not depend on chipInput disabled, so that options can be still used
 	// even if input is disabled (chip can be added through dropdown but not typing)
