@@ -60,7 +60,13 @@ describe('Select', () => {
 			);
 			await userEvent.click(dropdownItem);
 
+			const selectedItemLabels = screen.getAllByText(extendedItems[0].label);
+
 			expect(onChange).not.toBeCalled();
+
+			expect(selectedItemLabels).toHaveLength(2);
+			expect(selectedItemLabels[0]).toBeVisible();
+			expect(selectedItemLabels[1]).toBeVisible();
 			expect(dropdownItem).toBeVisible();
 		});
 		describe('controlled mode', () => {
