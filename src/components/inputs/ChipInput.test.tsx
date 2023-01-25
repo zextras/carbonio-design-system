@@ -4,13 +4,14 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import reduce from 'lodash/reduce';
 
 import { render } from '../../test-utils';
-import { ChipInput, ChipItem } from './ChipInput';
+import { ChipInput, ChipInputProps, ChipItem } from './ChipInput';
 
 describe('ChipInput', () => {
 	test('render a chip input with a placeholder, two chips, an icon and a description', () => {
@@ -500,6 +501,135 @@ describe('ChipInput', () => {
 		expect(screen.getByText('olá')).toBeVisible();
 		expect(screen.getByTestId('icon: Close')).toBeVisible();
 		expect(inputElement).toBeDisabled();
+	});
+
+	test('if max chip number is reached, using dropdown options, input is disabled and label and placeholder are secondary colored. Then when input is reset label and placeholder remain colored of secondary and not of primary - CDS-115', () => {
+		const ControlledChipInput: React.VFC<{ forceReset?: boolean }> = ({ forceReset = false }) => {
+			const [value, setValue] = useState<Array<ChipItem>>([]);
+			useEffect(() => {
+				if (forceReset) {
+					setValue([]);
+				}
+			}, [forceReset]);
+			const [filterValue, setFilterValue] = useState<string | null>(null);
+
+			const itemTypeOnType = useCallback<NonNullable<ChipInputProps['onInputType']>>((ev) => {
+				if (ev.key.length === 1 || ev.key === 'Delete' || ev.key === 'Backspace') {
+					setFilterValue(ev.textContent);
+				}
+			}, []);
+
+			const itemTypeOnChange = useCallback<NonNullable<ChipInputProps['onChange']>>(
+				(newItemType) => {
+					setFilterValue(null);
+					setValue(newItemType);
+				},
+				[]
+			);
+
+			const dropdownItems = useMemo(() => {
+				if (value.length > 0) {
+					return [];
+				}
+				return reduce<
+					{ id: string; label: string; icon: string; value: string; avatarIcon: string },
+					NonNullable<ChipInputProps['options']>
+				>(
+					[
+						{
+							label: 'Folder',
+							id: 'Folder',
+							icon: 'FolderOutline',
+							value: 'Folder',
+							avatarIcon: 'Folder'
+						},
+						{
+							label: 'Document',
+							id: 'Document',
+							icon: 'FileTextOutline',
+							value: 'Text',
+							avatarIcon: 'FileText'
+						},
+						{
+							label: 'Spreadsheet',
+							id: 'Spreadsheet',
+							icon: 'FileCalcOutline',
+							value: 'Spreadsheet',
+							avatarIcon: 'FileCalc'
+						}
+					],
+					(accumulator, item) => {
+						if (
+							filterValue === null ||
+							item.label.toLowerCase().includes(filterValue.toLowerCase())
+						) {
+							accumulator.push({
+								icon: item.icon,
+								label: item.label,
+								id: `$${item.id}`,
+								value: { ...item }
+							});
+						}
+						return accumulator;
+					},
+					[]
+				);
+			}, [value.length, filterValue]);
+
+			return (
+				<>
+					<ChipInput
+						placeholder={'placeholder value'}
+						background="gray5"
+						confirmChipOnBlur={false}
+						value={value}
+						separators={['']}
+						disableOptions={false}
+						maxChips={1}
+						onChange={itemTypeOnChange}
+						onInputType={itemTypeOnType}
+						options={dropdownItems}
+						icon={'ChevronDown'}
+						singleSelection
+						requireUniqueChips
+						description={'description value'}
+					/>
+				</>
+			);
+		};
+
+		const { rerender } = render(<ControlledChipInput />);
+
+		userEvent.click(screen.getByTestId('icon: ChevronDown'));
+
+		const folderOption = screen.getByText('Folder');
+		expect(folderOption).toBeVisible();
+		userEvent.click(folderOption);
+
+		const inputElement = screen.getByRole('textbox');
+		expect(inputElement).toBeVisible();
+		expect(inputElement).toBeDisabled();
+
+		expect(screen.getByTestId('icon: Close')).toBeVisible();
+		const chipFolderIcon = screen.getByTestId('icon: Folder');
+		expect(chipFolderIcon).toBeVisible();
+
+		let placeholderLabel = screen.getByText('placeholder value');
+		expect(placeholderLabel).toHaveStyle('color: #828282');
+		let bottomDescription = screen.getByText('description value');
+		expect(bottomDescription).toHaveStyle(`color: #828282`);
+
+		// simulate reset with a forceReset because in tests onBlur event is triggered also when input is disabled
+		// FF and Chrome do not trigger onBlur event
+		rerender(<ControlledChipInput forceReset />);
+
+		expect(chipFolderIcon).not.toBeInTheDocument();
+		expect(screen.queryByTestId('icon: Close')).not.toBeInTheDocument();
+
+		placeholderLabel = screen.getByText('placeholder value');
+		bottomDescription = screen.getByText('description value');
+		expect(bottomDescription).toHaveStyle(`color: #828282`);
+		expect(placeholderLabel).toHaveStyle('color: #828282');
 	});
 
 	test('onInputType callback is called asynchronously and arg includes text content', async () => {
