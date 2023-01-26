@@ -17,7 +17,7 @@ import React, {
 
 import styled, { css, SimpleInterpolation } from 'styled-components';
 
-import { NonEmptyArray } from '../../typeUtils';
+import { NonEmptyArray, SingleItemArray } from '../../typeUtils';
 import { Icon } from '../basic/Icon';
 import { Text } from '../basic/Text';
 import { Checkbox } from '../inputs/Checkbox';
@@ -401,7 +401,7 @@ type ControlledTableProps = {
 } & (
 	| {
 			/** Array of the selected rows (Array of rows ids). To use only if you want the table to be in controlled mode. */
-			selectedRows: [string] | [];
+			selectedRows: SingleItemArray<string>;
 			/** Whether multiple rows are selectable. */
 			multiSelect: false;
 	  }
@@ -418,7 +418,7 @@ type UncontrolledTableProps = {
 } & (
 	| {
 			/** Row selected by default in the table (Array of rows ids). */
-			defaultSelection?: [string] | [];
+			defaultSelection?: SingleItemArray<string>;
 			/** Whether multiple rows are selectable. */
 			multiSelect: false;
 	  }
