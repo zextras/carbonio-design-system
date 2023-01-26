@@ -15,7 +15,7 @@
 /.svgrrc
 /.eslintrc.js
 /.prettierrc.js
-/commitlint.config.js
+/commitlint.config.ts
 /rollup.config.mjs
 /.github
 /LICENSES
