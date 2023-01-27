@@ -203,7 +203,7 @@ const DefaultHeaderFactory: React.VFC<THeaderProps> = ({
 			<th align="center">
 				{showCheckbox && multiSelect && (showCkb || selectionMode || allSelected) && (
 					<Checkbox
-						size={'medium'}
+						size={'small'}
 						value={allSelected}
 						onClick={onChange}
 						iconColor={selectionMode ? 'primary' : 'text'}
@@ -306,7 +306,7 @@ const DefaultRowFactory: React.VFC<TRowProps> = ({
 				{showCheckbox && (showCkb || selected || (multiSelect && selectionMode)) ? (
 					<Checkbox
 						ref={ckbRef}
-						size={'medium'}
+						size={'small'}
 						value={selected}
 						onClick={_onChange}
 						iconColor={(multiSelect && selectionMode) || selected ? 'primary' : 'text'}
