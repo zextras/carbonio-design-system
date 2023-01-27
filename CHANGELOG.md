@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.1](https://github.com/Zextras/carbonio-design-system/compare/v1.0.0...v1.0.1) (2023-01-27)
+
+
+### Bug Fixes
+
+* change algorithm to generate disabled variant of the color set ([2e41b71](https://github.com/Zextras/carbonio-design-system/commit/2e41b71ded3779d709fa450c4bad1f69426a6a6d)), closes [#160](https://github.com/Zextras/carbonio-design-system/issues/160)
+* change how the fonts are imported and bundled ([458519c](https://github.com/Zextras/carbonio-design-system/commit/458519cbd9572d8a514c840b9206109055e905ec)), closes [#159](https://github.com/Zextras/carbonio-design-system/issues/159)
+* force isActive to false when chips limit is reached ([49de2a1](https://github.com/Zextras/carbonio-design-system/commit/49de2a1dbfdf728a0216b1c580542de109de9318)), closes [#161](https://github.com/Zextras/carbonio-design-system/issues/161)
+* **Select:** mutual exclusive props for controlled and uncontrolled mode ([80d53d0](https://github.com/Zextras/carbonio-design-system/commit/80d53d0e7622799d6f8766ed6a1cde90ad8a1601)), closes [#153](https://github.com/Zextras/carbonio-design-system/issues/153)
+
 ## [1.0.0](https://github.com/Zextras/carbonio-design-system/compare/v0.5.3...v1.0.0) (2023-01-04)
 
 
