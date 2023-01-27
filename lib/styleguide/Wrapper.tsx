@@ -12,5 +12,5 @@ export default function Wrapper({
 }: {
 	children?: React.ReactNode | React.ReactNode[];
 }): JSX.Element {
-	return <ThemeProvider>{children}</ThemeProvider>;
+	return <ThemeProvider loadDefaultFont>{children}</ThemeProvider>;
 }
