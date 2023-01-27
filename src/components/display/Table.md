@@ -9,25 +9,25 @@ The Table component can be used to list long lists.
 Each element of *headers* property represent a column in the head section of the table.
 If *items* is provided the column will render the *label* provided as a **Select** component, otherwise as a string.
 
-The *HeaderFactory* is responsible of rendering the head of the Table and it receives these parameters:
+The *HeaderFactory* is responsible for rendering the head of the Table, and it receives these parameters:
 
-- items: array - Each item of items represent a column of the header
+- items: array - Each item of items represents a column of the header
 - onChange: func - Callback of select all rows
-- allSelected: bool - Whether or not all elements of the table are selected
-- selectionMode: bool - Whether or not the table is in selection mode
-- multiSelect: bool - Whether or not multiple rows are selectable
+- allSelected: bool - Whether all elements of the table are selected
+- selectionMode: bool - Whether the table is in selection mode
+- multiSelect: bool - Whether multiple rows are selectable
 
-The *RowFactory* is responsible of rendering a single row of table and it receives these parameters:
+The *RowFactory* is responsible for rendering a single row of table, and it receives these parameters:
 
-- index: int - Index of the row, starting from 1
+- index: int - Index of the row, starting from 1 if not specified in the row item itself
 - item: object - Object representing the row
 - onChange: func - callback of row selection
-- selected: bool - Whether or not the row is selected
-- selectionMode: bool - Whether or not the table is in selection mode
-- clickable: bool - Whether or not the row is clickable
-- multiSelect: bool - Whether or not multiple rows are selectable
+- selected: bool - Whether the row is selected
+- selectionMode: bool - Whether the table is in selection mode
+- clickable: bool - Whether the row is clickable
+- multiSelect: bool - Whether multiple rows are selectable
 
-```jsx
+```tsx
 import { useState } from 'react';
 import { Button, Container, Icon, Padding, Row, Text, Tooltip } from '@zextras/carbonio-design-system';
 
@@ -219,7 +219,7 @@ const items = [
     />
 </>
 ```
-### Hide checkboxes
+### Hide checkboxes and show custom indexes
 ```jsx  
 import { useState } from 'react';
 import { Button, Container, Icon, Padding, Row, Text, Tooltip } from '@zextras/carbonio-design-system';
@@ -278,23 +278,27 @@ const items = [
     columns: ["30 nov 2020, 06:01 AM", "Servernamerverylong", <Container><Icon icon="Info" color="primary" /></Container>, "Zextras Backup Notifcation, Lorem ipsum dolor sit amet, consectetur adipiscing elit."],
     onClick: (e) => console.log("Row clicked", e),
     clickable: true,
+    index: 10
   },
   {
     id: "2",
     columns: ["30 nov 2020, 06:01 AM", "Servernamerverylong", <Container><Icon icon="AlertTriangle" color="warning" /></Container>, <Tooltip label="Zextras Backup Notifcation, Lorem ipsum dolor sit amet, consectetur adipiscing elit."><Text>Zextras Backup Notifcation, Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Text></Tooltip>],
     onClick: (e) => console.log("Row clicked", e),
+    index: 20
   },
   {
     id: "3",
     columns: ["30 nov 2020, 06:01 AM", "Servernamerverylong", <Container><Icon icon="CloseSquare" color="error" /></Container>, "Zextras Backup Notifcation, Lorem ipsum dolor sit amet, consectetur adipiscing elit."],
     onClick: (e) => console.log("Row clicked", e),
     clickable: true,
+    index: 30
   },
   {
     id: "4",
     columns: ["30 nov 2020, 06:01 AM", "Servernamerverylong", <Container><Icon icon="CloseSquare" color="error" /></Container>, "Zextras Backup Notifcation, Lorem ipsum dolor sit amet, consectetur adipiscing elit."],
     onClick: (e) => console.log("Row clicked", e),
     clickable: true,
+    index: 40
   },
 ];
 

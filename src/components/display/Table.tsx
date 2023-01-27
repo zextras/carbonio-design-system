@@ -15,9 +15,9 @@ import React, {
 	HTMLAttributes
 } from 'react';
 
-import { isEmpty } from 'lodash';
 import styled, { css, SimpleInterpolation } from 'styled-components';
 
+import { NonEmptyArray, SingleItemArray } from '../../typeUtils';
 import { Icon } from '../basic/Icon';
 import { Text } from '../basic/Text';
 import { Checkbox } from '../inputs/Checkbox';
@@ -176,7 +176,7 @@ const DefaultHeaderFactory: React.VFC<THeaderProps> = ({
 	const headerData = useMemo(
 		() =>
 			headers.map((column) => {
-				const hasItems = !isEmpty(column.items);
+				const hasItems = column.items !== undefined && column.items.length > 0;
 				return (
 					<th key={column.id} align={column.align || 'left'}>
 						{hasItems && (
@@ -203,7 +203,7 @@ const DefaultHeaderFactory: React.VFC<THeaderProps> = ({
 			<th align="center">
 				{showCheckbox && multiSelect && (showCkb || selectionMode || allSelected) && (
 					<Checkbox
-						iconSize="medium"
+						size={'small'}
 						value={allSelected}
 						onClick={onChange}
 						iconColor={selectionMode ? 'primary' : 'text'}
@@ -306,7 +306,7 @@ const DefaultRowFactory: React.VFC<TRowProps> = ({
 				{showCheckbox && (showCkb || selected || (multiSelect && selectionMode)) ? (
 					<Checkbox
 						ref={ckbRef}
-						iconSize="medium"
+						size={'small'}
 						value={selected}
 						onClick={_onChange}
 						iconColor={(multiSelect && selectionMode) || selected ? 'primary' : 'text'}
@@ -368,6 +368,8 @@ type TRow = {
 	clickable?: boolean;
 	/** Row click callback */
 	onClick?: React.ReactEventHandler;
+	/** Index/counter of the row shown as first column when checkboxes are hidden */
+	index?: number;
 };
 
 type THeader = {
@@ -379,15 +381,56 @@ type THeader = {
 	width?: string;
 	/** Select 'All' label translation */
 	i18nAllLabel?: string;
-	/** Select.propTypes.items */
-	items?: SelectProps['items'];
 	/** Whether the label should be bold */
 	bold?: boolean;
-	/** De/Select all rows callback */
-	onChange: MultipleSelectionOnChange;
-};
+} & (
+	| {
+			items?: never;
+			onChange?: never;
+	  }
+	| {
+			/** Items for the Select component of the header */
+			items: NonEmptyArray<NonNullable<SelectProps['items']>[number]>;
+			/** De/Select all rows callback */
+			onChange: MultipleSelectionOnChange;
+	  }
+);
 
-interface TableProps extends HTMLAttributes<HTMLDivElement> {
+type ControlledTableProps = {
+	defaultSelection?: never;
+} & (
+	| {
+			/** Array of the selected rows (Array of rows ids). To use only if you want the table to be in controlled mode. */
+			selectedRows: SingleItemArray<string>;
+			/** Whether multiple rows are selectable. */
+			multiSelect: false;
+	  }
+	| {
+			/** Array of the selected rows (Array of rows ids). To use only if you want the table to be in controlled mode. */
+			selectedRows: string[];
+			/** Whether multiple rows are selectable. */
+			multiSelect?: true;
+	  }
+);
+
+type UncontrolledTableProps = {
+	selectedRows?: never;
+} & (
+	| {
+			/** Row selected by default in the table (Array of rows ids). */
+			defaultSelection?: SingleItemArray<string>;
+			/** Whether multiple rows are selectable. */
+			multiSelect: false;
+	  }
+	| {
+			/** Row selected by default in the table (Array of rows ids). */
+			defaultSelection?: string[];
+			/** Whether multiple rows are selectable. */
+			multiSelect?: true;
+	  }
+);
+
+type TableProps = HTMLAttributes<HTMLDivElement> & {
 	/** Table rows */
 	rows?: TRow[];
 	/** Table headers */
@@ -398,17 +441,11 @@ interface TableProps extends HTMLAttributes<HTMLDivElement> {
 	RowFactory?: React.ComponentType<TRowProps>;
 	/** Function to generate the table head section */
 	HeaderFactory?: React.ComponentType<THeaderProps>;
-	/** Callback function, called when user changes selection of rows in table. */
+	/** Callback function, called when user changes selection of rows in table (in both controlled and uncontrolled mode). */
 	onSelectionChange?: (ids: string[]) => void;
-	/** Row selected by default in the table (Array of rows ids). */
-	defaultSelection?: string[];
-	/** Array of the selected rows (Array of rows ids). To use only if you want the table to be in controlled mode. */
-	selectedRows?: string[];
-	/** Whether multiple rows are selectable. */
-	multiSelect?: boolean;
-}
+} & (ControlledTableProps | UncontrolledTableProps);
 
-const Table = React.forwardRef<HTMLTableElement, TableProps>(function TableFn(
+const Table = React.forwardRef<HTMLDivElement, TableProps>(function TableFn(
 	{
 		rows = [],
 		headers = [],
@@ -487,8 +524,8 @@ const Table = React.forwardRef<HTMLTableElement, TableProps>(function TableFn(
 	}, [controlledMode, selectedRows]);
 
 	return (
-		<TableContainer {...rest}>
-			<StyledTable ref={ref}>
+		<TableContainer {...rest} ref={ref}>
+			<StyledTable>
 				<thead>
 					<HeaderFactory
 						headers={headers}
@@ -504,7 +541,7 @@ const Table = React.forwardRef<HTMLTableElement, TableProps>(function TableFn(
 						rows.map((row, index) => (
 							<RowFactory
 								key={row.id}
-								index={index + 1}
+								index={row.index ?? index + 1}
 								row={row}
 								onChange={controlledMode ? controlledOnToggle : uncontrolledOnToggle}
 								selected={selected.includes(row.id)}
@@ -519,4 +556,13 @@ const Table = React.forwardRef<HTMLTableElement, TableProps>(function TableFn(
 	);
 });
 
-export { Table, TableProps, THeader, TRow, THeaderProps, TRowProps };
+export {
+	Table,
+	TableProps,
+	THeader,
+	TRow,
+	THeaderProps,
+	TRowProps,
+	DefaultRowFactory,
+	DefaultHeaderFactory
+};
