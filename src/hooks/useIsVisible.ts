@@ -4,40 +4,46 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { useState, useEffect, useRef, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 
 import { some } from 'lodash';
 
-const useIsVisible = <T extends HTMLElement>(
-	listRef: React.RefObject<HTMLDivElement>
-): [boolean, React.RefObject<T>] => {
-	const [vis, setVis] = useState(false);
-	const ref = useRef<T | null>(null);
+import { useCombinedRefs } from './useCombinedRefs';
 
-	const observer = useMemo(
-		() =>
-			new IntersectionObserver(
+const useIsVisible = <T extends HTMLElement>(
+	listRef: React.RefObject<HTMLDivElement> | undefined,
+	itemRef?: React.Ref<T>
+): [boolean, React.RefObject<T>] => {
+	const [visible, setVisible] = useState(false);
+	const ref = useCombinedRefs(itemRef || null);
+
+	const observer = useMemo(() => {
+		if (listRef) {
+			return new IntersectionObserver(
 				(entries) => {
-					setVis(some(entries, (entry) => entry.isIntersecting));
+					setVisible(some(entries, (entry) => entry.isIntersecting));
 				},
 				{
 					root: listRef.current
 				}
-			),
-		[listRef]
-	);
+			);
+		}
+		return undefined;
+	}, [listRef]);
+
 	useEffect(() => {
-		const curr = ref.current;
-		if (curr) {
-			observer.observe(curr);
+		const { current } = ref;
+		if (current && observer) {
+			observer.observe(current);
 		}
 		return () => {
-			if (curr) {
-				observer.unobserve(curr);
+			if (current && observer) {
+				observer.unobserve(current);
 			}
 		};
-	}, [observer]);
-	return [vis, ref];
+	}, [observer, ref]);
+
+	return [visible, ref];
 };
 
 export { useIsVisible };

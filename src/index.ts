@@ -50,6 +50,8 @@ export * from './components/navigation/TabBar';
 export * from './components/display/Chip';
 export * from './components/display/Dropdown';
 export * from './components/display/List';
+export * from './components/display/ListV2';
+export * from './components/display/ListItem';
 export * from './components/display/Popover';
 export * from './components/display/Popper';
 export * from './components/display/Tooltip';
