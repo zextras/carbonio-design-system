@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0](https://github.com/Zextras/carbonio-design-system/compare/v1.0.1...v1.1.0) (2023-02-01)
+
+
+### Features
+
+* **ListV2:** create ListV2 component ([3ded46b](https://github.com/Zextras/carbonio-design-system/commit/3ded46b7b3ef3faf0712d7cbc3033802a60506be)), closes [#165](https://github.com/Zextras/carbonio-design-system/issues/165)
+* **Table:** allow setting a custom index for the rows  ([4a4dff5](https://github.com/Zextras/carbonio-design-system/commit/4a4dff557aaa868bf3938ddb554c288813ece4b6)), closes [#163](https://github.com/Zextras/carbonio-design-system/issues/163)
+
 ### [1.0.1](https://github.com/Zextras/carbonio-design-system/compare/v1.0.0...v1.0.1) (2023-01-27)
 
 
