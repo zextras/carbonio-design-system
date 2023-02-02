@@ -10,5 +10,4 @@ const SvgFingerPrintOutline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		/>
 	</svg>
 );
-
 export default SvgFingerPrintOutline;

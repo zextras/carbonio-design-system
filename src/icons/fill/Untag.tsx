@@ -11,5 +11,4 @@ const SvgUntag = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		<path d="M4.706 3.287a1.003 1.003 0 1 0-1.419 1.418L19.271 20.69a.999.999 0 0 0 1.419 0 1 1 0 0 0 0-1.419L4.706 3.287Z" />
 	</svg>
 );
-
 export default SvgUntag;

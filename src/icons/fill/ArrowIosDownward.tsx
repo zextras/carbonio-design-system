@@ -11,5 +11,4 @@ const SvgArrowIosDownward = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		</g>
 	</svg>
 );
-
 export default SvgArrowIosDownward;

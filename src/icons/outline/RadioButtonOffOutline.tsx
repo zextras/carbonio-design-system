@@ -11,5 +11,4 @@ const SvgRadioButtonOffOutline = (props: SVGProps<SVGSVGElement>): JSX.Element =
 		</g>
 	</svg>
 );
-
 export default SvgRadioButtonOffOutline;

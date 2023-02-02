@@ -11,5 +11,4 @@ const SvgDashboardOutline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		/>
 	</svg>
 );
-
 export default SvgDashboardOutline;

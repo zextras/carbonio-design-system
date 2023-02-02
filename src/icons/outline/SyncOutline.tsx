@@ -10,5 +10,4 @@ const SvgSyncOutline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		</g>
 	</svg>
 );
-
 export default SvgSyncOutline;

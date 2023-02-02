@@ -16,5 +16,4 @@ const SvgNewFeaturesOutline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		<path d="M13.282 7.163a1.004 1.004 0 0 0-1.224.707l-1.293 4.825c-.142.529.177 1.081.707 1.223a1.004 1.004 0 0 0 1.223-.706l1.293-4.825a1.004 1.004 0 0 0-.706-1.224Z" />
 	</svg>
 );
-
 export default SvgNewFeaturesOutline;

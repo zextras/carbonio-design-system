@@ -11,5 +11,4 @@ const SvgPauseCircle = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		</g>
 	</svg>
 );
-
 export default SvgPauseCircle;

@@ -10,5 +10,4 @@ const SvgBugOutline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		/>
 	</svg>
 );
-
 export default SvgBugOutline;

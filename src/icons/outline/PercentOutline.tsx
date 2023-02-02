@@ -10,5 +10,4 @@ const SvgPercentOutline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		</g>
 	</svg>
 );
-
 export default SvgPercentOutline;

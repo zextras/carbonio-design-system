@@ -11,5 +11,4 @@ const SvgSlash = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		</g>
 	</svg>
 );
-
 export default SvgSlash;

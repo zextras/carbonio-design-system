@@ -11,5 +11,4 @@ const SvgNpm = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		</g>
 	</svg>
 );
-
 export default SvgNpm;

@@ -11,5 +11,4 @@ const SvgFolderRemove = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		</g>
 	</svg>
 );
-
 export default SvgFolderRemove;

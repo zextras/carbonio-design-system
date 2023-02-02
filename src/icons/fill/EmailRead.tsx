@@ -10,5 +10,4 @@ const SvgEmailRead = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		/>
 	</svg>
 );
-
 export default SvgEmailRead;

@@ -11,5 +11,4 @@ const SvgScissorsOutline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		</g>
 	</svg>
 );
-
 export default SvgScissorsOutline;

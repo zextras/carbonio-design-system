@@ -7,5 +7,4 @@ const SvgStatusDeniedOutline = (props: SVGProps<SVGSVGElement>): JSX.Element => 
 		<path d="M14.716 10.289a1 1 0 0 0-1.42 0l-1.29 1.3-1.29-1.3a1.004 1.004 0 0 0-1.42 1.42l1.3 1.29-1.3 1.29a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l1.29-1.3 1.29 1.3a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42l-1.3-1.29 1.3-1.29a1 1 0 0 0 0-1.42Z" />
 	</svg>
 );
-
 export default SvgStatusDeniedOutline;

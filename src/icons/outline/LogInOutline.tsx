@@ -10,5 +10,4 @@ const SvgLogInOutline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		</g>
 	</svg>
 );
-
 export default SvgLogInOutline;

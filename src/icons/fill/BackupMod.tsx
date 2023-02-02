@@ -10,5 +10,4 @@ const SvgBackupMod = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		/>
 	</svg>
 );
-
 export default SvgBackupMod;

@@ -10,5 +10,4 @@ const SvgFileAudio = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		/>
 	</svg>
 );
-
 export default SvgFileAudio;

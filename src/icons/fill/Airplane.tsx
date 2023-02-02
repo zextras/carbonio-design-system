@@ -20,5 +20,4 @@ const SvgAirplane = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		/>
 	</svg>
 );
-
 export default SvgAirplane;

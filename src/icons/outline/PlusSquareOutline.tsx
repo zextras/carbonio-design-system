@@ -11,5 +11,4 @@ const SvgPlusSquareOutline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		</g>
 	</svg>
 );
-
 export default SvgPlusSquareOutline;

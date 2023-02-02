@@ -11,5 +11,4 @@ const SvgSaveOutline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		</g>
 	</svg>
 );
-
 export default SvgSaveOutline;

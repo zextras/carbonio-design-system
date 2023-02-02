@@ -64,7 +64,7 @@ ${interfaces};
 const ${componentName} = (${props}): JSX.Element => (
   ${jsx}
 );
- 
+
 ${exports};
 `;
 

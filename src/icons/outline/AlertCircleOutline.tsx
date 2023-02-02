@@ -12,5 +12,4 @@ const SvgAlertCircleOutline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		</g>
 	</svg>
 );
-
 export default SvgAlertCircleOutline;

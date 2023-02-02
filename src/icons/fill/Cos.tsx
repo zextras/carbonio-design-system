@@ -11,5 +11,4 @@ const SvgCos = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		<path d="M12 7c-2.743 0-5 2.257-5 5s2.257 5 5 5 5-2.257 5-5-2.257-5-5-5Z" />
 	</svg>
 );
-
 export default SvgCos;

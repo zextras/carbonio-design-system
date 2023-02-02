@@ -10,5 +10,4 @@ const SvgCoffeeOutline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		/>
 	</svg>
 );
-
 export default SvgCoffeeOutline;

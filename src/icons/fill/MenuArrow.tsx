@@ -12,5 +12,4 @@ const SvgMenuArrow = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		</g>
 	</svg>
 );
-
 export default SvgMenuArrow;

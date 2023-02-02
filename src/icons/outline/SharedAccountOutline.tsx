@@ -11,5 +11,4 @@ const SvgSharedAccountOutline = (props: SVGProps<SVGSVGElement>): JSX.Element =>
 		/>
 	</svg>
 );
-
 export default SvgSharedAccountOutline;

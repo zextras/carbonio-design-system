@@ -11,5 +11,4 @@ const SvgPaperPlaneOutline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		</g>
 	</svg>
 );
-
 export default SvgPaperPlaneOutline;

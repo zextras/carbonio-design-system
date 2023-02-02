@@ -7,5 +7,4 @@ const SvgScreenSharingOnOutline = (props: SVGProps<SVGSVGElement>): JSX.Element 
 		<path d="M11.143 12.97a.999.999 0 0 1-.73-.32l-1.905-2.027a1 1 0 0 1 1.459-1.369l1.166 1.249 2.83-3.104a1 1 0 0 1 .778-.373 1 1 0 0 1 .7 1.712l-3.559 3.903a.998.998 0 0 1-.729.33h-.01Z" />
 	</svg>
 );
-
 export default SvgScreenSharingOnOutline;

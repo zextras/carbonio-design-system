@@ -15,5 +15,4 @@ const SvgSignature = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		/>
 	</svg>
 );
-
 export default SvgSignature;

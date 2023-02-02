@@ -7,5 +7,4 @@ const SvgDeletePermanentlyOutline = (props: SVGProps<SVGSVGElement>): JSX.Elemen
 		<path d="M14.696 11.014a1 1 0 0 0-1.419 0l-1.289 1.298-1.288-1.298a1.003 1.003 0 0 0-1.419 1.418l1.299 1.289L9.28 15.01a1 1 0 0 0 0 1.418 1 1 0 0 0 1.418 0l1.29-1.299 1.288 1.3a1 1 0 0 0 1.419 0 1 1 0 0 0 0-1.42l-1.3-1.288 1.3-1.289a1 1 0 0 0 0-1.418Z" />
 	</svg>
 );
-
 export default SvgDeletePermanentlyOutline;

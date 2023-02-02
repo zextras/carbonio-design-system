@@ -10,5 +10,4 @@ const SvgTagsMore = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		/>
 	</svg>
 );
-
 export default SvgTagsMore;

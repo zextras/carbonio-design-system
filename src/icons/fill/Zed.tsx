@@ -10,5 +10,4 @@ const SvgZed = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		/>
 	</svg>
 );
-
 export default SvgZed;

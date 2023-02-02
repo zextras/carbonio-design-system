@@ -11,5 +11,4 @@ const SvgTagOutline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		<path d="M16.467 8.492a.983.983 0 1 0 0-1.966.983.983 0 0 0 0 1.966Z" />
 	</svg>
 );
-
 export default SvgTagOutline;

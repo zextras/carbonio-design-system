@@ -7,5 +7,4 @@ const SvgStatusAcceptOutline = (props: SVGProps<SVGSVGElement>): JSX.Element => 
 		<path d="M14.662 10.75a1.005 1.005 0 0 0-1.41.09l-1.87 2.15-.63-.71a1.003 1.003 0 0 0-.75-.338 1.002 1.002 0 0 0-.75 1.667l1.39 1.56c.192.213.465.333.75.33a1 1 0 0 0 .74-.34l2.61-3a1.005 1.005 0 0 0-.08-1.41Z" />
 	</svg>
 );
-
 export default SvgStatusAcceptOutline;

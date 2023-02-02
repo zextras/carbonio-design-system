@@ -12,5 +12,4 @@ const SvgRadioOutline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		</g>
 	</svg>
 );
-
 export default SvgRadioOutline;

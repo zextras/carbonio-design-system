@@ -10,5 +10,4 @@ const SvgBucketOutline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		/>
 	</svg>
 );
-
 export default SvgBucketOutline;

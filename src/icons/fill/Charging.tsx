@@ -11,5 +11,4 @@ const SvgCharging = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		</g>
 	</svg>
 );
-
 export default SvgCharging;

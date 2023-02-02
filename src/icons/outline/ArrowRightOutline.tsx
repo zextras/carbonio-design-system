@@ -11,5 +11,4 @@ const SvgArrowRightOutline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		</g>
 	</svg>
 );
-
 export default SvgArrowRightOutline;

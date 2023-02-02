@@ -11,5 +11,4 @@ const SvgDiagonalArrowLeftDownOutline = (props: SVGProps<SVGSVGElement>): JSX.El
 		</g>
 	</svg>
 );
-
 export default SvgDiagonalArrowLeftDownOutline;

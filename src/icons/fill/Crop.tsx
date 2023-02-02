@@ -11,5 +11,4 @@ const SvgCrop = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		</g>
 	</svg>
 );
-
 export default SvgCrop;

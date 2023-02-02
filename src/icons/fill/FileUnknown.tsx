@@ -10,5 +10,4 @@ const SvgFileUnknown = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		/>
 	</svg>
 );
-
 export default SvgFileUnknown;

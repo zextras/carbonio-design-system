@@ -10,5 +10,4 @@ const SvgRestore2Outline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		/>
 	</svg>
 );
-
 export default SvgRestore2Outline;

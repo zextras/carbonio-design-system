@@ -10,5 +10,4 @@ const SvgOptions2Outline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		</g>
 	</svg>
 );
-
 export default SvgOptions2Outline;

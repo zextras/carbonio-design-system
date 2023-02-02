@@ -12,5 +12,4 @@ const SvgCastOutline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		</g>
 	</svg>
 );
-
 export default SvgCastOutline;

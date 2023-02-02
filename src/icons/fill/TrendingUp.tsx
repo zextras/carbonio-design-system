@@ -11,5 +11,4 @@ const SvgTrendingUp = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		</g>
 	</svg>
 );
-
 export default SvgTrendingUp;

@@ -10,5 +10,4 @@ const SvgEdit2Outline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		</g>
 	</svg>
 );
-
 export default SvgEdit2Outline;

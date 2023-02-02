@@ -10,5 +10,4 @@ const SvgDrive = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		/>
 	</svg>
 );
-
 export default SvgDrive;

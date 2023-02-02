@@ -10,5 +10,4 @@ const SvgFileMessage = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		/>
 	</svg>
 );
-
 export default SvgFileMessage;

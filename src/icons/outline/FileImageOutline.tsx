@@ -7,5 +7,4 @@ const SvgFileImageOutline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		<path d="M9.883 11.083c.822 0 1.499.676 1.499 1.498s-.677 1.499-1.499 1.499a1.506 1.506 0 0 1-1.498-1.499c0-.822.676-1.498 1.498-1.498ZM15.888 18.19a.657.657 0 0 1-.6.701H8.085l4.544-4.093a.416.416 0 0 1 .558 0l2.701 2.689v.702Z" />
 	</svg>
 );
-
 export default SvgFileImageOutline;

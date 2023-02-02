@@ -11,5 +11,4 @@ const SvgCloseCircle = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		</g>
 	</svg>
 );
-
 export default SvgCloseCircle;

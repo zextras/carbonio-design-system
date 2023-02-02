@@ -11,5 +11,4 @@ const SvgPieChart2 = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		</g>
 	</svg>
 );
-
 export default SvgPieChart2;

@@ -11,5 +11,4 @@ const SvgFunnel = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		</g>
 	</svg>
 );
-
 export default SvgFunnel;

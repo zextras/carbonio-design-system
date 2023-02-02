@@ -11,5 +11,4 @@ const SvgArrowCircleDownOutline = (props: SVGProps<SVGSVGElement>): JSX.Element 
 		</g>
 	</svg>
 );
-
 export default SvgArrowCircleDownOutline;

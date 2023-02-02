@@ -11,5 +11,4 @@ const SvgGlobe = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		</g>
 	</svg>
 );
-
 export default SvgGlobe;

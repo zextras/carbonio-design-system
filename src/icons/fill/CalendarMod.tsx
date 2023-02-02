@@ -11,5 +11,4 @@ const SvgCalendarMod = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		</g>
 	</svg>
 );
-
 export default SvgCalendarMod;

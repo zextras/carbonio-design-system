@@ -10,5 +10,4 @@ const SvgRugby = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		/>
 	</svg>
 );
-
 export default SvgRugby;

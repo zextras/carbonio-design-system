@@ -10,5 +10,4 @@ const SvgFlake = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		/>
 	</svg>
 );
-
 export default SvgFlake;

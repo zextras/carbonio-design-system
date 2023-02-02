@@ -10,5 +10,4 @@ const SvgDropletOffOutline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		</g>
 	</svg>
 );
-
 export default SvgDropletOffOutline;

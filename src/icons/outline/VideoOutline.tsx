@@ -11,5 +11,4 @@ const SvgVideoOutline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		</g>
 	</svg>
 );
-
 export default SvgVideoOutline;
