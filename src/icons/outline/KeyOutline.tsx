@@ -10,5 +10,4 @@ const SvgKeyOutline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		/>
 	</svg>
 );
-
 export default SvgKeyOutline;

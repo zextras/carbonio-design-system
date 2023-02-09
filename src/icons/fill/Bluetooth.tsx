@@ -11,5 +11,4 @@ const SvgBluetooth = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		</g>
 	</svg>
 );
-
 export default SvgBluetooth;

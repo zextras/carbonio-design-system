@@ -11,5 +11,4 @@ const SvgCheckmarkCircleOutline = (props: SVGProps<SVGSVGElement>): JSX.Element 
 		</g>
 	</svg>
 );
-
 export default SvgCheckmarkCircleOutline;

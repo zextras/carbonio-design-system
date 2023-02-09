@@ -11,5 +11,4 @@ const SvgDiagonalArrowRightUpOutline = (props: SVGProps<SVGSVGElement>): JSX.Ele
 		</g>
 	</svg>
 );
-
 export default SvgDiagonalArrowRightUpOutline;

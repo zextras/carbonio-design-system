@@ -10,5 +10,4 @@ const SvgBug = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		/>
 	</svg>
 );
-
 export default SvgBug;

@@ -7,5 +7,4 @@ const SvgAllTasksOutline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		<path d="M12.694 7.779a1.005 1.005 0 0 0-1.41.09l-1.87 2.15-.63-.71a1.003 1.003 0 0 0-1.5 1.33l1.39 1.56a1 1 0 0 0 .75.33 1 1 0 0 0 .74-.34l2.61-3a1.005 1.005 0 0 0-.08-1.41Z" />
 	</svg>
 );
-
 export default SvgAllTasksOutline;

@@ -11,5 +11,4 @@ const SvgCompass = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		</g>
 	</svg>
 );
-
 export default SvgCompass;

@@ -7,5 +7,4 @@ const SvgFileMessageOutline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		<path d="M15.219 11.41H8.777c-.801 0-1.46.66-1.46 1.461v4.495c0 .8.659 1.46 1.46 1.46h6.442c.801 0 1.46-.66 1.46-1.46V12.87c0-.8-.659-1.46-1.46-1.46Zm-.326.975-2.895 2.312-2.895-2.312h5.79Zm.326 5.467H8.777a.49.49 0 0 1-.487-.486v-4.373l3.416 2.702a.488.488 0 0 0 .584 0l3.416-2.702v4.373a.49.49 0 0 1-.487.486Z" />
 	</svg>
 );
-
 export default SvgFileMessageOutline;

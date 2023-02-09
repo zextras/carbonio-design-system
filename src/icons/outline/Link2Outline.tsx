@@ -11,5 +11,4 @@ const SvgLink2Outline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		</g>
 	</svg>
 );
-
 export default SvgLink2Outline;

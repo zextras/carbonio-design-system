@@ -10,5 +10,4 @@ const SvgFilePresentation = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		/>
 	</svg>
 );
-
 export default SvgFilePresentation;

@@ -7,5 +7,4 @@ const SvgAcceptanceMeetingOutline = (props: SVGProps<SVGSVGElement>): JSX.Elemen
 		<path d="M12.15 9.78a1.005 1.005 0 0 0-1.41.09l-1.87 2.15-.63-.71a1.003 1.003 0 0 0-1.5 1.33l1.39 1.56a1 1 0 0 0 .75.33c.284-.003.553-.127.74-.34l2.61-3a1.005 1.005 0 0 0-.08-1.41Z" />
 	</svg>
 );
-
 export default SvgAcceptanceMeetingOutline;

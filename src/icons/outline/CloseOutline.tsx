@@ -11,5 +11,4 @@ const SvgCloseOutline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		</g>
 	</svg>
 );
-
 export default SvgCloseOutline;

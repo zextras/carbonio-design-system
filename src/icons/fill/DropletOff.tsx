@@ -10,5 +10,4 @@ const SvgDropletOff = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		</g>
 	</svg>
 );
-
 export default SvgDropletOff;

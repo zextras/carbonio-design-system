@@ -11,5 +11,4 @@ const SvgFileAppOutline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		/>
 	</svg>
 );
-
 export default SvgFileAppOutline;

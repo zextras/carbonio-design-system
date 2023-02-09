@@ -11,5 +11,4 @@ const SvgFlashOutline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		</g>
 	</svg>
 );
-
 export default SvgFlashOutline;

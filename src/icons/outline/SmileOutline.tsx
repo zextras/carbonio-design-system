@@ -12,5 +12,4 @@ const SvgSmileOutline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		/>
 	</svg>
 );
-
 export default SvgSmileOutline;

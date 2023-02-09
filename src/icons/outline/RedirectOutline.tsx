@@ -7,5 +7,4 @@ const SvgRedirectOutline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		<path d="M20.766 8.306 16.77 3.31a.999.999 0 0 0-1.558 1.24l2.697 3.376h-5.96a3.011 3.011 0 0 0-2.998 2.997v5.182c0 .549.451 1 1 1 .547 0 .998-.451.998-1v-5.182c0-.548.451-1 1-1h5.96l-2.697 3.378a1 1 0 0 0 .78 1.618.999.999 0 0 0 .778-.38l3.996-4.995a1.001 1.001 0 0 0 0-1.238Z" />
 	</svg>
 );
-
 export default SvgRedirectOutline;

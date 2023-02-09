@@ -7,5 +7,4 @@ const SvgBoardOpenOutline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		<path d="M12.94 17.003a1 1 0 0 1-.709-1.709l1.409-1.32-1.257-1.34a1 1 0 1 1 1.418-1.409l1.937 2.03a1.004 1.004 0 0 1 0 1.399l-2.098 2.029a1 1 0 0 1-.7.32Z" />
 	</svg>
 );
-
 export default SvgBoardOpenOutline;

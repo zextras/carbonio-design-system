@@ -11,5 +11,4 @@ const SvgAttachOutline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		</g>
 	</svg>
 );
-
 export default SvgAttachOutline;

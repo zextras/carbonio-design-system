@@ -7,5 +7,4 @@ const SvgAppointmentOutline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		<path d="m14.686 10.38-3.776 4.995-1.628-2.108a1.001 1.001 0 0 0-.79-.386c-.548 0-1 .452-1 1 0 .223.075.44.211.615l2.428 3.107a1 1 0 0 0 1.578-.01l4.566-5.994a1.005 1.005 0 1 0-1.599-1.219h.01Z" />
 	</svg>
 );
-
 export default SvgAppointmentOutline;

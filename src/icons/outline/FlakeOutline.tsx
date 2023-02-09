@@ -10,5 +10,4 @@ const SvgFlakeOutline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		/>
 	</svg>
 );
-
 export default SvgFlakeOutline;

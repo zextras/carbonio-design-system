@@ -11,5 +11,4 @@ const SvgNewMailOutline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		/>
 	</svg>
 );
-
 export default SvgNewMailOutline;

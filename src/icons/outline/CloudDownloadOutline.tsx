@@ -11,5 +11,4 @@ const SvgCloudDownloadOutline = (props: SVGProps<SVGSVGElement>): JSX.Element =>
 		</g>
 	</svg>
 );
-
 export default SvgCloudDownloadOutline;

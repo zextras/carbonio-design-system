@@ -11,5 +11,4 @@ const SvgPrinterOutline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		</g>
 	</svg>
 );
-
 export default SvgPrinterOutline;

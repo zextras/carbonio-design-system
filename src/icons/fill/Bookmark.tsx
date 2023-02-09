@@ -11,5 +11,4 @@ const SvgBookmark = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		</g>
 	</svg>
 );
-
 export default SvgBookmark;

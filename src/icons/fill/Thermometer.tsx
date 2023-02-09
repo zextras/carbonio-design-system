@@ -11,5 +11,4 @@ const SvgThermometer = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		</g>
 	</svg>
 );
-
 export default SvgThermometer;

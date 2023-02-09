@@ -11,5 +11,4 @@ const SvgCalendarBookShareWithMeOutline = (props: SVGProps<SVGSVGElement>): JSX.
 		/>
 	</svg>
 );
-
 export default SvgCalendarBookShareWithMeOutline;

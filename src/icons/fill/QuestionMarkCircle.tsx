@@ -11,5 +11,4 @@ const SvgQuestionMarkCircle = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		</g>
 	</svg>
 );
-
 export default SvgQuestionMarkCircle;

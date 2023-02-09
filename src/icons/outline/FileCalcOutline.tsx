@@ -11,5 +11,4 @@ const SvgFileCalcOutline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		/>
 	</svg>
 );
-
 export default SvgFileCalcOutline;

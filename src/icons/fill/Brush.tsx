@@ -10,5 +10,4 @@ const SvgBrush = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		</g>
 	</svg>
 );
-
 export default SvgBrush;

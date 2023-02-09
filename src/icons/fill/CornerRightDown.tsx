@@ -11,5 +11,4 @@ const SvgCornerRightDown = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		</g>
 	</svg>
 );
-
 export default SvgCornerRightDown;

@@ -12,5 +12,4 @@ const SvgConsoleOutline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		/>
 	</svg>
 );
-
 export default SvgConsoleOutline;

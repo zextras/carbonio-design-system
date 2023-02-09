@@ -10,5 +10,4 @@ const SvgKeypad = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		</g>
 	</svg>
 );
-
 export default SvgKeypad;

@@ -10,5 +10,4 @@ const SvgFileCalc = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		/>
 	</svg>
 );
-
 export default SvgFileCalc;

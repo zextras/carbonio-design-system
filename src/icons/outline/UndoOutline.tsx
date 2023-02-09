@@ -11,5 +11,4 @@ const SvgUndoOutline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		</g>
 	</svg>
 );
-
 export default SvgUndoOutline;

@@ -11,5 +11,4 @@ const SvgCopyOutline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		</g>
 	</svg>
 );
-
 export default SvgCopyOutline;

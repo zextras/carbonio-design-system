@@ -12,5 +12,4 @@ const SvgRestoreOutline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		<path d="M12.697 10.28a.995.995 0 0 0-.32-.21.998.998 0 0 0-.389-.08h-.1a.817.817 0 0 0-.46.17 1.009 1.009 0 0 0-.13.09l-2.996 2.857a1 1 0 0 0 1.378 1.449l1.31-1.229v3.734c0 .549.45 1 .998 1s1-.451 1-1v-3.664l1.288 1.299a.999.999 0 0 0 1.418 0 .999.999 0 0 0 0-1.419l-2.997-2.997Z" />
 	</svg>
 );
-
 export default SvgRestoreOutline;

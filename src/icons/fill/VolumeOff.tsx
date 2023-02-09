@@ -11,5 +11,4 @@ const SvgVolumeOff = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		</g>
 	</svg>
 );
-
 export default SvgVolumeOff;

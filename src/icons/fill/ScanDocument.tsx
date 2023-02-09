@@ -12,5 +12,4 @@ const SvgScanDocument = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		<path d="M21.003 14.07H2.997a.99.99 0 1 0 0 1.98h18.006a.99.99 0 1 0 0-1.98Z" />
 	</svg>
 );
-
 export default SvgScanDocument;

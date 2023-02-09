@@ -11,5 +11,4 @@ const SvgMinimize = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		</g>
 	</svg>
 );
-
 export default SvgMinimize;

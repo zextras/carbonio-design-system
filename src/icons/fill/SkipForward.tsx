@@ -11,5 +11,4 @@ const SvgSkipForward = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		</g>
 	</svg>
 );
-
 export default SvgSkipForward;

@@ -15,5 +15,4 @@ const SvgLunchOutline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		/>
 	</svg>
 );
-
 export default SvgLunchOutline;
