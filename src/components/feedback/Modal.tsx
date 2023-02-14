@@ -69,6 +69,11 @@ type ModalProps = Omit<ModalFooterProps, 'errorActionLabel' | 'onErrorAction'> &
 	disablePortal?: boolean;
 	/** Content of the modal */
 	children?: React.ReactNode | React.ReactNode[];
+	/**
+	 * The window where to insert the Portal's children.
+	 * The default value is 'windowObj' obtained from the ThemContext.
+	 * */
+	containerWindow?: Window;
 	/** Label for copy button in the Error Modal */
 	copyLabel?: ModalFooterProps['errorActionLabel'];
 	/** Close icon tooltip label */
@@ -98,6 +103,7 @@ const Modal = React.forwardRef<HTMLDivElement, ModalProps>(function ModalFn(
 		minHeight,
 		maxHeight,
 		children,
+		containerWindow,
 		disablePortal = false,
 		zIndex = 999,
 		onClick,
@@ -107,7 +113,8 @@ const Modal = React.forwardRef<HTMLDivElement, ModalProps>(function ModalFn(
 	ref
 ) {
 	const [delayedOpen, setDelayedOpen] = useState(false);
-	const { windowObj } = useContext(ThemeContext);
+	const { windowObj: themeWindowObj } = useContext(ThemeContext);
+	const windowObj = containerWindow ?? themeWindowObj;
 
 	const innerRef = useRef<HTMLDivElement | null>(null);
 	const modalRef = useCombinedRefs<HTMLDivElement>(ref, innerRef);
@@ -201,7 +208,7 @@ const Modal = React.forwardRef<HTMLDivElement, ModalProps>(function ModalFn(
 	}, [open]);
 
 	return (
-		<Portal show={open} disablePortal={disablePortal}>
+		<Portal show={open} disablePortal={disablePortal} container={windowObj.document.body}>
 			<ModalContainer
 				ref={modalRef}
 				open={delayedOpen}
