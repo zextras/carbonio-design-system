@@ -18,7 +18,7 @@ const items = [
 		id: 'item-1',
 		icon: 'Activity',
 		label: 'Some Item',
-		click: () => console.log('click item 1'),
+		onClick: () => console.log('click item 1'),
         tooltipLabel: 'Item 1 tooltip content',
 		items: [
 			{
@@ -26,7 +26,7 @@ const items = [
 				icon: 'Activity',
 				label: 'Sub Item 1',
                 tooltipLabel: 'Item 1 Sub 1 tooltip content',
-                click: () => console.log('click item 1 sub 1')
+                onClick: () => console.log('click item 1 sub 1')
 			},
 			{
 				id: 'sub2',
@@ -34,7 +34,7 @@ const items = [
 				label: 'Sub Item 2',
 				keepOpen: true,
                 tooltipLabel: 'Item 1 Sub 2 tooltip content',
-				click: () => console.log('click item 1 sub 2')
+                onClick: () => console.log('click item 1 sub 2')
 			},
 			{
 				id: 'sub3',
@@ -42,7 +42,7 @@ const items = [
 				label: 'Sub Item 3',
 				keepOpen: true,
                 tooltipLabel: 'Item 1 Sub 3 tooltip content',
-				click: () => console.log('click item 1 sub 3')
+                onClick: () => console.log('click item 1 sub 3')
 			},
 			{
 				id: 'sub4',
@@ -50,7 +50,7 @@ const items = [
 				label: 'Sub Item 4',
 				keepOpen: true,
                 tooltipLabel: 'Item 1 Sub 4 tooltip content',
-				click: () => console.log('click item 1 sub 4')
+                onClick: () => console.log('click item 1 sub 4')
 			}
 		]
 	},
@@ -59,7 +59,7 @@ const items = [
 		icon: 'Plus',
 		label: 'Some Other Item',
         tooltipLabel: 'Item 2 tooltip content',
-		click: () => console.log('click item 2'),
+        onClick: () => console.log('click item 2'),
 		disabled: true
 	},
 	{ type: 'divider', id: 'divider', label: 'divider' },
@@ -68,7 +68,7 @@ const items = [
 		icon: 'Activity',
 		label: 'Yet Another Item',
         tooltipLabel: 'Item 3 tooltip content',
-		click: () => console.log('click item 3')
+        onClick: () => console.log('click item 3')
 	},
 	{
 		id: 'item-4',
@@ -86,7 +86,7 @@ const itemsSet2 = [
 		icon: 'Activity',
 		label: 'Some Item',
         tooltipLabel: 'Item 1 tooltip content',
-		click: () => console.log('click item 1')
+        onClick: () => console.log('click item 1')
 	},
 	{
 		id: 'item-3',
@@ -101,14 +101,14 @@ const itemsSet2 = [
 				label: 'Some Item',
 				selected: true,
                 tooltipLabel: 'Item 3 Sub 1 tooltip content',
-				click: () => console.log('click item 3 sub 1')
+                onClick: () => console.log('click item 3 sub 1')
 			},
 			{
 				id: 'sub2',
 				icon: 'Activity',
 				label: 'Some Item',
                 tooltipLabel: 'Item 3 Sub 2 tooltip content',
-				click: () => console.log('click item 3 sub 2')
+                onClick: () => console.log('click item 3 sub 2')
 			}
 		]
 	}

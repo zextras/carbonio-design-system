@@ -633,8 +633,8 @@ const ChipInput: ChipInput = React.forwardRef<HTMLDivElement, ChipInputProps>(fu
 			}
 			return map(options, (o) => ({
 				...o,
-				click: (event): void => {
-					o.click && o.click(event);
+				onClick: (event): void => {
+					o.onClick && o.onClick(event);
 					onOptionClick(o.value ? o.value : o.label);
 				}
 			}));
