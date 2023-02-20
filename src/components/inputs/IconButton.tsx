@@ -63,7 +63,7 @@ type IconButtonProps = ButtonProps & {
 	secondaryAction?: never;
 };
 
-const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(function IconButtonFn(
+const IconButton = React.forwardRef<HTMLDivElement, IconButtonProps>(function IconButtonFn(
 	{
 		iconColor = 'text',
 		backgroundColor = 'transparent',
@@ -79,7 +79,7 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(function
 	},
 	ref
 ) {
-	const iconButtonRef = useCombinedRefs<HTMLButtonElement>(ref);
+	const iconButtonRef = useCombinedRefs<HTMLDivElement>(ref);
 	const theme = useTheme();
 
 	const { iconSize, paddingSize } = useMemo(

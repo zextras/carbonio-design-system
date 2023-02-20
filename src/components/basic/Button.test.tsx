@@ -7,10 +7,11 @@
 import React from 'react';
 
 import { faker } from '@faker-js/faker';
-import { screen, act } from '@testing-library/react';
+import { screen, act, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { render } from '../../test-utils';
+import { Tooltip } from '../display/Tooltip';
 import { Button } from './Button';
 
 describe('Button', () => {
@@ -69,5 +70,29 @@ describe('Button', () => {
 		expect(screen.getByText(new RegExp(label, 'i'))).not.toBeVisible();
 		expect(screen.getByTestId('spinner')).toBeInTheDocument();
 		expect(screen.getByTestId('spinner')).toBeVisible();
+	});
+
+	test('Show tooltip on disabled button', async () => {
+		const clickFn = jest.fn();
+		render(
+			<Tooltip label={'Tooltip label'}>
+				<Button label={'Button'} loading onClick={clickFn} disabled />
+			</Tooltip>
+		);
+		// FIXME: hover event on disabled button is not bubbled up. Remove access on parentElement when possible
+		const button = screen.getByRole('button').parentElement as HTMLElement;
+		// wait for tooltip to register listeners
+		await waitFor(
+			() =>
+				new Promise((resolve) => {
+					setTimeout(resolve, 2);
+				})
+		);
+		expect(screen.queryByText('Tooltip label')).not.toBeInTheDocument();
+		userEvent.hover(button);
+		await screen.findByText('Tooltip label');
+		expect(screen.getByText('Tooltip label')).toBeVisible();
+		userEvent.unhover(button);
+		expect(screen.queryByText('Tooltip label')).not.toBeInTheDocument();
 	});
 });

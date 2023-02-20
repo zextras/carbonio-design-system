@@ -75,6 +75,8 @@ type ButtonPropsInternal = {
 	width?: ButtonWidth;
 	/** min width of the button */
 	minWidth?: string;
+	/** Ref for the button element */
+	buttonRef?: React.Ref<HTMLButtonElement> | null;
 } & (
 	| {
 			/** Size variant of the button */
@@ -330,7 +332,7 @@ function getColors(
 	return colors;
 }
 
-const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(function ButtonFn(
+const Button = React.forwardRef<HTMLDivElement, ButtonProps>(function ButtonFn(
 	{
 		type = 'default',
 		disabled = false,
@@ -345,11 +347,12 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(function ButtonF
 		shape = 'regular',
 		secondaryAction,
 		minWidth,
+		buttonRef = null,
 		...rest
 	},
 	ref
 ) {
-	const buttonRef = useCombinedRefs<HTMLButtonElement>(ref);
+	const innerButtonRef = useCombinedRefs<HTMLButtonElement>(buttonRef);
 
 	const clickHandler = useCallback(
 		(e: KeyboardEvent | React.MouseEvent<HTMLButtonElement>) => {
@@ -371,12 +374,12 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(function ButtonF
 	);
 
 	const keyEvents = useMemo(() => getKeyboardPreset('button', clickHandler), [clickHandler]);
-	useKeyboard(buttonRef, keyEvents);
+	useKeyboard(innerButtonRef, keyEvents);
 
 	const colors = useMemo(() => getColors(type, { type, ...rest }), [type, rest]);
 
 	return (
-		<StyledGrid width={width} minWidth={minWidth} padding={SIZES[size].padding}>
+		<StyledGrid width={width} minWidth={minWidth} padding={SIZES[size].padding} ref={ref}>
 			<StyledButton
 				{...rest}
 				backgroundColor={colors.backgroundColor}
@@ -389,7 +392,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(function ButtonF
 				gap={SIZES[size].gap}
 				iconPlacement={iconPlacement}
 				onClick={clickHandler}
-				ref={buttonRef}
+				ref={innerButtonRef}
 				width={width}
 				minWidth={minWidth}
 			>
