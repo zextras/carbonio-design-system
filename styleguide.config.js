@@ -71,7 +71,7 @@ module.exports = {
 				},
 				{
 					name: 'Inputs',
-					components: 'src/components/inputs/**/*.[j|t]sx',
+					components: 'src/components/inputs/*.[j|t]sx',
 					exampleMode: 'collapse',
 					usageMode: 'expand'
 				},
