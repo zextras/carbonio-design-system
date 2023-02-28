@@ -354,23 +354,48 @@ describe('ChipInput', () => {
 		expect(screen.getByText('option 2')).toBeVisible();
 	});
 
-	test('click on an option creates a chip and close dropdown', () => {
-		const options = [
+	test('click on an option without a custom click callback creates a chip, close dropdown and clear the input', () => {
+		const options: NonNullable<ChipInputProps['options']> = [
 			{ id: 'opt1', label: 'option 1' },
 			{ id: 'opt2', label: 'option 2' }
 		];
 
 		render(<ChipInput options={options} disableOptions={false} />);
 
-		expect(screen.getByRole('textbox')).toBeVisible();
+		const chipInputInput = screen.getByRole('textbox');
+		expect(chipInputInput).toBeVisible();
 		expect(screen.queryByText('option 1')).not.toBeInTheDocument();
-		userEvent.click(screen.getByRole('textbox'));
+		userEvent.type(chipInputInput, 'opt');
+		expect(chipInputInput).toHaveValue('opt');
 		expect(screen.getByText('option 1')).toBeVisible();
 		expect(screen.getByText('option 2')).toBeVisible();
 		userEvent.click(screen.getByText('option 1'));
 		expect(screen.queryByText('option 2')).not.toBeInTheDocument();
 		expect(screen.getByText('option 1')).toBeVisible();
 		expect(screen.getByTestId('icon: Close')).toBeVisible();
+		expect(chipInputInput).toHaveValue('');
+	});
+
+	test('click on an option with a custom click callback creates a chip, close dropdown and clear the input', () => {
+		const options: NonNullable<ChipInputProps['options']> = [
+			{ id: 'opt1', label: 'option 1', onClick: jest.fn() },
+			{ id: 'opt2', label: 'option 2', onClick: jest.fn() }
+		];
+
+		render(<ChipInput options={options} disableOptions={false} />);
+
+		const chipInputInput = screen.getByRole('textbox');
+		expect(chipInputInput).toBeVisible();
+		expect(screen.queryByText('option 1')).not.toBeInTheDocument();
+		userEvent.type(chipInputInput, 'opt');
+		expect(chipInputInput).toHaveValue('opt');
+		expect(screen.getByText('option 1')).toBeVisible();
+		expect(screen.getByText('option 2')).toBeVisible();
+		userEvent.click(screen.getByText('option 1'));
+		expect(screen.queryByText('option 2')).not.toBeInTheDocument();
+		expect(screen.getByText('option 1')).toBeVisible();
+		expect(screen.getByTestId('icon: Close')).toBeVisible();
+		expect(chipInputInput).toHaveValue('');
 	});
 
 	test('if chip input should accept only uniq values, a duplicate text is not transformed in chip', () => {
