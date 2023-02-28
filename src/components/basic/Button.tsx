@@ -155,7 +155,8 @@ const StyledButton = styled.button.attrs<
 	tabIndex: disabled ? -1 : 0,
 	minWidth: minWidth || '0'
 }))<StyledButtonProps>`
-	line-height: 1;
+	/* set line-height to normal so that the browser can calculate it based on the font, and the accents are not cut off */
+	line-height: normal;
 	display: flex;
 	justify-content: center;
 	align-items: center;
