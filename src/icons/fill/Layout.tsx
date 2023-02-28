@@ -10,5 +10,4 @@ const SvgLayout = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		</g>
 	</svg>
 );
-
 export default SvgLayout;

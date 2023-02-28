@@ -11,5 +11,4 @@ const SvgPlusCircle = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		</g>
 	</svg>
 );
-
 export default SvgPlusCircle;

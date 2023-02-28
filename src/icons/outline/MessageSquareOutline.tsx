@@ -13,5 +13,4 @@ const SvgMessageSquareOutline = (props: SVGProps<SVGSVGElement>): JSX.Element =>
 		</g>
 	</svg>
 );
-
 export default SvgMessageSquareOutline;

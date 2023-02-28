@@ -11,5 +11,4 @@ const SvgEyeOff2Outline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		</g>
 	</svg>
 );
-
 export default SvgEyeOff2Outline;

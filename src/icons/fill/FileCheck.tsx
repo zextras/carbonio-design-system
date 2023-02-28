@@ -10,5 +10,4 @@ const SvgFileCheck = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		/>
 	</svg>
 );
-
 export default SvgFileCheck;

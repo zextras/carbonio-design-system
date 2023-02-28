@@ -10,5 +10,4 @@ const SvgBackupOutline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		/>
 	</svg>
 );
-
 export default SvgBackupOutline;

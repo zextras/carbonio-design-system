@@ -11,5 +11,4 @@ const SvgArrowUpwardOutline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		</g>
 	</svg>
 );
-
 export default SvgArrowUpwardOutline;

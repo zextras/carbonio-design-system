@@ -13,5 +13,4 @@ const SvgPin2 = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		</defs>
 	</svg>
 );
-
 export default SvgPin2;

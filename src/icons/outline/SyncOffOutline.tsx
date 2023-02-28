@@ -7,5 +7,4 @@ const SvgSyncOffOutline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		<path d="M14.696 9.281a1 1 0 0 0-1.419 0l-1.289 1.299L10.7 9.28A1.003 1.003 0 0 0 9.28 10.7l1.299 1.288-1.299 1.29a1 1 0 0 0 0 1.418 1 1 0 0 0 1.418 0l1.29-1.299 1.288 1.299a.999.999 0 0 0 1.419 0 .999.999 0 0 0 0-1.419l-1.3-1.289 1.3-1.288a.999.999 0 0 0 0-1.419Z" />
 	</svg>
 );
-
 export default SvgSyncOffOutline;

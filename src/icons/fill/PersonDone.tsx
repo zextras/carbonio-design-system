@@ -10,5 +10,4 @@ const SvgPersonDone = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		</g>
 	</svg>
 );
-
 export default SvgPersonDone;

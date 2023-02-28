@@ -10,5 +10,4 @@ const SvgLunch = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		/>
 	</svg>
 );
-
 export default SvgLunch;

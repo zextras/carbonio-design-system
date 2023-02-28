@@ -11,5 +11,4 @@ const SvgRefresh = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		</g>
 	</svg>
 );
-
 export default SvgRefresh;

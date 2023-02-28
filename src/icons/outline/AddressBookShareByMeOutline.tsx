@@ -11,5 +11,4 @@ const SvgAddressBookShareByMeOutline = (props: SVGProps<SVGSVGElement>): JSX.Ele
 		/>
 	</svg>
 );
-
 export default SvgAddressBookShareByMeOutline;

@@ -10,5 +10,4 @@ const SvgHoliday = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		/>
 	</svg>
 );
-
 export default SvgHoliday;

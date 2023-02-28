@@ -22,11 +22,12 @@ import { useKeyboard, getKeyboardPreset, KeyboardPreset } from '../../hooks/useK
 import { usePrevious } from '../../hooks/usePrevious';
 import { getColor, pseudoClasses } from '../../theme/theme-utils';
 import { Icon } from '../basic/Icon';
-import { Text, TextProps } from '../basic/Text';
 import { Chip, ChipProps } from '../display/Chip';
 import { Dropdown, DropdownItem } from '../display/Dropdown';
 import { Container, ContainerProps } from '../layout/Container';
 import { Divider, DividerProps } from '../layout/Divider';
+import { InputDescription } from './commons/InputDescription';
+import { InputLabel } from './commons/InputLabel';
 import { IconButton } from './IconButton';
 
 const ContainerEl = styled(Container)<{
@@ -184,44 +185,17 @@ const AdjustWidthInput = React.forwardRef<
 	);
 });
 
-const Label = styled.label<{
-	hasError: boolean;
-	hasFocus: boolean;
-	disabled: boolean;
-	hasItems: boolean;
+const Label = styled(InputLabel)<{
+	$hasItems: boolean;
 }>`
-	position: absolute;
-	top: 50%;
-	left: 0.75rem;
-	font-size: ${({ theme }): string => theme.sizes.font.medium};
-	font-weight: ${({ theme }): number => theme.fonts.weight.regular};
-	font-family: ${({ theme }): string => theme.fonts.default};
-	line-height: 1.5;
-	color: ${({ theme, hasError, hasFocus, disabled }): string =>
-		getColor(
-			`${(hasError && 'error') || (hasFocus && 'primary') || 'secondary'}.${
-				disabled ? 'disabled' : 'regular'
-			}`,
-			theme
-		)};
-	transform: translateY(-50%);
-	transition: transform 150ms ease-out, font-size 150ms ease-out, top 150ms ease-out,
-		left 150ms ease-out;
-	pointer-events: none;
-	user-select: none;
-	max-width: calc(100% - ${({ theme }): string => `${theme.sizes.padding.large} * 2`});
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-
 	${InputContainer}:focus-within + & {
 		top: 0.0625rem;
 		transform: translateY(0);
 		font-size: ${({ theme }): string => theme.sizes.font.extrasmall};
 	}
 
-	${({ hasItems, theme }): SimpleInterpolation =>
-		hasItems &&
+	${({ $hasItems, theme }): SimpleInterpolation =>
+		$hasItems &&
 		css`
 			top: 0.0625rem;
 			transform: translateY(0);
@@ -233,19 +207,9 @@ const CustomIconContainer = styled.span`
 	align-self: center;
 `;
 
-const DividerEl = styled(Divider)`
-	&:disabled {
-		color: ${({ theme, color }): string => getColor(`${color}.disabled`, theme)};
-	}
-`;
-
-const CustomText = styled(Text)<{
+const CustomInputDescription = styled(InputDescription)<{
 	$backgroundColor?: string;
-	size: NonNullable<TextProps['size']>;
 }>`
-	line-height: 1.5;
-	padding-top: 0.25rem;
-	min-height: calc(${({ theme, size }): string => theme.sizes.font[size]} * 1.5);
 	background-color: ${({ $backgroundColor, theme }): string | undefined =>
 		$backgroundColor && getColor($backgroundColor, theme)};
 `;
@@ -729,6 +693,17 @@ const ChipInput: ChipInput = React.forwardRef<HTMLDivElement, ChipInputProps>(fu
 
 	const ChipComp = useMemo(() => ChipComponent || Chip, [ChipComponent]);
 
+	const dividerColor = useMemo<DividerProps['color']>(
+		() =>
+			`${
+				(hideBorder && 'transparent') ||
+				(hasError && 'error') ||
+				(hasFocus && 'primary') ||
+				bottomBorderColor
+			}${disabled ? '.disabled' : ''}`,
+		[bottomBorderColor, disabled, hasError, hasFocus, hideBorder]
+	);
+
 	return (
 		<Container height="fit" width="fill" crossAlignment="flex-start">
 			<Dropdown
@@ -791,10 +766,10 @@ const ChipInput: ChipInput = React.forwardRef<HTMLDivElement, ChipInputProps>(fu
 						{placeholder && (
 							<Label
 								htmlFor={id}
-								hasFocus={hasFocus}
-								hasError={hasError}
-								disabled={disabled && dropdownDisabled && (!iconAction || iconDisabled)}
-								hasItems={items.length > 0 || !!inputElRef.current?.value}
+								$hasFocus={hasFocus}
+								$hasError={hasError}
+								$disabled={disabled && dropdownDisabled && (!iconAction || iconDisabled)}
+								$hasItems={items.length > 0 || !!inputElRef.current?.value}
 							>
 								{placeholder}
 							</Label>
@@ -813,24 +788,15 @@ const ChipInput: ChipInput = React.forwardRef<HTMLDivElement, ChipInputProps>(fu
 					)}
 				</ContainerEl>
 			</Dropdown>
-			<DividerEl
-				color={
-					(hideBorder && 'transparent') ||
-					(hasError && 'error') ||
-					(hasFocus && 'primary') ||
-					bottomBorderColor
-				}
-			/>
+			<Divider color={dividerColor} />
 			{((hasError && errorLabel !== undefined) || description !== undefined) && (
-				<CustomText
-					size="extrasmall"
+				<CustomInputDescription
 					color={(hasError && 'error') || (hasFocus && 'primary') || 'secondary'}
 					disabled={disabled && dropdownDisabled && (!iconAction || iconDisabled)}
-					overflow="break-word"
 					$backgroundColor={errorBackgroundColor}
 				>
 					{(hasError && errorLabel) || description}
-				</CustomText>
+				</CustomInputDescription>
 			)}
 		</Container>
 	);

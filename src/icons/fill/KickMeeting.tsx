@@ -10,5 +10,4 @@ const SvgKickMeeting = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		/>
 	</svg>
 );
-
 export default SvgKickMeeting;

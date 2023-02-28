@@ -11,5 +11,4 @@ const SvgCheckmarkSquare = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		</g>
 	</svg>
 );
-
 export default SvgCheckmarkSquare;

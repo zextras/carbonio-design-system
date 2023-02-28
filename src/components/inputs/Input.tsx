@@ -6,37 +6,16 @@
 
 import React, { InputHTMLAttributes, useCallback, useMemo, useState } from 'react';
 
-import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-components';
+import styled, { DefaultTheme } from 'styled-components';
 
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { KeyboardPreset, useKeyboard } from '../../hooks/useKeyboard';
-import { getColor, pseudoClasses } from '../../theme/theme-utils';
-import { Text, TextProps } from '../basic/Text';
+import { getColor } from '../../theme/theme-utils';
 import { Container } from '../layout/Container';
-import { Divider } from '../layout/Divider';
-
-const ContainerEl = styled(Container)<{
-	background: keyof DefaultTheme['palette'];
-	$disabled: boolean;
-	$hasLabel: boolean;
-}>`
-	position: relative;
-	${({ $disabled, background, theme }): SimpleInterpolation =>
-		$disabled
-			? css`
-					background: ${getColor(`${background}.disabled`, theme)};
-			  `
-			: css`
-					cursor: text;
-					${pseudoClasses(theme, background)}
-			  `};
-	padding: ${({ $hasLabel }): string => ($hasLabel ? '0.0625rem' : '0.625rem')} 0.75rem;
-	gap: 0.5rem;
-	min-height: calc(
-		${({ theme }): string => theme.sizes.font.medium} * 1.5 +
-			${({ theme }): string => theme.sizes.font.extrasmall} * 1.5 + 0.125rem
-	);
-`;
+import { Divider, DividerProps } from '../layout/Divider';
+import { InputContainer } from './commons/InputContainer';
+import { InputDescription } from './commons/InputDescription';
+import { InputLabel } from './commons/InputLabel';
 
 const InputEl = styled.input<{ color: keyof DefaultTheme['palette'] }>`
 	border: none !important;
@@ -63,31 +42,7 @@ const InputEl = styled.input<{ color: keyof DefaultTheme['palette'] }>`
 	}
 `;
 
-const Label = styled.label<{ hasError: boolean; hasFocus: boolean; disabled: boolean }>`
-	position: absolute;
-	top: 50%;
-	left: 0.75rem;
-	font-size: ${({ theme }): string => theme.sizes.font.medium};
-	font-weight: ${({ theme }): number => theme.fonts.weight.regular};
-	font-family: ${({ theme }): string => theme.fonts.default};
-	line-height: 1.5;
-	color: ${({ theme, hasError, hasFocus, disabled }): string =>
-		getColor(
-			`${(hasError && 'error') || (hasFocus && 'primary') || 'secondary'}.${
-				disabled ? 'disabled' : 'regular'
-			}`,
-			theme
-		)};
-	transform: translateY(-50%);
-	transition: transform 150ms ease-out, font-size 150ms ease-out, top 150ms ease-out,
-		left 150ms ease-out;
-	pointer-events: none;
-	user-select: none;
-	max-width: calc(100% - ${({ theme }): string => `${theme.sizes.padding.large} * 2`});
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-
+const Label = styled(InputLabel)`
 	${InputEl}:focus + &,
   ${InputEl}:not(:placeholder-shown) + & {
 		top: 0.0625rem;
@@ -98,18 +53,6 @@ const Label = styled.label<{ hasError: boolean; hasFocus: boolean; disabled: boo
 
 const CustomIconContainer = styled.span`
 	align-self: center;
-`;
-
-const DividerEl = styled(Divider)`
-	&:disabled {
-		color: ${({ theme, color }): string => getColor(`${color}.disabled`, theme)};
-	}
-`;
-
-const CustomText = styled(Text)<{ size: NonNullable<TextProps['size']> }>`
-	line-height: 1.5;
-	padding-top: 0.25rem;
-	min-height: calc(${({ theme, size }): string => theme.sizes.font[size]} * 1.5);
 `;
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -216,9 +159,20 @@ const Input: Input = React.forwardRef<HTMLDivElement, InputProps>(function Input
 
 	useKeyboard(innerRef, keyboardEvents);
 
+	const dividerColor = useMemo<DividerProps['color']>(
+		() =>
+			`${
+				(hideBorder && 'transparent') ||
+				(hasError && 'error') ||
+				(hasFocus && 'primary') ||
+				borderColor
+			}${disabled ? '.disabled' : ''}`,
+		[borderColor, disabled, hasError, hasFocus, hideBorder]
+	);
+
 	return (
 		<Container height="fit" width="fill" crossAlignment="flex-start">
-			<ContainerEl
+			<InputContainer
 				ref={ref}
 				orientation="horizontal"
 				width="fill"
@@ -249,7 +203,7 @@ const Input: Input = React.forwardRef<HTMLDivElement, InputProps>(function Input
 					placeholder={label}
 				/>
 				{label && (
-					<Label htmlFor={id} hasFocus={hasFocus} hasError={hasError} disabled={disabled}>
+					<Label htmlFor={id} $hasFocus={hasFocus} $hasError={hasError} $disabled={disabled}>
 						{label}
 					</Label>
 				)}
@@ -258,24 +212,15 @@ const Input: Input = React.forwardRef<HTMLDivElement, InputProps>(function Input
 						<CustomIcon hasError={hasError} hasFocus={hasFocus} disabled={disabled} />
 					</CustomIconContainer>
 				)}
-			</ContainerEl>
-			<DividerEl
-				color={
-					(hideBorder && 'transparent') ||
-					(hasError && 'error') ||
-					(hasFocus && 'primary') ||
-					borderColor
-				}
-			/>
+			</InputContainer>
+			<Divider color={dividerColor} />
 			{description !== undefined && (
-				<CustomText
-					size="extrasmall"
+				<InputDescription
 					color={(hasError && 'error') || (hasFocus && 'primary') || 'secondary'}
 					disabled={disabled}
-					overflow="break-word"
 				>
 					{description}
-				</CustomText>
+				</InputDescription>
 			)}
 		</Container>
 	);

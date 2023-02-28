@@ -10,5 +10,4 @@ const SvgSharedFoldersOutline = (props: SVGProps<SVGSVGElement>): JSX.Element =>
 		/>
 	</svg>
 );
-
 export default SvgSharedFoldersOutline;

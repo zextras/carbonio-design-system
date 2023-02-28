@@ -10,5 +10,4 @@ const SvgCrown = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		/>
 	</svg>
 );
-
 export default SvgCrown;

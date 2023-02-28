@@ -11,5 +11,4 @@ const SvgArrowheadLeft = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		</g>
 	</svg>
 );
-
 export default SvgArrowheadLeft;

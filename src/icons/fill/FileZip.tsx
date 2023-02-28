@@ -10,5 +10,4 @@ const SvgFileZip = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		/>
 	</svg>
 );
-
 export default SvgFileZip;

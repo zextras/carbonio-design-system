@@ -1,9 +1,11 @@
 /*
- * SPDX-FileCopyrightText: 2022 Zextras <https://www.zextras.com>
+ * SPDX-FileCopyrightText: 2023 Zextras <https://www.zextras.com>
  *
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 export { default as AzListOutline } from './AzListOutline';
+export { default as ChevronSortDownOutline } from './ChevronSortDownOutline';
+export { default as ChevronSortUpOutline } from './ChevronSortUpOutline';
 export { default as ZaListOutline } from './ZaListOutline';
 export { default as AcceptanceMeetingOutline } from './AcceptanceMeetingOutline';
 export { default as ActiveBoardOutline } from './ActiveBoardOutline';

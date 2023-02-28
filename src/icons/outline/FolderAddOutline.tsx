@@ -11,5 +11,4 @@ const SvgFolderAddOutline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		</g>
 	</svg>
 );
-
 export default SvgFolderAddOutline;

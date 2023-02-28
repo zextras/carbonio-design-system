@@ -11,5 +11,4 @@ const SvgCar = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		</g>
 	</svg>
 );
-
 export default SvgCar;

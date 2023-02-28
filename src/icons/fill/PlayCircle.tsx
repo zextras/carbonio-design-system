@@ -11,5 +11,4 @@ const SvgPlayCircle = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		</g>
 	</svg>
 );
-
 export default SvgPlayCircle;

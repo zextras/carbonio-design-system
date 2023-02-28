@@ -11,5 +11,4 @@ const SvgCloseSquare = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		</g>
 	</svg>
 );
-
 export default SvgCloseSquare;

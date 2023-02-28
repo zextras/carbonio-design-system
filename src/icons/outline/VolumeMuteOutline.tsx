@@ -11,5 +11,4 @@ const SvgVolumeMuteOutline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		</g>
 	</svg>
 );
-
 export default SvgVolumeMuteOutline;

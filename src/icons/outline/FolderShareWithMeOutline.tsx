@@ -11,5 +11,4 @@ const SvgFolderShareWithMeOutline = (props: SVGProps<SVGSVGElement>): JSX.Elemen
 		/>
 	</svg>
 );
-
 export default SvgFolderShareWithMeOutline;

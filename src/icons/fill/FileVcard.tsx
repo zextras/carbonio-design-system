@@ -10,5 +10,4 @@ const SvgFileVcard = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		/>
 	</svg>
 );
-
 export default SvgFileVcard;

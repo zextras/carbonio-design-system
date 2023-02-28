@@ -6,5 +6,4 @@ const SvgSquare2 = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		<path d="M18 21H6a3 3 0 0 1-3-3V6a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3Z" />
 	</svg>
 );
-
 export default SvgSquare2;

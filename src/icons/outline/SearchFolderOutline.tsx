@@ -11,5 +11,4 @@ const SvgSearchFolderOutline = (props: SVGProps<SVGSVGElement>): JSX.Element => 
 		/>
 	</svg>
 );
-
 export default SvgSearchFolderOutline;

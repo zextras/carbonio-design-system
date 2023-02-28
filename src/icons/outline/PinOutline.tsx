@@ -11,5 +11,4 @@ const SvgPinOutline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		</g>
 	</svg>
 );
-
 export default SvgPinOutline;

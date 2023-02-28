@@ -7,5 +7,4 @@ const SvgBoardCollapseOutline = (props: SVGProps<SVGSVGElement>): JSX.Element =>
 		<path d="M15.017 10.93a1 1 0 0 1 .709 1.709l-1.409 1.32 1.257 1.34a1 1 0 1 1-1.418 1.409l-1.937-2.03a1.004 1.004 0 0 1 0-1.399l2.098-2.03a1 1 0 0 1 .7-.319Z" />
 	</svg>
 );
-
 export default SvgBoardCollapseOutline;

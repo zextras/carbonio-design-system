@@ -17,5 +17,4 @@ const SvgCoreModOutline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		</defs>
 	</svg>
 );
-
 export default SvgCoreModOutline;

@@ -11,5 +11,4 @@ const SvgCircleGroupOutline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		/>
 	</svg>
 );
-
 export default SvgCircleGroupOutline;

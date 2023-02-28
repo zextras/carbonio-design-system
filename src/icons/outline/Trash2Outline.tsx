@@ -11,5 +11,4 @@ const SvgTrash2Outline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		</g>
 	</svg>
 );
-
 export default SvgTrash2Outline;

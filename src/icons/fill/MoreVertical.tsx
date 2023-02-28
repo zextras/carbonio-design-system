@@ -12,5 +12,4 @@ const SvgMoreVertical = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		</g>
 	</svg>
 );
-
 export default SvgMoreVertical;

@@ -11,5 +11,4 @@ const SvgSearchMod = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		</g>
 	</svg>
 );
-
 export default SvgSearchMod;

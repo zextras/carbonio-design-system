@@ -7,5 +7,4 @@ const SvgFileZipOutline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		<path d="M13.986 17.983h-1.998v3.293h1.998v-3.293ZM13.986 13.987h-1.998v1.998h1.998v-1.998ZM11.988 15.985H9.99v1.998h1.998v-1.998ZM11.988 11.989H9.99v1.998h1.998v-1.998Z" />
 	</svg>
 );
-
 export default SvgFileZipOutline;

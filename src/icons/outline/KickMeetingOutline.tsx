@@ -7,5 +7,4 @@ const SvgKickMeetingOutline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		<path d="m10.955 12 .73-.73a1.04 1.04 0 0 0-1.47-1.47l-.73.7-.73-.73a1.05 1.05 0 0 0-1.47 1.5l.73.73-.73.73a1.04 1.04 0 0 0 1.47 1.47l.73-.7.73.73a1.05 1.05 0 0 0 1.47-1.5l-.73-.73Z" />
 	</svg>
 );
-
 export default SvgKickMeetingOutline;

@@ -10,5 +10,4 @@ const SvgCircleGroup = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		/>
 	</svg>
 );
-
 export default SvgCircleGroup;

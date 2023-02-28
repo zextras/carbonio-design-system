@@ -11,5 +11,4 @@ const SvgShuffle2 = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		</g>
 	</svg>
 );
-
 export default SvgShuffle2;

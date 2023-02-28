@@ -11,5 +11,4 @@ const SvgFileAdd = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		</g>
 	</svg>
 );
-
 export default SvgFileAdd;

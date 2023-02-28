@@ -11,5 +11,4 @@ const SvgFileApp = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		<path d="M11.988 16.352a1.365 1.365 0 1 0 0-2.73 1.365 1.365 0 0 0 0 2.73Z" />
 	</svg>
 );
-
 export default SvgFileApp;

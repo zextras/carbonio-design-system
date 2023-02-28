@@ -11,5 +11,4 @@ const SvgHome = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		</g>
 	</svg>
 );
-
 export default SvgHome;

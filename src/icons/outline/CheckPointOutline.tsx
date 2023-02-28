@@ -12,5 +12,4 @@ const SvgCheckPointOutline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		<path d="M20.847 7.38a9.883 9.883 0 0 1 1.145 4.621c0 5.486-4.514 10-10 10s-10-4.514-10-10 4.514-10 10-10c1.66 0 3.231.413 4.615 1.142L15.11 4.64A7.897 7.897 0 0 0 11.992 4c-4.389 0-8 3.611-8 8 0 4.389 3.612 8 8 8 4.389 0 8-3.611 8-8 0-1.106-.229-2.162-.642-3.123l1.497-1.498Z" />
 	</svg>
 );
-
 export default SvgCheckPointOutline;

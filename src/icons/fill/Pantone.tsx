@@ -10,5 +10,4 @@ const SvgPantone = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		</g>
 	</svg>
 );
-
 export default SvgPantone;

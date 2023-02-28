@@ -11,5 +11,4 @@ const SvgCreditCardOutline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		</g>
 	</svg>
 );
-
 export default SvgCreditCardOutline;

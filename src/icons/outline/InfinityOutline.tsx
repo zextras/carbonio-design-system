@@ -10,5 +10,4 @@ const SvgInfinityOutline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		/>
 	</svg>
 );
-
 export default SvgInfinityOutline;

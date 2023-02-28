@@ -11,5 +11,4 @@ const SvgArrowheadDownOutline = (props: SVGProps<SVGSVGElement>): JSX.Element =>
 		</g>
 	</svg>
 );
-
 export default SvgArrowheadDownOutline;

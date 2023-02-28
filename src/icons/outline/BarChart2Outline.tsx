@@ -10,5 +10,4 @@ const SvgBarChart2Outline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		</g>
 	</svg>
 );
-
 export default SvgBarChart2Outline;

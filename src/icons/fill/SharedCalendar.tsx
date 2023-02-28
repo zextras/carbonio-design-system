@@ -10,5 +10,4 @@ const SvgSharedCalendar = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		/>
 	</svg>
 );
-
 export default SvgSharedCalendar;

@@ -11,5 +11,4 @@ const SvgAzListOutline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		/>
 	</svg>
 );
-
 export default SvgAzListOutline;

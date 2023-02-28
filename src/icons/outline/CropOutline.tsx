@@ -11,5 +11,4 @@ const SvgCropOutline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		</g>
 	</svg>
 );
-
 export default SvgCropOutline;

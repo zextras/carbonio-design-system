@@ -15,5 +15,4 @@ const SvgAuthOutline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		/>
 	</svg>
 );
-
 export default SvgAuthOutline;

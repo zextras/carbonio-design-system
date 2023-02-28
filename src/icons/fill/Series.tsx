@@ -7,5 +7,4 @@ const SvgSeries = (props: SVGProps<SVGSVGElement>): JSX.Element => (
 		<path d="M18.97 7.992a3.015 3.015 0 0 1 2.014 2.83l-.005 8.16a3.011 3.011 0 0 1-2.997 2.997H9.817a3.015 3.015 0 0 1-2.824-1.998h10.99c.547 0 .998-.451.998-1L18.97 7.992Z" />
 	</svg>
 );
-
 export default SvgSeries;
