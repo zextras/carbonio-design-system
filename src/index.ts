@@ -40,6 +40,7 @@ export * from './components/inputs/Select';
 export * from './components/inputs/Switch';
 export * from './components/inputs/DateTimePicker';
 export * from './components/inputs/Slider';
+export * from './components/inputs/TextArea';
 
 /** navigation components */
 export * from './components/navigation/Accordion';

@@ -17,7 +17,7 @@ interface DividerProps extends HTMLAttributes<HTMLDivElement> {
 
 const DividerEl = styled.div<DividerProps>`
 	box-sizing: border-box;
-	border-bottom: 0.0625rem solid ${({ theme, color }): string => getColor(color, theme)};
+	background-color: ${({ theme, color }): string => getColor(color, theme)};
 	height: 0.0625rem;
 	max-height: 0.0625rem;
 	min-height: 0.0625rem;
