@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://github.com/Zextras/carbonio-design-system/compare/v1.1.0...v1.2.0) (2023-02-28)
+
+
+### Features
+
+* **icons:** update icons ([ffc0078](https://github.com/Zextras/carbonio-design-system/commit/ffc0078e0c0e35cdd67803c57f1c20e0394b761d)), closes [#169](https://github.com/Zextras/carbonio-design-system/issues/169)
+* **Modal:** add a prop to specify the container window ([1ce58e4](https://github.com/Zextras/carbonio-design-system/commit/1ce58e4a309fee68e4a96b0f685629204ecb1fa1)), closes [#171](https://github.com/Zextras/carbonio-design-system/issues/171)
+* **TextArea:** create TextArea component ([1215455](https://github.com/Zextras/carbonio-design-system/commit/12154559fa9737a98f3c7a4248c5e54d3233a691)), closes [#174](https://github.com/Zextras/carbonio-design-system/issues/174)
+
+
+### Bug Fixes
+
+* **Button:** avoid accents to be cut off ([8864376](https://github.com/Zextras/carbonio-design-system/commit/88643761c9607d9e1c843412dee875ef22c4246f)), closes [#175](https://github.com/Zextras/carbonio-design-system/issues/175)
+
 ## [1.1.0](https://github.com/Zextras/carbonio-design-system/compare/v1.0.1...v1.1.0) (2023-02-01)
 
 
