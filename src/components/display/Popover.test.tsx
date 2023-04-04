@@ -17,7 +17,7 @@ import { Popover } from './Popover';
 
 const CustomPopover = (): JSX.Element => {
 	const [open, setOpen] = useState(false);
-	const buttonRef = useRef<HTMLButtonElement>(null);
+	const buttonRef = useRef<HTMLDivElement>(null);
 	return (
 		<>
 			<Button
