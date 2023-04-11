@@ -79,12 +79,12 @@ const Breadcrumbs = React.forwardRef<HTMLDivElement, BreadcrumbsProps>(function 
 						</Dropdown>
 					</CrumbContainer>
 				)}
-				{map(visibleCrumbs, ({ label, click, id, ...crumbProps }, index) => (
+				{map(visibleCrumbs, ({ label, onClick, id, ...crumbProps }, index) => (
 					<CrumbContainer key={id || `${index}-${label}`}>
 						<BreadcrumbSeparator
 							color={index === visibleCrumbs.length - 1 ? 'text' : 'secondary'}
 						/>
-						<CrumbPadding all="extrasmall" onClick={click} {...crumbProps}>
+						<CrumbPadding all="extrasmall" onClick={onClick} {...crumbProps}>
 							<Text size="large" color={index === visibleCrumbs.length - 1 ? 'text' : 'secondary'}>
 								{label}
 							</Text>

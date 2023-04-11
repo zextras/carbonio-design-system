@@ -311,12 +311,6 @@ interface DropdownItem {
 	id: string;
 	label: string;
 	icon?: string;
-	/**
-	 * @deprecated
-	 * Use onClick instead
-	 * TODO(BREAKING CHANGE): remove click prop
-	 */
-	click?: (e: React.SyntheticEvent<HTMLElement> | KeyboardEvent) => void;
 	onClick?: (e: React.SyntheticEvent<HTMLElement> | KeyboardEvent) => void;
 	selected?: boolean;
 	customComponent?: React.ReactNode;
@@ -700,8 +694,7 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 						id,
 						icon,
 						label,
-						click,
-						onClick = click, // TODO: remove default assignation once click prop will be removed from DropdownItem interface
+						onClick,
 						selected,
 						customComponent,
 						items: subItems,
