@@ -102,8 +102,8 @@ const Input: Input = React.forwardRef<HTMLDivElement, InputProps>(function Input
 	{
 		autoFocus = false,
 		autoComplete = 'off',
-		borderColor = 'gray2',
-		backgroundColor = 'gray6',
+		borderColor = 'gray3',
+		backgroundColor = 'gray5',
 		defaultValue,
 		disabled = false,
 		textColor = 'text',
