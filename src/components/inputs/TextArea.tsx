@@ -17,6 +17,7 @@ import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-component
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { getColor } from '../../theme/theme-utils';
 import { TextProps } from '../basic/Text';
+import { INPUT_BACKGROUND_COLOR, INPUT_DIVIDER_COLOR } from '../constants';
 import { Container } from '../layout/Container';
 import { Divider, DividerProps } from '../layout/Divider';
 import { InputContainer } from './commons/InputContainer';
@@ -189,9 +190,9 @@ const TextArea: TextArea = React.forwardRef<HTMLDivElement, TextAreaProps>(funct
 		textAreaRef = null,
 		label,
 		description,
-		backgroundColor = 'gray5',
+		backgroundColor = INPUT_BACKGROUND_COLOR,
 		textColor = 'text',
-		borderColor = 'gray2',
+		borderColor = INPUT_DIVIDER_COLOR,
 		...props
 	},
 	ref
