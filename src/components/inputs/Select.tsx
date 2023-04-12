@@ -108,7 +108,7 @@ const DefaultLabelFactory: React.VFC<LabelFactoryProps> = ({
 					color={(disabled && 'gray2') || ((open || focus) && 'primary') || 'secondary'}
 				/>
 			</ContainerEl>
-			<Divider color={open || focus ? 'primary' : 'gray2'} />
+			<Divider color={open || focus ? 'primary' : 'gray3'} />
 		</>
 	);
 };
