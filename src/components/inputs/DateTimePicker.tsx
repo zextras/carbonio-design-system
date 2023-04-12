@@ -903,7 +903,7 @@ const DateTimePicker = React.forwardRef<ReactDatePicker, DateTimePickerProps>(
 			chipProps,
 			CustomComponent,
 
-			backgroundColor = 'gray4',
+			backgroundColor = 'gray5',
 			errorLabel = 'Error',
 			isClearable = false,
 
