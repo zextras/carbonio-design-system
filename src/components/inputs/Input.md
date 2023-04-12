@@ -13,8 +13,8 @@ import styled from 'styled-components';
 const [value, setValue] = useState('Some Controlled value');
 const [value2, setValue2] = useState('');
 
-<Container orientation="horizontal" mainAlignment="space-around" wrap="wrap" style={{ margin: 'auto' }} crossAlignment="flex-start">
-  <Container width="48%">
+<Container orientation="horizontal" mainAlignment="space-around" wrap="wrap" style={{ margin: 'auto' }} crossAlignment="flex-start" gap={'0.5rem'}>
+  <Container width="48%" gap={'0.5rem'}>
     <Input autoComplete="on" label="Input" defaultValue="Default Value" />
     <Input 
         label="Input with custom icon"
@@ -22,7 +22,7 @@ const [value2, setValue2] = useState('');
     />
     <Input />
   </Container>
-  <Container width="48%">
+  <Container width="48%" gap={'0.5rem'}>
     <Input
         label="Some other Input"
         value={value}
