@@ -11,6 +11,7 @@ import styled, { DefaultTheme } from 'styled-components';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { KeyboardPreset, useKeyboard } from '../../hooks/useKeyboard';
 import { getColor } from '../../theme/theme-utils';
+import { INPUT_BACKGROUND_COLOR, INPUT_DIVIDER_COLOR } from '../constants';
 import { Container } from '../layout/Container';
 import { Divider, DividerProps } from '../layout/Divider';
 import { InputContainer } from './commons/InputContainer';
@@ -102,8 +103,8 @@ const Input: Input = React.forwardRef<HTMLDivElement, InputProps>(function Input
 	{
 		autoFocus = false,
 		autoComplete = 'off',
-		borderColor = 'gray3',
-		backgroundColor = 'gray5',
+		borderColor = INPUT_DIVIDER_COLOR,
+		backgroundColor = INPUT_BACKGROUND_COLOR,
 		defaultValue,
 		disabled = false,
 		textColor = 'text',

@@ -22,6 +22,7 @@ import { useKeyboard, getKeyboardPreset, KeyboardPreset } from '../../hooks/useK
 import { usePrevious } from '../../hooks/usePrevious';
 import { getColor, pseudoClasses } from '../../theme/theme-utils';
 import { Icon } from '../basic/Icon';
+import { INPUT_BACKGROUND_COLOR, INPUT_DIVIDER_COLOR } from '../constants';
 import { Chip, ChipProps } from '../display/Chip';
 import { Dropdown, DropdownItem } from '../display/Dropdown';
 import { Container, ContainerProps } from '../layout/Container';
@@ -391,7 +392,7 @@ const ChipInput: ChipInput = React.forwardRef<HTMLDivElement, ChipInputProps>(fu
 		onInputType,
 		onInputTypeDebounce = 300,
 		onAdd = DefaultOnAdd,
-		background = 'gray5',
+		background = INPUT_BACKGROUND_COLOR,
 		confirmChipOnBlur = true,
 		confirmChipOnSpace = true,
 		separators = ['Enter', 'NumpadEnter', 'Comma', 'Space'],
@@ -410,7 +411,7 @@ const ChipInput: ChipInput = React.forwardRef<HTMLDivElement, ChipInputProps>(fu
 		errorBackgroundColor,
 		disableOptions = true,
 		singleSelection = false,
-		bottomBorderColor = 'gray3',
+		bottomBorderColor = INPUT_DIVIDER_COLOR,
 		dropdownMaxHeight,
 		description,
 		ChipComponent,

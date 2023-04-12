@@ -18,6 +18,7 @@ import DatePicker, {
 } from 'react-datepicker';
 import styled, { DefaultTheme } from 'styled-components';
 
+import { INPUT_BACKGROUND_COLOR } from '../constants';
 import { ChipProps } from '../display/Chip';
 import { Container } from '../layout/Container';
 import { ChipInput } from './ChipInput';
@@ -903,7 +904,7 @@ const DateTimePicker = React.forwardRef<ReactDatePicker, DateTimePickerProps>(
 			chipProps,
 			CustomComponent,
 
-			backgroundColor = 'gray5',
+			backgroundColor = INPUT_BACKGROUND_COLOR,
 			errorLabel = 'Error',
 			isClearable = false,
 
