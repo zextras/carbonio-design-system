@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0](https://github.com/Zextras/carbonio-design-system/compare/v1.2.0...v2.0.0) (2023-04-17)
+
+
+### ⚠ BREAKING CHANGES
+
+* in Dropdown Component, items prop elements must replace click with onClick
+* in Breadcrumbs component, crumbs prop elements must replace click with onClick
+* **Button:** set main ref to external grid container and add buttonRef prop
+to receive the ref for the main button element, in order to make events fire also on
+disabled element if registered on the main ref.
+
+### Bug Fixes
+
+* **Button:** change ref destination to make events fire on disabled button ([0499e78](https://github.com/Zextras/carbonio-design-system/commit/0499e78e154341a4a3c090d6a46a435dd63fc3d7)), closes [#173](https://github.com/Zextras/carbonio-design-system/issues/173)
+* update default colors for input components ([03cc6a5](https://github.com/Zextras/carbonio-design-system/commit/03cc6a512fc9327969be6be5c7e1da9ffab94e17)), closes [#180](https://github.com/Zextras/carbonio-design-system/issues/180)
+* wrap button to a new line to keep text readable ([b9ab57a](https://github.com/Zextras/carbonio-design-system/commit/b9ab57aef08420b253398802d24a4c90cb06f191)), closes [#179](https://github.com/Zextras/carbonio-design-system/issues/179)
+
+
+* remove deprecated click prop in favor of onClick in DropdownItem ([b8fadc6](https://github.com/Zextras/carbonio-design-system/commit/b8fadc6a6a2b68b0ec6315d466f29f107f2f4a9c)), closes [#172](https://github.com/Zextras/carbonio-design-system/issues/172)
+
 ## [1.2.0](https://github.com/Zextras/carbonio-design-system/compare/v1.1.0...v1.2.0) (2023-02-28)
 
 
