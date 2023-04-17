@@ -275,7 +275,6 @@ const onAdd = useCallback((valueToAdd) => {
 <ChipInput
     placeholder="Emails"
     defaultValue={[{ label: 'pippo@franco.it', background: 'gray3', color: 'text' }]}
-    background="gray5"
     onAdd={onAdd}
     wrap="wrap"
     icon="FolderOutline"
@@ -446,8 +445,6 @@ const onChangeChipInput1 = useCallback(
 		iconAction={console.log}
 		value={value1}
 		onChange={onChangeChipInput1}
-        background="gray5"
-        bottomBorderColor="gray3"
 	/>
 	<ChipInput
 		placeholder="Chip input 2"
@@ -456,15 +453,11 @@ const onChangeChipInput1 = useCallback(
 		iconAction={console.log}
 		value={value2}
 		onChange={setValue2}
-        background="gray5"
-        bottomBorderColor="gray3"
 	/>
 	<ChipInput
 		description="Chip input 3"
 		icon="EyeOutline"
 		iconAction={console.log}
-        background="gray5"
-        bottomBorderColor="gray3"
 	/>
 	<ChipInput
 		placeholder="Chip input 4"
@@ -472,8 +465,6 @@ const onChangeChipInput1 = useCallback(
 		icon="EyeOutline"
 		iconAction={console.log}
 		hasError={error}
-        background="gray5"
-        bottomBorderColor="gray3"
 	/>
 	<ChipInput
 		placeholder="Chip input 5"
@@ -482,8 +473,6 @@ const onChangeChipInput1 = useCallback(
 		iconAction={console.log}
         iconDisabled
         disabled
-        background="gray5"
-        bottomBorderColor="gray3"
 	/>
 </Container>
 ```
@@ -578,8 +567,8 @@ const options = [
 	{ id: '5', label: 'Fifth option' }
 ];
 <Container style={{ gap: '0.625rem' }} orientation="horizontal">
-    <ChipInput placeholder="ChipInput enabled" options={options} disableOptions={false} background="gray5" bottomBorderColor="gray3" description="" />
-    <ChipInput placeholder="ChipInput disabled" options={options} disabled disableOptions={false} background="gray5" bottomBorderColor="gray3" description="Disabled" />
+    <ChipInput placeholder="ChipInput enabled" options={options} disableOptions={false} description="" />
+    <ChipInput placeholder="ChipInput disabled" options={options} disabled disableOptions={false} description="Disabled" />
 </Container>
 ```
 
@@ -619,8 +608,6 @@ const iconAction = useCallback(() => {
       placeholder="Options are filtered on typing"
       options={options}
       disableOptions
-      background="gray5"
-      bottomBorderColor="gray3"
       onInputType={filterOptions}
       icon="ChevronDown"
       iconAction={iconAction}
@@ -676,8 +663,6 @@ const initOptions = useCallback(() => {
       placeholder="Options are filtered on typing"
       options={options}
       disableOptions
-      background="gray5"
-      bottomBorderColor="gray3"
       onInputType={filterOptions}
       icon="ChevronDown"
       iconAction={iconAction}
