@@ -13,7 +13,6 @@ import { Button } from '../basic/Button';
 import { Icon } from '../basic/Icon';
 import { Text } from '../basic/Text';
 import { Container, ContainerProps } from '../layout/Container';
-import { Padding } from '../layout/Padding';
 import { Row } from '../layout/Row';
 import { Portal } from '../utilities/Portal';
 import { Transition } from '../utilities/Transition';
@@ -23,22 +22,13 @@ const SnackContainer = styled(Container)<{ $zIndex: number; $screenMode: ScreenM
 	box-shadow: 0 0 0.25rem 0 ${({ theme }): string => theme.palette.shadow.regular};
 	user-select: none;
 	z-index: ${({ $zIndex }): number => $zIndex};
-	${({ $screenMode, theme }): SimpleInterpolation =>
-		$screenMode === 'desktop' &&
-		css`
-			right: 0;
-			bottom: 5vh;
-			max-width: 25rem;
-			min-width: calc(20rem - ${theme.sizes.padding.small} - ${theme.sizes.padding.small});
-		`};
-	${({ $screenMode, theme }): SimpleInterpolation =>
+	right: 0;
+	bottom: 5vh;
+	${({ $screenMode }): SimpleInterpolation =>
 		$screenMode === 'mobile' &&
 		css`
 			right: 50%;
 			transform: translateX(50%);
-			bottom: ${theme.sizes.padding.small};
-			min-width: calc(20rem - ${theme.sizes.padding.small} - ${theme.sizes.padding.small});
-			max-width: calc(100% - ${theme.sizes.padding.small} - ${theme.sizes.padding.small});
 		`};
 `;
 
@@ -98,6 +88,7 @@ const Snackbar = React.forwardRef<HTMLDivElement, SnackbarProps>(function Snackb
 	ref
 ) {
 	const screenMode = useScreenMode(target);
+
 	const handleClick = useCallback(() => {
 		onActionClick ? onActionClick() : onClose && onClose();
 	}, [onActionClick, onClose]);
@@ -118,43 +109,49 @@ const Snackbar = React.forwardRef<HTMLDivElement, SnackbarProps>(function Snackb
 				<SnackContainer
 					$screenMode={screenMode}
 					orientation="horizontal"
-					mainAlignment="space-between"
+					mainAlignment="flex-start"
 					background={type}
 					height="auto"
 					width="auto"
 					$zIndex={zIndex}
 					data-testid="snackbar"
+					padding={{ top: '0.5rem', right: '0.5rem', bottom: '0.5rem', left: '1.5rem' }}
+					gap={'1rem'}
+					maxWidth={screenMode === 'mobile' ? '100%' : '40%'}
 					{...rest}
 				>
-					<Row
-						mainAlignment="flex-start"
-						takeAvailableSpace
-						padding={{
-							top: 'small',
-							bottom: 'small',
-							left: 'small'
-						}}
+					<Icon size="large" icon={icons[type]} color="gray6" />
+					<Container
+						gap={'1rem'}
+						wrap={'wrap'}
+						flexBasis={'fit-content'}
+						mainAlignment={'flex-start'}
+						orientation={'row'}
 					>
-						<Icon size="large" icon={icons[type]} color="gray6" />
-						<Padding
-							left="medium"
-							right="medium"
-							style={{
-								flexBasis: 0,
-								flexGrow: 1,
-								minWidth: '0.0625rem'
-							}}
+						<Row
+							mainAlignment="flex-start"
+							flexBasis={'50%'}
+							flexShrink={1}
+							flexGrow={1}
+							width={'auto'}
 						>
 							<Text color="gray6" size="large" overflow={singleLine ? 'ellipsis' : 'break-word'}>
 								{label}
 							</Text>
-						</Padding>
-					</Row>
-					{!hideButton && (
-						<Padding right="extrasmall">
-							<Button label={actionLabel} type="ghost" labelColor="gray6" onClick={handleClick} />
-						</Padding>
-					)}
+						</Row>
+						{!hideButton && (
+							<Row
+								margin={{ left: 'auto', right: '0' }}
+								wrap={'nowrap'}
+								flexGrow={0}
+								flexShrink={0}
+								minWidth={0}
+								flexBasis={'fit-content'}
+							>
+								<Button label={actionLabel} type="ghost" color="gray6" onClick={handleClick} />
+							</Row>
+						)}
+					</Container>
 				</SnackContainer>
 			</Transition>
 		</Portal>

@@ -6,13 +6,14 @@
 
 import React, { useState, useMemo, useCallback, useReducer, useEffect, Reducer } from 'react';
 
-import { some, isEmpty, isNil, filter } from 'lodash';
+import { some, isEmpty, isNil, filter, map } from 'lodash';
 import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-components';
 
 import { getColor } from '../../theme/theme-utils';
 import { Icon } from '../basic/Icon';
 import { Text } from '../basic/Text';
-import { Dropdown, DropdownProps } from '../display/Dropdown';
+import { INPUT_BACKGROUND_COLOR, INPUT_DIVIDER_COLOR } from '../constants';
+import { Dropdown, DropdownItem, DropdownProps } from '../display/Dropdown';
 import { Container } from '../layout/Container';
 import { Divider } from '../layout/Divider';
 import { Padding } from '../layout/Padding';
@@ -108,7 +109,7 @@ const DefaultLabelFactory: React.VFC<LabelFactoryProps> = ({
 					color={(disabled && 'gray2') || ((open || focus) && 'primary') || 'secondary'}
 				/>
 			</ContainerEl>
-			<Divider color={open || focus ? 'primary' : 'gray2'} />
+			<Divider color={open || focus ? 'primary' : INPUT_DIVIDER_COLOR} />
 		</>
 	);
 };
@@ -260,7 +261,7 @@ type SelectProps = SelectComponentProps &
 
 const Select = React.forwardRef<HTMLDivElement, SelectProps>(function SelectFn(
 	{
-		background = 'gray5',
+		background = INPUT_BACKGROUND_COLOR,
 		disabled = false,
 		items = [],
 		label,
@@ -321,13 +322,13 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps>(function SelectFn(
 
 	const mappedItems = useMemo(
 		() =>
-			items.map((item, index) => {
+			map(items, (item, index): DropdownItem => {
 				const isSelected = some(selected, { value: item.value });
 				return {
 					id: `${index}-${item.label}`,
 					label: item.label,
 					icon: (showCheckbox && ((isSelected && 'CheckmarkSquare') || 'Square')) || '',
-					click: clickItemHandler(item, isSelected),
+					onClick: clickItemHandler(item, isSelected),
 					selected: isSelected,
 					disabled: item.disabled,
 					customComponent: item.customComponent
@@ -363,7 +364,7 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps>(function SelectFn(
 		[isControlled, items, onChange]
 	);
 
-	const multipleMappedItems = useMemo(() => {
+	const multipleMappedItems = useMemo((): DropdownItem[] => {
 		if (!multiple) return [];
 		const selectableItems = filter(items, (obj) => !obj.disabled);
 		const alreadySelected = filter(selected, (obj) => !obj.disabled);
@@ -373,7 +374,7 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps>(function SelectFn(
 				id: 'all',
 				label: i18nAllLabel,
 				icon: (showCheckbox && ((isSelected && 'CheckmarkSquare') || 'Square')) || '',
-				click: toggleSelectAll(isSelected),
+				onClick: toggleSelectAll(isSelected),
 				selected: isSelected
 			},
 			...mappedItems

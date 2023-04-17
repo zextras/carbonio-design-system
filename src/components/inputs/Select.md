@@ -60,7 +60,6 @@ const selectedLabel = useMemo(() => {
 <>
 	<Select
 		items={items}
-		background="gray5"
 		label="Select an item"
 		onChange={onChange}
 	/>
@@ -120,7 +119,6 @@ const selectedLabel = useMemo(() => selection ? selection.label : 'no selection'
 <>
 	<Select
 		items={items}
-		background="gray5"
 		label="Select an item"
 		onChange={onChange}
         defaultSelection={selection}
@@ -181,7 +179,6 @@ const selectedLabel = useMemo(() => selection ? selection.label : 'no selection'
 <>
 	<Select
 		items={items}
-		background="gray5"
 		label="Select an item"
 		onChange={onChange}
         selection={selection}
@@ -279,7 +276,6 @@ const onC = (v) => {
     <Button type="outlined" label="Select all" color="error" onClick={() => setSelected(items)} />
     <Select
         items={items}
-        background="gray5"
         label="Select an item"
         onChange={onC}
         multiple={true}
@@ -379,7 +375,6 @@ const onC = (v) => {
     <Button type="outlined" label="Select all" color="error" onClick={() => setSelected(items)} />
     <Select
         items={items}
-        background="gray5"
         label="Select an item"
         onChange={onC}
         multiple={true}
@@ -443,7 +438,6 @@ const items = [
 	<Select
 		items={items}
 		multiple={true}
-		background="gray5"
 		label="Type"
 		onChange={console.log}
 		LabelFactory={LabelFactory}
@@ -482,7 +476,6 @@ const [selected, setSelected] = useState(4);
 <>
 	<Select
 		items={items}
-		background="gray5"
 		label="Select an item"
 		onChange={setSelected}
 		defaultSelection={{ value: '4', label: 'goodnight' }}

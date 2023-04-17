@@ -28,27 +28,27 @@ const crumbs = [
     {
         id: 'crumb-1',
         label: 'Goodnight',
-        click: () => console.log('Goodnight')
+        onClick: () => console.log('Goodnight')
     },
     {
         id: 'crumb-2',
         label: 'Hello',
-        click: () => console.log('Hello')
+        onClick: () => console.log('Hello')
     },
     {
         id: 'crumb-3',
         label: 'AAAAAA',
-        click: () => console.log('AAAAAA')
+        onClick: () => console.log('AAAAAA')
     },
     {
         id: 'crumb-4',
         label: 'Goodbye',
-        click: () => console.log('Goodbye')
+        onClick: () => console.log('Goodbye')
     },
     {
         id: 'crumb-5',
         label: 'Ok',
-        click: () => console.log('Ok')
+        onClick: () => console.log('Ok')
     }
 ];
 
@@ -156,7 +156,7 @@ const crumbs = [
 	{
 		id: 'crumb-1',
 		label: 'Goodnight',
-		click: () => console.log('Goodnight'),
+        onClick: () => console.log('Goodnight'),
 		onDragEnter: dragEnterHandler,
 		onDragLeave: dragLeaveHandler,
 		onDragOver: dragOverHandler,
@@ -166,7 +166,7 @@ const crumbs = [
 	{
 		id: 'crumb-2',
 		label: 'Hello',
-		click: () => console.log('Hello'),
+        onClick: () => console.log('Hello'),
 		onDragEnter: dragEnterHandler,
 		onDragLeave: dragLeaveHandler,
 		onDragOver: dragOverHandler,
@@ -176,7 +176,7 @@ const crumbs = [
 	{
 		id: 'crumb-3',
 		label: 'AAAAAA',
-		click: () => console.log('AAAAAA'),
+        onClick: () => console.log('AAAAAA'),
 		onDragEnter: dragEnterHandler,
 		onDragLeave: dragLeaveHandler,
 		onDragOver: dragOverHandler,
@@ -186,7 +186,7 @@ const crumbs = [
 	{
 		id: 'crumb-4',
 		label: 'Goodbye',
-		click: () => console.log('Goodbye'),
+        onClick: () => console.log('Goodbye'),
 		onDragEnter: dragEnterHandler,
 		onDragLeave: dragLeaveHandler,
 		onDragOver: dragOverHandler,
@@ -196,7 +196,7 @@ const crumbs = [
 	{
 		id: 'crumb-5',
 		label: 'Ok',
-		click: () => console.log('Ok'),
+        onClick: () => console.log('Ok'),
 		onDragEnter: dragEnterHandler,
 		onDragLeave: dragLeaveHandler,
 		onDragOver: dragOverHandler,
@@ -260,7 +260,7 @@ import { getColor } from '@zextras/carbonio-design-system';
 const crumbs = Array.from({ length: 5 }, (_, i) => ({
 	id: `crumb-${i}`,
 	label: `crumb ${i}`,
-	click: () => i!== 0 && console.log('click crumb', i),
+    onClick: () => i!== 0 && console.log('click crumb', i),
 	className: 'breadcrumbCrumb',
     disabled: i === 0
 }));

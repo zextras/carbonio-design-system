@@ -26,7 +26,7 @@ type FileLoaderProps = IconButtonProps & {
 	accept?: string;
 };
 
-const FileLoader = React.forwardRef<HTMLButtonElement, FileLoaderProps>(function FileLoaderFn(
+const FileLoader = React.forwardRef<HTMLDivElement, FileLoaderProps>(function FileLoaderFn(
 	{ icon = 'Attach', onChange = (): void => undefined, multiple = false, accept, ...rest },
 	ref
 ) {
