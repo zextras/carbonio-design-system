@@ -7,6 +7,7 @@ import React from 'react';
 
 import { faker } from '@faker-js/faker';
 import { screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { noop } from 'lodash';
 import { DefaultTheme } from 'styled-components';
 import 'jest-styled-components';
@@ -101,5 +102,25 @@ describe('Banner', () => {
 			/>
 		);
 		expect(screen.getByTestId(`icon: ${icon}`)).toBeVisible();
+	});
+
+	test.todo('More info button is shown if text is cropped');
+
+	test.todo('More info is hidden if text is entirely visible');
+
+	test('Close action is hidden by default', () => {
+		const { queryByRoleWithIcon } = render(<Banner description={'Banner'} />);
+		expect(queryByRoleWithIcon('button', { icon: 'Close' })).not.toBeInTheDocument();
+	});
+
+	test('Close action is shown if showClose is true', () => {
+		const closeFn = jest.fn();
+		const { getByRoleWithIcon } = render(
+			<Banner description={'Banner'} showClose onClose={closeFn} />
+		);
+		const closeAction = getByRoleWithIcon('button', { icon: 'Close' });
+		expect(closeAction).toBeVisible();
+		userEvent.click(closeAction);
+		expect(closeFn).toHaveBeenCalled();
 	});
 });
