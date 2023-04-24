@@ -6,8 +6,9 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useCallback, useState, useEffect, useMemo } from 'react';
 
+import { noop } from 'lodash';
 import { rgba } from 'polished';
 import DatePicker, {
 	getDefaultLocale,
@@ -20,10 +21,10 @@ import styled, { DefaultTheme } from 'styled-components';
 
 import { INPUT_BACKGROUND_COLOR } from '../constants';
 import { ChipProps } from '../display/Chip';
-import { Container } from '../layout/Container';
-import { ChipInput } from './ChipInput';
-import { IconButton } from './IconButton';
-import { Input } from './Input';
+import { Container, ContainerProps } from '../layout/Container';
+import { ChipInput, ChipInputProps } from './ChipInput';
+import { IconButton, IconButtonProps } from './IconButton';
+import { Input, InputProps } from './Input';
 
 const COLORS = {
 	NAVIGATION_ICON_BORDER: '#CCCCCC',
@@ -882,12 +883,121 @@ interface DateTimePickerProps extends Omit<ReactDatePickerProps, 'onChange'> {
 	width?: 'fit' | 'fill' | string | number;
 	/** Use Custom Component to trigger the picker */
 	CustomComponent?: React.ComponentType<{
-		value?: string | undefined;
+		value?: string;
 		onClick?: React.ReactEventHandler;
 	}>;
 	/** Disable the input */
 	disabled?: boolean;
 }
+
+type DateTimePickerCustomInputProps = {
+	width: ContainerProps['width'];
+	onClick?: () => void;
+	/** value is received from react-date-picker component */
+	value?: ReactDatePickerProps['value'];
+};
+
+type DateTimePickerInputProps = DateTimePickerCustomInputProps &
+	InputProps & {
+		onClick?: IconButtonProps['onClick'];
+		isClearable: boolean;
+		onClear: IconButtonProps['onClick'];
+	};
+
+type DateTimePickerChipInputProps = DateTimePickerCustomInputProps &
+	ChipInputProps & {
+		chipProps: Partial<ChipProps> | undefined;
+		/** Redefine onChange for ChipInput to avoid having it overwritten by react-datepicker */
+		handleChipChange: ChipInputProps['onChange'];
+	};
+
+interface InputIconsProps {
+	showClear: boolean;
+	onClear: IconButtonProps['onClick'];
+	onClick: IconButtonProps['onClick'];
+}
+
+const buildInputIcons = ({
+	showClear,
+	onClear,
+	onClick
+}: InputIconsProps): NonNullable<InputProps['CustomIcon']> =>
+	function InputIcons({ hasError }): JSX.Element {
+		return (
+			<InputIconsContainer>
+				{showClear && (
+					<CustomIconButton
+						icon="CloseOutline"
+						size="large"
+						onClick={onClear}
+						backgroundColor="transparent"
+					/>
+				)}
+				<CustomIconButton
+					icon="CalendarOutline"
+					size="large"
+					backgroundColor="transparent"
+					onClick={onClick}
+					iconColor={hasError ? 'error' : 'text'}
+				/>
+			</InputIconsContainer>
+		);
+	};
+
+const DateTimePickerInput = React.forwardRef<HTMLDivElement, DateTimePickerInputProps>(
+	function DateTimePickerInputFn(
+		{ width, value, onClick = noop, onClear, isClearable, ...rest },
+		ref
+	) {
+		const InputIconsComponent = useMemo<InputProps['CustomIcon']>(
+			() => buildInputIcons({ showClear: isClearable && !!value, onClear, onClick }),
+			[isClearable, onClear, onClick, value]
+		);
+
+		return (
+			<Container width={width} ref={ref}>
+				<Input value={value} CustomIcon={InputIconsComponent} {...rest} />
+			</Container>
+		);
+	}
+);
+
+const DateTimePickerChipInput = React.forwardRef<HTMLDivElement, DateTimePickerChipInputProps>(
+	function DateTimePickerChipInputFn(
+		{ width, hasError, value, onClick, chipProps, handleChipChange, ...rest },
+		ref
+	) {
+		const chipInputValue = useMemo((): ChipInputProps['value'] => {
+			if (value) {
+				return [
+					{
+						background: 'gray2',
+						avatarIcon: 'CalendarOutline',
+						color: 'text',
+						...chipProps,
+						label: value,
+						closable: false
+					}
+				];
+			}
+			return [];
+		}, [chipProps, value]);
+
+		return (
+			<Container width={width} ref={ref}>
+				<ChipInput
+					disabled
+					icon="CalendarOutline"
+					iconAction={onClick}
+					iconColor={hasError ? 'error' : 'text'}
+					{...rest}
+					value={chipInputValue}
+					onChange={handleChipChange}
+				/>
+			</Container>
+		);
+	}
+);
 
 const DateTimePicker = React.forwardRef<ReactDatePicker, DateTimePickerProps>(
 	function DateTimePickerFn(
@@ -939,76 +1049,43 @@ const DateTimePicker = React.forwardRef<ReactDatePicker, DateTimePickerProps>(
 			onChange && onChange(null);
 		}, [onChange]);
 
-		const InputComponent = React.forwardRef<
-			HTMLDivElement,
-			{ value?: string; onClick?: (e: KeyboardEvent | React.SyntheticEvent) => void }
-		>(function InputComponentFn({ value, onClick = (): void => undefined }, inputRef) {
-			const InputIcons = useCallback(
-				() => (
-					<InputIconsContainer>
-						{isClearable && value && (
-							<CustomIconButton
-								icon="CloseOutline"
-								size="large"
-								onClick={onClear}
-								backgroundColor="transparent"
-							/>
-						)}
-						<CustomIconButton
-							icon="CalendarOutline"
-							size="large"
-							onClick={onClick}
-							backgroundColor="transparent"
-							iconColor={hasError ? 'error' : 'text'}
-						/>
-					</InputIconsContainer>
-				),
-				[onClick, value]
-			);
-
+		const defaultInputComponent = useMemo(() => {
+			if (enableChips) {
+				return (
+					<DateTimePickerChipInput
+						width={width}
+						background={backgroundColor}
+						hasError={hasError}
+						description={(hasError && errorLabel) || undefined}
+						placeholder={label}
+						handleChipChange={handleChipChange}
+						chipProps={chipProps}
+					/>
+				);
+			}
 			return (
-				<Container width={width}>
-					{enableChips ? (
-						<ChipInput
-							background={backgroundColor}
-							hasError={hasError}
-							description={(hasError && errorLabel) || undefined}
-							placeholder={label}
-							disabled
-							onChange={handleChipChange}
-							value={
-								value
-									? [
-											{
-												background: 'gray2',
-												avatarIcon: 'CalendarOutline',
-												color: 'text',
-												...chipProps,
-												label: value,
-												closable: false
-											}
-									  ]
-									: []
-							}
-							icon="CalendarOutline"
-							iconAction={onClick}
-							iconColor={hasError ? 'error' : 'text'}
-							ref={inputRef}
-						/>
-					) : (
-						<Input
-							label={label}
-							defaultValue={value}
-							hasError={hasError}
-							description={(hasError && errorLabel) || undefined}
-							backgroundColor={backgroundColor}
-							CustomIcon={InputIcons}
-							ref={inputRef}
-						/>
-					)}
-				</Container>
+				<DateTimePickerInput
+					backgroundColor={backgroundColor}
+					hasError={hasError}
+					description={(hasError && errorLabel) || undefined}
+					width={width}
+					label={label}
+					onClear={onClear}
+					isClearable={isClearable}
+				/>
 			);
-		});
+		}, [
+			backgroundColor,
+			chipProps,
+			enableChips,
+			errorLabel,
+			handleChipChange,
+			hasError,
+			isClearable,
+			label,
+			onClear,
+			width
+		]);
 
 		return (
 			<Styler orientation="horizontal" height="fit" mainAlignment="flex-start">
@@ -1022,7 +1099,7 @@ const DateTimePicker = React.forwardRef<ReactDatePicker, DateTimePickerProps>(
 					timeCaption={timeLabel}
 					dateFormat={dateFormat}
 					disabled={disabled}
-					customInput={CustomComponent ? <CustomComponent /> : <InputComponent />}
+					customInput={CustomComponent ? <CustomComponent /> : defaultInputComponent}
 					ref={ref}
 					{...rest}
 				/>
