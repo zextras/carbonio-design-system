@@ -9,7 +9,7 @@ There are four available status of this component:
 - **Error**: it gives the user a negative feedback about an action that has not been completed or that an error has occurred.
   The Banner shows a standard error message and the user can learn more about it.
 - **Warning**: it informs the user that he/she must pay attention to something when doing or after having done an action.
-- **Info**: it informs the user about the processing of an action and gives the possibility to the user of unding the action done.
+- **Info**: it informs the user about the processing of an action and gives the possibility to the user of undoing the action done.
 
 And three possible types (called _styles_ in the UI kit):
 
@@ -25,7 +25,7 @@ The available actions are freely customizable, which means that you can use all 
 
 “**More info**” trigger the modal of example, and is programmatically shown when there is some text cropped.
 
-There is also the **Close** action, which should be used to trigger the visibility of the Banner.
+There is also the **Close** action, which should be used to toggle the visibility of the Banner.
 
 ```jsx
 import { Container, ModalManager } from '@zextras/carbonio-design-system';
@@ -124,7 +124,7 @@ import { Container, ModalManager } from '@zextras/carbonio-design-system';
 				'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
 			}
 			showClose={true}
-			primaryAction={{ label: 'Primary action', onClick: console.log }}
+			primaryAction={{ label: 'Primary action', onClick: console.log, icon: 'People' }}
 			secondaryAction={{ label: 'Secondary action', onClick: console.log }}
 		/>
 	</Container>

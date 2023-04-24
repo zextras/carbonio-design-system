@@ -43,7 +43,7 @@ beforeAll(() => {
 
 	// mock a simplified Intersection Observer
 	Object.defineProperty(window, 'ResizeObserver', {
-		writable: false,
+		writable: true,
 		value: function ResizeObserverMock(callback: ResizeObserverCallback): ResizeObserver {
 			return {
 				observe: jest.fn(),

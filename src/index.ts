@@ -60,7 +60,7 @@ export * from './components/display/Table';
 export * from './components/display/CollapsingActions';
 
 /** Feedback components */
-export * from './components/feedback/Banner';
+export { Banner, type BannerProps } from './components/feedback/Banner';
 export * from './components/feedback/CustomModal';
 export * from './components/feedback/Modal';
 export * from './components/feedback/modal-components/ModalHeader';

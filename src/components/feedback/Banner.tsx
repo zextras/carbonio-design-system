@@ -299,4 +299,4 @@ const Banner = React.forwardRef<HTMLDivElement, BannerProps>(function BannerFn(
 	);
 });
 
-export { Banner, BannerProps };
+export { Banner, type BannerProps, InfoContainer };
