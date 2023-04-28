@@ -29,6 +29,7 @@ There is also the **Close** action, which should be used to toggle the visibilit
 
 ```jsx
 import { Container, ModalManager } from '@zextras/carbonio-design-system';
+import { noop } from 'lodash';
 
 <ModalManager>
 	<Container gap={'1rem'}>
@@ -43,6 +44,7 @@ import { Container, ModalManager } from '@zextras/carbonio-design-system';
 			title={'Title is optional'}
 			description={'Description is required'}
 			showClose
+			onClose={noop}
 		/>
 		<Banner
 			status={'error'}
@@ -57,6 +59,7 @@ import { Container, ModalManager } from '@zextras/carbonio-design-system';
 			title={'Title is optional'}
 			description={'Description is required'}
 			showClose
+			onClose={noop}
 			primaryAction={{ label: 'Primary action', onClick: console.log }}
 		/>
 		<Banner
@@ -65,6 +68,7 @@ import { Container, ModalManager } from '@zextras/carbonio-design-system';
 			title={'Title is optional'}
 			description={'Description is required'}
 			showClose
+			onClose={noop}
 			primaryAction={{ label: 'Primary action', onClick: console.log }}
 			secondaryAction={{ label: 'Secondary action', onClick: console.log }}
 		/>
@@ -90,6 +94,7 @@ import { Container, ModalManager } from '@zextras/carbonio-design-system';
 				'Text to edit: Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry, Lorem Ipsum has been the industry'
 			}
 			showClose
+			onClose={noop}
 			primaryAction={{ label: 'Primary action', onClick: console.log }}
 		/>
 		<Banner
@@ -100,6 +105,7 @@ import { Container, ModalManager } from '@zextras/carbonio-design-system';
 				'Text to edit: Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry, Lorem Ipsum has been the industry'
 			}
 			showClose
+			onClose={noop}
 			primaryAction={{ label: 'Primary action', onClick: console.log }}
 			secondaryAction={{ label: 'Secondary action', onClick: console.log }}
 		/>
@@ -113,6 +119,7 @@ import { Container, ModalManager } from '@zextras/carbonio-design-system';
 				'Text to edit: Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry, Lorem Ipsum has been the industry'
 			}
 			showClose={false}
+			onClose={noop}
 			primaryAction={{ label: 'Primary action with long label', onClick: console.log }}
 			secondaryAction={{ label: 'Secondary action with long label', onClick: console.log }}
 		/>
@@ -120,10 +127,9 @@ import { Container, ModalManager } from '@zextras/carbonio-design-system';
 			status={'error'}
 			type={'standard'}
 			title={'Lorem ipsum dolor sit amet'}
-			description={
-				'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
-			}
-			showClose={true}
+			description={'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'}
+			showClose
+			onClose={noop}
 			primaryAction={{ label: 'Primary action', onClick: console.log, icon: 'People' }}
 			secondaryAction={{ label: 'Secondary action', onClick: console.log }}
 		/>

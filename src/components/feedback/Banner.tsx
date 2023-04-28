@@ -60,7 +60,6 @@ const InfoContainer = styled(Container)`
 `;
 
 const BannerText = styled(Text)`
-	white-space: normal;
 	overflow: visible;
 `;
 
@@ -68,7 +67,9 @@ const WrapAndGrowContainer = styled(Container).attrs(({ theme, gap, flexBasis })
 	flexBasis: css`calc(${flexBasis} + ${theme.sizes.icon.large} + ${gap})`
 }))``;
 
-const ActionsContainer = styled(Container)``;
+const ActionsContainer = styled(Container)`
+	align-self: stretch;
+`;
 
 const CloseContainer = styled(Container)<{ $alignSelf?: string }>`
 	align-self: ${({ $alignSelf }): SimpleInterpolation => $alignSelf};
@@ -115,7 +116,6 @@ const Banner = React.forwardRef<HTMLDivElement, BannerProps>(function BannerFn(
 	ref
 ) {
 	const bannerRef = useCombinedRefs(ref);
-	const contentContainerRef = useRef<HTMLDivElement>(null);
 	const infoContainerRef = useRef<HTMLDivElement>(null);
 	const actionsContainerRef = useRef<HTMLDivElement>(null);
 	const closeContainerRef = useRef<HTMLDivElement>(null);
@@ -132,11 +132,9 @@ const Banner = React.forwardRef<HTMLDivElement, BannerProps>(function BannerFn(
 	const createModal = useModal();
 
 	const onBannerResize = useCallback((bannerContentHeight: number) => {
-		if (contentContainerRef.current && actionsContainerRef.current) {
-			setIsMultiline(
-				contentContainerRef.current.clientHeight !== bannerContentHeight &&
-					actionsContainerRef.current.clientHeight !== bannerContentHeight
-			);
+		if (actionsContainerRef.current) {
+			// actionsContainerRef must be align-self stretch in order to extend its height to the entire banner when inline
+			setIsMultiline(actionsContainerRef.current.clientHeight < bannerContentHeight);
 		}
 		if (infoContainerRef.current) {
 			setIsTextCropped(
@@ -168,9 +166,11 @@ const Banner = React.forwardRef<HTMLDivElement, BannerProps>(function BannerFn(
 		const descriptionLength = description.length * 0.875;
 		// calculate the number of character which can be seen in a line,
 		// in order to keep all text visible (both title and description - more or less, it is not super precise)
-		return `${Math.ceil(
+		const numberOfCharsPerLine = Math.ceil(
 			Math.max(titleLength, descriptionLength) / (titleLength > 0 && descriptionLength > 0 ? 2 : 3)
-		)}ch`;
+		);
+		const extraChars = 4;
+		return `${numberOfCharsPerLine + extraChars}ch`;
 	}, [title, description?.length]);
 
 	const showMoreInfoModal = useCallback(() => {
@@ -233,7 +233,6 @@ const Banner = React.forwardRef<HTMLDivElement, BannerProps>(function BannerFn(
 				gap={'1rem'}
 				orientation={'horizontal'}
 				mainAlignment={'flex-start'}
-				ref={contentContainerRef}
 			>
 				<Container width={'fit'} minWidth={'fit'} height={'fit'} minHeight={'fit'}>
 					<Icon icon={BANNER_ICON[status]} color={mainColor} size={'large'} />
@@ -248,9 +247,11 @@ const Banner = React.forwardRef<HTMLDivElement, BannerProps>(function BannerFn(
 					flexGrow={1}
 					ref={infoContainerRef}
 				>
-					<BannerText color={textColor} size={'medium'} weight={'bold'} overflow={'break-word'}>
-						{title}
-					</BannerText>
+					{title && (
+						<BannerText color={textColor} size={'medium'} weight={'bold'} overflow={'break-word'}>
+							{title}
+						</BannerText>
+					)}
 					<BannerText color={textColor} size={'small'} overflow={'break-word'}>
 						{description}
 					</BannerText>
@@ -259,7 +260,7 @@ const Banner = React.forwardRef<HTMLDivElement, BannerProps>(function BannerFn(
 			<ActionsContainer
 				width={'auto'}
 				flexBasis={'fit-content'}
-				height={'fit'}
+				height={'auto'}
 				gap={'0.5rem'}
 				orientation={'horizontal'}
 				margin={{ right: '0', left: 'auto' }}
@@ -292,7 +293,13 @@ const Banner = React.forwardRef<HTMLDivElement, BannerProps>(function BannerFn(
 					minHeight={'fit'}
 					ref={closeContainerRef}
 				>
-					<IconButton onClick={onClose} icon={'Close'} color={textColor} type={'ghost'} />
+					<IconButton
+						onClick={onClose}
+						icon={'Close'}
+						color={textColor}
+						type={'ghost'}
+						size={'large'}
+					/>
 				</CloseContainer>
 			)}
 		</BannerContainer>
