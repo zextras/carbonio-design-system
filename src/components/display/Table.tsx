@@ -85,6 +85,7 @@ const StyledTable = styled.table`
 	th,
 	td {
 		padding: 0 0.5rem;
+		height: 1.875rem;
 	}
 `;
 
@@ -302,18 +303,20 @@ const DefaultRowFactory: React.VFC<TRowProps> = ({
 			clickable={row.clickable}
 			showCheckbox={showCheckbox}
 		>
-			<td width="1.875rem" height="1.875rem" align="center">
-				{showCheckbox && (showCkb || selected || (multiSelect && selectionMode)) ? (
-					<Checkbox
-						ref={ckbRef}
-						size={'small'}
-						value={selected}
-						onClick={_onChange}
-						iconColor={(multiSelect && selectionMode) || selected ? 'primary' : 'text'}
-					/>
-				) : (
-					<Text>{index}</Text>
-				)}
+			<td>
+				<Row mainAlignment={'center'}>
+					{showCheckbox && (showCkb || selected || (multiSelect && selectionMode)) ? (
+						<Checkbox
+							ref={ckbRef}
+							size={'small'}
+							value={selected}
+							onClick={_onChange}
+							iconColor={(multiSelect && selectionMode) || selected ? 'primary' : 'text'}
+						/>
+					) : (
+						<Text>{index}</Text>
+					)}
+				</Row>
 			</td>
 			{rowData}
 		</TableRow>
