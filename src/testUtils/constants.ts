@@ -6,5 +6,6 @@
 export const ICONS = {
 	checkboxOn: 'icon: CheckmarkSquare',
 	checkboxOff: 'icon: Square',
-	close: 'icon: Close'
+	close: 'icon: Close',
+	datePickerAction: 'icon: CalendarOutline'
 };

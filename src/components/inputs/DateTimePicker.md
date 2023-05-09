@@ -12,9 +12,7 @@ where not specified here (in this case, they are being overwritten by our compon
 Refer to the official documentation to get a list of them https://github.com/Hacker0x01/react-datepicker
 
 By default, the DateTimePicker provide 2 types of input, a text input and a chip input.
-When using the Input component, it is possible to use some of the props of the library, and they should work out-of-the-box.
-At the contrary, the ChipInput at the moment does not support all the props of react-datepicker, so its behaviour is limited and could differ from the one
-obtainable with the Input.
+The behaviour of the two components can differ a bit because of how react-datepicker works under the hood.
 
 Examples of the library component are visible here https://reactdatepicker.com/
 
@@ -71,8 +69,13 @@ a different name for the prop of the input component in charge of accepting the 
 On most of the cases, creating a component with React.forwardRef is sufficient.
 
 React-datetimepicker under the hood takes the customInput (CustomComponent here), clones it, and set some props with internal
-implementations. For example, in order to make the validation of a manual typed value work, you should have a component which
-implements an onChange callback when the value change, following the shape of the event of the `React.ChangeEventHandler<HtmlInputElement>`.
+implementations. It is important, to have react-datepicker works as expected, to propagate all the standard html attributes to the input component.
+The most important ones are
+ * value: set the value of the input
+ * onClick: makes the picker open on click
+ * onChange: perform a validation of the input and set the new value of the picker (and not the input, which is updated by selecting a date/time from the picker)
+ * onFocus: makes the picker open on focus
+ * onKeyDown: update the picker value while typing
 
 For a better understanding of what react-datepicker does to create the input element, check the method [renderDateInput](https://github.com/Hacker0x01/react-datepicker/blob/10e64e21fddf2b24196d7c17d47670a5be9545f9/src/index.jsx#L1100C6-L1145) of the DatePicker component
 

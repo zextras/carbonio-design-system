@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { useCallback, useState, useEffect, useMemo } from 'react';
+import React, { useCallback, useState, useEffect, useMemo, useRef } from 'react';
 
 import { noop } from 'lodash';
 import { rgba } from 'polished';
@@ -827,6 +827,10 @@ const Styler = styled(Container)`
 		font-size: 1.44rem;
 	}
 
+	.react-datepicker__aria-live {
+		font-size: 0;
+	}
+
 	/*# sourceMappingURL=styles.css.map */
 
 	/* color: ${({ theme }): string => theme.palette.text.regular}; */
@@ -843,6 +847,10 @@ const InputIconsContainer = styled.div`
 
 const CustomIconButton = styled(IconButton)`
 	padding: 0.125rem;
+`;
+
+const DateTimePickerInputContainer = styled(Container)`
+	display: inline-flex;
 `;
 
 interface DateTimePickerProps extends Omit<ReactDatePickerProps, 'onChange'> {
@@ -874,14 +882,19 @@ interface DateTimePickerProps extends Omit<ReactDatePickerProps, 'onChange'> {
 	enableChips?: boolean;
 	/** Pass chip props */
 	chipProps?: Partial<ChipProps>;
-	/** Picker width: <br/>
-	 *  	`fit`: shorthand for fit-content
-	 *  	`fill`: semantic alternative for `100%`
-	 *  	number: measure in px
-	 *  	string: any measure in CSS syntax
+	/**
+	 * Input width: <br/>
+	 *  <li>`fit`: shorthand for fit-content</li>
+	 *  <li>`fill`: semantic alternative for `100%`</li>
+	 *  <li>number: measure in px</li>
+	 *  <li>string: any measure in CSS syntax</li>
 	 */
 	width?: 'fit' | 'fill' | string | number;
-	/** Use Custom Component to trigger the picker */
+	/**
+	 * Use a custom component instead of the default one.
+	 * The component will be cloned by react-datepicker.
+	 * See "With Custom Input" section for more details.
+	 */
 	CustomComponent?: React.ComponentType<{
 		value?: string;
 		onClick?: React.ReactEventHandler;
@@ -892,7 +905,7 @@ interface DateTimePickerProps extends Omit<ReactDatePickerProps, 'onChange'> {
 
 type DateTimePickerCustomInputProps = {
 	width: ContainerProps['width'];
-	onClick?: () => void;
+	onClick?: React.MouseEventHandler;
 	/** value is received from react-date-picker component */
 	value?: ReactDatePickerProps['value'];
 };
@@ -945,19 +958,18 @@ const buildInputIcons = ({
 	};
 
 const DateTimePickerInput = React.forwardRef<HTMLDivElement, DateTimePickerInputProps>(
-	function DateTimePickerInputFn(
-		{ width, value, onClick = noop, onClear, isClearable, ...rest },
-		ref
-	) {
+	function DateTimePickerInputFn({ width, onClear, isClearable, ...inputProps }, ref) {
+		const { value, onClick = noop } = inputProps;
+		const inputRef = useRef<HTMLInputElement>(null);
 		const InputIconsComponent = useMemo<InputProps['CustomIcon']>(
 			() => buildInputIcons({ showClear: isClearable && !!value, onClear, onClick }),
 			[isClearable, onClear, onClick, value]
 		);
 
 		return (
-			<Container width={width} ref={ref}>
-				<Input value={value} CustomIcon={InputIconsComponent} {...rest} />
-			</Container>
+			<DateTimePickerInputContainer width={width} ref={ref}>
+				<Input CustomIcon={InputIconsComponent} inputRef={inputRef} {...inputProps} />
+			</DateTimePickerInputContainer>
 		);
 	}
 );
@@ -984,7 +996,7 @@ const DateTimePickerChipInput = React.forwardRef<HTMLDivElement, DateTimePickerC
 		}, [chipProps, value]);
 
 		return (
-			<Container width={width} ref={ref}>
+			<DateTimePickerInputContainer width={width} ref={ref}>
 				<ChipInput
 					disabled
 					icon="CalendarOutline"
@@ -994,7 +1006,7 @@ const DateTimePickerChipInput = React.forwardRef<HTMLDivElement, DateTimePickerC
 					value={chipInputValue}
 					onChange={handleChipChange}
 				/>
-			</Container>
+			</DateTimePickerInputContainer>
 		);
 	}
 );
@@ -1022,7 +1034,7 @@ const DateTimePicker = React.forwardRef<ReactDatePicker, DateTimePickerProps>(
 			defaultValue = null,
 			disabled,
 
-			...rest
+			...datePickerProps
 		},
 		ref
 	) {
@@ -1044,6 +1056,7 @@ const DateTimePicker = React.forwardRef<ReactDatePicker, DateTimePickerProps>(
 			},
 			[onChange]
 		);
+
 		const handleChipChange = useCallback(() => {
 			setDateTime(null);
 			onChange && onChange(null);
@@ -1101,7 +1114,8 @@ const DateTimePicker = React.forwardRef<ReactDatePicker, DateTimePickerProps>(
 					disabled={disabled}
 					customInput={CustomComponent ? <CustomComponent /> : defaultInputComponent}
 					ref={ref}
-					{...rest}
+					adjustDateOnChange
+					{...datePickerProps}
 				/>
 			</Styler>
 		);
