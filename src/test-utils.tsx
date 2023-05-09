@@ -34,7 +34,7 @@ const queryAllByRoleWithIcon: GetAllBy<[ByRoleMatcher, ByRoleWithIconOptions]> =
 ) =>
 	filter(
 		screen.queryAllByRole('button', options),
-		(element) => within(element).queryByTestId(`icon: ${icon}`) !== null
+		(element) => within(element).queryByTestId(icon) !== null
 	);
 const getByRoleWithIconMultipleError = (
 	container: Element | null,
