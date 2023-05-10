@@ -6,6 +6,7 @@
 
 import React, { HTMLAttributes, useMemo } from 'react';
 
+import { map } from 'lodash';
 import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-components';
 
 import { getColor, getPadding, PaddingObj } from '../../theme/theme-utils';
@@ -15,7 +16,10 @@ interface ContainerElProps {
 	orientation?: 'row' | 'column' | 'row-reverse' | 'column-reverse';
 	/** Type of the Container's corners */
 	borderRadius?: 'regular' | 'round' | 'half' | 'none';
-	borderColor?: string | keyof DefaultTheme['palette'];
+	borderColor?:
+		| string
+		| keyof DefaultTheme['palette']
+		| Partial<Record<'top' | 'right' | 'bottom' | 'left', string | keyof DefaultTheme['palette']>>;
 	/** Container background color */
 	background?: string | keyof DefaultTheme['palette'];
 	/** Container height: <br/>
@@ -161,8 +165,21 @@ const ContainerEl = styled.div<ContainerElProps>`
 		if (typeof maxHeight === 'number') return `${maxHeight}px`;
 		return maxHeight;
 	}};
-	${({ borderColor, theme }): SimpleInterpolation =>
-		borderColor && `border: 0.0625rem solid ${getColor(borderColor, theme)}`};
+	${({ borderColor, theme }): SimpleInterpolation => {
+		if (borderColor) {
+			if (typeof borderColor === 'string') {
+				return css`
+					border: 0.0625rem solid ${getColor(borderColor, theme)};
+				`;
+			}
+			const borders = map(
+				borderColor,
+				(color, key) => color && css`border-${key}: 0.0625rem solid ${getColor(color, theme)};`
+			);
+			return borders;
+		}
+		return false;
+	}};
 	padding: ${({ theme, padding }): SimpleInterpolation => padding && getPadding(padding, theme)};
 	gap: ${({ gap }): SimpleInterpolation => gap};
 	&::-webkit-scrollbar {

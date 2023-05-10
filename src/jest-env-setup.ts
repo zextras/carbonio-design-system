@@ -41,6 +41,18 @@ beforeAll(() => {
 		)
 	});
 
+	// mock a simplified Intersection Observer
+	Object.defineProperty(window, 'ResizeObserver', {
+		writable: true,
+		value: function ResizeObserverMock(callback: ResizeObserverCallback): ResizeObserver {
+			return {
+				observe: jest.fn(),
+				unobserve: jest.fn(),
+				disconnect: jest.fn()
+			};
+		}
+	});
+
 	// define resizeTo function so that it fire a resize event with wanted dimensions
 	window.resizeTo = function resizeTo(width, height): void {
 		Object.assign(this, {
