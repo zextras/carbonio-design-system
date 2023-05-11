@@ -99,16 +99,20 @@ const ExampleCustomInput = forwardRef(({ value, onClick }, ref) => (
 
 ```jsx
 import { useState } from 'react';
-import { Padding } from '@zextras/carbonio-design-system';
-<>
+import { Container } from '@zextras/carbonio-design-system';
+<Container gap={"1rem"}>
 	<DateTimePicker
-		label="Date Time Picker"
+		label="Date Time Picker With Chips"
+		enableChips
+	/>
+	<DateTimePicker
+		label="With chips and custom format"
 		enableChips
 		includeTime={false}
-		dateFormat="dd/MM/yyyy"
+        dateFormat="dd/MM/yyyy"
 		defaultValue={new Date()}
 	/>
-</>;
+</Container>;
 ```
 
 ### With Error
