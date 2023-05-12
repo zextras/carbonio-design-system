@@ -231,14 +231,16 @@ const CustomIcon = styled(({ onClick, iconColor, ...rest }) =>
 		`};
 `;
 
+type ReducerAction<TValue> =
+	| { type: 'push' | 'replace'; item: ChipItem<TValue> }
+	| { type: 'pop'; index: number }
+	| { type: 'popLast' }
+	| { type: 'reset'; value: ChipItem<TValue>[] | undefined }
+	| { type: 'pushMultiples'; items: ChipItem<TValue>[] };
+
 function reducer<TValue>(
 	state: ChipItem<TValue>[],
-	action:
-		| { type: 'push' | 'replace'; item: ChipItem<TValue> }
-		| { type: 'pop'; index: number }
-		| { type: 'popLast' }
-		| { type: 'reset'; value: ChipItem<TValue>[] | undefined }
-		| { type: 'pushMultiples'; items: ChipItem<TValue>[] }
+	action: ReducerAction<TValue>
 ): ChipItem<TValue>[] {
 	switch (action.type) {
 		case 'push':
@@ -254,11 +256,11 @@ function reducer<TValue>(
 		case 'reset':
 			return action.value || [];
 		default:
-			throw new Error();
+			return state;
 	}
 }
 
-function DefaultOnAdd(valueToAdd: unknown | string): { label: string } {
+function DefaultOnAdd<TValue>(valueToAdd: TValue | string): { label: string } {
 	if (typeof valueToAdd === 'string') {
 		return { label: valueToAdd };
 	}
@@ -278,7 +280,7 @@ type ChipItem<TValue = unknown> = { label?: string } & ChipProps & {
 interface ChipInputProps<TValue = unknown>
 	extends Omit<ContainerProps, 'defaultValue' | 'onChange'> {
 	/** ref to the input element */
-	inputRef?: React.MutableRefObject<HTMLInputElement | null>;
+	inputRef?: React.ForwardedRef<HTMLInputElement> | null;
 	/** HTML input name */
 	inputName?: string;
 	/** Input Placeholder */
@@ -324,7 +326,7 @@ interface ChipInputProps<TValue = unknown>
 	 * Set the label for the error
 	 * @deprecated use description instead
 	 */
-	errorLabel?: string | undefined;
+	errorLabel?: string;
 	/** Background color for the error status */
 	errorBackgroundColor?: keyof DefaultTheme['palette'];
 	/** Set the limit for chip inputs <br />
@@ -364,7 +366,7 @@ interface ChipInputProps<TValue = unknown>
 	/** Dropdown max height */
 	dropdownMaxHeight?: string;
 	/** Description for the input */
-	description?: string | undefined;
+	description?: string;
 	/** Custom Chip component */
 	ChipComponent?: React.ComponentType<ChipItem<TValue>>;
 	/** allow to create chips from pasted values */
@@ -384,8 +386,8 @@ type ChipInputType<TValue> = React.ForwardRefExoticComponent<
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const ChipInput: ChipInputType<any> = React.forwardRef<HTMLDivElement, ChipInputProps<any>>(
-	function ChipInputFn(
+const ChipInput: ChipInputType<any> = React.forwardRef<HTMLDivElement, ChipInputProps>(
+	function ChipInputFn<TValue>(
 		{
 			inputRef = null,
 			inputName,
@@ -423,10 +425,13 @@ const ChipInput: ChipInputType<any> = React.forwardRef<HTMLDivElement, ChipInput
 			wrap = 'wrap',
 			maxHeight = '8.125rem',
 			...rest
-		},
-		ref
+		}: ChipInputProps<TValue>,
+		ref: React.ForwardedRef<HTMLDivElement>
 	) {
-		const [items, dispatch] = useReducer(reducer, defaultValue || value || []);
+		const [items, dispatch] = useReducer<React.Reducer<ChipItem<TValue>[], ReducerAction<TValue>>>(
+			reducer,
+			defaultValue || value || []
+		);
 		const [isActive, setIsActive] = useState(false);
 		const inputElRef = useCombinedRefs<HTMLInputElement>(inputRef);
 		const scrollContainerRef = useRef<HTMLDivElement | null>(null);
@@ -462,7 +467,7 @@ const ChipInput: ChipInputType<any> = React.forwardRef<HTMLDivElement, ChipInput
 		}, [inputElRef]);
 
 		const saveValue = useCallback(
-			(valueToSave: unknown) => {
+			(valueToSave: string | unknown) => {
 				const trimmedValue = typeof valueToSave === 'string' ? trim(valueToSave) : valueToSave;
 
 				const duplicate =
@@ -818,4 +823,4 @@ const ChipInput: ChipInputType<any> = React.forwardRef<HTMLDivElement, ChipInput
 
 ChipInput._newId = 0;
 
-export { ChipInput, ChipInputProps, ChipItem };
+export { ChipInput, ChipInputType, ChipInputProps, ChipItem };
