@@ -355,7 +355,7 @@ describe('ChipInput', () => {
 	});
 
 	test('click on an option without a custom click callback creates a chip, close dropdown and clear the input', () => {
-		const options: NonNullable<ChipInputProps['options']> = [
+		const options: NonNullable<ChipInputProps<never>['options']> = [
 			{ id: 'opt1', label: 'option 1' },
 			{ id: 'opt2', label: 'option 2' }
 		];
@@ -377,7 +377,7 @@ describe('ChipInput', () => {
 	});
 
 	test('click on an option with a custom click callback creates a chip, close dropdown and clear the input', () => {
-		const options: NonNullable<ChipInputProps['options']> = [
+		const options: NonNullable<ChipInputProps<never>['options']> = [
 			{ id: 'opt1', label: 'option 1', onClick: jest.fn() },
 			{ id: 'opt2', label: 'option 2', onClick: jest.fn() }
 		];
@@ -706,5 +706,16 @@ describe('ChipInput', () => {
 		expect(screen.queryByText('hello')).not.toBeInTheDocument();
 		expect(screen.queryByText('hola')).not.toBeInTheDocument();
 		expect(screen.queryByTestId('icon: Close')).not.toBeInTheDocument();
+	});
+
+	test('by default there is no limit to the maximum number of chips', () => {
+		render(<ChipInput />);
+		const inputElement = screen.getByRole('textbox');
+		const prevLimitMaxPlusOne = 21;
+		for (let i = 0; i < prevLimitMaxPlusOne; i += 1) {
+			userEvent.type(inputElement, `chip${i}`);
+			userEvent.keyboard(',', { keyboardMap: [{ code: 'Comma', key: ',', keyCode: 188 }] });
+		}
+		expect(screen.getAllByText(/chip/)).toHaveLength(prevLimitMaxPlusOne);
 	});
 });

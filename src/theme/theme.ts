@@ -73,6 +73,10 @@ export interface ThemeObj {
 		| 'info'
 		| 'text'
 		| 'shadow'
+		| 'successBanner'
+		| 'warningBanner'
+		| 'infoBanner'
+		| 'errorBanner'
 		| 'black'
 		| 'white',
 		ThemeColorObj
@@ -265,6 +269,34 @@ export const Theme: ThemeObj = {
 			active: '#FFFFFF',
 			focus: '#FFFFFF',
 			disabled: '#FFFFFF'
+		},
+		successBanner: {
+			regular: '#E6F2D8',
+			hover: '#E6F2D8',
+			active: '#E6F2D8',
+			focus: '#E6F2D8',
+			disabled: '#E6F2D8'
+		},
+		warningBanner: {
+			regular: '#FFF7DE',
+			hover: '#FFF7DE',
+			active: '#FFF7DE',
+			focus: '#FFF7DE',
+			disabled: '#FFF7DE'
+		},
+		infoBanner: {
+			regular: '#D3EBF8',
+			hover: '#D3EBF8',
+			active: '#D3EBF8',
+			focus: '#D3EBF8',
+			disabled: '#D3EBF8'
+		},
+		errorBanner: {
+			regular: '#F6D6D5',
+			hover: '#F6D6D5',
+			active: '#F6D6D5',
+			focus: '#F6D6D5',
+			disabled: '#F6D6D5'
 		}
 	},
 	avatarColors: {
@@ -320,193 +352,3 @@ export const Theme: ThemeObj = {
 		avatar_50: '#0288D1'
 	}
 };
-
-// export const DarkTheme = merge(cloneDeep(LightTheme), {
-// 	palette: {
-// 		currentColor: {
-// 			regular: 'currentColor',
-// 			hover: 'currentColor',
-// 			active: 'currentColor',
-// 			focus: 'currentColor',
-// 			disabled: 'currentColor'
-// 		},
-// 		transparent: {
-// 			regular: 'rgba(255, 255, 255, 0)',
-// 			hover: 'rgba(255, 255, 255, 0.05)',
-// 			active: 'rgba(255, 255, 255, 0.1)',
-// 			focus: 'rgba(255, 255, 255, 0.05)',
-// 			disabled: 'rgba(255, 255, 255, 0)'
-// 		},
-// 		primary: {
-// 			regular: '#5791dd',
-// 			hover: '#81ade6',
-// 			active: '#97bbea',
-// 			focus: '#81ade6',
-// 			disabled: '#364963'
-// 		},
-// 		secondary: {
-// 			regular: '#969696',
-// 			hover: '#afafaf',
-// 			active: '#bcbcbc',
-// 			focus: '#afafaf',
-// 			disabled: '#4d4d4d'
-// 		},
-// 		header: {
-// 			regular: '#39424e',
-// 			hover: '#4f5b6c',
-// 			active: '#59687a',
-// 			focus: '#4f5b6c',
-// 			disabled: '#39424e'
-// 		},
-// 		divider: {
-// 			regular: '#39424e',
-// 			hover: '#4f5b6c',
-// 			active: '#59687a',
-// 			focus: '#4f5b6c',
-// 			disabled: '#39424e'
-// 		},
-// 		highlight: {
-// 			regular: '#122e54',
-// 			hover: '#1b447e',
-// 			active: '#205093',
-// 			focus: '#1b447e',
-// 			disabled: '#243042'
-// 		},
-// 		gray0: {
-// 			regular: '#d7d7d7',
-// 			hover: '#f0f0f0',
-// 			active: '#fdfdfd',
-// 			focus: '#f0f0f0',
-// 			disabled: '#4d4d4d'
-// 		},
-// 		gray1: {
-// 			regular: '#969696',
-// 			hover: '#afafaf',
-// 			active: '#bcbcbc',
-// 			focus: '#afafaf',
-// 			disabled: '#4d4d4d'
-// 		},
-// 		gray2: {
-// 			regular: '#39424e',
-// 			hover: '#4f5b6c',
-// 			active: '#59687a',
-// 			focus: '#4f5b6c',
-// 			disabled: '#39424e'
-// 		},
-// 		gray3: {
-// 			regular: '#272e37',
-// 			hover: '#3c4755',
-// 			active: '#475364',
-// 			focus: '#3c4755',
-// 			disabled: '#272e37'
-// 		},
-// 		gray4: {
-// 			regular: '#21242f',
-// 			hover: '#363b4d',
-// 			active: '#41475c',
-// 			focus: '#363b4d',
-// 			disabled: '#21242f'
-// 		},
-// 		gray5: {
-// 			regular: '#1c2028',
-// 			hover: '#313846',
-// 			active: '#3b4455',
-// 			focus: '#313846',
-// 			disabled: '#1c2028'
-// 		},
-// 		gray6: {
-// 			regular: '#1a1a1a',
-// 			hover: '#343434',
-// 			active: '#404040',
-// 			focus: '#343434',
-// 			disabled: '#1a1a1a'
-// 		},
-// 		warning: {
-// 			regular: '#ffca2c',
-// 			hover: '#ffd75f',
-// 			active: '#ffdd78',
-// 			focus: '#ffd75f',
-// 			disabled: '#635836'
-// 		},
-// 		error: {
-// 			regular: '#d74941',
-// 			hover: '#e0716b',
-// 			active: '#e48580',
-// 			focus: '#e0716b',
-// 			disabled: '#633836'
-// 		},
-// 		success: {
-// 			regular: '#96c95b',
-// 			hover: '#aed682',
-// 			active: '#bbdc95',
-// 			focus: '#aed682',
-// 			disabled: '#4e6336'
-// 		},
-// 		info: {
-// 			regular: '#58b4e5',
-// 			hover: '#84c8ec',
-// 			active: '#9ad2ef',
-// 			focus: '#84c8ec',
-// 			disabled: '#365363'
-// 		},
-// 		text: {
-// 			regular: '#e6e6e6',
-// 			hover: '#ffffff',
-// 			active: '#ffffff',
-// 			focus: '#ffffff',
-// 			disabled: '#4d4d4d'
-// 		}
-// 	},
-// 	avatarColors: {
-// 		avatar_1: '#911717',
-// 		avatar_2: '#9e103f',
-// 		avatar_3: '#833591',
-// 		avatar_4: '#503287',
-// 		avatar_5: '#333f85',
-// 		avatar_6: '#095b9f',
-// 		avatar_7: '#077aaf',
-// 		avatar_8: '#1c9aab',
-// 		avatar_9: '#43a39a',
-// 		avatar_10: '#397d3b',
-// 		avatar_11: '#58802b',
-// 		avatar_12: '#838e18',
-// 		avatar_13: '#b08400',
-// 		avatar_14: '#b26b00',
-// 		avatar_15: '#a12600',
-// 		avatar_16: '#786159',
-// 		avatar_17: '#b72222',
-// 		avatar_18: '#cb1351',
-// 		avatar_19: '#aa46bb',
-// 		avatar_20: '#6940b0',
-// 		avatar_21: '#4254ab',
-// 		avatar_22: '#0c75cb',
-// 		avatar_23: '#0a9de1',
-// 		avatar_24: '#28c6db',
-// 		avatar_25: '#6bc2ba',
-// 		avatar_26: '#48a14c',
-// 		avatar_27: '#71a437',
-// 		avatar_28: '#a7b620',
-// 		avatar_29: '#e3ae00',
-// 		avatar_30: '#e58900',
-// 		avatar_31: '#cd3000',
-// 		avatar_32: '#9b8076',
-// 		avatar_33: '#8bf3ff',
-// 		avatar_34: '#de1814',
-// 		avatar_35: '#e81d61',
-// 		avatar_36: '#b966c7',
-// 		avatar_37: '#7e56c2',
-// 		avatar_38: '#5766be',
-// 		avatar_39: '#0d88ed',
-// 		avatar_40: '#1cb1f5',
-// 		avatar_41: '#50d0e1',
-// 		avatar_42: '#83e2d9',
-// 		avatar_43: '#5ab65f',
-// 		avatar_44: '#84c040',
-// 		avatar_45: '#c2d326',
-// 		avatar_46: '#ffc20b',
-// 		avatar_47: '#ff9e0d',
-// 		avatar_48: '#ef3800',
-// 		avatar_49: '#b19990',
-// 		avatar_50: '#60c6fd'
-// 	}
-// });

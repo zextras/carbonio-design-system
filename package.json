@@ -104,7 +104,7 @@
 		"@popperjs/core": "2.11.6",
 		"darkreader": "4.9.58",
 		"polished": "4.2.2",
-		"react-datepicker": "^4.8.0",
+		"react-datepicker": "^4.11.0",
 		"react-docgen-typescript": "^2.2.2"
 	}
 }

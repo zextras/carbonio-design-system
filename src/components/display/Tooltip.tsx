@@ -10,7 +10,8 @@ import React, {
 	useLayoutEffect,
 	useCallback,
 	useRef,
-	cloneElement
+	cloneElement,
+	createRef
 } from 'react';
 
 import { createPopper, Instance, Placement } from '@popperjs/core';
@@ -79,6 +80,8 @@ interface TooltipProps extends TextProps {
 	children: React.ReactElement;
 	/** time before tooltip shows, in milliseconds */
 	triggerDelay?: number;
+	/** trigger ref that can be used instead of lost children ref caused by cloneElement */
+	triggerRef?: React.Ref<HTMLElement>;
 }
 
 const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(function TooltipFn(
@@ -92,18 +95,19 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(function TooltipF
 		disablePortal = false,
 		overflowTooltip = false,
 		triggerDelay = 500,
+		triggerRef = createRef<HTMLElement>(),
 		...rest
 	},
 	ref
 ) {
 	const [open, setOpen] = useState(false);
 	const popperInstanceRef = useRef<Instance>();
-	const triggerRef = useRef<HTMLElement>();
+	const combinedTriggerRef = useCombinedRefs<HTMLElement>(triggerRef);
 	const tooltipRef = useCombinedRefs<HTMLDivElement>(ref);
 	const timeoutRef = useRef<null | ReturnType<typeof setTimeout>>(null);
 
 	const showTooltip = useCallback(() => {
-		const triggerElement = triggerRef.current;
+		const triggerElement = combinedTriggerRef.current;
 		if (triggerElement) {
 			const textIsCropped =
 				(triggerElement.className.slice(0, 4) === 'Text' &&
@@ -116,7 +120,7 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(function TooltipF
 				}, triggerDelay);
 			}
 		}
-	}, [overflowTooltip, triggerRef, triggerDelay]);
+	}, [overflowTooltip, combinedTriggerRef, triggerDelay]);
 
 	const hideTooltip = useCallback(() => {
 		setOpen(false);
@@ -124,8 +128,8 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(function TooltipF
 	}, []);
 
 	useLayoutEffect(() => {
-		if (open && !disabled && triggerRef.current && tooltipRef.current) {
-			popperInstanceRef.current = createPopper(triggerRef.current, tooltipRef.current, {
+		if (open && !disabled && combinedTriggerRef.current && tooltipRef.current) {
+			popperInstanceRef.current = createPopper(combinedTriggerRef.current, tooltipRef.current, {
 				placement,
 				modifiers: [
 					{
@@ -145,19 +149,19 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(function TooltipF
 		} else if (popperInstanceRef.current) {
 			popperInstanceRef.current.destroy();
 		}
-	}, [disabled, fallbackPlacements, open, placement, tooltipRef]);
+	}, [disabled, fallbackPlacements, open, placement, tooltipRef, combinedTriggerRef]);
 
 	useEffect(() => {
 		// Added timeout to fix Preact weird bug
 		const timeout = setTimeout(() => {
-			if (triggerRef.current && !disabled) {
-				triggerRef.current.addEventListener('focus', showTooltip);
-				triggerRef.current.addEventListener('blur', hideTooltip);
-				triggerRef.current.addEventListener('mouseenter', showTooltip);
-				triggerRef.current.addEventListener('mouseleave', hideTooltip);
+			if (combinedTriggerRef.current && !disabled) {
+				combinedTriggerRef.current.addEventListener('focus', showTooltip);
+				combinedTriggerRef.current.addEventListener('blur', hideTooltip);
+				combinedTriggerRef.current.addEventListener('mouseenter', showTooltip);
+				combinedTriggerRef.current.addEventListener('mouseleave', hideTooltip);
 			}
 		}, 1);
-		const refSave = triggerRef.current;
+		const refSave = combinedTriggerRef.current;
 		return (): void => {
 			if (refSave) {
 				refSave.removeEventListener('focus', showTooltip);
@@ -167,7 +171,7 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(function TooltipF
 			}
 			clearTimeout(timeout);
 		};
-	}, [triggerRef, showTooltip, hideTooltip, disabled]);
+	}, [combinedTriggerRef, showTooltip, hideTooltip, disabled]);
 
 	useEffect(
 		() => (): void => {
@@ -180,7 +184,7 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(function TooltipF
 
 	return (
 		<>
-			{cloneElement(children, { ref: triggerRef })}
+			{cloneElement(children, { ref: combinedTriggerRef })}
 			<Portal show={open && !disabled} disablePortal={disablePortal}>
 				<TooltipWrapperWithCss ref={tooltipRef} open={open} $maxWidth={maxWidth} {...rest}>
 					{label}
