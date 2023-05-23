@@ -355,7 +355,7 @@ describe('ChipInput', () => {
 	});
 
 	test('click on an option without a custom click callback creates a chip, close dropdown and clear the input', () => {
-		const options: NonNullable<ChipInputProps['options']> = [
+		const options: NonNullable<ChipInputProps<never>['options']> = [
 			{ id: 'opt1', label: 'option 1' },
 			{ id: 'opt2', label: 'option 2' }
 		];
@@ -377,7 +377,7 @@ describe('ChipInput', () => {
 	});
 
 	test('click on an option with a custom click callback creates a chip, close dropdown and clear the input', () => {
-		const options: NonNullable<ChipInputProps['options']> = [
+		const options: NonNullable<ChipInputProps<never>['options']> = [
 			{ id: 'opt1', label: 'option 1', onClick: jest.fn() },
 			{ id: 'opt2', label: 'option 2', onClick: jest.fn() }
 		];

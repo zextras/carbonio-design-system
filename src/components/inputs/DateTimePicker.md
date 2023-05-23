@@ -4,13 +4,46 @@ SPDX-FileCopyrightText: 2021 Zextras <https://www.zextras.com>
 SPDX-License-Identifier: AGPL-3.0-only
 -->
 
+DateTimePicker is an extension of the picker provided by react-datepicker library. The extension is made to style the
+library component in a ds-style and to give a default input ready to be used.
+
+The props shown here are the one defined for the extension, but it is possible to use all the props of the library itself,
+where not specified here (in this case, they are being overwritten by our component, with a possible different meaning).
+Refer to the official documentation to get a list of them https://github.com/Hacker0x01/react-datepicker
+
+By default, the DateTimePicker provide 2 types of input, a text input and a chip input.
+The behaviour of the two components can differ a bit because of how react-datepicker works under the hood.
+
+Examples of the library component are visible here https://reactdatepicker.com/
+
 ### Default
+
+Default are applied also for the react-datepicker props.
 
 ```jsx
 <DateTimePicker label="Date Time Picker" isClearable />
 ```
 
-### Without Time & Custom Date Format
+#### Default with some prop of the original component
+
+React-datepicker props can be set directly in the DateTimePicker
+
+```jsx
+import { useState, useCallback } from 'react';
+const [date, setDate] = useState(new Date());
+const handleChange = useCallback((d) => {
+	setDate(d);
+}, []);
+
+<DateTimePicker
+    label="Date Time Picker"
+    dateFormat="dd/MM/yyyy"
+    preventOpenOnFocus
+    timeIntervals={10}
+/>
+```
+
+### Without time & with custom date format
 
 ```jsx
 import { useState, useCallback } from 'react';
@@ -30,6 +63,21 @@ const handleChange = useCallback((d) => {
 ```
 
 ### With Custom Input
+
+When defining a custom input, it is important to create a component which accept a ref. React-datepicker offer the possibility to set
+a different name for the prop of the input component in charge of accepting the ref object. This prop is `customInputRef`.
+On most of the cases, creating a component with React.forwardRef is sufficient.
+
+React-datetimepicker under the hood takes the customInput (CustomComponent here), clones it, and set some props with internal
+implementations. It is important, to have react-datepicker works as expected, to propagate all the standard html attributes to the input component.
+The most important ones are
+ * value: set the value of the input
+ * onClick: makes the picker open on click
+ * onChange: perform a validation of the input and set the new value of the picker (and not the input, which is updated by selecting a date/time from the picker)
+ * onFocus: makes the picker open on focus
+ * onKeyDown: update the picker value while typing
+
+For a better understanding of what react-datepicker does to create the input element, check the method [renderDateInput](https://github.com/Hacker0x01/react-datepicker/blob/10e64e21fddf2b24196d7c17d47670a5be9545f9/src/index.jsx#L1100C6-L1145) of the DatePicker component
 
 ```jsx
 import { useState, forwardRef } from 'react';
@@ -51,16 +99,20 @@ const ExampleCustomInput = forwardRef(({ value, onClick }, ref) => (
 
 ```jsx
 import { useState } from 'react';
-import { Padding } from '@zextras/carbonio-design-system';
-<>
+import { Container } from '@zextras/carbonio-design-system';
+<Container gap={"1rem"}>
 	<DateTimePicker
-		label="Date Time Picker"
+		label="Date Time Picker With Chips"
+		enableChips
+	/>
+	<DateTimePicker
+		label="With chips and custom format"
 		enableChips
 		includeTime={false}
-		dateFormat="dd/MM/yyyy"
+        dateFormat="dd/MM/yyyy"
 		defaultValue={new Date()}
 	/>
-</>;
+</Container>;
 ```
 
 ### With Error

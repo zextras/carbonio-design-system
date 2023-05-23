@@ -13,6 +13,7 @@ import 'jest-styled-components';
 import { find as findStyled } from 'styled-components/test-utils';
 
 import { render } from '../../test-utils';
+import { ICONS } from '../../testUtils/constants';
 import { Theme } from '../../theme/theme';
 import { ModalManager } from '../utilities/ModalManager';
 import { Banner, BannerProps, InfoContainer } from './Banner';
@@ -134,7 +135,7 @@ describe('Banner', () => {
 				Theme.palette[mainColor].regular
 			);
 
-			expect(getByRoleWithIcon('button', { icon: 'Close' })).toHaveStyleRule(
+			expect(getByRoleWithIcon('button', { icon: ICONS.close })).toHaveStyleRule(
 				'color',
 				Theme.palette[textColor].regular
 			);
@@ -186,7 +187,7 @@ describe('Banner', () => {
 
 	test('Close action is hidden by default', () => {
 		const { queryByRoleWithIcon } = render(<Banner description={'Banner'} />);
-		expect(queryByRoleWithIcon('button', { icon: 'Close' })).not.toBeInTheDocument();
+		expect(queryByRoleWithIcon('button', { icon: ICONS.close })).not.toBeInTheDocument();
 	});
 
 	test('Close action is shown if showClose is true', () => {
@@ -194,7 +195,7 @@ describe('Banner', () => {
 		const { getByRoleWithIcon } = render(
 			<Banner description={'Banner'} showClose onClose={closeFn} />
 		);
-		const closeAction = getByRoleWithIcon('button', { icon: 'Close' });
+		const closeAction = getByRoleWithIcon('button', { icon: ICONS.close });
 		expect(closeAction).toBeVisible();
 		userEvent.click(closeAction);
 		expect(closeFn).toHaveBeenCalled();
@@ -308,7 +309,7 @@ describe('Banner', () => {
 		expect(infoContainer).not.toBeNull();
 		makeTextCropped(resizeObserver, infoContainer as HTMLElement);
 		const modal = await openMoreInfoModal();
-		const closeAction = getByRoleWithIcon('button', { icon: 'Close' });
+		const closeAction = getByRoleWithIcon('button', { icon: ICONS.close });
 		expect(closeAction).toBeVisible();
 		expect(closeAction).toBeVisible();
 		userEvent.click(closeAction);
