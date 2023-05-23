@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.1.0](https://github.com/Zextras/carbonio-design-system/compare/v2.0.0...v2.1.0) (2023-05-23)
+
+
+### Features
+
+* **Banner:** create Banner component ([fbe28f5](https://github.com/Zextras/carbonio-design-system/commit/fbe28f5aa521e5269fdfeca0acaae5192cd4b29d)), closes [#183](https://github.com/Zextras/carbonio-design-system/issues/183)
+* **ChipInput:** remove the default value for the limit of the chip ([1c11e5d](https://github.com/Zextras/carbonio-design-system/commit/1c11e5d82a410958728f420e16447c6732c859ca)), closes [#187](https://github.com/Zextras/carbonio-design-system/issues/187)
+
+
+### Bug Fixes
+
+* **DateTimePicker:** validate typed value of the input ([798700c](https://github.com/Zextras/carbonio-design-system/commit/798700c0e561dbf6b3c8ff116c2c116035f3ba8d)), closes [#185](https://github.com/Zextras/carbonio-design-system/issues/185)
+* enable tooltip children ref ([b3e9b06](https://github.com/Zextras/carbonio-design-system/commit/b3e9b0642e8f3bf2a22987c75c99fbb1fb72d593)), closes [#186](https://github.com/Zextras/carbonio-design-system/issues/186)
+* replace deprecated td tag attributes ([bab7d90](https://github.com/Zextras/carbonio-design-system/commit/bab7d905097e26f130466dec29425ba4f0d4045a)), closes [#184](https://github.com/Zextras/carbonio-design-system/issues/184)
+
 ## [2.0.0](https://github.com/Zextras/carbonio-design-system/compare/v1.2.0...v2.0.0) (2023-04-17)
 
 
