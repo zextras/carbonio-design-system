@@ -57,4 +57,17 @@ describe('Tooltip', () => {
 		});
 		expect(screen.queryByText(messageText)).not.toBeInTheDocument();
 	});
+
+	test('Ref for children is set through the prop triggerRef', () => {
+		const childRef = React.createRef<HTMLElement>();
+		const triggerRef = React.createRef<HTMLElement>();
+		render(
+			<Tooltip label={'tooltip label'} triggerRef={triggerRef}>
+				<span ref={childRef}>Trigger tooltip</span>
+			</Tooltip>
+		);
+		expect(childRef.current).toBeNull();
+		expect(triggerRef.current).not.toBeNull();
+		expect(screen.getByText('Trigger tooltip')).toBe(triggerRef.current);
+	});
 });

@@ -411,7 +411,7 @@ const ChipInput: ChipInputType<any> = React.forwardRef<HTMLDivElement, ChipInput
 			requireUniqueChips = false,
 			createChipOnPaste = false,
 			pasteSeparators = [','],
-			maxChips = 20,
+			maxChips = null,
 			hasError = false,
 			hideBorder = false,
 			errorLabel,
