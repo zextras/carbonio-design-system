@@ -64,7 +64,7 @@ const handleChange = useCallback((d) => {
 
 ### With Custom Input
 
-When defining a custom input, it is important to create a component with accept a ref. React-datepicker offer the possibility to set
+When defining a custom input, it is important to create a component which accept a ref. React-datepicker offer the possibility to set
 a different name for the prop of the input component in charge of accepting the ref object. This prop is `customInputRef`.
 On most of the cases, creating a component with React.forwardRef is sufficient.
 
