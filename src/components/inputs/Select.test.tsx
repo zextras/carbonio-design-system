@@ -10,9 +10,9 @@ import userEvent from '@testing-library/user-event';
 import { forEach, map, reject, slice } from 'lodash';
 
 import { render } from '../../test-utils';
-import { Select } from './Select';
+import { Select, SelectItem } from './Select';
 
-const items = [
+const items: SelectItem<`${number}`>[] = [
 	{
 		label: 'hi',
 		value: '1'
@@ -35,7 +35,7 @@ const items = [
 	}
 ];
 
-const extendedItems = [
+const extendedItems: SelectItem<`${number}`>[] = [
 	...items,
 	{
 		label: 'unselectable',
