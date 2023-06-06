@@ -53,13 +53,17 @@ Through the maxHeight prop is possible to set the height limit, beyond which the
 #### Controlled
 ```jsx
   import { useState } from 'react';
-  import { Container } from '@zextras/carbonio-design-system';
+  import { Button, Container } from '@zextras/carbonio-design-system';
 
   const [textAreaValue, setTextAreaValue] = useState('');
 
   const onChange = (event) => {
       setTextAreaValue(event.currentTarget.value);
   };
+	
+  const setValueFromButton = () => {
+    setTextAreaValue('A value set from outside')
+  }
 
   <Container gap={'0.5rem'} crossAlignment={'flex-start'}>
     <TextArea
@@ -69,6 +73,7 @@ Through the maxHeight prop is possible to set the height limit, beyond which the
         onChange={onChange}
     />
     <p style={{ border: '1px solid gray', width: '100%', minHeight: '1.5rem' }}>{textAreaValue || 'Type something'}</p>
+    <Button label={'Set value of TextArea'} onClick={setValueFromButton} />
   </Container>
 ```
 
