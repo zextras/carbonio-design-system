@@ -10,7 +10,7 @@ import userEvent from '@testing-library/user-event';
 import { forEach, map, reject, slice } from 'lodash';
 
 import { render } from '../../test-utils';
-import { Select, SelectItem } from './Select';
+import { Select, SelectItem, SingleSelectionOnChange } from './Select';
 
 const items: SelectItem<`${number}`>[] = [
 	{
@@ -395,5 +395,41 @@ describe('Select', () => {
 				expect(screen.getByText(selectedLabel)).toBeInTheDocument();
 			});
 		});
+	});
+
+	test('should accept a value different from a string', () => {
+		type ValueType = Record<`key${number}`, string>;
+		const onChangeFn = jest.fn<
+			ReturnType<SingleSelectionOnChange<ValueType>>,
+			Parameters<SingleSelectionOnChange<ValueType>>
+		>();
+		const itemsForSelect: SelectItem<ValueType>[] = [
+			{
+				label: 'item1',
+				value: {
+					key1: 'item1-value1',
+					key2: 'item1-value2'
+				}
+			},
+			{
+				label: 'item2',
+				value: {
+					key1: 'item1-value1',
+					key2: 'item1-value2'
+				}
+			}
+		];
+		render(
+			<Select
+				label={'Label'}
+				onChange={onChangeFn}
+				items={itemsForSelect}
+				defaultSelection={itemsForSelect[0]}
+			/>
+		);
+
+		userEvent.click(screen.getByText('Label'));
+		userEvent.click(screen.getByText('item2'));
+		expect(onChangeFn).toHaveBeenCalledWith(itemsForSelect[1].value);
 	});
 });

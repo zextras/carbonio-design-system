@@ -484,6 +484,45 @@ const [selected, setSelected] = useState(4);
 </>;
 ```
 
+The value of the select item can be fully customized, by default it is a string (to keep the compatibility with the previous version),
+but it is actually inferred by the type of the items.
+
+```tsx static collapsed
+import { useCallback } from 'react';
+import { type SingleSelectionOnChange } from './Select';
+
+type ValueType = Record<`key${number}`, string>;
+
+const onChangeFn = useCallback<SingleSelectionOnChange<ValueType>>((value) => {
+	console.log("value is the object (or null), and it's fully typed!");
+}, []);
+
+const itemsForSelect: SelectItem<ValueType>[] = [
+	{
+		label: 'item1',
+		value: {
+			key1: 'item1-value1',
+			key2: 'item1-value2'
+		}
+	},
+	{
+		label: 'item2',
+		value: {
+			key1: 'item1-value1',
+			key2: 'item1-value2'
+		}
+	}
+];
+
+
+<Select
+	label={'Label'}
+	onChange={onChangeFn}
+	items={itemsForSelect}
+	defaultSelection={itemsForSelect[0]}
+/>;
+```
+
 ### Development status:
 
 ```jsx noEditor

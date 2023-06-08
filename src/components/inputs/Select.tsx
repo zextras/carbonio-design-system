@@ -131,7 +131,7 @@ const SELECT_ACTION = {
 	SET: 'set'
 } as const;
 
-type MultipleSelectionReducerAction<T = string> = {
+type MultipleSelectionReducerAction<T> = {
 	multiple: true;
 	onChange: MultipleSelectionOnChange<T>;
 	isControlled: boolean;
@@ -145,7 +145,7 @@ type MultipleSelectionReducerAction<T = string> = {
 	  }
 );
 
-type SingleSelectionReducerAction<T = string> = {
+type SingleSelectionReducerAction<T> = {
 	multiple?: false;
 	onChange: SingleSelectionOnChange<T>;
 	isControlled: boolean;
@@ -153,13 +153,9 @@ type SingleSelectionReducerAction<T = string> = {
 	item: SelectItem<T>;
 };
 
-type SelectReducerAction<T = string> =
-	| SingleSelectionReducerAction<T>
-	| MultipleSelectionReducerAction<T>;
+type SelectReducerAction<T> = SingleSelectionReducerAction<T> | MultipleSelectionReducerAction<T>;
 
-const initialValue = <T = string,>(
-	value: SelectItem<T> | SelectItem<T>[] | undefined
-): SelectItem<T>[] => {
+const initialValue = <T,>(value: SelectItem<T> | SelectItem<T>[] | undefined): SelectItem<T>[] => {
 	if (value) {
 		if (Array.isArray(value)) {
 			return value;
@@ -169,7 +165,7 @@ const initialValue = <T = string,>(
 	return [];
 };
 
-function singleSelectionReducer<T = string>(
+function singleSelectionReducer<T>(
 	state: SelectItem<T>[],
 	action: SingleSelectionReducerAction<T>
 ): SelectItem<T>[] {
@@ -184,7 +180,7 @@ function singleSelectionReducer<T = string>(
 	}
 }
 
-function multipleSelectionReducer<T = string>(
+function multipleSelectionReducer<T>(
 	state: SelectItem<T>[],
 	action: MultipleSelectionReducerAction<T>
 ): SelectItem<T>[] {
@@ -216,7 +212,7 @@ function multipleSelectionReducer<T = string>(
 	}
 }
 
-function selectedReducer<T = string>(
+function selectedReducer<T>(
 	state: SelectItem<T>[],
 	action: SelectReducerAction<T>
 ): SelectItem<T>[] {
@@ -231,7 +227,7 @@ type SelectItem<T = string> = {
 	customComponent?: React.ReactElement;
 };
 
-type SelectComponentProps<T = string> = {
+type SelectComponentProps<T> = {
 	label?: string;
 	background?: string;
 	disabled?: boolean;
@@ -261,28 +257,28 @@ type MultipleSelectionOnChange<T = string> = (value: Array<SelectItem<T>>) => vo
 
 type SingleSelectionOnChange<T = string> = (value: T | null) => void;
 
-type UncontrolledMultipleSelection<T = string> = {
+type UncontrolledMultipleSelection<T> = {
 	multiple: true;
 	selection?: never;
 	defaultSelection?: Array<SelectItem<T>>;
 	onChange: MultipleSelectionOnChange<T>;
 };
 
-type ControlledMultipleSelection<T = string> = {
+type ControlledMultipleSelection<T> = {
 	multiple: true;
 	selection: Array<SelectItem<T>>;
 	defaultSelection?: never;
 	onChange: MultipleSelectionOnChange<T>;
 };
 
-type UncontrolledSingleSelection<T = string> = {
+type UncontrolledSingleSelection<T> = {
 	multiple?: false;
 	selection?: never;
 	defaultSelection?: SelectItem<T>;
 	onChange: SingleSelectionOnChange<T>;
 };
 
-type ControlledSingleSelection<T = string> = {
+type ControlledSingleSelection<T> = {
 	multiple?: false;
 	selection: SelectItem<T>;
 	defaultSelection?: never;
@@ -292,7 +288,14 @@ type ControlledSingleSelection<T = string> = {
 type SelectProps<T = string> = SelectComponentProps<T> &
 	Omit<DropdownProps, keyof SelectComponentProps<T> | 'children'>;
 
-const Select = React.forwardRef<HTMLDivElement, SelectProps<any>>(function SelectFn<T = string>(
+type SelectType = <T = string>(
+	p: SelectProps<T> & React.RefAttributes<HTMLDivElement>
+) => React.ReactElement | null;
+
+/**
+ * @visibleName Select
+ */
+const SelectComponent = React.forwardRef(function SelectFn<T = string>(
 	{
 		background = INPUT_BACKGROUND_COLOR,
 		disabled = false,
@@ -313,7 +316,7 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps<any>>(function Selec
 		...rest
 	}: SelectProps<T>,
 	ref: React.ForwardedRef<HTMLDivElement>
-) {
+): JSX.Element {
 	const [selected, dispatchSelected] = useReducer<
 		Reducer<SelectItem<T>[], SelectReducerAction<T>>,
 		SelectItem<T>[]
@@ -467,11 +470,15 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps<any>>(function Selec
 	);
 });
 
+// styleguidist is not able to parse the props if the cast is made directly on the component
+const Select = SelectComponent as SelectType;
+
 export {
+	SelectComponent,
 	Select,
-	SelectProps,
-	SelectItem,
-	LabelFactoryProps,
-	MultipleSelectionOnChange,
-	SingleSelectionOnChange
+	type SelectProps,
+	type SelectItem,
+	type LabelFactoryProps,
+	type MultipleSelectionOnChange,
+	type SingleSelectionOnChange
 };

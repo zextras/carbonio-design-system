@@ -36,7 +36,14 @@ export * from './components/inputs/PasswordInput';
 export * from './components/inputs/Radio';
 export * from './components/inputs/RadioGroup';
 export * from './components/inputs/SearchInput';
-export * from './components/inputs/Select';
+export {
+	Select,
+	type SelectProps,
+	type SingleSelectionOnChange,
+	type MultipleSelectionOnChange,
+	type SelectItem,
+	type LabelFactoryProps
+} from './components/inputs/Select';
 export * from './components/inputs/Switch';
 export * from './components/inputs/DateTimePicker';
 export * from './components/inputs/Slider';
