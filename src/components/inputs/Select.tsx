@@ -7,7 +7,7 @@
 import React, { useState, useMemo, useCallback, useReducer, useEffect, Reducer } from 'react';
 
 import { some, isEmpty, isNil, filter, map } from 'lodash';
-import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-components';
+import styled, { css, SimpleInterpolation } from 'styled-components';
 
 import { getColor } from '../../theme/theme-utils';
 import { Icon } from '../basic/Icon';
@@ -49,24 +49,24 @@ const CustomIcon = styled(Icon)`
 	pointer-events: none;
 `;
 
-interface LabelFactoryProps {
+interface LabelFactoryProps<T = string> {
 	label: string | undefined;
 	open: boolean;
 	focus: boolean;
-	background: string | keyof DefaultTheme['palette'];
+	background: string;
 	multiple: boolean;
 	disabled: boolean;
-	selected: SelectItem[];
+	selected: SelectItem<T>[];
 }
 
-const DefaultLabelFactory: React.VFC<LabelFactoryProps> = ({
+const DefaultLabelFactory = <T,>({
 	selected,
 	label,
 	open,
 	focus,
 	background,
 	disabled
-}) => {
+}: LabelFactoryProps<T>): JSX.Element => {
 	const selectedLabels = useMemo(
 		() =>
 			!isEmpty(selected) &&
@@ -130,22 +130,32 @@ const SELECT_ACTION = {
 	RESET: 'reset',
 	SET: 'set'
 } as const;
-type SelectReducerAction =
-	| ({ multiple?: false; onChange: SingleSelectionOnChange; isControlled: boolean } & {
-			type: typeof SELECT_ACTION.PUSH | typeof SELECT_ACTION.REMOVE | typeof SELECT_ACTION.SET;
-			item: SelectItem;
-	  })
-	| ({ multiple: true; onChange: MultipleSelectionOnChange; isControlled: boolean } & (
-			| { type: typeof SELECT_ACTION.SELECT_ALL; items: SelectItem[] }
-			| { type: typeof SELECT_ACTION.RESET }
-			| { type: typeof SELECT_ACTION.SET; items: SelectItem[] }
-			| {
-					type: typeof SELECT_ACTION.PUSH | typeof SELECT_ACTION.REMOVE;
-					item: SelectItem;
-			  }
-	  ));
 
-const initialValue = (value: SelectItem | SelectItem[] | undefined): SelectItem[] => {
+type MultipleSelectionReducerAction<T> = {
+	multiple: true;
+	onChange: MultipleSelectionOnChange<T>;
+	isControlled: boolean;
+} & (
+	| { type: typeof SELECT_ACTION.SELECT_ALL; items: SelectItem<T>[] }
+	| { type: typeof SELECT_ACTION.RESET }
+	| { type: typeof SELECT_ACTION.SET; items: SelectItem<T>[] }
+	| {
+			type: typeof SELECT_ACTION.PUSH | typeof SELECT_ACTION.REMOVE;
+			item: SelectItem<T>;
+	  }
+);
+
+type SingleSelectionReducerAction<T> = {
+	multiple?: false;
+	onChange: SingleSelectionOnChange<T>;
+	isControlled: boolean;
+	type: typeof SELECT_ACTION.SET | typeof SELECT_ACTION.PUSH;
+	item: SelectItem<T>;
+};
+
+type SelectReducerAction<T> = SingleSelectionReducerAction<T> | MultipleSelectionReducerAction<T>;
+
+const initialValue = <T,>(value: SelectItem<T> | SelectItem<T>[] | undefined): SelectItem<T>[] => {
 	if (value) {
 		if (Array.isArray(value)) {
 			return value;
@@ -155,18 +165,25 @@ const initialValue = (value: SelectItem | SelectItem[] | undefined): SelectItem[
 	return [];
 };
 
-function selectedReducer(state: SelectItem[], action: SelectReducerAction): SelectItem[] {
-	if (action.type === SELECT_ACTION.SET) {
-		if (action.multiple) {
-			return action.items;
-		}
-		return [action.item];
+function singleSelectionReducer<T>(
+	state: SelectItem<T>[],
+	action: SingleSelectionReducerAction<T>
+): SelectItem<T>[] {
+	switch (action.type) {
+		case SELECT_ACTION.SET:
+			return [action.item];
+		case SELECT_ACTION.PUSH:
+			action.onChange(action.item.value);
+			return (action.isControlled && state) || (action.item ? [action.item] : []);
+		default:
+			return state;
 	}
-	if (!action.multiple) {
-		const value = action.item ? [action.item] : [];
-		action.onChange(action.item.value);
-		return action.isControlled ? state : value;
-	}
+}
+
+function multipleSelectionReducer<T>(
+	state: SelectItem<T>[],
+	action: MultipleSelectionReducerAction<T>
+): SelectItem<T>[] {
 	switch (action.type) {
 		case SELECT_ACTION.PUSH: {
 			const value = [...state, { ...action.item }];
@@ -187,22 +204,34 @@ function selectedReducer(state: SelectItem[], action: SelectReducerAction): Sele
 			action.onChange([]);
 			return action.isControlled ? state : [];
 		}
+		case SELECT_ACTION.SET: {
+			return action.items;
+		}
 		default:
 			throw new Error();
 	}
 }
-type SelectItem = {
+
+function selectedReducer<T>(
+	state: SelectItem<T>[],
+	action: SelectReducerAction<T>
+): SelectItem<T>[] {
+	return action.multiple
+		? multipleSelectionReducer(state, action)
+		: singleSelectionReducer(state, action);
+}
+type SelectItem<T = string> = {
 	label: string;
-	value: string;
+	value: T;
 	disabled?: boolean;
 	customComponent?: React.ReactElement;
 };
 
-type SelectComponentProps = {
+type SelectComponentProps<T> = {
 	label?: string;
-	background?: string | keyof DefaultTheme['palette'];
+	background?: string;
 	disabled?: boolean;
-	items?: SelectItem[];
+	items?: SelectItem<T>[];
 	/** Css display property of select */
 	display?: 'block' | 'inline-block';
 	/** Css width property of dropdown */
@@ -211,55 +240,62 @@ type SelectComponentProps = {
 	dropdownMaxWidth?: string;
 	/** Css max-height property of dropdown */
 	dropdownMaxHeight?: string;
-	LabelFactory?: React.ComponentType<LabelFactoryProps>;
+	LabelFactory?: React.ComponentType<LabelFactoryProps<T>>;
 	i18nAllLabel?: string;
 	/** Flag to disable the Portal implementation of dropdown */
 	disablePortal?: boolean;
 	/** Whether to show checkboxes */
 	showCheckbox?: boolean;
 } & (
-	| UncontrolledMultipleSelection
-	| ControlledMultipleSelection
-	| UncontrolledSingleSelection
-	| ControlledSingleSelection
+	| UncontrolledMultipleSelection<T>
+	| ControlledMultipleSelection<T>
+	| UncontrolledSingleSelection<T>
+	| ControlledSingleSelection<T>
 );
 
-type MultipleSelectionOnChange = (value: Array<SelectItem>) => void;
+type MultipleSelectionOnChange<T = string> = (value: Array<SelectItem<T>>) => void;
 
-type SingleSelectionOnChange = (value: string | null) => void;
+type SingleSelectionOnChange<T = string> = (value: T | null) => void;
 
-type UncontrolledMultipleSelection = {
+type UncontrolledMultipleSelection<T> = {
 	multiple: true;
 	selection?: never;
-	defaultSelection?: Array<SelectItem>;
-	onChange: MultipleSelectionOnChange;
+	defaultSelection?: Array<SelectItem<T>>;
+	onChange: MultipleSelectionOnChange<T>;
 };
 
-type ControlledMultipleSelection = {
+type ControlledMultipleSelection<T> = {
 	multiple: true;
-	selection: Array<SelectItem>;
+	selection: Array<SelectItem<T>>;
 	defaultSelection?: never;
-	onChange: MultipleSelectionOnChange;
+	onChange: MultipleSelectionOnChange<T>;
 };
 
-type UncontrolledSingleSelection = {
+type UncontrolledSingleSelection<T> = {
 	multiple?: false;
 	selection?: never;
-	defaultSelection?: SelectItem;
-	onChange: SingleSelectionOnChange;
+	defaultSelection?: SelectItem<T>;
+	onChange: SingleSelectionOnChange<T>;
 };
 
-type ControlledSingleSelection = {
+type ControlledSingleSelection<T> = {
 	multiple?: false;
-	selection: SelectItem;
+	selection: SelectItem<T>;
 	defaultSelection?: never;
-	onChange: SingleSelectionOnChange;
+	onChange: SingleSelectionOnChange<T>;
 };
 
-type SelectProps = SelectComponentProps &
-	Omit<DropdownProps, keyof SelectComponentProps | 'children'>;
+type SelectProps<T = string> = SelectComponentProps<T> &
+	Omit<DropdownProps, keyof SelectComponentProps<T> | 'children'>;
 
-const Select = React.forwardRef<HTMLDivElement, SelectProps>(function SelectFn(
+type SelectType = <T = string>(
+	p: SelectProps<T> & React.RefAttributes<HTMLDivElement>
+) => React.ReactElement | null;
+
+/**
+ * @visibleName Select
+ */
+const SelectComponent = React.forwardRef(function SelectFn<T = string>(
 	{
 		background = INPUT_BACKGROUND_COLOR,
 		disabled = false,
@@ -278,24 +314,24 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps>(function SelectFn(
 		disablePortal = false,
 		showCheckbox = true,
 		...rest
-	},
-	ref
-) {
+	}: SelectProps<T>,
+	ref: React.ForwardedRef<HTMLDivElement>
+): JSX.Element {
 	const [selected, dispatchSelected] = useReducer<
-		Reducer<SelectItem[], SelectReducerAction>,
-		SelectItem[]
+		Reducer<SelectItem<T>[], SelectReducerAction<T>>,
+		SelectItem<T>[]
 	>(selectedReducer, initialValue(defaultSelection ?? selection), (initial) => initial);
 	const [open, setOpen] = useState(false);
 	const [focus, setFocus] = useState(false);
 
 	const isControlled = !isNil(selection);
 	const clickItemHandler = useCallback(
-		(item: SelectItem, isSelected: boolean) => (): void => {
+		(item: SelectItem<T>, isSelected: boolean) => (): void => {
 			if (multiple && isSelected) {
 				dispatchSelected({
 					type: SELECT_ACTION.REMOVE,
 					item,
-					onChange: onChange as MultipleSelectionOnChange,
+					onChange: onChange as MultipleSelectionOnChange<T>,
 					multiple: true,
 					isControlled
 				});
@@ -303,7 +339,7 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps>(function SelectFn(
 				dispatchSelected({
 					type: SELECT_ACTION.PUSH,
 					item,
-					onChange: onChange as MultipleSelectionOnChange,
+					onChange: onChange as MultipleSelectionOnChange<T>,
 					multiple: true,
 					isControlled
 				});
@@ -311,7 +347,7 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps>(function SelectFn(
 				dispatchSelected({
 					type: SELECT_ACTION.PUSH,
 					item,
-					onChange: onChange as SingleSelectionOnChange,
+					onChange: onChange as SingleSelectionOnChange<T>,
 					multiple: false,
 					isControlled
 				});
@@ -347,7 +383,7 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps>(function SelectFn(
 			if (isSelected) {
 				dispatchSelected({
 					type: SELECT_ACTION.RESET,
-					onChange: onChange as MultipleSelectionOnChange,
+					onChange: onChange as MultipleSelectionOnChange<T>,
 					multiple: true,
 					isControlled
 				});
@@ -355,7 +391,7 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps>(function SelectFn(
 				dispatchSelected({
 					type: SELECT_ACTION.SELECT_ALL,
 					items,
-					onChange: onChange as MultipleSelectionOnChange,
+					onChange: onChange as MultipleSelectionOnChange<T>,
 					multiple: true,
 					isControlled
 				});
@@ -387,15 +423,15 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps>(function SelectFn(
 				dispatchSelected({
 					type: SELECT_ACTION.SET,
 					items: selection,
-					onChange: onChange as MultipleSelectionOnChange,
+					onChange: onChange as MultipleSelectionOnChange<T>,
 					multiple: true,
 					isControlled
 				});
 			} else if (!multiple && !(selection instanceof Array)) {
 				dispatchSelected({
 					type: SELECT_ACTION.SET,
-					item: selection as SelectItem,
-					onChange: onChange as SingleSelectionOnChange,
+					item: selection,
+					onChange: onChange as SingleSelectionOnChange<T>,
 					multiple: false,
 					isControlled
 				});
@@ -434,11 +470,15 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps>(function SelectFn(
 	);
 });
 
+// styleguidist is not able to parse the props if the cast is made directly on the component
+const Select = SelectComponent as SelectType;
+
 export {
+	SelectComponent,
 	Select,
-	SelectProps,
-	SelectItem,
-	LabelFactoryProps,
-	MultipleSelectionOnChange,
-	SingleSelectionOnChange
+	type SelectProps,
+	type SelectItem,
+	type LabelFactoryProps,
+	type MultipleSelectionOnChange,
+	type SingleSelectionOnChange
 };
