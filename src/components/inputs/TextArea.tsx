@@ -202,6 +202,10 @@ const TextArea: TextArea = React.forwardRef<HTMLDivElement, TextAreaProps>(funct
 	const [hasFocus, setHasFocus] = useState(false);
 	const [textAreaHasValue, setTextAreaHasValue] = useState(!!defaultValue || !!value);
 
+	useEffect(() => {
+		setTextAreaHasValue(!!defaultValue || !!value);
+	}, [defaultValue, value]);
+
 	const [id] = useState<string>(() => {
 		if (TextArea._newId === undefined) {
 			TextArea._newId = 0;
