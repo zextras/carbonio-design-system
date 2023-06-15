@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.1](https://github.com/Zextras/carbonio-design-system/compare/v2.1.0...v2.1.1) (2023-06-15)
+
+
+### Bug Fixes
+
+* **TextArea:** update label position when value change ([542cb70](https://github.com/Zextras/carbonio-design-system/commit/542cb704c652805ef0cad3035a429c1b42be4a57)), closes [#190](https://github.com/Zextras/carbonio-design-system/issues/190)
+
 ## [2.1.0](https://github.com/Zextras/carbonio-design-system/compare/v2.0.0...v2.1.0) (2023-05-23)
 
 
