@@ -23,17 +23,19 @@ interface PortalProps {
 	disablePortal?: boolean;
 }
 
-const Portal = React.forwardRef<React.ReactPortal, PortalProps>(function PortalFn(
-	{ children, container, show = false, disablePortal = false },
-	_ref
-): React.ReactElement | null {
+const Portal = React.forwardRef<React.ReactPortal, PortalProps>(function PortalFn({
+	children,
+	container,
+	show = false,
+	disablePortal = false
+}): React.ReactElement | null {
 	const { windowObj } = useContext(ThemeContext);
 
 	if (!show) return null;
 
 	if (disablePortal) return children;
 
-	return ReactDOM.createPortal(children, container || windowObj.document.body);
+	return ReactDOM.createPortal(children, container ?? windowObj.document.body);
 });
 
 export { Portal, PortalProps };
