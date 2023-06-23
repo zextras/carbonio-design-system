@@ -12,6 +12,7 @@ import reduce from 'lodash/reduce';
 
 import { ChipInput, ChipInputProps, ChipItem } from './ChipInput';
 import { render } from '../../test-utils';
+import { ICONS } from '../../testUtils/constants';
 
 describe('ChipInput', () => {
 	test('render a chip input with a placeholder, two chips, an icon and a description', () => {
@@ -90,8 +91,8 @@ describe('ChipInput', () => {
 		// chip 1 is visible
 		expect(screen.getByText('ciao')).toBeInTheDocument();
 		expect(screen.getByText('ciao')).toBeVisible();
-		expect(screen.getByTestId('icon: Close')).toBeInTheDocument();
-		expect(screen.getByTestId('icon: Close')).toBeVisible();
+		expect(screen.getByTestId(ICONS.close)).toBeInTheDocument();
+		expect(screen.getByTestId(ICONS.close)).toBeVisible();
 		// create chip 2 with enter
 		userEvent.type(inputElement, 'hello');
 		expect(inputElement).toHaveValue('hello');
@@ -104,7 +105,7 @@ describe('ChipInput', () => {
 		// chip 2 is visible
 		expect(screen.getByText('hello')).toBeInTheDocument();
 		expect(screen.getByText('hello')).toBeVisible();
-		expect(screen.getAllByTestId('icon: Close')).toHaveLength(2);
+		expect(screen.getAllByTestId(ICONS.close)).toHaveLength(2);
 		// create chip 3 with comma
 		userEvent.type(inputElement, 'salut');
 		expect(inputElement).toHaveValue('salut');
@@ -122,7 +123,7 @@ describe('ChipInput', () => {
 		// chip 3 is visible
 		expect(screen.getByText('salut')).toBeInTheDocument();
 		expect(screen.getByText('salut')).toBeVisible();
-		expect(screen.getAllByTestId('icon: Close')).toHaveLength(3);
+		expect(screen.getAllByTestId(ICONS.close)).toHaveLength(3);
 	});
 
 	test('if custom separators are provided, enter and comma does not create a chip when typed, the custom keys do it', () => {
@@ -140,8 +141,8 @@ describe('ChipInput', () => {
 		// chip 1 is visible
 		expect(screen.getByText('ciao')).toBeInTheDocument();
 		expect(screen.getByText('ciao')).toBeVisible();
-		expect(screen.getByTestId('icon: Close')).toBeInTheDocument();
-		expect(screen.getByTestId('icon: Close')).toBeVisible();
+		expect(screen.getByTestId(ICONS.close)).toBeInTheDocument();
+		expect(screen.getByTestId(ICONS.close)).toBeVisible();
 		// create chip 2 with x
 		userEvent.type(inputElement, 'hello');
 		expect(inputElement).toHaveValue('hello');
@@ -158,7 +159,7 @@ describe('ChipInput', () => {
 		// chip 2 is visible
 		expect(screen.getByText('helloThere')).toBeInTheDocument();
 		expect(screen.getByText('helloThere')).toBeVisible();
-		expect(screen.getAllByTestId('icon: Close')).toHaveLength(2);
+		expect(screen.getAllByTestId(ICONS.close)).toHaveLength(2);
 		// comma does not create chip
 		userEvent.type(inputElement, 'salut');
 		expect(inputElement).toHaveValue('salut');
@@ -178,7 +179,7 @@ describe('ChipInput', () => {
 		// chip 3 is visible
 		expect(screen.getByText('salut,bonjour')).toBeInTheDocument();
 		expect(screen.getByText('salut,bonjour')).toBeVisible();
-		expect(screen.getAllByTestId('icon: Close')).toHaveLength(3);
+		expect(screen.getAllByTestId(ICONS.close)).toHaveLength(3);
 	});
 
 	test('blur event creates a chip', () => {
@@ -195,8 +196,8 @@ describe('ChipInput', () => {
 		// chip 1 is visible
 		expect(screen.getByText('ciao')).toBeInTheDocument();
 		expect(screen.getByText('ciao')).toBeVisible();
-		expect(screen.getByTestId('icon: Close')).toBeInTheDocument();
-		expect(screen.getByTestId('icon: Close')).toBeVisible();
+		expect(screen.getByTestId(ICONS.close)).toBeInTheDocument();
+		expect(screen.getByTestId(ICONS.close)).toBeVisible();
 		expect(inputElement).not.toHaveFocus();
 	});
 
@@ -209,7 +210,7 @@ describe('ChipInput', () => {
 		userEvent.type(inputElement, 'ciao ciao');
 		// input keeps its value
 		expect(inputElement).toHaveValue('ciao ciao');
-		expect(screen.queryByTestId('icon: Close')).not.toBeInTheDocument();
+		expect(screen.queryByTestId(ICONS.close)).not.toBeInTheDocument();
 		expect(inputElement).toHaveFocus();
 	});
 
@@ -224,8 +225,8 @@ describe('ChipInput', () => {
 		expect(inputElement).toHaveValue('hello');
 		// chip is created with text before space
 		expect(screen.getByText('ciao')).toBeVisible();
-		expect(screen.getByTestId('icon: Close')).toBeInTheDocument();
-		expect(screen.getByTestId('icon: Close')).toBeVisible();
+		expect(screen.getByTestId(ICONS.close)).toBeInTheDocument();
+		expect(screen.getByTestId(ICONS.close)).toBeVisible();
 	});
 
 	test('if blur separator is disabled, blur does not create a chip', () => {
@@ -239,7 +240,7 @@ describe('ChipInput', () => {
 		userEvent.tab();
 		// input keeps its value
 		expect(inputElement).toHaveValue('ciao');
-		expect(screen.queryByTestId('icon: Close')).not.toBeInTheDocument();
+		expect(screen.queryByTestId(ICONS.close)).not.toBeInTheDocument();
 		expect(inputElement).not.toHaveFocus();
 	});
 
@@ -273,8 +274,8 @@ describe('ChipInput', () => {
 		expect(inputElement).toBeInTheDocument();
 		expect(inputElement).toBeVisible();
 		expect(screen.getByText('chip')).toBeVisible();
-		expect(screen.getByTestId('icon: Close')).toBeVisible();
-		userEvent.click(screen.getByTestId('icon: Close'));
+		expect(screen.getByTestId(ICONS.close)).toBeVisible();
+		userEvent.click(screen.getByTestId(ICONS.close));
 		expect(changeFn).toHaveBeenCalled();
 		expect(screen.getByTestId('icon: PeopleOutline')).toBeVisible();
 		userEvent.click(screen.getByTestId('icon: PeopleOutline'));
@@ -372,7 +373,7 @@ describe('ChipInput', () => {
 		userEvent.click(screen.getByText('option 1'));
 		expect(screen.queryByText('option 2')).not.toBeInTheDocument();
 		expect(screen.getByText('option 1')).toBeVisible();
-		expect(screen.getByTestId('icon: Close')).toBeVisible();
+		expect(screen.getByTestId(ICONS.close)).toBeVisible();
 		expect(chipInputInput).toHaveValue('');
 	});
 
@@ -394,7 +395,7 @@ describe('ChipInput', () => {
 		userEvent.click(screen.getByText('option 1'));
 		expect(screen.queryByText('option 2')).not.toBeInTheDocument();
 		expect(screen.getByText('option 1')).toBeVisible();
-		expect(screen.getByTestId('icon: Close')).toBeVisible();
+		expect(screen.getByTestId(ICONS.close)).toBeVisible();
 		expect(chipInputInput).toHaveValue('');
 	});
 
@@ -405,16 +406,16 @@ describe('ChipInput', () => {
 		// create first chip
 		userEvent.type(inputElement, 'chip{space}');
 		expect(screen.getByText('chip')).toBeVisible();
-		expect(screen.getByTestId('icon: Close')).toBeVisible();
+		expect(screen.getByTestId(ICONS.close)).toBeVisible();
 		// create second chip with different label
 		userEvent.type(inputElement, 'other-chip{space}');
 		expect(screen.getByText('other-chip')).toBeVisible();
-		expect(screen.getAllByTestId('icon: Close')).toHaveLength(2);
+		expect(screen.getAllByTestId(ICONS.close)).toHaveLength(2);
 		// try to create third chip with same label of first one
 		userEvent.type(inputElement, 'chip{space}');
 		// chip is not created, only the first one is visible, but input is cleared
 		expect(screen.getByText('chip')).toBeVisible();
-		expect(screen.getAllByTestId('icon: Close')).toHaveLength(2);
+		expect(screen.getAllByTestId(ICONS.close)).toHaveLength(2);
 		expect(inputElement).toHaveValue('');
 		expect(inputElement).toHaveFocus();
 	});
@@ -429,7 +430,7 @@ describe('ChipInput', () => {
 		expect(onAddFn).toHaveBeenCalled();
 		expect(onAddFn).toHaveBeenCalledWith('sunflower');
 		expect(screen.getByText('sunflower')).toBeVisible();
-		expect(screen.getByTestId('icon: Close')).toBeVisible();
+		expect(screen.getByTestId(ICONS.close)).toBeVisible();
 	});
 
 	test('onAdd is called with option value if option has a value', () => {
@@ -454,7 +455,7 @@ describe('ChipInput', () => {
 		expect(onAddFn).toHaveBeenCalledWith({ label: 'chip 1' });
 		expect(screen.queryByText('option 1')).not.toBeInTheDocument();
 		expect(screen.getByText('chip 1')).toBeVisible();
-		expect(screen.getByTestId('icon: Close')).toBeVisible();
+		expect(screen.getByTestId(ICONS.close)).toBeVisible();
 	});
 
 	test('onAdd is called with option label if option does not have a value', () => {
@@ -478,7 +479,7 @@ describe('ChipInput', () => {
 		expect(onAddFn).toHaveBeenCalled();
 		expect(onAddFn).toHaveBeenCalledWith('option 1');
 		expect(screen.getByText('option 1')).toBeVisible();
-		expect(screen.getByTestId('icon: Close')).toBeVisible();
+		expect(screen.getByTestId(ICONS.close)).toBeVisible();
 	});
 
 	test('after a chip is added, onChange callback is called with the new item', () => {
@@ -497,20 +498,20 @@ describe('ChipInput', () => {
 		render(<ChipInput onChange={onChangeFn} defaultValue={chips} />);
 		expect(screen.getByText('hola')).toBeVisible();
 		expect(screen.getByText('hallo')).toBeVisible();
-		expect(screen.getAllByTestId('icon: Close')).toHaveLength(2);
-		userEvent.click(screen.getAllByTestId('icon: Close')[0]);
+		expect(screen.getAllByTestId(ICONS.close)).toHaveLength(2);
+		userEvent.click(screen.getAllByTestId(ICONS.close)[0]);
 		expect(onChangeFn).toHaveBeenCalled();
 		expect(onChangeFn).toHaveBeenCalledWith([{ label: 'hallo' }]);
 		expect(screen.queryByText('hola')).not.toBeInTheDocument();
 		expect(screen.getByText('hallo')).toBeVisible();
-		expect(screen.getByTestId('icon: Close')).toBeVisible();
+		expect(screen.getByTestId(ICONS.close)).toBeVisible();
 	});
 
 	test('if max chip number is reached, input is disabled. If a chip is removed, then input is enabled again', () => {
 		const chips = [{ label: 'こんにちは' }];
 		render(<ChipInput maxChips={1} defaultValue={chips} />);
 		expect(screen.getByText('こんにちは')).toBeVisible();
-		expect(screen.getByTestId('icon: Close')).toBeVisible();
+		expect(screen.getByTestId(ICONS.close)).toBeVisible();
 		const inputElement = screen.getByRole('textbox');
 		expect(inputElement).toBeVisible();
 		expect(inputElement).toBeDisabled();
@@ -518,13 +519,13 @@ describe('ChipInput', () => {
 		expect(screen.queryByText('olá')).not.toBeInTheDocument();
 		expect(inputElement).not.toHaveValue('olá');
 		expect(inputElement).not.toHaveFocus();
-		userEvent.click(screen.getByTestId('icon: Close'));
+		userEvent.click(screen.getByTestId(ICONS.close));
 		expect(screen.queryByText('こんにちは')).not.toBeInTheDocument();
-		expect(screen.queryByTestId('icon: Close')).not.toBeInTheDocument();
+		expect(screen.queryByTestId(ICONS.close)).not.toBeInTheDocument();
 		expect(inputElement).toBeEnabled();
 		userEvent.type(inputElement, 'olá{space}');
 		expect(screen.getByText('olá')).toBeVisible();
-		expect(screen.getByTestId('icon: Close')).toBeVisible();
+		expect(screen.getByTestId(ICONS.close)).toBeVisible();
 		expect(inputElement).toBeDisabled();
 	});
 
@@ -625,7 +626,7 @@ describe('ChipInput', () => {
 
 		const { rerender } = render(<ControlledChipInput />);
 
-		userEvent.click(screen.getByTestId('icon: ChevronDown'));
+		userEvent.click(screen.getByTestId(ICONS.accordionItemOpenAction));
 
 		const folderOption = screen.getByText('Folder');
 		expect(folderOption).toBeVisible();
@@ -635,7 +636,7 @@ describe('ChipInput', () => {
 		expect(inputElement).toBeVisible();
 		expect(inputElement).toBeDisabled();
 
-		expect(screen.getByTestId('icon: Close')).toBeVisible();
+		expect(screen.getByTestId(ICONS.close)).toBeVisible();
 		const chipFolderIcon = screen.getByTestId('icon: Folder');
 		expect(chipFolderIcon).toBeVisible();
 
@@ -649,7 +650,7 @@ describe('ChipInput', () => {
 		rerender(<ControlledChipInput forceReset />);
 
 		expect(chipFolderIcon).not.toBeInTheDocument();
-		expect(screen.queryByTestId('icon: Close')).not.toBeInTheDocument();
+		expect(screen.queryByTestId(ICONS.close)).not.toBeInTheDocument();
 
 		placeholderLabel = screen.getByText('placeholder value');
 		bottomDescription = screen.getByText('description value');
@@ -683,7 +684,7 @@ describe('ChipInput', () => {
 		expect(screen.getByText('hola')).toBeVisible();
 		expect(screen.queryByText(/x/i)).not.toBeInTheDocument();
 		expect(screen.queryByText(/z/i)).not.toBeInTheDocument();
-		expect(screen.getAllByTestId('icon: Close')).toHaveLength(3);
+		expect(screen.getAllByTestId(ICONS.close)).toHaveLength(3);
 		expect(screen.queryByText('ciaoxhellozhola')).not.toBeInTheDocument();
 	});
 
@@ -705,7 +706,7 @@ describe('ChipInput', () => {
 		expect(screen.queryByText('ciao')).not.toBeInTheDocument();
 		expect(screen.queryByText('hello')).not.toBeInTheDocument();
 		expect(screen.queryByText('hola')).not.toBeInTheDocument();
-		expect(screen.queryByTestId('icon: Close')).not.toBeInTheDocument();
+		expect(screen.queryByTestId(ICONS.close)).not.toBeInTheDocument();
 	});
 
 	test('by default there is no limit to the maximum number of chips', () => {

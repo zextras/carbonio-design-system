@@ -10,6 +10,7 @@ import userEvent from '@testing-library/user-event';
 
 import { MultiButton, MultiButtonProps } from './MultiButton';
 import { render } from '../../test-utils';
+import { ICONS } from '../../testUtils/constants';
 
 describe('MultiButton', () => {
 	function waitForListenerToBeRegistered(ms = 1): Promise<void> {
@@ -29,7 +30,7 @@ describe('MultiButton', () => {
 		render(<MultiButton items={items} onClick={clickFn} label="primary" />);
 
 		expect(screen.getByText(/primary/i)).toBeVisible();
-		expect(screen.getByTestId('icon: ChevronDownOutline')).toBeVisible();
+		expect(screen.getByTestId(ICONS.multiButtonSecondaryAction)).toBeVisible();
 		userEvent.click(screen.getByText(/primary/i));
 		expect(clickFn).toHaveBeenCalled();
 		expect(screen.queryByText(/item1/i)).not.toBeInTheDocument();
@@ -45,8 +46,8 @@ describe('MultiButton', () => {
 		render(<MultiButton items={items} onClick={clickFn} label="primary" />);
 
 		expect(screen.getByText(/primary/i)).toBeVisible();
-		expect(screen.getByTestId('icon: ChevronDownOutline')).toBeVisible();
-		userEvent.click(screen.getByTestId('icon: ChevronDownOutline'));
+		expect(screen.getByTestId(ICONS.multiButtonSecondaryAction)).toBeVisible();
+		userEvent.click(screen.getByTestId(ICONS.multiButtonSecondaryAction));
 		expect(clickFn).not.toHaveBeenCalled();
 		expect(screen.getByText(/item1/i)).toBeVisible();
 		expect(screen.getByText(/item2/i)).toBeVisible();
@@ -61,13 +62,13 @@ describe('MultiButton', () => {
 		render(<MultiButton items={items} onClick={clickFn} label="primary" />);
 
 		expect(screen.getByText(/primary/i)).toBeVisible();
-		expect(screen.getByTestId('icon: ChevronDownOutline')).toBeVisible();
-		userEvent.click(screen.getByTestId('icon: ChevronDownOutline'));
+		expect(screen.getByTestId(ICONS.multiButtonSecondaryAction)).toBeVisible();
+		userEvent.click(screen.getByTestId(ICONS.multiButtonSecondaryAction));
 		await waitForListenerToBeRegistered(2);
 		expect(clickFn).not.toHaveBeenCalled();
 		expect(screen.getByText(/item1/i)).toBeVisible();
 		expect(screen.getByText(/item2/i)).toBeVisible();
-		userEvent.click(screen.getByTestId('icon: ChevronDownOutline'));
+		userEvent.click(screen.getByTestId(ICONS.multiButtonSecondaryAction));
 		expect(screen.getByText(/item1/i)).toBeVisible();
 		expect(screen.getByText(/item2/i)).toBeVisible();
 	});
@@ -81,8 +82,8 @@ describe('MultiButton', () => {
 		render(<MultiButton items={items} onClick={clickFn} label="primary" />);
 
 		expect(screen.getByText(/primary/i)).toBeVisible();
-		expect(screen.getByTestId('icon: ChevronDownOutline')).toBeVisible();
-		userEvent.click(screen.getByTestId('icon: ChevronDownOutline'));
+		expect(screen.getByTestId(ICONS.multiButtonSecondaryAction)).toBeVisible();
+		userEvent.click(screen.getByTestId(ICONS.multiButtonSecondaryAction));
 		await waitForListenerToBeRegistered();
 		expect(clickFn).not.toHaveBeenCalled();
 		expect(screen.getByText(/item1/i)).toBeVisible();

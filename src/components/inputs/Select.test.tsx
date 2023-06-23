@@ -11,6 +11,7 @@ import { forEach, map, reject, slice } from 'lodash';
 
 import { Select, SelectItem, SingleSelectionOnChange } from './Select';
 import { render } from '../../test-utils';
+import { SELECTORS } from '../../testUtils/constants';
 
 const items: SelectItem<`${number}`>[] = [
 	{
@@ -55,7 +56,7 @@ describe('Select', () => {
 
 			await userEvent.click(screen.getByText(label));
 
-			const dropdownItem = within(screen.getByTestId('dropdown-popper-list')).getByText(
+			const dropdownItem = within(screen.getByTestId(SELECTORS.dropdown)).getByText(
 				extendedItems[5].label
 			);
 			await userEvent.click(dropdownItem);
@@ -92,7 +93,7 @@ describe('Select', () => {
 
 				await userEvent.click(screen.getByText(label));
 
-				const dropdownItem = within(screen.getByTestId('dropdown-popper-list')).getByText(
+				const dropdownItem = within(screen.getByTestId(SELECTORS.dropdown)).getByText(
 					items[0].label
 				);
 				await userEvent.click(dropdownItem);
@@ -106,7 +107,7 @@ describe('Select', () => {
 
 				await userEvent.click(screen.getByText(label));
 
-				const dropdownItem = within(screen.getByTestId('dropdown-popper-list')).getByText(
+				const dropdownItem = within(screen.getByTestId(SELECTORS.dropdown)).getByText(
 					items[1].label
 				);
 				await userEvent.click(dropdownItem);
@@ -182,7 +183,7 @@ describe('Select', () => {
 
 				await userEvent.click(screen.getByText(label));
 
-				const dropdownItem = within(screen.getByTestId('dropdown-popper-list')).getByText(
+				const dropdownItem = within(screen.getByTestId(SELECTORS.dropdown)).getByText(
 					items[0].label
 				);
 				await userEvent.click(dropdownItem);
@@ -198,7 +199,7 @@ describe('Select', () => {
 
 				await userEvent.click(screen.getByText(label));
 
-				const dropdownItem = within(screen.getByTestId('dropdown-popper-list')).getByText(
+				const dropdownItem = within(screen.getByTestId(SELECTORS.dropdown)).getByText(
 					items[1].label
 				);
 				await userEvent.click(dropdownItem);
@@ -287,7 +288,7 @@ describe('Select', () => {
 			);
 			await userEvent.click(screen.getByText(label));
 
-			const dropdownItem = within(screen.getByTestId('dropdown-popper-list')).getByText(
+			const dropdownItem = within(screen.getByTestId(SELECTORS.dropdown)).getByText(
 				extendedItems[5].label
 			);
 			await userEvent.click(dropdownItem);

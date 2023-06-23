@@ -11,6 +11,7 @@ import userEvent from '@testing-library/user-event';
 
 import { Accordion, AccordionItem, AccordionItemType } from './Accordion';
 import { render } from '../../test-utils';
+import { ICONS } from '../../testUtils/constants';
 import { Button } from '../basic/Button';
 
 describe('Accordion', () => {
@@ -128,18 +129,18 @@ describe('Accordion', () => {
 		expect(onClick).toHaveBeenCalledTimes(1);
 		expect(screen.getByText(/second/i)).not.toBeVisible();
 		// click on chevron icon expand the accordion item
-		userEvent.click(screen.getByTestId('icon: ChevronDown'));
+		userEvent.click(screen.getByTestId(ICONS.accordionItemOpenAction));
 		await waitFor(() => expect(screen.getByText(/second/i)).toBeVisible());
 		// click on chevron icon does not call onClick callback
 		expect(onClick).toHaveBeenCalledTimes(1);
 		expect(screen.getByText(/second/i)).toBeVisible();
-		expect(screen.getByTestId('icon: ChevronUp')).toBeVisible();
-		expect(screen.queryByTestId('icon: ChevronDown')).not.toBeInTheDocument();
+		expect(screen.getByTestId(ICONS.accordionItemCloseAction)).toBeVisible();
+		expect(screen.queryByTestId(ICONS.accordionItemOpenAction)).not.toBeInTheDocument();
 		// click on chevron icon of opened accordion close the accordion and does not call onClick callback
-		userEvent.click(screen.getByTestId('icon: ChevronUp'));
+		userEvent.click(screen.getByTestId(ICONS.accordionItemCloseAction));
 		await waitFor(() => expect(screen.getByText(/second/i)).not.toBeVisible());
 		expect(onClick).toHaveBeenCalledTimes(1);
-		expect(screen.getByTestId('icon: ChevronDown')).toBeVisible();
-		expect(screen.queryByTestId('icon: ChevronUp')).not.toBeInTheDocument();
+		expect(screen.getByTestId(ICONS.accordionItemOpenAction)).toBeVisible();
+		expect(screen.queryByTestId(ICONS.accordionItemCloseAction)).not.toBeInTheDocument();
 	});
 });

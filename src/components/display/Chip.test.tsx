@@ -13,6 +13,7 @@ import userEvent from '@testing-library/user-event';
 import { Chip } from './Chip';
 import { Text } from '../../index';
 import { render } from '../../test-utils';
+import { ICONS } from '../../testUtils/constants';
 
 describe('Chip', () => {
 	test('Render Chip with capitals', () => {
@@ -67,8 +68,8 @@ describe('Chip', () => {
 		const label = 'chip label';
 		const closeFn = jest.fn();
 		render(<Chip label={label} onClose={closeFn} />);
-		expect(screen.getByTestId('icon: Close')).toBeVisible();
-		userEvent.click(screen.getByTestId('icon: Close'));
+		expect(screen.getByTestId(ICONS.close)).toBeVisible();
+		userEvent.click(screen.getByTestId(ICONS.close));
 		expect(closeFn).toHaveBeenCalled();
 	});
 
@@ -76,15 +77,15 @@ describe('Chip', () => {
 		const label = 'chip label';
 		const closeFn = jest.fn();
 		render(<Chip label={label} onClose={closeFn} closable={false} />);
-		expect(screen.getByTestId('icon: Close')).toBeVisible();
-		userEvent.click(screen.getByTestId('icon: Close'));
+		expect(screen.getByTestId(ICONS.close)).toBeVisible();
+		userEvent.click(screen.getByTestId(ICONS.close));
 		expect(closeFn).not.toHaveBeenCalled();
 	});
 
 	test('Render chip without close action', () => {
 		const label = 'chip label';
 		render(<Chip label={label} closable />);
-		expect(screen.queryByTestId('icon: Close')).not.toBeInTheDocument();
+		expect(screen.queryByTestId(ICONS.close)).not.toBeInTheDocument();
 	});
 
 	test('Render chip with actions', async () => {
@@ -205,7 +206,7 @@ describe('Chip', () => {
 		expect(screen.getByTestId('icon: People')).toBeVisible();
 		expect(screen.getByTestId('icon: Eye')).toBeVisible();
 		expect(screen.getByTestId('icon: Share')).toBeVisible();
-		expect(screen.getByTestId('icon: Close')).toBeVisible();
+		expect(screen.getByTestId(ICONS.close)).toBeVisible();
 		userEvent.hover(screen.getByTestId('icon: Star'));
 		await screen.findByText(/Message to explain disabled status/i);
 		expect(screen.queryByText('tooltip action0')).not.toBeInTheDocument();
@@ -229,9 +230,9 @@ describe('Chip', () => {
 		await screen.findByText(/Message to explain disabled status/i);
 		expect(actions[3].onClick).not.toHaveBeenCalled();
 		expect(
-			screen.getAllByRole('button').find((element) => within(element).queryByTestId('icon: Close'))
+			screen.getAllByRole('button').find((element) => within(element).queryByTestId(ICONS.close))
 		).toBeDisabled();
-		userEvent.click(screen.getByTestId('icon: Close'));
+		userEvent.click(screen.getByTestId(ICONS.close));
 		await screen.findByText(/Message to explain disabled status/i);
 		expect(closeFn).not.toHaveBeenCalled();
 		expect(screen.getByText(label)).toHaveAttribute('disabled');

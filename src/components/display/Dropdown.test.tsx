@@ -10,6 +10,7 @@ import userEvent from '@testing-library/user-event';
 
 import { Dropdown, DropdownItem } from './Dropdown';
 import { render } from '../../test-utils';
+import { ICONS } from '../../testUtils/constants';
 import { Button } from '../basic/Button';
 import { Modal } from '../feedback/Modal';
 
@@ -227,8 +228,8 @@ describe('Dropdown', () => {
 					setTimeout(resolve, 1);
 				})
 		);
-		expect(screen.getByTestId('icon: ChevronRight')).toBeVisible();
-		userEvent.hover(screen.getByTestId('icon: ChevronRight'));
+		expect(screen.getByTestId(ICONS.dropdownNestedLevel)).toBeVisible();
+		userEvent.hover(screen.getByTestId(ICONS.dropdownNestedLevel));
 		await screen.findByText(/item 4 sub 1/i);
 		// wait for listeners to be registered
 		await waitFor(
