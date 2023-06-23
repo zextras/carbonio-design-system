@@ -8,8 +8,8 @@ import React from 'react';
 import { faker } from '@faker-js/faker';
 import { screen } from '@testing-library/react';
 
-import { render } from '../../test-utils';
 import { Avatar } from './Avatar';
+import { render } from '../../test-utils';
 
 describe('Avatar', () => {
 	test('Render an avatar with first name and last name', () => {

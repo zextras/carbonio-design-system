@@ -10,8 +10,8 @@ import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import reduce from 'lodash/reduce';
 
-import { render } from '../../test-utils';
 import { ChipInput, ChipInputProps, ChipItem } from './ChipInput';
+import { render } from '../../test-utils';
 
 describe('ChipInput', () => {
 	test('render a chip input with a placeholder, two chips, an icon and a description', () => {

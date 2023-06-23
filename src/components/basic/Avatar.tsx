@@ -8,8 +8,8 @@ import React, { HTMLAttributes, useMemo } from 'react';
 
 import styled, { DefaultTheme } from 'styled-components';
 
-import { getColor } from '../../theme/theme-utils';
 import { Icon } from './Icon';
+import { getColor } from '../../theme/theme-utils';
 
 type ShapeType = 'round' | 'square';
 

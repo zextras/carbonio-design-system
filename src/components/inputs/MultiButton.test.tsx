@@ -8,8 +8,8 @@ import React from 'react';
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import { render } from '../../test-utils';
 import { MultiButton, MultiButtonProps } from './MultiButton';
+import { render } from '../../test-utils';
 
 describe('MultiButton', () => {
 	function waitForListenerToBeRegistered(ms = 1): Promise<void> {

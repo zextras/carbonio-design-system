@@ -17,6 +17,9 @@ import React, {
 import { filter, map, slice, isEmpty, debounce, find, trim, reduce, uniq } from 'lodash';
 import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-components';
 
+import { InputDescription } from './commons/InputDescription';
+import { InputLabel } from './commons/InputLabel';
+import { IconButton } from './IconButton';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { useKeyboard, getKeyboardPreset, KeyboardPreset } from '../../hooks/useKeyboard';
 import { usePrevious } from '../../hooks/usePrevious';
@@ -27,9 +30,6 @@ import { Chip, ChipProps } from '../display/Chip';
 import { Dropdown, DropdownItem } from '../display/Dropdown';
 import { Container, ContainerProps } from '../layout/Container';
 import { Divider, DividerProps } from '../layout/Divider';
-import { InputDescription } from './commons/InputDescription';
-import { InputLabel } from './commons/InputLabel';
-import { IconButton } from './IconButton';
 
 const ContainerEl = styled(Container)<{
 	background: keyof DefaultTheme['palette'];

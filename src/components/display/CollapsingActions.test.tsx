@@ -9,9 +9,9 @@ import { faker } from '@faker-js/faker';
 import { screen, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+import { Action, CollapsingActions } from './CollapsingActions';
 import { render } from '../../test-utils';
 import { Theme } from '../../theme/theme';
-import { Action, CollapsingActions } from './CollapsingActions';
 
 describe('Collapsing Actions', () => {
 	test('Render a collapsing actions component', () => {

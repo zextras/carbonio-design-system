@@ -10,9 +10,9 @@ import { faker } from '@faker-js/faker';
 import { screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+import { Chip } from './Chip';
 import { Text } from '../../index';
 import { render } from '../../test-utils';
-import { Chip } from './Chip';
 
 describe('Chip', () => {
 	test('Render Chip with capitals', () => {

@@ -8,10 +8,10 @@ import React from 'react';
 import { screen, act, waitFor, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+import { Dropdown, DropdownItem } from './Dropdown';
 import { render } from '../../test-utils';
 import { Button } from '../basic/Button';
 import { Modal } from '../feedback/Modal';
-import { Dropdown, DropdownItem } from './Dropdown';
 
 const items: DropdownItem[] = [
 	{

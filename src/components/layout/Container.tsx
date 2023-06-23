@@ -172,11 +172,10 @@ const ContainerEl = styled.div<ContainerElProps>`
 					border: 0.0625rem solid ${getColor(borderColor, theme)};
 				`;
 			}
-			const borders = map(
+			return map(
 				borderColor,
 				(color, key) => color && css`border-${key}: 0.0625rem solid ${getColor(color, theme)};`
 			);
-			return borders;
 		}
 		return false;
 	}};

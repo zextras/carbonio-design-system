@@ -9,8 +9,8 @@ import { screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { forEach, map, reject, slice } from 'lodash';
 
-import { render } from '../../test-utils';
 import { Select, SelectItem, SingleSelectionOnChange } from './Select';
+import { render } from '../../test-utils';
 
 const items: SelectItem<`${number}`>[] = [
 	{

@@ -8,9 +8,9 @@ import React, { HTMLAttributes, useMemo } from 'react';
 
 import styled, { css, SimpleInterpolation } from 'styled-components';
 
+import { Transition } from './Transition';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { Container } from '../layout/Container';
-import { Transition } from './Transition';
 
 const CollapseEl = styled.div<{
 	crossSize?: string;

@@ -2,8 +2,8 @@ import React from 'react';
 
 import { differenceWith, map } from 'lodash';
 
-import { render } from '../test-utils';
 import icons from './index';
+import { render } from '../test-utils';
 
 describe('Icons', () => {
 	test.each(map(icons, (Component, iconKey) => [iconKey, Component]))(

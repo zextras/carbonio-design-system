@@ -10,9 +10,9 @@ import { faker } from '@faker-js/faker';
 import { screen, act, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+import { Button } from './Button';
 import { render } from '../../test-utils';
 import { Tooltip } from '../display/Tooltip';
-import { Button } from './Button';
 
 describe('Button', () => {
 	test('The label must be Upper Case', () => {

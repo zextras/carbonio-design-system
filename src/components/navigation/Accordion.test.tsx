@@ -9,9 +9,9 @@ import React from 'react';
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+import { Accordion, AccordionItem, AccordionItemType } from './Accordion';
 import { render } from '../../test-utils';
 import { Button } from '../basic/Button';
-import { Accordion, AccordionItem, AccordionItemType } from './Accordion';
 
 describe('Accordion', () => {
 	test('Render root level Accordion items', () => {

@@ -9,10 +9,10 @@ import React from 'react';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+import { Tooltip } from './Tooltip';
 import { render } from '../../test-utils';
 import { Button } from '../basic/Button';
 import { Container } from '../layout/Container';
-import { Tooltip } from './Tooltip';
 
 describe('Tooltip', () => {
 	test('Render Tooltip', async () => {
