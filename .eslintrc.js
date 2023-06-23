@@ -13,7 +13,8 @@ module.exports = {
 				templateFile: '.reuse/template.js'
 			}
 		],
-		'sonarjs/cognitive-complexity': 'warn'
+		'sonarjs/cognitive-complexity': 'warn',
+		'sonarjs/no-duplicate-string': 'off'
 	},
 	overrides: [
 		{

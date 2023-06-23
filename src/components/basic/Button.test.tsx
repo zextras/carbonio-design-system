@@ -80,6 +80,7 @@ describe('Button', () => {
 			</Tooltip>
 		);
 		// FIXME: hover event on disabled button is not bubbled up. Remove access on parentElement when possible
+		// eslint-disable-next-line testing-library/no-node-access
 		const button = screen.getByRole('button').parentElement as HTMLElement;
 		// wait for tooltip to register listeners
 		await waitFor(
