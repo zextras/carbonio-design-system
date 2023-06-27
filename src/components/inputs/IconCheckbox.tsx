@@ -63,7 +63,7 @@ const IconWrapper = styled.div<{
 
 const CustomText = styled(Text)`
 	white-space: normal;
-	padding-left: ${({ theme }): string => theme.sizes.padding.small};
+	padding-inline-start: ${({ theme }): string => theme.sizes.padding.small};
 	user-select: none;
 `;
 

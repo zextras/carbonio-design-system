@@ -20,24 +20,24 @@ describe('Container', () => {
 			'border',
 			expect.stringContaining(Theme.palette.black.regular)
 		);
-		expect(containerEl).not.toHaveStyleRule('border-top');
-		expect(containerEl).not.toHaveStyleRule('border-right');
-		expect(containerEl).not.toHaveStyleRule('border-bottom');
-		expect(containerEl).not.toHaveStyleRule('border-left');
+		expect(containerEl).not.toHaveStyleRule('border-block-start');
+		expect(containerEl).not.toHaveStyleRule('border-inline-end');
+		expect(containerEl).not.toHaveStyleRule('border-block-end');
+		expect(containerEl).not.toHaveStyleRule('border-inline-start');
 	});
 
 	test('Set only provided borders if an object is passed as prop', () => {
 		render(<Container borderColor={{ top: 'black', right: 'black' }}>Test container</Container>);
 		const containerEl = screen.getByText('Test container');
 		expect(containerEl).toHaveStyleRule(
-			'border-top',
+			'border-block-start',
 			expect.stringContaining(Theme.palette.black.regular)
 		);
 		expect(containerEl).toHaveStyleRule(
-			'border-right',
+			'border-inline-end',
 			expect.stringContaining(Theme.palette.black.regular)
 		);
-		expect(containerEl).not.toHaveStyleRule('border-bottom');
+		expect(containerEl).not.toHaveStyleRule('border-block-end');
 		expect(containerEl).not.toHaveStyleRule('border-left');
 		expect(containerEl).not.toHaveStyleRule('border');
 	});

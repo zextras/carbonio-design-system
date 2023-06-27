@@ -244,7 +244,7 @@ function NestListItem({
 					<Icon
 						size={itemIconSize}
 						icon="ChevronRight"
-						style={{ marginRight: 0, marginLeft: 'auto' }}
+						style={{ marginInlineEnd: 0, marginInlineStart: 'auto' }}
 					/>
 				</Container>
 			</Dropdown>

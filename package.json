@@ -76,15 +76,11 @@
 		"jest": "26.6.3",
 		"jest-junit": "13.0.0",
 		"jest-styled-components": "7.1.1",
-		"lodash": "^4.17.21",
 		"process": "0.11.10",
-		"react": "^17.0.2",
-		"react-dom": "^17.0.2",
 		"react-styleguidist": "^13.0.0",
 		"react-test-renderer": "17.0.2",
 		"rollup": "^2.79.1",
 		"standard-version": "9.5.0",
-		"styled-components": "^5.3.3",
 		"typescript": "^4.8.4",
 		"webpack": "^5.75.0"
 	},
@@ -98,13 +94,14 @@
 		"lodash": "^4.17.21",
 		"react": "^17.0.2",
 		"react-dom": "^17.0.2",
-		"styled-components": "^5.3.3"
+		"styled-components": "^5.3.11"
 	},
 	"dependencies": {
 		"@popperjs/core": "2.11.6",
 		"darkreader": "4.9.58",
 		"polished": "4.2.2",
 		"react-datepicker": "^4.11.0",
-		"react-docgen-typescript": "^2.2.2"
+		"react-docgen-typescript": "^2.2.2",
+		"stylis-plugin-rtl": "^1.1.0"
 	}
 }

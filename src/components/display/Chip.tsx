@@ -108,10 +108,10 @@ const LabelContainer = styled(Container)``;
 
 const ContentContainer = styled(Container)<{ gap: ContainerProps['gap'] }>`
 	&:first-child > ${LabelContainer}:first-child {
-		padding-left: ${({ gap }): SimpleInterpolation => css`calc(${gap} * 2)`};
+		padding-inline-start: ${({ gap }): SimpleInterpolation => css`calc(${gap} * 2)`};
 	}
 	& > ${LabelContainer}:last-child {
-		padding-right: ${({ gap }): SimpleInterpolation => css`calc(${gap} * 2)`};
+		padding-inline-end: ${({ gap }): SimpleInterpolation => css`calc(${gap} * 2)`};
 	}
 `;
 

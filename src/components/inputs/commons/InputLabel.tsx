@@ -23,8 +23,8 @@ export const InputLabel = styled.label.attrs<
 	$disabled?: boolean;
 }>`
 	position: absolute;
-	top: 50%;
-	left: 0.75rem;
+	inset-block-start: 50%;
+	inset-inline-start: 0.75rem;
 	font-size: ${({ theme }): string => theme.sizes.font.medium};
 	font-weight: ${({ theme }): number => theme.fonts.weight.regular};
 	font-family: ${({ theme }): string => theme.fonts.default};

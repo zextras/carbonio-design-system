@@ -26,13 +26,13 @@ const ButtonContainer = styled(Container)<{ $pushLeftFirstChild?: boolean }>`
 		css`
 			> * {
 				&:first-child {
-					margin-right: auto;
+					margin-inline-end: auto;
 				}
 			}
 		`}
 `;
 const DismissButton = styled(Button)`
-	margin-right: ${(props): string => props.theme.sizes.padding.large};
+	margin-inline-end: ${(props): string => props.theme.sizes.padding.large};
 	flex-basis: auto;
 	min-width: 6.25rem;
 	flex-shrink: 1;

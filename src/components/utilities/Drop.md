@@ -13,8 +13,8 @@ const BackDropLayout = styled(Container)`
 	position: absolute;
 	height: 100%;
 	z-index: 2;
-	top: 0;
-	left: 0;
+	inset-block-start: 0;
+	inset-inline-start: 0;
 `;
 const DropBackground = styled(Container)`
 	background: ${(props) => props.theme.palette.primary.regular}b9;
@@ -42,7 +42,7 @@ const BackDropLayoutContentBox = styled(Container)`
 `;
 
 const DropBoxIconGroup = styled(Container)`
-	margin-bottom: 0.5rem;
+	margin-block-end: 0.5rem;
 	height: 2.5rem;
 `;
 

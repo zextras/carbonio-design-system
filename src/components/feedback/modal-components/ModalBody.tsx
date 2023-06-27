@@ -17,8 +17,8 @@ const ModalBody = styled.div.attrs<{
 	max-width: 100%;
 	box-sizing: border-box;
 	width: 100%;
-	padding-top: ${({ theme }): string => theme.sizes.padding.large};
-	padding-bottom: ${({ theme }): string => theme.sizes.padding.large};
+	padding-block-start: ${({ theme }): string => theme.sizes.padding.large};
+	padding-block-end: ${({ theme }): string => theme.sizes.padding.large};
 	${({ centered }): SimpleInterpolation =>
 		centered &&
 		css`

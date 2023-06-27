@@ -277,6 +277,24 @@ function pseudoClasses(
 
 const useTheme = (): DefaultTheme => useContext(ThemeContext);
 
+function convertPhysicalPropertyToLogical(physicalProp: string): string {
+	// replace all physical matches with the corresponding logical ones
+	// order of replace is important, start from the stricter match, down to the more relaxed one
+	return physicalProp
+		.replace('-top-left', '-start-start')
+		.replace('-top-right', '-start-end')
+		.replace('-bottom-left', '-end-start')
+		.replace('-bottom-right', '-end-end')
+		.replace('-top', '-block-start')
+		.replace('-bottom', '-block-end')
+		.replace('-left', '-inline-start')
+		.replace('-right', '-inline-end')
+		.replace('top', 'inset-block-start')
+		.replace('bottom', 'inset-block-end')
+		.replace('left', 'inset-inline-start')
+		.replace('right', 'inset-inline-end');
+}
+
 export {
 	generateColorSet,
 	calcHighlight,
@@ -286,5 +304,6 @@ export {
 	getPadding as parsePadding,
 	useTheme,
 	PaddingObj,
-	pseudoClasses
+	pseudoClasses,
+	convertPhysicalPropertyToLogical
 };

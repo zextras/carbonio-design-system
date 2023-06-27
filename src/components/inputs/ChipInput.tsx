@@ -84,7 +84,7 @@ const ScrollContainer = styled.div<{
 	&::-webkit-scrollbar {
 		display: ${({ wrap }): string => (wrap === 'wrap' ? 'auto' : 'none')};
 	}
-	margin-top: ${({ hasLabel, theme }): SimpleInterpolation =>
+	margin-block-start: ${({ hasLabel, theme }): SimpleInterpolation =>
 		hasLabel ? css`calc(${theme.sizes.font.extrasmall} * 1.5)` : '0px'};
 	max-height: ${({ maxHeight }): string => maxHeight};
 	overflow-y: auto;
@@ -190,7 +190,7 @@ const Label = styled(InputLabel)<{
 	$hasItems: boolean;
 }>`
 	${InputContainer}:focus-within + & {
-		top: 0.0625rem;
+		inset-block-start: 0.0625rem;
 		transform: translateY(0);
 		font-size: ${({ theme }): string => theme.sizes.font.extrasmall};
 	}
@@ -198,7 +198,7 @@ const Label = styled(InputLabel)<{
 	${({ $hasItems, theme }): SimpleInterpolation =>
 		$hasItems &&
 		css`
-			top: 0.0625rem;
+			inset-block-start: 0.0625rem;
 			transform: translateY(0);
 			font-size: ${theme.sizes.font.extrasmall};
 		`};

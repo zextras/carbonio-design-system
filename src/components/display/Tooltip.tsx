@@ -43,8 +43,8 @@ const TooltipWrapper = React.forwardRef<HTMLDivElement, TooltipWrapperProps>(
 const TooltipWrapperWithCss = styled(TooltipWrapper)<{ $maxWidth: string }>`
 	display: none;
 	position: fixed;
-	top: -1000px;
-	left: -1000px;
+	inset-block-start: -1000px;
+	inset-inline-start: -1000px;
 	z-index: 5000;
 
 	max-width: ${({ $maxWidth }): string => $maxWidth};

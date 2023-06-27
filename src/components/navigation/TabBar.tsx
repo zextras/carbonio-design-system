@@ -36,7 +36,7 @@ const DefaultTabBarItemContainer = styled(Container)<{
 	flex-grow: 1;
 	height: 100%;
 	transition: 0.2s ease-out;
-	border-bottom: ${({ theme, $selected, $underlineColor }): string =>
+	border-block-end: ${({ theme, $selected, $underlineColor }): string =>
 		$selected
 			? `0.0625rem solid ${getColor($underlineColor, theme)}`
 			: '0.0625rem solid transparent'};

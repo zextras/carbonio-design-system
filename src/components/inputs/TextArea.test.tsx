@@ -157,11 +157,11 @@ describe('TextArea', () => {
 		test('Label change position when value is updated from outside', async () => {
 			const onChange = jest.fn();
 			const { rerender } = render(<TextArea value={''} label={'The label'} onChange={onChange} />);
-			expect(screen.getByText('The label')).toHaveStyle({ top: '50%' });
+			expect(screen.getByText('The label')).toHaveStyle({ 'inset-block-start': '50%' });
 			rerender(
 				<TextArea value={'value is changed from outside'} label={'The label'} onChange={onChange} />
 			);
-			expect(screen.getByText('The label')).toHaveStyle({ top: '0.0625rem' });
+			expect(screen.getByText('The label')).toHaveStyle({ 'inset-block-start': '0.0625rem' });
 		});
 	});
 });

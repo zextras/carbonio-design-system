@@ -17,7 +17,7 @@ import { Container, ContainerProps } from '../layout/Container';
 type RadioSize = 'medium' | 'small';
 
 const StyledIcon = styled(Icon)<{ checked: boolean }>`
-	margin-right: ${({ theme }): string => theme.sizes.padding.small};
+	margin-inline-end: ${({ theme }): string => theme.sizes.padding.small};
 	border-radius: 50%;
 	transition: 0.2s ease-out;
 

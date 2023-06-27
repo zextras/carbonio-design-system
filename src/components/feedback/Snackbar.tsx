@@ -22,12 +22,12 @@ const SnackContainer = styled(Container)<{ $zIndex: number; $screenMode: ScreenM
 	box-shadow: 0 0 0.25rem 0 ${({ theme }): string => theme.palette.shadow.regular};
 	user-select: none;
 	z-index: ${({ $zIndex }): number => $zIndex};
-	right: 0;
-	bottom: 5vh;
+	inset-inline-end: 0;
+	inset-block-end: 5vh;
 	${({ $screenMode }): SimpleInterpolation =>
 		$screenMode === 'mobile' &&
 		css`
-			right: 50%;
+			inset-inline-end: 50%;
 			transform: translateX(50%);
 		`};
 `;

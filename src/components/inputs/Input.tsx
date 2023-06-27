@@ -46,7 +46,7 @@ const InputEl = styled.input<{ color: keyof DefaultTheme['palette'] }>`
 const Label = styled(InputLabel)`
 	${InputEl}:focus + &,
   ${InputEl}:not(:placeholder-shown) + & {
-		top: 0.0625rem;
+		inset-block-start: 0.0625rem;
 		transform: translateY(0);
 		font-size: ${({ theme }): string => theme.sizes.font.extrasmall};
 	}

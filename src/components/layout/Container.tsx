@@ -9,7 +9,12 @@ import React, { HTMLAttributes, useMemo } from 'react';
 import { map } from 'lodash';
 import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-components';
 
-import { getColor, getPadding, PaddingObj } from '../../theme/theme-utils';
+import {
+	convertPhysicalPropertyToLogical,
+	getColor,
+	getPadding,
+	PaddingObj
+} from '../../theme/theme-utils';
 
 interface ContainerElProps {
 	/** The Container orientation (css flex-direction prop or 'vertical' or 'horizontal') */
@@ -107,11 +112,11 @@ const ContainerEl = styled.div<ContainerElProps>`
 		css`
 			${margin.left &&
 			css`
-				margin-left: ${margin.left};
+				margin-inline-start: ${margin.left};
 			`};
 			${margin.right &&
 			css`
-				margin-right: ${margin.right};
+				margin-inline-end: ${margin.right};
 			`};
 		`};
 	border-radius: ${({ borderRadius, theme }): SimpleInterpolation => {
@@ -174,7 +179,14 @@ const ContainerEl = styled.div<ContainerElProps>`
 			}
 			return map(
 				borderColor,
-				(color, key) => color && css`border-${key}: 0.0625rem solid ${getColor(color, theme)};`
+				(color, key) =>
+					color &&
+					css`
+						${convertPhysicalPropertyToLogical(`border-${key}`)}: 0.0625rem solid ${getColor(
+							color,
+							theme
+						)};
+					`
 			);
 		}
 		return false;

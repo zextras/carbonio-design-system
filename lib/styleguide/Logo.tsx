@@ -3,18 +3,16 @@
  *
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { enable, disable, auto, isEnabled } from 'darkreader';
+import { auto, disable, enable, isEnabled } from 'darkreader';
 
-import { Button } from '../../src/components/basic/Button';
-import { Text } from '../../src/components/basic/Text';
-import { Container } from '../../src/components/layout/Container';
-import { Padding } from '../../src/components/layout/Padding';
-import { ThemeProvider } from '../../src/theme/theme-context-provider';
+import { useDirection } from './useDirection';
+import { Button, Container, Switch, Text, ThemeProvider } from '../../src';
 
 const Logo = (): JSX.Element => {
 	const [mode, setMode] = useState('auto');
+	const [direction, setDirection] = useDirection();
 
 	useEffect(() => {
 		switch (mode) {
@@ -56,21 +54,27 @@ const Logo = (): JSX.Element => {
 				return isEnabled() ? 'light' : 'dark';
 		}
 	}, [mode]);
+
+	const toggleRtl = useCallback(() => {
+		setDirection((prevState) => {
+			const nextState = prevState === 'ltr' ? 'rtl' : 'ltr';
+			document.dir = nextState;
+			return nextState;
+		});
+	}, [setDirection]);
+
 	return (
 		<ThemeProvider>
-			<Container crossAlignment="center">
+			<Container crossAlignment="center" gap={'0.5rem'}>
 				<img src="./BGURLest.png" width={150} alt={'Bgurl'} />
-				<Padding top="small">
-					<Text size="large" weight="medium" color="primary">
-						Zextras Zapp UI
-					</Text>
-				</Padding>
+				<Text size="large" weight="medium" color="primary">
+					Zextras Zapp UI
+				</Text>
 				<Text size="large" weight="regular" color="primary">
 					Style Guide
 				</Text>
-				<Padding top="medium">
-					<Button width="fill" icon={icon} onClick={(): void => setMode(next)} label="MODE" />
-				</Padding>
+				<Button width="fill" icon={icon} onClick={(): void => setMode(next)} label="MODE" />
+				<Switch label={'RTL'} onClick={toggleRtl} defaultChecked={direction === 'rtl'} />
 			</Container>
 		</ThemeProvider>
 	);

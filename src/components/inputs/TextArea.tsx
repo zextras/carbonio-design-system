@@ -84,7 +84,7 @@ const StyledTextArea = styled.textarea<{ $color: string }>`
 const GrowContainer = styled.div<{ $hasLabel: boolean; $maxHeight?: string }>`
 	width: 100%;
 	height: auto;
-	margin-top: ${({ $hasLabel, theme }): SimpleInterpolation =>
+	margin-block-start: ${({ $hasLabel, theme }): SimpleInterpolation =>
 		$hasLabel ? css`calc(${theme.sizes.font.extrasmall} * 1.5)` : '0px'};
 	max-height: ${({ $maxHeight }): SimpleInterpolation => $maxHeight};
 	overflow-y: auto;
@@ -170,14 +170,14 @@ const AdjustHeightTextArea = React.forwardRef<HTMLTextAreaElement, AdjustHeightT
 
 const Label = styled(InputLabel)<{ $textAreaHasValue: boolean }>`
 	${InputContainer}:focus-within & {
-		top: 0.0625rem;
+		inset-block-start: 0.0625rem;
 		transform: translateY(0);
 		font-size: ${({ theme }): string => theme.sizes.font.extrasmall};
 	}
 	${({ $textAreaHasValue, theme }): SimpleInterpolation =>
 		$textAreaHasValue &&
 		css`
-			top: 0.0625rem;
+			inset-block-start: 0.0625rem;
 			transform: translateY(0);
 			font-size: ${theme.sizes.font.extrasmall};
 		`};

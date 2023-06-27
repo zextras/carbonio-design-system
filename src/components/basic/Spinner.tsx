@@ -27,7 +27,7 @@ const StyledSpinner = styled.div<SpinnerProps>`
 	height: 0.75rem;
 	color: ${({ theme, color }): string => getColor(color, theme)};
 	border: 0.125rem solid currentColor;
-	border-right-color: transparent;
+	border-inline-end-color: transparent;
 	border-radius: 50%;
 	animation: ${rotateKeyframes} 0.75s linear infinite;
 `;

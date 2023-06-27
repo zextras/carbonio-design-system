@@ -138,8 +138,8 @@ const StyledLoadingContainer = styled.div`
 	position: absolute;
 	width: 100%;
 	height: 100%;
-	top: 0;
-	left: 0;
+	inset-block-start: 0;
+	inset-inline-start: 0;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -242,7 +242,7 @@ const StyledGrid = styled.div<{ width: 'fill' | 'fit'; padding: string; minWidth
 		grid-row: 1;
 		grid-column: 1;
 		justify-self: end;
-		margin-right: ${({ padding }): string => padding};
+		margin-inline-end: ${({ padding }): string => padding};
 	}
 `;
 

@@ -5,12 +5,18 @@
  */
 import React from 'react';
 
-import { ThemeProvider } from '../../src/theme/theme-context-provider';
+import { useDirection } from './useDirection';
+import { ThemeProvider } from '../../src';
 
 export default function Wrapper({
 	children
 }: {
 	children?: React.ReactNode | React.ReactNode[];
 }): JSX.Element {
-	return <ThemeProvider loadDefaultFont>{children}</ThemeProvider>;
+	const [direction] = useDirection();
+	return (
+		<ThemeProvider loadDefaultFont direction={direction}>
+			{children}
+		</ThemeProvider>
+	);
 }

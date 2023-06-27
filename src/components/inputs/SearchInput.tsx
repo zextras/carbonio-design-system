@@ -23,7 +23,7 @@ const InputEl = styled.input`
 
 const Label = styled.label<{ active: boolean }>`
 	position: absolute;
-	left: calc(
+	inset-inline-start: calc(
 		${({ theme }): string => theme.sizes.padding.large} +
 			${({ theme }): string => theme.sizes.icon.large} + 0.125rem
 	);

@@ -12,10 +12,10 @@ import { Text, TextProps } from '../basic/Text';
 
 const P = styled(Text)`
 	line-height: 1.4;
-	padding-bottom: 0.8em;
+	padding-block-end: 0.8em;
 
 	&:last-child {
-		padding-bottom: 0;
+		padding-block-end: 0;
 	}
 `;
 

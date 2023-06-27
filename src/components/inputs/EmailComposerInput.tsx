@@ -18,8 +18,8 @@ const PlaceholderInline = styled(Text)`
 
 const PlaceholderDefault = styled(PlaceholderInline)`
 	position: absolute;
-	top: 50%;
-	left: 0;
+	inset-block-start: 50%;
+	inset-inline-start: 0;
 	transform: translateY(-50%);
 	transition: transform 150ms ease-out, font-size 150ms ease-out, top 150ms ease-out;
 `;
@@ -55,7 +55,7 @@ const EmailComposerInputContainer = styled.div<{
 		active &&
 		css`
 			${PlaceholderDefault} {
-				top: 0.1875rem;
+				inset-block-start: 0.1875rem;
 				font-size: ${theme.sizes.font.small};
 				transform: translateY(0);
 			}
@@ -84,7 +84,7 @@ const EmailComposerInputWrapper = styled.div<{ placeholderType: 'default' | 'inl
 
 	> div {
 		margin: calc(${({ theme }): string => theme.sizes.padding.extrasmall} / 2);
-		margin-left: ${({ placeholderType, theme }): string =>
+		margin-inline-start: ${({ placeholderType, theme }): string =>
 			placeholderType === 'default' ? '0' : theme.sizes.padding.medium};
 	}
 `;

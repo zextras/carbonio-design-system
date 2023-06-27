@@ -12,6 +12,6 @@ export const InputDescription = styled(Text).attrs({
 	size: 'extrasmall'
 })`
 	line-height: 1.5;
-	padding-top: 0.25rem;
+	padding-block-start: 0.25rem;
 	min-height: calc(${({ theme, size }): string => theme.sizes.font[size]} * 1.5);
 `;

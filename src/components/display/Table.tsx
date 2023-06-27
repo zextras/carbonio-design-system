@@ -79,7 +79,7 @@ const StyledTable = styled.table`
 		}
 		th {
 			position: sticky;
-			top: 0;
+			inset-block-start: 0;
 		}
 	}
 	th,

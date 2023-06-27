@@ -52,10 +52,10 @@ function getScrollbarSize(windowObj: Window): number {
 const ModalContainer = styled.div<{ mounted: boolean; open: boolean; zIndex: number }>`
 	display: flex;
 	position: fixed;
-	top: 0;
-	bottom: 0;
-	left: 0;
-	right: 0;
+	inset-block-start: 0;
+	inset-block-end: 0;
+	inset-inline-start: 0;
+	inset-inline-end: 0;
 	padding: ${(props): string =>
 		`${props.theme.sizes.padding.medium} ${props.theme.sizes.padding.medium} 0`};
 	background-color: ${({ theme }): string => theme.palette.transparent.regular};

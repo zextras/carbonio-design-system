@@ -19,8 +19,8 @@ const OverlayEl = styled(Container)`
 	display: block;
 	position: absolute;
 	width: 100%;
-	top: 0;
-	left: 0;
+	inset-block-start: 0;
+	inset-inline-start: 0;
 	height: 100%;
 `;
 
