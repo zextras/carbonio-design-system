@@ -41,8 +41,8 @@ const AvatarContainer = styled.div<AvatarContainerProps>`
 		selected,
 		disabled
 	}): SimpleInterpolation =>
-		(selecting && getColor(selected ? 'primary' : 'gray6', theme)) ??
-		(background && getColor(`${background}.${disabled ? 'disabled' : 'regular'}`, theme)) ??
+		(selecting && getColor(selected ? 'primary' : 'gray6', theme)) ||
+		(background && getColor(`${background}.${disabled ? 'disabled' : 'regular'}`, theme)) ||
 		theme.avatarColors[color]};
 	background-image: ${({ picture, selecting }): SimpleInterpolation =>
 		picture && !selecting && css`url(${picture})`};
@@ -105,8 +105,7 @@ function calcCapitals(label: string): string | null {
 
 function calcColor(label: string): keyof DefaultTheme['avatarColors'] {
 	let sum = 0;
-	// eslint-disable-next-line no-plusplus
-	for (let i = 0; i < label.length; i++) {
+	for (let i = 0; i < label.length; i += 1) {
 		sum += label.charCodeAt(i);
 	}
 	return `avatar_${(sum % 50) + 1}`;
@@ -171,6 +170,7 @@ const Avatar = React.forwardRef<HTMLDivElement, AvatarPropTypes>(function Avatar
 			color={calculatedColor}
 			shape={shape}
 			disabled={disabled}
+			data-testid={'avatar'}
 			{...rest}
 		>
 			{(!picture || selecting) && symbol}
