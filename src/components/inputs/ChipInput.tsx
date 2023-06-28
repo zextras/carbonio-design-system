@@ -379,14 +379,14 @@ interface ChipInputProps<TValue = unknown>
 	maxHeight?: string;
 }
 
-type ChipInputType<TValue> = React.ForwardRefExoticComponent<
+type ChipInput<TValue> = React.ForwardRefExoticComponent<
 	ChipInputProps<TValue> & React.RefAttributes<HTMLDivElement>
 > & {
 	_newId?: number;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const ChipInput: ChipInputType<any> = React.forwardRef<HTMLDivElement, ChipInputProps>(
+const ChipInput: ChipInput<any> = React.forwardRef<HTMLDivElement, ChipInputProps>(
 	function ChipInputFn<TValue>(
 		{
 			inputRef = null,
@@ -823,4 +823,4 @@ const ChipInput: ChipInputType<any> = React.forwardRef<HTMLDivElement, ChipInput
 
 ChipInput._newId = 0;
 
-export { ChipInput, ChipInputType, ChipInputProps, ChipItem };
+export { ChipInput, type ChipInput as ChipInputType, ChipInputProps, ChipItem };
