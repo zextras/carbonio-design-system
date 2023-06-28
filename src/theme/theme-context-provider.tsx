@@ -28,23 +28,27 @@ const ThemeProvider: React.FC<ThemeProviderProps> = ({
 	children,
 	extension,
 	loadDefaultFont,
-	direction = 'ltr'
+	direction
 }) => {
 	const _theme = useCallback(
 		(parentTheme: DefaultTheme = defaultTheme) => {
 			const theme = extension ? extension(parentTheme) : parentTheme;
 			theme.palette.highlight = generateHighlightSet(theme.palette.primary);
+			if (direction) {
+				theme.direction = direction;
+			}
 			return theme;
 		},
-		[extension]
+		[direction, extension]
 	);
 
 	return (
 		<SCThemeProvider theme={_theme}>
 			{loadDefaultFont && <DefaultFontStyles />}
-			<StyleSheetManager stylisPlugins={direction === 'rtl' ? [stylisRTLPlugin] : []}>
-				{children}
-			</StyleSheetManager>
+			{(direction === 'rtl' && (
+				<StyleSheetManager stylisPlugins={[stylisRTLPlugin]}>{children}</StyleSheetManager>
+			)) ||
+				children}
 		</SCThemeProvider>
 	);
 };

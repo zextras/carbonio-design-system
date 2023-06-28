@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import { useContext } from 'react';
+import { CSSProperties, useContext } from 'react';
 
 import { reduce } from 'lodash';
 import { darken, lighten, parseToHsl, setLightness, toColorString } from 'polished';
@@ -158,7 +158,9 @@ function getColor(
 	return getColorValue(color, theme);
 }
 
-type PaddingString = `${string | keyof DefaultTheme['sizes']['padding']}`;
+type PaddingString = `${
+	| NonNullable<CSSProperties['padding']>
+	| keyof DefaultTheme['sizes']['padding']}`;
 type PaddingStringComposition =
 	| PaddingString // all
 	| `${PaddingString} | ${PaddingString}` // vertical horizontal
@@ -186,20 +188,20 @@ type RequireAtLeastOne<T, Keys extends keyof T = keyof T> = Pick<T, Exclude<keyo
 
 type PaddingObj =
 	| {
-			value: string | keyof DefaultTheme['sizes']['padding'] | 0;
+			value: PaddingString | 0;
 	  }
 	| {
-			all: string | keyof DefaultTheme['sizes']['padding'] | 0;
+			all: PaddingString | 0;
 	  }
 	| RequireAtLeastOne<{
-			vertical: string | keyof DefaultTheme['sizes']['padding'] | 0;
-			horizontal: string | keyof DefaultTheme['sizes']['padding'] | 0;
+			vertical: PaddingString | 0;
+			horizontal: PaddingString | 0;
 	  }>
 	| RequireAtLeastOne<{
-			top: string | keyof DefaultTheme['sizes']['padding'] | 0;
-			right: string | keyof DefaultTheme['sizes']['padding'] | 0;
-			bottom: string | keyof DefaultTheme['sizes']['padding'] | 0;
-			left: string | keyof DefaultTheme['sizes']['padding'] | 0;
+			top: PaddingString | 0;
+			right: PaddingString | 0;
+			bottom: PaddingString | 0;
+			left: PaddingString | 0;
 	  }>;
 
 function getPadding(
