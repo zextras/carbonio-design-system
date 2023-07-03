@@ -170,6 +170,7 @@ describe('TextArea', () => {
 			const { rerender } = render(<TextArea value={''} label={'The label'} onChange={onChange} />);
 			rerender(<TextArea value={content} label={'The label'} onChange={onChange} />);
 			// ugly but real height is not testable
+			// eslint-disable-next-line testing-library/no-node-access
 			expect(screen.getByRole('textbox').parentElement).toHaveAttribute(
 				'data-replicated-value',
 				content
