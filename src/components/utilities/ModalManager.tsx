@@ -30,7 +30,7 @@ const MODAL_ACTION = {
 } as const;
 
 type ModalsReducerAction = {
-	type: typeof MODAL_ACTION[keyof typeof MODAL_ACTION];
+	type: (typeof MODAL_ACTION)[keyof typeof MODAL_ACTION];
 	value: JSX.Element;
 };
 

@@ -8,10 +8,10 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-import { Container, ContainerProps } from '../layout/Container';
-import { Padding } from '../layout/Padding';
 import { Icon } from './Icon';
 import { Text, TextProps } from './Text';
+import { Container, ContainerProps } from '../layout/Container';
+import { Padding } from '../layout/Padding';
 
 const CustomText = styled(Text)`
 	user-select: none;

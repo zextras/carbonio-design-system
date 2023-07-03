@@ -10,9 +10,9 @@ import { faker } from '@faker-js/faker';
 import { screen, act, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+import { Button } from './Button';
 import { render } from '../../test-utils';
 import { Tooltip } from '../display/Tooltip';
-import { Button } from './Button';
 
 describe('Button', () => {
 	test('The label must be Upper Case', () => {
@@ -80,6 +80,7 @@ describe('Button', () => {
 			</Tooltip>
 		);
 		// FIXME: hover event on disabled button is not bubbled up. Remove access on parentElement when possible
+		// eslint-disable-next-line testing-library/no-node-access
 		const button = screen.getByRole('button').parentElement as HTMLElement;
 		// wait for tooltip to register listeners
 		await waitFor(

@@ -8,15 +8,15 @@ import React, { InputHTMLAttributes, useCallback, useMemo, useState } from 'reac
 
 import styled, { DefaultTheme } from 'styled-components';
 
+import { InputContainer } from './commons/InputContainer';
+import { InputDescription } from './commons/InputDescription';
+import { InputLabel } from './commons/InputLabel';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { KeyboardPreset, useKeyboard } from '../../hooks/useKeyboard';
 import { getColor } from '../../theme/theme-utils';
 import { INPUT_BACKGROUND_COLOR, INPUT_DIVIDER_COLOR } from '../constants';
 import { Container } from '../layout/Container';
 import { Divider, DividerProps } from '../layout/Divider';
-import { InputContainer } from './commons/InputContainer';
-import { InputDescription } from './commons/InputDescription';
-import { InputLabel } from './commons/InputLabel';
 
 const InputEl = styled.input<{ color: keyof DefaultTheme['palette'] }>`
 	border: none !important;

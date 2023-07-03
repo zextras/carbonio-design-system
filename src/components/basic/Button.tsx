@@ -8,12 +8,12 @@ import React, { ButtonHTMLAttributes, useCallback, useMemo } from 'react';
 
 import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-components';
 
-import { useCombinedRefs } from '../../hooks/useCombinedRefs';
-import { getKeyboardPreset, useKeyboard } from '../../hooks/useKeyboard';
-import { getColor, pseudoClasses } from '../../theme/theme-utils';
 import { Icon, IconProps } from './Icon';
 import { Spinner } from './Spinner';
 import { Text } from './Text';
+import { useCombinedRefs } from '../../hooks/useCombinedRefs';
+import { getKeyboardPreset, useKeyboard } from '../../hooks/useKeyboard';
+import { getColor, pseudoClasses } from '../../theme/theme-utils';
 
 type ButtonShape = 'regular' | 'round';
 type ButtonSize = 'extrasmall' | 'small' | 'medium' | 'large' | 'extralarge';

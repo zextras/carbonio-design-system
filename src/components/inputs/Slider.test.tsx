@@ -9,8 +9,8 @@ import { fireEvent, screen, within } from '@testing-library/react';
 import user from '@testing-library/user-event';
 import { fireInputEvent } from '@testing-library/user-event/dist/keyboard/shared';
 
-import { render } from '../../test-utils';
 import { Slider } from './Slider';
+import { render } from '../../test-utils';
 
 describe('Slider', () => {
 	test('Render a slider with a datalist', async () => {

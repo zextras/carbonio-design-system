@@ -10,8 +10,8 @@ import { VirtualElement } from '@popperjs/core';
 import { debounce } from 'lodash';
 import styled, { ThemeContext } from 'styled-components';
 
-import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { Popper, PopperProps } from './Popper';
+import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 
 const PopoverContainer = styled.div<{ styleAsModal: boolean }>`
 	padding: ${({ theme }): string => theme.sizes.padding.small};

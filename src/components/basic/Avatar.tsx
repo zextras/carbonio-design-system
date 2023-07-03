@@ -6,10 +6,10 @@
 
 import React, { HTMLAttributes, useMemo } from 'react';
 
-import styled, { DefaultTheme } from 'styled-components';
+import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-components';
 
-import { getColor } from '../../theme/theme-utils';
 import { Icon } from './Icon';
+import { getColor } from '../../theme/theme-utils';
 
 type ShapeType = 'round' | 'square';
 
@@ -33,17 +33,22 @@ const AvatarContainer = styled.div<AvatarContainerProps>`
 	max-width: ${({ theme, size }): string => theme.sizes.avatar[size].diameter};
 	max-height: ${({ theme, size }): string => theme.sizes.avatar[size].diameter};
 	min-height: ${({ theme, size }): string => theme.sizes.avatar[size].diameter};
-	background: ${({ theme, background, color, picture, selecting, selected, disabled }): string =>
-		`${
-			// eslint-disable-next-line no-nested-ternary
-			selecting
-				? selected
-					? getColor('primary', theme)
-					: getColor('gray6', theme)
-				: background
-				? getColor(`${background}.${disabled ? 'disabled' : 'regular'}`, theme)
-				: theme.avatarColors[color]
-		} ${picture && !selecting ? `url(${picture}) no-repeat center center/cover` : ''}`};
+	background-color: ${({
+		theme,
+		background,
+		color,
+		selecting,
+		selected,
+		disabled
+	}): SimpleInterpolation =>
+		(selecting && getColor(selected ? 'primary' : 'gray6', theme)) ||
+		(background && getColor(`${background}.${disabled ? 'disabled' : 'regular'}`, theme)) ||
+		theme.avatarColors[color]};
+	background-image: ${({ picture, selecting }): SimpleInterpolation =>
+		picture && !selecting && css`url(${picture})`};
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
 	border-radius: ${({ shape }): string => (shape === 'round' ? '50%' : '15%')};
 	border: ${({ theme, selecting }): string =>
 		selecting ? `0.125rem solid ${getColor('primary', theme)}` : 'none'};
@@ -56,7 +61,7 @@ type CapitalsPropsType = {
 
 const Capitals = styled.p<CapitalsPropsType>`
 	font-size: ${({ theme, $size }): string => theme.sizes.avatar[$size].font};
-	color: ${({ theme, color }): string => getColor(color || 'gray6', theme)};
+	color: ${({ theme, color }): string => getColor(color ?? 'gray6', theme)};
 	font-family: ${({ theme }): string => theme.fonts.default};
 	font-weight: ${({ theme }): number => theme.fonts.weight.regular};
 	user-select: none;
@@ -70,7 +75,7 @@ const AvatarIcon = styled(Icon)<CapitalsPropsType>`
 `;
 
 const _SPECIAL_CHARS_REGEX = /[&/\\#,+()$~%.'":*?!<>{}@^_`=]/g;
-const _WHITESPACE_REGEX = /[ ]/g;
+const _WHITESPACE_REGEX = / /g;
 const _WHITESPACE_REGEX_2 = / /;
 
 function calcCapitals(label: string): string | null {
@@ -100,8 +105,7 @@ function calcCapitals(label: string): string | null {
 
 function calcColor(label: string): keyof DefaultTheme['avatarColors'] {
 	let sum = 0;
-	// eslint-disable-next-line no-plusplus
-	for (let i = 0; i < label.length; i++) {
+	for (let i = 0; i < label.length; i += 1) {
 		sum += label.charCodeAt(i);
 	}
 	return `avatar_${(sum % 50) + 1}`;
@@ -125,7 +129,7 @@ const Avatar = React.forwardRef<HTMLDivElement, AvatarPropTypes>(function Avatar
 	},
 	ref
 ) {
-	const calculatedColor = useMemo(() => calcColor(colorLabel || label), [colorLabel, label]);
+	const calculatedColor = useMemo(() => calcColor(colorLabel ?? label), [colorLabel, label]);
 
 	const capitals = useMemo(() => calcCapitals(label.toUpperCase()), [label]);
 
@@ -144,7 +148,7 @@ const Avatar = React.forwardRef<HTMLDivElement, AvatarPropTypes>(function Avatar
 			return null;
 		}
 		if (typeof icon !== 'undefined') {
-			return <AvatarIcon $size={size} icon={icon} color={color || 'gray6'} disabled={disabled} />;
+			return <AvatarIcon $size={size} icon={icon} color={color ?? 'gray6'} disabled={disabled} />;
 		}
 		if (capitals !== null) {
 			return (
@@ -166,6 +170,7 @@ const Avatar = React.forwardRef<HTMLDivElement, AvatarPropTypes>(function Avatar
 			color={calculatedColor}
 			shape={shape}
 			disabled={disabled}
+			data-testid={'avatar'}
 			{...rest}
 		>
 			{(!picture || selecting) && symbol}

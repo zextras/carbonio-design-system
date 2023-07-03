@@ -6,10 +6,10 @@
 
 import React from 'react';
 
+import { Text, TextProps } from './Text';
 import { Container, ContainerProps } from '../layout/Container';
 import { Divider } from '../layout/Divider';
 import { Padding } from '../layout/Padding';
-import { Text, TextProps } from './Text';
 
 interface FormElementProps extends ContainerProps {
 	label?: TextProps['children'];

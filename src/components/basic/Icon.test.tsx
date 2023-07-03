@@ -8,8 +8,8 @@ import React from 'react';
 
 import { screen } from '@testing-library/react';
 
-import { render } from '../../test-utils';
 import { Icon } from './Icon';
+import { render } from '../../test-utils';
 
 describe('Icon', () => {
 	test('Render an icon', () => {

@@ -9,6 +9,7 @@ import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { map } from 'lodash';
 import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-components';
 
+import { Tooltip } from './Tooltip';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { useTheme, pseudoClasses } from '../../theme/theme-utils';
 import { Avatar } from '../basic/Avatar';
@@ -17,7 +18,6 @@ import { Text } from '../basic/Text';
 import { IconButton, IconButtonProps } from '../inputs/IconButton';
 import { Container, ContainerProps } from '../layout/Container';
 import { Row, RowProps } from '../layout/Row';
-import { Tooltip } from './Tooltip';
 
 type ChipAction = {
 	/** Chip action icon color */

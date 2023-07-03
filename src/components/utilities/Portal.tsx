@@ -25,6 +25,7 @@ interface PortalProps {
 
 const Portal = React.forwardRef<React.ReactPortal, PortalProps>(function PortalFn(
 	{ children, container, show = false, disablePortal = false },
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	_ref
 ): React.ReactElement | null {
 	const { windowObj } = useContext(ThemeContext);
@@ -33,7 +34,7 @@ const Portal = React.forwardRef<React.ReactPortal, PortalProps>(function PortalF
 
 	if (disablePortal) return children;
 
-	return ReactDOM.createPortal(children, container || windowObj.document.body);
+	return ReactDOM.createPortal(children, container ?? windowObj.document.body);
 });
 
 export { Portal, PortalProps };

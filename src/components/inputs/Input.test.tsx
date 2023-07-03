@@ -8,10 +8,10 @@ import React, { useCallback, useState } from 'react';
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+import { Input } from './Input';
 import { render } from '../../test-utils';
 import { Button } from '../basic/Button';
 import { Modal } from '../feedback/Modal';
-import { Input } from './Input';
 
 const ModalWithInput = (): JSX.Element => {
 	const [open, setOpen] = useState(false);

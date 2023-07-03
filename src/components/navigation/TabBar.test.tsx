@@ -9,9 +9,9 @@ import React from 'react';
 import { screen, act, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+import { DefaultTabBarItem, DefaultTabBarItemProps, TabBar } from './TabBar';
 import { render } from '../../test-utils';
 import { Text } from '../basic/Text';
-import { DefaultTabBarItem, DefaultTabBarItemProps, TabBar } from './TabBar';
 
 describe('TabBar', () => {
 	test('The visually selected element always reflects the selected TabBar prop', () => {

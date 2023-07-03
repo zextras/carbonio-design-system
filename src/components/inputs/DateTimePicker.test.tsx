@@ -10,10 +10,10 @@ import userEvent from '@testing-library/user-event';
 import { format, addMonths, startOfMonth } from 'date-fns';
 import { noop } from 'lodash';
 
+import { DateTimePicker, DateTimePickerProps } from './DateTimePicker';
 import { render } from '../../test-utils';
 import { ICONS } from '../../testUtils/constants';
 import { Button } from '../basic/Button';
-import { DateTimePicker, DateTimePickerProps } from './DateTimePicker';
 
 const DEFAULT_DATE_FORMAT = 'MMMM d, yyyy h:mm aa';
 
