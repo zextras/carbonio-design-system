@@ -27,6 +27,7 @@ import {
 import { find, some } from 'lodash';
 import styled, { css, DefaultTheme, SimpleInterpolation, ThemeContext } from 'styled-components';
 
+import { Tooltip } from './Tooltip';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { useKeyboard, getKeyboardPreset, KeyboardPreset } from '../../hooks/useKeyboard';
 import { pseudoClasses } from '../../theme/theme-utils';
@@ -36,7 +37,6 @@ import { Container } from '../layout/Container';
 import { Divider } from '../layout/Divider';
 import { Padding } from '../layout/Padding';
 import { Portal } from '../utilities/Portal';
-import { Tooltip } from './Tooltip';
 
 const ContainerEl = styled(Container)<{
 	$selectedBackgroundColor?: keyof DefaultTheme['palette'];

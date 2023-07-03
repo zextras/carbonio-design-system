@@ -10,11 +10,11 @@ import { faker } from '@faker-js/faker';
 import { fireEvent, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+import { THeader, Table, TRow } from './Table';
 import { render } from '../../test-utils';
 import { ICONS } from '../../testUtils/constants';
 import { Icon } from '../basic/Icon';
 import { Container } from '../layout/Container';
-import { THeader, Table, TRow } from './Table';
 
 describe('Table', () => {
 	test('index of the array is shown by default', async () => {

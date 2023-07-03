@@ -347,49 +347,6 @@ const ShimmerObject = {
 	),
 	ListItem: ({ width, type }: { width?: string; type?: number }): JSX.Element => {
 		switch (type) {
-			case 1:
-				return (
-					<SkeletonComponent height="4rem" width={width}>
-						<Container orientation="horizontal" mainAlignment="flex-start">
-							<Padding left="medium" vertical="small">
-								<AvatarSkeletonComponent variant="dark" width="3rem" />
-							</Padding>
-							<Container
-								height="fill"
-								width="fit"
-								orientation="vertical"
-								mainAlignment="flex-start"
-							>
-								<Padding left="large" vertical="medium">
-									<SkeletonComponent variant="dark" width="13.125rem" />
-									<Padding top="small" />
-									<SkeletonComponent variant="dark" width="13.75rem" />
-								</Padding>
-							</Container>
-							<Container height="fit" width="fill" orientation="vertical" mainAlignment="flex-end">
-								<Container
-									height="fit"
-									width="fill"
-									orientation="horizontal"
-									mainAlignment="flex-end"
-								>
-									<SkeletonComponent variant="dark" width="3.75rem" />
-									<Padding right="medium" />
-								</Container>
-								<Padding top="small" />
-								<Container
-									height="fit"
-									width="fill"
-									orientation="horizontal"
-									mainAlignment="flex-end"
-								>
-									<BadgeSkeletonComponent variant="dark" width="2.375rem" height="1.3125rem" />{' '}
-									<Padding right="medium" />
-								</Container>
-							</Container>
-						</Container>
-					</SkeletonComponent>
-				);
 			case 2:
 				return (
 					<SkeletonComponent height="4rem" width={width}>
@@ -546,6 +503,7 @@ const ShimmerObject = {
 						</Container>
 					</SkeletonComponent>
 				);
+			case 1:
 			default:
 				return (
 					<SkeletonComponent height="4rem" width={width}>
@@ -713,30 +671,6 @@ const ShimmerObject = {
 	},
 	TableListItem: ({ width, type }: { width?: string; type?: number }): JSX.Element => {
 		switch (type) {
-			case 1:
-				return (
-					<SkeletonComponent
-						style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around' }}
-						width={width}
-						height="2.5rem"
-					>
-						<Padding vertical="medium" left="large">
-							<SkeletonComponent variant="dark" width="5rem" />
-						</Padding>
-						<Padding vertical="medium" left="large">
-							<SkeletonComponent variant="dark" width="3.0625rem" />
-						</Padding>
-						<Padding vertical="medium" left="large">
-							<SkeletonComponent variant="dark" width="4.6875rem" />
-						</Padding>
-						<Padding vertical="medium" left="large">
-							<SkeletonComponent variant="dark" width="3.9375rem" />
-						</Padding>
-						<Padding vertical="medium" horizontal="large">
-							<SkeletonComponent variant="dark" width="1.875rem" />
-						</Padding>
-					</SkeletonComponent>
-				);
 			case 2:
 				return (
 					<Container
@@ -786,6 +720,7 @@ const ShimmerObject = {
 						</Padding>
 					</SkeletonComponent>
 				);
+			case 1:
 			default:
 				return (
 					<SkeletonComponent
@@ -815,7 +750,7 @@ const ShimmerObject = {
 };
 
 type Shimmer = React.VFC<SkeletonProps> & {
-	[K in keyof typeof ShimmerObject]: React.VFC<Parameters<typeof ShimmerObject[K]>[number]>;
+	[K in keyof typeof ShimmerObject]: React.VFC<Parameters<(typeof ShimmerObject)[K]>[number]>;
 };
 const Shimmer: Shimmer = (props: SkeletonProps): JSX.Element => <SkeletonComponent {...props} />;
 

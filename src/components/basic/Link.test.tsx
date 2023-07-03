@@ -8,8 +8,8 @@ import React from 'react';
 
 import { screen } from '@testing-library/react';
 
-import { render } from '../../test-utils';
 import { Link } from './Link';
+import { render } from '../../test-utils';
 
 describe('Link', () => {
 	test('Render a Link', () => {

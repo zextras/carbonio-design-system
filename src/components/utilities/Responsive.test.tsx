@@ -8,8 +8,8 @@ import React from 'react';
 
 import { screen, act } from '@testing-library/react';
 
-import { render } from '../../test-utils';
 import { Responsive } from './Responsive';
+import { render } from '../../test-utils';
 
 describe('Responsive', () => {
 	let prevWidth: number;

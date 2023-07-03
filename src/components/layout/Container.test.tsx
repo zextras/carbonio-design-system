@@ -8,9 +8,9 @@ import React from 'react';
 import { screen } from '@testing-library/react';
 import 'jest-styled-components';
 
+import { Container } from './Container';
 import { render } from '../../test-utils';
 import { Theme } from '../../theme/theme';
-import { Container } from './Container';
 
 describe('Container', () => {
 	test('Set all borders in one if a string is passed as prop', () => {

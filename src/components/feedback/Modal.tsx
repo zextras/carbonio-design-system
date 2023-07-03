@@ -19,11 +19,6 @@ import React, {
 import { noop } from 'lodash';
 import { DefaultTheme, ThemeContext } from 'styled-components';
 
-import { useCombinedRefs } from '../../hooks/useCombinedRefs';
-import { KeyboardPreset, useKeyboard } from '../../hooks/useKeyboard';
-import { Divider } from '../layout/Divider';
-import { Portal } from '../utilities/Portal';
-import { Transition } from '../utilities/Transition';
 import { ModalBody } from './modal-components/ModalBody';
 import {
 	getScrollbarSize,
@@ -34,6 +29,11 @@ import {
 } from './modal-components/ModalComponents';
 import { ModalFooter, ModalFooterProps } from './modal-components/ModalFooter';
 import { ModalHeader } from './modal-components/ModalHeader';
+import { useCombinedRefs } from '../../hooks/useCombinedRefs';
+import { KeyboardPreset, useKeyboard } from '../../hooks/useKeyboard';
+import { Divider } from '../layout/Divider';
+import { Portal } from '../utilities/Portal';
+import { Transition } from '../utilities/Transition';
 
 function copyToClipboard(node: HTMLDivElement | null, windowObj: Window): void {
 	const el = windowObj.document.createElement('textarea');
