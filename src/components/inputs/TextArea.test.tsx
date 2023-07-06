@@ -163,5 +163,18 @@ describe('TextArea', () => {
 			);
 			expect(screen.getByText('The label')).toHaveStyle({ top: '0.0625rem' });
 		});
+
+		test('data-replicated-value to set height is updated when value is updated from outside', async () => {
+			const onChange = jest.fn();
+			const content = faker.lorem.paragraphs();
+			const { rerender } = render(<TextArea value={''} label={'The label'} onChange={onChange} />);
+			rerender(<TextArea value={content} label={'The label'} onChange={onChange} />);
+			// ugly but real height is not testable
+			// eslint-disable-next-line testing-library/no-node-access
+			expect(screen.getByRole('textbox').parentElement).toHaveAttribute(
+				'data-replicated-value',
+				content
+			);
+		});
 	});
 });

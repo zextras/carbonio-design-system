@@ -61,8 +61,10 @@ Through the maxHeight prop is possible to set the height limit, beyond which the
       setTextAreaValue(event.currentTarget.value);
   };
 	
+  const veryLongText = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer quis aliquet ex, ac pellentesque velit. Nunc sed cursus odio. Nam viverra et mauris at maximus. Mauris imperdiet neque nec dolor pretium, elementum posuere ipsum egestas. Maecenas ut sagittis quam. Sed volutpat commodo orci vitae fringilla. Vivamus sapien nisi, viverra non consequat nec, venenatis vitae orci. Nulla sed nisl ut nunc euismod egestas. Maecenas vehicula accumsan nunc quis imperdiet. Pellentesque ut dolor luctus, sodales dolor at, laoreet libero. Quisque vulputate, diam sit amet eleifend malesuada, eros dolor porttitor turpis, ac consectetur augue elit vitae ante. Mauris eget magna quis lacus imperdiet sagittis ut eu est. Sed ligula arcu, maximus vel dictum vel, scelerisque ac eros. Pellentesque eu accumsan nulla. Pellentesque magna justo, laoreet nec ligula vel, varius imperdiet lorem. Nulla facilisi. Vestibulum molestie rutrum justo, sit amet feugiat ex iaculis id. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vitae iaculis ex. Proin fermentum augue sit amet tincidunt elementum.';
+
   const setValueFromButton = () => {
-    setTextAreaValue('A value set from outside')
+    setTextAreaValue(veryLongText)
   }
 
   <Container gap={'0.5rem'} crossAlignment={'flex-start'}>
