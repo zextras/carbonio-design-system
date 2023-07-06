@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.2.0](https://github.com/Zextras/carbonio-design-system/compare/v2.1.1...v2.2.0) (2023-07-06)
+
+
+### Features
+
+* **icons:** update icon set ([8afdea7](https://github.com/Zextras/carbonio-design-system/commit/8afdea7bbe669a757b17e42073564b90bc3c879f)), closes [#194](https://github.com/Zextras/carbonio-design-system/issues/194)
+
+
+### Bug Fixes
+
+* **TextArea:** update height when value change in controlled mode ([1700910](https://github.com/Zextras/carbonio-design-system/commit/170091078bab986796e5a55f438a9b26277a55ef)), closes [#196](https://github.com/Zextras/carbonio-design-system/issues/196)
+
 ### [2.1.1](https://github.com/Zextras/carbonio-design-system/compare/v2.1.0...v2.1.1) (2023-06-15)
 
 
