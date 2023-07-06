@@ -9,8 +9,9 @@ import React from 'react';
 import { screen, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import { render } from '../../test-utils';
 import { Checkbox } from './Checkbox';
+import { render } from '../../test-utils';
+import { ICONS } from '../../testUtils/constants';
 
 describe('Checkbox', () => {
 	test('Render a checkbox with a label', () => {
@@ -18,16 +19,16 @@ describe('Checkbox', () => {
 		render(<Checkbox label="Checkbox label" />);
 		expect(onChange).not.toHaveBeenCalled();
 		expect(screen.getByText(/checkbox label/i)).toBeInTheDocument();
-		expect(screen.getByTestId('icon: Square')).toBeInTheDocument();
+		expect(screen.getByTestId(ICONS.checkboxOff)).toBeInTheDocument();
 	});
 
 	test('Click on the checkbox', () => {
 		const onChange = jest.fn();
 		render(<Checkbox onChange={onChange} />);
 		act(() => {
-			userEvent.click(screen.getByTestId('icon: Square'));
+			userEvent.click(screen.getByTestId(ICONS.checkboxOff));
 		});
 		expect(onChange).toHaveBeenCalled();
-		expect(screen.getByTestId('icon: CheckmarkSquare')).toBeInTheDocument();
+		expect(screen.getByTestId(ICONS.checkboxOn)).toBeInTheDocument();
 	});
 });

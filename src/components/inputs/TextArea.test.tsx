@@ -9,9 +9,9 @@ import { faker } from '@faker-js/faker';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+import { TextArea } from './TextArea';
 import { render } from '../../test-utils';
 import { Theme } from '../../theme/theme';
-import { TextArea } from './TextArea';
 
 describe('TextArea', () => {
 	test('Render an empty text area', () => {
@@ -162,6 +162,19 @@ describe('TextArea', () => {
 				<TextArea value={'value is changed from outside'} label={'The label'} onChange={onChange} />
 			);
 			expect(screen.getByText('The label')).toHaveStyle({ top: '0.0625rem' });
+		});
+
+		test('data-replicated-value to set height is updated when value is updated from outside', async () => {
+			const onChange = jest.fn();
+			const content = faker.lorem.paragraphs();
+			const { rerender } = render(<TextArea value={''} label={'The label'} onChange={onChange} />);
+			rerender(<TextArea value={content} label={'The label'} onChange={onChange} />);
+			// ugly but real height is not testable
+			// eslint-disable-next-line testing-library/no-node-access
+			expect(screen.getByRole('textbox').parentElement).toHaveAttribute(
+				'data-replicated-value',
+				content
+			);
 		});
 	});
 });

@@ -8,9 +8,9 @@ import React from 'react';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+import { ItemComponentProps, ItemType, List, ListProps } from './List';
 import { render } from '../../test-utils';
 import { Container } from '../layout/Container';
-import { ItemComponentProps, ItemType, List, ListProps } from './List';
 
 describe('List', () => {
 	test('Render a basic list', () => {

@@ -12,11 +12,11 @@ import { DefaultTheme } from 'styled-components';
 import 'jest-styled-components';
 import { find as findStyled } from 'styled-components/test-utils';
 
+import { Banner, BannerProps, InfoContainer } from './Banner';
 import { render } from '../../test-utils';
 import { ICONS } from '../../testUtils/constants';
 import { Theme } from '../../theme/theme';
 import { ModalManager } from '../utilities/ModalManager';
-import { Banner, BannerProps, InfoContainer } from './Banner';
 
 describe('Banner', () => {
 	function makeTextCropped(

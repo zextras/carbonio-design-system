@@ -17,10 +17,6 @@ import React, {
 
 import { ThemeContext } from 'styled-components';
 
-import { useCombinedRefs } from '../../hooks/useCombinedRefs';
-import { KeyboardPreset, useKeyboard } from '../../hooks/useKeyboard';
-import { Portal } from '../utilities/Portal';
-import { Transition } from '../utilities/Transition';
 import { ModalProps } from './Modal';
 import {
 	getScrollbarSize,
@@ -29,6 +25,10 @@ import {
 	ModalContent,
 	ModalWrapper
 } from './modal-components/ModalComponents';
+import { useCombinedRefs } from '../../hooks/useCombinedRefs';
+import { KeyboardPreset, useKeyboard } from '../../hooks/useKeyboard';
+import { Portal } from '../utilities/Portal';
+import { Transition } from '../utilities/Transition';
 
 type PickedModal = Pick<
 	ModalProps,

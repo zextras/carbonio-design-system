@@ -5,6 +5,7 @@
  */
 export { default as AcceptanceMeeting } from './AcceptanceMeeting';
 export { default as Activity } from './Activity';
+export { default as AddressBookMailedTo } from './AddressBookMailedTo';
 export { default as AddressBookShareByMe } from './AddressBookShareByMe';
 export { default as AddressBookShareWithMe } from './AddressBookShareWithMe';
 export { default as AddressBook } from './AddressBook';
@@ -174,6 +175,7 @@ export { default as FolderRemove } from './FolderRemove';
 export { default as FolderShareByMe } from './FolderShareByMe';
 export { default as FolderShareWithMe } from './FolderShareWithMe';
 export { default as Folder } from './Folder';
+export { default as ForwardMultipleTimes } from './ForwardMultipleTimes';
 export { default as Forward } from './Forward';
 export { default as Funnel } from './Funnel';
 export { default as Gift } from './Gift';
@@ -214,6 +216,7 @@ export { default as MailFolder } from './MailFolder';
 export { default as MailMod } from './MailMod';
 export { default as Map } from './Map';
 export { default as Maximize } from './Maximize';
+export { default as Megaphone } from './Megaphone';
 export { default as Menu2 } from './Menu2';
 export { default as MenuArrow } from './MenuArrow';
 export { default as Menu } from './Menu';

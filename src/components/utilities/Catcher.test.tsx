@@ -8,8 +8,8 @@ import React from 'react';
 
 import { screen } from '@testing-library/react';
 
-import { render } from '../../test-utils';
 import { Catcher } from './Catcher';
+import { render } from '../../test-utils';
 
 function ErrorComponent(): JSX.Element {
 	throw new Error("Error from the test component, don't panic if You see this error.");

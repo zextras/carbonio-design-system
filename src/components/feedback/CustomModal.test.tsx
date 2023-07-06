@@ -9,10 +9,10 @@ import React, { useState } from 'react';
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+import { CustomModal, CustomModalProps } from './CustomModal';
 import { render } from '../../test-utils';
 import { Button } from '../basic/Button';
 import { Text } from '../basic/Text';
-import { CustomModal, CustomModalProps } from './CustomModal';
 
 const ModalTester = (props: CustomModalProps): JSX.Element => {
 	const [open, setOpen] = useState(false);

@@ -14,15 +14,15 @@ import React, {
 
 import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-components';
 
+import { InputContainer } from './commons/InputContainer';
+import { InputDescription } from './commons/InputDescription';
+import { InputLabel } from './commons/InputLabel';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { getColor } from '../../theme/theme-utils';
 import { TextProps } from '../basic/Text';
 import { INPUT_BACKGROUND_COLOR, INPUT_DIVIDER_COLOR } from '../constants';
 import { Container } from '../layout/Container';
 import { Divider, DividerProps } from '../layout/Divider';
-import { InputContainer } from './commons/InputContainer';
-import { InputDescription } from './commons/InputDescription';
-import { InputLabel } from './commons/InputLabel';
 
 type HTMLTextAreaProps = TextareaHTMLAttributes<HTMLTextAreaElement>;
 
@@ -129,22 +129,20 @@ const GrowContainer = styled.div<{ $hasLabel: boolean; $maxHeight?: string }>`
 
 const AdjustHeightTextArea = React.forwardRef<HTMLTextAreaElement, AdjustHeightTextAreaProps>(
 	function AdjustTextAreaHeightFn({ hasLabel, onInput, color, ...props }, ref) {
-		const { maxHeight } = props;
+		const { maxHeight, value, defaultValue } = props;
 		const containerRef = useRef<HTMLDivElement>(null);
 		const textAreaRef = useCombinedRefs<HTMLTextAreaElement>(ref);
 
-		useEffect(() => {
+		const resizeTextArea = useCallback(() => {
 			if (containerRef.current) {
-				// init grow container value to textarea value
-				containerRef.current.dataset.replicatedValue = textAreaRef.current?.value || '';
+				containerRef.current.dataset.replicatedValue = textAreaRef.current?.value ?? '';
 			}
 		}, [textAreaRef]);
 
-		const resizeTextArea = useCallback(() => {
-			if (containerRef.current) {
-				containerRef.current.dataset.replicatedValue = textAreaRef.current?.value || '';
-			}
-		}, [textAreaRef]);
+		useEffect(() => {
+			// resize text area when value or default value change
+			resizeTextArea();
+		}, [resizeTextArea, value, defaultValue]);
 
 		const onInputHandler = useCallback<NonNullable<HTMLTextAreaProps['onInput']>>(
 			(event) => {

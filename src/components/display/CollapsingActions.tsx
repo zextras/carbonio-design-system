@@ -8,12 +8,12 @@ import React, { HTMLAttributes, useMemo } from 'react';
 import { map, noop } from 'lodash';
 import styled from 'styled-components';
 
+import { Dropdown, DropdownItem } from './Dropdown';
+import { Tooltip } from './Tooltip';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { useSplitVisibility } from '../../hooks/useSplitVisibility';
 import { IconButton, IconButtonProps } from '../inputs/IconButton';
 import { Container, ContainerProps } from '../layout/Container';
-import { Dropdown, DropdownItem } from './Dropdown';
-import { Tooltip } from './Tooltip';
 
 const RefDiv = styled.div`
 	max-width: 100%;

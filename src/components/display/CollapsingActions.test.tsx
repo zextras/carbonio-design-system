@@ -9,9 +9,10 @@ import { faker } from '@faker-js/faker';
 import { screen, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import { render } from '../../test-utils';
-import { Theme } from '../../theme/theme';
 import { Action, CollapsingActions } from './CollapsingActions';
+import { render } from '../../test-utils';
+import { ICONS } from '../../testUtils/constants';
+import { Theme } from '../../theme/theme';
 
 describe('Collapsing Actions', () => {
 	test('Render a collapsing actions component', () => {
@@ -60,8 +61,8 @@ describe('Collapsing Actions', () => {
 		expect(screen.queryByTestId(`icon: ${actions[3].icon}`)).not.toBeInTheDocument();
 		expect(screen.queryByText(actions[3].label)).not.toBeInTheDocument();
 		// collapser icon button is visible instead
-		expect(screen.getByTestId('icon: MoreVertical')).toBeVisible();
-		userEvent.click(screen.getByTestId('icon: MoreVertical'));
+		expect(screen.getByTestId(ICONS.moreVertical)).toBeVisible();
+		userEvent.click(screen.getByTestId(ICONS.moreVertical));
 		await screen.findByText(actions[3].label);
 		// first 3 actions are still visible as icon buttons
 		expect(screen.getByTestId(`icon: ${actions[0].icon}`)).toBeVisible();
@@ -127,7 +128,7 @@ describe('Collapsing Actions', () => {
 		expect(screen.queryByText(actions[0].label)).not.toBeInTheDocument();
 		expect(screen.getByTestId(`icon: ${actions[9].icon}`)).toBeVisible();
 		expect(screen.queryByText(actions[9].label)).not.toBeInTheDocument();
-		expect(screen.queryByTestId('icon: MoreVertical')).not.toBeInTheDocument();
+		expect(screen.queryByTestId(ICONS.moreVertical)).not.toBeInTheDocument();
 		// resize window to 300
 		// container width is 300, 8 actions visible + more vertical
 		getOffsetWithMock.mockReturnValue(300);
@@ -147,7 +148,7 @@ describe('Collapsing Actions', () => {
 		expect(screen.queryByText(actions[7].label)).not.toBeInTheDocument();
 		expect(screen.queryByTestId(`icon: ${actions[8].icon}`)).not.toBeInTheDocument();
 		expect(screen.queryByTestId(`icon: ${actions[9].icon}`)).not.toBeInTheDocument();
-		expect(screen.getByTestId('icon: MoreVertical')).toBeVisible();
+		expect(screen.getByTestId(ICONS.moreVertical)).toBeVisible();
 		// resize window to 150
 		// container width is 150, 3 actions visible + more vertical
 		getOffsetWithMock.mockReturnValue(150);
@@ -178,7 +179,7 @@ describe('Collapsing Actions', () => {
 		expect(screen.queryByTestId(`icon: ${actions[7].icon}`)).not.toBeInTheDocument();
 		expect(screen.queryByTestId(`icon: ${actions[8].icon}`)).not.toBeInTheDocument();
 		expect(screen.queryByTestId(`icon: ${actions[9].icon}`)).not.toBeInTheDocument();
-		expect(screen.getByTestId('icon: MoreVertical')).toBeVisible();
+		expect(screen.getByTestId(ICONS.moreVertical)).toBeVisible();
 		// resize window to 200
 		// container width is 200, 5 actions visible + more vertical
 		getOffsetWithMock.mockReturnValue(200);
@@ -206,7 +207,7 @@ describe('Collapsing Actions', () => {
 		expect(screen.queryByTestId(`icon: ${actions[7].icon}`)).not.toBeInTheDocument();
 		expect(screen.queryByTestId(`icon: ${actions[8].icon}`)).not.toBeInTheDocument();
 		expect(screen.queryByTestId(`icon: ${actions[9].icon}`)).not.toBeInTheDocument();
-		expect(screen.getByTestId('icon: MoreVertical')).toBeVisible();
+		expect(screen.getByTestId(ICONS.moreVertical)).toBeVisible();
 		// reset window to 1024
 		// container width is 1024, 10 (all) actions visible, more vertical is hidden
 		getOffsetWithMock.mockReturnValue(1024);
@@ -230,6 +231,6 @@ describe('Collapsing Actions', () => {
 		expect(screen.queryByText(actions[0].label)).not.toBeInTheDocument();
 		expect(screen.getByTestId(`icon: ${actions[9].icon}`)).toBeVisible();
 		expect(screen.queryByText(actions[9].label)).not.toBeInTheDocument();
-		expect(screen.queryByTestId('icon: MoreVertical')).not.toBeInTheDocument();
+		expect(screen.queryByTestId(ICONS.moreVertical)).not.toBeInTheDocument();
 	});
 });

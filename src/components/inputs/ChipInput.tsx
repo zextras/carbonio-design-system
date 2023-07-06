@@ -17,6 +17,9 @@ import React, {
 import { filter, map, slice, isEmpty, debounce, find, trim, reduce, uniq } from 'lodash';
 import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-components';
 
+import { InputDescription } from './commons/InputDescription';
+import { InputLabel } from './commons/InputLabel';
+import { IconButton } from './IconButton';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { useKeyboard, getKeyboardPreset, KeyboardPreset } from '../../hooks/useKeyboard';
 import { usePrevious } from '../../hooks/usePrevious';
@@ -27,9 +30,6 @@ import { Chip, ChipProps } from '../display/Chip';
 import { Dropdown, DropdownItem } from '../display/Dropdown';
 import { Container, ContainerProps } from '../layout/Container';
 import { Divider, DividerProps } from '../layout/Divider';
-import { InputDescription } from './commons/InputDescription';
-import { InputLabel } from './commons/InputLabel';
-import { IconButton } from './IconButton';
 
 const ContainerEl = styled(Container)<{
 	background: keyof DefaultTheme['palette'];
@@ -379,14 +379,14 @@ interface ChipInputProps<TValue = unknown>
 	maxHeight?: string;
 }
 
-type ChipInputType<TValue> = React.ForwardRefExoticComponent<
+type ChipInput<TValue> = React.ForwardRefExoticComponent<
 	ChipInputProps<TValue> & React.RefAttributes<HTMLDivElement>
 > & {
 	_newId?: number;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const ChipInput: ChipInputType<any> = React.forwardRef<HTMLDivElement, ChipInputProps>(
+const ChipInput: ChipInput<any> = React.forwardRef<HTMLDivElement, ChipInputProps>(
 	function ChipInputFn<TValue>(
 		{
 			inputRef = null,
@@ -823,4 +823,4 @@ const ChipInput: ChipInputType<any> = React.forwardRef<HTMLDivElement, ChipInput
 
 ChipInput._newId = 0;
 
-export { ChipInput, ChipInputType, ChipInputProps, ChipItem };
+export { ChipInput, type ChipInput as ChipInputType, ChipInputProps, ChipItem };

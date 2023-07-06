@@ -8,8 +8,8 @@ import React from 'react';
 
 import { Placement } from '@popperjs/core/lib/enums';
 
-import { Tooltip } from '../display/Tooltip';
 import { Text, TextProps } from './Text';
+import { Tooltip } from '../display/Tooltip';
 
 interface TextWithTooltipProps extends TextProps {
 	/** Text content */

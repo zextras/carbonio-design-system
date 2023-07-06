@@ -9,8 +9,8 @@ import React from 'react';
 import { faker } from '@faker-js/faker';
 import { screen } from '@testing-library/react';
 
-import { render } from '../../test-utils';
 import { Badge } from './Badge';
+import { render } from '../../test-utils';
 
 describe('Badge', () => {
 	test('Render a number < 999', () => {

@@ -11,10 +11,6 @@ import { default as icons } from 'carbonio-design-system-icons';
 import { Icon, Container, Padding, Text, Input, SnackbarManagerContext, SnackbarManager } from '@zextras/carbonio-design-system';
 import styled from 'styled-components';
 const iconKeys = Object.keys(icons).sort();
-const CustomIcon = styled(Icon)`
-    width: 2rem;
-    height: 2rem;
-`;
 const CustomText = styled(Text)`
     font-family: monospace !important;
     font-size: 0.625rem;
@@ -94,7 +90,7 @@ function App() {
                             mainAlignment="center"
                             padding={{vertical: 'medium'}}
                         >
-                            <CustomIcon color="text" size="large" icon={key} />
+                            <Icon color="text" size="large" icon={key} />
                             <Padding top="medium"><CustomText> {key} </CustomText></Padding>
                         </CustomContainer> 
                     )
