@@ -4,91 +4,152 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
+import React, {
+	CSSProperties,
+	InputHTMLAttributes,
+	LabelHTMLAttributes,
+	useCallback,
+	useEffect,
+	useMemo,
+	useRef,
+	useState
+} from 'react';
 
 import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-components';
 
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
-import { getKeyboardPreset, useKeyboard } from '../../hooks/useKeyboard';
-import { Icon } from '../basic/Icon';
-import { Text } from '../basic/Text';
+import { getColor, pseudoClasses } from '../../theme/theme-utils';
+import { Text, TextProps } from '../basic/Text';
 import { Container, ContainerProps } from '../layout/Container';
 
-type RadioSize = 'medium' | 'small';
-
-const StyledIcon = styled(Icon)<{ checked: boolean }>`
-	margin-right: ${({ theme }): string => theme.sizes.padding.small};
-	border-radius: 50%;
-	transition: 0.2s ease-out;
-
-	path:last-child {
-		transform: scale(0);
-		transform-origin: center;
-		transition: 0.2s ease-out;
-
-		${({ checked }): SimpleInterpolation =>
-			checked &&
-			css`
-				transform: scale(1);
-			`};
+const RADIO_SIZE: Record<
+	'small' | 'medium',
+	{ icon: keyof DefaultTheme['sizes']['icon']; label: TextProps['size'] }
+> = {
+	medium: {
+		icon: 'large',
+		label: 'medium'
+	},
+	small: {
+		icon: 'medium',
+		label: 'small'
 	}
+};
+
+const RadioInput = styled.input<{
+	$color: string;
+	$size: keyof DefaultTheme['sizes']['icon'];
+}>`
+	&:focus-visible {
+		outline: none;
+	}
+	${({ disabled }): SimpleInterpolation =>
+		!disabled &&
+		css`
+			cursor: pointer;
+		`};
+	${({ $size, theme }): SimpleInterpolation => css`
+		/* calc internal sizes following the proportion on base 24 */
+		--radio-outer-diameter: calc(${theme.sizes.icon[$size]} * (20 / 24));
+		--radio-inner-diameter: calc(${theme.sizes.icon[$size]} * (10 / 24));
+		--radio-border-width: calc(${theme.sizes.icon[$size]} * (2 / 24));
+		--radio-padding: calc(${theme.sizes.icon[$size]} * (3 / 24));
+	`};
+	width: var(--radio-outer-diameter);
+	height: var(--radio-outer-diameter);
+	min-width: fit-content;
+	flex-shrink: 0;
+	box-sizing: border-box;
+	margin: 0;
+	appearance: none;
+	border-radius: 50%;
+	--radio-color: ${({ $color, theme }): string => getColor($color, theme)};
+	--radio-bg-color: ${({ theme }): string => theme.palette.gray6.regular};
+	outline: none;
+	/* border is the outer circle */
+	border: var(--radio-border-width) solid;
+	/* padding is the space between inner and outer circle */
+	padding: var(--radio-padding);
+	/* background is the inner circle */
+	background-clip: content-box;
+	${({ $color, theme }): SimpleInterpolation =>
+		pseudoClasses(theme, $color, 'background-color', { transition: false, outline: false })};
+	${({ $color, theme }): SimpleInterpolation =>
+		pseudoClasses(theme, $color, 'border-color', { transition: false, outline: false })};
+	/* box shadow cover the background when the radio is not checked, simulating the empty content */
+	box-shadow: inset 0 0 0 var(--radio-inner-diameter) var(--radio-bg-color);
+	&:checked {
+		/* 
+		 * when checked, the box shadow is removed (length 0), with the transition
+		 * which gives the impression that the internal circle is growing,
+		 * while in the reality it is the shadow which is shrinking
+		 */
+		box-shadow: inset 0 0 0 0 var(--radio-bg-color);
+	}
+	transition-property: box-shadow;
+	transition-duration: 0.2s;
+	transition-timing-function: ease-out;
 `;
+
+const Label = styled(Text).attrs({ forwardedAs: 'label' })<LabelHTMLAttributes<HTMLLabelElement>>`
+	line-height: 1.5;
+	${({ disabled }): SimpleInterpolation =>
+		!disabled &&
+		css`
+			cursor: pointer;
+		`}
+`;
+
 const RadioContainer = styled(Container)<{
-	$iconColor: keyof DefaultTheme['palette'];
+	$iconColor: string;
 	$disabled: boolean;
 }>`
+	outline: none;
 	${({ theme, $disabled, $iconColor }): SimpleInterpolation =>
 		!$disabled &&
 		css`
-			&:focus {
-				outline: none;
-				> ${StyledIcon} {
-					color: ${theme.palette[$iconColor].focus};
-				}
-			}
 			&:hover {
-				outline: none;
-				> ${StyledIcon} {
-					color: ${theme.palette[$iconColor].hover};
-				}
-			}
-			&:active {
-				outline: none;
-				> ${StyledIcon} {
-					color: ${theme.palette[$iconColor].active};
+				${RadioInput} {
+					background-color: ${getColor(`${$iconColor}.hover`, theme)};
+					border-color: ${getColor(`${$iconColor}.hover`, theme)};
 				}
 			}
 		`};
 `;
 
-const CustomText = styled(Text)`
-	line-height: 1.5;
-`;
+type RadioInputHTMLAttributes = InputHTMLAttributes<HTMLInputElement> & { type: 'radio' };
 
-interface RadioProps extends Omit<ContainerProps, 'onChange'> {
+interface RadioComponentProps {
 	/** status of the Radio */
 	defaultChecked?: boolean;
 	/** Radio checked */
 	checked?: boolean;
-	/** value of the Radio */
-	value?: string;
 	/** Radio text */
 	label?: string | React.ReactElement;
 	/** whether to disable the radio or not */
 	disabled?: boolean;
 	/** click callback */
-	onClick?: React.ReactEventHandler;
+	onClick?: (e: React.MouseEvent<HTMLDivElement> | KeyboardEvent) => void;
 	/** change callback */
 	onChange?: (checked: boolean) => void;
 	/** radio padding */
 	padding?: ContainerProps['padding'];
 	/** available sizes */
-	size?: RadioSize;
+	size?: keyof typeof RADIO_SIZE;
 	/** icon color */
-	iconColor?: keyof DefaultTheme['palette'];
+	iconColor?: keyof DefaultTheme['palette'] | CSSProperties['color'];
+	/** Ref for the input element */
+	inputRef?: React.Ref<HTMLInputElement>;
 }
 
-const Radio = React.forwardRef<HTMLDivElement, RadioProps>(function RadioFn(
+type RadioProps = RadioComponentProps &
+	Omit<RadioInputHTMLAttributes, 'type' | 'checked' | 'id' | keyof RadioComponentProps>;
+
+type Radio = ReturnType<typeof React.forwardRef<HTMLDivElement, RadioProps>> & {
+	_id?: number;
+};
+
+const Radio: Radio = React.forwardRef(function RadioFn(
 	{
 		defaultChecked,
 		checked,
@@ -99,76 +160,101 @@ const Radio = React.forwardRef<HTMLDivElement, RadioProps>(function RadioFn(
 		padding = { bottom: 'small' },
 		size = 'medium',
 		iconColor = 'gray0',
-		value,
+		inputRef = null,
 		...rest
-	},
-	ref
+	}: RadioProps,
+	ref: React.ForwardedRef<HTMLDivElement>
 ) {
-	const innerRef = useRef<HTMLDivElement>(null);
-	const radioRef = useCombinedRefs<HTMLDivElement>(ref, innerRef);
-	const [isActive, setIsActive] = useState(defaultChecked || checked || false);
+	const containerRef = useCombinedRefs<HTMLDivElement>(ref);
+	const radioInputRef = useCombinedRefs<HTMLInputElement>(inputRef);
+	const labelRef = useRef<HTMLDivElement>(null);
+	const [isChecked, setIsChecked] = useState(checked ?? defaultChecked ?? false);
+	const [id] = useState((): string => {
+		if (Radio._id === undefined) {
+			Radio._id = 0;
+		}
+		const { _id } = Radio;
+		Radio._id += 1;
+		return `Radio-${_id}`;
+	});
 
 	const uncontrolledMode = useMemo(() => typeof checked === 'undefined', [checked]);
-	const handleOnClick = useCallback(
+
+	const onClickHandler = useCallback<React.MouseEventHandler<HTMLInputElement>>(
 		(e) => {
 			if (!disabled) {
-				if (uncontrolledMode && !e.isDefaultPrevented()) {
-					setIsActive((prevState) => !prevState);
+				if (uncontrolledMode && !e.defaultPrevented) {
+					setIsChecked((prevState) => !prevState);
 				}
-				if (onClick) {
-					onClick(e);
-				}
+				onClick?.(e);
 			}
 		},
 		[disabled, onClick, uncontrolledMode]
 	);
 
-	const keyEvents = useMemo(() => getKeyboardPreset('button', handleOnClick), [handleOnClick]);
-	useKeyboard(radioRef, keyEvents);
+	const onChangeHandler = useCallback<React.ChangeEventHandler<HTMLInputElement>>(() => {
+		// do nothing
+		// TODO: CDS-174: update state here and not in the click. In controlled mode, do not update the internal state,
+		// 	just call the external onChange
+	}, []);
 
 	useEffect(() => {
-		onChange && onChange(isActive);
-	}, [onChange, isActive]);
+		// TODO: CDS-174: remove this effect, call onChange only from the handler
+		onChange?.(isChecked);
+	}, [onChange, isChecked]);
 
 	useEffect(() => {
-		typeof checked !== 'undefined' && setIsActive(checked);
+		if (checked !== undefined) {
+			setIsChecked(checked);
+		}
 	}, [checked]);
+
+	const labelWithClick = useMemo(
+		() =>
+			(typeof label === 'string' && (
+				<Label disabled={disabled} size={RADIO_SIZE[size].label} htmlFor={id} ref={labelRef}>
+					{label}
+				</Label>
+			)) ||
+			(React.isValidElement<{ onClick?: React.MouseEventHandler }>(label) &&
+				React.cloneElement(label, {
+					onClick: (event: React.MouseEvent) => {
+						label.props?.onClick?.(event);
+						if (!event.defaultPrevented && radioInputRef.current) {
+							radioInputRef.current.click();
+						}
+					}
+				})) ||
+			label,
+		[disabled, id, label, radioInputRef, size]
+	);
 
 	return (
 		<RadioContainer
-			ref={radioRef}
+			ref={containerRef}
 			width="100%"
 			height="auto"
 			mainAlignment="flex-start"
 			crossAlignment="center"
 			orientation="horizontal"
 			padding={padding}
-			style={{ cursor: disabled ? 'default' : 'pointer' }}
-			onClick={handleOnClick}
 			$disabled={disabled}
-			tabIndex={disabled ? -1 : 0}
 			$iconColor={iconColor}
-			{...rest}
+			gap={'0.5rem'}
 		>
-			<StyledIcon
-				size={size === 'medium' ? 'large' : 'medium'}
-				checked={isActive}
+			<RadioInput
+				type="radio"
+				{...rest}
+				id={id}
+				ref={radioInputRef}
+				checked={isChecked}
+				onClick={onClickHandler}
+				onChange={onChangeHandler}
 				disabled={disabled}
-				icon="RadioButtonOn"
-				color={iconColor}
+				$color={iconColor}
+				$size={RADIO_SIZE[size].icon}
 			/>
-			{typeof label === 'string' ? (
-				<CustomText
-					disabled={disabled}
-					size={size === 'medium' ? 'medium' : 'small'}
-					color="gray0"
-					weight="regular"
-				>
-					{label}
-				</CustomText>
-			) : (
-				label
-			)}
+			{labelWithClick}
 		</RadioContainer>
 	);
 });
