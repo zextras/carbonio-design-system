@@ -4,34 +4,48 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { HTMLAttributes, useCallback, useEffect, useMemo, useState } from 'react';
+import React, { FieldsetHTMLAttributes, useCallback, useEffect, useMemo, useState } from 'react';
 
-interface RadioGroupProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange'> {
+import styled from 'styled-components';
+
+import { type RadioProps } from './Radio';
+
+type RadioValue = RadioProps['value'];
+
+interface RadioGroupProps extends Omit<FieldsetHTMLAttributes<HTMLFieldSetElement>, 'onChange'> {
 	/** Default value for the radio group */
 	defaultValue?: string;
 	/** Radio group value */
-	value?: string;
+	value?: RadioValue;
 	/** change callback */
-	onChange?: (value: string) => void;
+	onChange?: (value: RadioValue) => void;
 	/** children elements of Radio Group */
-	children: JSX.Element[];
+	children: React.ReactElement<RadioProps>[];
 }
 
-const RadioGroup = React.forwardRef<HTMLDivElement, RadioGroupProps>(function RadioGroupFn(
-	{ children, value, defaultValue, onChange, ...rest },
+const Fieldset = styled.fieldset`
+	margin-inline: 0;
+	padding-block: 0;
+	padding-inline: 0;
+	border: none;
+	width: 100%;
+`;
+
+const RadioGroup = React.forwardRef<HTMLFieldSetElement, RadioGroupProps>(function RadioGroupFn(
+	{ children, value, defaultValue, onChange, ...fieldsetProps },
 	ref
 ) {
-	const [currentValue, setCurrentValue] = useState<string | undefined>(value || defaultValue);
+	const [currentValue, setCurrentValue] = useState<RadioValue | undefined>(value ?? defaultValue);
 	const uncontrolledMode = useMemo(() => typeof value === 'undefined', [value]);
 
 	const handleOnClick = useCallback(
-		(newValue: string) => {
+		(newValue: RadioValue) => {
 			setCurrentValue((prevValue) => {
 				if (uncontrolledMode) {
 					return newValue;
 				}
 				if (newValue !== prevValue) {
-					onChange && onChange(newValue);
+					onChange?.(newValue);
 				}
 				return prevValue;
 			});
@@ -44,24 +58,31 @@ const RadioGroup = React.forwardRef<HTMLDivElement, RadioGroupProps>(function Ra
 	}, [value]);
 
 	const radioClickHandler = useCallback(
-		(radio: JSX.Element) =>
-			(e: React.SyntheticEvent): void => {
-				radio.props.onClick && radio.props.onClick(e);
+		(radio: React.ReactElement<RadioProps>): RadioProps['onClick'] =>
+			(e) => {
+				radio.props.onClick?.(e);
 				handleOnClick(radio.props.value);
 			},
 		[handleOnClick]
 	);
 
-	return (
-		<div ref={ref} {...rest}>
-			{children.map((radio) =>
+	const items = useMemo(
+		() =>
+			children.map((radio) =>
 				React.cloneElement(radio, {
-					key: radio.props.value,
+					key: radio.key ?? `${radio.props.value}`,
 					checked: radio.props.value === currentValue,
-					onClick: radioClickHandler(radio)
+					onClick: radioClickHandler(radio),
+					disabled: radio.props.disabled === true || fieldsetProps.disabled === true
 				})
-			)}
-		</div>
+			),
+		[children, currentValue, fieldsetProps.disabled, radioClickHandler]
+	);
+
+	return (
+		<Fieldset ref={ref} {...fieldsetProps}>
+			{items}
+		</Fieldset>
 	);
 });
 
