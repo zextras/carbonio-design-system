@@ -10,18 +10,23 @@ import styled from 'styled-components';
 
 import { type RadioProps } from './Radio';
 
-type RadioValue = RadioProps['value'];
+type RadioValue<T extends RadioProps['value']> = RadioProps<T>['value'];
 
-interface RadioGroupProps extends Omit<FieldsetHTMLAttributes<HTMLFieldSetElement>, 'onChange'> {
+interface RadioGroupProps<T extends RadioProps['value']>
+	extends Omit<FieldsetHTMLAttributes<HTMLFieldSetElement>, 'onChange'> {
 	/** Default value for the radio group */
-	defaultValue?: string;
+	defaultValue?: RadioValue<T>;
 	/** Radio group value */
-	value?: RadioValue;
+	value?: RadioValue<T>;
 	/** change callback */
-	onChange?: (value: RadioValue) => void;
+	onChange?: (value: RadioValue<T>) => void;
 	/** children elements of Radio Group */
-	children: React.ReactElement<RadioProps>[];
+	children: React.ReactElement<RadioProps<T>>[];
 }
+
+type RadioGroupType = <T extends RadioProps['value'] = string>(
+	p: RadioGroupProps<T> & React.RefAttributes<HTMLFieldSetElement>
+) => React.ReactElement | null;
 
 const Fieldset = styled.fieldset`
 	margin-inline: 0;
@@ -31,15 +36,22 @@ const Fieldset = styled.fieldset`
 	width: 100%;
 `;
 
-const RadioGroup = React.forwardRef<HTMLFieldSetElement, RadioGroupProps>(function RadioGroupFn(
-	{ children, value, defaultValue, onChange, ...fieldsetProps },
-	ref
+/**
+ * @visibleName RadioGroup
+ */
+const RadioGroupComponent = React.forwardRef(function RadioGroupFn<
+	T extends RadioProps['value'] = string
+>(
+	{ children, value, defaultValue, onChange, ...fieldsetProps }: RadioGroupProps<T>,
+	ref: React.ForwardedRef<HTMLFieldSetElement>
 ) {
-	const [currentValue, setCurrentValue] = useState<RadioValue | undefined>(value ?? defaultValue);
+	const [currentValue, setCurrentValue] = useState<RadioValue<T> | undefined>(
+		value ?? defaultValue
+	);
 	const uncontrolledMode = useMemo(() => typeof value === 'undefined', [value]);
 
 	const handleOnClick = useCallback(
-		(newValue: RadioValue) => {
+		(newValue: RadioValue<T>) => {
 			setCurrentValue((prevValue) => {
 				if (uncontrolledMode) {
 					return newValue;
@@ -58,7 +70,7 @@ const RadioGroup = React.forwardRef<HTMLFieldSetElement, RadioGroupProps>(functi
 	}, [value]);
 
 	const radioClickHandler = useCallback(
-		(radio: React.ReactElement<RadioProps>): RadioProps['onClick'] =>
+		(radio: RadioGroupProps<T>['children'][number]): RadioProps['onClick'] =>
 			(e) => {
 				radio.props.onClick?.(e);
 				handleOnClick(radio.props.value);
@@ -86,4 +98,6 @@ const RadioGroup = React.forwardRef<HTMLFieldSetElement, RadioGroupProps>(functi
 	);
 });
 
-export { RadioGroup, RadioGroupProps };
+const RadioGroup = RadioGroupComponent as RadioGroupType;
+
+export { RadioGroupComponent, RadioGroup, RadioGroupProps };

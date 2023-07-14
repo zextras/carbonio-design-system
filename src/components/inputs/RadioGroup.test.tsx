@@ -7,9 +7,10 @@ import React from 'react';
 
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { noop } from 'lodash';
 
 import { Radio } from './Radio';
-import { RadioGroup } from './RadioGroup';
+import { RadioGroup, RadioGroupProps } from './RadioGroup';
 import { render } from '../../test-utils';
 
 describe('Radio Group', () => {
@@ -85,18 +86,27 @@ describe('Radio Group', () => {
 
 	describe('Controlled mode', () => {
 		test('should call onChange with the new value to set without updating the checked radio', () => {
-			const onChangeFn = jest.fn();
+			type RadioGroupOnChange = NonNullable<RadioGroupProps<`r${number}`>['onChange']>;
+			const onChangeFn = jest.fn<ReturnType<RadioGroupOnChange>, Parameters<RadioGroupOnChange>>(
+				(value) => noop(value)
+			);
 			render(
 				<RadioGroup value={'r3'} onChange={onChangeFn}>
 					<Radio value={'r1'} label={`item 1`} />
 					<Radio value={'r2'} label={`item 2`} />
 					<Radio value={'r3'} label={`item 3`} />
+					<Radio value={undefined} label={`item 4`} />
 				</RadioGroup>
 			);
 			userEvent.click(screen.getByRole('radio', { name: 'item 1' }));
 			expect(onChangeFn).toHaveBeenCalledTimes(1);
 			expect(onChangeFn).toHaveBeenCalledWith('r1');
 			expect(screen.getByRole('radio', { name: 'item 1' })).not.toBeChecked();
+			expect(screen.getByRole('radio', { name: 'item 3' })).toBeChecked();
+			userEvent.click(screen.getByRole('radio', { name: 'item 4' }));
+			expect(onChangeFn).toHaveBeenCalledTimes(2);
+			expect(onChangeFn).toHaveBeenLastCalledWith(undefined);
+			expect(screen.getByRole('radio', { name: 'item 4' })).not.toBeChecked();
 			expect(screen.getByRole('radio', { name: 'item 3' })).toBeChecked();
 		});
 
