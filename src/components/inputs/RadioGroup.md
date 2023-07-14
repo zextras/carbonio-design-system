@@ -130,6 +130,36 @@ const toggleDisabled = useCallback(() => {
 
 ```
 
+### Type-check
+With the introduction of the generics,
+the onChange callback assumes the newValue is of the same type of the one inferred from the value.
+
+In order to have a full type-check also on the children,
+it is possible to set the type of the value in the jsx radio element, as follows
+
+```tsx static
+import { useCallback, useState } from 'react';
+import { RadioGroupProps } from './RadioGroup';
+
+type ValueType = 'a' | 'b' | 'c';
+
+const [selectedValue, setSelectedValue] = useState<ValueType>('a');
+
+const changeSelectedValue = useCallback<NonNullable<RadioGroupProps<ValueType>['onChange']>>((newValue) => {
+	if (newValue !== undefined) {
+		setSelectedValue(newValue);
+	}
+}, []);
+
+<RadioGroup value={selectedValue} onChange={changeSelectedValue}>
+	<Radio<ValueType> value={'a'} label={'option a'} />
+	<Radio<ValueType> value={'b'} label={'option b'} />
+	<Radio<ValueType> value={'c'} label={'option c'} />
+	{/* TS Error: Type '"d"' is not assignable to type 'ValueType | undefined' */}
+	<Radio<ValueType> value={'d'} label={'option c'} />
+</RadioGroup>;
+```
+
 ### Development status:
 
 ```jsx noEditor
