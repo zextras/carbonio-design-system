@@ -119,7 +119,7 @@ const RadioContainer = styled(Container)<{
 
 type RadioInputHTMLAttributes = InputHTMLAttributes<HTMLInputElement> & { type: 'radio' };
 
-interface RadioComponentProps {
+interface RadioComponentProps<T extends RadioInputHTMLAttributes['value']> {
 	/** status of the Radio */
 	defaultChecked?: boolean;
 	/** Radio checked */
@@ -129,7 +129,7 @@ interface RadioComponentProps {
 	/** whether to disable the radio or not */
 	disabled?: boolean;
 	/** click callback */
-	onClick?: (e: React.MouseEvent<HTMLDivElement> | KeyboardEvent) => void;
+	onClick?: (e: React.MouseEvent<HTMLInputElement> | KeyboardEvent) => void;
 	/** change callback */
 	onChange?: (checked: boolean) => void;
 	/** radio padding */
@@ -140,16 +140,25 @@ interface RadioComponentProps {
 	iconColor?: keyof DefaultTheme['palette'] | CSSProperties['color'];
 	/** Ref for the input element */
 	inputRef?: React.Ref<HTMLInputElement>;
+	/** Value of the radio input */
+	value?: T;
 }
 
-type RadioProps = RadioComponentProps &
-	Omit<RadioInputHTMLAttributes, 'type' | 'checked' | 'id' | keyof RadioComponentProps>;
+type RadioProps<T extends RadioInputHTMLAttributes['value'] = string> = RadioComponentProps<T> &
+	Omit<RadioInputHTMLAttributes, 'type' | 'checked' | 'id' | keyof RadioComponentProps<T>>;
 
-type Radio = ReturnType<typeof React.forwardRef<HTMLDivElement, RadioProps>> & {
+type RadioType = (<T extends RadioInputHTMLAttributes['value'] = string>(
+	p: RadioProps<T> & React.RefAttributes<HTMLDivElement>
+) => React.ReactElement<RadioProps> | null) & {
 	_id?: number;
 };
 
-const Radio: Radio = React.forwardRef(function RadioFn(
+/**
+ * @visibleName Radio
+ */
+const RadioComponent = React.forwardRef(function RadioFn<
+	T extends RadioInputHTMLAttributes['value'] = string
+>(
 	{
 		defaultChecked,
 		checked,
@@ -162,7 +171,7 @@ const Radio: Radio = React.forwardRef(function RadioFn(
 		iconColor = 'gray0',
 		inputRef = null,
 		...rest
-	}: RadioProps,
+	}: RadioProps<T>,
 	ref: React.ForwardedRef<HTMLDivElement>
 ) {
 	const containerRef = useCombinedRefs<HTMLDivElement>(ref);
@@ -170,11 +179,12 @@ const Radio: Radio = React.forwardRef(function RadioFn(
 	const labelRef = useRef<HTMLDivElement>(null);
 	const [isChecked, setIsChecked] = useState(checked ?? defaultChecked ?? false);
 	const [id] = useState((): string => {
-		if (Radio._id === undefined) {
-			Radio._id = 0;
+		const RadioComponentAlias = RadioComponent as RadioType;
+		if (RadioComponentAlias._id === undefined) {
+			RadioComponentAlias._id = 0;
 		}
-		const { _id } = Radio;
-		Radio._id += 1;
+		const { _id } = RadioComponentAlias;
+		RadioComponentAlias._id += 1;
 		return `Radio-${_id}`;
 	});
 
@@ -259,4 +269,6 @@ const Radio: Radio = React.forwardRef(function RadioFn(
 	);
 });
 
-export { Radio, RadioProps };
+const Radio = RadioComponent as RadioType;
+
+export { RadioComponent, Radio, RadioProps };
