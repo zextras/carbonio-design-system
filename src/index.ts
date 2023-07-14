@@ -33,7 +33,7 @@ export * from './components/inputs/IconCheckbox';
 export * from './components/inputs/MultiButton';
 export * from './components/inputs/Input';
 export * from './components/inputs/PasswordInput';
-export * from './components/inputs/Radio';
+export { Radio, type RadioProps } from './components/inputs/Radio';
 export * from './components/inputs/RadioGroup';
 export * from './components/inputs/SearchInput';
 export {
