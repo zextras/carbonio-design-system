@@ -178,7 +178,7 @@ const RadioComponent = React.forwardRef(function RadioFn<
 	const radioInputRef = useCombinedRefs<HTMLInputElement>(inputRef);
 	const labelRef = useRef<HTMLDivElement>(null);
 	const [isChecked, setIsChecked] = useState(checked ?? defaultChecked ?? false);
-	const [id] = useState((): string => {
+	const id = useMemo<string>(() => {
 		const RadioComponentAlias = RadioComponent as RadioType;
 		if (RadioComponentAlias._id === undefined) {
 			RadioComponentAlias._id = 0;
@@ -186,7 +186,7 @@ const RadioComponent = React.forwardRef(function RadioFn<
 		const { _id } = RadioComponentAlias;
 		RadioComponentAlias._id += 1;
 		return `Radio-${_id}`;
-	});
+	}, []);
 
 	const uncontrolledMode = useMemo(() => typeof checked === 'undefined', [checked]);
 
