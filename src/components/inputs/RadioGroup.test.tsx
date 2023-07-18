@@ -71,7 +71,7 @@ describe('Radio Group', () => {
 
 	test('should set all radio as disabled when the group is disabled', () => {
 		render(
-			<RadioGroup defaultValue={'r2'} value={'r3'} disabled>
+			<RadioGroup value={'r3'} disabled>
 				<Radio value={'r1'} label={`item 1`} />
 				<Radio value={'r2'} label={`item 2`} />
 				<Radio value={'r3'} label={`item 3`} />
