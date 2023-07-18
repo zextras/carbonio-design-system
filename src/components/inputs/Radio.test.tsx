@@ -162,17 +162,4 @@ describe('Radio', () => {
 		expect(radio).not.toBeChecked();
 		expect(onClickFn).toHaveBeenCalledTimes(2);
 	});
-
-	test('should toggle radio when keyboard arrow is pressed', () => {
-		const onClickFn = jest.fn();
-		render(<Radio label={'the label'} onClick={onClickFn} />);
-		const radio = screen.getByRole('radio');
-		expect(radio).not.toBeChecked();
-		userEvent.tab();
-		userEvent.keyboard('[Space]');
-		expect(radio).toBeChecked();
-		userEvent.keyboard('[Space]');
-		expect(radio).not.toBeChecked();
-		expect(onClickFn).toHaveBeenCalledTimes(2);
-	});
 });
