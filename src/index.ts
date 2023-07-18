@@ -34,7 +34,7 @@ export * from './components/inputs/MultiButton';
 export * from './components/inputs/Input';
 export * from './components/inputs/PasswordInput';
 export { Radio, type RadioProps } from './components/inputs/Radio';
-export * from './components/inputs/RadioGroup';
+export { RadioGroup, type RadioGroupProps } from './components/inputs/RadioGroup';
 export * from './components/inputs/SearchInput';
 export {
 	Select,
