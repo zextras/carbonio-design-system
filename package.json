@@ -101,7 +101,7 @@
 		"styled-components": "^5.3.3"
 	},
 	"dependencies": {
-		"@popperjs/core": "2.11.6",
+		"@popperjs/core": "^2.11.8",
 		"darkreader": "4.9.58",
 		"polished": "4.2.2",
 		"react-datepicker": "^4.11.0",
