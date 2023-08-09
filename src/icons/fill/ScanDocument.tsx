@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { SVGProps } from 'react';
 
-const SvgScanDocument = (props: SVGProps<SVGSVGElement>): JSX.Element => (
+const SvgScanDocument = (props: SVGProps<SVGSVGElement>): React.JSX.Element => (
 	<svg width={24} height={24} xmlns="http://www.w3.org/2000/svg" {...props}>
 		<path d="M20 18.02v1.48a2.542 2.542 0 0 1-2.53 2.5H6.53A2.542 2.542 0 0 1 4 19.5v-1.48h16Z" />
 		<path

@@ -143,7 +143,7 @@ interface TransitionOnProps {
 	/** Custom transition css delay in ms */
 	transitionDelay?: CSSStyleDeclaration['transitionDelay'] | number;
 	/** Children */
-	children: JSX.Element;
+	children: React.JSX.Element;
 }
 
 const TransitionOn = React.forwardRef<HTMLElement, TransitionOnProps>(function TransitionOnFn(

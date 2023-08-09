@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { SVGProps } from 'react';
 
-const SvgUntagOutline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
+const SvgUntagOutline = (props: SVGProps<SVGSVGElement>): React.JSX.Element => (
 	<svg width={24} height={24} xmlns="http://www.w3.org/2000/svg" {...props}>
 		<path d="M16.467 8.492a.983.983 0 1 0 0-1.966.983.983 0 0 0 0 1.966ZM4.706 3.287a1.003 1.003 0 1 0-1.419 1.418L19.271 20.69a.999.999 0 0 0 1.419 0 1 1 0 0 0 0-1.419L4.706 3.287Z" />
 		<path

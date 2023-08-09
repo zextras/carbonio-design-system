@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { SVGProps } from 'react';
 
-const SvgCircleGroupOutline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
+const SvgCircleGroupOutline = (props: SVGProps<SVGSVGElement>): React.JSX.Element => (
 	<svg width={24} height={24} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
 		<path d="M9.308 10.342a.993.993 0 1 1-1.987 0 .993.993 0 0 1 1.987 0ZM12.283 10.342a.993.993 0 1 1-1.987 0 .993.993 0 0 1 1.987 0ZM14.28 11.335a.993.993 0 1 0 0-1.987.993.993 0 0 0 0 1.987Z" />
 		<path

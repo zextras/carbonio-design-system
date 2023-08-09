@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { SVGProps } from 'react';
 
-const SvgCakeOutline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
+const SvgCakeOutline = (props: SVGProps<SVGSVGElement>): React.JSX.Element => (
 	<svg width={24} height={24} xmlns="http://www.w3.org/2000/svg" {...props}>
 		<path d="M15.922 4.456a.988.988 0 0 0 .983-.973c0-.674-.866-1.424-.903-1.455a.123.123 0 0 0-.16 0c-.043.031-.904.781-.904 1.455a.988.988 0 0 0 .984.973ZM8.055 4.456a.988.988 0 0 0 .983-.973c0-.674-.866-1.424-.903-1.455a.123.123 0 0 0-.16 0c-.043.031-.904.781-.904 1.455a.988.988 0 0 0 .984.973ZM11.988 4.456a.988.988 0 0 0 .984-.973c0-.674-.867-1.424-.904-1.455a.123.123 0 0 0-.16 0c-.043.031-.903.781-.903 1.455a.988.988 0 0 0 .983.973Z" />
 		<path

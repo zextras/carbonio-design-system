@@ -24,13 +24,13 @@ const SNACKBAR_ACTION = {
 type SnackbarAction =
 	| {
 			type: typeof SNACKBAR_ACTION.PUSH;
-			value: JSX.Element;
+			value: React.JSX.Element;
 	  }
 	| { type: typeof SNACKBAR_ACTION.POP }
-	| { type: typeof SNACKBAR_ACTION.POP_AND_PREPEND; value: JSX.Element }
+	| { type: typeof SNACKBAR_ACTION.POP_AND_PREPEND; value: React.JSX.Element }
 	| { type: typeof SNACKBAR_ACTION.REMOVE; key: string };
 
-function snackbarsReducer(state: JSX.Element[], action: SnackbarAction): JSX.Element[] {
+function snackbarsReducer(state: React.JSX.Element[], action: SnackbarAction): React.JSX.Element[] {
 	switch (action.type) {
 		case 'push': {
 			return [...state, action.value];
@@ -55,7 +55,10 @@ interface SnackbarManagerProps {
 	children: React.ReactNode | React.ReactNode[];
 }
 
-function SnackbarManager({ children, autoHideDefaultTimeout }: SnackbarManagerProps): JSX.Element {
+function SnackbarManager({
+	children,
+	autoHideDefaultTimeout
+}: SnackbarManagerProps): React.JSX.Element {
 	const [snackbars, dispatchSnackbar] = useReducer(snackbarsReducer, []);
 
 	const createSnackbar = useCallback<CreateSnackbarFn>(

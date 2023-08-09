@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { SVGProps } from 'react';
 
-const SvgReInviteOutline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
+const SvgReInviteOutline = (props: SVGProps<SVGSVGElement>): React.JSX.Element => (
 	<svg width={24} height={24} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
 		<path d="M15.45 13.464a1 1 0 0 1-.21.32l-2.016 2.015a1 1 0 0 1-1.42 0 1 1 0 0 1 0-1.42l.315-.305H9.484c-.548 0-1-.452-1-1 0-.549.452-1 1-1h2.705l-.4-.48a1 1 0 1 1 1.45-1.38l2.03 2.17c.034.04.064.084.09.13a.817.817 0 0 1 .17.46v.1a1 1 0 0 1-.08.39Z" />
 		<path

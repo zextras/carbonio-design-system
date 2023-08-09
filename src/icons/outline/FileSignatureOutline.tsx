@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { SVGProps } from 'react';
 
-const SvgFileSignatureOutline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
+const SvgFileSignatureOutline = (props: SVGProps<SVGSVGElement>): React.JSX.Element => (
 	<svg width={24} height={24} xmlns="http://www.w3.org/2000/svg" {...props}>
 		<path d="m19.733 8.322-5.435-5.994a1 1 0 0 0-.74-.33H6.535a2.54 2.54 0 0 0-2.527 2.498V19.48a2.54 2.54 0 0 0 2.527 2.498H17.465a2.54 2.54 0 0 0 2.527-2.498V8.991a.999.999 0 0 0-.26-.669Zm-5.735-3.327 2.737 2.997h-1.998a.792.792 0 0 1-.739-.849V4.995Zm3.437 14.986H6.535a.532.532 0 0 1-.53-.5V4.496a.532.532 0 0 1 .56-.5H12v3.147a2.8 2.8 0 0 0 2.707 2.847h3.287v9.491a.532.532 0 0 1-.56.5Z" />
 		<path

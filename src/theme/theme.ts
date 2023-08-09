@@ -27,7 +27,7 @@ export interface ThemeColorObj {
 	disabled: string;
 }
 
-export type IconComponent = (props: SVGProps<SVGSVGElement>) => JSX.Element;
+export type IconComponent = (props: SVGProps<SVGSVGElement>) => React.JSX.Element;
 
 // augment this interface to extend theme type
 export interface ThemeObj {

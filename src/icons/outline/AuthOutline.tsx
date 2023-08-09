@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { SVGProps } from 'react';
 
-const SvgAuthOutline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
+const SvgAuthOutline = (props: SVGProps<SVGSVGElement>): React.JSX.Element => (
 	<svg width={24} height={24} xmlns="http://www.w3.org/2000/svg" {...props}>
 		<path
 			fillRule="evenodd"

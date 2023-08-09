@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { SVGProps } from 'react';
 
-const SvgRestore = (props: SVGProps<SVGSVGElement>): JSX.Element => (
+const SvgRestore = (props: SVGProps<SVGSVGElement>): React.JSX.Element => (
 	<svg width={24} height={24} xmlns="http://www.w3.org/2000/svg" {...props}>
 		<path d="M20.98 5.994h-4.996V4.326a2.43 2.43 0 0 0-2.497-2.328H10.49a2.43 2.43 0 0 0-2.498 2.328v1.668H2.997c-.548 0-.999.451-.999 1 0 .547.451.998 1 .998H20.98c.548 0 .998-.45.998-.999 0-.548-.45-.999-.998-.999ZM9.99 4.326c0-.16.21-.33.5-.33h2.997c.29 0 .5.17.5.33v1.668H9.99V4.326Z" />
 		<path

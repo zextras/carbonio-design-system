@@ -31,10 +31,13 @@ const MODAL_ACTION = {
 
 type ModalsReducerAction = {
 	type: (typeof MODAL_ACTION)[keyof typeof MODAL_ACTION];
-	value: JSX.Element;
+	value: React.JSX.Element;
 };
 
-function modalsReducer(state: JSX.Element[], action: ModalsReducerAction): JSX.Element[] {
+function modalsReducer(
+	state: React.JSX.Element[],
+	action: ModalsReducerAction
+): React.JSX.Element[] {
 	switch (action.type) {
 		case 'push': {
 			return [...state, action.value];
@@ -59,8 +62,8 @@ function isStandardModal(
 	return !customModal;
 }
 
-function ModalManager({ children }: ModalManagerProps): JSX.Element {
-	const [modals, dispatchModal] = useReducer<Reducer<JSX.Element[], ModalsReducerAction>>(
+function ModalManager({ children }: ModalManagerProps): React.JSX.Element {
+	const [modals, dispatchModal] = useReducer<Reducer<React.JSX.Element[], ModalsReducerAction>>(
 		modalsReducer,
 		[]
 	);

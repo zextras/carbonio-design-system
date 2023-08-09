@@ -201,7 +201,7 @@ const ShimmerObject = {
 		iconStart: boolean;
 		iconEnd: boolean;
 		badge: boolean;
-	}): JSX.Element => (
+	}): React.JSX.Element => (
 		<SkeletonComponent
 			style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}
 			width={width}
@@ -242,16 +242,16 @@ const ShimmerObject = {
 			</Container>
 		</SkeletonComponent>
 	),
-	Avatar: ({ size = 'medium', ...rest }: AvatarSkeletonComponentProps): JSX.Element => (
+	Avatar: ({ size = 'medium', ...rest }: AvatarSkeletonComponentProps): React.JSX.Element => (
 		<AvatarSkeletonComponent size={size} {...rest} />
 	),
-	Badge: ({ size = 'medium', ...rest }: BadgeSkeletonProps): JSX.Element => (
+	Badge: ({ size = 'medium', ...rest }: BadgeSkeletonProps): React.JSX.Element => (
 		<BadgeSkeletonComponent size={size} {...rest} />
 	),
-	Button: ({ size = 'medium', ...rest }: ButtonSkeletonProps): JSX.Element => (
+	Button: ({ size = 'medium', ...rest }: ButtonSkeletonProps): React.JSX.Element => (
 		<ButtonSkeletonComponent size={size} {...rest} />
 	),
-	Checkbox: ({ size = 'medium', ...rest }: IconSkeletonProps): JSX.Element => (
+	Checkbox: ({ size = 'medium', ...rest }: IconSkeletonProps): React.JSX.Element => (
 		<Container orientation="horizontal" mainAlignment="flex-start" width="fill">
 			<IconSkeletonComponent size={size} {...rest} />
 			<Padding right="small" />
@@ -268,7 +268,7 @@ const ShimmerObject = {
 		iconStart?: boolean;
 		iconEnd?: boolean;
 		iconEndAdditional?: boolean;
-	}): JSX.Element => (
+	}): React.JSX.Element => (
 		<SkeletonComponent
 			width={width}
 			height="1.25rem"
@@ -309,10 +309,10 @@ const ShimmerObject = {
 	),
 	FormSection: FormSectionSkeletonComponent,
 	FormSubSection: FormSubSectionSkeletonComponent,
-	Icon: ({ size = 'medium', ...rest }: IconSkeletonProps): JSX.Element => (
+	Icon: ({ size = 'medium', ...rest }: IconSkeletonProps): React.JSX.Element => (
 		<IconSkeletonComponent size={size} {...rest} />
 	),
-	Input: ({ width, checkbox }: { width?: string; checkbox?: boolean }): JSX.Element => (
+	Input: ({ width, checkbox }: { width?: string; checkbox?: boolean }): React.JSX.Element => (
 		<SkeletonComponent
 			style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}
 			width={width}
@@ -345,7 +345,7 @@ const ShimmerObject = {
 			) : null}
 		</SkeletonComponent>
 	),
-	ListItem: ({ width, type }: { width?: string; type?: number }): JSX.Element => {
+	ListItem: ({ width, type }: { width?: string; type?: number }): React.JSX.Element => {
 		switch (type) {
 			case 2:
 				return (
@@ -550,11 +550,11 @@ const ShimmerObject = {
 		}
 	},
 
-	Logo: ({ size = 'medium', ...rest }: LogoSkeletonProps): JSX.Element => (
+	Logo: ({ size = 'medium', ...rest }: LogoSkeletonProps): React.JSX.Element => (
 		<LogoSkeletonComponent size={size} {...rest} />
 	),
 	Text: SkeletonComponent,
-	Quota: (props: SkeletonProps): JSX.Element => (
+	Quota: (props: SkeletonProps): React.JSX.Element => (
 		<SkeletonComponent
 			style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}
 			{...props}
@@ -562,7 +562,7 @@ const ShimmerObject = {
 			<IconSkeletonComponent variant="dark" size="medium" width="50%" />
 		</SkeletonComponent>
 	),
-	Searchbar: (props: SkeletonProps): JSX.Element => (
+	Searchbar: (props: SkeletonProps): React.JSX.Element => (
 		<SkeletonComponent
 			style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}
 			height="2.25rem"
@@ -605,7 +605,7 @@ const ShimmerObject = {
 		width?: string;
 		elementStart?: boolean;
 		elementEnd?: boolean;
-	}): JSX.Element => (
+	}): React.JSX.Element => (
 		<SkeletonComponent
 			width={width}
 			height="fit"
@@ -642,7 +642,7 @@ const ShimmerObject = {
 		size = 'medium',
 		steppersNumber,
 		...rest
-	}: AvatarSkeletonComponentProps & { steppersNumber: number }): JSX.Element => {
+	}: AvatarSkeletonComponentProps & { steppersNumber: number }): React.JSX.Element => {
 		const _steppers = [];
 		for (let i = 0; i < steppersNumber - 1; i += 1) {
 			_steppers.push(
@@ -669,7 +669,7 @@ const ShimmerObject = {
 			</Container>
 		);
 	},
-	TableListItem: ({ width, type }: { width?: string; type?: number }): JSX.Element => {
+	TableListItem: ({ width, type }: { width?: string; type?: number }): React.JSX.Element => {
 		switch (type) {
 			case 2:
 				return (
@@ -752,7 +752,9 @@ const ShimmerObject = {
 type Shimmer = React.VFC<SkeletonProps> & {
 	[K in keyof typeof ShimmerObject]: React.VFC<Parameters<(typeof ShimmerObject)[K]>[number]>;
 };
-const Shimmer: Shimmer = (props: SkeletonProps): JSX.Element => <SkeletonComponent {...props} />;
+const Shimmer: Shimmer = (props: SkeletonProps): React.JSX.Element => (
+	<SkeletonComponent {...props} />
+);
 
 Shimmer.Accordion = ShimmerObject.Accordion;
 Shimmer.Avatar = ShimmerObject.Avatar;

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { SVGProps } from 'react';
 
-const SvgFolderShareWithMeOutline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
+const SvgFolderShareWithMeOutline = (props: SVGProps<SVGSVGElement>): React.JSX.Element => (
 	<svg width={24} height={24} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
 		<path d="M8.535 13.438c.049-.119.12-.227.21-.32l2.016-2.015a1 1 0 0 1 1.42 0 1 1 0 0 1 0 1.42l-.316.306H14.5c.549 0 1 .451 1 1 0 .548-.451 1-1 1h-2.705l.4.48a1.001 1.001 0 0 1-1.45 1.38l-2.03-2.17a.992.992 0 0 1-.09-.13.818.818 0 0 1-.17-.46v-.1a1 1 0 0 1 .08-.39Z" />
 		<path

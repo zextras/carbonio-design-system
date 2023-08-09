@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { SVGProps } from 'react';
 
-const SvgSharedAddressBookOutline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
+const SvgSharedAddressBookOutline = (props: SVGProps<SVGSVGElement>): React.JSX.Element => (
 	<svg width={24} height={24} xmlns="http://www.w3.org/2000/svg" {...props}>
 		<path d="M19 3c1.646 0 3 1.354 3 3v12c0 1.646-1.354 3-3 3H7c-1.646 0-3-1.354-3-3v-1H3c-.549 0-1-.451-1-1 0-.549.451-1 1-1h1V9H3c-.549 0-1-.451-1-1 0-.549.451-1 1-1h1V6c0-1.646 1.354-3 3-3h12Zm0 2H7c-.549 0-1 .451-1 1v1h1c.549 0 1 .451 1 1 0 .549-.451 1-1 1H6v6h1c.549 0 1 .451 1 1 0 .549-.451 1-1 1H6v1c0 .549.451 1 1 1h12c.549 0 1-.451 1-1V6c0-.549-.451-1-1-1Z" />
 		<path
