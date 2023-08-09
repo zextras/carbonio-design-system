@@ -77,7 +77,7 @@ const ListV2Example = () => {
      () =>
        map(range(0, 500), (i) => ({
          id: `${i}`,
-         name: faker.name.fullName(),
+         name: faker.person.fullName(),
          email: faker.internet.email(),
          text: faker.lorem.sentence(),
          image: faker.image.avatar()
@@ -184,7 +184,7 @@ const ListV2Example = () => {
      () =>
        map(range(0, 500), (i) => ({
          id: `${i}`,
-         name: faker.name.fullName(),
+         name: faker.person.fullName(),
          email: faker.internet.email(),
          text: faker.lorem.sentence(),
          image: faker.image.avatar()

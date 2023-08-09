@@ -17,8 +17,8 @@ import { ICONS } from '../../testUtils/constants';
 
 describe('Chip', () => {
 	test('Render Chip with capitals', () => {
-		const firstName = faker.name.firstName();
-		const lastName = faker.name.lastName();
+		const firstName = faker.person.firstName();
+		const lastName = faker.person.lastName();
 		const label = `${firstName} ${lastName}`;
 		render(<Chip keyLabel="name:" label={label} />);
 		expect(screen.getByText('name:')).toBeVisible();
@@ -29,8 +29,8 @@ describe('Chip', () => {
 	});
 
 	test('Render Chip with icon', () => {
-		const firstName = faker.name.firstName();
-		const lastName = faker.name.lastName();
+		const firstName = faker.person.firstName();
+		const lastName = faker.person.lastName();
 		const label = `${firstName} ${lastName}`;
 		render(<Chip label={label} avatarIcon="People" />);
 		expect(
@@ -40,8 +40,8 @@ describe('Chip', () => {
 	});
 
 	test('Render chip without avatar', () => {
-		const firstName = faker.name.firstName();
-		const lastName = faker.name.lastName();
+		const firstName = faker.person.firstName();
+		const lastName = faker.person.lastName();
 		const label = `${firstName} ${lastName}`;
 		render(<Chip label={label} hasAvatar={false} />);
 		expect(

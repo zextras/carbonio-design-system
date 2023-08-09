@@ -13,15 +13,15 @@ import { render } from '../../test-utils';
 
 describe('Avatar', () => {
 	test('Render an avatar with first name and last name', () => {
-		const firstName = faker.name.firstName();
-		const lastName = faker.name.lastName();
+		const firstName = faker.person.firstName();
+		const lastName = faker.person.lastName();
 		const label = `${firstName} ${lastName}`;
 		render(<Avatar label={label} />);
 		expect(screen.getByText(`${firstName[0]}${lastName[0]}`.toUpperCase())).toBeInTheDocument();
 	});
 
 	test('Render an avatar with first name', () => {
-		const firstName = faker.name.firstName();
+		const firstName = faker.person.firstName();
 		render(<Avatar label={firstName} />);
 		expect(
 			screen.getByText(`${firstName[0]}${firstName[firstName.length - 1]}`.toUpperCase())
@@ -50,7 +50,7 @@ describe('Avatar', () => {
 	});
 
 	test('Render an avatar with first name and a space', () => {
-		const firstName = faker.name.firstName();
+		const firstName = faker.person.firstName();
 		render(<Avatar label={`${firstName} `} />);
 		expect(
 			screen.getByText(`${firstName[0]}${firstName[firstName.length - 1]}`.toUpperCase())
