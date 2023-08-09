@@ -59,7 +59,7 @@
 		"@testing-library/user-event": "13.5.0",
 		"@types/estree": "^1.0.0",
 		"@types/lodash": "^4.14.178",
-		"@types/react": "^17.0.52",
+		"@types/react": "^17.0.63",
 		"@types/react-datepicker": "^4.3.4",
 		"@types/styled-components": "^5.1.26",
 		"@zextras/carbonio-ui-configs": "^0.1.12",
