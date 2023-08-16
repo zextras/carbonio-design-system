@@ -89,7 +89,7 @@ const items = useMemo(
 	() =>
 		map(range(0, 500), (i) => ({
 			id: i,
-			name: faker.name.findName(),
+			name: faker.person.fullName(),
 			email: faker.internet.email(),
 			text: faker.lorem.sentence(),
 			image: faker.image.avatar()
@@ -188,7 +188,7 @@ const items = useMemo(
 	() =>
 		map(range(0, 500), (i) => ({
 			id: i,
-			name: faker.name.findName(),
+			name: faker.person.fullName(),
 			email: faker.internet.email(),
 			text: faker.lorem.sentence(),
 			image: faker.image.avatar()
