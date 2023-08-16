@@ -12,7 +12,7 @@ import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-component
 import { Tooltip } from './Tooltip';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { useTheme, pseudoClasses } from '../../theme/theme-utils';
-import { Avatar } from '../basic/Avatar';
+import { Avatar, AvatarPropTypes } from '../basic/Avatar';
 import { Icon } from '../basic/Icon';
 import { Text } from '../basic/Text';
 import { IconButton, IconButtonProps } from '../inputs/IconButton';
@@ -52,14 +52,15 @@ interface ChipProps extends RowProps {
 	/** Chip Avatar Icon */
 	avatarIcon?: keyof DefaultTheme['icons'];
 	/** Chip Avatar Background Color */
-	avatarBackground?: keyof DefaultTheme['palette'];
+	avatarBackground?: AvatarPropTypes['background'];
 	/** Chip avatar color (icon color or capitals color) */
-	avatarColor?: keyof DefaultTheme['palette'];
-	/** Chip avatar label. It allows to override the capitals for the avatar.
+	avatarColor?: AvatarPropTypes['color'];
+	/** Chip avatar label.
+	 * It allows overriding the capitals for the avatar.
 	 * If the main label is not a string, you have to fill this prop to show capitals in the avatar */
-	avatarLabel?: string;
+	avatarLabel?: AvatarPropTypes['label'];
 	/** Chip avatar picture */
-	avatarPicture?: string;
+	avatarPicture?: AvatarPropTypes['picture'];
 	/** Chip background color */
 	background?: keyof DefaultTheme['palette'];
 	/** Chip shape  */
