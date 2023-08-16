@@ -60,7 +60,7 @@
 		"@types/estree": "^1.0.0",
 		"@types/lodash": "^4.14.178",
 		"@types/react": "^17.0.52",
-		"@types/react-datepicker": "^4.3.4",
+		"@types/react-datepicker": "^4.15.0",
 		"@types/styled-components": "^5.1.26",
 		"@zextras/carbonio-ui-configs": "^0.1.12",
 		"babel-loader": "^9.1.2",
@@ -101,10 +101,10 @@
 		"styled-components": "^5.3.3"
 	},
 	"dependencies": {
-		"@popperjs/core": "2.11.6",
+		"@popperjs/core": "^2.11.8",
 		"darkreader": "4.9.58",
 		"polished": "4.2.2",
-		"react-datepicker": "^4.11.0",
+		"react-datepicker": "^4.16.0",
 		"react-docgen-typescript": "^2.2.2"
 	}
 }
