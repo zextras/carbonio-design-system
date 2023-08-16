@@ -101,20 +101,21 @@ const BadgeSkeletonComponent = styled.div<BadgeSkeletonProps>`
 `;
 
 type ButtonSkeletonProps = {
-	variant: string;
-	radius: string;
-	size: keyof typeof SIZES;
-	width: string;
-	height: string;
+	variant?: string;
+	radius?: string;
+	size?: keyof typeof SIZES;
+	width?: string;
+	height?: string;
 };
 
 const ButtonSkeletonComponent = styled.div<ButtonSkeletonProps>`
 	animation: ${shimmerEffect} 1.5s linear infinite;
-	background: ${({ variant, theme }): string => backgroundFunction(variant, theme)};
+	background: ${({ variant, theme }): string => backgroundFunction(variant ?? '', theme)};
 	background-size: ${backgroundSize};
 	border-radius: ${({ radius }): string => radius ?? '0.125rem'};
-	width: ${({ size, width }): string => width ?? `${SIZES[size] * 8.9}rem`};
-	height: ${({ size, height }): string => height ?? `${SIZES[size] * 3.2}rem`};
+	width: ${({ size, width }): SimpleInterpolation => width ?? (size && `${SIZES[size] * 8.9}rem`)};
+	height: ${({ size, height }): SimpleInterpolation =>
+		height ?? (size && `${SIZES[size] * 3.2}rem`)};
 `;
 
 const FormSectionSkeletonComponent = styled(FormSection)<{
