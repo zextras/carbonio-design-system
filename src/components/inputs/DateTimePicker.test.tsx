@@ -51,7 +51,7 @@ describe('DateTimePicker', () => {
 			firstOfNextMonth.setMinutes(now.getMinutes());
 			const dateString = format(firstOfNextMonth, 'MM/dd/yyyy HH:mm');
 			userEvent.type(inputElement, dateString);
-			await screen.findByText(getDatePickerHeader(firstOfNextMonth));
+			await screen.findAllByText(getDatePickerHeader(firstOfNextMonth));
 			userEvent.keyboard('[Enter]');
 			const expectedInputValue = format(firstOfNextMonth, DEFAULT_DATE_FORMAT);
 			expect(inputElement).toHaveValue(expectedInputValue);
@@ -195,7 +195,7 @@ describe('DateTimePicker', () => {
 			firstOfNextMonth.setMinutes(now.getMinutes());
 			const dateString = format(firstOfNextMonth, 'MM/dd/yyyy HH:mm');
 			userEvent.type(inputElement, dateString);
-			await screen.findByText(getDatePickerHeader(firstOfNextMonth));
+			await screen.findAllByText(getDatePickerHeader(firstOfNextMonth));
 			userEvent.keyboard('[Enter]');
 			const expectedInputValue = format(firstOfNextMonth, DEFAULT_DATE_FORMAT);
 			expect(screen.getByText(expectedInputValue)).toBeVisible();
@@ -242,7 +242,7 @@ describe('DateTimePicker', () => {
 			const dateString = format(firstOfNextMonth, 'MM/dd/yyyy HH:mm');
 			const parsedDateString = new Date(Date.parse(dateString));
 			userEvent.type(inputElement, dateString);
-			await screen.findByText(getDatePickerHeader(firstOfNextMonth));
+			await screen.findAllByText(getDatePickerHeader(firstOfNextMonth));
 			userEvent.keyboard('[Enter]');
 			userEvent.click(screen.getByText('Blur'));
 			expect(onChangeFn).toHaveBeenLastCalledWith(parsedDateString);
