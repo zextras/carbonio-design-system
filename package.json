@@ -60,7 +60,7 @@
 		"@types/estree": "^1.0.0",
 		"@types/lodash": "^4.14.178",
 		"@types/react": "^17.0.52",
-		"@types/react-datepicker": "^4.3.4",
+		"@types/react-datepicker": "^4.15.0",
 		"@types/styled-components": "^5.1.26",
 		"@zextras/carbonio-ui-configs": "^0.1.12",
 		"babel-loader": "^9.1.2",
@@ -80,7 +80,7 @@
 		"process": "0.11.10",
 		"react": "^17.0.2",
 		"react-dom": "^17.0.2",
-		"react-styleguidist": "^13.0.0",
+		"react-styleguidist": "13.0.0",
 		"react-test-renderer": "17.0.2",
 		"rollup": "^2.79.1",
 		"standard-version": "9.5.0",
@@ -104,7 +104,7 @@
 		"@popperjs/core": "2.11.6",
 		"darkreader": "4.9.58",
 		"polished": "4.2.2",
-		"react-datepicker": "^4.11.0",
+		"react-datepicker": "^4.16.0",
 		"react-docgen-typescript": "^2.2.2"
 	}
 }
