@@ -14,7 +14,7 @@ import { render } from '../../test-utils';
 
 describe('Badge', () => {
 	test('Render a number < 999', () => {
-		const number = faker.datatype.number({
+		const number = faker.number.int({
 			max: 998
 		});
 		render(<Badge value={number} />);
@@ -22,7 +22,7 @@ describe('Badge', () => {
 	});
 
 	test('Render a number > 999', () => {
-		const number = faker.datatype.number({
+		const number = faker.number.int({
 			min: 1000
 		});
 		render(<Badge value={number} />);

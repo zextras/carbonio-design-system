@@ -181,7 +181,7 @@ describe('Table', () => {
 					id: '1',
 					columns: [
 						'30 nov 2020, 06:01 AM',
-						faker.datatype.string(),
+						faker.string.sample(),
 						<Container key="1">
 							<Icon icon="Info" color="primary" />
 						</Container>,
@@ -194,7 +194,7 @@ describe('Table', () => {
 					id: '2',
 					columns: [
 						'31 nov 2020, 06:01 AM',
-						faker.datatype.string(),
+						faker.string.sample(),
 						<Container key="2">
 							<Icon icon="AlertCircle" color="error" />
 						</Container>,
@@ -462,7 +462,7 @@ describe('Table', () => {
 					id: '1',
 					columns: [
 						'30 nov 2020, 06:01 AM',
-						faker.datatype.string(),
+						faker.string.sample(),
 						<Container key="1">
 							<Icon icon="Info" color="primary" />
 						</Container>,
@@ -475,7 +475,7 @@ describe('Table', () => {
 					id: '2',
 					columns: [
 						'31 nov 2020, 06:01 AM',
-						faker.datatype.string(),
+						faker.string.sample(),
 						<Container key="2">
 							<Icon icon="AlertCircle" color="error" />
 						</Container>,
