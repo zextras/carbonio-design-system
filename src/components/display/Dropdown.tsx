@@ -271,7 +271,6 @@ const PopperList = styled.div<{
 	box-shadow: 0 0 0.25rem 0 ${({ theme }): string => theme.palette.shadow.regular};
 	z-index: 999;
 
-	padding: ${({ theme }): string => theme.sizes.padding.small} 0;
 	max-width: ${({ width, maxWidth }): string => (width === '100%' ? '100%' : maxWidth)};
 	max-height: ${({ maxHeight }): string => maxHeight};
 	width: ${({ width, triggerRef }): string =>
