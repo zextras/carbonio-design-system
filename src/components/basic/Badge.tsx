@@ -27,22 +27,23 @@ const Comp = styled.span<{ isRead: boolean; isNumber: boolean }>`
 	text-align: center;
 `;
 
+const isNumber = (value: string | number): value is number => typeof value === 'number';
+
 const Badge = forwardRef<HTMLSpanElement, BadgeProps>(function BadgeFn(
 	{ type = 'read', value, ...rest },
 	ref
 ) {
 	const MAX_VALUE = 999;
-	const isNumber = useMemo(() => typeof value === 'number', [value]);
 	const badgeText = useMemo(
-		() => (isNumber && value > MAX_VALUE ? `${MAX_VALUE}+` : value),
-		[value, isNumber]
+		() => (isNumber(value) && value > MAX_VALUE ? `${MAX_VALUE}+` : value),
+		[value]
 	);
 	const isRead = useMemo(() => type === 'read', [type]);
-	const showTooltip = useMemo(() => isNumber && value > MAX_VALUE, [value, isNumber]);
+	const showTooltip = useMemo(() => isNumber(value) && value > MAX_VALUE, [value]);
 
 	return (
 		<Tooltip label={String(value)} disabled={!showTooltip}>
-			<Comp ref={ref} isRead={isRead} isNumber={isNumber} {...rest}>
+			<Comp ref={ref} isRead={isRead} isNumber={isNumber(value)} {...rest}>
 				{badgeText}
 			</Comp>
 		</Tooltip>
