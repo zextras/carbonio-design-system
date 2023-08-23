@@ -21,7 +21,7 @@ describe('TabBar', () => {
 			onClick,
 			forceWidthEquallyDistributed,
 			...rest
-		}: DefaultTabBarItemProps): JSX.Element => (
+		}: DefaultTabBarItemProps): React.JSX.Element => (
 			<DefaultTabBarItem
 				item={item}
 				selected={selected}

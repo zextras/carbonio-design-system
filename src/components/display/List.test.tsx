@@ -26,7 +26,7 @@ describe('List', () => {
 			}
 		];
 
-		const ItemComponent = ({ item }: ItemComponentProps<ListItemType>): JSX.Element => (
+		const ItemComponent = ({ item }: ItemComponentProps<ListItemType>): React.JSX.Element => (
 			<div key={item.id}>{item.name}</div>
 		);
 		render(<List items={items} ItemComponent={ItemComponent} />);
@@ -53,7 +53,7 @@ describe('List', () => {
 			}
 		];
 
-		const ItemComponent = ({ item }: ItemComponentProps<ListItemType>): JSX.Element => (
+		const ItemComponent = ({ item }: ItemComponentProps<ListItemType>): React.JSX.Element => (
 			<Container key={item.id} onClick={item.onClick}>
 				{item.name}
 			</Container>

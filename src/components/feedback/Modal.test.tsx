@@ -14,7 +14,7 @@ import { render } from '../../test-utils';
 import { Button } from '../basic/Button';
 import { Text } from '../basic/Text';
 
-const ModalTester = (props: ModalProps): JSX.Element => {
+const ModalTester = (props: ModalProps): React.JSX.Element => {
 	const [open, setOpen] = useState(false);
 	const clickHandler = (): void => setOpen(true);
 	const closeHandler = (): void => setOpen(false);

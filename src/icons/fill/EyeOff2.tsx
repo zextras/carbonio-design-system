@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { SVGProps } from 'react';
+import type { SVGProps } from 'react';
 
-const SvgEyeOff2 = (props: SVGProps<SVGSVGElement>): JSX.Element => (
+const SvgEyeOff2 = (props: SVGProps<SVGSVGElement>): React.JSX.Element => (
 	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...props}>
 		<g data-name="Layer 2">
 			<path

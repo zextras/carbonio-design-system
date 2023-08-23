@@ -189,7 +189,9 @@ const DefaultHeaderFactory: React.VFC<THeaderProps> = ({
 								dropdownWidth="auto"
 								onChange={column.onChange}
 								display={column.align ? 'inline-block' : 'block'}
-								LabelFactory={(props): JSX.Element => LabelFactory({ ...props, bold: column.bold })}
+								LabelFactory={(props): React.JSX.Element =>
+									LabelFactory({ ...props, bold: column.bold })
+								}
 							/>
 						)}
 						{!hasItems && <Text weight={column.bold ? 'bold' : 'regular'}>{column.label}</Text>}

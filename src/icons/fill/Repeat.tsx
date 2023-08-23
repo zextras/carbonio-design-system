@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { SVGProps } from 'react';
+import type { SVGProps } from 'react';
 
-const SvgRepeat = (props: SVGProps<SVGSVGElement>): JSX.Element => (
+const SvgRepeat = (props: SVGProps<SVGSVGElement>): React.JSX.Element => (
 	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...props}>
 		<g data-name="Layer 2">
 			<g data-name="repeat">

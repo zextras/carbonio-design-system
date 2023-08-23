@@ -1,13 +1,13 @@
 import * as React from 'react';
-import { SVGProps } from 'react';
+import type { SVGProps } from 'react';
 
-const SvgCoreModOutline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
-	<svg width={24} height={24} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+const SvgCoreModOutline = (props: SVGProps<SVGSVGElement>): React.JSX.Element => (
+	<svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} fill="none" {...props}>
 		<g clipPath="url(#a)">
 			<path
 				fillRule="evenodd"
-				clipRule="evenodd"
 				d="M12.004 5.095a1.549 1.549 0 1 0 .002-3.097 1.549 1.549 0 0 0-.002 3.097Zm0 12.97a1.267 1.267 0 1 0 .002-2.534 1.267 1.267 0 0 0-.001 2.534Zm1.829-6.053a1.83 1.83 0 1 1-3.66-.002 1.83 1.83 0 0 1 3.66.002ZM9.943 17.7a6.062 6.062 0 0 1-3.999-5.695 6.062 6.062 0 0 1 6.062-6.056 6.062 6.062 0 0 1 6.062 6.056A6.062 6.062 0 0 1 14.07 17.7a2.238 2.238 0 0 0-.139-2.077 4.097 4.097 0 0 0 2.176-3.618 4.1 4.1 0 0 0-8.202 0c0 1.566.882 2.929 2.177 3.618a2.239 2.239 0 0 0-.14 2.077ZM9.465 3.545c0-.469.128-.908.35-1.285C5.345 3.256 2 7.246 2 12.01 2 17.524 6.48 22 12 22s10-4.476 10-9.99c0-4.76-3.34-8.746-7.804-9.748a2.53 2.53 0 0 1 .215 2.096c3.255 1.025 5.617 4.065 5.617 7.652 0 4.426-3.597 8.02-8.028 8.02-4.43 0-8.028-3.594-8.028-8.02 0-3.59 2.367-6.633 5.626-7.654a2.529 2.529 0 0 1-.133-.81Z"
+				clipRule="evenodd"
 			/>
 		</g>
 		<defs>

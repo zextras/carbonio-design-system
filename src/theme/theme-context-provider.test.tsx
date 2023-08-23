@@ -19,7 +19,7 @@ function ThemeTester<T extends DefaultTheme = DefaultTheme>({
 	color
 }: {
 	color: keyof T['palette'] & string;
-}): JSX.Element {
+}): React.JSX.Element {
 	const theme = useTheme() as T;
 	return <div data-testid={`regular-${color}-color`}>{getColor(color, theme)}</div>;
 }

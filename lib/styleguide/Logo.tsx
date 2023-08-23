@@ -13,7 +13,7 @@ import { Container } from '../../src/components/layout/Container';
 import { Padding } from '../../src/components/layout/Padding';
 import { ThemeProvider } from '../../src/theme/theme-context-provider';
 
-const Logo = (): JSX.Element => {
+const Logo = (): React.JSX.Element => {
 	const [mode, setMode] = useState('auto');
 
 	useEffect(() => {

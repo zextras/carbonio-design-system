@@ -22,7 +22,7 @@ function ZimbraClassicThemeContextProvider({
 	children,
 	extension,
 	loadDefaultFont
-}: ZimbraClassicThemeContextProviderProps): JSX.Element {
+}: ZimbraClassicThemeContextProviderProps): React.JSX.Element {
 	const upperContext = useContext(ThemeContext);
 	if (upperContext) {
 		return <React.Fragment>{children}</React.Fragment>;

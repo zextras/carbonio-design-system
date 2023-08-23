@@ -43,7 +43,7 @@ const ModalHeader = ({
 	title,
 	type,
 	closeIconTooltip
-}: ModalHeaderProps): JSX.Element => (
+}: ModalHeaderProps): React.JSX.Element => (
 	<Row width="100%" padding={{ bottom: 'small' }}>
 		<ModalTitle
 			centered={!!centered}

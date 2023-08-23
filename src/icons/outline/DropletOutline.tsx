@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { SVGProps } from 'react';
+import type { SVGProps } from 'react';
 
-const SvgDropletOutline = (props: SVGProps<SVGSVGElement>): JSX.Element => (
+const SvgDropletOutline = (props: SVGProps<SVGSVGElement>): React.JSX.Element => (
 	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24.2 24.2" {...props}>
 		<g data-name="Layer 2">
 			<path

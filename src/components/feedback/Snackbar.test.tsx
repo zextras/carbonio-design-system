@@ -14,7 +14,7 @@ import { render } from '../../test-utils';
 import { Button } from '../basic/Button';
 import { Container } from '../layout/Container';
 
-const CustomSnackbar = (): JSX.Element => {
+const CustomSnackbar = (): React.JSX.Element => {
 	const [snack1, setSnack1] = useState(false);
 
 	return (

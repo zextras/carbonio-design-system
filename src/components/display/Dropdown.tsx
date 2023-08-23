@@ -68,7 +68,7 @@ function ListItemContent({
 	itemTextSize,
 	itemPaddingBetween,
 	tooltipLabel
-}: ListItemContentProps): JSX.Element {
+}: ListItemContentProps): React.JSX.Element {
 	return (
 		<Tooltip disabled={!disabled || !tooltipLabel} label={tooltipLabel} placement="bottom-end">
 			<Container orientation="horizontal" mainAlignment="flex-start">
@@ -116,7 +116,7 @@ function PopperListItem({
 	itemPaddingBetween,
 	tooltipLabel,
 	...rest
-}: PopperListItemProps): JSX.Element {
+}: PopperListItemProps): React.JSX.Element {
 	const itemRef = useRef<HTMLDivElement | null>(null);
 
 	const keyEvents = useMemo(
@@ -192,7 +192,7 @@ function NestListItem({
 	dropdownListRef,
 	tooltipLabel,
 	...rest
-}: NestListItemProps): JSX.Element {
+}: NestListItemProps): React.JSX.Element {
 	const itemRef = useRef<HTMLDivElement | null>(null);
 
 	const keyEvents = useMemo(

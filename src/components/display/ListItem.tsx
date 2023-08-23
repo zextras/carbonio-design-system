@@ -56,7 +56,7 @@ interface ListItemProps extends ListItemWrapperProps {
 function ListItemFn(
 	{ listRef, children, ...rest }: ListItemProps,
 	ref: React.ForwardedRef<HTMLDivElement>
-): JSX.Element {
+): React.JSX.Element {
 	const [inView, itemRef] = useIsVisible<HTMLDivElement>(listRef, ref);
 
 	return (
