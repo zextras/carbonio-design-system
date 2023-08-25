@@ -42,6 +42,6 @@ export default [
 			interop: 'compat',
 		},
 		plugins,
-		external,
+		external
 	}
 ];
