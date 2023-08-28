@@ -6,16 +6,17 @@
 
 import React, { useEffect, useMemo } from 'react';
 
-import { map, forEach } from 'lodash';
+import { map, forEach, noop } from 'lodash';
 
 type HtmlElementKeyboardEventKey = {
 	[K in keyof HTMLElementEventMap]: HTMLElementEventMap[K] extends KeyboardEvent ? K : never;
 }[keyof HTMLElementEventMap];
 
-type ElementType = 'listItem' | 'button' | 'list' | 'chipInputKeys' | 'chipInputSpace';
+type NativeKeyboardEventHandler = (event: KeyboardEvent) => void;
+type ElementType = 'listItem' | 'button' | 'list' | 'chipInputKeys';
 type KeyboardPresetObj = {
 	type: HtmlElementKeyboardEventKey;
-	callback: (e: KeyboardEvent) => void;
+	callback: NativeKeyboardEventHandler;
 	keys: string[];
 	modifier?: boolean;
 	haveToPreventDefault?: boolean;
@@ -26,184 +27,231 @@ function getFocusableElement(
 	focusedElement: HTMLElement,
 	direction: 'previousElementSibling' | 'nextElementSibling'
 ): HTMLElement | null {
-	const siblingElement = focusedElement[direction] as HTMLElement | null;
-	if (!siblingElement) {
+	const siblingElement = focusedElement[direction];
+	if (!(siblingElement instanceof HTMLElement)) {
 		return null;
 	}
 	if (siblingElement.tabIndex >= 0) {
-		return focusedElement[direction] as HTMLElement;
+		return siblingElement;
 	}
 	return getFocusableElement(siblingElement, direction);
 }
 
-function getKeyboardPreset(
-	type: ElementType,
-	callback: (e: KeyboardEvent) => void,
-	ref: React.MutableRefObject<HTMLElement | null> | undefined = undefined,
-	keys: string[] = [],
-	modifier = false
-): KeyboardPreset {
-	function handleArrowUp(): void {
-		if (ref?.current) {
-			const focusedElement = ref.current.querySelector<HTMLElement>('[tabindex]:focus');
-			if (focusedElement) {
-				const prevEl = getFocusableElement(focusedElement, 'previousElementSibling');
-				if (prevEl) {
-					prevEl.focus();
-				} else {
-					const lastChild = ref.current.querySelector<HTMLElement>('[tabindex]:last-child');
-					lastChild && lastChild.focus();
-				}
+function handleArrowUp(ref?: React.RefObject<HTMLElement>): void {
+	if (ref?.current) {
+		const focusedElement = ref.current.querySelector<HTMLElement>('[tabindex]:focus');
+		if (focusedElement) {
+			const prevEl = getFocusableElement(focusedElement, 'previousElementSibling');
+			if (prevEl) {
+				prevEl.focus();
 			} else {
-				const firstChild = ref.current.querySelector<HTMLElement>('[tabindex]:first-child');
-				firstChild && firstChild.focus();
+				const lastChild = ref.current.querySelector<HTMLElement>('[tabindex]:last-child');
+				lastChild && lastChild.focus();
 			}
-		}
-	}
-
-	function handleArrowDown(): void {
-		if (ref?.current) {
-			const focusedElement = ref.current.querySelector<HTMLElement>('[tabindex]:focus');
-			if (focusedElement) {
-				const nextEl = getFocusableElement(focusedElement, 'nextElementSibling');
-				if (nextEl) {
-					nextEl.focus();
-				} else {
-					const firstChild = ref.current.querySelector<HTMLElement>('[tabindex]:first-child');
-					firstChild && firstChild.focus();
-				}
-			} else {
-				const firstChild = ref.current.querySelector<HTMLElement>('[tabindex]:first-child');
-				firstChild && firstChild.focus();
-			}
-		}
-	}
-
-	function handleEscape(): void {
-		if (ref?.current) {
-			const focusedElement = ref.current.querySelector<HTMLElement>('[tabindex]:focus');
-			if (focusedElement) {
-				focusedElement.blur();
-			}
-		}
-	}
-
-	const findFirstChildWithClick = (element: HTMLElement): HTMLElement => {
-		let result = element;
-		while (!result?.onclick && result !== null) {
-			result = result.firstElementChild as HTMLElement;
-		}
-		return result;
-	};
-
-	const handleEnter = (): void => {
-		if (ref?.current) {
-			const focusedElement = ref.current.querySelector<HTMLElement>('[tabindex]:focus');
-			if (focusedElement) {
-				const firstChild = findFirstChildWithClick(focusedElement);
-				if (firstChild) {
-					firstChild.click();
-				}
-			}
-		}
-	};
-
-	function handleCtrlArrowUp(): void {
-		if (ref?.current) {
+		} else {
 			const firstChild = ref.current.querySelector<HTMLElement>('[tabindex]:first-child');
 			firstChild && firstChild.focus();
 		}
 	}
-
-	function handleCtrlArrowDown(): void {
-		if (ref?.current) {
-			const lastChild = ref.current.querySelector<HTMLElement>('[tabindex]:last-child');
-			lastChild && lastChild.focus();
-		}
-	}
-
-	const eventsArray: KeyboardPreset = [];
-	switch (type) {
-		case 'listItem': {
-			eventsArray.push({
-				type: 'keypress',
-				callback,
-				keys: ['Enter', 'NumpadEnter'],
-				modifier
-			});
-			break;
-		}
-		case 'button': {
-			eventsArray.push({ type: 'keyup', callback, keys: ['Space'], modifier });
-			eventsArray.push({
-				type: 'keypress',
-				callback: (e: KeyboardEvent) => e.preventDefault(),
-				keys: ['Space'],
-				modifier
-			});
-			eventsArray.push({
-				type: 'keypress',
-				callback,
-				keys: ['Enter', 'NumpadEnter'],
-				modifier
-			});
-			break;
-		}
-		case 'list': {
-			eventsArray.push({
-				type: 'keydown',
-				callback: handleArrowUp,
-				keys: ['ArrowUp'],
-				modifier
-			});
-			eventsArray.push({
-				type: 'keydown',
-				callback: handleArrowDown,
-				keys: ['ArrowDown'],
-				modifier
-			});
-			eventsArray.push({
-				type: 'keydown',
-				callback: handleCtrlArrowUp,
-				keys: ['ArrowUp'],
-				modifier: true
-			});
-			eventsArray.push({
-				type: 'keydown',
-				callback: handleCtrlArrowDown,
-				keys: ['ArrowDown'],
-				modifier: true
-			});
-			eventsArray.push({
-				type: 'keydown',
-				callback: handleEscape,
-				keys: ['Escape'],
-				modifier
-			});
-			eventsArray.push({
-				type: 'keydown',
-				callback: handleEnter,
-				keys: ['Enter', 'NumpadEnter'],
-				modifier
-			});
-
-			break;
-		}
-		case 'chipInputKeys': {
-			eventsArray.push({ type: 'keypress', callback, keys, modifier });
-			break;
-		}
-		default: {
-			break;
-		}
-	}
-	return eventsArray;
 }
 
-function useKeyboard(ref: React.RefObject<HTMLElement>, events: KeyboardPreset): void {
+function handleArrowDown(ref?: React.RefObject<HTMLElement>): void {
+	if (ref?.current) {
+		const focusedElement = ref.current.querySelector<HTMLElement>('[tabindex]:focus');
+		if (focusedElement) {
+			const nextEl = getFocusableElement(focusedElement, 'nextElementSibling');
+			if (nextEl) {
+				nextEl.focus();
+			} else {
+				const firstChild = ref.current.querySelector<HTMLElement>('[tabindex]:first-child');
+				firstChild && firstChild.focus();
+			}
+		} else {
+			const firstChild = ref.current.querySelector<HTMLElement>('[tabindex]:first-child');
+			firstChild && firstChild.focus();
+		}
+	}
+}
+
+function handleEscape(ref?: React.RefObject<HTMLElement>): void {
+	if (ref?.current) {
+		const focusedElement = ref.current.querySelector<HTMLElement>('[tabindex]:focus');
+		if (focusedElement) {
+			focusedElement.blur();
+		}
+	}
+}
+
+const findFirstChildWithClick = (element: HTMLElement): HTMLElement => {
+	let result = element;
+	while (!result?.onclick && result !== null) {
+		result = result.firstElementChild as HTMLElement;
+	}
+	return result;
+};
+
+const handleEnter = (ref?: React.RefObject<HTMLElement>): void => {
+	if (ref?.current) {
+		const focusedElement = ref.current.querySelector<HTMLElement>('[tabindex]:focus');
+		if (focusedElement) {
+			const firstChild = findFirstChildWithClick(focusedElement);
+			if (firstChild) {
+				firstChild.click();
+			}
+		}
+	}
+};
+
+function handleCtrlArrowUp(ref?: React.RefObject<HTMLElement>): void {
+	if (ref?.current) {
+		const firstChild = ref.current.querySelector<HTMLElement>('[tabindex]:first-child');
+		firstChild && firstChild.focus();
+	}
+}
+
+function handleCtrlArrowDown(ref?: React.RefObject<HTMLElement>): void {
+	if (ref?.current) {
+		const lastChild = ref.current.querySelector<HTMLElement>('[tabindex]:last-child');
+		lastChild && lastChild.focus();
+	}
+}
+
+function getListItemKeyboardPreset(
+	callback: NativeKeyboardEventHandler,
+	modifier?: boolean
+): KeyboardPreset {
+	return [
+		{
+			type: 'keypress',
+			callback,
+			keys: ['Enter', 'NumpadEnter'],
+			modifier
+		}
+	];
+}
+
+function getButtonKeyboardPreset(
+	callback: NativeKeyboardEventHandler,
+	modifier?: boolean
+): KeyboardPreset {
+	return [
+		{ type: 'keyup', callback, keys: ['Space'], modifier },
+		{
+			type: 'keypress',
+			callback: (e) => e.preventDefault(),
+			keys: ['Space'],
+			modifier
+		},
+		{
+			type: 'keypress',
+			callback,
+			keys: ['Enter', 'NumpadEnter'],
+			modifier
+		}
+	];
+}
+
+function getListKeyboardPreset(
+	ref: React.RefObject<HTMLElement> | undefined,
+	modifier?: boolean
+): KeyboardPreset {
+	return [
+		{
+			type: 'keydown',
+			callback: () => handleArrowUp(ref),
+			keys: ['ArrowUp'],
+			modifier
+		},
+		{
+			type: 'keydown',
+			callback: () => handleArrowDown(ref),
+			keys: ['ArrowDown'],
+			modifier
+		},
+		{
+			type: 'keydown',
+			callback: () => handleCtrlArrowUp(ref),
+			keys: ['ArrowUp'],
+			modifier: true
+		},
+		{
+			type: 'keydown',
+			callback: () => handleCtrlArrowDown(ref),
+			keys: ['ArrowDown'],
+			modifier: true
+		},
+		{
+			type: 'keydown',
+			callback: () => handleEscape(ref),
+			keys: ['Escape'],
+			modifier
+		},
+		{
+			type: 'keydown',
+			callback: () => handleEnter(ref),
+			keys: ['Enter', 'NumpadEnter'],
+			modifier
+		}
+	];
+}
+
+function getKeyboardPreset(
+	type: 'listItem',
+	callback: NativeKeyboardEventHandler,
+	ref?: undefined,
+	keys?: undefined,
+	modifier?: boolean
+): KeyboardPreset;
+function getKeyboardPreset(
+	type: 'button',
+	callback: NativeKeyboardEventHandler,
+	ref?: undefined,
+	keys?: undefined,
+	modifier?: boolean
+): KeyboardPreset;
+function getKeyboardPreset(
+	type: 'list',
+	callback: undefined,
+	ref: React.RefObject<HTMLElement>,
+	keys?: undefined,
+	modifier?: boolean
+): KeyboardPreset;
+function getKeyboardPreset(
+	type: 'chipInputKeys',
+	callback: NativeKeyboardEventHandler,
+	ref?: undefined,
+	keys?: string[],
+	modifier?: boolean
+): KeyboardPreset;
+function getKeyboardPreset(
+	type: ElementType,
+	callback: NativeKeyboardEventHandler | undefined = noop,
+	ref: React.RefObject<HTMLElement> | undefined = undefined,
+	keys: string[] = [],
+	modifier = false
+): KeyboardPreset {
+	switch (type) {
+		case 'listItem':
+			return getListItemKeyboardPreset(callback, modifier);
+		case 'button':
+			return getButtonKeyboardPreset(callback, modifier);
+		case 'list':
+			return getListKeyboardPreset(ref, modifier);
+		case 'chipInputKeys':
+			return [{ type: 'keypress', callback, keys, modifier }];
+		default:
+			return [];
+	}
+}
+
+function useKeyboard(
+	ref: React.RefObject<HTMLElement>,
+	events: KeyboardPreset,
+	registerListener = true
+): void {
 	const keyEvents = useMemo(
 		() =>
-			map<KeyboardPresetObj, (e: KeyboardEvent) => void>(
+			map<KeyboardPresetObj, NativeKeyboardEventHandler>(
 				events,
 				({ keys, modifier = false, callback, haveToPreventDefault = true }) =>
 					(e): void => {
@@ -223,12 +271,12 @@ function useKeyboard(ref: React.RefObject<HTMLElement>, events: KeyboardPreset):
 	);
 
 	useEffect(() => {
-		if (ref.current) {
+		const refSave = ref.current;
+		if (refSave && registerListener) {
 			forEach(keyEvents, (keyEvent, index) => {
-				ref.current && ref.current.addEventListener(events[index].type, keyEvent);
+				refSave.addEventListener(events[index].type, keyEvent);
 			});
 		}
-		const refSave = ref.current;
 		return (): void => {
 			if (refSave) {
 				forEach(keyEvents, (keyEvent, index) => {
@@ -236,8 +284,7 @@ function useKeyboard(ref: React.RefObject<HTMLElement>, events: KeyboardPreset):
 				});
 			}
 		};
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [events, keyEvents, ref, ref.current]);
+	}, [events, keyEvents, ref, registerListener]);
 }
 
 export { useKeyboard, getKeyboardPreset, KeyboardPreset };
