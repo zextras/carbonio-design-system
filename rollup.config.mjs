@@ -26,8 +26,6 @@ const plugins = [
 	commonjs(),
 	babel({
 		babelHelpers: 'runtime',
-		presets: ['@babel/preset-react', '@babel/preset-typescript'],
-		plugins: ['@babel/plugin-proposal-class-properties', 'babel-plugin-styled-components'],
 		extensions: ['.js', '.jsx', '.ts', '.tsx'],
 		ignore: ['node_modules']
 	})
@@ -40,7 +38,8 @@ export default [
 		input: 'src/index.ts',
 		output: {
 			file: 'dist/zapp-ui.bundle.js',
-			format: 'cjs'
+			format: 'cjs',
+			interop: 'compat',
 		},
 		plugins,
 		external

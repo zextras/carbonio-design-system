@@ -1020,7 +1020,7 @@ const buildInputIcons = ({
 	onClear,
 	onClick
 }: InputIconsProps): NonNullable<InputProps['CustomIcon']> =>
-	function InputIcons({ hasError }): JSX.Element {
+	function InputIcons({ hasError }): React.JSX.Element {
 		return (
 			<InputIconsContainer>
 				{showClear && (

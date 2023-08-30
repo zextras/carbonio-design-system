@@ -9,7 +9,13 @@ import { useContext } from 'react';
 import { reduce } from 'lodash';
 import { darken, lighten, parseToHsl, setLightness, toColorString } from 'polished';
 import { HslColor } from 'polished/lib/types/color';
-import { css, DefaultTheme, FlattenSimpleInterpolation, ThemeContext } from 'styled-components';
+import {
+	css,
+	DefaultTheme,
+	FlattenSimpleInterpolation,
+	SimpleInterpolation,
+	ThemeContext
+} from 'styled-components';
 
 import type { ThemeColorObj, ThemeSizeObj } from './theme';
 
@@ -250,27 +256,39 @@ function getPadding(
 
 function pseudoClasses(
 	theme: DefaultTheme,
-	color: string | keyof DefaultTheme['palette'],
-	cssProperty = 'background'
+	color: string,
+	cssProperty = 'background',
+	options: { transition?: boolean; outline?: boolean } = {}
 ): FlattenSimpleInterpolation {
+	const optionsWithDefault = { transition: true, outline: false, ...options };
+	function buildPseudoRule(
+		pseudoStatus: 'focus' | 'disabled' | 'active' | 'hover'
+	): SimpleInterpolation {
+		return css`
+			${!optionsWithDefault.outline &&
+			css`
+				outline: none;
+			`};
+			${cssProperty}: ${getColor(`${color}.${pseudoStatus}`, theme)};
+		`;
+	}
 	return css`
-		transition: background 0.2s ease-out;
+		${optionsWithDefault.transition &&
+		css`
+			transition: ${cssProperty} 0.2s ease-out;
+		`};
 		${cssProperty}: ${getColor(color, theme)};
 		&:focus {
-			outline: none;
-			${cssProperty}: ${getColor(`${color}.focus`, theme)};
+			${buildPseudoRule('focus')};
 		}
 		&:hover {
-			outline: none;
-			${cssProperty}: ${getColor(`${color}.hover`, theme)};
+			${buildPseudoRule('hover')};
 		}
 		&:active {
-			outline: none;
-			${cssProperty}: ${getColor(`${color}.active`, theme)};
+			${buildPseudoRule('active')};
 		}
 		&:disabled {
-			outline: none;
-			${cssProperty}: ${getColor(`${color}.disabled`, theme)};
+			${buildPseudoRule('disabled')};
 		}
 	`;
 }

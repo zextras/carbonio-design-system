@@ -17,7 +17,7 @@ interface ResponsiveProps {
 	children: React.ReactNode | React.ReactNode[];
 }
 
-function Responsive({ children, mode, target }: ResponsiveProps): JSX.Element {
+function Responsive({ children, mode, target }: ResponsiveProps): React.JSX.Element {
 	const screenMode = useScreenMode(target || window);
 	return <>{screenMode === mode && children}</>;
 }

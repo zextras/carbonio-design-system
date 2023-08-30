@@ -13,7 +13,7 @@ import { render } from '../../test-utils';
 import { Button } from '../basic/Button';
 import { Modal } from '../feedback/Modal';
 
-const ModalWithInput = (): JSX.Element => {
+const ModalWithInput = (): React.JSX.Element => {
 	const [open, setOpen] = useState(false);
 	const clickHandler = (): void => setOpen(true);
 	const closeHandler = (): void => setOpen(false);

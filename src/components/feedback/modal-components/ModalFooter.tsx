@@ -173,7 +173,7 @@ const ModalFooter = ({
 	optionalFooter,
 	secondaryActionLabel,
 	type
-}: ModalFooterProps): JSX.Element => (
+}: ModalFooterProps): React.JSX.Element => (
 	<Container
 		orientation={centered ? 'vertical' : 'horizontal'}
 		mainAlignment="flex-end"

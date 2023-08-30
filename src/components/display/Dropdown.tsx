@@ -68,7 +68,7 @@ function ListItemContent({
 	itemTextSize,
 	itemPaddingBetween,
 	tooltipLabel
-}: ListItemContentProps): JSX.Element {
+}: ListItemContentProps): React.JSX.Element {
 	return (
 		<Tooltip disabled={!disabled || !tooltipLabel} label={tooltipLabel} placement="bottom-end">
 			<Container orientation="horizontal" mainAlignment="flex-start">
@@ -116,7 +116,7 @@ function PopperListItem({
 	itemPaddingBetween,
 	tooltipLabel,
 	...rest
-}: PopperListItemProps): JSX.Element {
+}: PopperListItemProps): React.JSX.Element {
 	const itemRef = useRef<HTMLDivElement | null>(null);
 
 	const keyEvents = useMemo(
@@ -192,7 +192,7 @@ function NestListItem({
 	dropdownListRef,
 	tooltipLabel,
 	...rest
-}: NestListItemProps): JSX.Element {
+}: NestListItemProps): React.JSX.Element {
 	const itemRef = useRef<HTMLDivElement | null>(null);
 
 	const keyEvents = useMemo(
@@ -208,7 +208,6 @@ function NestListItem({
 			className={selected ? 'zapp-selected' : ''}
 			orientation="horizontal"
 			mainAlignment="flex-start"
-			padding={{ vertical: 'small', horizontal: 'large' }}
 			style={{ cursor: onClick && !disabled ? 'pointer' : 'default' }}
 			onClick={disabled ? undefined : onClick}
 			tabIndex={disabled ? undefined : 0}
@@ -228,7 +227,11 @@ function NestListItem({
 				itemPaddingBetween={itemPaddingBetween}
 				dropdownListRef={dropdownListRef}
 			>
-				<Container orientation="horizontal" mainAlignment="flex-start">
+				<Container
+					orientation="horizontal"
+					mainAlignment="space-between"
+					padding={{ vertical: 'small', horizontal: 'large' }}
+				>
 					{customComponent || (
 						<ListItemContent
 							icon={icon}
@@ -241,11 +244,7 @@ function NestListItem({
 							tooltipLabel={tooltipLabel}
 						/>
 					)}
-					<Icon
-						size={itemIconSize}
-						icon="ChevronRight"
-						style={{ marginRight: 0, marginLeft: 'auto' }}
-					/>
+					<Icon size={itemIconSize} icon="ChevronRight" />
 				</Container>
 			</Dropdown>
 		</ContainerEl>
@@ -272,7 +271,6 @@ const PopperList = styled.div<{
 	box-shadow: 0 0 0.25rem 0 ${({ theme }): string => theme.palette.shadow.regular};
 	z-index: 999;
 
-	padding: ${({ theme }): string => theme.sizes.padding.small} 0;
 	max-width: ${({ width, maxWidth }): string => (width === '100%' ? '100%' : maxWidth)};
 	max-height: ${({ maxHeight }): string => maxHeight};
 	width: ${({ width, triggerRef }): string =>
@@ -578,14 +576,7 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 		if (open) {
 			const popperOptions: OptionsGeneric<StrictModifiers> = {
 				placement,
-				modifiers: [
-					{
-						name: 'offset',
-						options: {
-							offset: (): [number, number] => [0, 4]
-						}
-					}
-				],
+				modifiers: [],
 				strategy: 'fixed'
 			};
 

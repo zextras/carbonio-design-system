@@ -25,7 +25,7 @@ const ScrollFrame = styled.div`
 	width: 100%;
 	overflow-x: auto;
 `;
-const Palette = ({ palette }: ThemeObj): JSX.Element => (
+const Palette = ({ palette }: ThemeObj): React.JSX.Element => (
 	<Container width="fill" height="fit" orientation="vertical" crossAlignment="flex-start">
 		{map(palette, (set, name) => (
 			<Fragment key={name}>

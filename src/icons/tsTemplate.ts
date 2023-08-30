@@ -61,7 +61,7 @@ ${imports};
 
 ${interfaces};
 
-const ${componentName} = (${props}): JSX.Element => (
+const ${componentName} = (${props}): React.JSX.Element => (
   ${jsx}
 );
 

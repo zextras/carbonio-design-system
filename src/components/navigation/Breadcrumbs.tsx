@@ -33,7 +33,7 @@ interface BreadcrumbSeparatorProps {
 	color: React.ComponentPropsWithRef<typeof Text>['color'];
 }
 
-const BreadcrumbSeparator = ({ color }: BreadcrumbSeparatorProps): JSX.Element => (
+const BreadcrumbSeparator = ({ color }: BreadcrumbSeparatorProps): React.JSX.Element => (
 	<Padding all="extrasmall" style={{ cursor: 'default' }}>
 		<Text size="large" color={color}>
 			/

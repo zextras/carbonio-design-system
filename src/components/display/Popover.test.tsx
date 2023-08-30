@@ -15,7 +15,7 @@ import { Button } from '../basic/Button';
 import { Input } from '../inputs/Input';
 import { Container } from '../layout/Container';
 
-const CustomPopover = (): JSX.Element => {
+const CustomPopover = (): React.JSX.Element => {
 	const [open, setOpen] = useState(false);
 	const buttonRef = useRef<HTMLDivElement>(null);
 	return (

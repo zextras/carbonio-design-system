@@ -27,7 +27,7 @@ describe('List', () => {
 		];
 
 		const listItems = items.map((item) => (
-			<ListItem key={item.id}>{(): JSX.Element => <div>{item.name}</div>}</ListItem>
+			<ListItem key={item.id}>{(): React.JSX.Element => <div>{item.name}</div>}</ListItem>
 		));
 
 		render(<ListV2>{listItems}</ListV2>);
@@ -52,7 +52,7 @@ describe('List', () => {
 
 		const listItems = items.map((item) => (
 			<ListItem key={item.id}>
-				{(): JSX.Element => (
+				{(): React.JSX.Element => (
 					<Container key={item.id} onClick={item.onClick}>
 						{item.name}
 					</Container>

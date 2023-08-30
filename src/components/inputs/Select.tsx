@@ -66,7 +66,7 @@ const DefaultLabelFactory = <T,>({
 	focus,
 	background,
 	disabled
-}: LabelFactoryProps<T>): JSX.Element => {
+}: LabelFactoryProps<T>): React.JSX.Element => {
 	const selectedLabels = useMemo(
 		() =>
 			!isEmpty(selected) &&
@@ -316,7 +316,7 @@ const SelectComponent = React.forwardRef(function SelectFn<T = string>(
 		...rest
 	}: SelectProps<T>,
 	ref: React.ForwardedRef<HTMLDivElement>
-): JSX.Element {
+): React.JSX.Element {
 	const [selected, dispatchSelected] = useReducer<
 		Reducer<SelectItem<T>[], SelectReducerAction<T>>,
 		SelectItem<T>[]
