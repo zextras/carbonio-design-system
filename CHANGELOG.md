@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.3.0](https://github.com/Zextras/carbonio-design-system/compare/v2.2.0...v2.3.0) (2023-08-30)
+
+
+### Features
+
+* **Dropdown:** update placement of nested levels to be side by side ([f54dc35](https://github.com/Zextras/carbonio-design-system/commit/f54dc3524bf7bd451cb57362a389ff4ed1ddfefd)), closes [#213](https://github.com/Zextras/carbonio-design-system/issues/213)
+* **RadioGroup:** improve RadioGroup component ([0bcdfdb](https://github.com/Zextras/carbonio-design-system/commit/0bcdfdb1229499ce18ac7932b2291b2706211ea8)), closes [#200](https://github.com/Zextras/carbonio-design-system/issues/200)
+* **Radio:** improve Radio component ([3b21c71](https://github.com/Zextras/carbonio-design-system/commit/3b21c71376d56720501677d835d826eb7087619f)), closes [#199](https://github.com/Zextras/carbonio-design-system/issues/199)
+
+
+### Bug Fixes
+
+* **Chip:** fix avatarBackground prop type ([ac19f66](https://github.com/Zextras/carbonio-design-system/commit/ac19f66749788859b065070e654f2f412854826d))
+* **Chip:** fix Chip component prop types ([ac4d5d8](https://github.com/Zextras/carbonio-design-system/commit/ac4d5d8796c4198a6d99af4c3cefda954062510a)), closes [#211](https://github.com/Zextras/carbonio-design-system/issues/211)
+* **Shimmer:** fix Shimmer component types ([e9afec6](https://github.com/Zextras/carbonio-design-system/commit/e9afec624551d4d6e5d6298e1bdc248b6f978094)), closes [#212](https://github.com/Zextras/carbonio-design-system/issues/212)
+* **Shimmer:** fix Shimmer component types ([9b17832](https://github.com/Zextras/carbonio-design-system/commit/9b178327bbbe5afb3e562d61ceb0c51b56b42a8b))
+
 ## [2.2.0](https://github.com/Zextras/carbonio-design-system/compare/v2.1.1...v2.2.0) (2023-07-06)
 
 
