@@ -527,7 +527,7 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 	const openPopper = useCallback(() => {
 		setOpen(true);
 		openRef.current = true;
-		onOpen && onOpen();
+		onOpen?.();
 	}, [onOpen]);
 
 	const closePopper = useCallback(
@@ -541,7 +541,7 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 		[disableRestoreFocus, forceOpen, innerTriggerRef, onClose]
 	);
 
-	const handleClick = useCallback<(e: React.SyntheticEvent | KeyboardEvent) => void>(
+	const toggleOpen = useCallback<(e: React.SyntheticEvent | KeyboardEvent) => void>(
 		(e) => {
 			if (openRef.current) {
 				e.preventDefault();
@@ -554,13 +554,12 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 		[closePopper, disabled, openPopper]
 	);
 
-	// TODO: it probably makes sense to merge this callback and the handleClick
 	const handleLeftClick = useCallback<React.ReactEventHandler>(
 		(e) => {
-			children.props.onClick && children.props.onClick(e);
-			handleClick(e);
+			children.props.onClick?.(e);
+			toggleOpen(e);
 		},
-		[children.props, handleClick]
+		[children.props, toggleOpen]
 	);
 
 	const handleRightClick = useCallback<React.MouseEventHandler<HTMLElement>>(
@@ -630,8 +629,8 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 	}, []);
 
 	const triggerEvents = useMemo(
-		() => (handleTriggerEvents ? getKeyboardPreset('button', handleClick) : []),
-		[handleClick, handleTriggerEvents]
+		() => (handleTriggerEvents ? getKeyboardPreset('button', toggleOpen) : []),
+		[toggleOpen, handleTriggerEvents]
 	);
 	useKeyboard(innerTriggerRef, triggerEvents);
 
