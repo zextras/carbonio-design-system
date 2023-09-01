@@ -331,13 +331,13 @@ describe('Dropdown', () => {
 		const items = generateItems();
 		const firstItem = items[0];
 		const { user } = render(
-			<Dropdown items={items} disableAutoFocus>
+			<Dropdown items={items}>
 				<Button label="opener" onClick={noop} />
 			</Dropdown>
 		);
 		await user.click(screen.getByRole('button'));
-		await screen.findByText(firstItem.label);
-		await user.click(screen.getByRole('button'));
+		const firstItemElement = await screen.findByText(firstItem.label);
+		await user.click(firstItemElement);
 		expect(screen.getByRole('button', { name: /opener/i })).toHaveFocus();
 	});
 
@@ -370,6 +370,28 @@ describe('Dropdown', () => {
 		await screen.findByText(firstSubItem.label);
 		const firstNestedDropdownItem = findDropdownItem(firstSubItem.label);
 		await waitFor(() => expect(firstNestedDropdownItem).toHaveFocus());
+	});
+
+	test('should set focus on trigger component when clicking on a nested item', async () => {
+		const items = generateItems();
+		const firstItem = items[0];
+		const subItem: DropdownItem = {
+			id: 'sub1',
+			label: 'sub1',
+			onClick: jest.fn()
+		};
+		firstItem.items = [subItem];
+		const { user } = render(
+			<Dropdown items={items} disableAutoFocus>
+				<Button label="opener" onClick={noop} />
+			</Dropdown>
+		);
+		await user.click(screen.getByRole('button'));
+		const firstItemElement = await screen.findByText(firstItem.label);
+		await user.hover(firstItemElement);
+		const subItemElement = await screen.findByText(subItem.label);
+		await user.click(subItemElement);
+		expect(screen.getByRole('button', { name: /opener/i })).toHaveFocus();
 	});
 
 	describe('Keyboard shortcuts', () => {
