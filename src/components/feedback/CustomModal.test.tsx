@@ -14,7 +14,7 @@ import { render } from '../../test-utils';
 import { Button } from '../basic/Button';
 import { Text } from '../basic/Text';
 
-const ModalTester = (props: CustomModalProps): React.JSX.Element => {
+const ModalTester = ({ children, ...props }: CustomModalProps): React.JSX.Element => {
 	const [open, setOpen] = useState(false);
 	const clickHandler = (): void => setOpen(true);
 	const closeHandler = (): void => setOpen(false);
@@ -23,8 +23,12 @@ const ModalTester = (props: CustomModalProps): React.JSX.Element => {
 		<>
 			<Button label="Trigger Modal" onClick={clickHandler} />
 			<CustomModal {...props} open={open} onClose={closeHandler}>
-				<Text>My Title</Text>
-				<Text overflow="break-word">Lorem ipsum dolor sit amet.</Text>
+				{children || (
+					<>
+						<Text>My Title</Text>
+						<Text overflow="break-word">Lorem ipsum dolor sit amet.</Text>
+					</>
+				)}
 			</CustomModal>
 		</>
 	);
@@ -98,5 +102,38 @@ describe('Custom Modal', () => {
 		expect(screen.getByText('My Title')).toBeVisible();
 		expect(screen.getByText('Lorem ipsum dolor sit amet.')).toBeVisible();
 		expect(onClick).toHaveBeenCalled();
+	});
+
+	test('should not blindly prevent default behavior of html elements', async () => {
+		const originalConsoleError = console.error;
+		const errors: string[] = [];
+		console.error = (message): void => {
+			errors.push(message);
+		};
+		const href = '/different-path';
+		render(
+			<ModalTester>
+				<a href={href}>This is a link</a>
+			</ModalTester>
+		);
+		userEvent.click(screen.getByRole('button'));
+		await waitFor(
+			() =>
+				new Promise((resolve) => {
+					setTimeout(resolve, 1);
+				})
+		);
+		userEvent.click(screen.getByRole('link'));
+		await waitFor(
+			() =>
+				new Promise((resolve) => {
+					setTimeout(resolve, 1);
+				})
+		);
+
+		expect(errors).toEqual([
+			expect.stringContaining('Error: Not implemented: navigation (except hash changes)')
+		]);
+		console.error = originalConsoleError;
 	});
 });
