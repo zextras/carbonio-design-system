@@ -222,6 +222,61 @@ const toggleDisabled = (itemIndex) => {
 </Container>
 ```
 
+### Keyboard shortcuts
+#### Trigger component
+| Key              | Action                     | Notes                                          |
+|------------------|----------------------------|------------------------------------------------|
+| Enter<br/> Space | Toggle dropdown open state | Can be enabled with prop `handleTriggerEvents` | 
+
+#### Dropdown
+| Key                        | Action                                                                    | Notes                                                                                                                                    |
+|----------------------------|---------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------|
+| Arrow down <br/> Tab       | Focus on next item <br/> On last item: focus on first item                |                                                                                                                                          |
+| Arrow up <br/> Shift + Tab | Focus on previous item <br/> On first item: focus on last item            |                                                                                                                                          |
+| Enter                      | Select current item                                                       |                                                                                                                                          |
+| Escape                     | Close dropdown and return focus to trigger component                      | Use `disableRestoreFocus` to not return of the focus <br/> For nested dropdown, the trigger component is the item of the parent dropdown |
+| Arrow right                | Open nested dropdown (if present)                                         |                                                                                                                                          |
+| Arrow left                 | Close nested dropdown and return focus to the item of the parent dropdown |                                                                                                                                          |
+
+```jsx
+import { noop } from 'lodash';
+import { Button, Container } from '@zextras/carbonio-design-system';
+
+const items = [
+	{
+		id: 'item1',
+        label: 'item1',
+        tooltipLabel: 'item 1 tooltip'
+    },
+    { 
+        id: 'item2',
+        label: 'item2',
+        tooltipLabel: 'item 2 tooltip'
+    },
+	{
+        id: 'item3',
+        label: 'item3',
+        tooltipLabel: 'item 3 tooltip',
+        items: [
+            {
+                id: 'item31',
+                label: 'item3-1',
+                tooltipLabel: 'item 3-1 tooltip'
+            },
+            {
+                id: 'item32',
+                label: 'item3-2',
+                tooltipLabel: 'item 3-2 tooltip'
+            }
+        ]
+    }
+];
+
+<Dropdown items={items} handleTriggerEvents>
+    <Button label="space or enter to open" onClick={noop} />
+</Dropdown>
+```
+
 ### Development status:
 
 ```jsx noEditor
