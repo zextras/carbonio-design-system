@@ -151,12 +151,6 @@ const CustomModal = React.forwardRef<HTMLDivElement, CustomModalProps>(function 
 		};
 	}, [open]);
 
-	const modalWrapperClickHandler = useCallback<React.MouseEventHandler>((e) => {
-		if (e) {
-			e.preventDefault();
-		}
-	}, []);
-
 	return (
 		<Portal show={open} disablePortal={disablePortal}>
 			<ModalContainer
@@ -170,7 +164,7 @@ const CustomModal = React.forwardRef<HTMLDivElement, CustomModalProps>(function 
 			>
 				<div tabIndex={0} ref={startSentinelRef} />
 				<Transition type="scale-in" apply={delayedOpen}>
-					<ModalWrapper onClick={modalWrapperClickHandler}>
+					<ModalWrapper>
 						<ModalContent
 							ref={modalContentRef}
 							background={background}
