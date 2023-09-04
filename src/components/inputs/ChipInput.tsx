@@ -76,7 +76,6 @@ const ScrollContainer = styled.div<{
 	/* handle horizontal scroll for chip overflowing */
 	flex-wrap: ${({ wrap }): string => wrap};
 	overflow-x: auto;
-	overflow-x: overlay;
 	-ms-overflow-style: ${({ wrap }): string =>
 		wrap === 'wrap' ? 'auto' : 'none'}; /* IE and Edge */
 	scrollbar-width: ${({ wrap }): string => (wrap === 'wrap' ? 'auto' : 'none')}; /* Firefox */
@@ -115,6 +114,8 @@ const InputEl = styled.input<{ color: keyof DefaultTheme['palette'] }>`
 
 	&::placeholder {
 		color: transparent;
+		font-size: 0;
+		user-select: none;
 	}
 `;
 
