@@ -518,7 +518,10 @@ const ChipInput: ChipInput<any> = React.forwardRef<HTMLDivElement, ChipInputProp
 		}, [inputElRef, saveValue]);
 
 		const saveCurrentEvent = useMemo(
-			() => getKeyboardPreset('chipInputKeys', saveCurrentValue, undefined, separatorKeys),
+			() =>
+				separatorKeys.length > 0
+					? getKeyboardPreset('chipInputKeys', saveCurrentValue, undefined, separatorKeys)
+					: [],
 			[saveCurrentValue, separatorKeys]
 		);
 
