@@ -200,6 +200,13 @@ function getKeyboardPreset(
 	return eventsArray;
 }
 
+/**
+ * Attach listeners for the given events to the given ref.
+ *
+ * Note: an event with the `keys` field set to an empty array is considered as an event for any key.
+ * In order to have an event for no key, you should either provide an event with the `keys` field set
+ * to an array with an empty key (`['']`), or not provide an event at all.
+ */
 function useKeyboard(ref: React.RefObject<HTMLElement>, events: KeyboardPreset): void {
 	const keyEvents = useMemo(
 		() =>
