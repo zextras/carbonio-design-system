@@ -231,7 +231,7 @@ type SelectComponentProps<T> = {
 	label?: string;
 	background?: string;
 	disabled?: boolean;
-	items?: SelectItem<T>[];
+	items: SelectItem<T>[];
 	/** Css display property of select */
 	display?: 'block' | 'inline-block';
 	/** Css width property of dropdown */
@@ -299,7 +299,7 @@ const SelectComponent = React.forwardRef(function SelectFn<T = string>(
 	{
 		background = INPUT_BACKGROUND_COLOR,
 		disabled = false,
-		items = [],
+		items,
 		label,
 		onChange,
 		defaultSelection,
