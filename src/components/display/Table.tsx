@@ -392,7 +392,7 @@ type THeader = {
 	  }
 	| {
 			/** Items for the Select component of the header */
-			items: NonEmptyArray<NonNullable<SelectProps['items']>[number]>;
+			items: NonEmptyArray<SelectProps['items'][number]>;
 			/** De/Select all rows callback */
 			onChange: MultipleSelectionOnChange;
 	  }
