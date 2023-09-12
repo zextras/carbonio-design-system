@@ -5,7 +5,6 @@
  */
 
 import React, {
-	useState,
 	useEffect,
 	useRef,
 	useReducer,
@@ -25,11 +24,32 @@ import { MultipleSelectionOnChange, Select, SelectProps } from '../inputs/Select
 import { Container } from '../layout/Container';
 import { Row } from '../layout/Row';
 
+const StyledCheckbox = styled(Checkbox)`
+	display: none;
+`;
+
+const StyledText = styled(Text)``;
+
+const StyledHeaderCheckbox = styled(Checkbox)`
+	display: none;
+`;
+
+const StyledTr = styled.tr`
+	&:hover,
+	&:focus {
+		${StyledHeaderCheckbox} {
+			display: block;
+		}
+	}
+`;
+
 const TableRow = styled.tr<{
 	selected: boolean;
 	highlight?: boolean;
 	showCheckbox?: boolean;
 	clickable?: boolean;
+	multiSelect?: boolean;
+	selectionMode?: boolean;
 }>`
 	transition: background-color 0.2s ease-out;
 	&:nth-child(odd) {
@@ -54,6 +74,15 @@ const TableRow = styled.tr<{
 		css`
 			cursor: pointer;
 		`};
+	&:hover,
+	&:focus {
+		${StyledCheckbox} {
+			display: block;
+		}
+		${StyledText} {
+			display: none;
+		}
+	}
 `;
 
 const TableContainer = styled.div`
@@ -113,7 +142,6 @@ const DefaultHeaderFactory: React.VFC<THeaderProps> = ({
 	multiSelect,
 	showCheckbox
 }) => {
-	const [showCkb, setShowCkb] = useState(false);
 	const trRef = useRef<HTMLTableRowElement>(null);
 
 	const LabelFactory = useCallback(
@@ -148,32 +176,6 @@ const DefaultHeaderFactory: React.VFC<THeaderProps> = ({
 		[]
 	);
 
-	const displayCheckbox = useCallback(() => {
-		setShowCkb(true);
-	}, []);
-
-	const hideCheckbox = useCallback(() => {
-		setShowCkb(false);
-	}, []);
-
-	useEffect(() => {
-		const refSave = trRef.current;
-		if (refSave && showCheckbox) {
-			refSave.addEventListener('mouseenter', displayCheckbox);
-			refSave.addEventListener('mouseleave', hideCheckbox);
-			refSave.addEventListener('focus', displayCheckbox);
-			refSave.addEventListener('blur', hideCheckbox);
-		}
-		return (): void => {
-			if (refSave) {
-				refSave.removeEventListener('mouseenter', displayCheckbox);
-				refSave.removeEventListener('mouseleave', hideCheckbox);
-				refSave.removeEventListener('focus', displayCheckbox);
-				refSave.removeEventListener('blur', hideCheckbox);
-			}
-		};
-	}, [displayCheckbox, hideCheckbox, showCheckbox]);
-
 	const headerData = useMemo(
 		() =>
 			headers.map((column) => {
@@ -202,19 +204,29 @@ const DefaultHeaderFactory: React.VFC<THeaderProps> = ({
 	);
 
 	return (
-		<tr ref={trRef}>
+		<StyledTr ref={trRef}>
 			<th align="center">
-				{showCheckbox && multiSelect && (showCkb || selectionMode || allSelected) && (
+				{showCheckbox && multiSelect && (selectionMode || allSelected) ? (
 					<Checkbox
 						size={'small'}
 						value={allSelected}
 						onClick={onChange}
 						iconColor={selectionMode ? 'primary' : 'text'}
 					/>
+				) : (
+					showCheckbox &&
+					multiSelect && (
+						<StyledHeaderCheckbox
+							size={'small'}
+							value={allSelected}
+							onClick={onChange}
+							iconColor={selectionMode ? 'primary' : 'text'}
+						/>
+					)
 				)}
 			</th>
 			{headerData}
-		</tr>
+		</StyledTr>
 	);
 };
 
@@ -239,7 +251,6 @@ const DefaultRowFactory: React.VFC<TRowProps> = ({
 }) => {
 	const ckbRef = useRef<HTMLDivElement>(null);
 	const trRef = useRef<HTMLTableRowElement>(null);
-	const [showCkb, setShowCkb] = useState<boolean>(selected || selectionMode);
 	const clickableRow = useMemo(
 		() => (!showCheckbox && typeof row.clickable === undefined) || row.clickable,
 		[showCheckbox, row.clickable]
@@ -262,32 +273,6 @@ const DefaultRowFactory: React.VFC<TRowProps> = ({
 		[row, onChange, clickableRow, showCheckbox]
 	);
 
-	const displayCheckbox = useCallback(() => {
-		setShowCkb(true);
-	}, []);
-
-	const hideCheckbox = useCallback(() => {
-		setShowCkb(false);
-	}, []);
-
-	useEffect(() => {
-		const refSave = trRef.current;
-		if (refSave && showCheckbox) {
-			refSave.addEventListener('mouseenter', displayCheckbox);
-			refSave.addEventListener('mouseleave', hideCheckbox);
-			refSave.addEventListener('focus', displayCheckbox);
-			refSave.addEventListener('blur', hideCheckbox);
-		}
-		return (): void => {
-			if (refSave) {
-				refSave.removeEventListener('mouseenter', displayCheckbox);
-				refSave.removeEventListener('mouseleave', hideCheckbox);
-				refSave.removeEventListener('focus', displayCheckbox);
-				refSave.removeEventListener('blur', hideCheckbox);
-			}
-		};
-	}, [displayCheckbox, hideCheckbox, showCheckbox]);
-
 	const rowData = useMemo(
 		() =>
 			row.columns.map((column, i) => (
@@ -307,7 +292,7 @@ const DefaultRowFactory: React.VFC<TRowProps> = ({
 		>
 			<td>
 				<Row mainAlignment={'center'}>
-					{showCheckbox && (showCkb || selected || (multiSelect && selectionMode)) ? (
+					{showCheckbox && (selected || (multiSelect && selectionMode)) ? (
 						<Checkbox
 							ref={ckbRef}
 							size={'small'}
@@ -316,8 +301,20 @@ const DefaultRowFactory: React.VFC<TRowProps> = ({
 							iconColor={(multiSelect && selectionMode) || selected ? 'primary' : 'text'}
 						/>
 					) : (
-						<Text>{index}</Text>
+						showCheckbox && (
+							<>
+								<StyledCheckbox
+									ref={ckbRef}
+									size={'small'}
+									value={selected}
+									onClick={_onChange}
+									iconColor={(multiSelect && selectionMode) || selected ? 'primary' : 'text'}
+								/>
+								<StyledText>{index}</StyledText>
+							</>
+						)
 					)}
+					{!showCheckbox && <Text>{index}</Text>}
 				</Row>
 			</td>
 			{rowData}

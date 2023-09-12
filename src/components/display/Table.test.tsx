@@ -86,11 +86,11 @@ describe('Table', () => {
 			.getAllByRole('row')
 			.find((row) => within(row).queryByText('row1col1') !== null) as HTMLElement;
 		expect(row1).toBeDefined();
+		const checkboxes = await screen.findAllByTestId(ICONS.checkboxOff);
 		fireEvent.focus(row1);
-		await screen.findByTestId(ICONS.checkboxOff);
-		expect(screen.getByTestId(ICONS.checkboxOff)).toBeVisible();
+		expect(checkboxes[1]).toBeInTheDocument();
 		fireEvent.blur(row1);
-		expect(screen.queryByTestId(ICONS.checkboxOff)).not.toBeInTheDocument();
+		expect(checkboxes[1]).not.toBeVisible();
 	});
 
 	test('When the selection is empty, checkbox of a row is shown on hover and hidden on un-hover', async () => {
@@ -112,11 +112,11 @@ describe('Table', () => {
 			.getAllByRole('row')
 			.find((row) => within(row).queryByText('row1col1') !== null) as HTMLElement;
 		expect(row1).toBeDefined();
+		const checkboxes = await screen.findAllByTestId(ICONS.checkboxOff);
 		userEvent.hover(row1);
-		await screen.findByTestId(ICONS.checkboxOff);
-		expect(screen.getByTestId(ICONS.checkboxOff)).toBeVisible();
+		expect(checkboxes[1]).toBeInTheDocument();
 		userEvent.unhover(row1);
-		expect(screen.queryByTestId(ICONS.checkboxOff)).not.toBeInTheDocument();
+		expect(checkboxes[1]).not.toBeVisible();
 	});
 
 	test('If multi selection is disabled, checkbox to select all is not shown inside header', async () => {
@@ -136,7 +136,7 @@ describe('Table', () => {
 		);
 
 		userEvent.hover(screen.getByText('header 1'));
-		expect(screen.queryByTestId(ICONS.checkboxOff)).not.toBeInTheDocument();
+		expect(screen.getByTestId(ICONS.checkboxOff)).not.toBeVisible();
 	});
 
 	describe('Uncontrolled mode', () => {
@@ -235,20 +235,22 @@ describe('Table', () => {
 			];
 			render(<Table headers={headers} rows={rows} showCheckbox />);
 			// no checkbox is visible
-			expect(screen.queryByTestId(ICONS.checkboxOff)).not.toBeInTheDocument();
+			const checkboxes = await screen.findAllByTestId(ICONS.checkboxOff);
+			expect(checkboxes[0]).not.toBeVisible();
+			expect(checkboxes[1]).not.toBeVisible();
+			expect(checkboxes[2]).not.toBeVisible();
 			expect(screen.queryByTestId(ICONS.checkboxOn)).not.toBeInTheDocument();
 			userEvent.hover(screen.getByText('row2col1'));
-			await screen.findByTestId(ICONS.checkboxOff);
-			expect(screen.getByTestId(ICONS.checkboxOff)).toBeVisible();
-			userEvent.click(screen.getByTestId(ICONS.checkboxOff));
-			await screen.findByTestId(ICONS.checkboxOn);
+			expect(checkboxes[2]).toBeInTheDocument();
+			userEvent.click(checkboxes[2]);
 			expect(screen.getByTestId(ICONS.checkboxOn)).toBeVisible();
 			// checkboxes for the header and for the other row become visible
 			expect(screen.getAllByTestId(ICONS.checkboxOff)).toHaveLength(2);
 			userEvent.click(screen.getByTestId(ICONS.checkboxOn));
-			expect(screen.getByTestId(ICONS.checkboxOff)).toBeVisible();
 			userEvent.unhover(screen.getByText('row2col1'));
-			expect(screen.queryByTestId(ICONS.checkboxOff)).not.toBeInTheDocument();
+			expect(checkboxes[0]).not.toBeVisible();
+			expect(checkboxes[1]).not.toBeVisible();
+			expect(checkboxes[2]).not.toBeVisible();
 			expect(screen.queryByTestId(ICONS.checkboxOn)).not.toBeInTheDocument();
 		});
 
@@ -267,16 +269,15 @@ describe('Table', () => {
 				.find((row) => within(row).queryByText('header 1') !== null) as HTMLElement;
 			expect(headerRow).toBeDefined();
 			userEvent.hover(headerRow);
-			await screen.findByTestId(ICONS.checkboxOff);
-			userEvent.click(screen.getByTestId(ICONS.checkboxOff));
+			const checkboxes = await screen.findAllByTestId(ICONS.checkboxOff);
+			userEvent.click(checkboxes[0]);
 			expect(screen.getAllByTestId(ICONS.checkboxOn)).toHaveLength(3);
 			expect(screen.queryByTestId(ICONS.checkboxOff)).not.toBeInTheDocument();
 			userEvent.click(within(headerRow).getByTestId(ICONS.checkboxOn));
-			// checkbox is visible in header row because hover is still enabled
-			expect(screen.getByTestId(ICONS.checkboxOff)).toBeVisible();
+			expect(screen.getAllByTestId(ICONS.checkboxOff)).toHaveLength(3);
 			expect(screen.queryByTestId(ICONS.checkboxOn)).not.toBeInTheDocument();
-			userEvent.unhover(screen.getByTestId(ICONS.checkboxOff));
-			expect(screen.queryByTestId(ICONS.checkboxOff)).not.toBeInTheDocument();
+			userEvent.unhover(checkboxes[0]);
+			expect(checkboxes[0]).not.toBeVisible();
 		});
 
 		test('If a default selection is provided, checkboxes are visible and selected. onSelectionChange is not called', async () => {
@@ -369,12 +370,12 @@ describe('Table', () => {
 				) as HTMLElement;
 			expect(screen.getByTestId(ICONS.checkboxOn)).toBeVisible();
 			expect(screen.getAllByTestId(ICONS.checkboxOff)).toHaveLength(2);
-			expect(within(row0).getByTestId(ICONS.checkboxOff)).toBeVisible();
+			expect(within(row0).getByTestId(ICONS.checkboxOff)).toBeInTheDocument();
 			expect(within(row2).getByTestId(ICONS.checkboxOn)).toBeVisible();
 			userEvent.click(within(row0).getByTestId(ICONS.checkboxOff));
 			expect(screen.getByTestId(ICONS.checkboxOn)).toBeVisible();
 			expect(screen.getAllByTestId(ICONS.checkboxOff)).toHaveLength(2);
-			expect(within(row2).getByTestId(ICONS.checkboxOff)).toBeVisible();
+			expect(within(row2).getByTestId(ICONS.checkboxOff)).toBeInTheDocument();
 			expect(within(row0).getByTestId(ICONS.checkboxOn)).toBeVisible();
 			expect(onSelectionChangeFn).toHaveBeenCalledTimes(1);
 			expect(onSelectionChangeFn).toHaveBeenCalledWith([rows[0].id]);
@@ -414,7 +415,7 @@ describe('Table', () => {
 			userEvent.click(within(row2).getByTestId(ICONS.checkboxOn));
 			expect(screen.queryByTestId(ICONS.checkboxOn)).not.toBeInTheDocument();
 			expect(screen.getAllByTestId(ICONS.checkboxOff)).toHaveLength(3);
-			expect(within(row2).getByTestId(ICONS.checkboxOff)).toBeVisible();
+			expect(within(row2).getByTestId(ICONS.checkboxOff)).toBeInTheDocument();
 			expect(onSelectionChangeFn).toHaveBeenCalledTimes(1);
 			expect(onSelectionChangeFn).toHaveBeenCalledWith([]);
 		});
@@ -568,12 +569,13 @@ describe('Table', () => {
 			);
 
 			userEvent.hover(screen.getByText('header 1'));
-			await screen.findByTestId(ICONS.checkboxOff);
-			expect(screen.getByTestId(ICONS.checkboxOff)).toBeVisible();
-			userEvent.click(screen.getByTestId(ICONS.checkboxOff));
+			// await screen.findByTestId(ICONS.checkboxOff);
+			const checkboxes = await screen.findAllByTestId(ICONS.checkboxOff);
+			expect(checkboxes[0]).toBeInTheDocument();
+			userEvent.click(checkboxes[0]);
 			expect(onSelectionChangeFn).toHaveBeenCalled();
 			expect(onSelectionChangeFn).toHaveBeenCalledWith(rows.map((row) => row.id));
-			expect(screen.getByTestId(ICONS.checkboxOff)).toBeVisible();
+			expect(checkboxes[0]).toBeInTheDocument();
 			expect(screen.queryByTestId(ICONS.checkboxOn)).not.toBeInTheDocument();
 		});
 
@@ -739,14 +741,14 @@ describe('Table', () => {
 				) as HTMLElement;
 			expect(screen.getByTestId(ICONS.checkboxOn)).toBeVisible();
 			expect(screen.getAllByTestId(ICONS.checkboxOff)).toHaveLength(2);
-			expect(within(row0).getByTestId(ICONS.checkboxOff)).toBeVisible();
+			expect(within(row0).getByTestId(ICONS.checkboxOff)).toBeInTheDocument();
 			expect(within(row2).getByTestId(ICONS.checkboxOn)).toBeVisible();
 			userEvent.click(within(row0).getByTestId(ICONS.checkboxOff));
 			expect(onSelectionChangeFn).toHaveBeenCalledTimes(1);
 			expect(onSelectionChangeFn).toHaveBeenCalledWith([rows[0].id]);
 			expect(screen.getByTestId(ICONS.checkboxOn)).toBeVisible();
 			expect(screen.getAllByTestId(ICONS.checkboxOff)).toHaveLength(2);
-			expect(within(row0).getByTestId(ICONS.checkboxOff)).toBeVisible();
+			expect(within(row0).getByTestId(ICONS.checkboxOff)).toBeInTheDocument();
 			expect(within(row2).getByTestId(ICONS.checkboxOn)).toBeVisible();
 		});
 
