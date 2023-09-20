@@ -10,5 +10,8 @@ export const TIMERS = {
 	DROPDOWN: {
 		IS_OPEN: 1,
 		CLOSE_NESTED: 500
+	},
+	MODAL: {
+		DELAY_OPEN: 1
 	}
 };

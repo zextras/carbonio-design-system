@@ -6,6 +6,12 @@
 
 import '@testing-library/jest-dom/extend-expect';
 import { act } from '@testing-library/react';
+import failOnConsole from 'jest-fail-on-console';
+
+failOnConsole({
+	shouldFailOnError: true,
+	shouldFailOnWarn: true
+});
 
 beforeAll(() => {
 	Object.defineProperty(window, 'matchMedia', {

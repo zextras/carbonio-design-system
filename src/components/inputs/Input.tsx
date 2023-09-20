@@ -40,6 +40,7 @@ const InputEl = styled.input<{ color: keyof DefaultTheme['palette'] }>`
 	&::placeholder {
 		color: transparent;
 		font-size: 0;
+		user-select: none;
 	}
 `;
 
