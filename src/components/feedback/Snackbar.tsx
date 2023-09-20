@@ -115,7 +115,12 @@ const Snackbar = React.forwardRef<HTMLDivElement, SnackbarProps>(function Snackb
 					width="auto"
 					$zIndex={zIndex}
 					data-testid="snackbar"
-					padding={{ top: '0.5rem', right: '0.5rem', bottom: '0.5rem', left: '1.5rem' }}
+					padding={{
+						top: '0.5rem',
+						right: hideButton ? '1.5rem' : '0.5rem',
+						bottom: '0.5rem',
+						left: '1.5rem'
+					}}
 					gap={'1rem'}
 					maxWidth={screenMode === 'mobile' ? '100%' : '40%'}
 					{...rest}
