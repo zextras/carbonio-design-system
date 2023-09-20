@@ -14,7 +14,7 @@ import { render } from '../../test-utils';
 import { Button } from '../basic/Button';
 import { Text } from '../basic/Text';
 
-const ModalTester = (props: ModalProps): React.JSX.Element => {
+const ModalTester = ({ children, ...props }: ModalProps): React.JSX.Element => {
 	const [open, setOpen] = useState(false);
 	const clickHandler = (): void => setOpen(true);
 	const closeHandler = (): void => setOpen(false);
@@ -29,25 +29,23 @@ const ModalTester = (props: ModalProps): React.JSX.Element => {
 				onConfirm={closeHandler}
 				onClose={closeHandler}
 			>
-				<Text overflow="break-word">Lorem ipsum dolor sit amet.</Text>
+				{children || <Text overflow="break-word">Lorem ipsum dolor sit amet.</Text>}
 			</Modal>
 		</>
 	);
 };
 
 describe('Modal', () => {
-	test('Render Modal', () => {
+	test('Render Modal', async () => {
 		render(<ModalTester />);
 
 		const button = screen.getByRole('button', { name: /trigger modal/i });
 		expect(button).toBeInTheDocument();
 		expect(screen.queryByText('My Title')).not.toBeInTheDocument();
 		expect(screen.queryByText('Lorem ipsum dolor sit amet.')).not.toBeInTheDocument();
-
 		userEvent.click(button);
-
-		expect(screen.getByText('My Title')).toBeInTheDocument();
-		expect(screen.getByText('Lorem ipsum dolor sit amet.')).toBeInTheDocument();
+		await waitFor(() => expect(screen.getByText('My Title')).toBeVisible());
+		expect(screen.getByText('Lorem ipsum dolor sit amet.')).toBeVisible();
 		expect(button).toBeInTheDocument();
 	});
 
@@ -58,24 +56,12 @@ describe('Modal', () => {
 		const button = screen.getByRole('button', { name: /trigger modal/i });
 		expect(button).toBeInTheDocument();
 		expect(screen.queryByText('My Title')).not.toBeInTheDocument();
-		expect(screen.queryByText('Lorem ipsum dolor sit amet.')).not.toBeInTheDocument();
-
 		userEvent.click(button);
-
-		// wait for listeners to be registered
-		await waitFor(
-			() =>
-				new Promise((resolve) => {
-					setTimeout(resolve, 1);
-				})
-		);
-		expect(screen.getByText('My Title')).toBeVisible();
-		expect(screen.getByText('Lorem ipsum dolor sit amet.')).toBeVisible();
+		await waitFor(() => expect(screen.getByText('My Title')).toBeVisible());
 		const overlayElement = screen.getByTestId('modal');
 		expect(overlayElement).toBeVisible();
 		userEvent.click(overlayElement);
 		expect(screen.queryByText('My Title')).not.toBeInTheDocument();
-		expect(screen.queryByText('Lorem ipsum dolor sit amet.')).not.toBeInTheDocument();
 		expect(onClick).not.toHaveBeenCalled();
 	});
 
@@ -86,22 +72,37 @@ describe('Modal', () => {
 		const button = screen.getByRole('button', { name: /trigger modal/i });
 		expect(button).toBeInTheDocument();
 		expect(screen.queryByText('My Title')).not.toBeInTheDocument();
-		expect(screen.queryByText('Lorem ipsum dolor sit amet.')).not.toBeInTheDocument();
-
 		userEvent.click(button);
+		await waitFor(() => expect(screen.getByText('My Title')).toBeVisible());
+		userEvent.click(screen.getByText('My Title'));
+		expect(screen.getByText('My Title')).toBeVisible();
+		expect(onClick).toHaveBeenCalled();
+	});
 
-		// wait for listeners to be registered
+	test('should not blindly prevent default behavior of html elements', async () => {
+		const originalConsoleError = console.error;
+		const errors: string[] = [];
+		console.error = (message): void => {
+			errors.push(message);
+		};
+		const href = '/different-path';
+		render(
+			<ModalTester>
+				<a href={href}>This is a link</a>
+			</ModalTester>
+		);
+		userEvent.click(screen.getByRole('button'));
+		userEvent.click(screen.getByRole('link'));
 		await waitFor(
 			() =>
 				new Promise((resolve) => {
+					// wait for the navigation callback of the jsdom hyperlink implementation to be called
 					setTimeout(resolve, 1);
 				})
 		);
-		expect(screen.getByText('My Title')).toBeVisible();
-		expect(screen.getByText('Lorem ipsum dolor sit amet.')).toBeVisible();
-		userEvent.click(screen.getByText('My Title'));
-		expect(screen.getByText('My Title')).toBeVisible();
-		expect(screen.getByText('Lorem ipsum dolor sit amet.')).toBeVisible();
-		expect(onClick).toHaveBeenCalled();
+		expect(errors).toEqual([
+			expect.stringContaining('Error: Not implemented: navigation (except hash changes)')
+		]);
+		console.error = originalConsoleError;
 	});
 });

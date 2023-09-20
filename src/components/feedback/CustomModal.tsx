@@ -6,18 +6,17 @@
 
 /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 import React, {
-	useState,
 	useEffect,
 	useMemo,
 	useCallback,
 	useRef,
 	useContext,
-	HTMLAttributes
+	HTMLAttributes,
+	useState
 } from 'react';
 
-import { ThemeContext } from 'styled-components';
+import { DefaultTheme, ThemeContext } from 'styled-components';
 
-import { ModalProps } from './Modal';
 import {
 	getScrollbarSize,
 	isBodyOverflowing,
@@ -27,24 +26,38 @@ import {
 } from './modal-components/ModalComponents';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { KeyboardPreset, useKeyboard } from '../../hooks/useKeyboard';
+import { TIMERS } from '../constants';
 import { Portal } from '../utilities/Portal';
 import { Transition } from '../utilities/Transition';
 
-type PickedModal = Pick<
-	ModalProps,
-	| 'background'
-	| 'size'
-	| 'open'
-	| 'onClose'
-	| 'zIndex'
-	| 'minHeight'
-	| 'maxHeight'
-	| 'disablePortal'
-	| 'children'
->;
+type BareModalProps = {
+	/** Modal background */
+	background?: string | keyof DefaultTheme['palette'];
+	/** Modal size */
+	size?: 'extrasmall' | 'small' | 'medium' | 'large';
+	/** Boolean to show the modal */
+	open?: boolean;
+	/** Css property to handle the stack order of multiple modals */
+	zIndex?: number;
+	/** min height of the modal */
+	minHeight?: string;
+	/** max height of the modal */
+	maxHeight?: string;
+	/** Flag to disable the Portal implementation */
+	disablePortal?: boolean;
+	/** Content of the modal */
+	children?: React.ReactNode | React.ReactNode[];
+	/** Callback to close the Modal */
+	onClose?: (event: React.MouseEvent | KeyboardEvent) => void;
+	/**
+	 * The window where to insert the Portal's children.
+	 * The default value is 'windowObj' obtained from the ThemContext.
+	 * */
+	containerWindow?: Window;
+};
 
-type CustomModalProps = PickedModal &
-	Omit<HTMLAttributes<HTMLDivElement>, keyof PickedModal | 'title'>;
+type CustomModalProps = BareModalProps &
+	Omit<HTMLAttributes<HTMLDivElement>, keyof BareModalProps | 'title'>;
 
 const CustomModal = React.forwardRef<HTMLDivElement, CustomModalProps>(function ModalFn(
 	{
@@ -58,12 +71,14 @@ const CustomModal = React.forwardRef<HTMLDivElement, CustomModalProps>(function 
 		maxHeight,
 		zIndex = 999,
 		onClick,
+		containerWindow,
 		...rest
 	},
 	ref
 ) {
 	const [delayedOpen, setDelayedOpen] = useState(false);
-	const { windowObj } = useContext(ThemeContext);
+	const { windowObj: themeWindowObj } = useContext(ThemeContext);
+	const windowObj = containerWindow ?? themeWindowObj;
 
 	const modalRef = useCombinedRefs<HTMLDivElement>(ref);
 	const modalContentRef = useRef<HTMLDivElement>(null);
@@ -145,20 +160,16 @@ const CustomModal = React.forwardRef<HTMLDivElement, CustomModalProps>(function 
 	}, [open, onStartSentinelFocus, onEndSentinelFocus, windowObj]);
 
 	useEffect(() => {
-		const timeout = setTimeout(() => setDelayedOpen(open), 1);
+		// delay the open of the modal after the show of the portal
+		// in order to make the transition visible
+		const timeout = setTimeout(() => setDelayedOpen(open), TIMERS.MODAL.DELAY_OPEN);
 		return (): void => {
 			clearTimeout(timeout);
 		};
 	}, [open]);
 
-	const modalWrapperClickHandler = useCallback<React.MouseEventHandler>((e) => {
-		if (e) {
-			e.preventDefault();
-		}
-	}, []);
-
 	return (
-		<Portal show={open} disablePortal={disablePortal}>
+		<Portal show={open} disablePortal={disablePortal} container={windowObj.document.body}>
 			<ModalContainer
 				ref={modalRef}
 				open={delayedOpen}
@@ -170,7 +181,7 @@ const CustomModal = React.forwardRef<HTMLDivElement, CustomModalProps>(function 
 			>
 				<div tabIndex={0} ref={startSentinelRef} />
 				<Transition type="scale-in" apply={delayedOpen}>
-					<ModalWrapper onClick={modalWrapperClickHandler}>
+					<ModalWrapper>
 						<ModalContent
 							ref={modalContentRef}
 							background={background}
