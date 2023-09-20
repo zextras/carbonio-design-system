@@ -51,40 +51,6 @@ const [
 	getByRoleWithIconMissingError
 );
 
-/**
- * Matcher function to search a focusable element with the given element inside
- */
-// export const queryAllByFocus: GetAllBy<[Element]> = (container, innerElement) =>
-// 	filter(
-// 		container.querySelectorAll<HTMLElement>('[tabindex]'),
-// 		(element) =>
-// 			element.tabIndex >= 0 &&
-// 			element.querySelector('[tabindex]') === null &&
-// 			element.contains(innerElement)
-// 	);
-// export const getByRoleWithIconMultipleError = (
-// 	container: Element | null,
-// 	role: ByRoleMatcher,
-// 	options: ByRoleWithIconOptions
-// ): string => `Found multiple elements with role ${role} and icon ${options.icon}`;
-// export const getByRoleWithIconMissingError = (
-// 	container: Element | null,
-// 	role: ByRoleMatcher,
-// 	options: ByRoleWithIconOptions
-// ): string => `Unable to find an element with role ${role} and icon ${options.icon}`;
-
-// const [
-// 	queryByRoleWithIcon,
-// 	getAllByRoleWithIcon,
-// 	getByRoleWithIcon,
-// 	findAllByRoleWithIcon,
-// 	findByRoleWithIcon
-// ] = queryHelpers.buildQueries<[ByRoleMatcher, ByRoleWithIconOptions]>(
-// 	queryAllByRoleWithIcon,
-// 	getByRoleWithIconMultipleError,
-// 	getByRoleWithIconMissingError
-// );
-
 export const customQueries = {
 	// byRoleWithIcon
 	queryByRoleWithIcon,
