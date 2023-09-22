@@ -24,20 +24,18 @@ import { MultipleSelectionOnChange, Select, SelectProps } from '../inputs/Select
 import { Container } from '../layout/Container';
 import { Row } from '../layout/Row';
 
-const StyledCheckbox = styled(Checkbox)`
-	display: none;
+const StyledCheckbox = styled(Checkbox)<{
+	show: boolean;
+}>`
+	display: ${({ show }): SimpleInterpolation => (show ? 'block' : 'none')};
 `;
 
 const StyledText = styled(Text)``;
 
-const StyledHeaderCheckbox = styled(Checkbox)`
-	display: none;
-`;
-
 const StyledTr = styled.tr`
 	&:hover,
 	&:focus {
-		${StyledHeaderCheckbox} {
+		${StyledCheckbox} {
 			display: block;
 		}
 	}
@@ -48,8 +46,6 @@ const TableRow = styled.tr<{
 	highlight?: boolean;
 	showCheckbox?: boolean;
 	clickable?: boolean;
-	multiSelect?: boolean;
-	selectionMode?: boolean;
 }>`
 	transition: background-color 0.2s ease-out;
 	&:nth-child(odd) {
@@ -79,10 +75,17 @@ const TableRow = styled.tr<{
 		${StyledCheckbox} {
 			display: block;
 		}
-		${StyledText} {
-			display: none;
-		}
 	}
+	${({ showCheckbox }): SimpleInterpolation =>
+		showCheckbox &&
+		css`
+			&:hover,
+			&:focus {
+				${StyledText} {
+					display: none;
+				}
+			}
+		`};
 `;
 
 const TableContainer = styled.div`
@@ -206,23 +209,14 @@ const DefaultHeaderFactory: React.VFC<THeaderProps> = ({
 	return (
 		<StyledTr ref={trRef}>
 			<th align="center">
-				{showCheckbox && multiSelect && (selectionMode || allSelected) ? (
-					<Checkbox
+				{showCheckbox && multiSelect && (
+					<StyledCheckbox
 						size={'small'}
 						value={allSelected}
 						onClick={onChange}
 						iconColor={selectionMode ? 'primary' : 'text'}
+						show={selectionMode}
 					/>
-				) : (
-					showCheckbox &&
-					multiSelect && (
-						<StyledHeaderCheckbox
-							size={'small'}
-							value={allSelected}
-							onClick={onChange}
-							iconColor={selectionMode ? 'primary' : 'text'}
-						/>
-					)
 				)}
 			</th>
 			{headerData}
@@ -292,29 +286,19 @@ const DefaultRowFactory: React.VFC<TRowProps> = ({
 		>
 			<td>
 				<Row mainAlignment={'center'}>
-					{showCheckbox && (selected || (multiSelect && selectionMode)) ? (
-						<Checkbox
+					{showCheckbox && (
+						<StyledCheckbox
 							ref={ckbRef}
 							size={'small'}
 							value={selected}
 							onClick={_onChange}
 							iconColor={(multiSelect && selectionMode) || selected ? 'primary' : 'text'}
+							show={selected || (selectionMode && multiSelect)}
 						/>
-					) : (
-						showCheckbox && (
-							<>
-								<StyledCheckbox
-									ref={ckbRef}
-									size={'small'}
-									value={selected}
-									onClick={_onChange}
-									iconColor={(multiSelect && selectionMode) || selected ? 'primary' : 'text'}
-								/>
-								<StyledText>{index}</StyledText>
-							</>
-						)
 					)}
-					{!showCheckbox && <Text>{index}</Text>}
+					{(!showCheckbox || (!selected && !(selectionMode && multiSelect))) && (
+						<StyledText>{index}</StyledText>
+					)}
 				</Row>
 			</td>
 			{rowData}
