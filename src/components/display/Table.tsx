@@ -547,11 +547,11 @@ const Table = React.forwardRef<HTMLDivElement, TableProps>(function TableFn(
 
 export {
 	Table,
-	TableProps,
-	THeader,
-	TRow,
-	THeaderProps,
-	TRowProps,
+	type TableProps,
+	type THeader,
+	type TRow,
+	type THeaderProps,
+	type TRowProps,
 	DefaultRowFactory,
 	DefaultHeaderFactory,
 	// for test purpose only

@@ -65,11 +65,11 @@ export * from './components/display/Popper';
 export * from './components/display/Tooltip';
 export {
 	Table,
-	TableProps,
-	THeader,
-	TRow,
-	THeaderProps,
-	TRowProps,
+	type TableProps,
+	type THeader,
+	type TRow,
+	type THeaderProps,
+	type TRowProps,
 	DefaultRowFactory,
 	DefaultHeaderFactory
 } from './components/display/Table';
