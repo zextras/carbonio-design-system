@@ -275,6 +275,11 @@ const DefaultRowFactory: React.VFC<TRowProps> = ({
 		[row.columns]
 	);
 
+	const displayBlockCheckbox = useMemo(
+		() => selected || (selectionMode && multiSelect),
+		[multiSelect, selected, selectionMode]
+	);
+
 	return (
 		<TableRow
 			ref={trRef}
@@ -292,13 +297,11 @@ const DefaultRowFactory: React.VFC<TRowProps> = ({
 							size={'small'}
 							value={selected}
 							onClick={_onChange}
-							iconColor={(multiSelect && selectionMode) || selected ? 'primary' : 'text'}
-							show={selected || (selectionMode && multiSelect)}
+							iconColor={displayBlockCheckbox ? 'primary' : 'text'}
+							show={displayBlockCheckbox}
 						/>
 					)}
-					{(!showCheckbox || (!selected && !(selectionMode && multiSelect))) && (
-						<StyledText>{index}</StyledText>
-					)}
+					{(!showCheckbox || !displayBlockCheckbox) && <StyledText>{index}</StyledText>}
 				</Row>
 			</td>
 			{rowData}
