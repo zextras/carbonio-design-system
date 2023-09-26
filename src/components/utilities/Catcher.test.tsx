@@ -28,7 +28,7 @@ describe('Catcher', () => {
 	});
 
 	test('Render a component with an error', () => {
-		jest.spyOn(console, 'error');
+		jest.spyOn(console, 'error').mockImplementation();
 		const onError = jest.fn();
 		render(
 			<Catcher onError={onError}>

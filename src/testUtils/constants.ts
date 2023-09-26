@@ -17,5 +17,6 @@ export const ICONS = {
 };
 
 export const SELECTORS = {
-	dropdown: 'dropdown-popper-list'
+	dropdown: 'dropdown-popper-list',
+	dropdownItem: 'dropdown-item'
 };

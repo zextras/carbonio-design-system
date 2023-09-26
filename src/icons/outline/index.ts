@@ -70,6 +70,7 @@ export { default as BrowserOutline } from './BrowserOutline';
 export { default as BrushOutline } from './BrushOutline';
 export { default as BucketOutline } from './BucketOutline';
 export { default as BugOutline } from './BugOutline';
+export { default as BuildingOutline } from './BuildingOutline';
 export { default as BulbOutline } from './BulbOutline';
 export { default as CakeOutline } from './CakeOutline';
 export { default as CalendarBookShareWithMeOutline } from './CalendarBookShareWithMeOutline';

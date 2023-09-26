@@ -7,76 +7,71 @@
 import React from 'react';
 
 import {
-	ByRoleMatcher,
-	ByRoleOptions,
-	GetAllBy,
 	queries,
-	queryHelpers,
+	screen as rtlScreen,
 	render as rtlRender,
-	RenderResult,
-	screen,
-	within
+	within as rtlWithin,
+	type RenderResult,
+	RenderOptions,
+	Screen
 } from '@testing-library/react';
-import { filter } from 'lodash';
+import userEvent from '@testing-library/user-event';
+import { keyboard } from '@testing-library/user-event/dist/keyboard';
 
+import { customQueries } from './testUtils/custom-queries';
 import { ThemeProvider } from './theme/theme-context-provider';
 
-type ByRoleWithIconOptions = ByRoleOptions & {
-	icon: string | RegExp;
-};
-/**
- * Matcher function to search an icon button through the icon data-testid
- */
-const queryAllByRoleWithIcon: GetAllBy<[ByRoleMatcher, ByRoleWithIconOptions]> = (
-	container,
-	role,
-	{ icon, ...options }
-) =>
-	filter(
-		screen.queryAllByRole('button', options),
-		(element) => within(element).queryByTestId(icon) !== null
-	);
-const getByRoleWithIconMultipleError = (
-	container: Element | null,
-	role: ByRoleMatcher,
-	options: ByRoleWithIconOptions
-): string => `Found multiple elements with role ${role} and icon ${options.icon}`;
-const getByRoleWithIconMissingError = (
-	container: Element | null,
-	role: ByRoleMatcher,
-	options: ByRoleWithIconOptions
-): string => `Unable to find an element with role ${role} and icon ${options.icon}`;
+type KeyboardEventFn = (options?: Parameters<typeof keyboard>[1]) => ReturnType<typeof keyboard>;
 
-const [
-	queryByRoleWithIcon,
-	getAllByRoleWithIcon,
-	getByRoleWithIcon,
-	findAllByRoleWithIcon,
-	findByRoleWithIcon
-] = queryHelpers.buildQueries<[ByRoleMatcher, ByRoleWithIconOptions]>(
-	queryAllByRoleWithIcon,
-	getByRoleWithIconMultipleError,
-	getByRoleWithIconMissingError
-);
-
-const customQueries = {
-	// byRoleWithIcon
-	queryByRoleWithIcon,
-	getAllByRoleWithIcon,
-	getByRoleWithIcon,
-	findAllByRoleWithIcon,
-	findByRoleWithIcon
+export type UserEvent = typeof userEvent & {
+	readonly arrowUp: KeyboardEventFn;
+	readonly arrowDown: KeyboardEventFn;
+	readonly arrowLeft: KeyboardEventFn;
+	readonly arrowRight: KeyboardEventFn;
+	readonly esc: KeyboardEventFn;
 };
 
+const extendedQueries = { ...queries, ...customQueries };
+
+export function within(element: HTMLElement): ReturnType<typeof rtlWithin<typeof extendedQueries>> {
+	return rtlWithin<typeof extendedQueries>(element, extendedQueries);
+}
+
+export const screen: Screen = {
+	...rtlScreen,
+	...within(document.body)
+};
+
+function buildKeyboardEventFn(key: string): KeyboardEventFn {
+	return (options = {}) => Promise.resolve(userEvent.keyboard(key, options));
+}
+
+function setupUserEvent(): UserEvent {
+	return {
+		...userEvent,
+		arrowUp: buildKeyboardEventFn('[ArrowUp]'),
+		arrowDown: buildKeyboardEventFn('[ArrowDown]'),
+		arrowLeft: buildKeyboardEventFn('[ArrowLeft]'),
+		arrowRight: buildKeyboardEventFn('[ArrowRight]'),
+		esc: buildKeyboardEventFn('[Escape]')
+	};
+}
 export function render(
 	ui: React.ReactElement,
 	{ ...options } = {}
-): RenderResult<typeof queries & typeof customQueries> {
-	const Wrapper: React.FC = ({ children }) => <ThemeProvider>{children}</ThemeProvider>;
+): RenderResult<typeof queries & typeof customQueries> & { user: UserEvent } {
+	const Wrapper = ({
+		children
+	}: React.ComponentPropsWithoutRef<NonNullable<RenderOptions['wrapper']>>): React.JSX.Element => (
+		<ThemeProvider>{children}</ThemeProvider>
+	);
 
-	return rtlRender(ui, {
-		wrapper: Wrapper,
-		queries: { ...queries, ...customQueries },
-		...options
-	});
+	return {
+		...rtlRender(ui, {
+			wrapper: Wrapper,
+			queries: extendedQueries,
+			...options
+		}),
+		user: setupUserEvent()
+	};
 }

@@ -63,6 +63,7 @@ export { default as Browser } from './Browser';
 export { default as Brush } from './Brush';
 export { default as Bucket } from './Bucket';
 export { default as Bug } from './Bug';
+export { default as Building } from './Building';
 export { default as Bulb } from './Bulb';
 export { default as Cake } from './Cake';
 export { default as Calendar2 } from './Calendar2';
