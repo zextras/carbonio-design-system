@@ -63,7 +63,16 @@ export * from './components/display/ListItem';
 export * from './components/display/Popover';
 export * from './components/display/Popper';
 export * from './components/display/Tooltip';
-export * from './components/display/Table';
+export {
+	Table,
+	TableProps,
+	THeader,
+	TRow,
+	THeaderProps,
+	TRowProps,
+	DefaultRowFactory,
+	DefaultHeaderFactory
+} from './components/display/Table';
 export * from './components/display/CollapsingActions';
 
 /** Feedback components */

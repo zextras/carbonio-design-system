@@ -553,5 +553,7 @@ export {
 	THeaderProps,
 	TRowProps,
 	DefaultRowFactory,
-	DefaultHeaderFactory
+	DefaultHeaderFactory,
+	// for test purpose only
+	StyledCheckbox
 };
