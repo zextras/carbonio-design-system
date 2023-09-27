@@ -123,6 +123,7 @@ const Checkbox = React.forwardRef<HTMLDivElement, CheckboxProps>(function Checkb
 			padding={padding}
 			style={{ cursor: disabled ? 'default' : 'pointer' }}
 			crossAlignment="flex-start"
+			data-testid={'checkbox'}
 			{...rest}
 		>
 			<IconWrapper
