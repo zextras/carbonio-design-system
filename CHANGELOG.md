@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.0.0](https://github.com/Zextras/carbonio-design-system/compare/v2.3.0...v3.0.0) (2023-09-27)
+
+
+### ⚠ BREAKING CHANGES
+
+* **Select:** set items of Select as required
+
+### Features
+
+* **icons:** add new building icon ([4b6d0f0](https://github.com/Zextras/carbonio-design-system/commit/4b6d0f0fe106a7586664e9244a52a1b227b8aa9d)), closes [#225](https://github.com/Zextras/carbonio-design-system/issues/225)
+
+
+### Bug Fixes
+
+* **ChipInput:** do not prevent typing in input when separator is set to empty array ([ba802fd](https://github.com/Zextras/carbonio-design-system/commit/ba802fdc657c2a9a8944f6dbbd7de95cd86e689d)), closes [#220](https://github.com/Zextras/carbonio-design-system/issues/220)
+* **ChipInput:** fix selectable placeholder in input fields ([5e13315](https://github.com/Zextras/carbonio-design-system/commit/5e13315c596b4bd101be4aeab4db8ac3dea613ad)), closes [#219](https://github.com/Zextras/carbonio-design-system/issues/219)
+* **CustomModal:** do not prevent default behavior of click inside modal ([33a8952](https://github.com/Zextras/carbonio-design-system/commit/33a895241f468fb5d23dd7a364fe8fcdbc63565c)), closes [#218](https://github.com/Zextras/carbonio-design-system/issues/218)
+* **Dropdown:** allow keyboard navigation on nested dropdowns ([18b5519](https://github.com/Zextras/carbonio-design-system/commit/18b551943b75e3d8358bd777361007c6303ee558)), closes [#217](https://github.com/Zextras/carbonio-design-system/issues/217)
+* **Snackbar:** add padding on right side of snackbar without action ([8cb4df4](https://github.com/Zextras/carbonio-design-system/commit/8cb4df4950601d85c8482086c768cd87f86ad437)), closes [#223](https://github.com/Zextras/carbonio-design-system/issues/223)
+* **Table:** prevent checkboxes to be visible when mouse leaves rows ([295d1bf](https://github.com/Zextras/carbonio-design-system/commit/295d1bf601caed9595976db0986a0954a885361b)), closes [#222](https://github.com/Zextras/carbonio-design-system/issues/222)
+
+
+* **Select:** set items of Select as required ([d51c42a](https://github.com/Zextras/carbonio-design-system/commit/d51c42aa7da17a21d37ec3ec0e1c9a311290bd5a)), closes [#221](https://github.com/Zextras/carbonio-design-system/issues/221)
+
 ## [2.3.0](https://github.com/Zextras/carbonio-design-system/compare/v2.2.0...v2.3.0) (2023-08-30)
 
 
