@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { ButtonHTMLAttributes, useCallback, useEffect, useMemo } from 'react';
+import React, { ButtonHTMLAttributes, useCallback, useMemo } from 'react';
 
 import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-components';
 
@@ -353,7 +353,6 @@ const Button = React.forwardRef<HTMLDivElement, ButtonProps>(function ButtonFn(
 	},
 	ref
 ) {
-	const gridRef = useCombinedRefs(ref);
 	const innerButtonRef = useCombinedRefs<HTMLButtonElement>(buttonRef);
 
 	const clickHandler = useCallback(
@@ -380,26 +379,8 @@ const Button = React.forwardRef<HTMLDivElement, ButtonProps>(function ButtonFn(
 
 	const colors = useMemo(() => getColors(type, { type, ...rest }), [type, rest]);
 
-	const setFocusOnPrimaryButton = useCallback(() => {
-		innerButtonRef.current?.focus();
-	}, [innerButtonRef]);
-
-	useEffect(() => {
-		const gridElement = gridRef.current;
-		gridElement?.addEventListener('focus', setFocusOnPrimaryButton);
-		return (): void => {
-			gridElement?.removeEventListener('focus', setFocusOnPrimaryButton);
-		};
-	}, [gridRef, setFocusOnPrimaryButton]);
-
 	return (
-		<StyledGrid
-			width={width}
-			minWidth={minWidth}
-			padding={SIZES[size].padding}
-			ref={gridRef}
-			tabIndex={-1}
-		>
+		<StyledGrid width={width} minWidth={minWidth} padding={SIZES[size].padding} ref={ref}>
 			<StyledButton
 				{...rest}
 				backgroundColor={colors.backgroundColor}
