@@ -151,9 +151,8 @@ const Input: Input = React.forwardRef<HTMLDivElement, InputProps>(function Input
 			events.push({
 				type: 'keyup',
 				callback: onEnter,
-				keys: ['Enter'],
-				haveToPreventDefault: true,
-				modifier: false
+				keys: [{ key: 'Enter', ctrlKey: false }],
+				haveToPreventDefault: true
 			});
 		}
 		return events;

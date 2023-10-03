@@ -565,7 +565,7 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 	useKeyboard(popperItemsRef, listEvents);
 	// We need to add 'open' as dependency because we want to reattach these events each time we open the dropdown
 	const escapeEvent = useMemo<KeyboardPreset>(
-		() => [{ type: 'keydown', callback: closePopper, keys: ['Escape'], modifier: false }],
+		() => [{ type: 'keydown', callback: closePopper, keys: [{ key: 'Escape', ctrlKey: false }] }],
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 		[open, closePopper]
 	);

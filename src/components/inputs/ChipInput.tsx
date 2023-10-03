@@ -21,7 +21,12 @@ import { InputDescription } from './commons/InputDescription';
 import { InputLabel } from './commons/InputLabel';
 import { IconButton } from './IconButton';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
-import { useKeyboard, getKeyboardPreset, KeyboardPreset } from '../../hooks/useKeyboard';
+import {
+	useKeyboard,
+	getKeyboardPreset,
+	KeyboardPreset,
+	KeyboardPresetKey
+} from '../../hooks/useKeyboard';
 import { usePrevious } from '../../hooks/usePrevious';
 import { getColor, pseudoClasses } from '../../theme/theme-utils';
 import { Icon } from '../basic/Icon';
@@ -148,10 +153,8 @@ const AdjustWidthInput = React.forwardRef<
 	HTMLInputElement,
 	{
 		color: keyof DefaultTheme['palette'];
-		separators: string[];
-		confirmChipOnBlur: boolean;
 	} & InputHTMLAttributes<HTMLInputElement>
->(function AdjustWidthInputFn({ confirmChipOnBlur, ...inputProps }, ref) {
+>(function AdjustWidthInputFn(inputProps, ref) {
 	const hiddenSpanRef = useRef<HTMLSpanElement | null>(null);
 	const inputRef = useCombinedRefs<HTMLInputElement>(ref);
 
@@ -177,7 +180,7 @@ const AdjustWidthInput = React.forwardRef<
 				inputElement.removeEventListener('change', resizeInput);
 			}
 		};
-	}, [confirmChipOnBlur, inputRef, resizeInput]);
+	}, [inputRef, resizeInput]);
 
 	return (
 		<InputContainer>
@@ -320,7 +323,7 @@ interface ChipInputProps<TValue = unknown>
 	/** ChipInput backgroundColor */
 	background?: keyof DefaultTheme['palette'];
 	/** Chip generation triggers */
-	separators?: string[];
+	separators?: KeyboardPresetKey[];
 	/** Show the error  */
 	hasError?: boolean;
 	/**
@@ -403,7 +406,11 @@ const ChipInput: ChipInput<any> = React.forwardRef<HTMLDivElement, ChipInputProp
 			background = INPUT_BACKGROUND_COLOR,
 			confirmChipOnBlur = true,
 			confirmChipOnSpace = true,
-			separators = ['Enter', 'NumpadEnter', 'Comma', 'Space'],
+			separators = [
+				{ key: 'Enter', ctrlKey: false },
+				{ key: ',', ctrlKey: false },
+				{ key: ' ', ctrlKey: false }
+			],
 			icon,
 			iconAction,
 			iconDisabled = false,
@@ -452,11 +459,11 @@ const ChipInput: ChipInput<any> = React.forwardRef<HTMLDivElement, ChipInputProp
 		const uncontrolledMode = useMemo(() => value === undefined, [value]);
 
 		// TODO: remove together with confirmChipOnSpace
-		const separatorKeys = useMemo(() => {
+		const separatorKeys = useMemo<KeyboardPresetKey[]>(() => {
 			const keys = [...separators];
-			const index = keys.indexOf('Space');
+			const index = keys.findIndex(({ key, code }) => code === 'Space' || key === ' ');
 			if (confirmChipOnSpace && index < 0) {
-				keys.push('Space');
+				keys.push({ key: ' ', ctrlKey: false });
 			} else if (!confirmChipOnSpace && index >= 0) {
 				keys.splice(index, 1);
 			}
@@ -551,7 +558,7 @@ const ChipInput: ChipInput<any> = React.forwardRef<HTMLDivElement, ChipInputProp
 				{
 					type: 'keydown',
 					callback: onBackspace,
-					keys: ['Backspace'],
+					keys: [{ key: 'Backspace', ctrlKey: false }],
 					haveToPreventDefault: false
 				}
 			],
@@ -781,8 +788,6 @@ const ChipInput: ChipInput<any> = React.forwardRef<HTMLDivElement, ChipInputProp
 								name={inputName || placeholder}
 								disabled={disabled || inputDisabled}
 								placeholder={placeholder}
-								separators={separatorKeys}
-								confirmChipOnBlur={confirmChipOnBlur}
 								onPaste={onPaste}
 							/>
 							{placeholder && (

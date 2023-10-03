@@ -115,7 +115,9 @@ const Popper = React.forwardRef<HTMLDivElement, PopperProps>(function PopperFn(
 	}, []);
 
 	const escapeEvent = useMemo<KeyboardPreset>(
-		() => [{ type: 'keydown', callback: keyboardClosePopper, keys: ['Escape'] }],
+		() => [
+			{ type: 'keydown', callback: keyboardClosePopper, keys: [{ key: 'Escape', ctrlKey: false }] }
+		],
 		[keyboardClosePopper]
 	);
 

@@ -118,7 +118,11 @@ const CustomModal = React.forwardRef<HTMLDivElement, CustomModalProps>(function 
 	}, []);
 
 	const escapeEvent = useMemo<KeyboardPreset>(
-		() => (onClose && [{ type: 'keydown', callback: onClose, keys: ['Escape'] }]) || [],
+		() =>
+			(onClose && [
+				{ type: 'keydown', callback: onClose, keys: [{ key: 'Escape', ctrlKey: false }] }
+			]) ||
+			[],
 		[onClose]
 	);
 	useKeyboard(modalRef, escapeEvent);
