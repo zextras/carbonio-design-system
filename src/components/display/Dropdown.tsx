@@ -16,13 +16,7 @@ import React, {
 	HTMLAttributes
 } from 'react';
 
-import {
-	createPopper,
-	Instance,
-	OptionsGeneric,
-	StrictModifiers,
-	VirtualElement
-} from '@popperjs/core';
+import { autoUpdate, computePosition, Placement, VirtualElement } from '@floating-ui/dom';
 import { find, first, some } from 'lodash';
 import styled, { css, DefaultTheme, SimpleInterpolation, ThemeContext } from 'styled-components';
 
@@ -444,22 +438,7 @@ interface DropdownProps extends Omit<HTMLAttributes<HTMLDivElement>, 'contextMen
 	/** trigger ref that can be used instead of lost children ref caused by cloneElement */
 	triggerRef?: React.Ref<HTMLElement> | null;
 	/** Placement of the dropdown */
-	placement?:
-		| 'auto'
-		| 'auto-start'
-		| 'auto-end'
-		| 'top'
-		| 'top-start'
-		| 'top-end'
-		| 'bottom'
-		| 'bottom-start'
-		| 'bottom-end'
-		| 'right'
-		| 'right-start'
-		| 'right-end'
-		| 'left'
-		| 'left-start'
-		| 'left-end';
+	placement?: Placement;
 	/** Flag to disable the Portal implementation */
 	disablePortal?: boolean;
 	/** Whether the Component is visible or not */
@@ -574,8 +553,7 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 					bottom: e.clientY,
 					left: e.clientX,
 					x: e.clientX,
-					y: e.clientY,
-					toJSON: (): string => ''
+					y: e.clientY
 				})
 			};
 			setPosition(virtualElement);
@@ -655,24 +633,23 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 	useKeyboard(dropdownRef, escapeEvent, open);
 
 	useLayoutEffect(() => {
-		let popperInstance: Instance | undefined;
 		if (open) {
-			const popperOptions: OptionsGeneric<StrictModifiers> = {
-				placement,
-				modifiers: [],
-				strategy: 'fixed'
-			};
-
 			const popperReference = contextMenu ? position : innerTriggerRef.current;
 			if (popperReference && dropdownRef.current) {
-				popperInstance = createPopper<StrictModifiers>(
-					popperReference,
-					dropdownRef.current,
-					popperOptions
-				);
+				autoUpdate(popperReference, dropdownRef.current, () => {
+					dropdownRef.current &&
+						computePosition(popperReference, dropdownRef.current, {
+							placement
+						}).then(({ x, y }) => {
+							dropdownRef.current &&
+								Object.assign(dropdownRef.current.style, {
+									left: `${x}px`,
+									top: `${y}px`
+								});
+						});
+				});
 			}
 		}
-		return (): void => popperInstance && popperInstance.destroy();
 	}, [open, placement, contextMenu, position, dropdownRef, innerTriggerRef]);
 
 	useEffect(() => {

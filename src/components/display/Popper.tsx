@@ -16,12 +16,13 @@ import React, {
 } from 'react';
 
 import {
-	createPopper,
-	OptionsGeneric,
+	computePosition,
+	flip,
 	Placement,
-	StrictModifiers,
-	VirtualElement
-} from '@popperjs/core';
+	VirtualElement,
+	offset,
+	autoUpdate
+} from '@floating-ui/dom';
 import styled, { css, SimpleInterpolation, ThemeContext } from 'styled-components';
 
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
@@ -30,6 +31,7 @@ import { Portal } from '../utilities/Portal';
 
 const PopperContainer = styled.div<{ open: boolean }>`
 	display: none;
+	position: absolute;
 	${({ open }): SimpleInterpolation =>
 		open &&
 		css`
@@ -123,16 +125,9 @@ const Popper = React.forwardRef<HTMLDivElement, PopperProps>(function PopperFn(
 
 	useLayoutEffect(() => {
 		if (open) {
-			const popperOptions: Pick<OptionsGeneric<StrictModifiers>, 'placement' | 'modifiers'> = {
+			const popperOptions = {
 				placement,
-				modifiers: [
-					{
-						name: 'offset',
-						options: {
-							offset: [0, 8]
-						}
-					}
-				]
+				middleware: [offset(8)]
 			};
 
 			const anchorElement = anchorEl.current;
@@ -146,31 +141,27 @@ const Popper = React.forwardRef<HTMLDivElement, PopperProps>(function PopperFn(
 						bottom: virtualElement.y,
 						left: virtualElement.x,
 						y: virtualElement.y,
-						x: virtualElement.x,
-						toJSON: (): unknown => undefined
+						x: virtualElement.x
 					})
 				};
 				if (!virtualEl) {
-					popperOptions.modifiers.push({
-						name: 'flip',
-						options: {
-							fallbackPlacements: ['bottom']
-						}
-					});
+					popperOptions.middleware.push(flip({ fallbackPlacements: ['bottom'] }));
 				}
-				const popperInstance =
-					popperRef.current &&
-					createPopper<StrictModifiers>(
-						virtualEl || anchorElement,
-						popperRef.current,
-						popperOptions
-					);
-				return (): void => {
-					popperInstance && popperInstance.destroy();
-				};
+				popperRef.current &&
+					autoUpdate(virtualEl || anchorElement, popperRef.current, () => {
+						popperRef.current &&
+							computePosition(virtualEl || anchorElement, popperRef.current, popperOptions).then(
+								({ x, y }) => {
+									popperRef.current &&
+										Object.assign(popperRef.current.style, {
+											left: `${x}px`,
+											top: `${y}px`
+										});
+								}
+							);
+					});
 			}
 		}
-		return (): void => undefined;
 	}, [open, placement, anchorEl, virtualElement, popperRef]);
 
 	useEffect(() => {
