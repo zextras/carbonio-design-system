@@ -80,9 +80,11 @@ const ListV2 = React.forwardRef(function ListV2Fn(
 	ref: React.ForwardedRef<HTMLDivElement>
 ) {
 	const listRef = useCombinedRefs(ref);
+	const useKeyboardShortcuts = (): undefined => undefined;
 
 	const keyEvents = useMemo<KeyboardPreset>(
-		() => (keyboardShortcutsIsDisabled ? [] : getKeyboardPreset('list', undefined, listRef)),
+		() =>
+			keyboardShortcutsIsDisabled ? [] : getKeyboardPreset('list', useKeyboardShortcuts, listRef),
 		[listRef, keyboardShortcutsIsDisabled]
 	);
 	useKeyboard(listRef, keyEvents);
