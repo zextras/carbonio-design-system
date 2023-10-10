@@ -11,3 +11,5 @@ export const TIMERS = {
 		DELAY_OPEN: 1
 	}
 };
+
+export const OVERLAY_ELEMENT_IDENTIFIER = 'overlay-element';

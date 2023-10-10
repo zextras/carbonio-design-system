@@ -6,31 +6,23 @@
 
 import React, { HTMLAttributes, useCallback, useState } from 'react';
 
-import styled, { css, SimpleInterpolation } from 'styled-components';
+import styled from 'styled-components';
 
-import { Container } from '../layout/Container';
+import { OVERLAY_ELEMENT_IDENTIFIER } from '../constants';
+import { Container, ContainerProps } from '../layout/Container';
 
 const DropEl = styled(Container)`
 	display: inline;
 	position: relative;
 `;
 
-const OverlayEl = styled(Container)`
+const OverlayEl = styled(Container)<ContainerProps & { type: string }>`
 	display: block;
 	position: absolute;
 	width: 100%;
 	top: 0;
 	left: 0;
 	height: 100%;
-`;
-
-const CoverEl = styled(Container)<{ $dragging: boolean }>`
-	display: inline;
-	${({ $dragging }): SimpleInterpolation =>
-		$dragging &&
-		css`
-			pointer-events: none;
-		`};
 `;
 
 type DragObj = {
@@ -58,6 +50,17 @@ interface DropProps {
 	overlayDenyComponent: React.ReactNode;
 	/** Content where activate drop */
 	children: React.ReactNode | React.ReactNode[];
+}
+
+function getTargetIsOverlayElement(event: DragEvent | null): boolean {
+	const target = event?.target as HTMLElement;
+	if (!target) {
+		return false;
+	}
+	return !!(
+		target.outerHTML?.toLowerCase().includes(OVERLAY_ELEMENT_IDENTIFIER) ||
+		target.parentElement?.outerHTML?.toLowerCase().includes(OVERLAY_ELEMENT_IDENTIFIER)
+	);
 }
 
 const Drop = React.forwardRef<HTMLDivElement, DropProps>(function DropFn(
@@ -96,41 +99,13 @@ const Drop = React.forwardRef<HTMLDivElement, DropProps>(function DropFn(
 		[acceptType, onDrop]
 	);
 
-	const dragEnterEvent = useCallback<React.DragEventHandler>(
-		(e) => {
-			const dragEnterResponse = onDragEnter({
-				event: e,
-				type: window.draggedItem?.type,
-				data: window.draggedItem?.data
-			});
-			e && e.stopPropagation();
-			if (
-				(!dragEnterResponse || dragEnterResponse.success) &&
-				window.draggedItem &&
-				acceptType.includes(window.draggedItem.type)
-			) {
-				setStyleObject(acceptStyle);
-				setOverlayAccept(overlayAcceptComponent);
-			} else {
-				// eslint-disable-next-line no-param-reassign
-				e.dataTransfer.dropEffect = 'none';
-				setOverlayDeny(overlayDenyComponent);
-				setStyleObject(rejectStyle);
-			}
-		},
-		[
-			onDragEnter,
-			acceptType,
-			acceptStyle,
-			overlayAcceptComponent,
-			overlayDenyComponent,
-			rejectStyle
-		]
-	);
-
-	const onDragOverEvent = useCallback<React.DragEventHandler>(
+	const dragEnterEvent = useCallback(
 		(e) => {
 			e && e.preventDefault();
+			const targetIsOverlayElement = getTargetIsOverlayElement(e);
+			if (targetIsOverlayElement) {
+				return;
+			}
 			const dragEnterResponse = onDragEnter({
 				event: e,
 				type: window.draggedItem?.type,
@@ -145,7 +120,6 @@ const Drop = React.forwardRef<HTMLDivElement, DropProps>(function DropFn(
 				setStyleObject(acceptStyle);
 				setOverlayAccept(overlayAcceptComponent);
 			} else {
-				// eslint-disable-next-line no-param-reassign
 				e.dataTransfer.dropEffect = 'none';
 				setOverlayDeny(overlayDenyComponent);
 				setStyleObject(rejectStyle);
@@ -161,26 +135,28 @@ const Drop = React.forwardRef<HTMLDivElement, DropProps>(function DropFn(
 		]
 	);
 
-	const dragEnterLeave = (): void => {
+	const dragLeaveEvent = useCallback((e): void => {
+		const targetIsOverlayElement = getTargetIsOverlayElement(e);
+		if (!targetIsOverlayElement) {
+			return;
+		}
 		setStyleObject({});
 		setOverlayAccept(null);
 		setOverlayDeny(null);
-	};
+	}, []);
 
 	return (
 		<DropEl
 			ref={ref}
-			onDragOver={onDragOverEvent}
+			onDragOver={dragEnterEvent}
 			onDragEnter={dragEnterEvent}
-			onDragLeave={dragEnterLeave}
+			onDragLeave={dragLeaveEvent}
 			onDrop={dropEvent}
 			style={styleObject}
 		>
-			<CoverEl $dragging={window.draggedItem !== undefined}>
-				{children}
-				{overlayAccept && <OverlayEl>{overlayAccept}</OverlayEl>}
-				{overlayDeny && <OverlayEl>{overlayDeny}</OverlayEl>}
-			</CoverEl>
+			{children}
+			{overlayAccept && <OverlayEl type={OVERLAY_ELEMENT_IDENTIFIER}>{overlayAccept}</OverlayEl>}
+			{overlayDeny && <OverlayEl type={OVERLAY_ELEMENT_IDENTIFIER}>{overlayDeny}</OverlayEl>}
 		</DropEl>
 	);
 });
