@@ -30,6 +30,7 @@ import { Chip, ChipProps } from '../display/Chip';
 import { Dropdown, DropdownItem } from '../display/Dropdown';
 import { Container, ContainerProps } from '../layout/Container';
 import { Divider, DividerProps } from '../layout/Divider';
+import { Drag } from '../utilities/Drag';
 
 const ContainerEl = styled(Container)<{
 	background: keyof DefaultTheme['palette'];
@@ -378,6 +379,10 @@ interface ChipInputProps<TValue = unknown>
 	wrap?: 'nowrap' | 'wrap';
 	/** maxHeight of Input in case of no horizontal scroll */
 	maxHeight?: string;
+	/** Chip drag type */
+	chipDragType?: string;
+	/** opt in option to make ChipComp draggable */
+	chipIsDraggable?: boolean;
 }
 
 type ChipInput<TValue> = React.ForwardRefExoticComponent<
@@ -425,6 +430,8 @@ const ChipInput: ChipInput<any> = React.forwardRef<HTMLDivElement, ChipInputProp
 			ChipComponent,
 			wrap = 'wrap',
 			maxHeight = '8.125rem',
+			chipDragType,
+			chipIsDraggable = false,
 			...rest
 		}: ChipInputProps<TValue>,
 		ref: React.ForwardedRef<HTMLDivElement>
@@ -762,13 +769,20 @@ const ChipInput: ChipInput<any> = React.forwardRef<HTMLDivElement, ChipInputProp
 						>
 							{items.length > 0 &&
 								map(items, (item, index) => (
-									<ChipComp
+									<Drag
+										dragDisabled={!chipIsDraggable}
+										data={{ [item.label ?? index]: item }}
+										type={chipDragType}
 										key={`${index}-${item.value}`}
-										maxWidth={(wrap === 'wrap' && '100%') || undefined}
-										{...item}
-										closable
-										onClose={(): void => onChipClose(index)}
-									/>
+									>
+										<ChipComp
+											key={`${index}-${item.value}`}
+											maxWidth={(wrap === 'wrap' && '100%') || undefined}
+											{...item}
+											closable
+											onClose={(): void => onChipClose(index)}
+										/>
+									</Drag>
 								))}
 							<AdjustWidthInput
 								color="text"
