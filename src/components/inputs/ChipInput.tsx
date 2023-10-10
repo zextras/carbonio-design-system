@@ -383,6 +383,8 @@ interface ChipInputProps<TValue = unknown>
 	chipDragType?: string;
 	/** opt in option to make ChipComp draggable */
 	chipIsDraggable?: boolean;
+	/** Callback to be called on dragEnd */
+	onDragEnd?: (event: React.DragEvent<HTMLDivElement>) => void;
 }
 
 type ChipInput<TValue> = React.ForwardRefExoticComponent<
@@ -432,6 +434,7 @@ const ChipInput: ChipInput<any> = React.forwardRef<HTMLDivElement, ChipInputProp
 			maxHeight = '8.125rem',
 			chipDragType,
 			chipIsDraggable = false,
+			onDragEnd,
 			...rest
 		}: ChipInputProps<TValue>,
 		ref: React.ForwardedRef<HTMLDivElement>
@@ -774,6 +777,7 @@ const ChipInput: ChipInput<any> = React.forwardRef<HTMLDivElement, ChipInputProp
 										data={{ [item.label ?? index]: item }}
 										type={chipDragType}
 										key={`${index}-${item.value}`}
+										onDragEnd={onDragEnd}
 									>
 										<ChipComp
 											key={`${index}-${item.value}`}
