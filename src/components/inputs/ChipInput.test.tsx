@@ -127,40 +127,30 @@ describe('ChipInput', () => {
 			expect(screen.getAllByTestId(ICONS.close)).toHaveLength(3);
 		});
 
-		test('if custom separators are provided, enter and comma does not create a chip when typed, the custom keys do it', () => {
+		test('if custom separators are provided, enter, comma and space do not create a chip when typed, the custom keys do it', () => {
 			const separators = ['x'];
 			render(<ChipInput separators={separators} />);
 			const inputElement = screen.getByRole('textbox');
 			expect(inputElement).toBeInTheDocument();
 			expect(inputElement).toBeVisible();
-			// create chip 1 with space (space has its own boolean prop)
+			// space does not create a chip
 			userEvent.type(inputElement, 'ciao');
 			expect(inputElement).toHaveValue('ciao');
 			userEvent.type(inputElement, '{space}');
-			// input is cleared
-			expect(inputElement).not.toHaveValue('ciao');
-			// chip 1 is visible
-			expect(screen.getByText('ciao')).toBeInTheDocument();
-			expect(screen.getByText('ciao')).toBeVisible();
-			expect(screen.getByTestId(ICONS.close)).toBeInTheDocument();
-			expect(screen.getByTestId(ICONS.close)).toBeVisible();
-			// create chip 2 with x
+			expect(inputElement).toHaveValue('ciao ');
 			userEvent.type(inputElement, 'hello');
-			expect(inputElement).toHaveValue('hello');
+			expect(inputElement).toHaveValue('ciao hello');
 			// enter does not create a chip
 			userEvent.type(inputElement, '{Enter}');
 			userEvent.type(inputElement, 'There');
-			expect(inputElement).toHaveValue('helloThere');
+			expect(inputElement).toHaveValue('ciao helloThere');
+			// create chip 1 with x
 			userEvent.type(inputElement, 'x');
 			// input is cleared
-			expect(inputElement).not.toHaveValue('helloThere');
-			// chip 1 is still visible
-			expect(screen.getByText('ciao')).toBeInTheDocument();
-			expect(screen.getByText('ciao')).toBeVisible();
-			// chip 2 is visible
-			expect(screen.getByText('helloThere')).toBeInTheDocument();
-			expect(screen.getByText('helloThere')).toBeVisible();
-			expect(screen.getAllByTestId(ICONS.close)).toHaveLength(2);
+			expect(inputElement).toHaveValue('');
+			// chip 1 is visible
+			expect(screen.getByText('ciao helloThere')).toBeVisible();
+			expect(screen.getByTestId(ICONS.close)).toBeVisible();
 			// comma does not create chip
 			userEvent.type(inputElement, 'salut');
 			expect(inputElement).toHaveValue('salut');
@@ -172,15 +162,12 @@ describe('ChipInput', () => {
 			// input is cleared
 			expect(inputElement).not.toHaveValue('salut');
 			// chip 1 is still visible
-			expect(screen.getByText('ciao')).toBeInTheDocument();
-			expect(screen.getByText('ciao')).toBeVisible();
-			// chip 2 is still visible
-			expect(screen.getByText('helloThere')).toBeInTheDocument();
-			expect(screen.getByText('helloThere')).toBeVisible();
-			// chip 3 is visible
+			expect(screen.getByText('ciao helloThere')).toBeInTheDocument();
+			expect(screen.getByText('ciao helloThere')).toBeVisible();
+			// chip 2 is visible
 			expect(screen.getByText('salut,bonjour')).toBeInTheDocument();
 			expect(screen.getByText('salut,bonjour')).toBeVisible();
-			expect(screen.getAllByTestId(ICONS.close)).toHaveLength(3);
+			expect(screen.getAllByTestId(ICONS.close)).toHaveLength(2);
 		});
 
 		test('blur event creates a chip', () => {
@@ -202,21 +189,8 @@ describe('ChipInput', () => {
 			expect(inputElement).not.toHaveFocus();
 		});
 
-		test('if space separator is disabled, space does not create a chip', () => {
-			render(<ChipInput confirmChipOnSpace={false} separators={[',']} />);
-			const inputElement = screen.getByRole('textbox');
-			expect(inputElement).toBeInTheDocument();
-			expect(inputElement).toBeVisible();
-			// create chip with space
-			userEvent.type(inputElement, 'ciao ciao');
-			// input keeps its value
-			expect(inputElement).toHaveValue('ciao ciao');
-			expect(screen.queryByTestId(ICONS.close)).not.toBeInTheDocument();
-			expect(inputElement).toHaveFocus();
-		});
-
-		test('if space separator is enabled, space create a chip', () => {
-			render(<ChipInput separators={['Space']} />);
+		test('if space separator is provided, space create a chip', () => {
+			render(<ChipInput separators={[' ']} />);
 			const inputElement = screen.getByRole('textbox');
 			expect(inputElement).toBeInTheDocument();
 			expect(inputElement).toBeVisible();
@@ -249,7 +223,7 @@ describe('ChipInput', () => {
 			['empty array', []],
 			['array with empty value', ['']]
 		])('should not create chips if separators is an %s', (_, separators) => {
-			render(<ChipInput separators={separators} confirmChipOnSpace={false} confirmChipOnBlur />);
+			render(<ChipInput separators={separators} confirmChipOnBlur />);
 			const inputElement = screen.getByRole('textbox');
 			// write text with space
 			userEvent.type(inputElement, 'hello world');
