@@ -49,7 +49,7 @@ const BottomElement: React.VFC<BottomElementProps> = ({ listRef, onVisible }) =>
 			onVisible();
 		}
 	}, [inView, onVisible]);
-	return <div ref={ref} />;
+	return <div ref={ref} style={{ minHeight: '4px', minWidth: '1px' }} />;
 };
 
 interface ListV2Props extends ContainerProps {
@@ -80,9 +80,11 @@ const ListV2 = React.forwardRef(function ListV2Fn(
 	ref: React.ForwardedRef<HTMLDivElement>
 ) {
 	const listRef = useCombinedRefs(ref);
+	const useKeyboardShortcuts = (): undefined => undefined;
 
 	const keyEvents = useMemo<KeyboardPreset>(
-		() => (keyboardShortcutsIsDisabled ? [] : getKeyboardPreset('list', undefined, listRef)),
+		() =>
+			keyboardShortcutsIsDisabled ? [] : getKeyboardPreset('list', useKeyboardShortcuts, listRef),
 		[listRef, keyboardShortcutsIsDisabled]
 	);
 	useKeyboard(listRef, keyEvents);
