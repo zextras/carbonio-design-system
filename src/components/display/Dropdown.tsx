@@ -16,7 +16,7 @@ import React, {
 	HTMLAttributes
 } from 'react';
 
-import { autoUpdate, computePosition, Placement, VirtualElement } from '@floating-ui/dom';
+import { Placement, VirtualElement } from '@floating-ui/dom';
 import { find, first, some } from 'lodash';
 import styled, { css, DefaultTheme, SimpleInterpolation, ThemeContext } from 'styled-components';
 
@@ -24,6 +24,7 @@ import { Tooltip } from './Tooltip';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { useKeyboard, getKeyboardPreset, KeyboardPreset } from '../../hooks/useKeyboard';
 import { pseudoClasses } from '../../theme/theme-utils';
+import { setupFloating } from '../../utils/floating-ui';
 import { Icon } from '../basic/Icon';
 import { Text } from '../basic/Text';
 import { TIMERS } from '../constants';
@@ -633,23 +634,19 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 	useKeyboard(dropdownRef, escapeEvent, open);
 
 	useLayoutEffect(() => {
+		let cleanup: ReturnType<typeof setupFloating>;
 		if (open) {
 			const popperReference = contextMenu ? position : innerTriggerRef.current;
 			if (popperReference && dropdownRef.current) {
-				autoUpdate(popperReference, dropdownRef.current, () => {
-					dropdownRef.current &&
-						computePosition(popperReference, dropdownRef.current, {
-							placement
-						}).then(({ x, y }) => {
-							dropdownRef.current &&
-								Object.assign(dropdownRef.current.style, {
-									left: `${x}px`,
-									top: `${y}px`
-								});
-						});
+				cleanup = setupFloating(popperReference, dropdownRef.current, {
+					placement,
+					strategy: 'fixed'
 				});
 			}
 		}
+		return (): void => {
+			cleanup?.();
+		};
 	}, [open, placement, contextMenu, position, dropdownRef, innerTriggerRef]);
 
 	useEffect(() => {

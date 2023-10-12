@@ -15,18 +15,12 @@ import React, {
 	HTMLAttributes
 } from 'react';
 
-import {
-	computePosition,
-	flip,
-	Placement,
-	VirtualElement,
-	offset,
-	autoUpdate
-} from '@floating-ui/dom';
+import { flip, Placement, VirtualElement, offset, shift, limitShift } from '@floating-ui/dom';
 import styled, { css, SimpleInterpolation, ThemeContext } from 'styled-components';
 
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { KeyboardPreset, useKeyboard } from '../../hooks/useKeyboard';
+import { setupFloating } from '../../utils/floating-ui';
 import { Portal } from '../utilities/Portal';
 
 const PopperContainer = styled.div<{ open: boolean }>`
@@ -124,12 +118,8 @@ const Popper = React.forwardRef<HTMLDivElement, PopperProps>(function PopperFn(
 	useKeyboard(popperRef, escapeEvent);
 
 	useLayoutEffect(() => {
+		let cleanup: ReturnType<typeof setupFloating>;
 		if (open) {
-			const popperOptions = {
-				placement,
-				middleware: [offset(8)]
-			};
-
 			const anchorElement = anchorEl.current;
 			if (anchorElement) {
 				const virtualEl = virtualElement && {
@@ -144,24 +134,22 @@ const Popper = React.forwardRef<HTMLDivElement, PopperProps>(function PopperFn(
 						x: virtualElement.x
 					})
 				};
-				if (!virtualEl) {
-					popperOptions.middleware.push(flip({ fallbackPlacements: ['bottom'] }));
-				}
-				popperRef.current &&
-					autoUpdate(virtualEl || anchorElement, popperRef.current, () => {
-						popperRef.current &&
-							computePosition(virtualEl || anchorElement, popperRef.current, popperOptions).then(
-								({ x, y }) => {
-									popperRef.current &&
-										Object.assign(popperRef.current.style, {
-											left: `${x}px`,
-											top: `${y}px`
-										});
-								}
-							);
+
+				if (popperRef.current) {
+					cleanup = setupFloating(virtualEl || anchorElement, popperRef.current, {
+						placement,
+						middleware: [
+							offset(8),
+							!virtualEl && flip({ fallbackPlacements: ['bottom'] }),
+							shift({ limiter: limitShift() })
+						]
 					});
+				}
 			}
 		}
+		return (): void => {
+			cleanup?.();
+		};
 	}, [open, placement, anchorEl, virtualElement, popperRef]);
 
 	useEffect(() => {

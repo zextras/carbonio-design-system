@@ -14,11 +14,12 @@ import React, {
 	createRef
 } from 'react';
 
-import { computePosition, flip, Placement, offset, autoUpdate } from '@floating-ui/dom';
+import { flip, Placement, offset, shift, limitShift } from '@floating-ui/dom';
 import { rgba } from 'polished';
 import styled, { css, SimpleInterpolation } from 'styled-components';
 
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
+import { setupFloating } from '../../utils/floating-ui';
 import { Text, TextProps } from '../basic/Text';
 import { Portal } from '../utilities/Portal';
 
@@ -127,23 +128,16 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(function TooltipF
 	}, []);
 
 	useLayoutEffect(() => {
+		let cleanup: ReturnType<typeof setupFloating>;
 		if (open && !disabled && combinedTriggerRef.current && tooltipRef.current) {
-			autoUpdate(combinedTriggerRef.current, tooltipRef.current, () => {
-				if (combinedTriggerRef.current && tooltipRef.current) {
-					computePosition(combinedTriggerRef.current, tooltipRef.current, {
-						placement,
-						middleware: [offset(8), flip({ fallbackPlacements })]
-					}).then(({ x, y }) => {
-						if (tooltipRef.current) {
-							Object.assign(tooltipRef.current.style, {
-								left: `${x}px`,
-								top: `${y}px`
-							});
-						}
-					});
-				}
+			cleanup = setupFloating(combinedTriggerRef.current, tooltipRef.current, {
+				placement,
+				middleware: [offset(8), flip({ fallbackPlacements }), shift({ limiter: limitShift() })]
 			});
 		}
+		return (): void => {
+			cleanup?.();
+		};
 	}, [disabled, fallbackPlacements, open, placement, tooltipRef, combinedTriggerRef]);
 
 	useEffect(() => {
