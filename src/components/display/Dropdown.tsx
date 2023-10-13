@@ -18,7 +18,7 @@ import React, {
 } from 'react';
 
 import { Placement, VirtualElement } from '@floating-ui/dom';
-import { find, first, some } from 'lodash';
+import { find, some } from 'lodash';
 import styled, { css, DefaultTheme, SimpleInterpolation, ThemeContext } from 'styled-components';
 
 import { Tooltip } from './Tooltip';
@@ -258,7 +258,7 @@ const PopperList = styled.div<{
 	triggerRef: React.RefObject<HTMLElement>;
 	open: boolean;
 }>`
-	position: absolute;
+	position: fixed;
 	display: none;
 	visibility: hidden;
 	pointer-events: none;
