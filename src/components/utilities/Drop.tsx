@@ -60,22 +60,12 @@ interface DropProps {
 	children: React.ReactNode | React.ReactNode[];
 }
 
-function isEnteringOverlayElement(event: React.DragEvent<Element> | null): boolean {
-	const target = event?.target;
+function isOverlayElement(element: React.DragEvent<Element> | DragEvent | null): boolean {
+	const target = element?.target;
 	if (target instanceof HTMLElement) {
 		return !!(
 			target.outerHTML?.toLowerCase().includes(OVERLAY_ELEMENT_IDENTIFIER) ||
 			target.parentElement?.outerHTML?.toLowerCase().includes(OVERLAY_ELEMENT_IDENTIFIER)
-		);
-	}
-	return false;
-}
-function isLeavingOverlayElement(event: React.DragEvent<Element> | null): boolean {
-	const nativeEvent = event?.nativeEvent?.target;
-	if (nativeEvent instanceof HTMLElement) {
-		return !!(
-			nativeEvent.outerHTML?.toLowerCase().includes(OVERLAY_ELEMENT_IDENTIFIER) ||
-			nativeEvent.parentElement?.outerHTML?.toLowerCase().includes(OVERLAY_ELEMENT_IDENTIFIER)
 		);
 	}
 	return false;
@@ -122,7 +112,7 @@ const Drop = React.forwardRef<HTMLDivElement, DropProps>(function DropFn(
 	const dragEnterEvent = useCallback<React.DragEventHandler>(
 		(e) => {
 			e && e.preventDefault();
-			const targetIsOverlayElement = isEnteringOverlayElement(e);
+			const targetIsOverlayElement = isOverlayElement(e);
 			if (targetIsOverlayElement) {
 				return;
 			}
@@ -157,7 +147,7 @@ const Drop = React.forwardRef<HTMLDivElement, DropProps>(function DropFn(
 	);
 
 	const dragLeaveEvent = useCallback<React.DragEventHandler>((e): void => {
-		const leavingOverlayElement = isLeavingOverlayElement(e);
+		const leavingOverlayElement = isOverlayElement(e?.nativeEvent);
 		if (leavingOverlayElement) {
 			setStyleObject({});
 			setOverlayAccept(null);
@@ -170,6 +160,7 @@ const Drop = React.forwardRef<HTMLDivElement, DropProps>(function DropFn(
 		<DropEl
 			ref={ref}
 			onDragEnter={dragEnterEvent}
+			onDragOver={dragEnterEvent}
 			onDragLeave={dragLeaveEvent}
 			onDrop={dropEvent}
 			style={styleObject}
