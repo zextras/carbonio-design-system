@@ -63,10 +63,7 @@ interface DropProps {
 function isOverlayElement(element: React.DragEvent<Element> | DragEvent | null): boolean {
 	const target = element?.target;
 	if (target instanceof HTMLElement) {
-		return !!(
-			target.outerHTML?.toLowerCase().includes(OVERLAY_ELEMENT_IDENTIFIER) ||
-			target.parentElement?.outerHTML?.toLowerCase().includes(OVERLAY_ELEMENT_IDENTIFIER)
-		);
+		return !!target.outerHTML?.toLowerCase().includes(OVERLAY_ELEMENT_IDENTIFIER);
 	}
 	return false;
 }
