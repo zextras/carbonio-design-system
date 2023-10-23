@@ -16,7 +16,7 @@ const DropEl = styled(Container)`
 	position: relative;
 `;
 
-const OverlayEl = styled(Container)<{ datatype: string }>`
+const OverlayEl = styled(Container)<{ 'data-overlay': string }>`
 	display: block;
 	position: absolute;
 	width: 100%;
@@ -165,9 +165,11 @@ const Drop = React.forwardRef<HTMLDivElement, DropProps>(function DropFn(
 			<CoverEl $dragging={dragging}>
 				{children}
 				{overlayAccept && (
-					<OverlayEl datatype={OVERLAY_ELEMENT_IDENTIFIER}>{overlayAccept}</OverlayEl>
+					<OverlayEl data-overlay={OVERLAY_ELEMENT_IDENTIFIER}>{overlayAccept}</OverlayEl>
 				)}
-				{overlayDeny && <OverlayEl datatype={OVERLAY_ELEMENT_IDENTIFIER}>{overlayDeny}</OverlayEl>}
+				{overlayDeny && (
+					<OverlayEl data-overlay={OVERLAY_ELEMENT_IDENTIFIER}>{overlayDeny}</OverlayEl>
+				)}
 			</CoverEl>
 		</DropEl>
 	);
