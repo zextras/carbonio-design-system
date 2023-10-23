@@ -9,14 +9,14 @@ import React, { HTMLAttributes, useCallback, useState } from 'react';
 import styled, { SimpleInterpolation, css } from 'styled-components';
 
 import { OVERLAY_ELEMENT_IDENTIFIER } from '../constants';
-import { Container, ContainerProps } from '../layout/Container';
+import { Container } from '../layout/Container';
 
 const DropEl = styled(Container)`
 	display: inline;
 	position: relative;
 `;
 
-const OverlayEl = styled(Container)<ContainerProps & { type: string }>`
+const OverlayEl = styled(Container)<{ datatype: string }>`
 	display: block;
 	position: absolute;
 	width: 100%;
@@ -164,8 +164,10 @@ const Drop = React.forwardRef<HTMLDivElement, DropProps>(function DropFn(
 		>
 			<CoverEl $dragging={dragging}>
 				{children}
-				{overlayAccept && <OverlayEl type={OVERLAY_ELEMENT_IDENTIFIER}>{overlayAccept}</OverlayEl>}
-				{overlayDeny && <OverlayEl type={OVERLAY_ELEMENT_IDENTIFIER}>{overlayDeny}</OverlayEl>}
+				{overlayAccept && (
+					<OverlayEl datatype={OVERLAY_ELEMENT_IDENTIFIER}>{overlayAccept}</OverlayEl>
+				)}
+				{overlayDeny && <OverlayEl datatype={OVERLAY_ELEMENT_IDENTIFIER}>{overlayDeny}</OverlayEl>}
 			</CoverEl>
 		</DropEl>
 	);
