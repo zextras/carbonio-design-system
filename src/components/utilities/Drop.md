@@ -17,11 +17,11 @@ const BackDropLayout = styled(Container)`
 	left: 0;
 `;
 const DropBackground = styled(Container)`
-	background: ${(props) => props.theme.palette.primary.regular}b9;
+	background: ${(props) => props.theme.palette.primary.regular};
 	pointer-events: none;
 `;
 const DropBackgroundGray = styled(Container)`
-	background: ${(props) => props.theme.palette.gray1.regular}b9;
+	background: ${(props) => props.theme.palette.gray1.regular};
 	pointer-events: none;
 `;
 const BackDropLayoutInnerBox = styled(Container)`
@@ -103,7 +103,7 @@ const overlayDenyComponent = (<BackDropLayout><DropBackgroundGray/></BackDropLay
 			}}
 		>
 			<Container background="#cacaca" height="18.75rem" width="100%">
-				{' '}
+				<Button onClick={() => console.log('clicked nested button')} label={'Nested button'} />
 			</Container>
 		</Drop>
 	</Container>
