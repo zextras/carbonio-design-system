@@ -132,9 +132,9 @@ const Drop = React.forwardRef<HTMLDivElement, DropProps>(function DropFn(
 	);
 
 	const dragLeaveEvent = useCallback<React.DragEventHandler>((e): void => {
-		const isLeavingDrop =
+		const isLeavingDropzone =
 			!(e.relatedTarget instanceof Node) || !e.currentTarget.contains(e.relatedTarget);
-		if (isLeavingDrop) {
+		if (isLeavingDropzone) {
 			setStyleObject({});
 			setOverlayAccept(null);
 			setOverlayDeny(null);
