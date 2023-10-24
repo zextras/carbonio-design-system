@@ -29,7 +29,7 @@ import styled, { css, DefaultTheme, SimpleInterpolation, ThemeContext } from 'st
 
 import { Tooltip } from './Tooltip';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
-import { useKeyboard, getKeyboardPreset, KeyboardPreset } from '../../hooks/useKeyboard';
+import { useKeyboard, getKeyboardPreset, KeyboardPresetObj } from '../../hooks/useKeyboard';
 import { pseudoClasses } from '../../theme/theme-utils';
 import { Icon } from '../basic/Icon';
 import { Text } from '../basic/Text';
@@ -564,7 +564,7 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 
 	useKeyboard(popperItemsRef, listEvents);
 	// We need to add 'open' as dependency because we want to reattach these events each time we open the dropdown
-	const escapeEvent = useMemo<KeyboardPreset>(
+	const escapeEvent = useMemo<KeyboardPresetObj[]>(
 		() => [{ type: 'keydown', callback: closePopper, keys: [{ key: 'Escape', ctrlKey: false }] }],
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 		[open, closePopper]

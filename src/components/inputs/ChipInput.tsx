@@ -24,8 +24,8 @@ import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import {
 	useKeyboard,
 	getKeyboardPreset,
-	KeyboardPreset,
-	KeyboardPresetKey
+	KeyboardPresetKey,
+	KeyboardPresetObj
 } from '../../hooks/useKeyboard';
 import { usePrevious } from '../../hooks/usePrevious';
 import { getColor, pseudoClasses } from '../../theme/theme-utils';
@@ -553,7 +553,7 @@ const ChipInput: ChipInput<any> = React.forwardRef<HTMLDivElement, ChipInputProp
 			[uncontrolledMode, onChange, items]
 		);
 
-		const backspaceEvent = useMemo<KeyboardPreset>(
+		const backspaceEvent = useMemo<KeyboardPresetObj[]>(
 			() => [
 				{
 					type: 'keydown',

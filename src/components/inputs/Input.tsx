@@ -12,7 +12,7 @@ import { InputContainer } from './commons/InputContainer';
 import { InputDescription } from './commons/InputDescription';
 import { InputLabel } from './commons/InputLabel';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
-import { KeyboardPreset, useKeyboard } from '../../hooks/useKeyboard';
+import { KeyboardPresetObj, useKeyboard } from '../../hooks/useKeyboard';
 import { getColor } from '../../theme/theme-utils';
 import { INPUT_BACKGROUND_COLOR, INPUT_DIVIDER_COLOR } from '../constants';
 import { Container } from '../layout/Container';
@@ -145,8 +145,8 @@ const Input: Input = React.forwardRef<HTMLDivElement, InputProps>(function Input
 		setHasFocus(false);
 	}, []);
 
-	const keyboardEvents = useMemo<KeyboardPreset>(() => {
-		const events: KeyboardPreset = [];
+	const keyboardEvents = useMemo<KeyboardPresetObj[]>(() => {
+		const events: KeyboardPresetObj[] = [];
 		if (onEnter) {
 			events.push({
 				type: 'keyup',

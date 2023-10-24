@@ -25,7 +25,6 @@ type KeyboardPresetObj = {
 	keys: KeyboardPresetKey[];
 	haveToPreventDefault?: boolean;
 };
-type KeyboardPreset = Array<KeyboardPresetObj>;
 
 function getFocusableElement(
 	focusedElement: HTMLElement,
@@ -46,7 +45,7 @@ function getKeyboardPreset(
 	callback: (e: KeyboardEvent) => void,
 	ref: React.MutableRefObject<HTMLElement | null> | undefined = undefined,
 	keys: KeyboardPresetObj['keys'] = []
-): KeyboardPreset {
+): KeyboardPresetObj[] {
 	function handleArrowUp(): void {
 		if (ref?.current) {
 			const focusedElement = ref.current.querySelector<HTMLElement>('[tabindex]:focus');
@@ -126,7 +125,7 @@ function getKeyboardPreset(
 		}
 	}
 
-	const eventsArray: KeyboardPreset = [];
+	const eventsArray: KeyboardPresetObj[] = [];
 	switch (type) {
 		case 'listItem': {
 			eventsArray.push({
@@ -196,17 +195,17 @@ function getKeyboardPreset(
 }
 
 /**
- * Attach listeners for the given events to the given ref.
+ * Attach listeners for the given presets to the given ref.
  *
- * Note: an event with the `keys` field set to an empty array is considered as an event for any key.
- * In order to have an event for no key, you should either provide an event with the `keys` field set
- * to an array with an empty key (`['']`), or not provide an event at all.
+ * Note:
+ * a preset with the `keys` field set to an empty array is considered an event for any keyboard key.
+ * To avoid having listeners registered on the keyboard events, provide an empty presets array.
  */
-function useKeyboard(ref: React.RefObject<HTMLElement>, events: KeyboardPreset): void {
-	const keyEvents = useMemo(
+function useKeyboard(ref: React.RefObject<HTMLElement>, presets: KeyboardPresetObj[]): void {
+	const keyboardListeners = useMemo(
 		() =>
 			map<KeyboardPresetObj, (e: KeyboardEvent) => void>(
-				events,
+				presets,
 				({ keys, callback, haveToPreventDefault = true }) =>
 					(e) => {
 						if (keys.length === 0 || some(keys, (key) => isMatch(e, key))) {
@@ -217,25 +216,25 @@ function useKeyboard(ref: React.RefObject<HTMLElement>, events: KeyboardPreset):
 						}
 					}
 			),
-		[events]
+		[presets]
 	);
 
 	useEffect(() => {
 		if (ref.current) {
-			forEach(keyEvents, (keyEvent, index) => {
-				ref.current && ref.current.addEventListener(events[index].type, keyEvent);
+			forEach(keyboardListeners, (listener, index) => {
+				ref.current?.addEventListener(presets[index].type, listener);
 			});
 		}
 		const refSave = ref.current;
 		return (): void => {
 			if (refSave) {
-				forEach(keyEvents, (keyEvent, index) => {
-					refSave.removeEventListener(events[index].type, keyEvent);
+				forEach(keyboardListeners, (listener, index) => {
+					refSave.removeEventListener(presets[index].type, listener);
 				});
 			}
 		};
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [events, keyEvents, ref, ref.current]);
+	}, [presets, keyboardListeners, ref, ref.current]);
 }
 
-export { useKeyboard, getKeyboardPreset, type KeyboardPreset, type KeyboardPresetKey };
+export { useKeyboard, getKeyboardPreset, type KeyboardPresetObj, type KeyboardPresetKey };
