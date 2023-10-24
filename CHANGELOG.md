@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.0.2](https://github.com/Zextras/carbonio-design-system/compare/v3.0.1...v3.0.2) (2023-10-23)
+
+
+### Bug Fixes
+
+* **ListV2:** fire onListBottom event when browser zoom is different from 100 percent ([f7880be](https://github.com/Zextras/carbonio-design-system/commit/f7880be866cc74afe5ba00d2867ea140ddce776a)), closes [#232](https://github.com/Zextras/carbonio-design-system/issues/232)
+* **MultiButton,types:** omit children from dropdownProps ([271c594](https://github.com/Zextras/carbonio-design-system/commit/271c5940ae6cacc92f0a680754f44dad08d6ded0)), closes [#238](https://github.com/Zextras/carbonio-design-system/issues/238)
+
 ### [3.0.1](https://github.com/Zextras/carbonio-design-system/compare/v3.0.0...v3.0.1) (2023-09-29)
 
 ## [3.0.0](https://github.com/Zextras/carbonio-design-system/compare/v2.3.0...v3.0.0) (2023-09-27)
