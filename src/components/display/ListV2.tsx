@@ -42,7 +42,7 @@ interface BottomElementProps {
 	onVisible: () => void;
 }
 
-const BottomElement: React.VFC<BottomElementProps> = ({ listRef, onVisible }) => {
+const BottomElement = ({ listRef, onVisible }: BottomElementProps): React.JSX.Element => {
 	const [inView, ref] = useIsVisible<HTMLDivElement>(listRef);
 	useEffect(() => {
 		if (inView && onVisible) {
