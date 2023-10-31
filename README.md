@@ -43,14 +43,6 @@ npm start
 npm run build
 ```
 
-<h2>Deploy</h2>
-
-To deploy the Design System you will have to first deploy it on carbonio-shell-ui, and after that deploy shell-carbonio-ui to the host.
-
-```
-PKG_PATH=<path_to_carbonio_shell_ui> npm run deploy
-```
-
 <h2>License</h2>
 
 Released under the AGPL-3.0-only license as specified here: [COPYING](COPYING).
