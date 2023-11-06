@@ -17,7 +17,7 @@ import React, {
 	HTMLAttributes
 } from 'react';
 
-import { Placement, VirtualElement } from '@floating-ui/dom';
+import { flip, limitShift, Placement, shift, VirtualElement } from '@floating-ui/dom';
 import { find, some } from 'lodash';
 import styled, { css, DefaultTheme, SimpleInterpolation, ThemeContext } from 'styled-components';
 
@@ -557,6 +557,7 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 			if (popperReference && dropdownRef.current) {
 				cleanup = setupFloating(popperReference, dropdownRef.current, {
 					placement,
+					middleware: [flip(), shift({ limiter: limitShift() })],
 					strategy: 'fixed'
 				});
 			}
