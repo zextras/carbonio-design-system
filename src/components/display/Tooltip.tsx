@@ -14,11 +14,12 @@ import React, {
 	createRef
 } from 'react';
 
-import { createPopper, Instance, Placement } from '@popperjs/core';
+import { flip, Placement, offset, shift, limitShift } from '@floating-ui/dom';
 import { rgba } from 'polished';
 import styled, { css, SimpleInterpolation } from 'styled-components';
 
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
+import { setupFloating } from '../../utils/floating-ui';
 import { Text, TextProps } from '../basic/Text';
 import { Portal } from '../utilities/Portal';
 
@@ -42,7 +43,7 @@ const TooltipWrapper = React.forwardRef<HTMLDivElement, TooltipWrapperProps>(
 );
 const TooltipWrapperWithCss = styled(TooltipWrapper)<{ $maxWidth: string }>`
 	display: none;
-	position: fixed;
+	position: absolute;
 	top: -1000px;
 	left: -1000px;
 	z-index: 5000;
@@ -101,7 +102,6 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(function TooltipF
 	ref
 ) {
 	const [open, setOpen] = useState(false);
-	const popperInstanceRef = useRef<Instance>();
 	const combinedTriggerRef = useCombinedRefs<HTMLElement>(triggerRef);
 	const tooltipRef = useCombinedRefs<HTMLDivElement>(ref);
 	const timeoutRef = useRef<null | ReturnType<typeof setTimeout>>(null);
@@ -128,27 +128,16 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(function TooltipF
 	}, []);
 
 	useLayoutEffect(() => {
+		let cleanup: ReturnType<typeof setupFloating>;
 		if (open && !disabled && combinedTriggerRef.current && tooltipRef.current) {
-			popperInstanceRef.current = createPopper(combinedTriggerRef.current, tooltipRef.current, {
+			cleanup = setupFloating(combinedTriggerRef.current, tooltipRef.current, {
 				placement,
-				modifiers: [
-					{
-						name: 'offset',
-						options: {
-							offset: [0, 8]
-						}
-					},
-					{
-						name: 'flip',
-						options: {
-							fallbackPlacements
-						}
-					}
-				]
+				middleware: [offset(8), flip({ fallbackPlacements }), shift({ limiter: limitShift() })]
 			});
-		} else if (popperInstanceRef.current) {
-			popperInstanceRef.current.destroy();
 		}
+		return (): void => {
+			cleanup?.();
+		};
 	}, [disabled, fallbackPlacements, open, placement, tooltipRef, combinedTriggerRef]);
 
 	useEffect(() => {

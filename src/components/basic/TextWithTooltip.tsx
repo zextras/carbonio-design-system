@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { Placement } from '@popperjs/core/lib/enums';
+import { Placement } from '@floating-ui/dom';
 
 import { Text, TextProps } from './Text';
 import { Tooltip } from '../display/Tooltip';
