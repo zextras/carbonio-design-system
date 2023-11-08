@@ -21,7 +21,12 @@ import { InputDescription } from './commons/InputDescription';
 import { InputLabel } from './commons/InputLabel';
 import { IconButton } from './IconButton';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
-import { useKeyboard, getKeyboardPreset, KeyboardPreset } from '../../hooks/useKeyboard';
+import {
+	useKeyboard,
+	getKeyboardPreset,
+	KeyboardPresetKey,
+	KeyboardPresetObj
+} from '../../hooks/useKeyboard';
 import { usePrevious } from '../../hooks/usePrevious';
 import { getColor, pseudoClasses } from '../../theme/theme-utils';
 import { Icon } from '../basic/Icon';
@@ -148,10 +153,8 @@ const AdjustWidthInput = React.forwardRef<
 	HTMLInputElement,
 	{
 		color: keyof DefaultTheme['palette'];
-		separators: string[];
-		confirmChipOnBlur: boolean;
 	} & InputHTMLAttributes<HTMLInputElement>
->(function AdjustWidthInputFn({ confirmChipOnBlur, ...inputProps }, ref) {
+>(function AdjustWidthInputFn(inputProps, ref) {
 	const hiddenSpanRef = useRef<HTMLSpanElement | null>(null);
 	const inputRef = useCombinedRefs<HTMLInputElement>(ref);
 
@@ -177,7 +180,7 @@ const AdjustWidthInput = React.forwardRef<
 				inputElement.removeEventListener('change', resizeInput);
 			}
 		};
-	}, [confirmChipOnBlur, inputRef, resizeInput]);
+	}, [inputRef, resizeInput]);
 
 	return (
 		<InputContainer>
@@ -312,22 +315,12 @@ interface ChipInputProps<TValue = unknown>
 	onAdd?: (value: string | unknown) => ChipItem<TValue>;
 	/** Set the current input text as a Chip when it loses focus */
 	confirmChipOnBlur?: boolean;
-	/**
-	 * Set the current input text as a Chip when 'Space' is pressed
-	 * @deprecated use separators prop instead
-	 */
-	confirmChipOnSpace?: boolean;
 	/** ChipInput backgroundColor */
 	background?: keyof DefaultTheme['palette'];
 	/** Chip generation triggers */
-	separators?: string[];
+	separators?: KeyboardPresetKey[];
 	/** Show the error  */
 	hasError?: boolean;
-	/**
-	 * Set the label for the error
-	 * @deprecated use description instead
-	 */
-	errorLabel?: string;
 	/** Background color for the error status */
 	errorBackgroundColor?: keyof DefaultTheme['palette'];
 	/** Set the limit for chip inputs <br />
@@ -403,8 +396,11 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 		onAdd = DefaultOnAdd,
 		background = INPUT_BACKGROUND_COLOR,
 		confirmChipOnBlur = true,
-		confirmChipOnSpace = true,
-		separators = ['Enter', 'NumpadEnter', 'Comma', 'Space'],
+		separators = [
+			{ key: 'Enter', ctrlKey: false },
+			{ key: ',', ctrlKey: false },
+			{ key: ' ', ctrlKey: false }
+		],
 		icon,
 		iconAction,
 		iconDisabled = false,
@@ -416,7 +412,6 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 		maxChips = null,
 		hasError = false,
 		hideBorder = false,
-		errorLabel,
 		errorBackgroundColor,
 		disableOptions = true,
 		singleSelection = false,
@@ -453,18 +448,6 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 	const [dropdownItems, setDropdownItems] = useState<DropdownItem[]>(options);
 
 	const uncontrolledMode = useMemo(() => value === undefined, [value]);
-
-	// TODO: remove together with confirmChipOnSpace
-	const separatorKeys = useMemo(() => {
-		const keys = [...separators];
-		const index = keys.indexOf('Space');
-		if (confirmChipOnSpace && index < 0) {
-			keys.push('Space');
-		} else if (!confirmChipOnSpace && index >= 0) {
-			keys.splice(index, 1);
-		}
-		return keys;
-	}, [confirmChipOnSpace, separators]);
 
 	const setFocus = useCallback(() => {
 		inputElRef.current && inputElRef.current.focus();
@@ -523,10 +506,10 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 
 	const saveCurrentEvent = useMemo(
 		() =>
-			separatorKeys.length > 0
-				? getKeyboardPreset('chipInputKeys', saveCurrentValue, undefined, separatorKeys)
+			separators.length > 0
+				? getKeyboardPreset('chipInputKeys', saveCurrentValue, undefined, separators)
 				: [],
-		[saveCurrentValue, separatorKeys]
+		[saveCurrentValue, separators]
 	);
 
 	useKeyboard(inputElRef, saveCurrentEvent);
@@ -549,12 +532,12 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 		[uncontrolledMode, onChange, items]
 	);
 
-	const backspaceEvent = useMemo<KeyboardPreset>(
+	const backspaceEvent = useMemo<KeyboardPresetObj[]>(
 		() => [
 			{
 				type: 'keydown',
 				callback: onBackspace,
-				keys: ['Backspace'],
+				keys: [{ key: 'Backspace', ctrlKey: false }],
 				haveToPreventDefault: false
 			}
 		],
@@ -784,8 +767,6 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 							name={inputName || placeholder}
 							disabled={disabled || inputDisabled}
 							placeholder={placeholder}
-							separators={separatorKeys}
-							confirmChipOnBlur={confirmChipOnBlur}
 							onPaste={onPaste}
 						/>
 						{placeholder && (
@@ -814,13 +795,13 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 				</ContainerEl>
 			</Dropdown>
 			<Divider color={dividerColor} />
-			{((hasError && errorLabel !== undefined) || description !== undefined) && (
+			{description !== undefined && (
 				<CustomInputDescription
 					color={(hasError && 'error') || (hasFocus && 'primary') || 'secondary'}
 					disabled={disabled && dropdownDisabled && (!iconAction || iconDisabled)}
 					$backgroundColor={errorBackgroundColor}
 				>
-					{(hasError && errorLabel) || description}
+					{description}
 				</CustomInputDescription>
 			)}
 		</Container>

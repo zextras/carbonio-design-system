@@ -287,8 +287,7 @@ const onAdd = useCallback((valueToAdd) => {
 <ChipInput
 	placeholder="Chips:"
 	defaultValue={[]}
-	separators={['a', 'e', 'i', 'o', 'u']}
-	confirmChipOnSpace={false}
+	separators={[{ key: 'a', ctrlKey: false }, { key: 'e', ctrlKey: false }, { key: 'i', ctrlKey: false }, { key: 'o', ctrlKey: false }, { key: 'u', ctrlKey: false }]}
 />
 ```
 
@@ -330,7 +329,7 @@ const initial = [
 	defaultValue={[{ label: 'pippo@franco.it', background: 'gray3', color: 'text' }]}
 	hasError={true}
 	maxChips={3}
-	errorLabel="You have an error"
+	description="You have an error"
 />;
 ```
 
@@ -411,9 +410,8 @@ const onChange = (chips) => {
 <ChipInput
 	placeholder="Chips:"
 	defaultValue={options}
-	separators={['Enter', ',', ';']}
+	separators={[{ key: 'Enter', ctrlKey: false }, { key: ',', ctrlKey: false }, { key: ';', ctrlKey: false }]}
 	pasteSeparators={[',']}
-	confirmChipOnSpace={false}
 	createChipOnPaste
 	onChange={onChange}
 />
