@@ -6,7 +6,7 @@
 
 import React, { useEffect, useState, useCallback, useMemo, useContext } from 'react';
 
-import { VirtualElement } from '@popperjs/core';
+import { VirtualElement } from '@floating-ui/dom';
 import { debounce } from 'lodash';
 import styled, { ThemeContext } from 'styled-components';
 
@@ -61,8 +61,7 @@ const Popover = React.forwardRef<HTMLDivElement, PopoverProps>(function PopoverF
 						bottom: clientY,
 						left: clientX,
 						x: clientX,
-						y: clientY,
-						toJSON: (): unknown => undefined
+						y: clientY
 					});
 					setInnerOpen(true);
 					onMouseMove.cancel();
