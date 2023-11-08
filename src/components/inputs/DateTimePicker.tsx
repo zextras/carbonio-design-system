@@ -1135,7 +1135,6 @@ const DateTimePickerChipInput = React.forwardRef<
 				iconColor={hasError ? 'error' : 'text'}
 				wrap={'nowrap'}
 				separators={['']}
-				confirmChipOnSpace={false}
 				{...rest}
 				placeholder={placeholder}
 				value={chipInputValue}
