@@ -15,21 +15,17 @@ import React, {
 	HTMLAttributes
 } from 'react';
 
-import {
-	createPopper,
-	OptionsGeneric,
-	Placement,
-	StrictModifiers,
-	VirtualElement
-} from '@popperjs/core';
+import { flip, Placement, VirtualElement, offset, shift, limitShift } from '@floating-ui/dom';
 import styled, { css, SimpleInterpolation, ThemeContext } from 'styled-components';
 
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { KeyboardPreset, useKeyboard } from '../../hooks/useKeyboard';
+import { setupFloating } from '../../utils/floating-ui';
 import { Portal } from '../utilities/Portal';
 
 const PopperContainer = styled.div<{ open: boolean }>`
 	display: none;
+	position: absolute;
 	${({ open }): SimpleInterpolation =>
 		open &&
 		css`
@@ -122,19 +118,8 @@ const Popper = React.forwardRef<HTMLDivElement, PopperProps>(function PopperFn(
 	useKeyboard(popperRef, escapeEvent);
 
 	useLayoutEffect(() => {
+		let cleanup: ReturnType<typeof setupFloating>;
 		if (open) {
-			const popperOptions: Pick<OptionsGeneric<StrictModifiers>, 'placement' | 'modifiers'> = {
-				placement,
-				modifiers: [
-					{
-						name: 'offset',
-						options: {
-							offset: [0, 8]
-						}
-					}
-				]
-			};
-
 			const anchorElement = anchorEl.current;
 			if (anchorElement) {
 				const virtualEl = virtualElement && {
@@ -146,31 +131,25 @@ const Popper = React.forwardRef<HTMLDivElement, PopperProps>(function PopperFn(
 						bottom: virtualElement.y,
 						left: virtualElement.x,
 						y: virtualElement.y,
-						x: virtualElement.x,
-						toJSON: (): unknown => undefined
+						x: virtualElement.x
 					})
 				};
-				if (!virtualEl) {
-					popperOptions.modifiers.push({
-						name: 'flip',
-						options: {
-							fallbackPlacements: ['bottom']
-						}
+
+				if (popperRef.current) {
+					cleanup = setupFloating(virtualEl || anchorElement, popperRef.current, {
+						placement,
+						middleware: [
+							offset(8),
+							!virtualEl && flip({ fallbackPlacements: ['bottom'] }),
+							shift({ limiter: limitShift() })
+						]
 					});
 				}
-				const popperInstance =
-					popperRef.current &&
-					createPopper<StrictModifiers>(
-						virtualEl || anchorElement,
-						popperRef.current,
-						popperOptions
-					);
-				return (): void => {
-					popperInstance && popperInstance.destroy();
-				};
 			}
 		}
-		return (): void => undefined;
+		return (): void => {
+			cleanup?.();
+		};
 	}, [open, placement, anchorEl, virtualElement, popperRef]);
 
 	useEffect(() => {
