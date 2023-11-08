@@ -11,6 +11,7 @@ import userEvent from '@testing-library/user-event';
 import reduce from 'lodash/reduce';
 
 import { ChipInput, ChipInputProps, ChipItem } from './ChipInput';
+import { KeyboardPresetKey } from '../../hooks/useKeyboard';
 import { render } from '../../test-utils';
 import { ICONS } from '../../testUtils/constants';
 
@@ -128,7 +129,7 @@ describe('ChipInput', () => {
 		});
 
 		test('if custom separators are provided, enter, comma and space do not create a chip when typed, the custom keys do it', () => {
-			const separators = ['x'];
+			const separators = [{ key: 'x' }];
 			render(<ChipInput separators={separators} />);
 			const inputElement = screen.getByRole('textbox');
 			expect(inputElement).toBeInTheDocument();
@@ -190,7 +191,7 @@ describe('ChipInput', () => {
 		});
 
 		test('if space separator is provided, space create a chip', () => {
-			render(<ChipInput separators={[' ']} />);
+			render(<ChipInput separators={[{ key: ' ' }]} />);
 			const inputElement = screen.getByRole('textbox');
 			expect(inputElement).toBeInTheDocument();
 			expect(inputElement).toBeVisible();
@@ -221,7 +222,7 @@ describe('ChipInput', () => {
 
 		test.each<[string, NonNullable<ChipInputProps['separators']>]>([
 			['empty array', []],
-			['array with empty value', ['']]
+			['array with empty value', [{ key: '' }]]
 		])('should not create chips if separators is an %s', (_, separators) => {
 			render(<ChipInput separators={separators} confirmChipOnBlur />);
 			const inputElement = screen.getByRole('textbox');
@@ -248,6 +249,104 @@ describe('ChipInput', () => {
 			// chip is visible
 			expect(screen.getByText('hello world, ciao mondo')).toBeVisible();
 			expect(screen.getByTestId(ICONS.close)).toBeVisible();
+		});
+
+		describe('with modifiers', () => {
+			describe.each<[string, Omit<KeyboardPresetKey, 'key' | 'code'>]>([
+				['Shift', { shiftKey: true }],
+				['Meta', { metaKey: true }],
+				['Control', { ctrlKey: true }],
+				['Alt', { altKey: true }]
+			])('should create chip if separator specifies the modifier %s', (key, modifiers) => {
+				test('and match both the event code and the modifier', () => {
+					render(<ChipInput separators={[{ code: 'KeyE', ...modifiers }]} />);
+					const inputElement = screen.getByRole<HTMLInputElement>('textbox');
+					userEvent.type(inputElement, 'ciao');
+					userEvent.keyboard(`{${key}>}[KeyE]{/${key}}`);
+					expect(inputElement).toHaveValue('');
+					expect(screen.getByText('ciao')).toBeVisible();
+				});
+
+				test('and match both the event key and the modifier', () => {
+					render(<ChipInput separators={[{ key: 'e', ...modifiers }]} />);
+					const inputElement = screen.getByRole<HTMLInputElement>('textbox');
+					userEvent.type(inputElement, 'ciao');
+					userEvent.keyboard(`{${key}>}[KeyE]{/${key}}`);
+					expect(inputElement).toHaveValue('');
+					expect(screen.getByText('ciao')).toBeVisible();
+				});
+
+				test('and match all the event key, the code and the modifier', () => {
+					render(<ChipInput separators={[{ key: 'e', code: 'KeyE', ...modifiers }]} />);
+					const inputElement = screen.getByRole<HTMLInputElement>('textbox');
+					userEvent.type(inputElement, 'ciao');
+					userEvent.keyboard(`{${key}>}[KeyE]{/${key}}`);
+					expect(inputElement).toHaveValue('');
+					expect(screen.getByText('ciao')).toBeVisible();
+				});
+			});
+
+			describe.each<[string, Omit<KeyboardPresetKey, 'key' | 'code'>]>([
+				['Shift', { shiftKey: true }],
+				['Meta', { metaKey: true }],
+				['Control', { ctrlKey: true }],
+				['Alt', { altKey: true }]
+			])('should not create chip if separator specifies the modifier %s', (key, modifiers) => {
+				test('and match the event key but not the modifier', () => {
+					render(<ChipInput separators={[{ code: 'KeyE', ...modifiers }]} />);
+					const inputElement = screen.getByRole<HTMLInputElement>('textbox');
+					userEvent.type(inputElement, 'ciao');
+					userEvent.keyboard('[KeyE]');
+					expect(inputElement).toHaveValue('ciaoe');
+				});
+
+				test('and match the event key but not the modifier', () => {
+					render(<ChipInput separators={[{ key: 'e', ...modifiers }]} />);
+					const inputElement = screen.getByRole<HTMLInputElement>('textbox');
+					userEvent.type(inputElement, 'ciao');
+					userEvent.keyboard('[KeyE]');
+					expect(inputElement).toHaveValue('ciaoe');
+				});
+
+				test('and match the event key and the modifier, but not the code', () => {
+					render(<ChipInput separators={[{ key: 'e', code: 'wrongCode', ...modifiers }]} />);
+					const inputElement = screen.getByRole<HTMLInputElement>('textbox');
+					userEvent.type(inputElement, 'ciao');
+					userEvent.keyboard('[KeyE]');
+					expect(inputElement).toHaveValue('ciaoe');
+				});
+
+				test('and match the event code and the modifier, but not the key', () => {
+					render(<ChipInput separators={[{ key: 'wrongKey', code: 'KeyE', ...modifiers }]} />);
+					const inputElement = screen.getByRole<HTMLInputElement>('textbox');
+					userEvent.type(inputElement, 'ciao');
+					userEvent.keyboard('[KeyE]');
+					expect(inputElement).toHaveValue('ciaoe');
+				});
+			});
+
+			describe.each(['Shift', 'Meta', 'Control', 'Alt'])(
+				'should create chip if separator does not specify the modifier %s',
+				(key) => {
+					test('and match the event code', () => {
+						render(<ChipInput separators={[{ code: 'KeyE' }]} />);
+						const inputElement = screen.getByRole<HTMLInputElement>('textbox');
+						userEvent.type(inputElement, 'ciao');
+						userEvent.keyboard(`{${key}>}[KeyE]{/${key}}`);
+						expect(inputElement).toHaveValue('');
+						expect(screen.getByText('ciao')).toBeVisible();
+					});
+
+					test('and match the event key', () => {
+						render(<ChipInput separators={[{ key: 'e' }]} />);
+						const inputElement = screen.getByRole<HTMLInputElement>('textbox');
+						userEvent.type(inputElement, 'ciao');
+						userEvent.keyboard(`{${key}>}[KeyE]{/${key}}`);
+						expect(inputElement).toHaveValue('');
+						expect(screen.getByText('ciao')).toBeVisible();
+					});
+				}
+			);
 		});
 	});
 
@@ -616,7 +715,7 @@ describe('ChipInput', () => {
 						background="gray5"
 						confirmChipOnBlur={false}
 						value={value}
-						separators={['']}
+						separators={[]}
 						disableOptions={false}
 						maxChips={1}
 						onChange={itemTypeOnChange}

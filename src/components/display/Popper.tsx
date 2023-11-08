@@ -19,7 +19,7 @@ import { flip, Placement, VirtualElement, offset, shift, limitShift } from '@flo
 import styled, { css, SimpleInterpolation, ThemeContext } from 'styled-components';
 
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
-import { KeyboardPreset, useKeyboard } from '../../hooks/useKeyboard';
+import { KeyboardPresetObj, useKeyboard } from '../../hooks/useKeyboard';
 import { setupFloating } from '../../utils/floating-ui';
 import { Portal } from '../utilities/Portal';
 
@@ -110,8 +110,10 @@ const Popper = React.forwardRef<HTMLDivElement, PopperProps>(function PopperFn(
 		node && node.focus();
 	}, []);
 
-	const escapeEvent = useMemo<KeyboardPreset>(
-		() => [{ type: 'keydown', callback: keyboardClosePopper, keys: ['Escape'] }],
+	const escapeEvent = useMemo<KeyboardPresetObj[]>(
+		() => [
+			{ type: 'keydown', callback: keyboardClosePopper, keys: [{ key: 'Escape', ctrlKey: false }] }
+		],
 		[keyboardClosePopper]
 	);
 
