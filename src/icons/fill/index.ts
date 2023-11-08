@@ -190,6 +190,7 @@ export { default as Group } from './Group';
 export { default as Hangup } from './Hangup';
 export { default as HardDrive } from './HardDrive';
 export { default as Hash } from './Hash';
+export { default as HeadphonesOff } from './HeadphonesOff';
 export { default as Headphones } from './Headphones';
 export { default as Heart } from './Heart';
 export { default as Holiday } from './Holiday';

@@ -35,7 +35,7 @@ type MultiButtonProps = {
 	/** Button size */
 	size?: Extract<ButtonProps['size'], 'medium' | 'large' | 'extralarge'>;
 	/** Dropdown properties */
-	dropdownProps?: DropdownProps;
+	dropdownProps?: Omit<DropdownProps, 'children'>;
 } & Omit<ButtonProps, 'secondaryAction' | 'icon' | 'disabled'>;
 
 const MultiButton = React.forwardRef<HTMLButtonElement, MultiButtonProps>(function MultiButtonFn(

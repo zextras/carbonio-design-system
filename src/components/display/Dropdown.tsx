@@ -17,13 +17,7 @@ import React, {
 	HTMLAttributes
 } from 'react';
 
-import {
-	createPopper,
-	Instance,
-	OptionsGeneric,
-	StrictModifiers,
-	VirtualElement
-} from '@popperjs/core';
+import { flip, limitShift, Placement, shift, VirtualElement } from '@floating-ui/dom';
 import { find, some } from 'lodash';
 import styled, { css, DefaultTheme, SimpleInterpolation, ThemeContext } from 'styled-components';
 
@@ -31,6 +25,7 @@ import { Tooltip } from './Tooltip';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { useKeyboard, getKeyboardPreset, KeyboardPreset } from '../../hooks/useKeyboard';
 import { pseudoClasses } from '../../theme/theme-utils';
+import { setupFloating } from '../../utils/floating-ui';
 import { Icon } from '../basic/Icon';
 import { Text } from '../basic/Text';
 import { Container } from '../layout/Container';
@@ -263,7 +258,7 @@ const PopperList = styled.div<{
 	triggerRef: React.RefObject<HTMLElement>;
 	open: boolean;
 }>`
-	position: absolute;
+	position: fixed;
 	display: none;
 	visibility: hidden;
 	pointer-events: none;
@@ -350,22 +345,7 @@ interface DropdownProps extends Omit<HTMLAttributes<HTMLDivElement>, 'contextMen
 	/** trigger ref that can be used instead of lost children ref caused by cloneElement */
 	triggerRef?: React.Ref<HTMLElement>;
 	/** Placement of the dropdown */
-	placement?:
-		| 'auto'
-		| 'auto-start'
-		| 'auto-end'
-		| 'top'
-		| 'top-start'
-		| 'top-end'
-		| 'bottom'
-		| 'bottom-start'
-		| 'bottom-end'
-		| 'right'
-		| 'right-start'
-		| 'right-end'
-		| 'left'
-		| 'left-start'
-		| 'left-end';
+	placement?: Placement;
 	/** Flag to disable the Portal implementation */
 	disablePortal?: boolean;
 	/** Whether the Component is visible or not */
@@ -489,8 +469,7 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 					bottom: e.clientY,
 					left: e.clientX,
 					x: e.clientX,
-					y: e.clientY,
-					toJSON: (): string => 'TODO' // TODO: check what this should return
+					y: e.clientY
 				})
 			};
 			setPosition(virtualElement);
@@ -572,24 +551,20 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 	useKeyboard(dropdownRef, escapeEvent);
 
 	useLayoutEffect(() => {
-		let popperInstance: Instance | undefined;
+		let cleanup: ReturnType<typeof setupFloating>;
 		if (open) {
-			const popperOptions: OptionsGeneric<StrictModifiers> = {
-				placement,
-				modifiers: [],
-				strategy: 'fixed'
-			};
-
 			const popperReference = contextMenu ? position : innerTriggerRef.current;
 			if (popperReference && dropdownRef.current) {
-				popperInstance = createPopper<StrictModifiers>(
-					popperReference,
-					dropdownRef.current,
-					popperOptions
-				);
+				cleanup = setupFloating(popperReference, dropdownRef.current, {
+					placement,
+					middleware: [flip(), shift({ limiter: limitShift() })],
+					strategy: 'fixed'
+				});
 			}
 		}
-		return (): void => popperInstance && popperInstance.destroy();
+		return (): void => {
+			cleanup?.();
+		};
 	}, [open, placement, contextMenu, position, dropdownRef, innerTriggerRef]);
 
 	useEffect(() => {
