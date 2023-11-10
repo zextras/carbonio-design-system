@@ -10,10 +10,10 @@ import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { Modal, ModalProps } from './Modal';
+import { ModalFooter } from './modal-components/ModalFooter';
 import { render } from '../../test-utils';
 import { Button } from '../basic/Button';
 import { Text } from '../basic/Text';
-import { ModalFooter } from "./modal-components/ModalFooter";
 
 const ModalTester = ({ children, ...props }: ModalProps): React.JSX.Element => {
 	const [open, setOpen] = useState(false);

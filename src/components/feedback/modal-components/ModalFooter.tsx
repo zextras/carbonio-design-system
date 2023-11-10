@@ -163,6 +163,7 @@ const ModalFooter = ({
 	centered,
 	confirmColor,
 	confirmLabel,
+	confirmDisabled,
 	errorActionLabel,
 	customFooter,
 	dismissLabel,
@@ -186,6 +187,7 @@ const ModalFooter = ({
 				optionalFooter={optionalFooter}
 				confirmLabel={confirmLabel}
 				confirmColor={confirmColor}
+				confirmDisabled={confirmDisabled}
 				dismissLabel={dismissLabel}
 				onConfirm={onConfirm}
 				onClose={onClose}
