@@ -13,6 +13,7 @@ import { Modal, ModalProps } from './Modal';
 import { render } from '../../test-utils';
 import { Button } from '../basic/Button';
 import { Text } from '../basic/Text';
+import { ModalFooter } from "./modal-components/ModalFooter";
 
 const ModalTester = ({ children, ...props }: ModalProps): React.JSX.Element => {
 	const [open, setOpen] = useState(false);
@@ -104,5 +105,25 @@ describe('Modal', () => {
 			expect.stringContaining('Error: Not implemented: navigation (except hash changes)')
 		]);
 		console.error = originalConsoleError;
+	});
+
+	describe('Modal footer', () => {
+		it('displays a disabled primary button if the "confirmDisabled" is set to true', async () => {
+			render(<ModalFooter confirmLabel={'confirm'} confirmDisabled={true} onConfirm={jest.fn} />);
+			const confirmButton = screen.getByRole('button', { name: /confirm/i });
+			expect(confirmButton).toBeDisabled();
+		});
+
+		it('displays an enabled primary button if the "confirmDisabled" is set to false', async () => {
+			render(<ModalFooter confirmLabel={'confirm'} confirmDisabled={false} onConfirm={jest.fn} />);
+			const confirmButton = screen.getByRole('button', { name: /confirm/i });
+			expect(confirmButton).toBeEnabled();
+		});
+
+		it('displays an enabled primary button if the "confirmDisabled" is not set', async () => {
+			render(<ModalFooter confirmLabel={'confirm'} onConfirm={jest.fn} />);
+			const confirmButton = screen.getByRole('button', { name: /confirm/i });
+			expect(confirmButton).toBeEnabled();
+		});
 	});
 });
