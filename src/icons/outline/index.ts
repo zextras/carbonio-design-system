@@ -200,6 +200,7 @@ export { default as GroupOutline } from './GroupOutline';
 export { default as HangupOutline } from './HangupOutline';
 export { default as HardDriveOutline } from './HardDriveOutline';
 export { default as HashOutline } from './HashOutline';
+export { default as HeadphonesOffOutline } from './HeadphonesOffOutline';
 export { default as HeadphonesOutline } from './HeadphonesOutline';
 export { default as HeartOutline } from './HeartOutline';
 export { default as HistoryOutline } from './HistoryOutline';

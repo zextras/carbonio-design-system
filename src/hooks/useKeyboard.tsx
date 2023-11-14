@@ -6,21 +6,25 @@
 
 import React, { useEffect, useMemo } from 'react';
 
-import { map, forEach } from 'lodash';
+import { map, forEach, some, isMatch } from 'lodash';
+
+import { RequireAtLeastOne } from '../typeUtils';
 
 type HtmlElementKeyboardEventKey = {
 	[K in keyof HTMLElementEventMap]: HTMLElementEventMap[K] extends KeyboardEvent ? K : never;
 }[keyof HTMLElementEventMap];
 
 type ElementType = 'listItem' | 'button' | 'list' | 'chipInputKeys' | 'chipInputSpace';
+type KeyboardPresetKey = Partial<
+	Pick<KeyboardEvent, 'ctrlKey' | 'altKey' | 'metaKey' | 'shiftKey'>
+> &
+	RequireAtLeastOne<Pick<KeyboardEvent, 'key' | 'code'>>;
 type KeyboardPresetObj = {
 	type: HtmlElementKeyboardEventKey;
 	callback: (e: KeyboardEvent) => void;
-	keys: string[];
-	modifier?: boolean;
+	keys: KeyboardPresetKey[];
 	haveToPreventDefault?: boolean;
 };
-type KeyboardPreset = Array<KeyboardPresetObj>;
 
 function getFocusableElement(
 	focusedElement: HTMLElement,
@@ -40,9 +44,8 @@ function getKeyboardPreset(
 	type: ElementType,
 	callback: (e: KeyboardEvent) => void,
 	ref: React.MutableRefObject<HTMLElement | null> | undefined = undefined,
-	keys: string[] = [],
-	modifier = false
-): KeyboardPreset {
+	keys: KeyboardPresetObj['keys'] = []
+): KeyboardPresetObj[] {
 	function handleArrowUp(): void {
 		if (ref?.current) {
 			const focusedElement = ref.current.querySelector<HTMLElement>('[tabindex]:focus');
@@ -122,30 +125,27 @@ function getKeyboardPreset(
 		}
 	}
 
-	const eventsArray: KeyboardPreset = [];
+	const eventsArray: KeyboardPresetObj[] = [];
 	switch (type) {
 		case 'listItem': {
 			eventsArray.push({
 				type: 'keypress',
 				callback,
-				keys: ['Enter', 'NumpadEnter'],
-				modifier
+				keys: [{ key: 'Enter', ctrlKey: false }]
 			});
 			break;
 		}
 		case 'button': {
-			eventsArray.push({ type: 'keyup', callback, keys: ['Space'], modifier });
+			eventsArray.push({ type: 'keyup', callback, keys: [{ code: 'Space', ctrlKey: false }] });
 			eventsArray.push({
 				type: 'keypress',
 				callback: (e: KeyboardEvent) => e.preventDefault(),
-				keys: ['Space'],
-				modifier
+				keys: [{ code: 'Space', ctrlKey: false }]
 			});
 			eventsArray.push({
 				type: 'keypress',
 				callback,
-				keys: ['Enter', 'NumpadEnter'],
-				modifier
+				keys: [{ key: 'Enter', ctrlKey: false }]
 			});
 			break;
 		}
@@ -153,44 +153,38 @@ function getKeyboardPreset(
 			eventsArray.push({
 				type: 'keydown',
 				callback: handleArrowUp,
-				keys: ['ArrowUp'],
-				modifier
+				keys: [{ key: 'ArrowUp', ctrlKey: false }]
 			});
 			eventsArray.push({
 				type: 'keydown',
 				callback: handleArrowDown,
-				keys: ['ArrowDown'],
-				modifier
+				keys: [{ key: 'ArrowDown', ctrlKey: false }]
 			});
 			eventsArray.push({
 				type: 'keydown',
 				callback: handleCtrlArrowUp,
-				keys: ['ArrowUp'],
-				modifier: true
+				keys: [{ key: 'ArrowUp', ctrlKey: true }]
 			});
 			eventsArray.push({
 				type: 'keydown',
 				callback: handleCtrlArrowDown,
-				keys: ['ArrowDown'],
-				modifier: true
+				keys: [{ key: 'ArrowDown', ctrlKey: true }]
 			});
 			eventsArray.push({
 				type: 'keydown',
 				callback: handleEscape,
-				keys: ['Escape'],
-				modifier
+				keys: [{ key: 'Escape', ctrlKey: false }]
 			});
 			eventsArray.push({
 				type: 'keydown',
 				callback: handleEnter,
-				keys: ['Enter', 'NumpadEnter'],
-				modifier
+				keys: [{ key: 'Enter', ctrlKey: false }]
 			});
 
 			break;
 		}
 		case 'chipInputKeys': {
-			eventsArray.push({ type: 'keypress', callback, keys, modifier });
+			eventsArray.push({ type: 'keydown', callback, keys });
 			break;
 		}
 		default: {
@@ -201,24 +195,20 @@ function getKeyboardPreset(
 }
 
 /**
- * Attach listeners for the given events to the given ref.
+ * Attach listeners for the given presets to the given ref.
  *
- * Note: an event with the `keys` field set to an empty array is considered as an event for any key.
- * In order to have an event for no key, you should either provide an event with the `keys` field set
- * to an array with an empty key (`['']`), or not provide an event at all.
+ * Note:
+ * a preset with the `keys` field set to an empty array is considered an event for any keyboard key.
+ * To avoid having listeners registered on the keyboard events, provide an empty presets array.
  */
-function useKeyboard(ref: React.RefObject<HTMLElement>, events: KeyboardPreset): void {
-	const keyEvents = useMemo(
+function useKeyboard(ref: React.RefObject<HTMLElement>, presets: KeyboardPresetObj[]): void {
+	const keyboardListeners = useMemo(
 		() =>
 			map<KeyboardPresetObj, (e: KeyboardEvent) => void>(
-				events,
-				({ keys, modifier = false, callback, haveToPreventDefault = true }) =>
-					(e): void => {
-						if (
-							!keys.length ||
-							(keys.includes(e.key) && modifier === e.ctrlKey) ||
-							(keys.includes(e.code) && modifier === e.ctrlKey)
-						) {
+				presets,
+				({ keys, callback, haveToPreventDefault = true }) =>
+					(e) => {
+						if (keys.length === 0 || some(keys, (key) => isMatch(e, key))) {
 							if (haveToPreventDefault) {
 								e.preventDefault();
 							}
@@ -226,25 +216,25 @@ function useKeyboard(ref: React.RefObject<HTMLElement>, events: KeyboardPreset):
 						}
 					}
 			),
-		[events]
+		[presets]
 	);
 
 	useEffect(() => {
 		if (ref.current) {
-			forEach(keyEvents, (keyEvent, index) => {
-				ref.current && ref.current.addEventListener(events[index].type, keyEvent);
+			forEach(keyboardListeners, (listener, index) => {
+				ref.current?.addEventListener(presets[index].type, listener);
 			});
 		}
 		const refSave = ref.current;
 		return (): void => {
 			if (refSave) {
-				forEach(keyEvents, (keyEvent, index) => {
-					refSave.removeEventListener(events[index].type, keyEvent);
+				forEach(keyboardListeners, (listener, index) => {
+					refSave.removeEventListener(presets[index].type, listener);
 				});
 			}
 		};
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [events, keyEvents, ref, ref.current]);
+	}, [presets, keyboardListeners, ref, ref.current]);
 }
 
-export { useKeyboard, getKeyboardPreset, KeyboardPreset };
+export { useKeyboard, getKeyboardPreset, type KeyboardPresetObj, type KeyboardPresetKey };

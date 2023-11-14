@@ -6,7 +6,7 @@
 
 import React, { HTMLAttributes, useCallback, useState } from 'react';
 
-import styled, { css, SimpleInterpolation } from 'styled-components';
+import styled, { SimpleInterpolation, css } from 'styled-components';
 
 import { Container } from '../layout/Container';
 
@@ -32,7 +32,6 @@ const CoverEl = styled(Container)<{ $dragging: boolean }>`
 			pointer-events: none;
 		`};
 `;
-
 type DragObj = {
 	event: React.DragEvent;
 	data?: Record<string, unknown>;
@@ -76,11 +75,12 @@ const Drop = React.forwardRef<HTMLDivElement, DropProps>(function DropFn(
 	const [styleObject, setStyleObject] = useState<StyleObj>({});
 	const [overlayAccept, setOverlayAccept] = useState<React.ReactNode>(null);
 	const [overlayDeny, setOverlayDeny] = useState<React.ReactNode>(null);
+	const [dragging, setDragging] = useState<boolean>(false);
 
 	const dropEvent = useCallback<React.DragEventHandler>(
 		(e) => {
 			e.preventDefault();
-			e && e.stopPropagation();
+			e.stopPropagation();
 			setStyleObject({});
 			setOverlayAccept(null);
 			setOverlayDeny(null);
@@ -91,19 +91,23 @@ const Drop = React.forwardRef<HTMLDivElement, DropProps>(function DropFn(
 					data: window.draggedItem.data
 				});
 			}
+			setDragging(false);
 			window.draggedItem = undefined;
 		},
 		[acceptType, onDrop]
 	);
 
+	// TODO: distinguish dragEnter from dragOver and throttle dragOver
 	const dragEnterEvent = useCallback<React.DragEventHandler>(
 		(e) => {
+			e.preventDefault();
+			setDragging(true);
 			const dragEnterResponse = onDragEnter({
 				event: e,
 				type: window.draggedItem?.type,
 				data: window.draggedItem?.data
 			});
-			e && e.stopPropagation();
+			e.stopPropagation();
 			if (
 				(!dragEnterResponse || dragEnterResponse.success) &&
 				window.draggedItem &&
@@ -112,40 +116,6 @@ const Drop = React.forwardRef<HTMLDivElement, DropProps>(function DropFn(
 				setStyleObject(acceptStyle);
 				setOverlayAccept(overlayAcceptComponent);
 			} else {
-				// eslint-disable-next-line no-param-reassign
-				e.dataTransfer.dropEffect = 'none';
-				setOverlayDeny(overlayDenyComponent);
-				setStyleObject(rejectStyle);
-			}
-		},
-		[
-			onDragEnter,
-			acceptType,
-			acceptStyle,
-			overlayAcceptComponent,
-			overlayDenyComponent,
-			rejectStyle
-		]
-	);
-
-	const onDragOverEvent = useCallback<React.DragEventHandler>(
-		(e) => {
-			e && e.preventDefault();
-			const dragEnterResponse = onDragEnter({
-				event: e,
-				type: window.draggedItem?.type,
-				data: window.draggedItem?.data
-			});
-			e && e.stopPropagation();
-			if (
-				(!dragEnterResponse || dragEnterResponse.success) &&
-				window.draggedItem &&
-				acceptType.includes(window.draggedItem.type)
-			) {
-				setStyleObject(acceptStyle);
-				setOverlayAccept(overlayAcceptComponent);
-			} else {
-				// eslint-disable-next-line no-param-reassign
 				e.dataTransfer.dropEffect = 'none';
 				setOverlayDeny(overlayDenyComponent);
 				setStyleObject(rejectStyle);
@@ -161,22 +131,28 @@ const Drop = React.forwardRef<HTMLDivElement, DropProps>(function DropFn(
 		]
 	);
 
-	const dragEnterLeave = (): void => {
-		setStyleObject({});
-		setOverlayAccept(null);
-		setOverlayDeny(null);
-	};
+	const dragLeaveEvent = useCallback<React.DragEventHandler>((e): void => {
+		const isLeavingDropzone =
+			!(e.relatedTarget instanceof Node) || !e.currentTarget.contains(e.relatedTarget);
+		if (isLeavingDropzone) {
+			setStyleObject({});
+			setOverlayAccept(null);
+			setOverlayDeny(null);
+			setDragging(false);
+		}
+	}, []);
 
 	return (
 		<DropEl
 			ref={ref}
-			onDragOver={onDragOverEvent}
 			onDragEnter={dragEnterEvent}
-			onDragLeave={dragEnterLeave}
+			onDragOver={dragEnterEvent}
+			onDragLeave={dragLeaveEvent}
 			onDrop={dropEvent}
 			style={styleObject}
+			data-testid={'drop'}
 		>
-			<CoverEl $dragging={window.draggedItem !== undefined}>
+			<CoverEl $dragging={dragging}>
 				{children}
 				{overlayAccept && <OverlayEl>{overlayAccept}</OverlayEl>}
 				{overlayDeny && <OverlayEl>{overlayDeny}</OverlayEl>}
