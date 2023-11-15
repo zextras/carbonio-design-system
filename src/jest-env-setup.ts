@@ -5,8 +5,12 @@
  */
 
 import '@testing-library/jest-dom/extend-expect';
-import { act } from '@testing-library/react';
+import { act, configure } from '@testing-library/react';
 import failOnConsole from 'jest-fail-on-console';
+
+configure({
+	asyncUtilTimeout: 2000
+});
 
 failOnConsole({
 	shouldFailOnError: true,
@@ -74,6 +78,7 @@ afterEach(() => {
 	// Restores the original implementation of "spies"
 	// Replace mocks with jest.fn(), but replace spies with their original implementation.
 	jest.restoreAllMocks();
+	jest.runOnlyPendingTimers();
 	act(() => {
 		window.resizeTo(1024, 768);
 	});

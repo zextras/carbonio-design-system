@@ -6,11 +6,10 @@
 import React from 'react';
 
 import { screen, within } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 import { forEach, map, reject, slice } from 'lodash';
 
 import { Select, SelectItem, SingleSelectionOnChange } from './Select';
-import { render } from '../../test-utils';
+import { setup } from '../../test-utils';
 import { SELECTORS } from '../../testUtils/constants';
 
 const items: SelectItem<`${number}`>[] = [
@@ -50,20 +49,20 @@ describe('Select', () => {
 		test('disabled items are not selectable and does not trigger onChange', async () => {
 			const label = 'Select an item';
 			const onChange = jest.fn();
-			render(
+			const { user } = setup(
 				<Select items={extendedItems} label={label} onChange={onChange} selection={items[0]} />
 			);
 
-			await userEvent.click(screen.getByText(label));
+			await user.click(screen.getByText(label));
 
 			const dropdownItem = within(screen.getByTestId(SELECTORS.dropdown)).getByText(
 				extendedItems[5].label
 			);
-			await userEvent.click(dropdownItem);
+			await user.click(dropdownItem);
 
 			const selectedItemLabels = screen.getAllByText(extendedItems[0].label);
 
-			expect(onChange).not.toBeCalled();
+			expect(onChange).not.toHaveBeenCalled();
 
 			expect(selectedItemLabels).toHaveLength(2);
 			expect(selectedItemLabels[0]).toBeVisible();
@@ -74,7 +73,7 @@ describe('Select', () => {
 			test('label is visible, item is selected and onChange is not called', () => {
 				const label = 'Select an item';
 				const onChange = jest.fn();
-				render(<Select items={items} label={label} onChange={onChange} selection={items[0]} />);
+				setup(<Select items={items} label={label} onChange={onChange} selection={items[0]} />);
 
 				// label is visible
 				expect(screen.getByText(label)).toBeInTheDocument();
@@ -84,52 +83,58 @@ describe('Select', () => {
 				expect(screen.getByText(items[0].label)).toBeInTheDocument();
 
 				// onChange is not called
-				expect(onChange).not.toBeCalled();
+				expect(onChange).not.toHaveBeenCalled();
 			});
 			test('onChange is not called if the user clicks on the item with the same value as the selected one', async () => {
 				const label = 'Select an item';
 				const onChange = jest.fn();
-				render(<Select items={items} label={label} onChange={onChange} selection={items[0]} />);
+				const { user } = setup(
+					<Select items={items} label={label} onChange={onChange} selection={items[0]} />
+				);
 
-				await userEvent.click(screen.getByText(label));
+				await user.click(screen.getByText(label));
 
 				const dropdownItem = within(screen.getByTestId(SELECTORS.dropdown)).getByText(
 					items[0].label
 				);
-				await userEvent.click(dropdownItem);
+				await user.click(dropdownItem);
 
-				expect(onChange).not.toBeCalled();
+				expect(onChange).not.toHaveBeenCalled();
 			});
 			test('onChange is called if the user clicks on an item with a different value from the selected one', async () => {
 				const label = 'Select an item';
 				const onChange = jest.fn();
-				render(<Select items={items} label={label} onChange={onChange} selection={items[0]} />);
+				const { user } = setup(
+					<Select items={items} label={label} onChange={onChange} selection={items[0]} />
+				);
 
-				await userEvent.click(screen.getByText(label));
+				await user.click(screen.getByText(label));
 
 				const dropdownItem = within(screen.getByTestId(SELECTORS.dropdown)).getByText(
 					items[1].label
 				);
-				await userEvent.click(dropdownItem);
+				await user.click(dropdownItem);
 
-				expect(onChange).toBeCalled();
-				expect(onChange).toBeCalledTimes(1);
+				expect(onChange).toHaveBeenCalled();
+				expect(onChange).toHaveBeenCalledTimes(1);
 				expect(onChange).toHaveBeenCalledWith(items[1].value);
 			});
 			test('click on an item does not automatically update the value of the select', async () => {
 				const label = 'Select an item';
 				const onChange = jest.fn();
-				render(<Select items={items} label={label} onChange={onChange} selection={items[0]} />);
+				const { user } = setup(
+					<Select items={items} label={label} onChange={onChange} selection={items[0]} />
+				);
 
-				await userEvent.click(screen.getByText(label));
-				await userEvent.click(screen.getByText(items[1].label));
+				await user.click(screen.getByText(label));
+				await user.click(screen.getByText(items[1].label));
 
 				expect(screen.queryByText(items[1].label)).not.toBeInTheDocument();
 			});
 			test('If the value change, the new value is shown as the selected one', () => {
 				const label = 'Select an item';
 				const onChange = jest.fn();
-				const { rerender } = render(
+				const { rerender } = setup(
 					<Select items={items} label={label} onChange={onChange} selection={items[0]} />
 				);
 				expect(screen.getByText(label)).toBeVisible();
@@ -143,7 +148,7 @@ describe('Select', () => {
 			test('If there is not a default selection only label is visible, onchange is not called', () => {
 				const label = 'Select an item';
 				const onChange = jest.fn();
-				render(<Select items={items} label={label} onChange={onChange} />);
+				setup(<Select items={items} label={label} onChange={onChange} />);
 
 				// label is visible
 				expect(screen.getByText(label)).toBeInTheDocument();
@@ -155,12 +160,12 @@ describe('Select', () => {
 				});
 
 				// onChange is not called
-				expect(onChange).not.toBeCalled();
+				expect(onChange).not.toHaveBeenCalled();
 			});
 			test('If there is a default selection label and selected item are visible, onchange is not called', () => {
 				const label = 'Select an item';
 				const onChange = jest.fn();
-				render(
+				setup(
 					<Select items={items} label={label} onChange={onChange} defaultSelection={items[0]} />
 				);
 
@@ -172,37 +177,37 @@ describe('Select', () => {
 				expect(screen.getByText(items[0].label)).toBeInTheDocument();
 
 				// onChange is not called
-				expect(onChange).not.toBeCalled();
+				expect(onChange).not.toHaveBeenCalled();
 			});
 			test('onChange is not called if the user clicks on the item with the same value as the selected one', async () => {
 				const label = 'Select an item';
 				const onChange = jest.fn();
-				render(
+				const { user } = setup(
 					<Select items={items} label={label} onChange={onChange} defaultSelection={items[0]} />
 				);
 
-				await userEvent.click(screen.getByText(label));
+				await user.click(screen.getByText(label));
 
 				const dropdownItem = within(screen.getByTestId(SELECTORS.dropdown)).getByText(
 					items[0].label
 				);
-				await userEvent.click(dropdownItem);
+				await user.click(dropdownItem);
 
-				expect(onChange).not.toBeCalled();
+				expect(onChange).not.toHaveBeenCalled();
 			});
 			test('onChange is called if the user clicks on an item with a different value from the selected one', async () => {
 				const label = 'Select an item';
 				const onChange = jest.fn();
-				render(
+				const { user } = setup(
 					<Select items={items} label={label} onChange={onChange} defaultSelection={items[0]} />
 				);
 
-				await userEvent.click(screen.getByText(label));
+				await user.click(screen.getByText(label));
 
 				const dropdownItem = within(screen.getByTestId(SELECTORS.dropdown)).getByText(
 					items[1].label
 				);
-				await userEvent.click(dropdownItem);
+				await user.click(dropdownItem);
 
 				expect(onChange).toBeCalled();
 				expect(onChange).toBeCalledTimes(1);
@@ -211,19 +216,19 @@ describe('Select', () => {
 			test('click on an item automatically update the value of the select', async () => {
 				const label = 'Select an item';
 				const onChange = jest.fn();
-				render(
+				const { user } = setup(
 					<Select items={items} label={label} onChange={onChange} defaultSelection={items[0]} />
 				);
 
-				await userEvent.click(screen.getByText(label));
-				await userEvent.click(screen.getByText(items[1].label));
+				await user.click(screen.getByText(label));
+				await user.click(screen.getByText(items[1].label));
 
 				expect(screen.getByText(items[1].label)).toBeInTheDocument();
 			});
 			test('If the default value change, the new value is not shown as the selected one', () => {
 				const label = 'Select an item';
 				const onChange = jest.fn();
-				const { rerender } = render(
+				const { rerender } = setup(
 					<Select items={items} label={label} onChange={onChange} defaultSelection={items[0]} />
 				);
 				expect(screen.getByText(label)).toBeVisible();
@@ -240,26 +245,28 @@ describe('Select', () => {
 		test('there is an "All" item available', async () => {
 			const label = 'Select an item';
 			const onChange = jest.fn();
-			render(<Select multiple items={items} label={label} onChange={onChange} />);
+			const { user } = setup(<Select multiple items={items} label={label} onChange={onChange} />);
 
-			await userEvent.click(screen.getByText(label));
+			await user.click(screen.getByText(label));
 			expect(screen.getByText('All')).toBeInTheDocument();
 			expect(screen.getByText('All')).toBeVisible();
 		});
 		test('clicking "All" item when not all the enabled items are selected, will select them all ignoring the disabled', async () => {
 			const label = 'Select an item';
 			const onChange = jest.fn();
-			render(<Select multiple items={extendedItems} label={label} onChange={onChange} />);
+			const { user } = setup(
+				<Select multiple items={extendedItems} label={label} onChange={onChange} />
+			);
 
-			await userEvent.click(screen.getByText(label));
-			await userEvent.click(screen.getByText('All'));
+			await user.click(screen.getByText(label));
+			await user.click(screen.getByText('All'));
 
 			expect(onChange).toHaveBeenCalledWith(items);
 		});
 		test('clicking "All" item when all the enabled items are selected, will de-select them all ignoring the disabled', async () => {
 			const label = 'Select an item';
 			const onChange = jest.fn();
-			render(
+			const { user } = setup(
 				<Select
 					multiple
 					items={extendedItems}
@@ -269,15 +276,15 @@ describe('Select', () => {
 				/>
 			);
 
-			await userEvent.click(screen.getByText(label));
-			await userEvent.click(screen.getByText('All'));
+			await user.click(screen.getByText(label));
+			await user.click(screen.getByText('All'));
 
 			expect(onChange).toHaveBeenCalledWith([]);
 		});
 		test('if a disabled item is already selected, it cannot be de-selected', async () => {
 			const label = 'Select an item';
 			const onChange = jest.fn();
-			render(
+			const { user } = setup(
 				<Select
 					multiple
 					items={extendedItems}
@@ -286,14 +293,14 @@ describe('Select', () => {
 					defaultSelection={[extendedItems[5]]}
 				/>
 			);
-			await userEvent.click(screen.getByText(label));
+			await user.click(screen.getByText(label));
 
 			const dropdownItem = within(screen.getByTestId(SELECTORS.dropdown)).getByText(
 				extendedItems[5].label
 			);
-			await userEvent.click(dropdownItem);
+			await user.click(dropdownItem);
 
-			await userEvent.click(screen.getByText(extendedItems[2].label));
+			await user.click(screen.getByText(extendedItems[2].label));
 
 			expect(
 				screen.getByText(`${extendedItems[5].label}, ${extendedItems[2].label}`)
@@ -305,7 +312,7 @@ describe('Select', () => {
 				const onChange = jest.fn();
 				const selection = slice(items, 0, 2);
 				const selectedLabel = map(selection, 'label').join(', ');
-				render(
+				setup(
 					<Select multiple items={items} label={label} onChange={onChange} selection={selection} />
 				);
 
@@ -317,18 +324,18 @@ describe('Select', () => {
 				expect(screen.getByText(selectedLabel)).toBeInTheDocument();
 
 				// onChange is not called
-				expect(onChange).not.toBeCalled();
+				expect(onChange).not.toHaveBeenCalled();
 			});
 			test('clicking on a selected item will not automatically remove it from selected ones', async () => {
 				const label = 'Select an item';
 				const onChange = jest.fn();
 				const selectedLabel = map(items, 'label').join(', ');
-				render(
+				const { user } = setup(
 					<Select multiple items={items} label={label} onChange={onChange} selection={items} />
 				);
 
-				await userEvent.click(screen.getByText(label));
-				await userEvent.click(screen.getByText(items[2].label));
+				await user.click(screen.getByText(label));
+				await user.click(screen.getByText(items[2].label));
 
 				expect(onChange).toHaveBeenCalledWith(reject(items, ['label', items[2].label]));
 				expect(screen.getByText(selectedLabel)).toBeInTheDocument();
@@ -338,7 +345,7 @@ describe('Select', () => {
 				const onChange = jest.fn();
 				const selectedLabel = map(items, 'label').join(', ');
 
-				const { rerender } = render(
+				const { rerender } = setup(
 					<Select multiple items={items} label={label} onChange={onChange} selection={items} />
 				);
 				expect(screen.getByText(label)).toBeVisible();
@@ -356,7 +363,7 @@ describe('Select', () => {
 				const onChange = jest.fn();
 				const previousSelectedLabel = map(items, 'label').join(', ');
 				const nextSelectedLabel = map(reject(items, ['label', items[1].label]), 'label').join(', ');
-				render(
+				const { user } = setup(
 					<Select
 						multiple
 						items={items}
@@ -368,8 +375,8 @@ describe('Select', () => {
 
 				expect(screen.getByText(previousSelectedLabel)).toBeInTheDocument();
 
-				await userEvent.click(screen.getByText(label));
-				await userEvent.click(screen.getByText(items[1].label));
+				await user.click(screen.getByText(label));
+				await user.click(screen.getByText(items[1].label));
 
 				expect(screen.getByText(nextSelectedLabel)).toBeInTheDocument();
 			});
@@ -377,7 +384,7 @@ describe('Select', () => {
 				const label = 'Select an item';
 				const onChange = jest.fn();
 				const selectedLabel = map(items, 'label').join(', ');
-				const { rerender } = render(
+				const { rerender } = setup(
 					<Select
 						multiple
 						items={items}
@@ -398,7 +405,7 @@ describe('Select', () => {
 		});
 	});
 
-	test('should accept a value different from a string', () => {
+	test('should accept a value different from a string', async () => {
 		type ValueType = Record<`key${number}`, string>;
 		const onChangeFn = jest.fn<
 			ReturnType<SingleSelectionOnChange<ValueType>>,
@@ -420,7 +427,7 @@ describe('Select', () => {
 				}
 			}
 		];
-		render(
+		const { user } = setup(
 			<Select
 				label={'Label'}
 				onChange={onChangeFn}
@@ -429,8 +436,8 @@ describe('Select', () => {
 			/>
 		);
 
-		userEvent.click(screen.getByText('Label'));
-		userEvent.click(screen.getByText('item2'));
+		await user.click(screen.getByText('Label'));
+		await user.click(screen.getByText('item2'));
 		expect(onChangeFn).toHaveBeenCalledWith(itemsForSelect[1].value);
 	});
 });

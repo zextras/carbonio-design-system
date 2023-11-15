@@ -8,21 +8,21 @@ import React from 'react';
 import { screen } from '@testing-library/react';
 
 import { Text } from './Text';
-import { render } from '../../test-utils';
+import { setup } from '../../test-utils';
 
 describe('Text', () => {
-	test('render a text with string content', () => {
-		render(<Text>ABCD</Text>);
+	test('setup a text with string content', () => {
+		setup(<Text>ABCD</Text>);
 		expect(screen.getByText('ABCD')).toBeVisible();
 	});
 
-	test('render a div with disabled attribute', () => {
-		render(<Text disabled>ABCD</Text>);
+	test('setup a div with disabled attribute', () => {
+		setup(<Text disabled>ABCD</Text>);
 		expect(screen.getByText('ABCD')).toHaveAttribute('disabled', '');
 	});
 
-	test('render text with a component as content', () => {
-		render(
+	test('setup text with a component as content', () => {
+		setup(
 			<Text>
 				ABC <Text>DEF</Text>
 			</Text>

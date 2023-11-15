@@ -7,10 +7,9 @@
 import React, { useRef, useState } from 'react';
 
 import { screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 
 import { Popover } from './Popover';
-import { render } from '../../test-utils';
+import { setup } from '../../test-utils';
 import { Button } from '../basic/Button';
 import { Input } from '../inputs/Input';
 import { Container } from '../layout/Container';
@@ -44,7 +43,7 @@ const CustomPopover = (): React.JSX.Element => {
 
 describe('Popover', () => {
 	test('Render closed Popover', () => {
-		render(<CustomPopover />);
+		setup(<CustomPopover />);
 
 		expect(screen.queryByRole('textbox')).not.toBeInTheDocument();
 		expect(screen.queryByTestId('Popover')).not.toBeInTheDocument();
@@ -54,9 +53,9 @@ describe('Popover', () => {
 		expect(screen.getByTestId('button1')).toHaveTextContent(/click me!/i);
 	});
 
-	test('Render opened Popover', () => {
-		render(<CustomPopover />);
-		userEvent.click(screen.getByTestId('button1'));
+	test('Render opened Popover', async () => {
+		const { user } = setup(<CustomPopover />);
+		await user.click(screen.getByTestId('button1'));
 		expect(screen.getByRole('textbox')).toBeInTheDocument();
 		expect(screen.getByTestId('Popover')).toBeInTheDocument();
 		expect(screen.getByTestId('button2')).toBeInTheDocument();

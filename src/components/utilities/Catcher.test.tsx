@@ -9,7 +9,7 @@ import React from 'react';
 import { screen } from '@testing-library/react';
 
 import { Catcher } from './Catcher';
-import { render } from '../../test-utils';
+import { setup } from '../../test-utils';
 
 function ErrorComponent(): React.JSX.Element {
 	throw new Error("Error from the test component, don't panic if You see this error.");
@@ -18,24 +18,24 @@ function ErrorComponent(): React.JSX.Element {
 describe('Catcher', () => {
 	test('Render a component', () => {
 		const onError = jest.fn();
-		render(
+		setup(
 			<Catcher onError={onError}>
 				<div>CHILD ELEMENT</div>
 			</Catcher>
 		);
-		expect(onError).not.toBeCalled();
-		expect(screen.getByText(/CHILD ELEMENT/i)).toBeInTheDocument();
+		expect(onError).not.toHaveBeenCalled();
+		expect(screen.getByText(/CHILD ELEMENT/i)).toBeVisible();
 	});
 
 	test('Render a component with an error', () => {
 		jest.spyOn(console, 'error').mockImplementation();
 		const onError = jest.fn();
-		render(
+		setup(
 			<Catcher onError={onError}>
 				<ErrorComponent />
 			</Catcher>
 		);
-		expect(onError).toBeCalled();
-		expect(screen.getByText(/error from the test component/i)).toBeInTheDocument();
+		expect(onError).toHaveBeenCalled();
+		expect(screen.getByText(/error from the test component/i)).toBeVisible();
 	});
 });

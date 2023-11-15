@@ -7,10 +7,9 @@ import React from 'react';
 
 import { faker } from '@faker-js/faker';
 import { screen, act } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 
 import { Action, CollapsingActions } from './CollapsingActions';
-import { render } from '../../test-utils';
+import { setup } from '../../test-utils';
 import { ICONS } from '../../testUtils/constants';
 import { Theme } from '../../theme/theme';
 
@@ -30,7 +29,7 @@ describe('Collapsing Actions', () => {
 				onClick: () => undefined
 			}
 		];
-		render(<CollapsingActions actions={actions} />);
+		setup(<CollapsingActions actions={actions} />);
 		expect(screen.getByTestId('icon: Activity')).toBeVisible();
 		expect(screen.queryByText(/action 1/i)).not.toBeInTheDocument();
 		expect(screen.getByTestId('icon: People')).toBeVisible();
@@ -49,7 +48,7 @@ describe('Collapsing Actions', () => {
 			});
 		}
 
-		render(<CollapsingActions actions={actions} maxVisible={3} />);
+		const { user } = setup(<CollapsingActions actions={actions} maxVisible={3} />);
 		// first 3 actions are visible
 		expect(screen.getByTestId(`icon: ${actions[0].icon}`)).toBeVisible();
 		expect(screen.queryByText(actions[0].label)).not.toBeInTheDocument();
@@ -62,7 +61,7 @@ describe('Collapsing Actions', () => {
 		expect(screen.queryByText(actions[3].label)).not.toBeInTheDocument();
 		// collapser icon button is visible instead
 		expect(screen.getByTestId(ICONS.moreVertical)).toBeVisible();
-		userEvent.click(screen.getByTestId(ICONS.moreVertical));
+		await user.click(screen.getByTestId(ICONS.moreVertical));
 		await screen.findByText(actions[3].label);
 		// first 3 actions are still visible as icon buttons
 		expect(screen.getByTestId(`icon: ${actions[0].icon}`)).toBeVisible();
@@ -71,7 +70,7 @@ describe('Collapsing Actions', () => {
 		expect(screen.queryByText(actions[1].label)).not.toBeInTheDocument();
 		expect(screen.getByTestId(`icon: ${actions[2].icon}`)).toBeVisible();
 		expect(screen.queryByText(actions[2].label)).not.toBeInTheDocument();
-		// others are rendered inside the dropdown
+		// others are setuped inside the dropdown
 		expect(screen.getByText(actions[3].label)).toBeVisible();
 		expect(screen.getByTestId(`icon: ${actions[3].icon}`)).toBeVisible();
 		expect(screen.getByText(actions[4].label)).toBeVisible();
@@ -91,7 +90,7 @@ describe('Collapsing Actions', () => {
 	test('Resize event makes action to be collapsed or visible based on width', async () => {
 		/*
 		 * Considering that icon has 32px of width by default, 10 actions require 320px to be all visible.
-		 * Default width of the window in jest is 1024, so the container is rendered initially with a
+		 * Default width of the window in jest is 1024, so the container is setuped initially with a
 		 * width of 1024px -> all actions are visible.
 		 * By resizing the window to 300px, 2 actions should be removed to make space to the "more vertical".
 		 * We should have 8 actions visible plus the "more vertical" = 288px.
@@ -110,7 +109,7 @@ describe('Collapsing Actions', () => {
 			});
 		}
 
-		render(<CollapsingActions actions={actions} data-testid="collapsing-actions" />);
+		setup(<CollapsingActions actions={actions} data-testid="collapsing-actions" />);
 
 		const collapsingComponent = screen.getByTestId('collapsing-actions');
 		const getOffsetWithMock = jest.spyOn(collapsingComponent, 'offsetWidth', 'get');

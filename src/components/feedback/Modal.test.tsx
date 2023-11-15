@@ -7,10 +7,9 @@
 import React, { useState } from 'react';
 
 import { screen, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 
 import { Modal, ModalProps } from './Modal';
-import { render } from '../../test-utils';
+import { setup } from '../../test-utils';
 import { Button } from '../basic/Button';
 import { Text } from '../basic/Text';
 
@@ -37,13 +36,13 @@ const ModalTester = ({ children, ...props }: ModalProps): React.JSX.Element => {
 
 describe('Modal', () => {
 	test('Render Modal', async () => {
-		render(<ModalTester />);
+		const { user } = setup(<ModalTester />);
 
 		const button = screen.getByRole('button', { name: /trigger modal/i });
 		expect(button).toBeInTheDocument();
 		expect(screen.queryByText('My Title')).not.toBeInTheDocument();
 		expect(screen.queryByText('Lorem ipsum dolor sit amet.')).not.toBeInTheDocument();
-		userEvent.click(button);
+		await user.click(button);
 		await waitFor(() => expect(screen.getByText('My Title')).toBeVisible());
 		expect(screen.getByText('Lorem ipsum dolor sit amet.')).toBeVisible();
 		expect(button).toBeInTheDocument();
@@ -51,30 +50,30 @@ describe('Modal', () => {
 
 	test('click on overlay close modal', async () => {
 		const onClick = jest.fn();
-		render(<ModalTester onClick={onClick} />);
+		const { user } = setup(<ModalTester onClick={onClick} />);
 
 		const button = screen.getByRole('button', { name: /trigger modal/i });
 		expect(button).toBeInTheDocument();
 		expect(screen.queryByText('My Title')).not.toBeInTheDocument();
-		userEvent.click(button);
+		await user.click(button);
 		await waitFor(() => expect(screen.getByText('My Title')).toBeVisible());
 		const overlayElement = screen.getByTestId('modal');
 		expect(overlayElement).toBeVisible();
-		userEvent.click(overlayElement);
+		await user.click(overlayElement);
 		expect(screen.queryByText('My Title')).not.toBeInTheDocument();
 		expect(onClick).not.toHaveBeenCalled();
 	});
 
 	test('click on modal content does not close modal', async () => {
 		const onClick = jest.fn();
-		render(<ModalTester onClick={onClick} />);
+		const { user } = setup(<ModalTester onClick={onClick} />);
 
 		const button = screen.getByRole('button', { name: /trigger modal/i });
 		expect(button).toBeInTheDocument();
 		expect(screen.queryByText('My Title')).not.toBeInTheDocument();
-		userEvent.click(button);
+		await user.click(button);
 		await waitFor(() => expect(screen.getByText('My Title')).toBeVisible());
-		userEvent.click(screen.getByText('My Title'));
+		await user.click(screen.getByText('My Title'));
 		expect(screen.getByText('My Title')).toBeVisible();
 		expect(onClick).toHaveBeenCalled();
 	});
@@ -86,13 +85,13 @@ describe('Modal', () => {
 			errors.push(message);
 		};
 		const href = '/different-path';
-		render(
+		const { user } = setup(
 			<ModalTester>
 				<a href={href}>This is a link</a>
 			</ModalTester>
 		);
-		userEvent.click(screen.getByRole('button'));
-		userEvent.click(screen.getByRole('link'));
+		await user.click(screen.getByRole('button'));
+		await user.click(screen.getByRole('link'));
 		await waitFor(
 			() =>
 				new Promise((resolve) => {

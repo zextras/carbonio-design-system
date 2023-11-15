@@ -53,6 +53,11 @@ export default {
 	// Make calling deprecated APIs throw helpful error messages
 	// errorOnDeprecated: false,
 
+	// The default configuration for fake timers
+	fakeTimers: {
+		enableGlobally: true
+	},
+
 	// Force coverage collection from ignored files using an array of glob patterns
 	// forceCoverageMatch: [],
 
@@ -136,7 +141,7 @@ export default {
 	// snapshotSerializers: [],
 
 	// The test environment that will be used for testing
-	// testEnvironment: "node",
+	testEnvironment: 'jsdom',
 
 	// Options that will be passed to the testEnvironment
 	// testEnvironmentOptions: {},

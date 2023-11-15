@@ -6,15 +6,14 @@
 
 import React from 'react';
 
-import { screen, act, within } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { screen, within } from '@testing-library/react';
 
 import { DefaultTabBarItem, DefaultTabBarItemProps, TabBar } from './TabBar';
-import { render } from '../../test-utils';
+import { setup } from '../../test-utils';
 import { Text } from '../basic/Text';
 
 describe('TabBar', () => {
-	test('The visually selected element always reflects the selected TabBar prop', () => {
+	test('The visually selected element always reflects the selected TabBar prop', async () => {
 		const ReusedDefaultTabBar = ({
 			item,
 			selected,
@@ -42,7 +41,7 @@ describe('TabBar', () => {
 		];
 
 		const changeFn = jest.fn();
-		const { rerender } = render(
+		const { rerender, user } = setup(
 			<TabBar items={items} selected={'tab-one'} onChange={changeFn} background="secondary" />
 		);
 		const teb0 = screen.getByTestId('tab0');
@@ -51,10 +50,9 @@ describe('TabBar', () => {
 		const tab1 = screen.getByTestId('tab1');
 		expect(within(tab1).getByText('Second Tab is not selected')).toBeVisible();
 
-		act(() => {
-			userEvent.click(tab1);
-		});
-		expect(changeFn).toBeCalled();
+		await user.click(tab1);
+
+		expect(changeFn).toHaveBeenCalled();
 
 		// the second tab is clicked but is not selected until the new selected TabBar prop is provided
 		expect(within(teb0).getByText('First Tab is selected')).toBeVisible();
