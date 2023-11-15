@@ -2,6 +2,36 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.0.0](https://github.com/Zextras/carbonio-design-system/compare/v3.0.2...v4.0.0) (2023-11-14)
+
+
+### ⚠ BREAKING CHANGES
+
+* remove KeyboardPreset type
+* update the keyboard utils to accept only event-like keys
+In order to migrate from the old string keys to the new event-like keys,
+transform each string in an object with the previous string set as key or code
+(according to its value), and the field ctrlKey set to the value of the old "modifier"
+field/argument (its default was false).
+* update the ChipInput separators prop to receive only event-like keys
+* **ChipInput:** remove deprecated prop confirmChipOnSpace. Use separators instead
+* **ChipInput:** remove deprecated errorLabel. Use description instead.
+* all the placement props relative to Tooltip, Dropdown, Popper and Popover do not support auto, auto-start and auto-end anymore.
+
+### Features
+
+* **ChipInput:** remove deprecated props ([e57ca80](https://github.com/Zextras/carbonio-design-system/commit/e57ca80a7034fae38847132664a3e34a573470f4)), closes [#235](https://github.com/Zextras/carbonio-design-system/issues/235)
+* migrate from Popper to Floating UI ([9e8864c](https://github.com/Zextras/carbonio-design-system/commit/9e8864c0d63e9d52c85683d6f71ace5e40259aeb)), closes [#233](https://github.com/Zextras/carbonio-design-system/issues/233)
+* update icon set ([da424d2](https://github.com/Zextras/carbonio-design-system/commit/da424d208692264f3a9e53512f0cb057cac3c016)), closes [#243](https://github.com/Zextras/carbonio-design-system/issues/243)
+
+
+### Bug Fixes
+
+* **ChipInput,types:** make ChipInput infer generic type from value ([88c3f63](https://github.com/Zextras/carbonio-design-system/commit/88c3f636bfdfb5c53ac75bef6950823af989ea71)), closes [#237](https://github.com/Zextras/carbonio-design-system/issues/237)
+* **Drop:** remove dropzone overlay when drag leave the dropzone ([33de354](https://github.com/Zextras/carbonio-design-system/commit/33de35459da2cd64b80c51cc23b39505e4d0bf78)), closes [#234](https://github.com/Zextras/carbonio-design-system/issues/234)
+* **ModalFooter:** pass the confirmDisabled prop to the ModalFooterContent component ([b04cc66](https://github.com/Zextras/carbonio-design-system/commit/b04cc665e21a75e430be06a3fc70f99b16acaf1b)), closes [#246](https://github.com/Zextras/carbonio-design-system/issues/246)
+* prevent creation of chips on keyboard events with modifier ([38b470c](https://github.com/Zextras/carbonio-design-system/commit/38b470cc7f0439f7d647f32049514c0cac7bce30)), closes [#236](https://github.com/Zextras/carbonio-design-system/issues/236)
+
 ### [3.0.2](https://github.com/Zextras/carbonio-design-system/compare/v3.0.1...v3.0.2) (2023-10-23)
 
 

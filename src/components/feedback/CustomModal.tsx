@@ -25,7 +25,7 @@ import {
 	ModalWrapper
 } from './modal-components/ModalComponents';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
-import { KeyboardPreset, useKeyboard } from '../../hooks/useKeyboard';
+import { KeyboardPresetObj, useKeyboard } from '../../hooks/useKeyboard';
 import { TIMERS } from '../constants';
 import { Portal } from '../utilities/Portal';
 import { Transition } from '../utilities/Transition';
@@ -117,8 +117,12 @@ const CustomModal = React.forwardRef<HTMLDivElement, CustomModalProps>(function 
 		}
 	}, []);
 
-	const escapeEvent = useMemo<KeyboardPreset>(
-		() => (onClose && [{ type: 'keydown', callback: onClose, keys: ['Escape'] }]) || [],
+	const escapeEvent = useMemo<KeyboardPresetObj[]>(
+		() =>
+			(onClose && [
+				{ type: 'keydown', callback: onClose, keys: [{ key: 'Escape', ctrlKey: false }] }
+			]) ||
+			[],
 		[onClose]
 	);
 	useKeyboard(modalRef, escapeEvent);
