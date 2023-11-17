@@ -11,7 +11,7 @@ import styled, { DefaultTheme } from 'styled-components';
 import { ListItemProps } from './ListItem';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { useIsVisible } from '../../hooks/useIsVisible';
-import { getKeyboardPreset, KeyboardPreset, useKeyboard } from '../../hooks/useKeyboard';
+import { getKeyboardPreset, KeyboardPresetObj, useKeyboard } from '../../hooks/useKeyboard';
 import { Container, ContainerProps } from '../layout/Container';
 
 const ExternalContainer = styled.div`
@@ -82,7 +82,7 @@ const ListV2 = React.forwardRef(function ListV2Fn(
 	const listRef = useCombinedRefs(ref);
 	const useKeyboardShortcuts = (): undefined => undefined;
 
-	const keyEvents = useMemo<KeyboardPreset>(
+	const keyEvents = useMemo<KeyboardPresetObj[]>(
 		() =>
 			keyboardShortcutsIsDisabled ? [] : getKeyboardPreset('list', useKeyboardShortcuts, listRef),
 		[listRef, keyboardShortcutsIsDisabled]

@@ -10,7 +10,7 @@ import { map, some } from 'lodash';
 import styled, { DefaultTheme, SimpleInterpolation } from 'styled-components';
 
 import { useIsVisible } from '../../hooks/useIsVisible';
-import { useKeyboard, getKeyboardPreset, KeyboardPreset } from '../../hooks/useKeyboard';
+import { useKeyboard, getKeyboardPreset, KeyboardPresetObj } from '../../hooks/useKeyboard';
 import { getColor, pseudoClasses } from '../../theme/theme-utils';
 import { Container, ContainerProps } from '../layout/Container';
 
@@ -197,7 +197,7 @@ const List = React.forwardRef<HTMLDivElement, ListProps<any>>(function ListFn(
 	const listRef = useRef<HTMLDivElement | null>(null);
 	const useKeyboardShortcuts = (): undefined => undefined;
 
-	const keyEvents = useMemo<KeyboardPreset>(
+	const keyEvents = useMemo<KeyboardPresetObj[]>(
 		() =>
 			keyboardShortcutsIsDisabled ? [] : getKeyboardPreset('list', useKeyboardShortcuts, listRef),
 		[listRef, keyboardShortcutsIsDisabled]
