@@ -4,6 +4,7 @@
 	"description": "An awesome UI for Zextras Projects.",
 	"main": "dist/zapp-ui.bundle.js",
 	"types": "dist/zapp-ui.bundle.d.ts",
+	"files": ["dist", "package.json", "README.md", "COPYING", "CHANGELOG.md"],
 	"scripts": {
 		"start": "npm run styleguide",
 		"release": "standard-version",
@@ -20,7 +21,7 @@
 		"prepack": "npm run clean && npm run build",
 		"packTo": "npm pack --pack-destination $PKG_PATH && cd $PKG_PATH && npm i zextras-carbonio-design-system-$npm_package_version.tgz",
 		"deploy": "npm pack && rm -rf $PKG_PATH/node_modules/@zextras/carbonio-design-system/* && tar -xf zextras-carbonio-design-system-$npm_package_version.tgz -C $PKG_PATH/node_modules/@zextras/carbonio-design-system/ --strip-components 1",
-		"prepare": "is-ci || husky install",
+		"prepare": "is-ci || husky install; npm run build",
 		"type-check": "tsc --noEmit"
 	},
 	"repository": {
