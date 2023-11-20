@@ -42,11 +42,13 @@ export default [
 		output: [
 			{
 				file: pkg.main,
-				format: 'cjs'
+				format: 'cjs',
+				interop: 'compat'
 			},
 			{
 				file: pkg.module,
-				format: 'esm'
+				format: 'esm',
+				interop: 'compat'
 			}
 		],
 		plugins,
