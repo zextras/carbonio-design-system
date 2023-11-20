@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import { SVGProps } from 'react';
+import React, { SVGProps } from 'react';
 
 import IconData from '../icons';
 

@@ -9,6 +9,9 @@ import commonjs from '@rollup/plugin-commonjs';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import url from '@rollup/plugin-url';
 
+import pkg from './package.json' assert { type: 'json' };
+
+
 const plugins = [
 	url({
 		include: [
@@ -21,7 +24,7 @@ const plugins = [
 		limit: Infinity
 	}),
 	nodeResolve({
-		extensions: ['.js', '.jsx', '.ts', '.tsx']
+		extensions: ['.mjs', '.js', '.json', '.node', '.ts', '.tsx', '.jsx']
 	}),
 	commonjs(),
 	babel({
@@ -31,17 +34,22 @@ const plugins = [
 	})
 ];
 
-const external = ['react', 'react-dom', 'styled-components'];
+const external = ['react', 'react-dom', 'styled-components', 'lodash'];
 
 export default [
 	{
 		input: 'src/index.ts',
-		output: {
-			file: 'dist/zapp-ui.bundle.js',
-			format: 'cjs',
-			interop: 'compat',
-		},
+		output: [
+			{
+				file: pkg.main,
+				format: 'cjs'
+			},
+			{
+				file: pkg.module,
+				format: 'esm'
+			}
+		],
 		plugins,
 		external
-	}
+	},
 ];
