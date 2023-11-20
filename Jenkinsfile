@@ -49,7 +49,7 @@ def getCommitVersion() {
 pipeline {
     agent {
         node {
-            label 'nodejs-agent-v2'
+            label 'nodejs-agent-v4'
         }
     }
     options {
@@ -78,7 +78,7 @@ pipeline {
             }
             agent {
                 node {
-                    label 'nodejs-agent-v2'
+                    label 'nodejs-agent-v4'
                 }
             }
             steps {
@@ -137,7 +137,7 @@ pipeline {
                 stage('Linting') {
                     agent {
                         node {
-                            label 'nodejs-agent-v2'
+                            label 'nodejs-agent-v4'
                         }
                     }
                     steps {
@@ -148,7 +148,7 @@ pipeline {
                 stage('Unit Tests') {
                     agent {
                         node {
-                            label 'nodejs-agent-v2'
+                            label 'nodejs-agent-v4'
                         }
                     }
                     steps {
@@ -179,7 +179,7 @@ pipeline {
                     }
                     agent {
                         node {
-                            label 'nodejs-agent-v2'
+                            label 'nodejs-agent-v4'
                         }
                     }
                     steps {
@@ -203,7 +203,7 @@ pipeline {
                     }
                     agent {
                         node {
-                            label 'nodejs-agent-v2'
+                            label 'nodejs-agent-v4'
                         }
                     }
                     steps {
