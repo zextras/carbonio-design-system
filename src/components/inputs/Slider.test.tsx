@@ -64,7 +64,8 @@ describe('Slider', () => {
 			setup(<Slider options={options} value={0} />);
 			const slider = screen.getByRole('slider');
 			expect(slider).toHaveDisplayValue('0');
-			fireInputEvent(slider, { newValue: '4', newSelectionStart: 0, eventOverrides: {} });
+			// eslint-disable-next-line testing-library/prefer-user-event
+			fireEvent.input(slider, { target: { value: '4' } });
 			expect(slider).toHaveDisplayValue('4');
 		});
 
@@ -155,7 +156,8 @@ describe('Slider', () => {
 			setup(<Slider options={options} value={0} onChange={onChangeFn} />);
 			const slider = screen.getByRole('slider');
 			expect(slider).toHaveDisplayValue('0');
-			fireInputEvent(slider, { newValue: '4', newSelectionStart: 0, eventOverrides: {} });
+			// eslint-disable-next-line testing-library/prefer-user-event
+			fireEvent.input(slider, { target: { value: '4' } });
 			expect(onChangeFn).toHaveBeenCalledWith(expect.anything(), 4);
 		});
 

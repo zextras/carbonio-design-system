@@ -15,7 +15,6 @@ import { Theme } from '../../theme/theme';
 describe('TextArea', () => {
 	test('Render an empty text area', () => {
 		setup(<TextArea />);
-		expect(screen.getByRole('textbox')).toBeInTheDocument();
 		expect(screen.getByRole('textbox')).toBeVisible();
 	});
 

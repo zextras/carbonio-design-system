@@ -124,22 +124,27 @@ describe('Chip', () => {
 			/>
 		);
 
+		// wait so tooltips can register the listeners
+		jest.advanceTimersByTime(1);
+		expect(screen.getByTestId('icon: Star')).toBeVisible();
 		expect(screen.getByTestId('icon: People')).toBeVisible();
 		expect(screen.getByTestId('icon: Eye')).toBeVisible();
 		expect(screen.getByTestId('icon: Share')).toBeVisible();
-		await act(async () => {
-			await user.hover(screen.getByTestId('icon: Star'));
-		});
+		await user.hover(screen.getByTestId('icon: Star'));
 		await waitFor(() => {
 			expect(screen.getByText('tooltip action0')).toBeVisible();
 		});
-		await user.unhover(screen.getByTestId('icon: Star'));
+		await act(async () => {
+			await user.unhover(screen.getByTestId('icon: Star'));
+		});
 		expect(screen.queryByText('tooltip action0')).not.toBeInTheDocument();
 		await user.hover(screen.getByTestId('icon: People'));
 		await waitFor(() => {
 			expect(screen.getByText('tooltip action1')).toBeVisible();
 		});
-		await user.unhover(screen.getByTestId('icon: People'));
+		await act(async () => {
+			await user.unhover(screen.getByTestId('icon: People'));
+		});
 		expect(screen.queryByText('tooltip action1')).not.toBeInTheDocument();
 		await user.click(screen.getByTestId('icon: People'));
 		expect(actions[1].onClick).toHaveBeenCalled();
@@ -194,9 +199,7 @@ describe('Chip', () => {
 			/>
 		);
 		// wait so tooltips can register the listeners
-		await new Promise((r) => {
-			setTimeout(r, 100);
-		});
+		jest.advanceTimersByTime(1);
 		expect(screen.getByTestId('icon: Star')).toBeVisible();
 		expect(screen.getByTestId('icon: People')).toBeVisible();
 		expect(screen.getByTestId('icon: Eye')).toBeVisible();
@@ -205,11 +208,15 @@ describe('Chip', () => {
 		await user.hover(screen.getByTestId('icon: Star'));
 		await screen.findByText(/Message to explain disabled status/i);
 		expect(screen.queryByText('tooltip action0')).not.toBeInTheDocument();
-		await user.unhover(screen.getByTestId('icon: Star'));
+		await act(async () => {
+			await user.unhover(screen.getByTestId('icon: Star'));
+		});
 		await user.hover(screen.getByTestId('icon: People'));
 		await screen.findByText(/Message to explain disabled status/i);
 		expect(screen.queryByText('tooltip action1')).not.toBeInTheDocument();
-		await user.unhover(screen.getByTestId('icon: People'));
+		await act(async () => {
+			await user.unhover(screen.getByTestId('icon: People'));
+		});
 		expect(
 			screen.getAllByRole('button').find((element) => within(element).queryByTestId('icon: People'))
 		).toBeDisabled();
@@ -235,7 +242,9 @@ describe('Chip', () => {
 		await waitFor(() => {
 			expect(screen.getByText('Message to explain disabled status')).toBeVisible();
 		});
-		await user.unhover(screen.getByText(label));
+		await act(async () => {
+			await user.unhover(screen.getByText(label));
+		});
 		expect(screen.queryByText('Message to explain disabled status')).not.toBeInTheDocument();
 	});
 
@@ -278,24 +287,25 @@ describe('Chip', () => {
 			/>
 		);
 		// wait so tooltips can register the listeners
-		await new Promise((r) => {
-			setTimeout(r, 100);
-		});
+		jest.advanceTimersByTime(1);
 		await user.hover(screen.getByText(label));
 		await screen.findByText(/message for error/i);
 		expect(screen.getByText('Message for error')).toBeVisible();
-		await user.unhover(screen.getByText(label));
+		await act(async () => {
+			await user.unhover(screen.getByText(label));
+		});
 		expect(screen.queryByText('Message for error')).not.toBeInTheDocument();
 		await user.hover(screen.getByTestId('icon: Star'));
 		await screen.findByText(/tooltip action0/i);
 		expect(screen.getByText('tooltip action0')).toBeVisible();
 		expect(screen.queryByText('Message for error')).not.toBeInTheDocument();
-		await user.unhover(screen.getByTestId('icon: Star'));
+		await act(async () => {
+			await user.unhover(screen.getByTestId('icon: Star'));
+		});
 		await user.hover(screen.getByTestId('icon: People'));
 		await screen.findByText(/tooltip action1/i);
 		expect(screen.getByText('tooltip action1')).toBeVisible();
 		expect(screen.queryByText('Message for error')).not.toBeInTheDocument();
-		await user.unhover(screen.getByTestId('icon: People'));
 	});
 
 	test('Render chip with click and double click', async () => {

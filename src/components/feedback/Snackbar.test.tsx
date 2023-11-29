@@ -47,7 +47,6 @@ describe('Snackbar', () => {
 		const { user } = setup(<CustomSnackbar />);
 		await user.click(screen.getByText(/success/i));
 
-		expect(screen.getByText(/Success, Lorem Ipsum dolor sit amet/i)).toBeInTheDocument();
 		expect(screen.getByText(/Success, Lorem Ipsum dolor sit amet/i)).toBeVisible();
 
 		await user.click(screen.getByText(/OK/i));
@@ -60,6 +59,6 @@ describe('Snackbar', () => {
 
 		await user.click(screen.getByText(/success/i));
 
-		expect(screen.getByText(/Success, Lorem Ipsum dolor sit amet/i)).toBeInTheDocument();
+		expect(screen.getByText(/Success, Lorem Ipsum dolor sit amet/i)).toBeVisible();
 	});
 });

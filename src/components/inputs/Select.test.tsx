@@ -76,11 +76,10 @@ describe('Select', () => {
 				setup(<Select items={items} label={label} onChange={onChange} selection={items[0]} />);
 
 				// label is visible
-				expect(screen.getByText(label)).toBeInTheDocument();
 				expect(screen.getByText(label)).toBeVisible();
 
 				// first item is selected
-				expect(screen.getByText(items[0].label)).toBeInTheDocument();
+				expect(screen.getByText(items[0].label)).toBeVisible();
 
 				// onChange is not called
 				expect(onChange).not.toHaveBeenCalled();
@@ -151,7 +150,6 @@ describe('Select', () => {
 				setup(<Select items={items} label={label} onChange={onChange} />);
 
 				// label is visible
-				expect(screen.getByText(label)).toBeInTheDocument();
 				expect(screen.getByText(label)).toBeVisible();
 
 				// there is no default selection
@@ -170,11 +168,10 @@ describe('Select', () => {
 				);
 
 				// label is visible
-				expect(screen.getByText(label)).toBeInTheDocument();
 				expect(screen.getByText(label)).toBeVisible();
 
 				// default selection
-				expect(screen.getByText(items[0].label)).toBeInTheDocument();
+				expect(screen.getByText(items[0].label)).toBeVisible();
 
 				// onChange is not called
 				expect(onChange).not.toHaveBeenCalled();
@@ -223,7 +220,7 @@ describe('Select', () => {
 				await user.click(screen.getByText(label));
 				await user.click(screen.getByText(items[1].label));
 
-				expect(screen.getByText(items[1].label)).toBeInTheDocument();
+				expect(screen.getByText(items[1].label)).toBeVisible();
 			});
 			test('If the default value change, the new value is not shown as the selected one', () => {
 				const label = 'Select an item';
@@ -236,7 +233,7 @@ describe('Select', () => {
 				rerender(
 					<Select items={items} label={label} onChange={onChange} defaultSelection={items[1]} />
 				);
-				expect(screen.getByText(items[0].label)).toBeInTheDocument();
+				expect(screen.getByText(items[0].label)).toBeVisible();
 				expect(screen.queryByText(items[1].label)).not.toBeInTheDocument();
 			});
 		});
@@ -248,7 +245,6 @@ describe('Select', () => {
 			const { user } = setup(<Select multiple items={items} label={label} onChange={onChange} />);
 
 			await user.click(screen.getByText(label));
-			expect(screen.getByText('All')).toBeInTheDocument();
 			expect(screen.getByText('All')).toBeVisible();
 		});
 		test('clicking "All" item when not all the enabled items are selected, will select them all ignoring the disabled', async () => {
@@ -304,7 +300,7 @@ describe('Select', () => {
 
 			expect(
 				screen.getByText(`${extendedItems[5].label}, ${extendedItems[2].label}`)
-			).toBeInTheDocument();
+			).toBeVisible();
 		});
 		describe('controlled mode', () => {
 			test('label is visible, items are selected and onChange is not called', () => {
@@ -321,7 +317,7 @@ describe('Select', () => {
 				expect(screen.getByText(label)).toBeVisible();
 
 				// first two items composes the label
-				expect(screen.getByText(selectedLabel)).toBeInTheDocument();
+				expect(screen.getByText(selectedLabel)).toBeVisible();
 
 				// onChange is not called
 				expect(onChange).not.toHaveBeenCalled();
@@ -338,7 +334,7 @@ describe('Select', () => {
 				await user.click(screen.getByText(items[2].label));
 
 				expect(onChange).toHaveBeenCalledWith(reject(items, ['label', items[2].label]));
-				expect(screen.getByText(selectedLabel)).toBeInTheDocument();
+				expect(screen.getByText(selectedLabel)).toBeVisible();
 			});
 			test('If the value change, the new value is shown as the selected one', () => {
 				const label = 'Select an item';
@@ -373,12 +369,12 @@ describe('Select', () => {
 					/>
 				);
 
-				expect(screen.getByText(previousSelectedLabel)).toBeInTheDocument();
+				expect(screen.getByText(previousSelectedLabel)).toBeVisible();
 
 				await user.click(screen.getByText(label));
 				await user.click(screen.getByText(items[1].label));
 
-				expect(screen.getByText(nextSelectedLabel)).toBeInTheDocument();
+				expect(screen.getByText(nextSelectedLabel)).toBeVisible();
 			});
 			test('If the default value change, the new value is not shown as the selected one', async () => {
 				const label = 'Select an item';
@@ -394,13 +390,13 @@ describe('Select', () => {
 					/>
 				);
 
-				expect(screen.getByText(selectedLabel)).toBeInTheDocument();
+				expect(screen.getByText(selectedLabel)).toBeVisible();
 
 				rerender(
 					<Select multiple items={items} label={label} onChange={onChange} defaultSelection={[]} />
 				);
 
-				expect(screen.getByText(selectedLabel)).toBeInTheDocument();
+				expect(screen.getByText(selectedLabel)).toBeVisible();
 			});
 		});
 	});

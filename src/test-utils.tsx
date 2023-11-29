@@ -19,6 +19,9 @@ import {
 	within
 } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+// FIXME: check how to make eslint resolve the alias
+// eslint-disable-next-line import/no-unresolved
+import { defaultKeyMap } from '@testing-library/user-event/keyboard/keyMap';
 import { filter } from 'lodash';
 
 import { ThemeProvider } from './theme/theme-context-provider';
@@ -27,7 +30,6 @@ export type UserEvent = ReturnType<(typeof userEvent)['setup']>;
 
 interface WrapperProps {
 	children?: React.ReactNode;
-	initialRouterEntries?: string[];
 }
 
 type ByRoleWithIconOptions = ByRoleOptions & {
@@ -85,11 +87,7 @@ const Wrapper = ({ children }: WrapperProps): React.JSX.Element => (
 
 function customRender(
 	ui: React.ReactElement,
-	{
-		...options
-	}: WrapperProps & {
-		options?: Omit<RenderOptions, 'queries' | 'wrapper'>;
-	} = {}
+	options: Omit<RenderOptions, 'queries' | 'wrapper'> = {}
 ): RenderResult<typeof queriesExtended> {
 	return render(ui, {
 		wrapper: ({ children }: Pick<WrapperProps, 'children'>) => <Wrapper>{children}</Wrapper>,
@@ -98,7 +96,7 @@ function customRender(
 	});
 }
 
-type SetupOptions = Pick<WrapperProps, 'initialRouterEntries'> & {
+type SetupOptions = {
 	renderOptions?: Omit<RenderOptions, 'queries' | 'wrapper'>;
 	setupOptions?: Parameters<(typeof userEvent)['setup']>[0];
 };
@@ -107,9 +105,10 @@ export const setup = (
 	ui: ReactElement,
 	options?: SetupOptions
 ): { user: UserEvent } & ReturnType<typeof customRender> => ({
-	user: userEvent.setup({ advanceTimers: jest.advanceTimersByTime, ...options?.setupOptions }),
-	...customRender(ui, {
-		initialRouterEntries: options?.initialRouterEntries,
-		...options?.renderOptions
-	})
+	user: userEvent.setup({
+		keyboardMap: [{ code: 'Comma', key: ',' }, ...defaultKeyMap],
+		advanceTimers: jest.advanceTimersByTime,
+		...options?.setupOptions
+	}),
+	...customRender(ui, options?.renderOptions)
 });

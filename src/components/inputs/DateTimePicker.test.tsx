@@ -292,7 +292,7 @@ describe('DateTimePicker', () => {
 			return <Button onClick={onClick} ref={ref} label={value || 'no value'} />;
 		});
 
-		test('Custom component is setuped', () => {
+		test('Custom component is rendered', () => {
 			setup(
 				<DateTimePicker
 					label="picker label"

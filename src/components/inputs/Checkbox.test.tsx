@@ -17,8 +17,8 @@ describe('Checkbox', () => {
 		const onChange = jest.fn();
 		setup(<Checkbox label="Checkbox label" />);
 		expect(onChange).not.toHaveBeenCalled();
-		expect(screen.getByText(/checkbox label/i)).toBeInTheDocument();
-		expect(screen.getByTestId(ICONS.checkboxOff)).toBeInTheDocument();
+		expect(screen.getByText(/checkbox label/i)).toBeVisible();
+		expect(screen.getByTestId(ICONS.checkboxOff)).toBeVisible();
 	});
 
 	test('Click on the checkbox', async () => {
@@ -28,6 +28,6 @@ describe('Checkbox', () => {
 			await user.click(screen.getByTestId(ICONS.checkboxOff));
 		});
 		expect(onChange).toHaveBeenCalled();
-		expect(screen.getByTestId(ICONS.checkboxOn)).toBeInTheDocument();
+		expect(screen.getByTestId(ICONS.checkboxOn)).toBeVisible();
 	});
 });

@@ -51,7 +51,6 @@ describe('Button', () => {
 		const clickFn = jest.fn();
 		setup(<Button label={label} icon="BulbOutline" onClick={clickFn} />);
 		expect(screen.getByText(new RegExp(label, 'i'))).toBeVisible();
-		expect(screen.getByTestId('icon: BulbOutline')).toBeInTheDocument();
 		expect(screen.getByTestId('icon: BulbOutline')).toBeVisible();
 	});
 
@@ -59,9 +58,7 @@ describe('Button', () => {
 		const label = faker.lorem.words(1);
 		const clickFn = jest.fn();
 		setup(<Button label={label} loading onClick={clickFn} />);
-		expect(screen.getByText(new RegExp(label, 'i'))).toBeInTheDocument();
 		expect(screen.getByText(new RegExp(label, 'i'))).not.toBeVisible();
-		expect(screen.getByTestId('spinner')).toBeInTheDocument();
 		expect(screen.getByTestId('spinner')).toBeVisible();
 	});
 
@@ -77,15 +74,14 @@ describe('Button', () => {
 		const button = screen.getByRole('button');
 		expect(screen.queryByText('Tooltip label')).not.toBeInTheDocument();
 		// wait for tooltip to register listeners
-		jest.advanceTimersToNextTimer();
+		jest.advanceTimersByTime(1);
+		expect(screen.queryByText('Tooltip label')).not.toBeInTheDocument();
 		await user.hover(button);
-		act(() => {
-			// run timers of tooltip
-			jest.advanceTimersToNextTimer();
-		});
 		await screen.findByText('Tooltip label');
 		expect(screen.getByText('Tooltip label')).toBeVisible();
-		await user.unhover(button);
+		await act(async () => {
+			await user.unhover(button);
+		});
 		expect(screen.queryByText('Tooltip label')).not.toBeInTheDocument();
 	});
 });

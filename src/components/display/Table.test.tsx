@@ -25,7 +25,10 @@ describe('Table', () => {
 		return row as HTMLElement;
 	}
 
-	test('index of the array is shown by default', async () => {
+	// https://github.com/testing-library/react-testing-library/issues/1225
+	// https://github.com/jsdom/jsdom/issues/3607
+	// at the moment the pseudo class hover sets the state already to active, so we have to wait the release of the fix of jsdom
+	test.failing('index of the array is shown by default', async () => {
 		const headers: THeader[] = [
 			{ id: 'col1', label: 'header 1' },
 			{ id: 'col2', label: 'header 2' }
@@ -49,7 +52,7 @@ describe('Table', () => {
 		expect(screen.getByText('2')).toBeVisible();
 	});
 
-	test('show the index provided in the row item when set', async () => {
+	test.failing('show the index provided in the row item when set', async () => {
 		const headers: THeader[] = [
 			{ id: 'col1', label: 'header 1' },
 			{ id: 'col2', label: 'header 2' }
@@ -91,7 +94,7 @@ describe('Table', () => {
 		);
 		const row1 = getRowByColumnLabel('row1col1');
 		const row1Checkbox = within(row1).getByTestId(SELECTORS.checkbox);
-		expect(row1Checkbox).toBeInTheDocument();
+		expect(row1Checkbox).toBeVisible();
 		expect(row1Checkbox).toHaveStyleRule('display', 'none');
 	});
 
@@ -113,7 +116,7 @@ describe('Table', () => {
 		expect(row1).toHaveStyleRule('display', 'block', { modifier: `:focus ${StyledCheckbox}` });
 	});
 
-	test('checkbox of the row should have display property set to block on hover', async () => {
+	test('checkbox of the row should have display property set to block on hover', () => {
 		const headers: THeader[] = [
 			{ id: 'col1', label: 'header 1' },
 			{ id: 'col2', label: 'header 2' }
@@ -131,7 +134,7 @@ describe('Table', () => {
 		expect(row1).toHaveStyleRule('display', 'block', { modifier: `:hover ${StyledCheckbox}` });
 	});
 
-	test('If multi selection is disabled, checkbox to select all is not shown inside header', async () => {
+	test('If multi selection is disabled, checkbox to select all is not shown inside header', () => {
 		const headers: THeader[] = [
 			{ id: 'col1', label: 'header 1' },
 			{ id: 'col2', label: 'header 2' }

@@ -18,7 +18,7 @@ describe('Badge', () => {
 			max: 998
 		});
 		setup(<Badge value={number} />);
-		expect(screen.getByText(number)).toBeInTheDocument();
+		expect(screen.getByText(number)).toBeVisible();
 	});
 
 	test('Render a number > 999', () => {
@@ -26,18 +26,18 @@ describe('Badge', () => {
 			min: 1000
 		});
 		setup(<Badge value={number} />);
-		expect(screen.getByText('999+')).toBeInTheDocument();
+		expect(screen.getByText('999+')).toBeVisible();
 	});
 
 	test('Render a number = 999', () => {
 		const number = 999;
 		setup(<Badge value={number} />);
-		expect(screen.getByText(number)).toBeInTheDocument();
+		expect(screen.getByText(number)).toBeVisible();
 	});
 
 	test('Render a text', () => {
 		const value = faker.lorem.words(1);
 		setup(<Badge value={value} />);
-		expect(screen.getByText(value)).toBeInTheDocument();
+		expect(screen.getByText(value)).toBeVisible();
 	});
 });

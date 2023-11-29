@@ -9,5 +9,8 @@ export const INPUT_DIVIDER_COLOR = 'gray3';
 export const TIMERS = {
 	MODAL: {
 		DELAY_OPEN: 1
+	},
+	TOOLTIP: {
+		REGISTER_LISTENER: 1
 	}
 };

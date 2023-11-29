@@ -19,7 +19,11 @@ module.exports = {
 		alias: {
 			'@zextras/carbonio-design-system': path.resolve(__dirname, './src/index.ts'),
 			'carbonio-design-system-icons': path.resolve(__dirname, './src/icons/index.ts'),
-			'status-table': path.resolve(__dirname, './docs/components/StatusTable.jsx')
+			'status-table': path.resolve(__dirname, './docs/components/StatusTable.jsx'),
+			'@testing-library/user-event/keyboard/keyMap': path.resolve(
+				__dirname,
+				'./node_modules/@testing-library/user-event/cjs/keyboard/keyMap.js'
+			)
 		}
 	},
 	externals: [],

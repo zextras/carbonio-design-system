@@ -98,8 +98,8 @@ describe('Accordion', () => {
 				]}
 			/>
 		);
-		expect(screen.getByRole('button', { name: /first/i })).toBeInTheDocument();
-		expect(screen.getByTestId('custom')).toBeInTheDocument();
+		expect(screen.getByRole('button', { name: /first/i })).toBeVisible();
+		expect(screen.getByTestId('custom')).toBeVisible();
 	});
 
 	test('Open and close an Accordion', async () => {

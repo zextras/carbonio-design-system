@@ -21,7 +21,7 @@ export default {
 	// cacheDirectory: "/tmp/jest_rt",
 
 	// Automatically clear mock calls and instances between every test
-	clearMocks: true,
+	// clearMocks: true,
 
 	// Indicates whether the coverage information should be collected while executing the test
 	collectCoverage: true,
@@ -88,7 +88,10 @@ export default {
 	// ],
 
 	// A map from regular expressions to module names that allow to stub out resources with a single module
-	moduleNameMapper: {},
+	moduleNameMapper: {
+		'@testing-library/user-event/keyboard/keyMap':
+			'@testing-library/user-event/dist/cjs/keyboard/keyMap.js'
+	},
 
 	// An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader
 	// modulePathIgnorePatterns: [],
@@ -118,7 +121,7 @@ export default {
 	// resolver: undefined,
 
 	// Automatically restore mock state between every test
-	// restoreMocks: false,
+	restoreMocks: true,
 
 	// The root directory that Jest should scan for tests and modules within
 	// rootDir: undefined,

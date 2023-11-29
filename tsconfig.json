@@ -7,6 +7,12 @@
   "exclude": [
     "node_modules",
     "dist"
-  ]
+  ],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@testing-library/user-event/keyboard/keyMap": ["./node_modules/@testing-library/user-event/dist/types/keyboard/keyMap.d.ts"]
+    }
+  }
 }
 

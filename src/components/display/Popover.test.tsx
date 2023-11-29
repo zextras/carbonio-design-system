@@ -49,16 +49,15 @@ describe('Popover', () => {
 		expect(screen.queryByTestId('Popover')).not.toBeInTheDocument();
 		expect(screen.queryByTestId('button2')).not.toBeInTheDocument();
 
-		expect(screen.getByTestId('button1')).toBeInTheDocument();
+		expect(screen.getByTestId('button1')).toBeVisible();
 		expect(screen.getByTestId('button1')).toHaveTextContent(/click me!/i);
 	});
 
 	test('Render opened Popover', async () => {
 		const { user } = setup(<CustomPopover />);
 		await user.click(screen.getByTestId('button1'));
-		expect(screen.getByRole('textbox')).toBeInTheDocument();
-		expect(screen.getByTestId('Popover')).toBeInTheDocument();
-		expect(screen.getByTestId('button2')).toBeInTheDocument();
+		expect(screen.getByTestId('Popover')).toBeVisible();
+		expect(screen.getByTestId('button2')).toBeVisible();
 
 		expect(screen.getByRole('textbox')).toBeVisible();
 		expect(screen.getByRole('button', { name: /click me!/i })).toBeVisible();

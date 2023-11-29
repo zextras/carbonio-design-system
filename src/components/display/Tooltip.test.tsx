@@ -11,6 +11,7 @@ import { screen } from '@testing-library/react';
 import { Tooltip } from './Tooltip';
 import { setup } from '../../test-utils';
 import { Button } from '../basic/Button';
+import { TIMERS } from '../constants';
 import { Container } from '../layout/Container';
 
 describe('Tooltip', () => {
@@ -26,9 +27,7 @@ describe('Tooltip', () => {
 		);
 		const button = screen.getByText(/Name Lastname/i);
 		// wait so tooltip can register the listeners
-		await new Promise((r) => {
-			setTimeout(r, 100);
-		});
+		jest.advanceTimersByTime(TIMERS.TOOLTIP.REGISTER_LISTENER);
 		await user.hover(button);
 		await screen.findByText(messageText);
 
@@ -47,13 +46,8 @@ describe('Tooltip', () => {
 		);
 		const button = screen.getByText(/Name Lastname/i);
 		// wait so tooltip can register the listeners
-		await new Promise((r) => {
-			setTimeout(r, 100);
-		});
+		jest.advanceTimersByTime(TIMERS.TOOLTIP.REGISTER_LISTENER);
 		await user.hover(button);
-		await new Promise((r) => {
-			setTimeout(r, 100);
-		});
 		expect(screen.queryByText(messageText)).not.toBeInTheDocument();
 	});
 

@@ -80,8 +80,8 @@ describe('Dropdown', () => {
 		await user.click(screen.getByRole('button'));
 
 		expect(screen.getByText('Some Item')).toBeVisible();
-		expect(screen.getByText('Some Other Item')).toBeInTheDocument();
-		expect(screen.getByText('Yet Another Item')).toBeInTheDocument();
+		expect(screen.getByText('Some Other Item')).toBeVisible();
+		expect(screen.getByText('Yet Another Item')).toBeVisible();
 		// wait for listeners to be registered
 		await waitFor(
 			() =>
@@ -99,7 +99,7 @@ describe('Dropdown', () => {
 			</Dropdown>
 		);
 
-		expect(screen.getByRole('button', { name: /opener/i })).toBeInTheDocument();
+		expect(screen.getByRole('button', { name: /opener/i })).toBeVisible();
 		// dropdown is closed
 		expect(screen.queryByText(/some item/i)).not.toBeInTheDocument();
 		// first click trigger open
@@ -112,9 +112,9 @@ describe('Dropdown', () => {
 					setTimeout(resolve, 1);
 				})
 		);
-		expect(screen.getByText(/some item/i)).toBeInTheDocument();
-		expect(screen.getByText(/Some Other Item/i)).toBeInTheDocument();
-		expect(screen.getByText(/Yet Another Item/i)).toBeInTheDocument();
+		expect(screen.getByText(/some item/i)).toBeVisible();
+		expect(screen.getByText(/Some Other Item/i)).toBeVisible();
+		expect(screen.getByText(/Yet Another Item/i)).toBeVisible();
 		// second click trigger close
 		await user.click(screen.getByRole('button', { name: /opener/i }));
 		expect(screen.queryByText(/some item/i)).not.toBeInTheDocument();
@@ -130,9 +130,9 @@ describe('Dropdown', () => {
 					setTimeout(resolve, 1);
 				})
 		);
-		expect(screen.getByText(/some item/i)).toBeInTheDocument();
-		expect(screen.getByText(/Some Other Item/i)).toBeInTheDocument();
-		expect(screen.getByText(/Yet Another Item/i)).toBeInTheDocument();
+		expect(screen.getByText(/some item/i)).toBeVisible();
+		expect(screen.getByText(/Some Other Item/i)).toBeVisible();
+		expect(screen.getByText(/Yet Another Item/i)).toBeVisible();
 		// fourth click trigger close
 		await user.click(screen.getByRole('button', { name: /opener/i }));
 		expect(screen.queryByText(/some item/i)).not.toBeInTheDocument();
@@ -150,10 +150,12 @@ describe('Dropdown', () => {
 				</Dropdown>
 			</Modal>
 		);
-
+		// run timers of modal
+		act(() => jest.runOnlyPendingTimers());
+		jest.runOnlyPendingTimers();
 		// modal is open
-		expect(screen.getByText('modal with dropdown')).toBeInTheDocument();
-		expect(screen.getByRole('button', { name: /opener/i })).toBeInTheDocument();
+		expect(screen.getByText('modal with dropdown')).toBeVisible();
+		expect(screen.getByRole('button', { name: /opener/i })).toBeVisible();
 		// dropdown is closed
 		expect(screen.queryByText(/some item/i)).not.toBeInTheDocument();
 		// first click trigger open
@@ -166,9 +168,9 @@ describe('Dropdown', () => {
 					setTimeout(resolve, 1);
 				})
 		);
-		expect(screen.getByText(/some item/i)).toBeInTheDocument();
-		expect(screen.getByText(/Some Other Item/i)).toBeInTheDocument();
-		expect(screen.getByText(/Yet Another Item/i)).toBeInTheDocument();
+		expect(screen.getByText(/some item/i)).toBeVisible();
+		expect(screen.getByText(/Some Other Item/i)).toBeVisible();
+		expect(screen.getByText(/Yet Another Item/i)).toBeVisible();
 		// second click trigger close
 		await user.click(screen.getByRole('button', { name: /opener/i }));
 		expect(screen.queryByText(/some item/i)).not.toBeInTheDocument();
@@ -184,9 +186,9 @@ describe('Dropdown', () => {
 					setTimeout(resolve, 1);
 				})
 		);
-		expect(screen.getByText(/some item/i)).toBeInTheDocument();
-		expect(screen.getByText(/Some Other Item/i)).toBeInTheDocument();
-		expect(screen.getByText(/Yet Another Item/i)).toBeInTheDocument();
+		expect(screen.getByText(/some item/i)).toBeVisible();
+		expect(screen.getByText(/Some Other Item/i)).toBeVisible();
+		expect(screen.getByText(/Yet Another Item/i)).toBeVisible();
 		// fourth click trigger close
 		await user.click(screen.getByRole('button', { name: /opener/i }));
 		expect(screen.queryByText(/some item/i)).not.toBeInTheDocument();
@@ -214,7 +216,7 @@ describe('Dropdown', () => {
 				<Button label="opener" onClick={onClick} />
 			</Dropdown>
 		);
-		expect(screen.getByRole('button', { name: /opener/i })).toBeInTheDocument();
+		expect(screen.getByRole('button', { name: /opener/i })).toBeVisible();
 		// dropdown is closed
 		expect(screen.queryByText(/some item/i)).not.toBeInTheDocument();
 		// first click trigger open
@@ -273,7 +275,7 @@ describe('Dropdown', () => {
 			</Dropdown>
 		);
 
-		expect(screen.getByRole('button', { name: /opener/i })).toBeInTheDocument();
+		expect(screen.getByRole('button', { name: /opener/i })).toBeVisible();
 		// dropdown is closed
 		expect(screen.queryByText(/item/i)).not.toBeInTheDocument();
 		// open dropdown
@@ -310,21 +312,21 @@ describe('Dropdown', () => {
 			</Dropdown>
 		);
 
-		expect(screen.getByRole('button', { name: /opener/i })).toBeInTheDocument();
+		expect(screen.getByRole('button', { name: /opener/i })).toBeVisible();
 		// dropdown is closed
 		expect(screen.queryByText(/some item/i)).not.toBeInTheDocument();
 		// right click trigger open
 		fireEvent.contextMenu(screen.getByRole('button', { name: /opener/i }));
 		await screen.findByText(/some item/i);
-		expect(screen.getByText(/some item/i)).toBeInTheDocument();
-		expect(screen.getByText(/Some Other Item/i)).toBeInTheDocument();
-		expect(screen.getByText(/Yet Another Item/i)).toBeInTheDocument();
+		expect(screen.getByText(/some item/i)).toBeVisible();
+		expect(screen.getByText(/Some Other Item/i)).toBeVisible();
+		expect(screen.getByText(/Yet Another Item/i)).toBeVisible();
 		// second right click trigger open of a new dropdown, closing the previous one
 		fireEvent.contextMenu(screen.getByRole('button', { name: /opener/i }));
 		await screen.findByText(/some item/i);
-		expect(screen.getByText(/some item/i)).toBeInTheDocument();
-		expect(screen.getByText(/Some Other Item/i)).toBeInTheDocument();
-		expect(screen.getByText(/Yet Another Item/i)).toBeInTheDocument();
+		expect(screen.getByText(/some item/i)).toBeVisible();
+		expect(screen.getByText(/Some Other Item/i)).toBeVisible();
+		expect(screen.getByText(/Yet Another Item/i)).toBeVisible();
 		// left click trigger close
 		await act(async () => {
 			await user.click(screen.getByRole('button', { name: /opener/i }));
