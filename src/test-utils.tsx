@@ -19,9 +19,7 @@ import {
 	within
 } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-// FIXME: check how to make eslint resolve the alias
-// eslint-disable-next-line import/no-unresolved
-import { defaultKeyMap } from '@testing-library/user-event/keyboard/keyMap';
+import { defaultKeyMap } from '@testing-library/user-event/dist/cjs/keyboard/keyMap';
 import { filter } from 'lodash';
 
 import { ThemeProvider } from './theme/theme-context-provider';

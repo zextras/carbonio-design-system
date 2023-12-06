@@ -9,9 +9,8 @@
     "dist"
   ],
   "compilerOptions": {
-    "baseUrl": ".",
     "paths": {
-      "@testing-library/user-event/keyboard/keyMap": ["./node_modules/@testing-library/user-event/dist/types/keyboard/keyMap.d.ts"]
+      "@testing-library/user-event/dist/cjs/keyboard/keyMap": ["./node_modules/@testing-library/user-event/dist/types/keyboard/keyMap.d.ts"]
     }
   }
 }

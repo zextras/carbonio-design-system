@@ -88,10 +88,7 @@ export default {
 	// ],
 
 	// A map from regular expressions to module names that allow to stub out resources with a single module
-	moduleNameMapper: {
-		'@testing-library/user-event/keyboard/keyMap':
-			'@testing-library/user-event/dist/cjs/keyboard/keyMap.js'
-	},
+	// moduleNameMapper: {},
 
 	// An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader
 	// modulePathIgnorePatterns: [],
@@ -159,7 +156,7 @@ export default {
 	// ],
 
 	// An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
-	testPathIgnorePatterns: ['/node_modules/'],
+	// testPathIgnorePatterns: ['/node_modules/'],
 
 	// The regexp pattern or array of patterns that Jest uses to detect test files
 	// testRegex: [],
