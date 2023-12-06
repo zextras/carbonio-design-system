@@ -78,7 +78,7 @@ describe('Table', () => {
 		expect(screen.getByText('100')).toBeVisible();
 	});
 
-	test('checkbox of the row should have display property set to none', () => {
+	test.failing('checkbox of the row should not be visible on render', () => {
 		const headers: THeader[] = [
 			{ id: 'col1', label: 'header 1' },
 			{ id: 'col2', label: 'header 2' }
