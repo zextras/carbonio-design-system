@@ -36,7 +36,7 @@ describe('Radio', () => {
 			const onChangeFn = jest.fn();
 			const { user } = setup(<Radio label={'the label'} onChange={onChangeFn} defaultChecked />);
 			const radio = screen.getByRole('radio');
-			// onChange is called on setup
+			// onChange is called on render
 			expect(onChangeFn).toHaveBeenCalledTimes(1);
 			expect(onChangeFn).toHaveBeenCalledWith(true);
 			await user.click(radio);
