@@ -94,8 +94,8 @@ describe('Table', () => {
 		);
 		const row1 = getRowByColumnLabel('row1col1');
 		const row1Checkbox = within(row1).getByTestId(SELECTORS.checkbox);
-		expect(row1Checkbox).toBeVisible();
-		expect(row1Checkbox).toHaveStyleRule('display', 'none');
+		expect(row1Checkbox).toBeInTheDocument();
+		expect(row1Checkbox).not.toBeVisible();
 	});
 
 	test('checkbox of the row should have display property set to block on focus', async () => {
