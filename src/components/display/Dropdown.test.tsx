@@ -5,12 +5,13 @@
  */
 import React from 'react';
 
-import { screen, act, waitFor, fireEvent } from '@testing-library/react';
+import { screen, act, fireEvent } from '@testing-library/react';
 
 import { Dropdown, DropdownItem } from './Dropdown';
 import { setup } from '../../test-utils';
 import { ICONS } from '../../testUtils/constants';
 import { Button } from '../basic/Button';
+import { TIMERS } from '../constants';
 import { Modal } from '../feedback/Modal';
 
 const items: DropdownItem[] = [
@@ -83,12 +84,7 @@ describe('Dropdown', () => {
 		expect(screen.getByText('Some Other Item')).toBeVisible();
 		expect(screen.getByText('Yet Another Item')).toBeVisible();
 		// wait for listeners to be registered
-		await waitFor(
-			() =>
-				new Promise((resolve) => {
-					setTimeout(resolve, 1);
-				})
-		);
+		jest.advanceTimersByTime(TIMERS.DROPDOWN.REGISTER_LISTENER);
 	});
 
 	test('click on dropdown trigger toggle dropdown visibility', async () => {
@@ -106,12 +102,7 @@ describe('Dropdown', () => {
 		await user.click(screen.getByRole('button', { name: /opener/i }));
 		await screen.findByText(/some item/i);
 		// wait for listeners to be registered
-		await waitFor(
-			() =>
-				new Promise((resolve) => {
-					setTimeout(resolve, 1);
-				})
-		);
+		jest.advanceTimersByTime(1);
 		expect(screen.getByText(/some item/i)).toBeVisible();
 		expect(screen.getByText(/Some Other Item/i)).toBeVisible();
 		expect(screen.getByText(/Yet Another Item/i)).toBeVisible();
@@ -124,12 +115,7 @@ describe('Dropdown', () => {
 		await user.click(screen.getByRole('button', { name: /opener/i }));
 		await screen.findByText(/some item/i);
 		// wait for listeners to be registered
-		await waitFor(
-			() =>
-				new Promise((resolve) => {
-					setTimeout(resolve, 1);
-				})
-		);
+		jest.advanceTimersByTime(TIMERS.DROPDOWN.REGISTER_LISTENER);
 		expect(screen.getByText(/some item/i)).toBeVisible();
 		expect(screen.getByText(/Some Other Item/i)).toBeVisible();
 		expect(screen.getByText(/Yet Another Item/i)).toBeVisible();
@@ -152,7 +138,10 @@ describe('Dropdown', () => {
 		);
 		// run timers of modal
 		act(() => jest.runOnlyPendingTimers());
-		jest.runOnlyPendingTimers();
+		await screen.findByText('modal with dropdown');
+		act(() => {
+			jest.advanceTimersByTime(TIMERS.MODAL.DELAY_OPEN);
+		});
 		// modal is open
 		expect(screen.getByText('modal with dropdown')).toBeVisible();
 		expect(screen.getByRole('button', { name: /opener/i })).toBeVisible();
@@ -162,12 +151,7 @@ describe('Dropdown', () => {
 		await user.click(screen.getByRole('button', { name: /opener/i }));
 		await screen.findByText(/some item/i);
 		// wait for listeners to be registered
-		await waitFor(
-			() =>
-				new Promise((resolve) => {
-					setTimeout(resolve, 1);
-				})
-		);
+		jest.advanceTimersByTime(TIMERS.DROPDOWN.REGISTER_LISTENER);
 		expect(screen.getByText(/some item/i)).toBeVisible();
 		expect(screen.getByText(/Some Other Item/i)).toBeVisible();
 		expect(screen.getByText(/Yet Another Item/i)).toBeVisible();
@@ -180,12 +164,7 @@ describe('Dropdown', () => {
 		await user.click(screen.getByRole('button', { name: /opener/i }));
 		await screen.findByText(/some item/i);
 		// wait for listeners to be registered
-		await waitFor(
-			() =>
-				new Promise((resolve) => {
-					setTimeout(resolve, 1);
-				})
-		);
+		jest.advanceTimersByTime(TIMERS.DROPDOWN.REGISTER_LISTENER);
 		expect(screen.getByText(/some item/i)).toBeVisible();
 		expect(screen.getByText(/Some Other Item/i)).toBeVisible();
 		expect(screen.getByText(/Yet Another Item/i)).toBeVisible();
@@ -223,22 +202,12 @@ describe('Dropdown', () => {
 		await user.click(screen.getByRole('button', { name: /opener/i }));
 		await screen.findByText(/item 4/i);
 		// wait for listeners to be registered
-		await waitFor(
-			() =>
-				new Promise((resolve) => {
-					setTimeout(resolve, 1);
-				})
-		);
+		jest.advanceTimersByTime(TIMERS.DROPDOWN.REGISTER_LISTENER);
 		expect(screen.getByTestId(ICONS.dropdownNestedLevel)).toBeVisible();
 		await user.hover(screen.getByTestId(ICONS.dropdownNestedLevel));
 		await screen.findByText(/item 4 sub 1/i);
 		// wait for listeners to be registered
-		await waitFor(
-			() =>
-				new Promise((resolve) => {
-					setTimeout(resolve, 1);
-				})
-		);
+		jest.advanceTimersByTime(TIMERS.DROPDOWN.REGISTER_LISTENER);
 		expect(screen.getByText(/item 4 sub 1/i)).toBeVisible();
 		await user.click(screen.getByText(/item 4 sub 1/i));
 		expect(item3Sub1ClickFn).toHaveBeenCalled();
@@ -282,16 +251,13 @@ describe('Dropdown', () => {
 		await user.click(screen.getByRole('button', { name: /opener/i }));
 		await screen.findAllByText(/item/i);
 		// wait for listeners to be registered
-		await waitFor(
-			() =>
-				new Promise((resolve) => {
-					setTimeout(resolve, 1);
-				})
-		);
+		jest.advanceTimersByTime(TIMERS.DROPDOWN.REGISTER_LISTENER);
 		expect(screen.getByText('item 1')).toBeVisible();
 		expect(screen.getByText('item 2')).toBeVisible();
 		expect(screen.getByText('item 3')).toBeVisible();
 		expect(screen.queryByText(/tooltip/i)).not.toBeInTheDocument();
+		// wait so tooltip can register the listeners
+		jest.advanceTimersByTime(TIMERS.TOOLTIP.REGISTER_LISTENER);
 		await user.hover(screen.getByText('item 1'));
 		expect(screen.queryByText(/tooltip/i)).not.toBeInTheDocument();
 		await user.hover(screen.getByText('item 2'));
@@ -300,6 +266,8 @@ describe('Dropdown', () => {
 		await act(async () => {
 			await user.unhover(screen.getByText('item 2'));
 		});
+		// wait so tooltip can register the listeners
+		jest.advanceTimersByTime(TIMERS.TOOLTIP.REGISTER_LISTENER);
 		await user.hover(screen.getByText('item 3'));
 		expect(screen.queryByText(/tooltip/i)).not.toBeInTheDocument();
 	});

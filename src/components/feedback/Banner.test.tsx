@@ -15,6 +15,7 @@ import { Banner, BannerProps, InfoContainer } from './Banner';
 import { setup, UserEvent } from '../../test-utils';
 import { ICONS } from '../../testUtils/constants';
 import { Theme } from '../../theme/theme';
+import { TIMERS } from '../constants';
 import { ModalManager } from '../utilities/ModalManager';
 
 describe('Banner', () => {
@@ -65,12 +66,9 @@ describe('Banner', () => {
 		const modal = await screen.findByTestId('modal');
 
 		// run modal timeout
-		await waitFor(
-			() =>
-				new Promise((resolve) => {
-					setTimeout(resolve, 1);
-				})
-		);
+		act(() => {
+			jest.advanceTimersByTime(TIMERS.MODAL.DELAY_OPEN);
+		});
 		return modal;
 	}
 

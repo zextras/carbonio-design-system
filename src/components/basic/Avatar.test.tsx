@@ -34,12 +34,12 @@ describe('Avatar', () => {
 		expect(screen.getByTestId('icon: BulbOutline')).toBeVisible();
 	});
 
-	test('Render an avatar with an empty label, must setup the default icon', () => {
+	test('Render an avatar with an empty label, must render the default icon', () => {
 		setup(<Avatar label="" />);
 		expect(screen.getByTestId('icon: QuestionMark')).toBeVisible();
 	});
 
-	test('Render an avatar with label composed by spaces, must setup the default icon', () => {
+	test('Render an avatar with label composed by spaces, must render the default icon', () => {
 		setup(<Avatar label="     " />);
 		expect(screen.getByTestId('icon: QuestionMark')).toBeVisible();
 	});

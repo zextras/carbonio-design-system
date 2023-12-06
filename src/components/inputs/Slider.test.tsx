@@ -5,10 +5,11 @@
  */
 import React from 'react';
 
-import { act, fireEvent, screen, within } from '@testing-library/react';
+import { fireEvent, screen, within } from '@testing-library/react';
 
 import { Slider } from './Slider';
 import { setup } from '../../test-utils';
+import { TIMERS } from '../constants';
 
 describe('Slider', () => {
 	test('Render a slider with a datalist', async () => {
@@ -24,9 +25,7 @@ describe('Slider', () => {
 		const { user } = setup(<Slider options={options} />);
 		const option1 = screen.getByRole('option', { name: 'opt1' });
 		expect(option1).toBeVisible();
-		act(() => {
-			jest.runOnlyPendingTimers();
-		});
+		jest.advanceTimersByTime(TIMERS.TOOLTIP.REGISTER_LISTENER);
 		await user.hover(option1);
 		const tooltip = await screen.findByTestId('tooltip');
 		expect(within(tooltip).getByText(/opt1/)).toBeVisible();

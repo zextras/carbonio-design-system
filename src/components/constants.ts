@@ -12,5 +12,8 @@ export const TIMERS = {
 	},
 	TOOLTIP: {
 		REGISTER_LISTENER: 1
+	},
+	DROPDOWN: {
+		REGISTER_LISTENER: 1
 	}
 };

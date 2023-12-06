@@ -11,6 +11,7 @@ import { act, screen } from '@testing-library/react';
 
 import { Button } from './Button';
 import { setup } from '../../test-utils';
+import { TIMERS } from '../constants';
 import { Tooltip } from '../display/Tooltip';
 
 describe('Button', () => {
@@ -69,12 +70,10 @@ describe('Button', () => {
 				<Button label={'Button'} loading onClick={clickFn} disabled />
 			</Tooltip>
 		);
-		// FIXME: hover event on disabled button is not bubbled up. Remove access on parentElement when possible
-		// eslint-disable-next-line testing-library/no-node-access
 		const button = screen.getByRole('button');
 		expect(screen.queryByText('Tooltip label')).not.toBeInTheDocument();
 		// wait for tooltip to register listeners
-		jest.advanceTimersByTime(1);
+		jest.advanceTimersByTime(TIMERS.TOOLTIP.REGISTER_LISTENER);
 		expect(screen.queryByText('Tooltip label')).not.toBeInTheDocument();
 		await user.hover(button);
 		await screen.findByText('Tooltip label');

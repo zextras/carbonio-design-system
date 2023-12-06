@@ -5,21 +5,14 @@
  */
 import React from 'react';
 
-import { screen, waitFor } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 
 import { MultiButton, MultiButtonProps } from './MultiButton';
 import { setup } from '../../test-utils';
 import { ICONS } from '../../testUtils/constants';
+import { TIMERS } from '../constants';
 
 describe('MultiButton', () => {
-	function waitForListenerToBeRegistered(ms = 1): Promise<void> {
-		return waitFor(
-			() =>
-				new Promise((resolve) => {
-					setTimeout(resolve, ms);
-				})
-		);
-	}
 	test('Click on primary button does not open dropdown', async () => {
 		const items: MultiButtonProps['items'] = [
 			{ id: 'item1', label: 'item1' },
@@ -63,7 +56,8 @@ describe('MultiButton', () => {
 		expect(screen.getByText(/primary/i)).toBeVisible();
 		expect(screen.getByTestId(ICONS.multiButtonSecondaryAction)).toBeVisible();
 		await user.click(screen.getByTestId(ICONS.multiButtonSecondaryAction));
-		await waitForListenerToBeRegistered(2);
+		// wait for listeners to be registered
+		jest.advanceTimersByTime(TIMERS.DROPDOWN.REGISTER_LISTENER);
 		expect(clickFn).not.toHaveBeenCalled();
 		expect(screen.getByText(/item1/i)).toBeVisible();
 		expect(screen.getByText(/item2/i)).toBeVisible();
@@ -83,7 +77,7 @@ describe('MultiButton', () => {
 		expect(screen.getByText(/primary/i)).toBeVisible();
 		expect(screen.getByTestId(ICONS.multiButtonSecondaryAction)).toBeVisible();
 		await user.click(screen.getByTestId(ICONS.multiButtonSecondaryAction));
-		await waitForListenerToBeRegistered();
+		jest.advanceTimersByTime(1);
 		expect(clickFn).not.toHaveBeenCalled();
 		expect(screen.getByText(/item1/i)).toBeVisible();
 		expect(screen.getByText(/item2/i)).toBeVisible();

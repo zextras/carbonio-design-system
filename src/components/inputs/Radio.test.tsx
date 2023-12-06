@@ -12,7 +12,7 @@ import { setup } from '../../test-utils';
 import { Text } from '../basic/Text';
 
 describe('Radio', () => {
-	test('should setup a radio input with a label', () => {
+	test('should render a radio input with a label', () => {
 		const label = 'the label';
 		setup(<Radio label={label} />);
 		expect(screen.getByRole('radio', { name: label })).toBeVisible();
@@ -36,7 +36,7 @@ describe('Radio', () => {
 			const onChangeFn = jest.fn();
 			const { user } = setup(<Radio label={'the label'} onChange={onChangeFn} defaultChecked />);
 			const radio = screen.getByRole('radio');
-			// onChange is called on setup
+			// onChange is called on render
 			expect(onChangeFn).toHaveBeenCalledTimes(1);
 			expect(onChangeFn).toHaveBeenCalledWith(true);
 			await user.click(radio);
@@ -71,7 +71,7 @@ describe('Radio', () => {
 		test('should call onChange with the new checked status when checked prop change', () => {
 			const onChangeFn = jest.fn();
 			const { rerender } = setup(<Radio label={'the label'} onChange={onChangeFn} checked />);
-			// onChange is called on setup
+			// onChange is called on render
 			expect(onChangeFn).toHaveBeenCalledTimes(1);
 			expect(onChangeFn).toHaveBeenCalledWith(true);
 			rerender(<Radio label={'the label'} onChange={onChangeFn} checked={false} />);
@@ -84,7 +84,7 @@ describe('Radio', () => {
 			const { user } = setup(<Radio label={'the label'} checked onChange={onChangeFn} />);
 			const radio = screen.getByRole('radio');
 			expect(radio).toBeChecked();
-			// onChange is called on setup
+			// onChange is called on render
 			expect(onChangeFn).toHaveBeenCalledTimes(1);
 			await user.click(radio);
 			expect(radio).toBeChecked();

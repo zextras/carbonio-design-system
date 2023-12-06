@@ -11,17 +11,17 @@ import { Text } from './Text';
 import { setup } from '../../test-utils';
 
 describe('Text', () => {
-	test('setup a text with string content', () => {
+	test('render a text with string content', () => {
 		setup(<Text>ABCD</Text>);
 		expect(screen.getByText('ABCD')).toBeVisible();
 	});
 
-	test('setup a div with disabled attribute', () => {
+	test('render a div with disabled attribute', () => {
 		setup(<Text disabled>ABCD</Text>);
 		expect(screen.getByText('ABCD')).toHaveAttribute('disabled', '');
 	});
 
-	test('setup text with a component as content', () => {
+	test('render text with a component as content', () => {
 		setup(
 			<Text>
 				ABC <Text>DEF</Text>

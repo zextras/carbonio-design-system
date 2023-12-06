@@ -13,7 +13,7 @@ import { RadioGroup, RadioGroupProps } from './RadioGroup';
 import { setup } from '../../test-utils';
 
 describe('Radio Group', () => {
-	test('Should setup a group with the radio', () => {
+	test('Should render a group with the radio', () => {
 		setup(
 			<RadioGroup>
 				<Radio value={'r1'} label={`item 1`} />

@@ -5,7 +5,7 @@
  */
 import React from 'react';
 
-import { act, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import { format, addMonths, startOfMonth } from 'date-fns';
 import { noop } from 'lodash';
 
@@ -215,9 +215,6 @@ describe('DateTimePicker', () => {
 			expect(inputElement).toBeEnabled();
 			await user.click(inputElement);
 			await user.click(screen.getAllByText('1')[0]);
-			act(() => {
-				jest.runOnlyPendingTimers();
-			});
 			expect(inputElement).toBeDisabled();
 		});
 

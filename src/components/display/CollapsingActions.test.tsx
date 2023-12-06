@@ -70,7 +70,7 @@ describe('Collapsing Actions', () => {
 		expect(screen.queryByText(actions[1].label)).not.toBeInTheDocument();
 		expect(screen.getByTestId(`icon: ${actions[2].icon}`)).toBeVisible();
 		expect(screen.queryByText(actions[2].label)).not.toBeInTheDocument();
-		// others are setuped inside the dropdown
+		// others are rendered inside the dropdown
 		expect(screen.getByText(actions[3].label)).toBeVisible();
 		expect(screen.getByTestId(`icon: ${actions[3].icon}`)).toBeVisible();
 		expect(screen.getByText(actions[4].label)).toBeVisible();
@@ -90,7 +90,7 @@ describe('Collapsing Actions', () => {
 	test('Resize event makes action to be collapsed or visible based on width', async () => {
 		/*
 		 * Considering that icon has 32px of width by default, 10 actions require 320px to be all visible.
-		 * Default width of the window in jest is 1024, so the container is setuped initially with a
+		 * Default width of the window in jest is 1024, so the container is rendered initially with a
 		 * width of 1024px -> all actions are visible.
 		 * By resizing the window to 300px, 2 actions should be removed to make space to the "more vertical".
 		 * We should have 8 actions visible plus the "more vertical" = 288px.

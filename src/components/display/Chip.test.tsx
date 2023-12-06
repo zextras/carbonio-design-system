@@ -13,6 +13,7 @@ import { Chip } from './Chip';
 import { Text } from '../../index';
 import { setup } from '../../test-utils';
 import { ICONS } from '../../testUtils/constants';
+import { TIMERS } from '../constants';
 
 describe('Chip', () => {
 	test('Render Chip with capitals', () => {
@@ -125,7 +126,7 @@ describe('Chip', () => {
 		);
 
 		// wait so tooltips can register the listeners
-		jest.advanceTimersByTime(1);
+		jest.advanceTimersByTime(TIMERS.TOOLTIP.REGISTER_LISTENER);
 		expect(screen.getByTestId('icon: Star')).toBeVisible();
 		expect(screen.getByTestId('icon: People')).toBeVisible();
 		expect(screen.getByTestId('icon: Eye')).toBeVisible();
@@ -199,7 +200,7 @@ describe('Chip', () => {
 			/>
 		);
 		// wait so tooltips can register the listeners
-		jest.advanceTimersByTime(1);
+		jest.advanceTimersByTime(TIMERS.TOOLTIP.REGISTER_LISTENER);
 		expect(screen.getByTestId('icon: Star')).toBeVisible();
 		expect(screen.getByTestId('icon: People')).toBeVisible();
 		expect(screen.getByTestId('icon: Eye')).toBeVisible();
@@ -287,7 +288,7 @@ describe('Chip', () => {
 			/>
 		);
 		// wait so tooltips can register the listeners
-		jest.advanceTimersByTime(1);
+		jest.advanceTimersByTime(TIMERS.TOOLTIP.REGISTER_LISTENER);
 		await user.hover(screen.getByText(label));
 		await screen.findByText(/message for error/i);
 		expect(screen.getByText('Message for error')).toBeVisible();
