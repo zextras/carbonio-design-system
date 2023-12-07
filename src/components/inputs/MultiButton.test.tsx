@@ -77,7 +77,7 @@ describe('MultiButton', () => {
 		expect(screen.getByText(/primary/i)).toBeVisible();
 		expect(screen.getByTestId(ICONS.multiButtonSecondaryAction)).toBeVisible();
 		await user.click(screen.getByTestId(ICONS.multiButtonSecondaryAction));
-		jest.advanceTimersByTime(1);
+		jest.advanceTimersByTime(TIMERS.DROPDOWN.REGISTER_LISTENER);
 		expect(clickFn).not.toHaveBeenCalled();
 		expect(screen.getByText(/item1/i)).toBeVisible();
 		expect(screen.getByText(/item2/i)).toBeVisible();

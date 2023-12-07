@@ -48,6 +48,7 @@ describe('Tooltip', () => {
 		// wait so tooltip can register the listeners
 		jest.advanceTimersByTime(TIMERS.TOOLTIP.REGISTER_LISTENER);
 		await user.hover(button);
+		jest.advanceTimersByTime(TIMERS.TOOLTIP.REGISTER_LISTENER);
 		expect(screen.queryByText(messageText)).not.toBeInTheDocument();
 	});
 

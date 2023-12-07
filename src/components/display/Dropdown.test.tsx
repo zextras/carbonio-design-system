@@ -102,7 +102,7 @@ describe('Dropdown', () => {
 		await user.click(screen.getByRole('button', { name: /opener/i }));
 		await screen.findByText(/some item/i);
 		// wait for listeners to be registered
-		jest.advanceTimersByTime(1);
+		jest.advanceTimersByTime(TIMERS.DROPDOWN.REGISTER_LISTENER);
 		expect(screen.getByText(/some item/i)).toBeVisible();
 		expect(screen.getByText(/Some Other Item/i)).toBeVisible();
 		expect(screen.getByText(/Yet Another Item/i)).toBeVisible();

@@ -88,7 +88,7 @@ function customRender(
 	options: Omit<RenderOptions, 'queries' | 'wrapper'> = {}
 ): RenderResult<typeof queriesExtended> {
 	return render(ui, {
-		wrapper: ({ children }: Pick<WrapperProps, 'children'>) => <Wrapper>{children}</Wrapper>,
+		wrapper: Wrapper,
 		queries: { ...queries, ...customQueries },
 		...options
 	});
