@@ -354,7 +354,6 @@ describe('ChipInput', () => {
 	test('if chip input is disabled, user can not type inside input', async () => {
 		const { user } = setup(<ChipInput disabled />);
 		const inputElement = screen.getByRole('textbox');
-		expect(inputElement).toBeInTheDocument();
 		expect(inputElement).toBeVisible();
 		// create chip with blur
 		await user.type(inputElement, 'ciao');
@@ -378,7 +377,6 @@ describe('ChipInput', () => {
 			/>
 		);
 		const inputElement = screen.getByRole('textbox');
-		expect(inputElement).toBeInTheDocument();
 		expect(inputElement).toBeVisible();
 		expect(screen.getByText('chip')).toBeVisible();
 		expect(screen.getByTestId(ICONS.close)).toBeVisible();
@@ -403,7 +401,7 @@ describe('ChipInput', () => {
 			/>
 		);
 		const inputElement = screen.getByRole('textbox');
-		expect(inputElement).toBeInTheDocument();
+		expect(inputElement).toBeVisible();
 		expect(screen.getByRole('button')).toBeVisible();
 		expect(screen.getByRole('button')).toBeDisabled();
 		await user.click(screen.getByTestId('icon: PeopleOutline'));
@@ -790,7 +788,6 @@ describe('ChipInput', () => {
 	test('create chips on paste splitting text on wanted separators', async () => {
 		const { user } = setup(<ChipInput createChipOnPaste pasteSeparators={['x', 'z']} />);
 		const inputElement = screen.getByRole('textbox');
-		expect(inputElement).toBeInTheDocument();
 		expect(inputElement).toBeVisible();
 		// create chip with paste
 		const dataTransferData: Record<string, string> = {
@@ -814,7 +811,6 @@ describe('ChipInput', () => {
 	test('if createChipOnPaste is set to false, paste event just paste text inside input', async () => {
 		const { user } = setup(<ChipInput createChipOnPaste={false} pasteSeparators={['x', 'z']} />);
 		const inputElement = screen.getByRole('textbox');
-		expect(inputElement).toBeInTheDocument();
 		expect(inputElement).toBeVisible();
 		// paste text
 		const dataTransferData: Record<string, string> = {

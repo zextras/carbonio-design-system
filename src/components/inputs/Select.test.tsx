@@ -313,7 +313,6 @@ describe('Select', () => {
 				);
 
 				// label is visible
-				expect(screen.getByText(label)).toBeInTheDocument();
 				expect(screen.getByText(label)).toBeVisible();
 
 				// first two items composes the label
