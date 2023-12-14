@@ -136,8 +136,6 @@ describe('Dropdown', () => {
 				</Dropdown>
 			</Modal>
 		);
-		// run timers of modal
-		act(() => jest.runOnlyPendingTimers());
 		await screen.findByText('modal with dropdown');
 		act(() => {
 			jest.advanceTimersByTime(TIMERS.MODAL.DELAY_OPEN);
@@ -266,9 +264,8 @@ describe('Dropdown', () => {
 		await act(async () => {
 			await user.unhover(screen.getByText('item 2'));
 		});
-		// wait so tooltip can register the listeners
-		jest.advanceTimersByTime(TIMERS.TOOLTIP.REGISTER_LISTENER);
 		await user.hover(screen.getByText('item 3'));
+		jest.advanceTimersByTime(TIMERS.TOOLTIP.DELAY_SHOW);
 		expect(screen.queryByText(/tooltip/i)).not.toBeInTheDocument();
 	});
 
