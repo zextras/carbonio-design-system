@@ -257,6 +257,7 @@ describe('Dropdown', () => {
 		// wait so tooltip can register the listeners
 		jest.advanceTimersByTime(TIMERS.TOOLTIP.REGISTER_LISTENER);
 		await user.hover(screen.getByText('item 1'));
+		jest.advanceTimersByTime(TIMERS.TOOLTIP.DELAY_SHOW);
 		expect(screen.queryByText(/tooltip/i)).not.toBeInTheDocument();
 		await user.hover(screen.getByText('item 2'));
 		await screen.findByText(/tooltip/i);
