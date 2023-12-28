@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React from 'react';
+import React, { type ReactElement } from 'react';
 
 import {
 	ByRoleMatcher,
@@ -12,14 +12,23 @@ import {
 	GetAllBy,
 	queries,
 	queryHelpers,
-	render as rtlRender,
+	render,
+	RenderOptions,
 	RenderResult,
 	screen,
 	within
 } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { defaultKeyMap } from '@testing-library/user-event/dist/cjs/keyboard/keyMap';
 import { filter } from 'lodash';
 
 import { ThemeProvider } from './theme/theme-context-provider';
+
+export type UserEvent = ReturnType<(typeof userEvent)['setup']>;
+
+interface WrapperProps {
+	children?: React.ReactNode;
+}
 
 type ByRoleWithIconOptions = ByRoleOptions & {
 	icon: string | RegExp;
@@ -68,15 +77,36 @@ const customQueries = {
 	findByRoleWithIcon
 };
 
-export function render(
-	ui: React.ReactElement,
-	{ ...options } = {}
-): RenderResult<typeof queries & typeof customQueries> {
-	const Wrapper: React.FC = ({ children }) => <ThemeProvider>{children}</ThemeProvider>;
+const queriesExtended = { ...queries, ...customQueries };
 
-	return rtlRender(ui, {
+const Wrapper = ({ children }: WrapperProps): React.JSX.Element => (
+	<ThemeProvider>{children}</ThemeProvider>
+);
+
+function customRender(
+	ui: React.ReactElement,
+	options: Omit<RenderOptions, 'queries' | 'wrapper'> = {}
+): RenderResult<typeof queriesExtended> {
+	return render(ui, {
 		wrapper: Wrapper,
 		queries: { ...queries, ...customQueries },
 		...options
 	});
 }
+
+type SetupOptions = {
+	renderOptions?: Omit<RenderOptions, 'queries' | 'wrapper'>;
+	setupOptions?: Parameters<(typeof userEvent)['setup']>[0];
+};
+
+export const setup = (
+	ui: ReactElement,
+	options?: SetupOptions
+): { user: UserEvent } & ReturnType<typeof customRender> => ({
+	user: userEvent.setup({
+		keyboardMap: [{ code: 'Comma', key: ',' }, ...defaultKeyMap],
+		advanceTimers: jest.advanceTimersByTime,
+		...options?.setupOptions
+	}),
+	...customRender(ui, options?.renderOptions)
+});

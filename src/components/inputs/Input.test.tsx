@@ -5,11 +5,10 @@
  */
 import React, { useCallback, useState } from 'react';
 
-import { screen, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { act, screen, waitFor } from '@testing-library/react';
 
 import { Input } from './Input';
-import { render } from '../../test-utils';
+import { setup } from '../../test-utils';
 import { Button } from '../basic/Button';
 import { Modal } from '../feedback/Modal';
 
@@ -50,16 +49,18 @@ const ModalWithInput = (): React.JSX.Element => {
 
 describe('Input', () => {
 	test('Input inside a Modal does not lose focus after typing first character', async () => {
-		render(<ModalWithInput />);
+		const { user } = setup(<ModalWithInput />);
 		expect(screen.getByRole('button', { name: /open modal/i })).toBeVisible();
-		userEvent.click(screen.getByRole('button', { name: /open modal/i }));
+		await user.click(screen.getByRole('button', { name: /open modal/i }));
 		await screen.findByText(/modal title/i);
+		// run timers of modal
+		act(() => jest.runOnlyPendingTimers());
 		const inputElement = screen.getByRole('textbox', { name: /input label/i });
-		expect(inputElement).toBeInTheDocument();
-		userEvent.click(inputElement);
+		expect(inputElement).toBeVisible();
+		await user.click(inputElement);
 		await waitFor(() => expect(inputElement).toHaveFocus());
 		// type a character
-		await userEvent.type(inputElement, 'a', { delay: 10, skipClick: true });
+		await user.type(inputElement, 'a', { skipClick: true });
 		expect(inputElement).toHaveValue('a');
 		expect(inputElement).toHaveFocus();
 	});

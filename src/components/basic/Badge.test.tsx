@@ -10,34 +10,34 @@ import { faker } from '@faker-js/faker';
 import { screen } from '@testing-library/react';
 
 import { Badge } from './Badge';
-import { render } from '../../test-utils';
+import { setup } from '../../test-utils';
 
 describe('Badge', () => {
 	test('Render a number < 999', () => {
 		const number = faker.number.int({
 			max: 998
 		});
-		render(<Badge value={number} />);
-		expect(screen.getByText(number)).toBeInTheDocument();
+		setup(<Badge value={number} />);
+		expect(screen.getByText(number)).toBeVisible();
 	});
 
 	test('Render a number > 999', () => {
 		const number = faker.number.int({
 			min: 1000
 		});
-		render(<Badge value={number} />);
-		expect(screen.getByText('999+')).toBeInTheDocument();
+		setup(<Badge value={number} />);
+		expect(screen.getByText('999+')).toBeVisible();
 	});
 
 	test('Render a number = 999', () => {
 		const number = 999;
-		render(<Badge value={number} />);
-		expect(screen.getByText(number)).toBeInTheDocument();
+		setup(<Badge value={number} />);
+		expect(screen.getByText(number)).toBeVisible();
 	});
 
 	test('Render a text', () => {
 		const value = faker.lorem.words(1);
-		render(<Badge value={value} />);
-		expect(screen.getByText(value)).toBeInTheDocument();
+		setup(<Badge value={value} />);
+		expect(screen.getByText(value)).toBeVisible();
 	});
 });

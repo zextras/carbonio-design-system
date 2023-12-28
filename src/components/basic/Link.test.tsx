@@ -9,12 +9,12 @@ import React from 'react';
 import { screen } from '@testing-library/react';
 
 import { Link } from './Link';
-import { render } from '../../test-utils';
+import { setup } from '../../test-utils';
 
 describe('Link', () => {
 	test('Render a Link', () => {
 		const text = 'some content';
-		render(
+		setup(
 			<Link weight="bold" size="large" color="warning" underlined href="https://test-link.test">
 				{text}
 			</Link>
