@@ -4,20 +4,19 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 
-import { screen, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { act, screen, waitFor } from '@testing-library/react';
 
 import { Modal, ModalProps } from './Modal';
-import { render } from '../../test-utils';
+import { setup } from '../../test-utils';
 import { Button } from '../basic/Button';
 import { Text } from '../basic/Text';
 
 const ModalTester = ({ children, ...props }: ModalProps): React.JSX.Element => {
 	const [open, setOpen] = useState(false);
-	const clickHandler = (): void => setOpen(true);
-	const closeHandler = (): void => setOpen(false);
+	const clickHandler = useCallback((): void => setOpen(true), []);
+	const closeHandler = useCallback((): void => setOpen(false), []);
 
 	return (
 		<>
@@ -37,72 +36,82 @@ const ModalTester = ({ children, ...props }: ModalProps): React.JSX.Element => {
 
 describe('Modal', () => {
 	test('Render Modal', async () => {
-		render(<ModalTester />);
+		const { user } = setup(<ModalTester />);
 
 		const button = screen.getByRole('button', { name: /trigger modal/i });
-		expect(button).toBeInTheDocument();
+		expect(button).toBeVisible();
 		expect(screen.queryByText('My Title')).not.toBeInTheDocument();
 		expect(screen.queryByText('Lorem ipsum dolor sit amet.')).not.toBeInTheDocument();
-		userEvent.click(button);
+		await user.click(button);
 		await waitFor(() => expect(screen.getByText('My Title')).toBeVisible());
 		expect(screen.getByText('Lorem ipsum dolor sit amet.')).toBeVisible();
-		expect(button).toBeInTheDocument();
+		expect(button).toBeVisible();
 	});
 
 	test('click on overlay close modal', async () => {
 		const onClick = jest.fn();
-		render(<ModalTester onClick={onClick} />);
+		const { user } = setup(<ModalTester onClick={onClick} />);
 
 		const button = screen.getByRole('button', { name: /trigger modal/i });
-		expect(button).toBeInTheDocument();
+		expect(button).toBeVisible();
 		expect(screen.queryByText('My Title')).not.toBeInTheDocument();
-		userEvent.click(button);
+		await user.click(button);
 		await waitFor(() => expect(screen.getByText('My Title')).toBeVisible());
 		const overlayElement = screen.getByTestId('modal');
 		expect(overlayElement).toBeVisible();
-		userEvent.click(overlayElement);
+		await user.click(overlayElement);
 		expect(screen.queryByText('My Title')).not.toBeInTheDocument();
 		expect(onClick).not.toHaveBeenCalled();
 	});
 
 	test('click on modal content does not close modal', async () => {
 		const onClick = jest.fn();
-		render(<ModalTester onClick={onClick} />);
+		const { user } = setup(<ModalTester onClick={onClick} />);
 
 		const button = screen.getByRole('button', { name: /trigger modal/i });
-		expect(button).toBeInTheDocument();
+		expect(button).toBeVisible();
 		expect(screen.queryByText('My Title')).not.toBeInTheDocument();
-		userEvent.click(button);
+		await user.click(button);
 		await waitFor(() => expect(screen.getByText('My Title')).toBeVisible());
-		userEvent.click(screen.getByText('My Title'));
+		await user.click(screen.getByText('My Title'));
 		expect(screen.getByText('My Title')).toBeVisible();
 		expect(onClick).toHaveBeenCalled();
 	});
 
 	test('should not blindly prevent default behavior of html elements', async () => {
+		jest.useRealTimers();
 		const originalConsoleError = console.error;
 		const errors: string[] = [];
-		console.error = (message): void => {
-			errors.push(message);
+		console.error = (...args): void => {
+			if (
+				'message' in args[0] &&
+				args[0].message === 'Not implemented: navigation (except hash changes)'
+			) {
+				errors.push(args[0].message);
+			} else {
+				originalConsoleError(...args);
+			}
 		};
 		const href = '/different-path';
-		render(
+		const { user } = setup(
 			<ModalTester>
 				<a href={href}>This is a link</a>
-			</ModalTester>
+			</ModalTester>,
+			{ setupOptions: { advanceTimers: () => Promise.resolve() } }
 		);
-		userEvent.click(screen.getByRole('button'));
-		userEvent.click(screen.getByRole('link'));
-		await waitFor(
-			() =>
-				new Promise((resolve) => {
-					// wait for the navigation callback of the jsdom hyperlink implementation to be called
-					setTimeout(resolve, 1);
-				})
+		await screen.findByRole('button');
+		await act(async () => {
+			await user.click(screen.getByRole('button'));
+		});
+		await screen.findByTestId('modal');
+		await waitFor(() => expect(screen.getByRole('link')).toBeVisible());
+		await user.click(screen.getByRole('link'));
+		await waitFor(() =>
+			// see https://github.com/jsdom/jsdom/blob/2d51af302581a57ee5b9b65595f1714d669b7ea2/lib/jsdom/living/nodes/HTMLAnchorElement-impl.js
+			expect(errors).toEqual(['Not implemented: navigation (except hash changes)'])
 		);
-		expect(errors).toEqual([
-			expect.stringContaining('Error: Not implemented: navigation (except hash changes)')
-		]);
+
 		console.error = originalConsoleError;
+		jest.useFakeTimers();
 	});
 });

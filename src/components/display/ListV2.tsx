@@ -49,7 +49,13 @@ const BottomElement: React.VFC<BottomElementProps> = ({ listRef, onVisible }) =>
 			onVisible();
 		}
 	}, [inView, onVisible]);
-	return <div ref={ref} style={{ minHeight: '4px', minWidth: '1px' }} />;
+	return (
+		<div
+			ref={ref}
+			style={{ minHeight: '4px', minWidth: '1px' }}
+			data-testid={'list-bottom-element'}
+		/>
+	);
 };
 
 interface ListV2Props extends ContainerProps {

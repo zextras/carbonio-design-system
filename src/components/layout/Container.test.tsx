@@ -9,12 +9,12 @@ import { screen } from '@testing-library/react';
 import 'jest-styled-components';
 
 import { Container } from './Container';
-import { render } from '../../test-utils';
+import { setup } from '../../test-utils';
 import { Theme } from '../../theme/theme';
 
 describe('Container', () => {
 	test('Set all borders in one if a string is passed as prop', () => {
-		render(<Container borderColor={'black'}>Test container</Container>);
+		setup(<Container borderColor={'black'}>Test container</Container>);
 		const containerEl = screen.getByText('Test container');
 		expect(containerEl).toHaveStyleRule(
 			'border',
@@ -27,7 +27,7 @@ describe('Container', () => {
 	});
 
 	test('Set only provided borders if an object is passed as prop', () => {
-		render(<Container borderColor={{ top: 'black', right: 'black' }}>Test container</Container>);
+		setup(<Container borderColor={{ top: 'black', right: 'black' }}>Test container</Container>);
 		const containerEl = screen.getByText('Test container');
 		expect(containerEl).toHaveStyleRule(
 			'border-top',

@@ -6,10 +6,9 @@
 import React from 'react';
 
 import { EventType, screen, within } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 
 import { Drop } from './Drop';
-import { render } from '../../test-utils';
+import { setup } from '../../test-utils';
 
 describe('Drop', () => {
 	const OverlayAcceptDummy = <div>accept</div>;
@@ -76,7 +75,7 @@ describe('Drop', () => {
 			event: {} as unknown as React.DragEvent<HTMLDivElement>
 		};
 
-		render(
+		setup(
 			<Drop
 				acceptType={['accept']}
 				overlayAcceptComponent={OverlayAcceptDummy}
@@ -101,7 +100,7 @@ describe('Drop', () => {
 			event: {} as unknown as React.DragEvent<HTMLDivElement>
 		};
 
-		render(
+		setup(
 			<Drop
 				acceptType={['accept']}
 				overlayAcceptComponent={OverlayAcceptDummy}
@@ -128,7 +127,7 @@ describe('Drop', () => {
 			event: {} as unknown as React.DragEvent<HTMLDivElement>
 		};
 
-		render(
+		setup(
 			<Drop
 				acceptType={['accept']}
 				overlayAcceptComponent={OverlayAcceptDummy}
@@ -157,7 +156,7 @@ describe('Drop', () => {
 			event: {} as unknown as React.DragEvent<HTMLDivElement>
 		};
 
-		render(
+		setup(
 			<Drop
 				acceptType={['accept']}
 				overlayAcceptComponent={OverlayAcceptDummy}
@@ -184,7 +183,7 @@ describe('Drop', () => {
 				event: {} as unknown as React.DragEvent<HTMLDivElement>
 			};
 
-			render(
+			setup(
 				<Drop
 					acceptType={['accept']}
 					overlayAcceptComponent={OverlayAcceptDummy}
@@ -210,7 +209,7 @@ describe('Drop', () => {
 			event: {} as unknown as React.DragEvent<HTMLDivElement>
 		};
 
-		render(
+		setup(
 			<Drop
 				acceptType={['accept']}
 				overlayAcceptComponent={OverlayAcceptDummy}
@@ -237,7 +236,7 @@ describe('Drop', () => {
 			event: {} as unknown as React.DragEvent<HTMLDivElement>
 		};
 
-		render(
+		setup(
 			<Drop
 				acceptType={['accept']}
 				overlayAcceptComponent={OverlayAcceptDummy}
@@ -262,7 +261,7 @@ describe('Drop', () => {
 			type: 'accept',
 			event: {} as unknown as React.DragEvent<HTMLDivElement>
 		};
-		render(
+		const { user } = setup(
 			<Drop
 				acceptType={['accept']}
 				overlayAcceptComponent={OverlayAcceptDummy}
@@ -276,7 +275,7 @@ describe('Drop', () => {
 		await screen.findByText('accept');
 		dragLeave(dropzone, null);
 		drop(window.document.body);
-		userEvent.click(screen.getByRole('button', { name: /nested button/i }));
+		await user.click(screen.getByRole('button', { name: /nested button/i }));
 		expect(onClickFn).toHaveBeenCalled();
 	});
 
@@ -290,7 +289,7 @@ describe('Drop', () => {
 			type: 'accept',
 			event: {} as unknown as React.DragEvent<HTMLDivElement>
 		};
-		render(
+		setup(
 			<>
 				<div data-testid="dropzone1">
 					<Drop
@@ -335,7 +334,7 @@ describe('Drop', () => {
 			data: { id: 1 },
 			event: {} as unknown as React.DragEvent<HTMLDivElement>
 		};
-		render(
+		setup(
 			<div data-testid="dropzone1">
 				<Drop
 					acceptType={['type1']}

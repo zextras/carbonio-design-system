@@ -9,31 +9,31 @@ import React from 'react';
 import { screen } from '@testing-library/react';
 
 import { Icon } from './Icon';
-import { render } from '../../test-utils';
+import { setup } from '../../test-utils';
 
 describe('Icon', () => {
 	test('Render an icon', () => {
-		render(<Icon icon="BulbOutline" />);
-		expect(screen.getByTestId('icon: BulbOutline')).toBeInTheDocument();
+		setup(<Icon icon="BulbOutline" />);
+		expect(screen.getByTestId('icon: BulbOutline')).toBeVisible();
 	});
 
 	test('Render an icon with a color of the palette with the variant', () => {
-		render(<Icon icon="BulbOutline" color="primary.hover" />);
-		expect(screen.getByTestId('icon: BulbOutline')).toBeInTheDocument();
+		setup(<Icon icon="BulbOutline" color="primary.hover" />);
+		expect(screen.getByTestId('icon: BulbOutline')).toBeVisible();
 	});
 
 	test('Render an icon with a color not of the palette with the variant', () => {
-		render(<Icon icon="BulbOutline" color="cadetblue.disabled" />);
-		expect(screen.getByTestId('icon: BulbOutline')).toBeInTheDocument();
+		setup(<Icon icon="BulbOutline" color="cadetblue.disabled" />);
+		expect(screen.getByTestId('icon: BulbOutline')).toBeVisible();
 	});
 
 	test('Render an icon with a color in the rgb form and a variant', () => {
-		render(<Icon icon="BulbOutline" color="rgba(100, 50, 50, 0.7).disabled" />);
-		expect(screen.getByTestId('icon: BulbOutline')).toBeInTheDocument();
+		setup(<Icon icon="BulbOutline" color="rgba(100, 50, 50, 0.7).disabled" />);
+		expect(screen.getByTestId('icon: BulbOutline')).toBeVisible();
 	});
 
 	test('Render an icon with a custom color', () => {
-		render(<Icon icon="BulbOutline" color="rgba(100, 50, 50, 0.7)" />);
-		expect(screen.getByTestId('icon: BulbOutline')).toBeInTheDocument();
+		setup(<Icon icon="BulbOutline" color="rgba(100, 50, 50, 0.7)" />);
+		expect(screen.getByTestId('icon: BulbOutline')).toBeVisible();
 	});
 });

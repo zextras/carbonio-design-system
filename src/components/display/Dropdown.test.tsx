@@ -5,13 +5,13 @@
  */
 import React from 'react';
 
-import { screen, act, waitFor, fireEvent } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { screen, act, fireEvent } from '@testing-library/react';
 
 import { Dropdown, DropdownItem } from './Dropdown';
-import { render } from '../../test-utils';
+import { setup } from '../../test-utils';
 import { ICONS } from '../../testUtils/constants';
 import { Button } from '../basic/Button';
+import { TIMERS } from '../constants';
 import { Modal } from '../feedback/Modal';
 
 const items: DropdownItem[] = [
@@ -59,7 +59,7 @@ const items: DropdownItem[] = [
 describe('Dropdown', () => {
 	test('Render closed dropdown', () => {
 		const onClick = jest.fn();
-		render(
+		setup(
 			<Dropdown items={items} placement="bottom-end">
 				<Button icon="ArrowDown" label="Create" onClick={onClick} />
 			</Dropdown>
@@ -72,70 +72,55 @@ describe('Dropdown', () => {
 
 	test('Render opened dropdown', async () => {
 		const onClick = jest.fn();
-		render(
+		const { user } = setup(
 			<Dropdown items={items} placement="bottom-end">
 				<Button icon="ArrowDown" label="Create" onClick={onClick} />
 			</Dropdown>
 		);
 
-		userEvent.click(screen.getByRole('button'));
+		await user.click(screen.getByRole('button'));
 
-		expect(screen.getByText('Some Item')).toBeInTheDocument();
-		expect(screen.getByText('Some Other Item')).toBeInTheDocument();
-		expect(screen.getByText('Yet Another Item')).toBeInTheDocument();
+		expect(screen.getByText('Some Item')).toBeVisible();
+		expect(screen.getByText('Some Other Item')).toBeVisible();
+		expect(screen.getByText('Yet Another Item')).toBeVisible();
 		// wait for listeners to be registered
-		await waitFor(
-			() =>
-				new Promise((resolve) => {
-					setTimeout(resolve, 1);
-				})
-		);
+		jest.advanceTimersByTime(TIMERS.DROPDOWN.REGISTER_LISTENER);
 	});
 
 	test('click on dropdown trigger toggle dropdown visibility', async () => {
 		const onClick = jest.fn();
-		render(
+		const { user } = setup(
 			<Dropdown items={items}>
 				<Button label="opener" onClick={onClick} />
 			</Dropdown>
 		);
 
-		expect(screen.getByRole('button', { name: /opener/i })).toBeInTheDocument();
+		expect(screen.getByRole('button', { name: /opener/i })).toBeVisible();
 		// dropdown is closed
 		expect(screen.queryByText(/some item/i)).not.toBeInTheDocument();
 		// first click trigger open
-		userEvent.click(screen.getByRole('button', { name: /opener/i }));
+		await user.click(screen.getByRole('button', { name: /opener/i }));
 		await screen.findByText(/some item/i);
 		// wait for listeners to be registered
-		await waitFor(
-			() =>
-				new Promise((resolve) => {
-					setTimeout(resolve, 1);
-				})
-		);
-		expect(screen.getByText(/some item/i)).toBeInTheDocument();
-		expect(screen.getByText(/Some Other Item/i)).toBeInTheDocument();
-		expect(screen.getByText(/Yet Another Item/i)).toBeInTheDocument();
+		jest.advanceTimersByTime(TIMERS.DROPDOWN.REGISTER_LISTENER);
+		expect(screen.getByText(/some item/i)).toBeVisible();
+		expect(screen.getByText(/Some Other Item/i)).toBeVisible();
+		expect(screen.getByText(/Yet Another Item/i)).toBeVisible();
 		// second click trigger close
-		userEvent.click(screen.getByRole('button', { name: /opener/i }));
+		await user.click(screen.getByRole('button', { name: /opener/i }));
 		expect(screen.queryByText(/some item/i)).not.toBeInTheDocument();
 		expect(screen.queryByText(/Some Other Item/i)).not.toBeInTheDocument();
 		expect(screen.queryByText(/Yet Another Item/i)).not.toBeInTheDocument();
 		// third click trigger open
-		userEvent.click(screen.getByRole('button', { name: /opener/i }));
+		await user.click(screen.getByRole('button', { name: /opener/i }));
 		await screen.findByText(/some item/i);
 		// wait for listeners to be registered
-		await waitFor(
-			() =>
-				new Promise((resolve) => {
-					setTimeout(resolve, 1);
-				})
-		);
-		expect(screen.getByText(/some item/i)).toBeInTheDocument();
-		expect(screen.getByText(/Some Other Item/i)).toBeInTheDocument();
-		expect(screen.getByText(/Yet Another Item/i)).toBeInTheDocument();
+		jest.advanceTimersByTime(TIMERS.DROPDOWN.REGISTER_LISTENER);
+		expect(screen.getByText(/some item/i)).toBeVisible();
+		expect(screen.getByText(/Some Other Item/i)).toBeVisible();
+		expect(screen.getByText(/Yet Another Item/i)).toBeVisible();
 		// fourth click trigger close
-		userEvent.click(screen.getByRole('button', { name: /opener/i }));
+		await user.click(screen.getByRole('button', { name: /opener/i }));
 		expect(screen.queryByText(/some item/i)).not.toBeInTheDocument();
 		expect(screen.queryByText(/Some Other Item/i)).not.toBeInTheDocument();
 		expect(screen.queryByText(/Yet Another Item/i)).not.toBeInTheDocument();
@@ -144,52 +129,45 @@ describe('Dropdown', () => {
 	test('dropdown inside a modal open and close properly', async () => {
 		const onClose = jest.fn();
 		const onClick = jest.fn();
-		render(
+		const { user } = setup(
 			<Modal open title="modal with dropdown" onClose={onClose}>
 				<Dropdown items={items}>
 					<Button label="opener" onClick={onClick} />
 				</Dropdown>
 			</Modal>
 		);
-
+		await screen.findByText('modal with dropdown');
+		act(() => {
+			jest.advanceTimersByTime(TIMERS.MODAL.DELAY_OPEN);
+		});
 		// modal is open
-		expect(screen.getByText('modal with dropdown')).toBeInTheDocument();
-		expect(screen.getByRole('button', { name: /opener/i })).toBeInTheDocument();
+		expect(screen.getByText('modal with dropdown')).toBeVisible();
+		expect(screen.getByRole('button', { name: /opener/i })).toBeVisible();
 		// dropdown is closed
 		expect(screen.queryByText(/some item/i)).not.toBeInTheDocument();
 		// first click trigger open
-		userEvent.click(screen.getByRole('button', { name: /opener/i }));
+		await user.click(screen.getByRole('button', { name: /opener/i }));
 		await screen.findByText(/some item/i);
 		// wait for listeners to be registered
-		await waitFor(
-			() =>
-				new Promise((resolve) => {
-					setTimeout(resolve, 1);
-				})
-		);
-		expect(screen.getByText(/some item/i)).toBeInTheDocument();
-		expect(screen.getByText(/Some Other Item/i)).toBeInTheDocument();
-		expect(screen.getByText(/Yet Another Item/i)).toBeInTheDocument();
+		jest.advanceTimersByTime(TIMERS.DROPDOWN.REGISTER_LISTENER);
+		expect(screen.getByText(/some item/i)).toBeVisible();
+		expect(screen.getByText(/Some Other Item/i)).toBeVisible();
+		expect(screen.getByText(/Yet Another Item/i)).toBeVisible();
 		// second click trigger close
-		userEvent.click(screen.getByRole('button', { name: /opener/i }));
+		await user.click(screen.getByRole('button', { name: /opener/i }));
 		expect(screen.queryByText(/some item/i)).not.toBeInTheDocument();
 		expect(screen.queryByText(/Some Other Item/i)).not.toBeInTheDocument();
 		expect(screen.queryByText(/Yet Another Item/i)).not.toBeInTheDocument();
 		// third click trigger open
-		userEvent.click(screen.getByRole('button', { name: /opener/i }));
+		await user.click(screen.getByRole('button', { name: /opener/i }));
 		await screen.findByText(/some item/i);
 		// wait for listeners to be registered
-		await waitFor(
-			() =>
-				new Promise((resolve) => {
-					setTimeout(resolve, 1);
-				})
-		);
-		expect(screen.getByText(/some item/i)).toBeInTheDocument();
-		expect(screen.getByText(/Some Other Item/i)).toBeInTheDocument();
-		expect(screen.getByText(/Yet Another Item/i)).toBeInTheDocument();
+		jest.advanceTimersByTime(TIMERS.DROPDOWN.REGISTER_LISTENER);
+		expect(screen.getByText(/some item/i)).toBeVisible();
+		expect(screen.getByText(/Some Other Item/i)).toBeVisible();
+		expect(screen.getByText(/Yet Another Item/i)).toBeVisible();
 		// fourth click trigger close
-		userEvent.click(screen.getByRole('button', { name: /opener/i }));
+		await user.click(screen.getByRole('button', { name: /opener/i }));
 		expect(screen.queryByText(/some item/i)).not.toBeInTheDocument();
 		expect(screen.queryByText(/Some Other Item/i)).not.toBeInTheDocument();
 		expect(screen.queryByText(/Yet Another Item/i)).not.toBeInTheDocument();
@@ -210,36 +188,26 @@ describe('Dropdown', () => {
 		});
 		(items[3].items as DropdownItem[])[0].onClick = item3Sub1ClickFn;
 		items[3].onClick = item3ClickFn;
-		render(
+		const { user } = setup(
 			<Dropdown items={items}>
 				<Button label="opener" onClick={onClick} />
 			</Dropdown>
 		);
-		expect(screen.getByRole('button', { name: /opener/i })).toBeInTheDocument();
+		expect(screen.getByRole('button', { name: /opener/i })).toBeVisible();
 		// dropdown is closed
 		expect(screen.queryByText(/some item/i)).not.toBeInTheDocument();
 		// first click trigger open
-		userEvent.click(screen.getByRole('button', { name: /opener/i }));
+		await user.click(screen.getByRole('button', { name: /opener/i }));
 		await screen.findByText(/item 4/i);
 		// wait for listeners to be registered
-		await waitFor(
-			() =>
-				new Promise((resolve) => {
-					setTimeout(resolve, 1);
-				})
-		);
+		jest.advanceTimersByTime(TIMERS.DROPDOWN.REGISTER_LISTENER);
 		expect(screen.getByTestId(ICONS.dropdownNestedLevel)).toBeVisible();
-		userEvent.hover(screen.getByTestId(ICONS.dropdownNestedLevel));
+		await user.hover(screen.getByTestId(ICONS.dropdownNestedLevel));
 		await screen.findByText(/item 4 sub 1/i);
 		// wait for listeners to be registered
-		await waitFor(
-			() =>
-				new Promise((resolve) => {
-					setTimeout(resolve, 1);
-				})
-		);
+		jest.advanceTimersByTime(TIMERS.DROPDOWN.REGISTER_LISTENER);
 		expect(screen.getByText(/item 4 sub 1/i)).toBeVisible();
-		userEvent.click(screen.getByText(/item 4 sub 1/i));
+		await user.click(screen.getByText(/item 4 sub 1/i));
 		expect(item3Sub1ClickFn).toHaveBeenCalled();
 		expect(item3ClickFn).toHaveBeenCalled();
 		expect(item3ClickInternalFn).not.toHaveBeenCalled();
@@ -268,92 +236,67 @@ describe('Dropdown', () => {
 			}
 		];
 		const onClick = jest.fn();
-		render(
+		const { user } = setup(
 			<Dropdown items={dropdownItems}>
 				<Button label="opener" onClick={onClick} />
 			</Dropdown>
 		);
 
-		expect(screen.getByRole('button', { name: /opener/i })).toBeInTheDocument();
+		expect(screen.getByRole('button', { name: /opener/i })).toBeVisible();
 		// dropdown is closed
 		expect(screen.queryByText(/item/i)).not.toBeInTheDocument();
 		// open dropdown
-		userEvent.click(screen.getByRole('button', { name: /opener/i }));
+		await user.click(screen.getByRole('button', { name: /opener/i }));
 		await screen.findAllByText(/item/i);
 		// wait for listeners to be registered
-		await waitFor(
-			() =>
-				new Promise((resolve) => {
-					setTimeout(resolve, 1);
-				})
-		);
+		jest.advanceTimersByTime(TIMERS.DROPDOWN.REGISTER_LISTENER);
 		expect(screen.getByText('item 1')).toBeVisible();
 		expect(screen.getByText('item 2')).toBeVisible();
 		expect(screen.getByText('item 3')).toBeVisible();
 		expect(screen.queryByText(/tooltip/i)).not.toBeInTheDocument();
-		userEvent.hover(screen.getByText('item 1'));
-		await waitFor(
-			() =>
-				new Promise((resolve) => {
-					setTimeout(resolve, 500);
-				})
-		);
+		// wait so tooltip can register the listeners
+		jest.advanceTimersByTime(TIMERS.TOOLTIP.REGISTER_LISTENER);
+		await user.hover(screen.getByText('item 1'));
+		jest.advanceTimersByTime(TIMERS.TOOLTIP.DELAY_SHOW);
 		expect(screen.queryByText(/tooltip/i)).not.toBeInTheDocument();
-		userEvent.hover(screen.getByText('item 2'));
+		await user.hover(screen.getByText('item 2'));
 		await screen.findByText(/tooltip/i);
 		expect(screen.getByText('tooltip 2')).toBeVisible();
-		act(() => {
-			userEvent.unhover(screen.getByText('item 2'));
+		await act(async () => {
+			await user.unhover(screen.getByText('item 2'));
 		});
-		userEvent.hover(screen.getByText('item 3'));
-		await waitFor(
-			() =>
-				new Promise((resolve) => {
-					setTimeout(resolve, 500);
-				})
-		);
+		await user.hover(screen.getByText('item 3'));
+		jest.advanceTimersByTime(TIMERS.TOOLTIP.DELAY_SHOW);
 		expect(screen.queryByText(/tooltip/i)).not.toBeInTheDocument();
 	});
 
 	test('Click on trigger component of a contextMenu dropdown close the dropdown', async () => {
 		const onClick = jest.fn();
-		render(
+		const { user } = setup(
 			<Dropdown items={items} contextMenu>
 				<Button label="opener" onClick={onClick} />
 			</Dropdown>
 		);
 
-		expect(screen.getByRole('button', { name: /opener/i })).toBeInTheDocument();
+		expect(screen.getByRole('button', { name: /opener/i })).toBeVisible();
 		// dropdown is closed
 		expect(screen.queryByText(/some item/i)).not.toBeInTheDocument();
 		// right click trigger open
 		fireEvent.contextMenu(screen.getByRole('button', { name: /opener/i }));
 		await screen.findByText(/some item/i);
-		// wait for listeners to be registered
-		await waitFor(
-			() =>
-				new Promise((resolve) => {
-					setTimeout(resolve, 1);
-				})
-		);
-		expect(screen.getByText(/some item/i)).toBeInTheDocument();
-		expect(screen.getByText(/Some Other Item/i)).toBeInTheDocument();
-		expect(screen.getByText(/Yet Another Item/i)).toBeInTheDocument();
+		expect(screen.getByText(/some item/i)).toBeVisible();
+		expect(screen.getByText(/Some Other Item/i)).toBeVisible();
+		expect(screen.getByText(/Yet Another Item/i)).toBeVisible();
 		// second right click trigger open of a new dropdown, closing the previous one
 		fireEvent.contextMenu(screen.getByRole('button', { name: /opener/i }));
 		await screen.findByText(/some item/i);
-		// wait for listeners to be registered
-		await waitFor(
-			() =>
-				new Promise((resolve) => {
-					setTimeout(resolve, 1);
-				})
-		);
-		expect(screen.getByText(/some item/i)).toBeInTheDocument();
-		expect(screen.getByText(/Some Other Item/i)).toBeInTheDocument();
-		expect(screen.getByText(/Yet Another Item/i)).toBeInTheDocument();
+		expect(screen.getByText(/some item/i)).toBeVisible();
+		expect(screen.getByText(/Some Other Item/i)).toBeVisible();
+		expect(screen.getByText(/Yet Another Item/i)).toBeVisible();
 		// left click trigger close
-		userEvent.click(screen.getByRole('button', { name: /opener/i }));
+		await act(async () => {
+			await user.click(screen.getByRole('button', { name: /opener/i }));
+		});
 		expect(screen.queryByText(/some item/i)).not.toBeInTheDocument();
 		expect(screen.queryByText(/Some Other Item/i)).not.toBeInTheDocument();
 		expect(screen.queryByText(/Yet Another Item/i)).not.toBeInTheDocument();

@@ -9,51 +9,51 @@ import { faker } from '@faker-js/faker';
 import { screen } from '@testing-library/react';
 
 import { Avatar } from './Avatar';
-import { render } from '../../test-utils';
+import { setup } from '../../test-utils';
 
 describe('Avatar', () => {
 	test('Render an avatar with first name and last name', () => {
 		const firstName = faker.person.firstName();
 		const lastName = faker.person.lastName();
 		const label = `${firstName} ${lastName}`;
-		render(<Avatar label={label} />);
-		expect(screen.getByText(`${firstName[0]}${lastName[0]}`.toUpperCase())).toBeInTheDocument();
+		setup(<Avatar label={label} />);
+		expect(screen.getByText(`${firstName[0]}${lastName[0]}`.toUpperCase())).toBeVisible();
 	});
 
 	test('Render an avatar with first name', () => {
 		const firstName = faker.person.firstName();
-		render(<Avatar label={firstName} />);
+		setup(<Avatar label={firstName} />);
 		expect(
 			screen.getByText(`${firstName[0]}${firstName[firstName.length - 1]}`.toUpperCase())
-		).toBeInTheDocument();
+		).toBeVisible();
 	});
 
 	test('Render an avatar with an icon and a themed background', () => {
 		const words = faker.lorem.words(2);
-		render(<Avatar label={words} background="primary" icon="BulbOutline" />);
-		expect(screen.getByTestId('icon: BulbOutline')).toBeInTheDocument();
+		setup(<Avatar label={words} background="primary" icon="BulbOutline" />);
+		expect(screen.getByTestId('icon: BulbOutline')).toBeVisible();
 	});
 
 	test('Render an avatar with an empty label, must render the default icon', () => {
-		render(<Avatar label="" />);
-		expect(screen.getByTestId('icon: QuestionMark')).toBeInTheDocument();
+		setup(<Avatar label="" />);
+		expect(screen.getByTestId('icon: QuestionMark')).toBeVisible();
 	});
 
 	test('Render an avatar with label composed by spaces, must render the default icon', () => {
-		render(<Avatar label="     " />);
-		expect(screen.getByTestId('icon: QuestionMark')).toBeInTheDocument();
+		setup(<Avatar label="     " />);
+		expect(screen.getByTestId('icon: QuestionMark')).toBeVisible();
 	});
 
 	test('Render an avatar with a label with a single letter', () => {
-		render(<Avatar label="a" />);
-		expect(screen.getByText('a'.toUpperCase())).toBeInTheDocument();
+		setup(<Avatar label="a" />);
+		expect(screen.getByText('a'.toUpperCase())).toBeVisible();
 	});
 
 	test('Render an avatar with first name and a space', () => {
 		const firstName = faker.person.firstName();
-		render(<Avatar label={`${firstName} `} />);
+		setup(<Avatar label={`${firstName} `} />);
 		expect(
 			screen.getByText(`${firstName[0]}${firstName[firstName.length - 1]}`.toUpperCase())
-		).toBeInTheDocument();
+		).toBeVisible();
 	});
 });

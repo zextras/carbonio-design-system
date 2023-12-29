@@ -4,9 +4,10 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom';
 import { act } from '@testing-library/react';
 import failOnConsole from 'jest-fail-on-console';
+import { noop } from 'lodash';
 
 failOnConsole({
 	shouldFailOnError: true,
@@ -16,47 +17,16 @@ failOnConsole({
 beforeAll(() => {
 	Object.defineProperty(window, 'matchMedia', {
 		writable: true,
-		value: jest.fn().mockImplementation((query) => ({
+		value: (query: string): MediaQueryList => ({
 			matches: false,
 			media: query,
 			onchange: null,
-			addListener: jest.fn(), // Deprecated
-			removeListener: jest.fn(), // Deprecated
-			addEventListener: jest.fn(),
-			removeEventListener: jest.fn(),
-			dispatchEvent: jest.fn()
-		}))
-	});
-
-	// mock a simplified Intersection Observer
-	Object.defineProperty(window, 'IntersectionObserver', {
-		writable: false,
-		value: jest.fn().mockImplementation(
-			(
-				callback: IntersectionObserverCallback,
-				options?: IntersectionObserverInit
-			): IntersectionObserver => ({
-				thresholds: (options?.threshold || [0]) as typeof IntersectionObserver.prototype.thresholds,
-				root: options?.root || window.document,
-				rootMargin: options?.rootMargin || '0px',
-				observe: jest.fn(),
-				unobserve: jest.fn(),
-				disconnect: jest.fn(),
-				takeRecords: (): IntersectionObserverEntry[] => []
-			})
-		)
-	});
-
-	// mock a simplified Intersection Observer
-	Object.defineProperty(window, 'ResizeObserver', {
-		writable: true,
-		value: function ResizeObserverMock(): ResizeObserver {
-			return {
-				observe: jest.fn(),
-				unobserve: jest.fn(),
-				disconnect: jest.fn()
-			};
-		}
+			addListener: noop, // Deprecated
+			removeListener: noop, // Deprecated
+			addEventListener: noop,
+			removeEventListener: noop,
+			dispatchEvent: () => true
+		})
 	});
 
 	// define resizeTo function so that it fire a resize event with wanted dimensions
@@ -70,10 +40,42 @@ beforeAll(() => {
 	};
 });
 
+beforeEach(() => {
+	// mock a simplified Intersection Observer
+	Object.defineProperty(window, 'IntersectionObserver', {
+		writable: true,
+		value: jest.fn(function intersectionObserverMock(
+			callback: IntersectionObserverCallback,
+			options: IntersectionObserverInit
+		) {
+			return {
+				thresholds: options.threshold,
+				root: options.root,
+				rootMargin: options.rootMargin,
+				observe: noop,
+				unobserve: noop,
+				disconnect: noop
+			};
+		})
+	});
+
+	// mock a simplified Intersection Observer
+	Object.defineProperty(window, 'ResizeObserver', {
+		writable: true,
+		value: jest.fn(function ResizeObserverMock(): ResizeObserver {
+			return {
+				observe: jest.fn(),
+				unobserve: jest.fn(),
+				disconnect: jest.fn()
+			};
+		})
+	});
+});
+
 afterEach(() => {
 	// Restores the original implementation of "spies"
 	// Replace mocks with jest.fn(), but replace spies with their original implementation.
-	jest.restoreAllMocks();
+	jest.runOnlyPendingTimers();
 	act(() => {
 		window.resizeTo(1024, 768);
 	});

@@ -683,6 +683,7 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 		(e) => {
 			if (createChipOnPaste) {
 				e.preventDefault();
+				// TODO: investigate if reading data from text with uppercase T is right
 				const pastedText = e.clipboardData.getData('Text');
 				const separatorsRegex = new RegExp(pasteSeparators.join('|'), 'gi');
 				const reducedChips = reduce<string, string[]>(

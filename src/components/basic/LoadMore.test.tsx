@@ -7,11 +7,11 @@
 import React from 'react';
 
 import { LoadMore } from './LoadMore';
-import { render } from '../../test-utils';
+import { setup } from '../../test-utils';
 
 describe('LoadMore', () => {
 	test('Render LoadMore', () => {
-		const { container } = render(<LoadMore label="Hello" />);
+		const { container } = setup(<LoadMore label="Hello" />);
 		expect(container).toHaveTextContent('Hello');
 	});
 });
