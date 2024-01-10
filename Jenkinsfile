@@ -158,7 +158,7 @@ pipeline {
                     post {
                         always {
                             junit 'junit.xml'
-                            publishCoverage adapters: [istanbulCoberturaAdapter('coverage/cobertura-coverage.xml')], calculateDiffForChangeRequests: true, failNoReports: false
+                            recordCoverage(tools: [[parser: 'COBERTURA', pattern: 'coverage/cobertura-coverage.xml']])
                         }
                     }
                 }
