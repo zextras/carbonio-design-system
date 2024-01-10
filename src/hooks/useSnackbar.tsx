@@ -4,12 +4,16 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import { useContext } from 'react';
+import { useCallback, useContext } from 'react';
 
 import { CreateSnackbarFn, SnackbarManagerContext } from '../components/utilities/SnackbarManager';
 
 function useSnackbar(): CreateSnackbarFn {
-	return useContext(SnackbarManagerContext);
+	const createSnackbar = useContext(SnackbarManagerContext);
+	const fallback = useCallback<CreateSnackbarFn>(() => {
+		console.error('snackbar manager context not initialized');
+	}, []);
+	return createSnackbar ?? fallback;
 }
 
 export { useSnackbar };
