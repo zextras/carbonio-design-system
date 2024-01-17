@@ -10,9 +10,7 @@ import { Snackbar, SnackbarProps } from '../feedback/Snackbar';
 
 type CreateSnackbarFn = (props: SnackbarProps & { key?: string; replace?: boolean }) => void;
 
-const SnackbarManagerContext = createContext<CreateSnackbarFn>(() =>
-	console.error('snackbar manager context not initialized')
-);
+const SnackbarManagerContext = createContext<CreateSnackbarFn | undefined>(undefined);
 
 const SNACKBAR_ACTION = {
 	PUSH: 'push',
@@ -50,10 +48,9 @@ function snackbarsReducer(state: React.JSX.Element[], action: SnackbarAction): R
 	}
 }
 
-interface SnackbarManagerProps {
+type SnackbarManagerProps = React.PropsWithChildren<{
 	autoHideDefaultTimeout?: number;
-	children: React.ReactNode | React.ReactNode[];
-}
+}>;
 
 function SnackbarManager({
 	children,
@@ -103,4 +100,9 @@ function SnackbarManager({
 		</>
 	);
 }
-export { SnackbarManagerContext, SnackbarManager, SnackbarManagerProps, CreateSnackbarFn };
+export {
+	SnackbarManagerContext,
+	SnackbarManager,
+	type SnackbarManagerProps,
+	type CreateSnackbarFn
+};

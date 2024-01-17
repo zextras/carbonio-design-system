@@ -15,12 +15,12 @@ import {
 	render,
 	RenderOptions,
 	RenderResult,
-	screen,
-	within
+	Screen,
+	screen as rtlScreen,
+	within as rtlWithin
 } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { defaultKeyMap } from '@testing-library/user-event/dist/cjs/keyboard/keyMap';
-import { filter } from 'lodash';
 
 import { ThemeProvider } from './theme/theme-context-provider';
 
@@ -41,17 +41,16 @@ const queryAllByRoleWithIcon: GetAllBy<[ByRoleMatcher, ByRoleWithIconOptions]> =
 	role,
 	{ icon, ...options }
 ) =>
-	filter(
-		screen.queryAllByRole('button', options),
-		(element) => within(element).queryByTestId(icon) !== null
-	);
+	rtlWithin(container)
+		.queryAllByRole(role, options)
+		.filter((element) => rtlWithin(element).queryByTestId(icon) !== null);
 const getByRoleWithIconMultipleError = (
-	container: Element | null,
+	_container: Element | null,
 	role: ByRoleMatcher,
 	options: ByRoleWithIconOptions
 ): string => `Found multiple elements with role ${role} and icon ${options.icon}`;
 const getByRoleWithIconMissingError = (
-	container: Element | null,
+	_container: Element | null,
 	role: ByRoleMatcher,
 	options: ByRoleWithIconOptions
 ): string => `Unable to find an element with role ${role} and icon ${options.icon}`;
@@ -78,6 +77,14 @@ const customQueries = {
 };
 
 const queriesExtended = { ...queries, ...customQueries };
+
+export function within(
+	element: Parameters<typeof rtlWithin<typeof queriesExtended>>[0]
+): ReturnType<typeof rtlWithin<typeof queriesExtended>> {
+	return rtlWithin(element, queriesExtended);
+}
+
+export const screen: Screen<typeof queriesExtended> = { ...rtlScreen, ...within(document.body) };
 
 const Wrapper = ({ children }: WrapperProps): React.JSX.Element => (
 	<ThemeProvider>{children}</ThemeProvider>
