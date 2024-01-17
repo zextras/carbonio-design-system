@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.1.0](https://github.com/Zextras/carbonio-design-system/compare/v4.0.1...v4.1.0) (2024-01-17)
+
+
+### Features
+
+* **Modal,Snackbar:** remove default implementation from context ([a21b530](https://github.com/Zextras/carbonio-design-system/commit/a21b530531e9963ec4e9a43eccdc9423b071ad5f)), closes [#256](https://github.com/Zextras/carbonio-design-system/issues/256)
+
 ### [4.0.1](https://github.com/Zextras/carbonio-design-system/compare/v4.0.0...v4.0.1) (2023-12-29)
 
 ## [4.0.0](https://github.com/Zextras/carbonio-design-system/compare/v3.0.2...v4.0.0) (2023-11-14)
