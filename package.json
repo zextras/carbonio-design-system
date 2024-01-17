@@ -1,6 +1,6 @@
 {
 	"name": "@zextras/carbonio-design-system",
-	"version": "4.0.1",
+	"version": "4.1.0",
 	"description": "An awesome UI for Zextras Projects.",
 	"main": "dist/zapp-ui.bundle.js",
 	"types": "dist/zapp-ui.bundle.d.ts",
