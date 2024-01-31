@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [4.1.1](https://github.com/Zextras/carbonio-design-system/compare/v4.1.0...v4.1.1) (2024-01-30)
+
+
+### Bug Fixes
+
+* **Input,types:** extend InputProps from HtmlAttributes of div element ([43be2c0](https://github.com/Zextras/carbonio-design-system/commit/43be2c047f7fd0fd3948c2cb774f25fc2964bbce)), closes [#262](https://github.com/Zextras/carbonio-design-system/issues/262)
+
 ## [4.1.0](https://github.com/Zextras/carbonio-design-system/compare/v4.0.1...v4.1.0) (2024-01-17)
 
 
