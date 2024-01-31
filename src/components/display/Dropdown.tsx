@@ -577,9 +577,9 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 				selectedItems.length > 0
 					? selectedItems[0].focus()
 					: popperItemsRef.current &&
-					  popperItemsRef.current.children[0] &&
-					  popperItemsRef.current.children[0] instanceof HTMLElement &&
-					  popperItemsRef.current.children[0].focus();
+						popperItemsRef.current.children[0] &&
+						popperItemsRef.current.children[0] instanceof HTMLElement &&
+						popperItemsRef.current.children[0].focus();
 			}, 1);
 		}
 

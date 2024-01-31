@@ -90,7 +90,7 @@ const IconButton = React.forwardRef<HTMLDivElement, IconButtonProps>(function Ic
 							? theme.sizes.icon[customSize.iconSize]
 							: customSize.iconSize,
 						paddingSize: getPadding(customSize.paddingSize.toString(), theme)
-				  }
+					}
 				: {},
 		[customSize, theme]
 	);
