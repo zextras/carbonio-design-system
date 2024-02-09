@@ -21,7 +21,8 @@
 		"packTo": "npm pack --pack-destination $PKG_PATH && cd $PKG_PATH && npm i zextras-carbonio-design-system-$npm_package_version.tgz",
 		"deploy": "npm pack && rm -rf $PKG_PATH/node_modules/@zextras/carbonio-design-system/* && tar -xf zextras-carbonio-design-system-$npm_package_version.tgz -C $PKG_PATH/node_modules/@zextras/carbonio-design-system/ --strip-components 1",
 		"prepare": "is-ci || husky",
-		"type-check": "tsc --noEmit"
+		"type-check": "tsc --noEmit",
+		"postinstall": "echo '\\e[43mForcing the removal of @types/glob. This is a workaround caused by npm not honoring overrides field. To check for updates on this, see https://github.com/npm/cli/issues/5850\\e[0m'; (rm -r node_modules/@types/glob || true)"
 	},
 	"repository": {
 		"type": "git",
@@ -68,6 +69,7 @@
 		"babel-plugin-lodash": "^3.3.4",
 		"babel-plugin-styled-components": "^2.1.4",
 		"create-index": "2.6.0",
+		"del": "^7.1.0",
 		"eslint-plugin-notice": "^0.9.10",
 		"husky": "^9.0.7",
 		"is-ci": "^3.0.1",
@@ -85,6 +87,7 @@
 		"react-test-renderer": "^17.0.2",
 		"rollup": "^3.28.1",
 		"standard-version": "^9.5.0",
+		"ts-node": "^10 >=10.9.2",
 		"typescript": "^5.3.3",
 		"webpack": "^5.90.1"
 	},
@@ -106,5 +109,12 @@
 		"polished": "^4.2.2",
 		"react-datepicker": "^4.16.0",
 		"react-docgen-typescript": "^2.2.2"
+	},
+	"overrides": {
+		"react-styleguidist": {
+			"clean-webpack-plugin": {
+				"del": ">=5.0.0"
+			}
+		}
 	}
 }
