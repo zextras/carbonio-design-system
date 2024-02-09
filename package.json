@@ -76,7 +76,7 @@
 		"jest-fail-on-console": "^3.1.1",
 		"jest-junit": "^16.0.0",
 		"jest-styled-components": "^7.2.0",
-		"jsdom": "^22.1.0",
+		"jsdom": "^24.0.0",
 		"lodash": "^4.17.21",
 		"process": "0.11.10",
 		"react": "^17.0.2",
@@ -102,8 +102,8 @@
 	},
 	"dependencies": {
 		"@floating-ui/dom": "^1.5.3",
-		"darkreader": "4.9.58",
-		"polished": "4.2.2",
+		"darkreader": "^4.9.58",
+		"polished": "^4.2.2",
 		"react-datepicker": "^4.16.0",
 		"react-docgen-typescript": "^2.2.2"
 	}
