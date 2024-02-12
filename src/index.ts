@@ -51,7 +51,14 @@ export {
 	type LabelFactoryProps
 } from './components/inputs/Select';
 export * from './components/inputs/Switch';
-export * from './components/inputs/datetimePicker/DateTimePicker';
+export {
+	DateTimePicker,
+	type DateTimePickerProps,
+	registerLocale,
+	setDefaultLocale,
+	getDefaultLocale,
+	DEFAULT_MODIFIERS
+} from './components/inputs/datetimePicker/DateTimePicker';
 export * from './components/inputs/Slider';
 export * from './components/inputs/TextArea';
 
