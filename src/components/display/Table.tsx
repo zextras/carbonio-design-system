@@ -246,7 +246,7 @@ const DefaultRowFactory: React.VFC<TRowProps> = ({
 	const ckbRef = useRef<HTMLDivElement>(null);
 	const trRef = useRef<HTMLTableRowElement>(null);
 	const clickableRow = useMemo(
-		() => (!showCheckbox && typeof row.clickable === undefined) || row.clickable,
+		() => (!showCheckbox && row.clickable === undefined) || row.clickable,
 		[showCheckbox, row.clickable]
 	);
 
