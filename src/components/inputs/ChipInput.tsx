@@ -56,7 +56,7 @@ const ContainerEl = styled(Container)<{
 		$inputDisabled && $dropdownDisabled
 			? css`
 					background: ${getColor(`${background}.disabled`, theme)};
-			  `
+				`
 			: pseudoClasses(theme, background)};
 	padding: ${({ $hasLabel }): string => ($hasLabel ? '0.0625rem' : '0.625rem')} 0.75rem;
 	gap: 0.5rem;
