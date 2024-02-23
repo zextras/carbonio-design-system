@@ -14,9 +14,8 @@ import { useIsVisible } from '../../hooks/useIsVisible';
 import { getKeyboardPreset, KeyboardPresetObj, useKeyboard } from '../../hooks/useKeyboard';
 import { Container, ContainerProps } from '../layout/Container';
 
-const ExternalContainer = styled.div`
-	width: 100%;
-	height: 100%;
+const ExternalContainer = styled(Container)`
+	display: block;
 `;
 
 const StyledList = styled(Container)`
