@@ -19,6 +19,7 @@ import {
 	screen as rtlScreen,
 	within as rtlWithin
 } from '@testing-library/react';
+import { act } from '@testing-library/react-hooks';
 import userEvent from '@testing-library/user-event';
 import { defaultKeyMap } from '@testing-library/user-event/dist/cjs/keyboard/keyMap';
 
@@ -117,3 +118,27 @@ export const setup = (
 	}),
 	...customRender(ui, options?.renderOptions)
 });
+
+export function makeItemsVisible(): void {
+	const { calls, instances } = (
+		window.IntersectionObserver as jest.Mock<
+			IntersectionObserver,
+			[callback: IntersectionObserverCallback, options?: IntersectionObserverInit]
+		>
+	).mock;
+	calls.forEach((call, index) => {
+		const [onChange] = call;
+		// trigger the intersection on the observed element
+		act(() => {
+			onChange(
+				[
+					{
+						intersectionRatio: 0,
+						isIntersecting: true
+					} as IntersectionObserverEntry
+				],
+				instances[index]
+			);
+		});
+	});
+}

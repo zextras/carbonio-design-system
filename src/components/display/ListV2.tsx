@@ -40,10 +40,19 @@ const StyledList = styled(Container)`
 interface BottomElementProps {
 	listRef: React.RefObject<HTMLDivElement>;
 	onVisible: () => void;
+	intersectionObserverInitOptions?: IntersectionObserverInit;
 }
 
-const BottomElement: React.VFC<BottomElementProps> = ({ listRef, onVisible }) => {
-	const [inView, ref] = useIsVisible<HTMLDivElement>(listRef);
+const BottomElement: React.VFC<BottomElementProps> = ({
+	listRef,
+	onVisible,
+	intersectionObserverInitOptions
+}) => {
+	const [inView, ref] = useIsVisible<HTMLDivElement>(
+		listRef,
+		undefined,
+		intersectionObserverInitOptions
+	);
 	useEffect(() => {
 		if (inView && onVisible) {
 			onVisible();
@@ -59,6 +68,8 @@ const BottomElement: React.VFC<BottomElementProps> = ({ listRef, onVisible }) =>
 };
 
 interface ListV2Props extends ContainerProps {
+	/** intersectionObserverInitOptions of the intersectionObserver inside BottomElement */
+	intersectionObserverInitOptions?: IntersectionObserverInit;
 	/** callback to be executed when the bottom element is rendered */
 	onListBottom?: () => void;
 	/** List background color */
@@ -81,6 +92,7 @@ const ListV2 = React.forwardRef(function ListV2Fn(
 		background = 'transparent',
 		selectedBackground = 'gray5',
 		activeBackground = 'highlight',
+		intersectionObserverInitOptions,
 		...rest
 	}: ListV2Props,
 	ref: React.ForwardedRef<HTMLDivElement>
@@ -112,7 +124,13 @@ const ListV2 = React.forwardRef(function ListV2Fn(
 		<ExternalContainer ref={listRef} {...rest}>
 			<StyledList orientation="vertical" mainAlignment="flex-start" crossAlignment="stretch">
 				{listItems}
-				{onListBottom && <BottomElement listRef={listRef} onVisible={onListBottom} />}
+				{onListBottom && (
+					<BottomElement
+						listRef={listRef}
+						onVisible={onListBottom}
+						intersectionObserverInitOptions={intersectionObserverInitOptions}
+					/>
+				)}
 			</StyledList>
 		</ExternalContainer>
 	);
