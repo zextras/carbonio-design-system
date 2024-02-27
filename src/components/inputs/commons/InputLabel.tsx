@@ -32,7 +32,10 @@ export const InputLabel = styled.label.attrs<
 	color: ${({ theme, $textColor, $disabled }): SimpleInterpolation =>
 		getColor(`${$textColor}.${$disabled ? 'disabled' : 'regular'}`, theme)};
 	transform: translateY(-50%);
-	transition: transform 150ms ease-out, font-size 150ms ease-out, top 150ms ease-out,
+	transition:
+		transform 150ms ease-out,
+		font-size 150ms ease-out,
+		top 150ms ease-out,
 		left 150ms ease-out;
 	cursor: inherit;
 	user-select: none;

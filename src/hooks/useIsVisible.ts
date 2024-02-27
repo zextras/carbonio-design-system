@@ -12,7 +12,8 @@ import { useCombinedRefs } from './useCombinedRefs';
 
 const useIsVisible = <T extends HTMLElement>(
 	listRef: React.RefObject<HTMLDivElement> | undefined,
-	itemRef?: React.Ref<T>
+	itemRef?: React.Ref<T>,
+	intersectionObserverInitOptions?: IntersectionObserverInit
 ): [boolean, React.RefObject<T>] => {
 	const [visible, setVisible] = useState(false);
 	const ref = useCombinedRefs(itemRef || null);
@@ -24,12 +25,13 @@ const useIsVisible = <T extends HTMLElement>(
 					setVisible(some(entries, (entry) => entry.isIntersecting));
 				},
 				{
-					root: listRef.current
+					root: listRef.current,
+					...intersectionObserverInitOptions
 				}
 			);
 		}
 		return undefined;
-	}, [listRef]);
+	}, [intersectionObserverInitOptions, listRef]);
 
 	useEffect(() => {
 		const { current } = ref;
