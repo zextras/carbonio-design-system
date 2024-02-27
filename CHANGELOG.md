@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.2.0](https://github.com/Zextras/carbonio-design-system/compare/v4.1.1...v4.2.0) (2024-02-27)
+
+
+### Features
+
+* allow ListV2 props propagate to ExternalContainer ([06a626f](https://github.com/Zextras/carbonio-design-system/commit/06a626fa7d7f718d194a856ba37102d7c43ede80)), closes [#267](https://github.com/Zextras/carbonio-design-system/issues/267)
+* make IntersectionObserver of useIsVisible hook customizable ([38a0409](https://github.com/Zextras/carbonio-design-system/commit/38a040912416174e15d581cb69184bd87c772c9f)), closes [#265](https://github.com/Zextras/carbonio-design-system/issues/265)
+
 ### [4.1.1](https://github.com/Zextras/carbonio-design-system/compare/v4.1.0...v4.1.1) (2024-01-30)
 
 
