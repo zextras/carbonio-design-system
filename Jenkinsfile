@@ -46,6 +46,8 @@ def getCommitVersion() {
     return sh(script: 'git log -1 | grep \'version:\' | sed -n \'s/.*version:\\s*//p\' ', returnStdout: true).trim()
 }
 
+def lcovIsPresent
+
 pipeline {
     agent {
         node {
@@ -58,6 +60,7 @@ pipeline {
     }
     parameters {
         booleanParam defaultValue: false, description: 'Release this version on npm', name: 'RELEASE'
+        booleanParam defaultValue: true, description: 'Enable SonarQube Stage', name: 'RUN_SONARQUBE'
     }
     environment {
         BUCKET_NAME = 'zextras-artifacts'
@@ -154,6 +157,15 @@ pipeline {
                     steps {
                         executeNpmLogin()
                         nodeCmd('npm run test')
+                        script {
+                            if (fileExists('coverage/lcov.info')) {
+                                lcovIsPresent = true
+                                stash(
+                                    includes: 'coverage/lcov.info',
+                                    name: 'lcov.info'
+                                )
+                            }
+                        }
                     }
                     post {
                         always {
@@ -161,6 +173,31 @@ pipeline {
                             recordCoverage(tools: [[parser: 'COBERTURA', pattern: 'coverage/cobertura-coverage.xml']])
                         }
                     }
+                }
+            }
+        }
+
+        stage('SonarQube analysis') {
+            agent {
+                node {
+                    label 'nodejs-agent-v4'
+                }
+            }
+            when {
+                beforeAgent(true)
+                allOf {
+                    expression { params.RUN_SONARQUBE == true }
+                }
+            }
+            steps {
+                script {
+                    if (lcovIsPresent) {
+                        unstash(name: 'lcov.info')
+                    }
+                    nodeCmd('npm i -D sonarqube-scanner')
+                }
+                withSonarQubeEnv(credentialsId: 'sonarqube-user-token', installationName: 'SonarQube instance') {
+                    nodeCmd("npx sonar-scanner -Dsonar.projectKey=${getPackageName()} -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info")
                 }
             }
         }

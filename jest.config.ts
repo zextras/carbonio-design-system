@@ -34,18 +34,13 @@ const config: Config = {
 	coverageDirectory: 'coverage',
 
 	// An array of regexp pattern strings used to skip coverage collection
-	coveragePathIgnorePatterns: [
-		'/node_modules/',
-		'/src/icons/',
-		'/src/testUtils/',
-		'/src/test-utils.tsx'
-	],
+	coveragePathIgnorePatterns: ['/node_modules/', '/src/testUtils/', '/src/test-utils.tsx'],
 
 	// A list of reporter names that Jest uses when writing coverage reports
 	coverageReporters: [
 		'text',
 		// "json",
-		// "lcov",
+		'lcov',
 		// "clover",
 		'cobertura'
 	],
