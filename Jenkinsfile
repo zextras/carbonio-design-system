@@ -72,15 +72,12 @@ pipeline {
         buildDiscarder(logRotator(numToKeepStr: '50'))
     }
     parameters {
-        booleanParam defaultValue: false, description: 'Release this version on npm', name: 'RELEASE'
         booleanParam defaultValue: true, description: 'Enable SonarQube Stage', name: 'RUN_SONARQUBE'
     }
     environment {
-        BUCKET_NAME = 'zextras-artifacts'
         REPOSITORY_NAME = getRepositoryName()
     }
     stages {
-        //============================================ Release Automation ======================================================
 
         stage("Read settings") {
             steps {
@@ -180,7 +177,6 @@ pipeline {
                 allOf {
                     expression { isReleaseBranch == true }
                     expression { isMergeCommit == true }
-                    expression { params.RELEASE == false }
                 }
             }
             agent {
@@ -193,13 +189,11 @@ pipeline {
                     sh(script: """#!/bin/bash
                         git config user.email \"bot@zextras.com\"
                         git config user.name \"Tarsier Bot\"
-                        git remote set-url origin \$(git remote -v | head -n1 | cut -d\$'\t' -f2 | cut -d\" \" -f1 | sed 's!https://bitbucket.org/zextras!git@bitbucket.org:zextras!g')
+                        git remote set-url origin \$(git remote -v | head -n1 | cut -d\$'\t' -f2 | cut -d\" \" -f1 | sed 's!https://github.com/zextras!git@github.com:zextras!g')
                         git fetch --unshallow
                     """)
                 }
                 executeNpmLogin()
-                nodeCmd 'npm ci'
-                nodeCmd 'npx pinst --enable'
                 script {
                     def commitVersion = getCommitVersion();
                     if (commitVersion) {
@@ -254,7 +248,6 @@ pipeline {
                         script {
                             executeNpmLogin()
                             nodeCmd('npm run build')
-                        // archiveArtifacts artifacts: 'dist/zapp-ui.js', fingerprint: true
                         }
                     }
                 }
@@ -285,41 +278,20 @@ pipeline {
             }
         }
 
-        //============================================ Deploy ==================================================================
-        stage('NPM') {
+        stage('Deploy to NPM') {
             parallel {
                 stage('Release') {
                     when {
                         beforeAgent true
                         allOf {
-                            anyOf {
-                                expression { isReleaseBranch == true }
-                                buildingTag()
-                            }
-                            expression { isMergeCommit == false }
-                            expression { params.RELEASE == true }
-                        }
-                    }
-                    steps {
-                        script {
-                            executeNpmLogin()
-                            nodeCmd("NODE_ENV=\"production\" npm dist-tag add ${getPackageName()}@${getCurrentVersion()} latest")
-                        }
-                    }
-                }
-                stage('RC') {
-                    when {
-                        beforeAgent true
-                        allOf {
                             expression { isReleaseBranch == true }
                             expression { isMergeCommit == false }
-                            expression { params.RELEASE == false }
                         }
                     }
                     steps {
                         script {
                             executeNpmLogin()
-                            nodeCmd("NODE_ENV=\"production\" npm publish --tag rc")
+                            nodeCmd("NODE_ENV=\"production\" npm publish")
                         }
                     }
                 }
