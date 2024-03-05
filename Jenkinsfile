@@ -117,6 +117,19 @@ pipeline {
                         nodeCmd('npm run lint')
                     }
                 }
+                stage('TypeCheck') {
+                    agent {
+                        node {
+                            label "nodejs-agent-v4"
+                        }
+                    }
+                    steps {
+                        script {
+                            executeNpmLogin()
+                            nodeCmd('npm run type-check')
+                        }
+                    }
+                }
                 stage('Unit Tests') {
                     agent {
                         node {
