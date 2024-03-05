@@ -114,4 +114,55 @@ describe('Modal', () => {
 		console.error = originalConsoleError;
 		jest.useFakeTimers();
 	});
+
+	it('should disable secondary action button when secondaryActionDisabled is true', () => {
+		setup(
+			<Modal
+				open
+				secondaryActionDisabled
+				secondaryActionLabel={'secondaryAction'}
+				onSecondaryAction={jest.fn()}
+			/>
+		);
+		const secondaryButton = screen.getByRole('button', { name: /secondaryAction/i });
+		expect(secondaryButton).toBeDisabled();
+	});
+
+	it.each([false, undefined])(
+		'should enable secondary action button when secondaryActionDisabled is %s',
+		(secondaryActionDisabled) => {
+			setup(
+				<Modal
+					open
+					secondaryActionDisabled={secondaryActionDisabled}
+					secondaryActionLabel={'secondaryAction'}
+					onSecondaryAction={jest.fn()}
+				/>
+			);
+			const secondaryButton = screen.getByRole('button', { name: /secondaryAction/i });
+			expect(secondaryButton).toBeEnabled();
+		}
+	);
+
+	it('displays a disabled primary button if the "confirmDisabled" is set to true', async () => {
+		setup(<Modal open confirmLabel={'confirm'} confirmDisabled onConfirm={jest.fn()} />);
+		const confirmButton = screen.getByRole('button', { name: /confirm/i });
+		expect(confirmButton).toBeDisabled();
+	});
+
+	it.each([false, undefined])(
+		'displays an enabled primary button if the "confirmDisabled" is set to %s',
+		async (confirmDisabled) => {
+			setup(
+				<Modal
+					open
+					confirmLabel={'confirm'}
+					confirmDisabled={confirmDisabled}
+					onConfirm={jest.fn()}
+				/>
+			);
+			const confirmButton = screen.getByRole('button', { name: /confirm/i });
+			expect(confirmButton).toBeEnabled();
+		}
+	);
 });
