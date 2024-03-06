@@ -168,7 +168,7 @@ const ModalFooter = ({
 		mainAlignment="flex-end"
 		padding={{ top: 'large' }}
 	>
-		{customFooter || <ModalFooterContent {...modalFooterContentProps} />}
+		{customFooter ?? <ModalFooterContent {...modalFooterContentProps} />}
 	</Container>
 );
 
