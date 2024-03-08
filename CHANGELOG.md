@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [4.2.1](https://github.com/Zextras/carbonio-design-system/compare/v4.2.0...v4.2.1) (2024-03-08)
+
+
+### Bug Fixes
+
+* allow to disable modal footer buttons ([ba0ae6c](https://github.com/Zextras/carbonio-design-system/commit/ba0ae6c7382bb085f35ab5e186804162500faa09)), closes [#272](https://github.com/Zextras/carbonio-design-system/issues/272)
+
 ## [4.2.0](https://github.com/Zextras/carbonio-design-system/compare/v4.1.1...v4.2.0) (2024-02-27)
 
 
