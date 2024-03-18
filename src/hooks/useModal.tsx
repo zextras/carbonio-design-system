@@ -4,12 +4,17 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import { useContext } from 'react';
+import { useCallback, useContext } from 'react';
 
 import { CreateModalFn, ModalManagerContext } from '../components/utilities/ModalManager';
 
 function useModal(): CreateModalFn {
-	return useContext(ModalManagerContext);
+	const createModal = useContext(ModalManagerContext);
+	const fallback = useCallback<CreateModalFn>(() => {
+		console.error('Modal manager context not initialized');
+		return (): void => undefined;
+	}, []);
+	return createModal ?? fallback;
 }
 
 export { useModal };

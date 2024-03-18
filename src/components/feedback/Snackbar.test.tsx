@@ -7,10 +7,9 @@
 import React, { useState } from 'react';
 
 import { screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 
 import { Snackbar } from './Snackbar';
-import { render } from '../../test-utils';
+import { setup } from '../../test-utils';
 import { Button } from '../basic/Button';
 import { Container } from '../layout/Container';
 
@@ -39,28 +38,27 @@ const CustomSnackbar = (): React.JSX.Element => {
 
 describe('Snackbar', () => {
 	test('Hidden Snackbar', () => {
-		render(<CustomSnackbar />);
+		setup(<CustomSnackbar />);
 
 		expect(screen.queryByText(/Success, Lorem Ipsum dolor sit amet/i)).not.toBeInTheDocument();
 	});
 
-	test('Showing Success Snackbar and close it', () => {
-		render(<CustomSnackbar />);
-		userEvent.click(screen.getByText(/success/i));
+	test('Showing Success Snackbar and close it', async () => {
+		const { user } = setup(<CustomSnackbar />);
+		await user.click(screen.getByText(/success/i));
 
-		expect(screen.getByText(/Success, Lorem Ipsum dolor sit amet/i)).toBeInTheDocument();
 		expect(screen.getByText(/Success, Lorem Ipsum dolor sit amet/i)).toBeVisible();
 
-		userEvent.click(screen.getByText(/OK/i));
+		await user.click(screen.getByText(/OK/i));
 
 		expect(screen.queryByText(/Success, Lorem Ipsum dolor sit amet/i)).not.toBeInTheDocument();
 	});
 
-	test('Showing all snackbars at once', () => {
-		render(<CustomSnackbar />);
+	test('Showing all snackbars at once', async () => {
+		const { user } = setup(<CustomSnackbar />);
 
-		userEvent.click(screen.getByText(/success/i));
+		await user.click(screen.getByText(/success/i));
 
-		expect(screen.getByText(/Success, Lorem Ipsum dolor sit amet/i)).toBeInTheDocument();
+		expect(screen.getByText(/Success, Lorem Ipsum dolor sit amet/i)).toBeVisible();
 	});
 });

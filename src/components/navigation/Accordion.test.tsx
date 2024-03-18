@@ -6,17 +6,16 @@
 
 import React from 'react';
 
-import { screen, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { waitFor } from '@testing-library/react';
 
 import { Accordion, AccordionItem, AccordionItemType } from './Accordion';
-import { render } from '../../test-utils';
+import { setup, screen, within } from '../../test-utils';
 import { ICONS } from '../../testUtils/constants';
 import { Button } from '../basic/Button';
 
 describe('Accordion', () => {
 	test('Render root level Accordion items', () => {
-		const { container } = render(
+		const { container } = setup(
 			<Accordion
 				items={[
 					{ id: 'first', label: 'First', icon: 'Activity' },
@@ -30,7 +29,7 @@ describe('Accordion', () => {
 	});
 
 	test('Render deep level Accordion items', () => {
-		const { container } = render(
+		const { container } = setup(
 			<Accordion
 				items={[
 					{
@@ -89,7 +88,7 @@ describe('Accordion', () => {
 				<AccordionItem item={item} />
 			</div>
 		);
-		render(
+		setup(
 			<Accordion
 				items={[
 					{ id: 'first', label: 'First', icon: 'Activity', CustomComponent: CC1 },
@@ -99,13 +98,13 @@ describe('Accordion', () => {
 				]}
 			/>
 		);
-		expect(screen.getByRole('button', { name: /first/i })).toBeInTheDocument();
-		expect(screen.getByTestId('custom')).toBeInTheDocument();
+		expect(screen.getByRole('button', { name: /first/i })).toBeVisible();
+		expect(screen.getByTestId('custom')).toBeVisible();
 	});
 
 	test('Open and close an Accordion', async () => {
 		const onClick = jest.fn();
-		render(
+		const { user } = setup(
 			<Accordion
 				items={[
 					{
@@ -125,11 +124,11 @@ describe('Accordion', () => {
 		expect(screen.getByText(/first/i)).toBeVisible();
 		expect(screen.getByText(/second/i)).not.toBeVisible();
 		// click on label does not expand the accordion
-		userEvent.click(screen.getByText('First'));
+		await user.click(screen.getByText('First'));
 		expect(onClick).toHaveBeenCalledTimes(1);
 		expect(screen.getByText(/second/i)).not.toBeVisible();
 		// click on chevron icon expand the accordion item
-		userEvent.click(screen.getByTestId(ICONS.accordionItemOpenAction));
+		await user.click(screen.getByTestId(ICONS.accordionItemOpenAction));
 		await waitFor(() => expect(screen.getByText(/second/i)).toBeVisible());
 		// click on chevron icon does not call onClick callback
 		expect(onClick).toHaveBeenCalledTimes(1);
@@ -137,10 +136,67 @@ describe('Accordion', () => {
 		expect(screen.getByTestId(ICONS.accordionItemCloseAction)).toBeVisible();
 		expect(screen.queryByTestId(ICONS.accordionItemOpenAction)).not.toBeInTheDocument();
 		// click on chevron icon of opened accordion close the accordion and does not call onClick callback
-		userEvent.click(screen.getByTestId(ICONS.accordionItemCloseAction));
+		await user.click(screen.getByTestId(ICONS.accordionItemCloseAction));
 		await waitFor(() => expect(screen.getByText(/second/i)).not.toBeVisible());
 		expect(onClick).toHaveBeenCalledTimes(1);
 		expect(screen.getByTestId(ICONS.accordionItemOpenAction)).toBeVisible();
 		expect(screen.queryByTestId(ICONS.accordionItemCloseAction)).not.toBeInTheDocument();
+	});
+
+	it('should contain a data-testid accordion for each group of items', async () => {
+		const items: AccordionItemType[] = [
+			{ id: 'first', label: 'First', icon: 'Activity' },
+			{
+				id: 'second',
+				label: 'Second',
+				icon: 'Activity',
+				items: [
+					{ id: 'third', label: 'Third', icon: 'Activity' },
+					{ id: 'fourth', label: 'Fourth', icon: 'Activity' }
+				]
+			}
+		];
+
+		const { user } = setup(<Accordion items={items} />);
+		await user.click(screen.getByRoleWithIcon('button', { icon: ICONS.accordionItemOpenAction }));
+		const accordions = screen.getAllByTestId('accordion');
+		expect(accordions).toHaveLength(2);
+		expect(within(accordions[0]).getByText('First')).toBeVisible();
+		expect(within(accordions[0]).getByText('Second')).toBeVisible();
+		expect(within(accordions[0]).getByText('Third')).toBeVisible();
+		expect(within(accordions[0]).getByText('Fourth')).toBeVisible();
+		expect(within(accordions[1]).queryByText('First')).not.toBeInTheDocument();
+		expect(within(accordions[1]).queryByText('Second')).not.toBeInTheDocument();
+		expect(within(accordions[1]).getByText('Third')).toBeVisible();
+		expect(within(accordions[1]).getByText('Fourth')).toBeVisible();
+	});
+
+	it('should set a data-testid accordion-item for each item', async () => {
+		const items: AccordionItemType[] = [
+			{ id: 'first', label: 'First' },
+			{
+				id: 'second',
+				label: 'Second',
+				items: [
+					{ id: 'third', label: 'Third' },
+					{ id: 'fourth', label: 'Fourth' }
+				]
+			}
+		];
+
+		const { user } = setup(<Accordion items={items} />);
+		await user.click(screen.getByRoleWithIcon('button', { icon: ICONS.accordionItemOpenAction }));
+		const accordionItems = screen.getAllByTestId('accordion-item');
+		expect(accordionItems).toHaveLength(4);
+		expect(within(accordionItems[0]).getByText('First')).toBeVisible();
+		expect(
+			within(accordionItems[0]).queryByRoleWithIcon('button', {
+				icon: ICONS.accordionItemCloseAction
+			})
+		).not.toBeInTheDocument();
+		expect(within(accordionItems[1]).getByText('Second')).toBeVisible();
+		expect(within(accordionItems[1]).getByTestId('accordion')).toBeVisible();
+		expect(within(accordionItems[2]).getByText('Third')).toBeVisible();
+		expect(within(accordionItems[3]).getByText('Fourth')).toBeVisible();
 	});
 });

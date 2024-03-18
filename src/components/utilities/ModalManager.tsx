@@ -18,11 +18,7 @@ type CreateModalArgs =
 	| [customModalProps: CustomModalProps, customModal: true];
 type CreateModalFn = (...args: CreateModalArgs) => CloseModalFn;
 
-const ModalManagerContext = createContext<CreateModalFn>(() => {
-	// eslint-disable-next-line no-console
-	console.error('Modal manager context not initialized');
-	return (): void => undefined;
-});
+const ModalManagerContext = createContext<CreateModalFn | undefined>(undefined);
 
 const MODAL_ACTION = {
 	PUSH: 'push',
@@ -51,9 +47,7 @@ function modalsReducer(
 	}
 }
 
-interface ModalManagerProps {
-	children: React.ReactNode | React.ReactNode[];
-}
+type ModalManagerProps = React.PropsWithChildren<Record<string, unknown>>;
 
 function isStandardModal(
 	modalProps: ModalProps | CustomModalProps,
@@ -143,8 +137,8 @@ function ModalManager({ children }: ModalManagerProps): React.JSX.Element {
 export {
 	ModalManagerContext,
 	ModalManager,
-	ModalManagerProps,
-	CreateModalFn,
-	CloseModalFn,
-	CreateModalArgs
+	type ModalManagerProps,
+	type CreateModalFn,
+	type CloseModalFn,
+	type CreateModalArgs
 };

@@ -6,19 +6,18 @@
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { screen, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { act, screen, waitFor } from '@testing-library/react';
 import reduce from 'lodash/reduce';
 
 import { ChipInput, ChipInputProps, ChipItem } from './ChipInput';
 import { KeyboardPresetKey } from '../../hooks/useKeyboard';
-import { render } from '../../test-utils';
+import { setup } from '../../test-utils';
 import { ICONS } from '../../testUtils/constants';
 
 describe('ChipInput', () => {
 	test('render a chip input with a placeholder, two chips, an icon and a description', () => {
 		const chips = [{ label: 'LabelChip 1' }, { label: 'LabelChip 2' }];
-		render(
+		setup(
 			<ChipInput
 				value={chips}
 				icon="PeopleOutline"
@@ -27,23 +26,17 @@ describe('ChipInput', () => {
 			/>
 		);
 
-		expect(screen.getByRole('textbox')).toBeInTheDocument();
 		expect(screen.getByRole('textbox')).toBeVisible();
-		expect(screen.getByText('LabelChip 1')).toBeInTheDocument();
 		expect(screen.getByText('LabelChip 1')).toBeVisible();
-		expect(screen.getByText('LabelChip 2')).toBeInTheDocument();
 		expect(screen.getByText('LabelChip 2')).toBeVisible();
-		expect(screen.getByText('This is the optional description')).toBeInTheDocument();
 		expect(screen.getByText('This is the optional description')).toBeVisible();
-		expect(screen.getByPlaceholderText('A placeholder for the input')).toBeInTheDocument();
 		expect(screen.getByPlaceholderText('A placeholder for the input')).toBeVisible();
-		expect(screen.getByTestId('icon: PeopleOutline')).toBeInTheDocument();
 		expect(screen.getByTestId('icon: PeopleOutline')).toBeVisible();
 	});
 
 	test('render a chip input without a placeholder', () => {
 		const chips = [{ label: 'LabelChip 1' }, { label: 'LabelChip 2' }];
-		render(
+		setup(
 			<ChipInput
 				value={chips}
 				icon="PeopleOutline"
@@ -51,169 +44,161 @@ describe('ChipInput', () => {
 			/>
 		);
 
-		expect(screen.getByRole('textbox')).toBeInTheDocument();
 		expect(screen.getByRole('textbox')).toBeVisible();
-		expect(screen.getByText('LabelChip 1')).toBeInTheDocument();
-		expect(screen.getByText('LabelChip 2')).toBeInTheDocument();
+		expect(screen.getByText('LabelChip 1')).toBeVisible();
+		expect(screen.getByText('LabelChip 2')).toBeVisible();
 	});
 
 	test('render a chip input without an icon', () => {
 		const chips = [{ label: 'LabelChip 1' }, { label: 'LabelChip 2' }];
-		render(
+		setup(
 			<ChipInput
 				value={chips}
 				description="This is the optional description"
 				placeholder="A placeholder for the input"
 			/>
 		);
-		expect(screen.getByRole('textbox')).toBeInTheDocument();
 		expect(screen.getByRole('textbox')).toBeVisible();
-		expect(screen.getByText('LabelChip 1')).toBeInTheDocument();
-		expect(screen.getByText('LabelChip 2')).toBeInTheDocument();
+		expect(screen.getByText('LabelChip 1')).toBeVisible();
+		expect(screen.getByText('LabelChip 2')).toBeVisible();
 	});
 
 	test('render an empty chip input', () => {
-		render(<ChipInput />);
-		expect(screen.getByRole('textbox')).toBeInTheDocument();
+		setup(<ChipInput />);
 		expect(screen.getByRole('textbox')).toBeVisible();
 	});
 
 	describe('Separators', () => {
-		test('space, enter and comma are default separators and create a chip when typed', () => {
-			render(<ChipInput />);
+		test('space, enter and comma are default separators and create a chip when typed', async () => {
+			const { user } = setup(<ChipInput />);
 			const inputElement = screen.getByRole('textbox');
-			expect(inputElement).toBeInTheDocument();
 			expect(inputElement).toBeVisible();
 			// create chip 1 with space
-			userEvent.type(inputElement, 'ciao');
+			await user.type(inputElement, 'ciao');
 			expect(inputElement).toHaveValue('ciao');
-			userEvent.type(inputElement, '{space}');
+			await act(async () => {
+				await user.type(inputElement, '[Space]');
+			});
 			// input is cleared
 			expect(inputElement).not.toHaveValue('ciao');
 			// chip 1 is visible
-			expect(screen.getByText('ciao')).toBeInTheDocument();
 			expect(screen.getByText('ciao')).toBeVisible();
-			expect(screen.getByTestId(ICONS.close)).toBeInTheDocument();
 			expect(screen.getByTestId(ICONS.close)).toBeVisible();
 			// create chip 2 with enter
-			userEvent.type(inputElement, 'hello');
+			await user.type(inputElement, 'hello');
 			expect(inputElement).toHaveValue('hello');
-			userEvent.type(inputElement, '{Enter}');
+			await act(async () => {
+				await user.type(inputElement, '{Enter}');
+			});
 			// input is cleared
 			expect(inputElement).not.toHaveValue('hello');
 			// chip 1 is still visible
-			expect(screen.getByText('ciao')).toBeInTheDocument();
 			expect(screen.getByText('ciao')).toBeVisible();
 			// chip 2 is visible
-			expect(screen.getByText('hello')).toBeInTheDocument();
 			expect(screen.getByText('hello')).toBeVisible();
 			expect(screen.getAllByTestId(ICONS.close)).toHaveLength(2);
 			// create chip 3 with comma
-			userEvent.type(inputElement, 'salut');
+			await user.type(inputElement, 'salut');
 			expect(inputElement).toHaveValue('salut');
 			// comma is not included in the default keyboard map https://testing-library.com/docs/user-event/options/#keyboardmap
 			// so specify a custom map to assign the code
-			userEvent.keyboard(',', { keyboardMap: [{ code: 'Comma', key: ',', keyCode: 188 }] });
+			await act(async () => {
+				await user.keyboard(',');
+			});
 			// input is cleared
 			expect(inputElement).not.toHaveValue('salut');
 			// chip 1 is still visible
-			expect(screen.getByText('ciao')).toBeInTheDocument();
 			expect(screen.getByText('ciao')).toBeVisible();
 			// chip 2 is still visible
-			expect(screen.getByText('hello')).toBeInTheDocument();
 			expect(screen.getByText('hello')).toBeVisible();
 			// chip 3 is visible
-			expect(screen.getByText('salut')).toBeInTheDocument();
 			expect(screen.getByText('salut')).toBeVisible();
 			expect(screen.getAllByTestId(ICONS.close)).toHaveLength(3);
 		});
 
-		test('if custom separators are provided, enter, comma and space do not create a chip when typed, the custom keys do it', () => {
+		test('if custom separators are provided, enter, comma and space do not create a chip when typed, the custom keys do it', async () => {
 			const separators = [{ key: 'x' }];
-			render(<ChipInput separators={separators} />);
+			const { user } = setup(<ChipInput separators={separators} />);
 			const inputElement = screen.getByRole('textbox');
-			expect(inputElement).toBeInTheDocument();
 			expect(inputElement).toBeVisible();
 			// space does not create a chip
-			userEvent.type(inputElement, 'ciao');
+			await user.type(inputElement, 'ciao');
 			expect(inputElement).toHaveValue('ciao');
-			userEvent.type(inputElement, '{space}');
+			await user.type(inputElement, '[Space]');
 			expect(inputElement).toHaveValue('ciao ');
-			userEvent.type(inputElement, 'hello');
+			await user.type(inputElement, 'hello');
 			expect(inputElement).toHaveValue('ciao hello');
 			// enter does not create a chip
-			userEvent.type(inputElement, '{Enter}');
-			userEvent.type(inputElement, 'There');
+			await user.type(inputElement, '{Enter}');
+			await user.type(inputElement, 'There');
 			expect(inputElement).toHaveValue('ciao helloThere');
 			// create chip 1 with x
-			userEvent.type(inputElement, 'x');
+			await act(async () => {
+				await user.type(inputElement, 'x');
+			});
 			// input is cleared
 			expect(inputElement).toHaveValue('');
 			// chip 1 is visible
 			expect(screen.getByText('ciao helloThere')).toBeVisible();
 			expect(screen.getByTestId(ICONS.close)).toBeVisible();
 			// comma does not create chip
-			userEvent.type(inputElement, 'salut');
+			await user.type(inputElement, 'salut');
 			expect(inputElement).toHaveValue('salut');
 			// comma is not included in the default keyboard map https://testing-library.com/docs/user-event/options/#keyboardmap
 			// so specify a custom map to assign the code
-			userEvent.keyboard(',', { keyboardMap: [{ code: 'Comma', key: ',', keyCode: 188 }] });
+			await user.keyboard(',');
 			expect(inputElement).toHaveValue('salut,');
-			userEvent.type(inputElement, 'bonjourx');
+			await act(async () => {
+				await user.type(inputElement, 'bonjourx');
+			});
 			// input is cleared
 			expect(inputElement).not.toHaveValue('salut');
 			// chip 1 is still visible
-			expect(screen.getByText('ciao helloThere')).toBeInTheDocument();
 			expect(screen.getByText('ciao helloThere')).toBeVisible();
 			// chip 2 is visible
-			expect(screen.getByText('salut,bonjour')).toBeInTheDocument();
 			expect(screen.getByText('salut,bonjour')).toBeVisible();
 			expect(screen.getAllByTestId(ICONS.close)).toHaveLength(2);
 		});
 
-		test('blur event creates a chip', () => {
-			render(<ChipInput />);
+		test('blur event creates a chip', async () => {
+			const { user } = setup(<ChipInput />);
 			const inputElement = screen.getByRole('textbox');
-			expect(inputElement).toBeInTheDocument();
 			expect(inputElement).toBeVisible();
 			// create chip with blur
-			userEvent.type(inputElement, 'ciao');
+			await user.type(inputElement, 'ciao');
 			expect(inputElement).toHaveValue('ciao');
-			userEvent.tab();
+			await user.tab();
 			// input is cleared
 			expect(inputElement).not.toHaveValue('ciao');
 			// chip 1 is visible
-			expect(screen.getByText('ciao')).toBeInTheDocument();
 			expect(screen.getByText('ciao')).toBeVisible();
-			expect(screen.getByTestId(ICONS.close)).toBeInTheDocument();
 			expect(screen.getByTestId(ICONS.close)).toBeVisible();
 			expect(inputElement).not.toHaveFocus();
 		});
 
-		test('if space separator is provided, space create a chip', () => {
-			render(<ChipInput separators={[{ key: ' ' }]} />);
+		test('if space separator is provided, space create a chip', async () => {
+			const { user } = setup(<ChipInput separators={[{ key: ' ' }]} />);
 			const inputElement = screen.getByRole('textbox');
-			expect(inputElement).toBeInTheDocument();
 			expect(inputElement).toBeVisible();
 			// create chip with space
-			userEvent.type(inputElement, 'ciao hello');
+			await act(async () => {
+				await user.type(inputElement, 'ciao hello');
+			});
 			// input value is text after space
 			expect(inputElement).toHaveValue('hello');
 			// chip is created with text before space
 			expect(screen.getByText('ciao')).toBeVisible();
-			expect(screen.getByTestId(ICONS.close)).toBeInTheDocument();
 			expect(screen.getByTestId(ICONS.close)).toBeVisible();
 		});
 
-		test('if blur separator is disabled, blur does not create a chip', () => {
-			render(<ChipInput confirmChipOnBlur={false} />);
+		test('if blur separator is disabled, blur does not create a chip', async () => {
+			const { user } = setup(<ChipInput confirmChipOnBlur={false} />);
 			const inputElement = screen.getByRole('textbox');
-			expect(inputElement).toBeInTheDocument();
 			expect(inputElement).toBeVisible();
 			// create chip with blur
-			userEvent.type(inputElement, 'ciao');
+			await user.type(inputElement, 'ciao');
 			expect(inputElement).toHaveValue('ciao');
-			userEvent.tab();
+			await user.tab();
 			// input keeps its value
 			expect(inputElement).toHaveValue('ciao');
 			expect(screen.queryByTestId(ICONS.close)).not.toBeInTheDocument();
@@ -223,27 +208,27 @@ describe('ChipInput', () => {
 		test.each<[string, NonNullable<ChipInputProps['separators']>]>([
 			['empty array', []],
 			['array with empty value', [{ key: '' }]]
-		])('should not create chips if separators is an %s', (_, separators) => {
-			render(<ChipInput separators={separators} confirmChipOnBlur />);
+		])('should not create chips if separators is an %s', async (_, separators) => {
+			const { user } = setup(<ChipInput separators={separators} confirmChipOnBlur />);
 			const inputElement = screen.getByRole('textbox');
 			// write text with space
-			userEvent.type(inputElement, 'hello world');
+			await user.type(inputElement, 'hello world');
 			expect(inputElement).toHaveValue('hello world');
 			// no chip is visible
 			expect(screen.queryByTestId(ICONS.close)).not.toBeInTheDocument();
 			// write text with comma
-			userEvent.type(inputElement, ', ');
-			userEvent.type(inputElement, 'ciao');
+			await user.type(inputElement, ', ');
+			await user.type(inputElement, 'ciao');
 			expect(inputElement).toHaveValue('hello world, ciao');
 			// no chip is visible
 			expect(screen.queryByTestId(ICONS.close)).not.toBeInTheDocument();
 			// press enter
-			userEvent.type(inputElement, '{Enter}');
-			userEvent.type(inputElement, ' mondo');
+			await user.type(inputElement, '{Enter}');
+			await user.type(inputElement, ' mondo');
 			expect(inputElement).toHaveValue('hello world, ciao mondo');
 			// no chip is visible
 			expect(screen.queryByTestId(ICONS.close)).not.toBeInTheDocument();
-			userEvent.tab();
+			await user.tab();
 			// input is cleared
 			expect(inputElement).not.toHaveValue('ciao');
 			// chip is visible
@@ -258,29 +243,37 @@ describe('ChipInput', () => {
 				['Control', { ctrlKey: true }],
 				['Alt', { altKey: true }]
 			])('should create chip if separator specifies the modifier %s', (key, modifiers) => {
-				test('and match both the event code and the modifier', () => {
-					render(<ChipInput separators={[{ code: 'KeyE', ...modifiers }]} />);
+				test('and match both the event code and the modifier', async () => {
+					const { user } = setup(<ChipInput separators={[{ code: 'KeyE', ...modifiers }]} />);
 					const inputElement = screen.getByRole<HTMLInputElement>('textbox');
-					userEvent.type(inputElement, 'ciao');
-					userEvent.keyboard(`{${key}>}[KeyE]{/${key}}`);
+					await user.type(inputElement, 'ciao');
+					await act(async () => {
+						await user.keyboard(`{${key}>}[KeyE]{/${key}}`);
+					});
 					expect(inputElement).toHaveValue('');
 					expect(screen.getByText('ciao')).toBeVisible();
 				});
 
-				test('and match both the event key and the modifier', () => {
-					render(<ChipInput separators={[{ key: 'e', ...modifiers }]} />);
+				test('and match both the event key and the modifier', async () => {
+					const { user } = setup(<ChipInput separators={[{ key: 'e', ...modifiers }]} />);
 					const inputElement = screen.getByRole<HTMLInputElement>('textbox');
-					userEvent.type(inputElement, 'ciao');
-					userEvent.keyboard(`{${key}>}[KeyE]{/${key}}`);
+					await user.type(inputElement, 'ciao');
+					await act(async () => {
+						await user.keyboard(`{${key}>}[KeyE]{/${key}}`);
+					});
 					expect(inputElement).toHaveValue('');
 					expect(screen.getByText('ciao')).toBeVisible();
 				});
 
-				test('and match all the event key, the code and the modifier', () => {
-					render(<ChipInput separators={[{ key: 'e', code: 'KeyE', ...modifiers }]} />);
+				test('and match all the event key, the code and the modifier', async () => {
+					const { user } = setup(
+						<ChipInput separators={[{ key: 'e', code: 'KeyE', ...modifiers }]} />
+					);
 					const inputElement = screen.getByRole<HTMLInputElement>('textbox');
-					userEvent.type(inputElement, 'ciao');
-					userEvent.keyboard(`{${key}>}[KeyE]{/${key}}`);
+					await user.type(inputElement, 'ciao');
+					await act(async () => {
+						await user.keyboard(`{${key}>}[KeyE]{/${key}}`);
+					});
 					expect(inputElement).toHaveValue('');
 					expect(screen.getByText('ciao')).toBeVisible();
 				});
@@ -292,35 +285,39 @@ describe('ChipInput', () => {
 				['Control', { ctrlKey: true }],
 				['Alt', { altKey: true }]
 			])('should not create chip if separator specifies the modifier %s', (key, modifiers) => {
-				test('and match the event key but not the modifier', () => {
-					render(<ChipInput separators={[{ code: 'KeyE', ...modifiers }]} />);
+				test('and match the event key but not the modifier', async () => {
+					const { user } = setup(<ChipInput separators={[{ code: 'KeyE', ...modifiers }]} />);
 					const inputElement = screen.getByRole<HTMLInputElement>('textbox');
-					userEvent.type(inputElement, 'ciao');
-					userEvent.keyboard('[KeyE]');
+					await user.type(inputElement, 'ciao');
+					await user.keyboard('[KeyE]');
 					expect(inputElement).toHaveValue('ciaoe');
 				});
 
-				test('and match the event key but not the modifier', () => {
-					render(<ChipInput separators={[{ key: 'e', ...modifiers }]} />);
+				test('and match the event key but not the modifier', async () => {
+					const { user } = setup(<ChipInput separators={[{ key: 'e', ...modifiers }]} />);
 					const inputElement = screen.getByRole<HTMLInputElement>('textbox');
-					userEvent.type(inputElement, 'ciao');
-					userEvent.keyboard('[KeyE]');
+					await user.type(inputElement, 'ciao');
+					await user.keyboard('[KeyE]');
 					expect(inputElement).toHaveValue('ciaoe');
 				});
 
-				test('and match the event key and the modifier, but not the code', () => {
-					render(<ChipInput separators={[{ key: 'e', code: 'wrongCode', ...modifiers }]} />);
+				test('and match the event key and the modifier, but not the code', async () => {
+					const { user } = setup(
+						<ChipInput separators={[{ key: 'e', code: 'wrongCode', ...modifiers }]} />
+					);
 					const inputElement = screen.getByRole<HTMLInputElement>('textbox');
-					userEvent.type(inputElement, 'ciao');
-					userEvent.keyboard('[KeyE]');
+					await user.type(inputElement, 'ciao');
+					await user.keyboard('[KeyE]');
 					expect(inputElement).toHaveValue('ciaoe');
 				});
 
-				test('and match the event code and the modifier, but not the key', () => {
-					render(<ChipInput separators={[{ key: 'wrongKey', code: 'KeyE', ...modifiers }]} />);
+				test('and match the event code and the modifier, but not the key', async () => {
+					const { user } = setup(
+						<ChipInput separators={[{ key: 'wrongKey', code: 'KeyE', ...modifiers }]} />
+					);
 					const inputElement = screen.getByRole<HTMLInputElement>('textbox');
-					userEvent.type(inputElement, 'ciao');
-					userEvent.keyboard('[KeyE]');
+					await user.type(inputElement, 'ciao');
+					await user.keyboard('[KeyE]');
 					expect(inputElement).toHaveValue('ciaoe');
 				});
 			});
@@ -328,20 +325,24 @@ describe('ChipInput', () => {
 			describe.each(['Shift', 'Meta', 'Control', 'Alt'])(
 				'should create chip if separator does not specify the modifier %s',
 				(key) => {
-					test('and match the event code', () => {
-						render(<ChipInput separators={[{ code: 'KeyE' }]} />);
+					test('and match the event code', async () => {
+						const { user } = setup(<ChipInput separators={[{ code: 'KeyE' }]} />);
 						const inputElement = screen.getByRole<HTMLInputElement>('textbox');
-						userEvent.type(inputElement, 'ciao');
-						userEvent.keyboard(`{${key}>}[KeyE]{/${key}}`);
+						await user.type(inputElement, 'ciao');
+						await act(async () => {
+							await user.keyboard(`{${key}>}[KeyE]{/${key}}`);
+						});
 						expect(inputElement).toHaveValue('');
 						expect(screen.getByText('ciao')).toBeVisible();
 					});
 
-					test('and match the event key', () => {
-						render(<ChipInput separators={[{ key: 'e' }]} />);
+					test('and match the event key', async () => {
+						const { user } = setup(<ChipInput separators={[{ key: 'e' }]} />);
 						const inputElement = screen.getByRole<HTMLInputElement>('textbox');
-						userEvent.type(inputElement, 'ciao');
-						userEvent.keyboard(`{${key}>}[KeyE]{/${key}}`);
+						await user.type(inputElement, 'ciao');
+						await act(async () => {
+							await user.keyboard(`{${key}>}[KeyE]{/${key}}`);
+						});
 						expect(inputElement).toHaveValue('');
 						expect(screen.getByText('ciao')).toBeVisible();
 					});
@@ -350,24 +351,23 @@ describe('ChipInput', () => {
 		});
 	});
 
-	test('if chip input is disabled, user can not type inside input', () => {
-		render(<ChipInput disabled />);
+	test('if chip input is disabled, user can not type inside input', async () => {
+		const { user } = setup(<ChipInput disabled />);
 		const inputElement = screen.getByRole('textbox');
-		expect(inputElement).toBeInTheDocument();
 		expect(inputElement).toBeVisible();
 		// create chip with blur
-		userEvent.type(inputElement, 'ciao');
+		await user.type(inputElement, 'ciao');
 		expect(inputElement).not.toHaveValue('ciao');
 		expect(screen.queryByText('ciao')).not.toBeInTheDocument();
 		expect(inputElement).not.toHaveFocus();
 	});
 
-	test('if chip input is disabled, icon action and chip action are still interactive', () => {
+	test('if chip input is disabled, icon action and chip action are still interactive', async () => {
 		const chip = [{ label: 'chip' }];
 		const changeFn = jest.fn();
 		const iconActionFn = jest.fn();
 
-		render(
+		const { user } = setup(
 			<ChipInput
 				disabled
 				value={chip}
@@ -377,22 +377,21 @@ describe('ChipInput', () => {
 			/>
 		);
 		const inputElement = screen.getByRole('textbox');
-		expect(inputElement).toBeInTheDocument();
 		expect(inputElement).toBeVisible();
 		expect(screen.getByText('chip')).toBeVisible();
 		expect(screen.getByTestId(ICONS.close)).toBeVisible();
-		userEvent.click(screen.getByTestId(ICONS.close));
+		await user.click(screen.getByTestId(ICONS.close));
 		expect(changeFn).toHaveBeenCalled();
 		expect(screen.getByTestId('icon: PeopleOutline')).toBeVisible();
-		userEvent.click(screen.getByTestId('icon: PeopleOutline'));
+		await user.click(screen.getByTestId('icon: PeopleOutline'));
 		expect(iconActionFn).toHaveBeenCalled();
 	});
 
-	test('if chip input icon is disabled, icon action is not triggered', () => {
+	test('if chip input icon is disabled, icon action is not triggered', async () => {
 		const changeFn = jest.fn();
 		const iconActionFn = jest.fn();
 
-		render(
+		const { user } = setup(
 			<ChipInput
 				disabled
 				onChange={changeFn}
@@ -402,19 +401,19 @@ describe('ChipInput', () => {
 			/>
 		);
 		const inputElement = screen.getByRole('textbox');
-		expect(inputElement).toBeInTheDocument();
+		expect(inputElement).toBeVisible();
 		expect(screen.getByRole('button')).toBeVisible();
 		expect(screen.getByRole('button')).toBeDisabled();
-		userEvent.click(screen.getByTestId('icon: PeopleOutline'));
+		await user.click(screen.getByTestId('icon: PeopleOutline'));
 		expect(iconActionFn).not.toHaveBeenCalled();
 	});
 
-	test('click on chip input set focus on input', () => {
-		render(<ChipInput placeholder="Placeholder" icon="PeopleOutline" />);
+	test('click on chip input set focus on input', async () => {
+		const { user } = setup(<ChipInput placeholder="Placeholder" icon="PeopleOutline" />);
 		expect(screen.getByText('Placeholder')).toBeVisible();
 		expect(screen.getByTestId('icon: PeopleOutline')).toBeVisible();
 		expect(screen.getByRole('textbox')).not.toHaveFocus();
-		userEvent.click(screen.getByTestId('icon: PeopleOutline'));
+		await user.click(screen.getByTestId('icon: PeopleOutline'));
 		expect(screen.getByRole('textbox')).toHaveFocus();
 	});
 
@@ -424,7 +423,7 @@ describe('ChipInput', () => {
 			{ id: 'opt2', label: 'option 2' }
 		];
 
-		render(<ChipInput options={options} placeholder="Placeholder" disableOptions={false} />);
+		setup(<ChipInput options={options} placeholder="Placeholder" disableOptions={false} />);
 		expect(screen.getByRole('textbox')).toBeVisible();
 		expect(screen.getByText('Placeholder')).toBeVisible();
 		expect(screen.queryByText('option 1')).not.toBeInTheDocument();
@@ -437,88 +436,96 @@ describe('ChipInput', () => {
 			{ id: 'opt2', label: 'option 2' }
 		];
 
-		render(<ChipInput options={options} placeholder="Placeholder" />);
+		setup(<ChipInput options={options} placeholder="Placeholder" />);
 		expect(screen.getByRole('textbox')).toBeVisible();
 		expect(screen.getByText('Placeholder')).toBeVisible();
 		expect(screen.queryByText('option 1')).toBeVisible();
 		expect(screen.queryByText('option 2')).toBeVisible();
 	});
 
-	test('if options are provided and disableOptions is set to false, click on input open a dropdown with the options inside', () => {
+	test('if options are provided and disableOptions is set to false, click on input open a dropdown with the options inside', async () => {
 		const options = [
 			{ id: 'opt1', label: 'option 1' },
 			{ id: 'opt2', label: 'option 2' }
 		];
 
-		render(<ChipInput options={options} disableOptions={false} placeholder="Placeholder" />);
+		const { user } = setup(
+			<ChipInput options={options} disableOptions={false} placeholder="Placeholder" />
+		);
 
 		expect(screen.getByRole('textbox')).toBeVisible();
 		expect(screen.getByText('Placeholder')).toBeVisible();
 		expect(screen.queryByText('option 1')).not.toBeInTheDocument();
 		expect(screen.queryByText('option 2')).not.toBeInTheDocument();
-		userEvent.click(screen.getByRole('textbox'));
+		await user.click(screen.getByRole('textbox'));
 		expect(screen.getByText('option 1')).toBeVisible();
 		expect(screen.getByText('option 2')).toBeVisible();
 	});
 
-	test('click on an option without a custom click callback creates a chip, close dropdown and clear the input', () => {
+	test('click on an option without a custom click callback creates a chip, close dropdown and clear the input', async () => {
 		const options: NonNullable<ChipInputProps<never>['options']> = [
 			{ id: 'opt1', label: 'option 1' },
 			{ id: 'opt2', label: 'option 2' }
 		];
 
-		render(<ChipInput options={options} disableOptions={false} />);
+		const { user } = setup(<ChipInput options={options} disableOptions={false} />);
 
 		const chipInputInput = screen.getByRole('textbox');
 		expect(chipInputInput).toBeVisible();
 		expect(screen.queryByText('option 1')).not.toBeInTheDocument();
-		userEvent.type(chipInputInput, 'opt');
+		await user.type(chipInputInput, 'opt');
 		expect(chipInputInput).toHaveValue('opt');
 		expect(screen.getByText('option 1')).toBeVisible();
 		expect(screen.getByText('option 2')).toBeVisible();
-		userEvent.click(screen.getByText('option 1'));
+		await user.click(screen.getByText('option 1'));
 		expect(screen.queryByText('option 2')).not.toBeInTheDocument();
 		expect(screen.getByText('option 1')).toBeVisible();
 		expect(screen.getByTestId(ICONS.close)).toBeVisible();
 		expect(chipInputInput).toHaveValue('');
 	});
 
-	test('click on an option with a custom click callback creates a chip, close dropdown and clear the input', () => {
+	test('click on an option with a custom click callback creates a chip, close dropdown and clear the input', async () => {
 		const options: NonNullable<ChipInputProps<never>['options']> = [
 			{ id: 'opt1', label: 'option 1', onClick: jest.fn() },
 			{ id: 'opt2', label: 'option 2', onClick: jest.fn() }
 		];
 
-		render(<ChipInput options={options} disableOptions={false} />);
+		const { user } = setup(<ChipInput options={options} disableOptions={false} />);
 
 		const chipInputInput = screen.getByRole('textbox');
 		expect(chipInputInput).toBeVisible();
 		expect(screen.queryByText('option 1')).not.toBeInTheDocument();
-		userEvent.type(chipInputInput, 'opt');
+		await user.type(chipInputInput, 'opt');
 		expect(chipInputInput).toHaveValue('opt');
 		expect(screen.getByText('option 1')).toBeVisible();
 		expect(screen.getByText('option 2')).toBeVisible();
-		userEvent.click(screen.getByText('option 1'));
+		await user.click(screen.getByText('option 1'));
 		expect(screen.queryByText('option 2')).not.toBeInTheDocument();
 		expect(screen.getByText('option 1')).toBeVisible();
 		expect(screen.getByTestId(ICONS.close)).toBeVisible();
 		expect(chipInputInput).toHaveValue('');
 	});
 
-	test('if chip input should accept only uniq values, a duplicate text is not transformed in chip', () => {
-		render(<ChipInput requireUniqueChips />);
+	test('if chip input should accept only uniq values, a duplicate text is not transformed in chip', async () => {
+		const { user } = setup(<ChipInput requireUniqueChips />);
 		const inputElement = screen.getByRole('textbox');
 		expect(inputElement).toBeVisible();
 		// create first chip
-		userEvent.type(inputElement, 'chip{space}');
+		await act(async () => {
+			await user.type(inputElement, 'chip[Space]');
+		});
 		expect(screen.getByText('chip')).toBeVisible();
 		expect(screen.getByTestId(ICONS.close)).toBeVisible();
 		// create second chip with different label
-		userEvent.type(inputElement, 'other-chip{space}');
+		await act(async () => {
+			await user.type(inputElement, 'other-chip[Space]');
+		});
 		expect(screen.getByText('other-chip')).toBeVisible();
 		expect(screen.getAllByTestId(ICONS.close)).toHaveLength(2);
 		// try to create third chip with same label of first one
-		userEvent.type(inputElement, 'chip{space}');
+		await act(async () => {
+			await user.type(inputElement, 'chip[Space]');
+		});
 		// chip is not created, only the first one is visible, but input is cleared
 		expect(screen.getByText('chip')).toBeVisible();
 		expect(screen.getAllByTestId(ICONS.close)).toHaveLength(2);
@@ -526,20 +533,22 @@ describe('ChipInput', () => {
 		expect(inputElement).toHaveFocus();
 	});
 
-	test('onAdd is called with string if text is typed in input', () => {
+	test('onAdd is called with string if text is typed in input', async () => {
 		const onAddFn = jest.fn().mockImplementation((value: string): ChipItem => ({ label: value }));
 
-		render(<ChipInput onAdd={onAddFn} />);
+		const { user } = setup(<ChipInput onAdd={onAddFn} />);
 		const inputElement = screen.getByRole('textbox');
 		expect(inputElement).toBeVisible();
-		userEvent.type(inputElement, 'sunflower{Enter}');
+		await act(async () => {
+			await user.type(inputElement, 'sunflower{Enter}');
+		});
 		expect(onAddFn).toHaveBeenCalled();
 		expect(onAddFn).toHaveBeenCalledWith('sunflower');
 		expect(screen.getByText('sunflower')).toBeVisible();
 		expect(screen.getByTestId(ICONS.close)).toBeVisible();
 	});
 
-	test('onAdd is called with option value if option has a value', () => {
+	test('onAdd is called with option value if option has a value', async () => {
 		const onAddFn = jest.fn().mockImplementation((value: Option['value']): ChipItem => value);
 
 		type Option = { id: string; label: string; value: { label: string } };
@@ -547,15 +556,15 @@ describe('ChipInput', () => {
 			{ id: 'opt1', label: 'option 1', value: { label: 'chip 1' } },
 			{ id: 'opt2', label: 'option 2', value: { label: 'chip 2' } }
 		];
-		render(<ChipInput onAdd={onAddFn} options={options} disableOptions={false} />);
+		const { user } = setup(<ChipInput onAdd={onAddFn} options={options} disableOptions={false} />);
 
 		expect(screen.queryByText('option 1')).not.toBeInTheDocument();
-		userEvent.click(screen.getByRole('textbox'));
+		await user.click(screen.getByRole('textbox'));
 		expect(screen.getByText('option 1')).toBeVisible();
 		expect(screen.getByText('option 2')).toBeVisible();
 		expect(screen.queryByText('chip 1')).not.toBeInTheDocument();
 		expect(screen.queryByText('chip 2')).not.toBeInTheDocument();
-		userEvent.click(screen.getByText('option 1'));
+		await user.click(screen.getByText('option 1'));
 		expect(screen.queryByText('option 2')).not.toBeInTheDocument();
 		expect(onAddFn).toHaveBeenCalled();
 		expect(onAddFn).toHaveBeenCalledWith({ label: 'chip 1' });
@@ -564,7 +573,7 @@ describe('ChipInput', () => {
 		expect(screen.getByTestId(ICONS.close)).toBeVisible();
 	});
 
-	test('onAdd is called with option label if option does not have a value', () => {
+	test('onAdd is called with option label if option does not have a value', async () => {
 		const onAddFn = jest.fn().mockImplementation((value: string): ChipItem => ({ label: value }));
 
 		type Option = { id: string; label: string };
@@ -572,15 +581,15 @@ describe('ChipInput', () => {
 			{ id: 'opt1', label: 'option 1' },
 			{ id: 'opt2', label: 'option 2' }
 		];
-		render(<ChipInput onAdd={onAddFn} options={options} disableOptions={false} />);
+		const { user } = setup(<ChipInput onAdd={onAddFn} options={options} disableOptions={false} />);
 
 		expect(screen.queryByText('option 1')).not.toBeInTheDocument();
-		userEvent.click(screen.getByRole('textbox'));
+		await user.click(screen.getByRole('textbox'));
 		expect(screen.getByText('option 1')).toBeVisible();
 		expect(screen.getByText('option 2')).toBeVisible();
 		expect(screen.queryByText('chip 1')).not.toBeInTheDocument();
 		expect(screen.queryByText('chip 2')).not.toBeInTheDocument();
-		userEvent.click(screen.getByText('option 1'));
+		await user.click(screen.getByText('option 1'));
 		expect(screen.queryByText('option 2')).not.toBeInTheDocument();
 		expect(onAddFn).toHaveBeenCalled();
 		expect(onAddFn).toHaveBeenCalledWith('option 1');
@@ -588,24 +597,26 @@ describe('ChipInput', () => {
 		expect(screen.getByTestId(ICONS.close)).toBeVisible();
 	});
 
-	test('after a chip is added, onChange callback is called with the new item', () => {
+	test('after a chip is added, onChange callback is called with the new item', async () => {
 		const onChangeFn = jest.fn();
-		render(<ChipInput onChange={onChangeFn} />);
+		const { user } = setup(<ChipInput onChange={onChangeFn} />);
 		const inputElement = screen.getByRole('textbox');
 		expect(inputElement).toBeVisible();
-		userEvent.type(inputElement, 'hola{Enter}');
+		await act(async () => {
+			await user.type(inputElement, 'hola{Enter}');
+		});
 		expect(onChangeFn).toHaveBeenCalled();
 		expect(onChangeFn).toHaveBeenCalledWith([{ label: 'hola' }]);
 	});
 
-	test('after a chip is removed, onChange callback is called without the item', () => {
+	test('after a chip is removed, onChange callback is called without the item', async () => {
 		const chips = [{ label: 'hola' }, { label: 'hallo' }];
 		const onChangeFn = jest.fn();
-		render(<ChipInput onChange={onChangeFn} defaultValue={chips} />);
+		const { user } = setup(<ChipInput onChange={onChangeFn} defaultValue={chips} />);
 		expect(screen.getByText('hola')).toBeVisible();
 		expect(screen.getByText('hallo')).toBeVisible();
 		expect(screen.getAllByTestId(ICONS.close)).toHaveLength(2);
-		userEvent.click(screen.getAllByTestId(ICONS.close)[0]);
+		await user.click(screen.getAllByTestId(ICONS.close)[0]);
 		expect(onChangeFn).toHaveBeenCalled();
 		expect(onChangeFn).toHaveBeenCalledWith([{ label: 'hallo' }]);
 		expect(screen.queryByText('hola')).not.toBeInTheDocument();
@@ -613,29 +624,31 @@ describe('ChipInput', () => {
 		expect(screen.getByTestId(ICONS.close)).toBeVisible();
 	});
 
-	test('if max chip number is reached, input is disabled. If a chip is removed, then input is enabled again', () => {
+	test('if max chip number is reached, input is disabled. If a chip is removed, then input is enabled again', async () => {
 		const chips = [{ label: 'こんにちは' }];
-		render(<ChipInput maxChips={1} defaultValue={chips} />);
+		const { user } = setup(<ChipInput maxChips={1} defaultValue={chips} />);
 		expect(screen.getByText('こんにちは')).toBeVisible();
 		expect(screen.getByTestId(ICONS.close)).toBeVisible();
 		const inputElement = screen.getByRole('textbox');
 		expect(inputElement).toBeVisible();
 		expect(inputElement).toBeDisabled();
-		userEvent.type(inputElement, 'olá');
+		await user.type(inputElement, 'olá');
 		expect(screen.queryByText('olá')).not.toBeInTheDocument();
 		expect(inputElement).not.toHaveValue('olá');
 		expect(inputElement).not.toHaveFocus();
-		userEvent.click(screen.getByTestId(ICONS.close));
+		await user.click(screen.getByTestId(ICONS.close));
 		expect(screen.queryByText('こんにちは')).not.toBeInTheDocument();
 		expect(screen.queryByTestId(ICONS.close)).not.toBeInTheDocument();
 		expect(inputElement).toBeEnabled();
-		userEvent.type(inputElement, 'olá{space}');
+		await act(async () => {
+			await user.type(inputElement, 'olá[Space]');
+		});
 		expect(screen.getByText('olá')).toBeVisible();
 		expect(screen.getByTestId(ICONS.close)).toBeVisible();
 		expect(inputElement).toBeDisabled();
 	});
 
-	test('if max chip number is reached, using dropdown options, input is disabled and label and placeholder are secondary colored. Then when input is reset label and placeholder remain colored of secondary and not of primary - CDS-115', () => {
+	test('if max chip number is reached, using dropdown options, input is disabled and label and placeholder are secondary colored. Then when input is reset label and placeholder remain colored of secondary and not of primary - CDS-115', async () => {
 		const ControlledChipInput = ({
 			forceReset = false
 		}: {
@@ -734,13 +747,13 @@ describe('ChipInput', () => {
 			);
 		};
 
-		const { rerender } = render(<ControlledChipInput />);
+		const { rerender, user } = setup(<ControlledChipInput />);
 
-		userEvent.click(screen.getByTestId(ICONS.accordionItemOpenAction));
+		await user.click(screen.getByTestId(ICONS.accordionItemOpenAction));
 
 		const folderOption = screen.getByText('Folder');
 		expect(folderOption).toBeVisible();
-		userEvent.click(folderOption);
+		await user.click(folderOption);
 
 		const inputElement = screen.getByRole('textbox');
 		expect(inputElement).toBeVisible();
@@ -770,24 +783,25 @@ describe('ChipInput', () => {
 
 	test('onInputType callback is called asynchronously and arg includes text content', async () => {
 		const onInputTypeFn = jest.fn();
-		render(<ChipInput onInputType={onInputTypeFn} />);
-		userEvent.type(screen.getByRole('textbox'), 'hej');
+		const { user } = setup(<ChipInput onInputType={onInputTypeFn} />);
+		await user.type(screen.getByRole('textbox'), 'hej');
 		await waitFor(() => expect(onInputTypeFn).toHaveBeenCalled());
 		expect(onInputTypeFn).toHaveBeenCalledWith(expect.objectContaining({ textContent: 'hej' }));
 	});
 
-	test('create chips on paste splitting text on wanted separators', () => {
-		render(<ChipInput createChipOnPaste pasteSeparators={['x', 'z']} />);
+	test('create chips on paste splitting text on wanted separators', async () => {
+		const { user } = setup(<ChipInput createChipOnPaste pasteSeparators={['x', 'z']} />);
 		const inputElement = screen.getByRole('textbox');
-		expect(inputElement).toBeInTheDocument();
 		expect(inputElement).toBeVisible();
 		// create chip with paste
-		const dataTransferData: Record<string, string> = { Text: 'ciaoxhellozhola' };
-		userEvent.paste(inputElement, 'ciaoxhellozhola', {
-			clipboardData: {
-				getData: jest.fn().mockImplementation((type: string) => dataTransferData[type])
-			} as unknown as DataTransfer
-		});
+		const dataTransferData: Record<string, string> = {
+			Text: 'ciaoxhellozhola',
+			text: 'ciaoxhellozhola'
+		};
+		await user.click(inputElement);
+		await user.paste({
+			getData: jest.fn().mockImplementation((type: string) => dataTransferData[type])
+		} as unknown as DataTransfer);
 		// chip is created with text before space
 		expect(screen.getByText('ciao')).toBeVisible();
 		expect(screen.getByText('hello')).toBeVisible();
@@ -798,18 +812,19 @@ describe('ChipInput', () => {
 		expect(screen.queryByText('ciaoxhellozhola')).not.toBeInTheDocument();
 	});
 
-	test('if createChipOnPaste is set to false, paste event just paste text inside input', () => {
-		render(<ChipInput createChipOnPaste={false} pasteSeparators={['x', 'z']} />);
+	test('if createChipOnPaste is set to false, paste event just paste text inside input', async () => {
+		const { user } = setup(<ChipInput createChipOnPaste={false} pasteSeparators={['x', 'z']} />);
 		const inputElement = screen.getByRole('textbox');
-		expect(inputElement).toBeInTheDocument();
 		expect(inputElement).toBeVisible();
 		// paste text
-		const dataTransferData: Record<string, string> = { Text: 'ciaoxhellozhola' };
-		userEvent.paste(inputElement, 'ciaoxhellozhola', {
-			clipboardData: {
-				getData: jest.fn().mockImplementation((type: string) => dataTransferData[type])
-			} as unknown as DataTransfer
-		});
+		const dataTransferData: Record<string, string> = {
+			Text: 'ciaoxhellozhola',
+			text: 'ciaoxhellozhola'
+		};
+		await user.click(inputElement);
+		await user.paste({
+			getData: jest.fn().mockImplementation((type: string) => dataTransferData[type])
+		} as unknown as DataTransfer);
 		// text is pastes as is
 		expect(inputElement).toHaveValue('ciaoxhellozhola');
 		// chips are not created
@@ -819,13 +834,17 @@ describe('ChipInput', () => {
 		expect(screen.queryByTestId(ICONS.close)).not.toBeInTheDocument();
 	});
 
-	test('by default there is no limit to the maximum number of chips', () => {
-		render(<ChipInput />);
+	test('by default there is no limit to the maximum number of chips', async () => {
+		const { user } = setup(<ChipInput />);
 		const inputElement = screen.getByRole('textbox');
 		const prevLimitMaxPlusOne = 21;
 		for (let i = 0; i < prevLimitMaxPlusOne; i += 1) {
-			userEvent.type(inputElement, `chip${i}`);
-			userEvent.keyboard(',', { keyboardMap: [{ code: 'Comma', key: ',', keyCode: 188 }] });
+			// eslint-disable-next-line no-await-in-loop
+			await user.type(inputElement, `chip${i}`);
+			// eslint-disable-next-line no-await-in-loop
+			await act(async () => {
+				await user.keyboard('[Space]');
+			});
 		}
 		expect(screen.getAllByText(/chip/)).toHaveLength(prevLimitMaxPlusOne);
 	});

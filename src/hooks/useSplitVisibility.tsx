@@ -30,7 +30,7 @@ function useSplitVisibility<T, R extends HTMLElement = HTMLElement>(
 			typeof optionsWithRetroCompatibility === 'string'
 				? {
 						removeFrom: optionsWithRetroCompatibility
-				  }
+					}
 				: optionsWithRetroCompatibility,
 		[optionsWithRetroCompatibility]
 	);

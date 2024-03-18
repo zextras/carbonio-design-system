@@ -6,11 +6,10 @@
 import React from 'react';
 
 import { screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 
 import { ListItem } from './ListItem';
 import { ListV2 } from './ListV2';
-import { render } from '../../test-utils';
+import { setup } from '../../test-utils';
 import { Container } from '../layout/Container';
 
 describe('List', () => {
@@ -30,13 +29,13 @@ describe('List', () => {
 			<ListItem key={item.id}>{(): React.JSX.Element => <div>{item.name}</div>}</ListItem>
 		));
 
-		render(<ListV2>{listItems}</ListV2>);
+		setup(<ListV2>{listItems}</ListV2>);
 
 		expect(screen.getByText('item 1')).toBeVisible();
 		expect(screen.getByText('item 2')).toBeVisible();
 	});
 
-	test('Render a list with a clickable item', () => {
+	test('Render a list with a clickable item', async () => {
 		const items = [
 			{
 				id: '1',
@@ -60,11 +59,11 @@ describe('List', () => {
 			</ListItem>
 		));
 
-		render(<ListV2>{listItems}</ListV2>);
+		const { user } = setup(<ListV2>{listItems}</ListV2>);
 
 		expect(screen.getByText('item 1')).toBeVisible();
 		expect(screen.getByText('item 2')).toBeVisible();
-		userEvent.click(screen.getByText('item 1'));
+		await user.click(screen.getByText('item 1'));
 		expect(items[0].onClick).toHaveBeenCalled();
 		expect(items[1].onClick).not.toHaveBeenCalled();
 	});

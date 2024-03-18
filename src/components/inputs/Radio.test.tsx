@@ -6,21 +6,20 @@
 import React from 'react';
 
 import { screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 
 import { Radio } from './Radio';
-import { render } from '../../test-utils';
+import { setup } from '../../test-utils';
 import { Text } from '../basic/Text';
 
 describe('Radio', () => {
 	test('should render a radio input with a label', () => {
 		const label = 'the label';
-		render(<Radio label={label} />);
+		setup(<Radio label={label} />);
 		expect(screen.getByRole('radio', { name: label })).toBeVisible();
 	});
 
 	test('should set different ids on different radio inputs', () => {
-		render(
+		setup(
 			<>
 				<Radio label={'radio 1'} />
 				<Radio label={'radio 2'} />
@@ -33,37 +32,37 @@ describe('Radio', () => {
 	});
 
 	describe('Uncontrolled mode', () => {
-		test('should call onChange with the new checked status', () => {
+		test('should call onChange with the new checked status', async () => {
 			const onChangeFn = jest.fn();
-			render(<Radio label={'the label'} onChange={onChangeFn} defaultChecked />);
+			const { user } = setup(<Radio label={'the label'} onChange={onChangeFn} defaultChecked />);
 			const radio = screen.getByRole('radio');
 			// onChange is called on render
 			expect(onChangeFn).toHaveBeenCalledTimes(1);
 			expect(onChangeFn).toHaveBeenCalledWith(true);
-			userEvent.click(radio);
+			await user.click(radio);
 			expect(onChangeFn).toHaveBeenCalledTimes(2);
 			expect(onChangeFn).toHaveBeenCalledWith(false);
 		});
 
-		test('should toggle the radio checked status on multiple clicks', () => {
+		test('should toggle the radio checked status on multiple clicks', async () => {
 			const onChangeFn = jest.fn();
-			render(<Radio label={'the label'} onChange={onChangeFn} defaultChecked />);
+			const { user } = setup(<Radio label={'the label'} onChange={onChangeFn} defaultChecked />);
 			const radio = screen.getByRole('radio');
 			expect(radio).toBeChecked();
 			expect(onChangeFn).toHaveBeenLastCalledWith(true);
-			userEvent.click(radio);
+			await user.click(radio);
 			expect(radio).not.toBeChecked();
 			expect(onChangeFn).toHaveBeenLastCalledWith(false);
-			userEvent.click(radio);
+			await user.click(radio);
 			expect(radio).toBeChecked();
 			expect(onChangeFn).toHaveBeenLastCalledWith(true);
 		});
 
-		test('should call onClick when clicking on radio input', () => {
+		test('should call onClick when clicking on radio input', async () => {
 			const onClickFn = jest.fn();
-			render(<Radio label={'the label'} onClick={onClickFn} />);
+			const { user } = setup(<Radio label={'the label'} onClick={onClickFn} />);
 			const radio = screen.getByRole('radio');
-			userEvent.click(radio);
+			await user.click(radio);
 			expect(onClickFn).toHaveBeenCalledTimes(1);
 		});
 	});
@@ -71,7 +70,7 @@ describe('Radio', () => {
 	describe('Controlled mode', () => {
 		test('should call onChange with the new checked status when checked prop change', () => {
 			const onChangeFn = jest.fn();
-			const { rerender } = render(<Radio label={'the label'} onChange={onChangeFn} checked />);
+			const { rerender } = setup(<Radio label={'the label'} onChange={onChangeFn} checked />);
 			// onChange is called on render
 			expect(onChangeFn).toHaveBeenCalledTimes(1);
 			expect(onChangeFn).toHaveBeenCalledWith(true);
@@ -80,85 +79,89 @@ describe('Radio', () => {
 			expect(onChangeFn).toHaveBeenCalledWith(false);
 		});
 
-		test('should not toggle the radio on click', () => {
+		test('should not toggle the radio on click', async () => {
 			const onChangeFn = jest.fn();
-			render(<Radio label={'the label'} checked onChange={onChangeFn} />);
+			const { user } = setup(<Radio label={'the label'} checked onChange={onChangeFn} />);
 			const radio = screen.getByRole('radio');
 			expect(radio).toBeChecked();
 			// onChange is called on render
 			expect(onChangeFn).toHaveBeenCalledTimes(1);
-			userEvent.click(radio);
+			await user.click(radio);
 			expect(radio).toBeChecked();
 			expect(onChangeFn).toHaveBeenCalledTimes(1);
 		});
 
 		test('should update the radio checked status when checked prop change', () => {
-			const { rerender } = render(<Radio label={'the label'} checked />);
+			const { rerender } = setup(<Radio label={'the label'} checked />);
 			const radio = screen.getByRole('radio');
 			expect(radio).toBeChecked();
 			rerender(<Radio label={'the label'} checked={false} />);
 			expect(radio).not.toBeChecked();
 		});
 
-		test('should call onClick when clicking on radio input', () => {
+		test('should call onClick when clicking on radio input', async () => {
 			const onClickFn = jest.fn();
-			render(<Radio label={'the label'} checked onClick={onClickFn} />);
+			const { user } = setup(<Radio label={'the label'} checked onClick={onClickFn} />);
 			const radio = screen.getByRole('radio');
-			userEvent.click(radio);
+			await user.click(radio);
 			expect(onClickFn).toHaveBeenCalledTimes(1);
 		});
 	});
 
-	test('should toggle the radio when clicking on the default label', () => {
+	test('should toggle the radio when clicking on the default label', async () => {
 		const onClickFn = jest.fn();
-		render(<Radio label={'the label'} onClick={onClickFn} />);
+		const { user } = setup(<Radio label={'the label'} onClick={onClickFn} />);
 		expect(screen.getByRole('radio')).not.toBeChecked();
-		userEvent.click(screen.getByText('the label'));
+		await user.click(screen.getByText('the label'));
 		expect(screen.getByRole('radio')).toBeChecked();
 		expect(onClickFn).toHaveBeenCalledTimes(1);
 	});
 
-	test('should toggle the radio when clicking on a custom label', () => {
+	test('should toggle the radio when clicking on a custom label', async () => {
 		const onClickFn = jest.fn();
 		const labelOnClick = jest.fn();
-		render(<Radio label={<Text onClick={labelOnClick}>the label</Text>} onClick={onClickFn} />);
+		const { user } = setup(
+			<Radio label={<Text onClick={labelOnClick}>the label</Text>} onClick={onClickFn} />
+		);
 		expect(screen.getByRole('radio')).not.toBeChecked();
-		userEvent.click(screen.getByText('the label'));
+		await user.click(screen.getByText('the label'));
 		expect(labelOnClick).toHaveBeenCalled();
 		expect(screen.getByRole('radio')).toBeChecked();
 		expect(onClickFn).toHaveBeenCalledTimes(1);
 	});
 
-	test('should not toggle the radio when clicking on a custom label which prevents default', () => {
+	test('should not toggle the radio when clicking on a custom label which prevents default', async () => {
 		const labelOnClick = jest.fn((event: React.MouseEvent) => {
 			event.preventDefault();
 		});
 		const onClickFn = jest.fn();
-		render(<Radio label={<Text onClick={labelOnClick}>the label</Text>} onClick={onClickFn} />);
+		const { user } = setup(
+			<Radio label={<Text onClick={labelOnClick}>the label</Text>} onClick={onClickFn} />
+		);
 		expect(screen.getByRole('radio')).not.toBeChecked();
-		userEvent.click(screen.getByText('the label'));
+		await user.click(screen.getByText('the label'));
 		expect(labelOnClick).toHaveBeenCalled();
 		expect(screen.getByRole('radio')).not.toBeChecked();
 		expect(onClickFn).not.toHaveBeenCalled();
 	});
 
-	test('should get focus with tab', () => {
-		render(<Radio label={'the label'} />);
+	test('should get focus with tab', async () => {
+		const { user } = setup(<Radio label={'the label'} />);
 		const radio = screen.getByRole('radio');
 		expect(radio).not.toHaveFocus();
-		userEvent.tab();
+		await user.tab();
 		expect(radio).toHaveFocus();
 	});
 
-	test('should toggle radio when keyboard space is pressed', () => {
+	test('should toggle radio when keyboard space is pressed', async () => {
 		const onClickFn = jest.fn();
-		render(<Radio label={'the label'} onClick={onClickFn} />);
+		const { user } = setup(<Radio label={'the label'} onClick={onClickFn} />);
 		const radio = screen.getByRole('radio');
 		expect(radio).not.toBeChecked();
-		userEvent.tab();
-		userEvent.keyboard('[Space]');
+		await user.tab();
+		await user.keyboard('[Space]');
 		expect(radio).toBeChecked();
-		userEvent.keyboard('[Space]');
+		await user.keyboard('[Space]');
 		expect(radio).not.toBeChecked();
 		expect(onClickFn).toHaveBeenCalledTimes(2);
 	});

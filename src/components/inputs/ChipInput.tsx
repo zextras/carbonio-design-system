@@ -56,7 +56,7 @@ const ContainerEl = styled(Container)<{
 		$inputDisabled && $dropdownDisabled
 			? css`
 					background: ${getColor(`${background}.disabled`, theme)};
-			  `
+				`
 			: pseudoClasses(theme, background)};
 	padding: ${({ $hasLabel }): string => ($hasLabel ? '0.0625rem' : '0.625rem')} 0.75rem;
 	gap: 0.5rem;
@@ -683,6 +683,7 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 		(e) => {
 			if (createChipOnPaste) {
 				e.preventDefault();
+				// TODO: investigate if reading data from text with uppercase T is right
 				const pastedText = e.clipboardData.getData('Text');
 				const separatorsRegex = new RegExp(pasteSeparators.join('|'), 'gi');
 				const reducedChips = reduce<string, string[]>(
