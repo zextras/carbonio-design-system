@@ -8,13 +8,13 @@ import React, { HTMLAttributes, useCallback, useEffect, useMemo, useRef, useStat
 
 import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-components';
 
-import { useCombinedRefs } from '../../hooks/useCombinedRefs';
-import { useModal } from '../../hooks/useModal';
-import { Button, ButtonProps } from '../basic/Button';
-import { Icon } from '../basic/Icon';
-import { Text } from '../basic/Text';
-import { IconButton, IconButtonProps } from '../inputs/IconButton';
-import { Container } from '../layout/Container';
+import { useCombinedRefs } from '../../../hooks/useCombinedRefs';
+import { useModal } from '../../../hooks/useModal';
+import { Button, ButtonProps } from '../../basic/Button';
+import { Icon } from '../../basic/Icon';
+import { Text } from '../../basic/Text';
+import { IconButton, IconButtonProps } from '../../inputs/IconButton';
+import { Container } from '../../layout/Container';
 
 type ActionButton = ButtonProps & { type?: never; color?: never; backgroundColor?: never };
 
@@ -112,7 +112,7 @@ const Banner = React.forwardRef<HTMLDivElement, BannerProps>(function BannerFn(
 		moreInfoLabel = 'More info',
 		closeLabel = 'Close',
 		...rest
-	},
+	}: BannerProps,
 	ref
 ) {
 	const bannerRef = useCombinedRefs(ref);

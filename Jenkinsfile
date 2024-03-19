@@ -283,8 +283,9 @@ pipeline {
                     steps {
                         script {
                             executeNpmLogin()
-                            nodeCmd('npm run styleguide:build')
+                            nodeCmd('npm run build:docs')
                             stash includes: 'styleguide/', name: 'doc'
+                            stash includes: 'storybook-static/', name: 'storybook-doc'
                         }
                     }
                 }
@@ -339,8 +340,10 @@ pipeline {
             steps {
                 script {
                     unstash 'doc'
+                    unstash 'storybook-doc'
                     doc.rm file: "iris/zapp-ui/${BRANCH_NAME}"
                     doc.mkdir folder: "iris/zapp-ui/${BRANCH_NAME}"
+                    doc.upload file: 'storybook-static', destination: "iris/zapp-ui/${BRANCH_NAME}"
                     doc.upload file: 'styleguide/**', destination: "iris/zapp-ui/${BRANCH_NAME}"
                 }
             }

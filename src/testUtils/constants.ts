@@ -13,7 +13,12 @@ export const ICONS = {
 	datePickerClearAction: 'icon: CloseOutline',
 	dropdownNestedLevel: 'icon: ChevronRight',
 	moreVertical: 'icon: MoreVertical',
-	multiButtonSecondaryAction: 'icon: ChevronDownOutline'
+	multiButtonSecondaryAction: 'icon: ChevronDownOutline',
+	checkmarkCircle: 'icon: CheckmarkCircle2Outline',
+	alertTriangleOutline: 'icon: AlertTriangleOutline',
+	infoOutline: 'icon: InfoOutline',
+	closeCircleOutline: 'icon: CloseCircleOutline',
+	people: 'icon: People'
 };
 
 export const SELECTORS = {
