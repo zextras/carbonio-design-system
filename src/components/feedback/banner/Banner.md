@@ -1,1 +1,1 @@
-[Banner in Storybook](/storybook-static/index.html?path=/docs/components-feedback-banner--docs)
+[Banner in Storybook](storybook-static/index.html?path=/docs/components-feedback-banner--docs)
