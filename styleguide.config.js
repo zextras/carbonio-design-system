@@ -125,7 +125,6 @@ module.exports = {
 		'**/*.spec.{js,jsx,ts,tsx}',
 		'**/*.d.ts',
 		'.storybook',
-		'**/*.stories.*',
-		'*.stories.*'
+		'**/*.stories.*'
 	]
 };
