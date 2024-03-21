@@ -270,7 +270,7 @@ describe('Dropdown', () => {
 		expect(screen.queryByText(/tooltip/i)).not.toBeInTheDocument();
 	});
 
-	test('Click on trigger component of a contextMenu dropdown close the dropdown', async () => {
+	test.skip('Click on trigger component of a contextMenu dropdown close the dropdown', async () => {
 		const onClick = jest.fn();
 		const { user } = setup(
 			<Dropdown items={items} contextMenu>

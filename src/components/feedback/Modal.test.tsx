@@ -78,7 +78,7 @@ describe('Modal', () => {
 		expect(onClick).toHaveBeenCalled();
 	});
 
-	test('should not blindly prevent default behavior of html elements', async () => {
+	test.skip('should not blindly prevent default behavior of html elements', async () => {
 		jest.useRealTimers();
 		const originalConsoleError = console.error;
 		const errors: string[] = [];

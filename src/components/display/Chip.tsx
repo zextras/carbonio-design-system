@@ -316,7 +316,7 @@ const Chip = React.forwardRef<HTMLDivElement, ChipProps>(function ChipFn(
 		]
 	);
 
-	const clickHandler = useCallback(
+	const clickHandler = useCallback<React.ReactEventHandler>(
 		(event) => {
 			event.preventDefault();
 			onClick && onClick(event);
@@ -324,7 +324,7 @@ const Chip = React.forwardRef<HTMLDivElement, ChipProps>(function ChipFn(
 		[onClick]
 	);
 
-	const dblClickHandler = useCallback(
+	const dblClickHandler = useCallback<React.ReactEventHandler>(
 		(event) => {
 			event.preventDefault();
 			onDoubleClick && onDoubleClick(event);
