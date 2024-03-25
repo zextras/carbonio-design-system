@@ -10,7 +10,9 @@ const config: StorybookConfig = {
         '@storybook/test',
         '@storybook/blocks',
         '@storybook/react',
-        '@storybook/react-webpack5'
+        '@storybook/react-webpack5',
+        'storybook-dark-mode',
+        '@storybook/theming'
     ],
 	framework: {
 		name: '@storybook/react-webpack5',
