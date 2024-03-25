@@ -750,8 +750,10 @@ const ShimmerObject = {
 	}
 };
 
-type Shimmer = React.VFC<SkeletonProps> & {
-	[K in keyof typeof ShimmerObject]: React.VFC<Parameters<(typeof ShimmerObject)[K]>[number]>;
+type Shimmer = React.FunctionComponent<SkeletonProps> & {
+	[K in keyof typeof ShimmerObject]: React.FunctionComponent<
+		Parameters<(typeof ShimmerObject)[K]>[number]
+	>;
 };
 const Shimmer: Shimmer = (props: SkeletonProps): React.JSX.Element => (
 	<SkeletonComponent {...props} />

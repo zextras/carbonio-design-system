@@ -12,6 +12,7 @@ import { Container } from '../layout/Container';
 interface CatcherProps {
 	/** error callback, use this to perform operations when an error is caught */
 	onError?: (error: Error, errorInfo: ErrorInfo) => void;
+	children?: React.ReactNode;
 }
 
 interface CatcherState {

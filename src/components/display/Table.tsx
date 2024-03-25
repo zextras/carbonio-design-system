@@ -137,14 +137,14 @@ interface LabelFactoryProps {
 	bold?: boolean;
 }
 
-const DefaultHeaderFactory: React.VFC<THeaderProps> = ({
+const DefaultHeaderFactory = ({
 	headers,
 	onChange,
 	allSelected,
 	selectionMode,
 	multiSelect,
 	showCheckbox
-}) => {
+}: THeaderProps): React.JSX.Element => {
 	const trRef = useRef<HTMLTableRowElement>(null);
 
 	const LabelFactory = useCallback(
@@ -234,7 +234,7 @@ interface TRowProps {
 	showCheckbox: boolean;
 }
 
-const DefaultRowFactory: React.VFC<TRowProps> = ({
+const DefaultRowFactory = ({
 	index,
 	row,
 	onChange,
@@ -242,7 +242,7 @@ const DefaultRowFactory: React.VFC<TRowProps> = ({
 	selectionMode,
 	multiSelect,
 	showCheckbox
-}) => {
+}: TRowProps): React.JSX.Element => {
 	const ckbRef = useRef<HTMLDivElement>(null);
 	const trRef = useRef<HTMLTableRowElement>(null);
 	const clickableRow = useMemo(

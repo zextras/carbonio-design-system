@@ -4,13 +4,12 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { useCallback, useMemo, HTMLAttributes } from 'react';
+import React, { useCallback, HTMLAttributes } from 'react';
 
 import { map } from 'lodash';
 import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-components';
 
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
-import { useKeyboard, getKeyboardPreset } from '../../hooks/useKeyboard';
 import { getColor } from '../../theme/theme-utils';
 import { Text } from '../basic/Text';
 import { Container, ContainerProps } from '../layout/Container';
@@ -98,7 +97,7 @@ const DefaultTabBarItem = React.forwardRef<HTMLDivElement, DefaultTabBarItemProp
 		},
 		ref
 	) {
-		const activationCb = useCallback(
+		const activationCb = useCallback<React.MouseEventHandler<HTMLDivElement>>(
 			(ev) => {
 				if (!item.disabled) onClick(ev);
 			},
@@ -107,8 +106,8 @@ const DefaultTabBarItem = React.forwardRef<HTMLDivElement, DefaultTabBarItemProp
 
 		const combinedRef = useCombinedRefs<HTMLDivElement>(ref);
 
-		const keyEvents = useMemo(() => getKeyboardPreset('button', activationCb), [activationCb]);
-		useKeyboard(combinedRef, keyEvents);
+		// const keyEvents = useMemo(() => getKeyboardPreset('button', activationCb), [activationCb]);
+		// useKeyboard(combinedRef, keyEvents);
 
 		return (
 			<DefaultTabBarItemContainer

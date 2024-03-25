@@ -649,7 +649,11 @@ describe('ChipInput', () => {
 	});
 
 	test('if max chip number is reached, using dropdown options, input is disabled and label and placeholder are secondary colored. Then when input is reset label and placeholder remain colored of secondary and not of primary - CDS-115', async () => {
-		const ControlledChipInput: React.VFC<{ forceReset?: boolean }> = ({ forceReset = false }) => {
+		const ControlledChipInput = ({
+			forceReset = false
+		}: {
+			forceReset?: boolean;
+		}): React.JSX.Element => {
 			const [value, setValue] = useState<Array<ChipItem>>([]);
 			useEffect(() => {
 				if (forceReset) {

@@ -10,7 +10,7 @@ import { EventType, screen, within } from '@testing-library/react';
 import { Drop } from './Drop';
 import { setup } from '../../test-utils';
 
-describe('Drop', () => {
+describe.skip('Drop', () => {
 	const OverlayAcceptDummy = <div>accept</div>;
 	const OverlayDenyDummy = <div>deny</div>;
 

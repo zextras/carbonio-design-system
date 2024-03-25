@@ -79,7 +79,7 @@ interface ModalFooterProps {
 
 type ModalFooterContentProps = Omit<ModalFooterProps, 'customFooter'>;
 
-const ModalFooterContent: React.VFC<ModalFooterContentProps> = ({
+const ModalFooterContent = ({
 	type,
 	centered,
 	onConfirm,
@@ -94,7 +94,7 @@ const ModalFooterContent: React.VFC<ModalFooterContentProps> = ({
 	errorActionLabel,
 	optionalFooter,
 	onErrorAction
-}) => {
+}: ModalFooterContentProps): React.JSX.Element => {
 	const secondaryButton = useMemo(() => {
 		let button;
 		if (type === 'error' && onErrorAction) {

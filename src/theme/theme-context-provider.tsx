@@ -17,7 +17,11 @@ interface ThemeProviderProps {
 	loadDefaultFont?: boolean;
 }
 
-const ThemeProvider: React.FC<ThemeProviderProps> = ({ children, extension, loadDefaultFont }) => {
+const ThemeProvider = ({
+	children,
+	extension,
+	loadDefaultFont
+}: React.PropsWithChildren<ThemeProviderProps>): React.JSX.Element => {
 	const _theme = useCallback(
 		(parentTheme: DefaultTheme = defaultTheme) => {
 			const theme = extension ? extension(parentTheme) : parentTheme;
