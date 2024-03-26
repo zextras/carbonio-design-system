@@ -45,7 +45,7 @@ export const Description: Story = {
 	},
 	play: async ({ canvasElement }) => {
 		const canvas = within(canvasElement);
-		await expect(canvas.getByTestId(ICONS.checkmarkCircle)).toBeVisible();
+		await expect(canvas.getByTestId(ICONS.successBannerIcon)).toBeVisible();
 		await expect(canvas.getByText(/description is required/i)).toBeVisible();
 	}
 };
@@ -58,7 +58,7 @@ export const Title: Story = {
 	},
 	play: async ({ canvasElement }) => {
 		const canvas = within(canvasElement);
-		await expect(canvas.getByTestId(ICONS.alertTriangleOutline)).toBeVisible();
+		await expect(canvas.getByTestId(ICONS.warningBannerIcon)).toBeVisible();
 		await expect(canvas.getByText(/description is required/i)).toBeVisible();
 		await expect(canvas.getByText(/title is optional/i)).toBeVisible();
 	}
@@ -76,7 +76,7 @@ export const CloseBanner: Story = {
 	},
 	play: async ({ canvasElement }) => {
 		const canvas = within(canvasElement);
-		await expect(canvas.getByTestId(ICONS.infoOutline)).toBeVisible();
+		await expect(canvas.getByTestId(ICONS.infoBannerIcon)).toBeVisible();
 		await expect(canvas.getByText(/description is required/i)).toBeVisible();
 		await expect(canvas.getByRole('button', { name: /primary action/i })).toBeVisible();
 		await expect(canvas.getByRole('button', { name: /secondary action/i })).toBeVisible();
@@ -93,7 +93,7 @@ export const ErrorWithPrimaryAction: Story = {
 	},
 	play: async ({ canvasElement }) => {
 		const canvas = within(canvasElement);
-		await expect(canvas.getByTestId(ICONS.closeCircleOutline)).toBeVisible();
+		await expect(canvas.getByTestId(ICONS.errorBannerIcon)).toBeVisible();
 		await expect(canvas.getByText(/description is required/i)).toBeVisible();
 		await expect(canvas.getByRole('button', { name: /primary action/i })).toBeVisible();
 	}
@@ -110,7 +110,7 @@ export const TypeOutline: Story = {
 	},
 	play: async ({ canvasElement }) => {
 		const canvas = within(canvasElement);
-		await expect(canvas.getByTestId(ICONS.checkmarkCircle)).toBeVisible();
+		await expect(canvas.getByTestId(ICONS.successBannerIcon)).toBeVisible();
 		await expect(canvas.getByText(/description is required/i)).toBeVisible();
 		await expect(canvas.getByRole('button', { name: /primary action/i })).toBeVisible();
 		await expect(canvas.getByTestId(ICONS.close)).toBeVisible();
@@ -130,7 +130,7 @@ export const SecondaryActionWithPrimaryAction: Story = {
 	},
 	play: async ({ canvasElement }) => {
 		const canvas = within(canvasElement);
-		await expect(canvas.getByTestId(ICONS.alertTriangleOutline)).toBeVisible();
+		await expect(canvas.getByTestId(ICONS.warningBannerIcon)).toBeVisible();
 		await expect(canvas.getByText(/description is required/i)).toBeVisible();
 		await expect(canvas.getByRole('button', { name: /primary action/i })).toBeVisible();
 		await expect(canvas.getByRole('button', { name: /secondary action/i })).toBeVisible();
@@ -148,7 +148,7 @@ export const OutlineWithInfoSeverity: Story = {
 	},
 	play: async ({ canvasElement }) => {
 		const canvas = within(canvasElement);
-		await expect(canvas.getByTestId(ICONS.infoOutline)).toBeVisible();
+		await expect(canvas.getByTestId(ICONS.infoBannerIcon)).toBeVisible();
 		await expect(canvas.getByText(/description is required/i)).toBeVisible();
 		await expect(canvas.getByRole('button', { name: /primary action/i })).toBeVisible();
 		await expect(canvas.getByRole('button', { name: /secondary action/i })).toBeVisible();
@@ -164,7 +164,7 @@ export const OutlineWithErrorSeverity: Story = {
 	},
 	play: async ({ canvasElement }) => {
 		const canvas = within(canvasElement);
-		await expect(canvas.getByTestId(ICONS.closeCircleOutline)).toBeVisible();
+		await expect(canvas.getByTestId(ICONS.errorBannerIcon)).toBeVisible();
 		await expect(canvas.getByText(/description is required/i)).toBeVisible();
 		await expect(canvas.getByRole('button', { name: /primary action/i })).toBeVisible();
 	}
@@ -182,7 +182,7 @@ export const LongDescription: Story = {
 	},
 	play: async ({ canvasElement }) => {
 		const canvas = within(canvasElement);
-		await expect(canvas.getByTestId(ICONS.checkmarkCircle)).toBeVisible();
+		await expect(canvas.getByTestId(ICONS.successBannerIcon)).toBeVisible();
 		await expect(
 			canvas.getByText(
 				/Text to edit: Lorem Ipsum is simply dummy text of the printing and typesetting industry./i
@@ -208,7 +208,7 @@ export const ShortTitle: Story = {
 	},
 	play: async ({ canvasElement }) => {
 		const canvas = within(canvasElement);
-		await expect(canvas.getByTestId(ICONS.alertTriangleOutline)).toBeVisible();
+		await expect(canvas.getByTestId(ICONS.warningBannerIcon)).toBeVisible();
 		await expect(canvas.getByText(/short title/i)).toBeVisible();
 		await expect(
 			canvas.getByText(
@@ -237,7 +237,7 @@ export const LongTitle: Story = {
 	},
 	play: async ({ canvasElement }) => {
 		const canvas = within(canvasElement);
-		await expect(canvas.getByTestId(ICONS.infoOutline)).toBeVisible();
+		await expect(canvas.getByTestId(ICONS.infoBannerIcon)).toBeVisible();
 		await expect(
 			canvas.getByText(
 				/The "sixth sick sheik's sixth sheep's sick" is believed to be the toughest tongue twister in the/i
@@ -272,13 +272,13 @@ export const PrimaryActionWithIcon: Story = {
 	},
 	play: async ({ canvasElement }) => {
 		const canvas = within(canvasElement);
-		await expect(canvas.getByTestId(ICONS.closeCircleOutline)).toBeVisible();
+		await expect(canvas.getByTestId(ICONS.errorBannerIcon)).toBeVisible();
 		await expect(canvas.getByText('Lorem ipsum dolor sit amet')).toBeVisible();
 		await expect(
 			canvas.getByText(/Lorem ipsum dolor sit amet, consectetur adipiscing elit./i)
 		).toBeVisible();
 		await expect(canvas.getByRole('button', { name: /primary action/i })).toBeVisible();
-		await expect(canvas.getByTestId(ICONS.people)).toBeVisible();
+		await expect(canvas.getByTestId(ICONS.peopleIcon)).toBeVisible();
 		await expect(canvas.getByTestId(ICONS.close)).toBeVisible();
 	}
 };

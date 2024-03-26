@@ -35,6 +35,12 @@ module.exports = {
 				'testing-library/prefer-user-event': 'warn',
 				'import/no-extraneous-dependencies': 'off'
 			}
+		},
+		{
+			files: ['*.stories.*'],
+			rules: {
+				'import/no-extraneous-dependencies': 'off'
+			}
 		}
 	],
 	ignorePatterns: ['**/tsTemplate.[jt]s']

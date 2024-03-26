@@ -14,11 +14,11 @@ export const ICONS = {
 	dropdownNestedLevel: 'icon: ChevronRight',
 	moreVertical: 'icon: MoreVertical',
 	multiButtonSecondaryAction: 'icon: ChevronDownOutline',
-	checkmarkCircle: 'icon: CheckmarkCircle2Outline',
-	alertTriangleOutline: 'icon: AlertTriangleOutline',
-	infoOutline: 'icon: InfoOutline',
-	closeCircleOutline: 'icon: CloseCircleOutline',
-	people: 'icon: People'
+	successBannerIcon: 'icon: CheckmarkCircle2Outline',
+	warningBannerIcon: 'icon: AlertTriangleOutline',
+	infoBannerIcon: 'icon: InfoOutline',
+	errorBannerIcon: 'icon: CloseCircleOutline',
+	peopleIcon: 'icon: People'
 };
 
 export const SELECTORS = {
