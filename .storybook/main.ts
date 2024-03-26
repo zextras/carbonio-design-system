@@ -8,11 +8,6 @@ const config: StorybookConfig = {
         '@storybook/addon-themes',
         '@storybook/addon-interactions',
         '@storybook/test',
-        '@storybook/blocks',
-        '@storybook/react',
-        '@storybook/react-webpack5',
-        'storybook-dark-mode',
-        '@storybook/theming'
     ],
 	framework: {
 		name: '@storybook/react-webpack5',
