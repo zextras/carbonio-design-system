@@ -60,6 +60,7 @@ Boolean isDevelBranch
 Boolean isPullRequest
 Boolean isMergeCommit
 Boolean isSonarQubeEnabled
+Boolean isDeployDocPlaygroundEnabled
 
 pipeline {
     agent {
@@ -73,6 +74,7 @@ pipeline {
     }
     parameters {
         booleanParam defaultValue: true, description: 'Enable SonarQube Stage', name: 'RUN_SONARQUBE'
+        booleanParam defaultValue: false, description: 'Deploy to dev doc playground', name: 'DEPLOY_DOC_PLAYGROUND'
     }
     environment {
         REPOSITORY_NAME = getRepositoryName()
@@ -92,6 +94,8 @@ pipeline {
                    echo "isMergeCommit: ${isMergeCommit}"
                    isSonarQubeEnabled = params.RUN_SONARQUBE == true && (isPullRequest || isDevelBranch || isReleaseBranch)
                    echo "isSonarQubeEnabled: ${isSonarQubeEnabled}"
+                   isDeployDocPlaygroundEnabled = params.DEPLOY_DOC_PLAYGROUND == true
+                   echo "isDeployDocPlaygroundEnabled: ${isDeployDocPlaygroundEnabled}"
                 }
             }
         }
@@ -335,16 +339,18 @@ pipeline {
                         expression { isMergeCommit == false }
                     }
                     expression { isDevelBranch == true }
+                    expression { isDeployDocPlaygroundEnabled == true }
                 }
             }
             steps {
                 script {
                     unstash 'doc'
                     unstash 'storybook-doc'
-                    doc.rm file: "iris/zapp-ui/${BRANCH_NAME}"
-                    doc.mkdir folder: "iris/zapp-ui/${BRANCH_NAME}"
-                    doc.upload file: 'storybook-static', destination: "iris/zapp-ui/${BRANCH_NAME}"
-                    doc.upload file: 'styleguide/**', destination: "iris/zapp-ui/${BRANCH_NAME}"
+                    def outDir = isDeployDocPlaygroundEnabled == true ? "playground" : BRANCH_NAME
+                    doc.rm file: "iris/zapp-ui/${outDir}"
+                    doc.mkdir folder: "iris/zapp-ui/${outDir}"
+                    doc.upload file: 'storybook-static', destination: "iris/zapp-ui/${outDir}"
+                    doc.upload file: 'styleguide/**', destination: "iris/zapp-ui/${outDir}"
                 }
             }
         }
