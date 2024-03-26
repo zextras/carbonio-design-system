@@ -277,6 +277,7 @@ pipeline {
                                 expression { isMergeCommit == false }
                             }
                             expression { isDevelBranch == true }
+                            expression { isDeployDocPlaygroundEnabled == true }
                         }
                     }
                     agent {
