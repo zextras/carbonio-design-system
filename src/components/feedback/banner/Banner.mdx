@@ -1,0 +1,41 @@
+import { Meta, Controls, Stories, Title, Primary } from '@storybook/blocks';
+import * as BannerStories from './Banner.stories';
+
+<Meta of={BannerStories} />
+
+<Title />
+
+### Default and general guidelines
+
+The Banner is the component that informs the user about status of a process.
+It remains visible until the user does something for resolving the status, or clicks on “Close” button.
+
+There are four available statuses of this component:
+
+- **Success**: it gives the user positive feedback about the completion of a process.
+- **Error**: it gives the user negative feedback about an action that has not been completed or that an error has occurred.
+The Banner shows a standard error message, and the user can learn more about it.
+- **Warning**: it informs the user that he/she must pay attention to something when doing or after having done an action.
+- **Info**: it informs the user about the processing of an action and gives the possibility to the user of undoing the action done.
+
+And three possible types (called _styles_ in the UI kit):
+
+- Fill
+- Outline
+- Standard
+
+#### Actions:
+
+The available actions are: **Primary** and **Secondary**.
+
+The available actions are freely customizable, which means that you can use all the properties of the button (chevron, icon, etc...).
+
+“**More info**” triggers the modal of example, and is programmatically shown when there is some text cropped.
+
+There is also the **Close** action, which should be used to toggle the visibility of the Banner.
+
+<Primary />
+
+<Controls />
+
+<Stories />
