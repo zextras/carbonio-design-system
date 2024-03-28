@@ -29,7 +29,7 @@ type Story = StoryObj<typeof meta>;
 const Default: Story = {
 	args: {
 		description: 'Description is required',
-		status: 'success'
+		severity: 'success'
 	}
 };
 
@@ -54,7 +54,7 @@ export const Title: Story = {
 	args: {
 		...Default.args,
 		title: ' Title is optional',
-		status: 'warning'
+		severity: 'warning'
 	},
 	play: async ({ canvasElement }) => {
 		const canvas = within(canvasElement);
@@ -72,7 +72,7 @@ export const CloseBanner: Story = {
 		onClose: noop,
 		primaryAction: { label: 'Primary action', onClick: console.log },
 		secondaryAction: { label: 'Secondary action', onClick: console.log },
-		status: 'info'
+		severity: 'info'
 	},
 	play: async ({ canvasElement }) => {
 		const canvas = within(canvasElement);
@@ -89,7 +89,7 @@ export const ErrorWithPrimaryAction: Story = {
 		...Default.args,
 		title: 'This is the title',
 		primaryAction: { label: 'Primary action', onClick: console.log },
-		status: 'error'
+		severity: 'error'
 	},
 	play: async ({ canvasElement }) => {
 		const canvas = within(canvasElement);
@@ -124,7 +124,7 @@ export const SecondaryActionWithPrimaryAction: Story = {
 		primaryAction: { label: 'Primary action', onClick: console.log },
 		secondaryAction: { label: 'Secondary action', onClick: console.log },
 		type: 'outline',
-		status: 'warning',
+		severity: 'warning',
 		showClose: true,
 		onClose: () => noop
 	},
@@ -138,13 +138,13 @@ export const SecondaryActionWithPrimaryAction: Story = {
 	}
 };
 
-export const OutlineWithInfoStatus: Story = {
+export const OutlineWithInfoSeverity: Story = {
 	args: {
 		...Default.args,
 		primaryAction: { label: 'Primary action', onClick: console.log },
 		secondaryAction: { label: 'Secondary action', onClick: console.log },
 		type: 'outline',
-		status: 'info'
+		severity: 'info'
 	},
 	play: async ({ canvasElement }) => {
 		const canvas = within(canvasElement);
@@ -155,12 +155,12 @@ export const OutlineWithInfoStatus: Story = {
 	}
 };
 
-export const OutlineWithErrorStatus: Story = {
+export const OutlineWithErrorSeverity: Story = {
 	args: {
 		...Default.args,
 		primaryAction: { label: 'Primary action', onClick: console.log },
 		type: 'outline',
-		status: 'error'
+		severity: 'error'
 	},
 	play: async ({ canvasElement }) => {
 		const canvas = within(canvasElement);
@@ -202,7 +202,7 @@ export const ShortTitle: Story = {
 		primaryAction: { label: 'Primary action', onClick: console.log },
 		secondaryAction: { label: 'Secondary action', onClick: console.log },
 		type: 'standard',
-		status: 'warning',
+		severity: 'warning',
 		showClose: true,
 		onClose: () => noop
 	},
@@ -231,7 +231,7 @@ export const LongTitle: Story = {
 		primaryAction: { label: 'Primary action with long label', onClick: console.log },
 		secondaryAction: { label: 'Secondary action with long label', onClick: console.log },
 		type: 'standard',
-		status: 'info',
+		severity: 'info',
 		showClose: true,
 		onClose: () => noop
 	},
@@ -266,7 +266,7 @@ export const PrimaryActionWithIcon: Story = {
 		primaryAction: { label: 'Primary action', onClick: console.log, icon: 'People' },
 		secondaryAction: { label: 'Secondary action', onClick: console.log },
 		type: 'standard',
-		status: 'error',
+		severity: 'error',
 		showClose: true,
 		onClose: () => noop
 	},

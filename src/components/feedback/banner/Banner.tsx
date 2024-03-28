@@ -19,7 +19,11 @@ import { Container } from '../../layout/Container';
 type ActionButton = ButtonProps & { type?: never; color?: never; backgroundColor?: never };
 
 type BannerProps = HTMLAttributes<HTMLDivElement> & {
+	/**
+	 * @deprecated use severity instead
+	 */
 	status?: 'success' | 'warning' | 'info' | 'error';
+	severity?: 'success' | 'warning' | 'info' | 'error';
 	type?: 'standard' | 'fill' | 'outline';
 	title?: string;
 	description: string;
@@ -39,7 +43,7 @@ type BannerProps = HTMLAttributes<HTMLDivElement> & {
 		  }
 	);
 
-const BANNER_ICON: Record<NonNullable<BannerProps['status']>, keyof DefaultTheme['icons']> = {
+const BANNER_ICON: Record<NonNullable<BannerProps['severity']>, keyof DefaultTheme['icons']> = {
 	success: 'CheckmarkCircle2Outline',
 	warning: 'AlertTriangleOutline',
 	info: 'InfoOutline',
@@ -102,6 +106,7 @@ const BannerContainer = styled(Container)<{ $isMultiline: boolean }>`
 const Banner = React.forwardRef<HTMLDivElement, BannerProps>(function BannerFn(
 	{
 		status = 'success',
+		severity = status,
 		type = 'fill',
 		title,
 		description,
@@ -120,11 +125,11 @@ const Banner = React.forwardRef<HTMLDivElement, BannerProps>(function BannerFn(
 	const actionsContainerRef = useRef<HTMLDivElement>(null);
 	const closeContainerRef = useRef<HTMLDivElement>(null);
 
-	const mainColor = useMemo(() => (type === 'fill' ? 'gray6' : status), [type, status]);
+	const mainColor = useMemo(() => (type === 'fill' ? 'gray6' : severity), [type, severity]);
 	const textColor = useMemo(() => (type === 'fill' ? 'gray6' : 'text'), [type]);
 	const backgroundColor = useMemo(
-		() => (type === 'outline' && 'gray6') || (type === 'fill' && status) || `${status}Banner`,
-		[type, status]
+		() => (type === 'outline' && 'gray6') || (type === 'fill' && severity) || `${severity}Banner`,
+		[type, severity]
 	);
 
 	const [isMultiline, setIsMultiline] = useState<boolean>(false);
@@ -212,7 +217,7 @@ const Banner = React.forwardRef<HTMLDivElement, BannerProps>(function BannerFn(
 			width={BANNER_WIDTH}
 			height={'fit'}
 			orientation={'horizontal'}
-			borderColor={{ bottom: status }}
+			borderColor={{ bottom: severity }}
 			mainAlignment={'flex-start'}
 			wrap={'wrap'}
 			$isMultiline={isMultiline}
@@ -235,7 +240,7 @@ const Banner = React.forwardRef<HTMLDivElement, BannerProps>(function BannerFn(
 				mainAlignment={'flex-start'}
 			>
 				<Container width={'fit'} minWidth={'fit'} height={'fit'} minHeight={'fit'}>
-					<Icon icon={BANNER_ICON[status]} color={mainColor} size={'large'} />
+					<Icon icon={BANNER_ICON[severity]} color={mainColor} size={'large'} />
 				</Container>
 				<InfoContainer
 					orientation={'vertical'}
