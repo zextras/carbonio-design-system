@@ -89,7 +89,7 @@ pipeline {
                    echo "isReleaseBranch: ${isReleaseBranch}"
                    isDevelBranch = "${BRANCH_NAME}" ==~ /devel/
                    echo "isDevelBranch: ${isDevelBranch}"
-                   isReact18Branch = "${BRANCH_NAME}" ==~ /react-18/
+                   isReact18Branch = "${BRANCH_NAME}" ==~ /.*(?i)React.*18.*/
                    echo "isReact18Branch: ${isReact18Branch}"
                    isPullRequest = "${BRANCH_NAME}" ==~ /PR-\d+/
                    echo "isPullRequest: ${isPullRequest}"
