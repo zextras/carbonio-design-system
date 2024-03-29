@@ -332,6 +332,21 @@ pipeline {
                         }
                     }
                 }
+                stage('React 18') {
+                    when {
+                        beforeAgent true
+                        allOf {
+                            expression { isReact18Branch == true }
+                        }
+                    }
+                    steps {
+                        script {
+                            executeNpmLogin()
+                            nodeCmd("npm run release -- --no-verify --prerelease react18 --skip.commit --skip.tag --skip.changelog")
+                            nodeCmd("NODE_ENV=\"production\" npm publish --tag react18")
+                        }
+                    }
+                }
             }
         }
         stage('Deploy documentation') {
