@@ -57,6 +57,7 @@ def getCommitVersion() {
 Boolean lcovIsPresent
 Boolean isReleaseBranch
 Boolean isDevelBranch
+Boolean isReact18Branch
 Boolean isPullRequest
 Boolean isMergeCommit
 Boolean isSonarQubeEnabled
@@ -88,6 +89,8 @@ pipeline {
                    echo "isReleaseBranch: ${isReleaseBranch}"
                    isDevelBranch = "${BRANCH_NAME}" ==~ /devel/
                    echo "isDevelBranch: ${isDevelBranch}"
+                   isReact18Branch = "${BRANCH_NAME}" ==~ /react-18/
+                   echo "isReact18Branch: ${isReact18Branch}"
                    isPullRequest = "${BRANCH_NAME}" ==~ /PR-\d+/
                    echo "isPullRequest: ${isPullRequest}"
                    isMergeCommit = gitIsMergeCommit()
