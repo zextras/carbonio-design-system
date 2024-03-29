@@ -89,7 +89,7 @@ module.exports = {
 				},
 				{
 					name: 'Feedback',
-					components: 'src/components/feedback/*.[j|t]sx',
+					components: 'src/components/feedback/**/*.[j|t]sx',
 					exampleMode: 'collapse',
 					usageMode: 'expand',
 					sections: [
@@ -118,5 +118,13 @@ module.exports = {
 		}
 	],
 	pagePerSection: true,
-	theme: './styleguide.theme.js'
+	theme: './styleguide.theme.js',
+	ignore: [
+		'**/__tests__/**',
+		'**/*.test.{js,jsx,ts,tsx}',
+		'**/*.spec.{js,jsx,ts,tsx}',
+		'**/*.d.ts',
+		'.storybook',
+		'**/*.stories.*'
+	]
 };

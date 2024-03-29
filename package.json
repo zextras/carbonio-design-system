@@ -19,7 +19,6 @@
 		"lint": "eslint --ext .js,.jsx,.ts,.tsx --resolve-plugins-relative-to node_modules/@zextras/carbonio-ui-configs src",
 		"lint:icons": "eslint --ext .ts,.tsx --resolve-plugins-relative-to node_modules/@zextras/carbonio-ui-configs src/icons --fix",
 		"styleguide": "styleguidist server",
-		"styleguide:build": "styleguidist build",
 		"test": "(is-ci && jest --runInBand) || jest --maxWorkers=50%",
 		"icons:build": "tsc ./src/icons/tsTemplate.ts && npx @svgr/cli svg && npm run lint:icons",
 		"prebuild": "npm run clean",
@@ -32,7 +31,9 @@
 		"deploy": "npm pack && rm -rf $PKG_PATH/node_modules/@zextras/carbonio-design-system/* && tar -xf zextras-carbonio-design-system-$npm_package_version.tgz -C $PKG_PATH/node_modules/@zextras/carbonio-design-system/ --strip-components 1",
 		"prepare": "is-ci || husky",
 		"type-check": "tsc --noEmit",
-		"postinstall": "echo '\\e[43mForcing the removal of @types/glob. This is a workaround caused by npm not honoring overrides field. To check for updates on this, see https://github.com/npm/cli/issues/5850\\e[0m'; (rm -r node_modules/@types/glob || true)"
+		"postinstall": "echo '\\e[43mForcing the removal of @types/glob. This is a workaround caused by npm not honoring overrides field. To check for updates on this, see https://github.com/npm/cli/issues/5850\\e[0m'; (rm -r node_modules/@types/glob || true)",
+		"storybook": "storybook dev -p 6006",
+		"build:docs": "styleguidist build && storybook build"
 	},
 	"repository": {
 		"type": "git",
@@ -62,6 +63,14 @@
 		"@rollup/plugin-commonjs": "^25.0.7",
 		"@rollup/plugin-node-resolve": "^15.2.3",
 		"@rollup/plugin-url": "^8.0.2",
+		"@rollup/plugin-typescript": "^11.1.2",
+		"@storybook/addon-essentials": "^8.0.4",
+		"@storybook/addon-interactions": "^8.0.4",
+		"@storybook/addon-themes": "^8.0.4",
+		"@storybook/addon-webpack5-compiler-babel": "^3.0.3",
+		"@storybook/blocks": "^8.0.4",
+		"@storybook/react-webpack5": "^8.0.4",
+		"@storybook/test": "^8.0.4",
 		"@svgr/cli": "^8.0.1",
 		"@testing-library/jest-dom": "^6.4.2",
 		"@testing-library/react": "^14.2.1",
@@ -79,6 +88,7 @@
 		"create-index": "2.6.0",
 		"del": "^7.1.0",
 		"eslint-plugin-notice": "^0.9.10",
+		"eslint-plugin-storybook": "^0.8.0",
 		"husky": "^9.0.7",
 		"is-ci": "^3.0.1",
 		"jest": "^29.7.0",
@@ -92,9 +102,10 @@
 		"react-styleguidist": "13.1.2",
 		"rollup": "^4.5.0",
 		"standard-version": "^9.5.0",
+		"storybook": "^8.0.4",
 		"ts-node": "^10 >=10.9.2",
 		"typescript": "^5.4.2",
-		"webpack": "^5.90.1"
+		"webpack": "^5.91.0"
 	},
 	"browserslist": [
 		">1%",
