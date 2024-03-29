@@ -6,12 +6,14 @@
 
 import React from 'react';
 
+import { faker } from '@faker-js/faker';
 import { waitFor } from '@testing-library/react';
 
 import { Accordion, AccordionItem, AccordionItemType } from './Accordion';
 import { setup, screen, within } from '../../test-utils';
-import { ICONS } from '../../testUtils/constants';
+import { ICONS, SELECTORS } from '../../testUtils/constants';
 import { Button } from '../basic/Button';
+import { TIMERS } from '../constants';
 
 describe('Accordion', () => {
 	test('Render root level Accordion items', () => {
@@ -198,5 +200,109 @@ describe('Accordion', () => {
 		expect(within(accordionItems[1]).getByTestId('accordion')).toBeVisible();
 		expect(within(accordionItems[2]).getByText('Third')).toBeVisible();
 		expect(within(accordionItems[3]).getByText('Fourth')).toBeVisible();
+	});
+
+	describe('Expand label', () => {
+		it('should show tooltip on the expand action if expandLabel is set', async () => {
+			const items: AccordionItemType[] = [
+				{ id: 'first', label: 'First' },
+				{
+					id: 'second',
+					label: 'Second',
+					items: [
+						{ id: 'third', label: 'Third' },
+						{ id: 'fourth', label: 'Fourth' }
+					]
+				}
+			];
+			const expandLabel = faker.string.alpha(10);
+			const { user } = setup(<Accordion items={items} expandLabel={expandLabel} />);
+			// wait so tooltip can register the listeners
+			jest.advanceTimersByTime(TIMERS.TOOLTIP.REGISTER_LISTENER);
+			await user.hover(screen.getByRoleWithIcon('button', { icon: ICONS.accordionItemOpenAction }));
+			const tooltip = await screen.findByTestId(SELECTORS.tooltip);
+			expect(within(tooltip).getByText(expandLabel)).toBeVisible();
+		});
+
+		it.each([undefined, ''])(
+			'should not show tooltip on the expand action if expandLabel is %s',
+			async (expandLabel) => {
+				const items: AccordionItemType[] = [
+					{ id: 'first', label: 'First' },
+					{
+						id: 'second',
+						label: 'Second',
+						items: [
+							{ id: 'third', label: 'Third' },
+							{ id: 'fourth', label: 'Fourth' }
+						]
+					}
+				];
+				const { user } = setup(<Accordion items={items} expandLabel={expandLabel} />);
+				// wait so tooltip can register the listeners
+				jest.advanceTimersByTime(TIMERS.TOOLTIP.REGISTER_LISTENER);
+				await user.hover(
+					screen.getByRoleWithIcon('button', { icon: ICONS.accordionItemOpenAction })
+				);
+				jest.advanceTimersByTime(TIMERS.TOOLTIP.DELAY_SHOW);
+				expect(screen.queryByTestId(SELECTORS.tooltip)).not.toBeInTheDocument();
+			}
+		);
+	});
+
+	describe('Collapse label', () => {
+		it('should show tooltip on the collapse action if collapseLabel is set', async () => {
+			const items: AccordionItemType[] = [
+				{ id: 'first', label: 'First' },
+				{
+					id: 'second',
+					label: 'Second',
+					items: [
+						{ id: 'third', label: 'Third' },
+						{ id: 'fourth', label: 'Fourth' }
+					]
+				}
+			];
+			const collapseLabel = faker.string.alpha(10);
+			const { user } = setup(<Accordion items={items} collapseLabel={collapseLabel} />);
+			await user.click(screen.getByRoleWithIcon('button', { icon: ICONS.accordionItemOpenAction }));
+			await user.unhover(
+				screen.getByRoleWithIcon('button', { icon: ICONS.accordionItemCloseAction })
+			);
+			jest.advanceTimersByTime(TIMERS.TOOLTIP.DELAY_SHOW);
+			await user.hover(
+				screen.getByRoleWithIcon('button', { icon: ICONS.accordionItemCloseAction })
+			);
+			const tooltip = await screen.findByTestId(SELECTORS.tooltip);
+			expect(within(tooltip).getByText(collapseLabel)).toBeVisible();
+		});
+
+		it.each([undefined, ''])(
+			'should not show tooltip on the collapse action if collapseLabel is %s',
+			async (collapseLabel) => {
+				const items: AccordionItemType[] = [
+					{ id: 'first', label: 'First' },
+					{
+						id: 'second',
+						label: 'Second',
+						items: [
+							{ id: 'third', label: 'Third' },
+							{ id: 'fourth', label: 'Fourth' }
+						]
+					}
+				];
+				const { user } = setup(<Accordion items={items} collapseLabel={collapseLabel} />);
+				// wait so tooltip can register the listeners
+				await user.click(
+					screen.getByRoleWithIcon('button', { icon: ICONS.accordionItemOpenAction })
+				);
+				jest.advanceTimersByTime(TIMERS.TOOLTIP.REGISTER_LISTENER);
+				await user.hover(
+					screen.getByRoleWithIcon('button', { icon: ICONS.accordionItemCloseAction })
+				);
+				jest.advanceTimersByTime(TIMERS.TOOLTIP.DELAY_SHOW);
+				expect(screen.queryByTestId(SELECTORS.tooltip)).not.toBeInTheDocument();
+			}
+		);
 	});
 });
