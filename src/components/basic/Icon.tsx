@@ -10,6 +10,7 @@ import styled, { css, DefaultTheme, SimpleInterpolation, ThemeContext } from 'st
 
 import { IconComponent } from '../../theme/theme';
 import { getColor } from '../../theme/theme-utils';
+import { AnyColor } from '../../types/utils';
 
 interface IconComponentProps extends SVGAttributes<SVGSVGElement> {
 	/** Icon to show. It can be a string key for the theme icons or a custom icon component */
@@ -24,7 +25,7 @@ interface IconComponentProps extends SVGAttributes<SVGSVGElement> {
 
 interface IconProps extends IconComponentProps {
 	/** Icon Color */
-	color?: string | keyof DefaultTheme['palette'];
+	color?: AnyColor;
 	/** Custom color, css syntax
 	 * @deprecated use color instead
 	 */
@@ -58,7 +59,7 @@ const Icon = styled(IconBase)
 	display: block;
 	fill: currentColor;
 	color: ${({ customColor, color, disabled, theme }): string =>
-		customColor || getColor(`${color}.${disabled ? 'disabled' : 'regular'}`, theme)};
+		customColor ?? getColor(`${color}.${disabled ? 'disabled' : 'regular'}`, theme)};
 	${({ size, theme }): SimpleInterpolation => css`
 		width: ${theme.sizes.icon[size]};
 		height: ${theme.sizes.icon[size]};
