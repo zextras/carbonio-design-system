@@ -7,15 +7,15 @@ import React from 'react';
 
 import { faker } from '@faker-js/faker';
 import { act, screen, waitFor, within } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { DefaultTheme } from 'styled-components';
 import 'jest-styled-components';
 import { find as findStyled } from 'styled-components/test-utils';
 
 import { Banner, BannerProps, InfoContainer } from './Banner';
-import { setup, UserEvent } from '../../test-utils';
+import { render } from '../../test-utils';
 import { ICONS } from '../../testUtils/constants';
 import { Theme } from '../../theme/theme';
-import { TIMERS } from '../constants';
 import { ModalManager } from '../utilities/ModalManager';
 
 describe('Banner', () => {
@@ -61,19 +61,22 @@ describe('Banner', () => {
 		});
 	}
 
-	async function openMoreInfoModal(user: UserEvent): Promise<HTMLElement> {
-		await user.click(screen.getByRole('button', { name: /more info/i }));
+	async function openMoreInfoModal(): Promise<HTMLElement> {
+		userEvent.click(screen.getByRole('button', { name: /more info/i }));
 		const modal = await screen.findByTestId('modal');
 
 		// run modal timeout
-		act(() => {
-			jest.advanceTimersByTime(TIMERS.MODAL.DELAY_OPEN);
-		});
+		await waitFor(
+			() =>
+				new Promise((resolve) => {
+					setTimeout(resolve, 1);
+				})
+		);
 		return modal;
 	}
 
 	test('Render a banner', () => {
-		setup(<Banner status={'success'} description={'Description'} />);
+		render(<Banner status={'success'} description={'Description'} />);
 		expect(screen.getByText('Description')).toBeVisible();
 	});
 
@@ -101,7 +104,7 @@ describe('Banner', () => {
 	])(
 		'Banner with status %s and type %s has main color %s, background %s and text %s',
 		(status, type, mainColor, backgroundColor, textColor) => {
-			const { getByRoleWithIcon } = setup(
+			const { getByRoleWithIcon } = render(
 				<Banner
 					status={status}
 					type={type}
@@ -145,7 +148,7 @@ describe('Banner', () => {
 		['info', 'InfoOutline'],
 		['error', 'CloseCircleOutline']
 	])('Banner with status %s has icon %s', (status, icon) => {
-		setup(
+		render(
 			<Banner
 				status={status}
 				type={faker.helpers.arrayElement<BannerProps['type']>([
@@ -164,7 +167,7 @@ describe('Banner', () => {
 		const longDescription = faker.lorem.sentences(4);
 		const longTitle = faker.lorem.sentences(2);
 		const resizeObserver = jest.spyOn(window, 'ResizeObserver');
-		setup(<Banner description={longDescription} title={longTitle} data-testid={'banner'} />);
+		render(<Banner description={longDescription} title={longTitle} data-testid={'banner'} />);
 		const infoContainer = findStyled(screen.getByTestId('banner'), InfoContainer);
 		expect(infoContainer).not.toBeNull();
 		makeTextCropped(resizeObserver, infoContainer as HTMLElement);
@@ -175,7 +178,7 @@ describe('Banner', () => {
 		const longDescription = faker.lorem.sentences(4);
 		const longTitle = faker.lorem.sentences(2);
 		const resizeObserver = jest.spyOn(window, 'ResizeObserver');
-		setup(<Banner description={longDescription} title={longTitle} data-testid={'banner'} />);
+		render(<Banner description={longDescription} title={longTitle} data-testid={'banner'} />);
 		const infoContainer = findStyled(screen.getByTestId('banner'), InfoContainer);
 		expect(infoContainer).not.toBeNull();
 		makeTextFullyVisible(resizeObserver, infoContainer as HTMLElement);
@@ -183,54 +186,54 @@ describe('Banner', () => {
 	});
 
 	test('Close action is hidden by default', () => {
-		const { queryByRoleWithIcon } = setup(<Banner description={'Banner'} />);
+		const { queryByRoleWithIcon } = render(<Banner description={'Banner'} />);
 		expect(queryByRoleWithIcon('button', { icon: ICONS.close })).not.toBeInTheDocument();
 	});
 
-	test('Close action is shown if showClose is true', async () => {
+	test('Close action is shown if showClose is true', () => {
 		const closeFn = jest.fn();
-		const { getByRoleWithIcon, user } = setup(
+		const { getByRoleWithIcon } = render(
 			<Banner description={'Banner'} showClose onClose={closeFn} />
 		);
 		const closeAction = getByRoleWithIcon('button', { icon: ICONS.close });
 		expect(closeAction).toBeVisible();
-		await user.click(closeAction);
+		userEvent.click(closeAction);
 		expect(closeFn).toHaveBeenCalled();
 	});
 
-	test('Primary action is shown if prop is valued', async () => {
+	test('Primary action is shown if prop is valued', () => {
 		const clickFn = jest.fn();
-		const { user } = setup(
+		render(
 			<Banner description={'banner'} primaryAction={{ label: 'primary', onClick: clickFn }} />
 		);
 		const action = screen.getByRole('button', { name: /primary/i });
 		expect(action).toBeVisible();
 		expect(action).toBeEnabled();
-		await user.click(action);
+		userEvent.click(action);
 		expect(clickFn).toHaveBeenCalled();
 	});
 
 	test('Actions are hidden by default', async () => {
-		setup(<Banner description={'banner'} />);
+		render(<Banner description={'banner'} />);
 		expect(screen.queryByRole('button')).not.toBeInTheDocument();
 	});
 
-	test('Secondary action is shown if prop is valued', async () => {
+	test('Secondary action is shown if prop is valued', () => {
 		const clickFn = jest.fn();
-		const { user } = setup(
+		render(
 			<Banner description={'banner'} secondaryAction={{ label: 'secondary', onClick: clickFn }} />
 		);
 		const action = screen.getByRole('button', { name: /secondary/i });
 		expect(action).toBeVisible();
 		expect(action).toBeEnabled();
-		await user.click(action);
+		userEvent.click(action);
 		expect(clickFn).toHaveBeenCalled();
 	});
 
-	test('Both primary and secondary actions are visible if props are valued', async () => {
+	test('Both primary and secondary actions are visible if props are valued', () => {
 		const primaryActionFn = jest.fn();
 		const secondaryActionFn = jest.fn();
-		const { user } = setup(
+		render(
 			<Banner
 				description={'banner'}
 				primaryAction={{ label: 'primary', onClick: primaryActionFn }}
@@ -240,12 +243,12 @@ describe('Banner', () => {
 		const primaryAction = screen.getByRole('button', { name: /primary/i });
 		expect(primaryAction).toBeVisible();
 		expect(primaryAction).toBeEnabled();
-		await user.click(primaryAction);
+		userEvent.click(primaryAction);
 		expect(primaryActionFn).toHaveBeenCalled();
 		const secondaryAction = screen.getByRole('button', { name: /secondary/i });
 		expect(secondaryAction).toBeVisible();
 		expect(secondaryAction).toBeEnabled();
-		await user.click(secondaryAction);
+		userEvent.click(secondaryAction);
 		expect(secondaryActionFn).toHaveBeenCalled();
 		expect(primaryActionFn).toHaveBeenCalledTimes(1);
 		expect(secondaryActionFn).toHaveBeenCalledTimes(1);
@@ -258,7 +261,7 @@ describe('Banner', () => {
 		const primaryActionFn = jest.fn();
 		const secondaryActionFn = jest.fn();
 
-		const { user } = setup(
+		render(
 			<ModalManager>
 				<Banner
 					description={longDescription}
@@ -272,16 +275,16 @@ describe('Banner', () => {
 		const infoContainer = findStyled(screen.getByTestId('banner'), InfoContainer);
 		expect(infoContainer).not.toBeNull();
 		makeTextCropped(resizeObserver, infoContainer as HTMLElement);
-		const modal = await openMoreInfoModal(user);
+		const modal = await openMoreInfoModal();
 		expect(within(modal).getByText(longDescription)).toBeVisible();
 		expect(within(modal).getByText(longTitle)).toBeVisible();
 		expect(within(modal).getByRole('button', { name: /primary action/i })).toBeVisible();
 		expect(within(modal).getByRole('button', { name: /secondary action/i })).toBeVisible();
-		await user.click(within(modal).getByRole('button', { name: /primary action/i }));
+		userEvent.click(within(modal).getByRole('button', { name: /primary action/i }));
 		expect(primaryActionFn).toHaveBeenCalled();
 		await waitFor(() => expect(modal).not.toBeInTheDocument());
-		const modal2 = await openMoreInfoModal(user);
-		await user.click(within(modal2).getByRole('button', { name: /secondary action/i }));
+		const modal2 = await openMoreInfoModal();
+		userEvent.click(within(modal2).getByRole('button', { name: /secondary action/i }));
 		expect(secondaryActionFn).toHaveBeenCalled();
 		await waitFor(() => expect(modal2).not.toBeInTheDocument());
 	});
@@ -291,7 +294,7 @@ describe('Banner', () => {
 		const longTitle = faker.lorem.sentences(2);
 		const resizeObserver = jest.spyOn(window, 'ResizeObserver');
 
-		const { getByRoleWithIcon, user } = setup(
+		const { getByRoleWithIcon } = render(
 			<ModalManager>
 				<Banner
 					description={longDescription}
@@ -305,11 +308,11 @@ describe('Banner', () => {
 		const infoContainer = findStyled(screen.getByTestId('banner'), InfoContainer);
 		expect(infoContainer).not.toBeNull();
 		makeTextCropped(resizeObserver, infoContainer as HTMLElement);
-		const modal = await openMoreInfoModal(user);
+		const modal = await openMoreInfoModal();
 		const closeAction = getByRoleWithIcon('button', { icon: ICONS.close });
 		expect(closeAction).toBeVisible();
 		expect(closeAction).toBeVisible();
-		await user.click(closeAction);
+		userEvent.click(closeAction);
 		await waitFor(() => expect(modal).not.toBeInTheDocument());
 	});
 });

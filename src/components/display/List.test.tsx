@@ -6,9 +6,10 @@
 import React from 'react';
 
 import { screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 import { ItemComponentProps, ItemType, List, ListProps } from './List';
-import { setup } from '../../test-utils';
+import { render } from '../../test-utils';
 import { Container } from '../layout/Container';
 
 describe('List', () => {
@@ -28,13 +29,13 @@ describe('List', () => {
 		const ItemComponent = ({ item }: ItemComponentProps<ListItemType>): React.JSX.Element => (
 			<div key={item.id}>{item.name}</div>
 		);
-		setup(<List items={items} ItemComponent={ItemComponent} />);
+		render(<List items={items} ItemComponent={ItemComponent} />);
 
 		expect(screen.getByText('item 1')).toBeVisible();
 		expect(screen.getByText('item 2')).toBeVisible();
 	});
 
-	test('Render a list with a clickable item', async () => {
+	test('Render a list with a clickable item', () => {
 		type ListItemType = ItemType & {
 			name: string;
 			onClick: (e: React.SyntheticEvent | KeyboardEvent) => void;
@@ -57,11 +58,11 @@ describe('List', () => {
 				{item.name}
 			</Container>
 		);
-		const { user } = setup(<List items={items} ItemComponent={ItemComponent} />);
+		render(<List items={items} ItemComponent={ItemComponent} />);
 
 		expect(screen.getByText('item 1')).toBeVisible();
 		expect(screen.getByText('item 2')).toBeVisible();
-		await user.click(screen.getByText('item 1'));
+		userEvent.click(screen.getByText('item 1'));
 		expect(items[0].onClick).toHaveBeenCalled();
 		expect(items[1].onClick).not.toHaveBeenCalled();
 	});

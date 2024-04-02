@@ -96,7 +96,7 @@ const Popper = React.forwardRef<HTMLDivElement, PopperProps>(function PopperFn(
 		const nodeList = wrapperRef.current
 			? wrapperRef.current.querySelectorAll<HTMLElement>(
 					'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-				)
+			  )
 			: [];
 		nodeList.length > 0 && nodeList[nodeList.length - 1].focus();
 	}, []);

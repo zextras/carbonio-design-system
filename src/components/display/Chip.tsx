@@ -345,7 +345,6 @@ const Chip = React.forwardRef<HTMLDivElement, ChipProps>(function ChipFn(
 			placement={tooltipPlacement}
 		>
 			<ChipContainer
-				data-testid={'chip'}
 				wrap="nowrap"
 				orientation="horizontal"
 				ref={chipRef}

@@ -7,9 +7,10 @@ import React from 'react';
 
 import { faker } from '@faker-js/faker';
 import { screen, act } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 import { Action, CollapsingActions } from './CollapsingActions';
-import { setup } from '../../test-utils';
+import { render } from '../../test-utils';
 import { ICONS } from '../../testUtils/constants';
 import { Theme } from '../../theme/theme';
 
@@ -29,7 +30,7 @@ describe('Collapsing Actions', () => {
 				onClick: () => undefined
 			}
 		];
-		setup(<CollapsingActions actions={actions} />);
+		render(<CollapsingActions actions={actions} />);
 		expect(screen.getByTestId('icon: Activity')).toBeVisible();
 		expect(screen.queryByText(/action 1/i)).not.toBeInTheDocument();
 		expect(screen.getByTestId('icon: People')).toBeVisible();
@@ -48,7 +49,7 @@ describe('Collapsing Actions', () => {
 			});
 		}
 
-		const { user } = setup(<CollapsingActions actions={actions} maxVisible={3} />);
+		render(<CollapsingActions actions={actions} maxVisible={3} />);
 		// first 3 actions are visible
 		expect(screen.getByTestId(`icon: ${actions[0].icon}`)).toBeVisible();
 		expect(screen.queryByText(actions[0].label)).not.toBeInTheDocument();
@@ -61,7 +62,7 @@ describe('Collapsing Actions', () => {
 		expect(screen.queryByText(actions[3].label)).not.toBeInTheDocument();
 		// collapser icon button is visible instead
 		expect(screen.getByTestId(ICONS.moreVertical)).toBeVisible();
-		await user.click(screen.getByTestId(ICONS.moreVertical));
+		userEvent.click(screen.getByTestId(ICONS.moreVertical));
 		await screen.findByText(actions[3].label);
 		// first 3 actions are still visible as icon buttons
 		expect(screen.getByTestId(`icon: ${actions[0].icon}`)).toBeVisible();
@@ -109,7 +110,7 @@ describe('Collapsing Actions', () => {
 			});
 		}
 
-		setup(<CollapsingActions actions={actions} data-testid="collapsing-actions" />);
+		render(<CollapsingActions actions={actions} data-testid="collapsing-actions" />);
 
 		const collapsingComponent = screen.getByTestId('collapsing-actions');
 		const getOffsetWithMock = jest.spyOn(collapsingComponent, 'offsetWidth', 'get');

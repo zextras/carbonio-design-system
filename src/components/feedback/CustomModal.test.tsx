@@ -6,10 +6,11 @@
 
 import React, { useState } from 'react';
 
-import { act, screen, waitFor } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 import { CustomModal, CustomModalProps } from './CustomModal';
-import { setup } from '../../test-utils';
+import { render } from '../../test-utils';
 import { Button } from '../basic/Button';
 import { Text } from '../basic/Text';
 
@@ -35,82 +36,72 @@ const ModalTester = ({ children, ...props }: CustomModalProps): React.JSX.Elemen
 
 describe('Custom Modal', () => {
 	test('Render Modal', async () => {
-		const { user } = setup(<ModalTester />);
+		render(<ModalTester />);
 
 		const button = screen.getByRole('button', { name: /trigger modal/i });
-		expect(button).toBeVisible();
+		expect(button).toBeInTheDocument();
 		expect(screen.queryByText('My Title')).not.toBeInTheDocument();
 		expect(screen.queryByText('Lorem ipsum dolor sit amet.')).not.toBeInTheDocument();
 
-		await user.click(button);
+		userEvent.click(button);
 		await waitFor(() => expect(screen.getByText('My Title')).toBeVisible());
 		expect(screen.getByText('Lorem ipsum dolor sit amet.')).toBeVisible();
-		expect(button).toBeVisible();
+		expect(button).toBeInTheDocument();
 	});
 
 	test('click on overlay close modal', async () => {
 		const onClick = jest.fn();
-		const { user } = setup(<ModalTester onClick={onClick} />);
+		render(<ModalTester onClick={onClick} />);
 
 		const button = screen.getByRole('button', { name: /trigger modal/i });
 		expect(screen.queryByText('My Title')).not.toBeInTheDocument();
-		await user.click(button);
+		userEvent.click(button);
 		await waitFor(() => expect(screen.getByText('My Title')).toBeVisible());
 		const overlayElement = screen.getByTestId('modal');
 		expect(overlayElement).toBeVisible();
-		await user.click(overlayElement);
+		userEvent.click(overlayElement);
 		expect(screen.queryByText('My Title')).not.toBeInTheDocument();
 		expect(onClick).not.toHaveBeenCalled();
 	});
 
 	test('click on modal content does not close modal', async () => {
 		const onClick = jest.fn();
-		const { user } = setup(<ModalTester onClick={onClick} />);
+		render(<ModalTester onClick={onClick} />);
 
 		const button = screen.getByRole('button', { name: /trigger modal/i });
-		expect(button).toBeVisible();
+		expect(button).toBeInTheDocument();
 		expect(screen.queryByText('My Title')).not.toBeInTheDocument();
-		await user.click(button);
+		userEvent.click(button);
 		await waitFor(() => expect(screen.getByText('My Title')).toBeVisible());
-		await user.click(screen.getByText('My Title'));
+		userEvent.click(screen.getByText('My Title'));
 		expect(screen.getByText('My Title')).toBeVisible();
 		expect(onClick).toHaveBeenCalled();
 	});
 
 	test('should not blindly prevent default behavior of html elements', async () => {
-		jest.useRealTimers();
 		const originalConsoleError = console.error;
 		const errors: string[] = [];
-		console.error = (...args): void => {
-			if (
-				'message' in args[0] &&
-				args[0].message === 'Not implemented: navigation (except hash changes)'
-			) {
-				errors.push(args[0].message);
-			} else {
-				originalConsoleError(...args);
-			}
+		console.error = (message): void => {
+			errors.push(message);
 		};
 		const href = '/different-path';
-		const { user } = setup(
+		render(
 			<ModalTester>
 				<a href={href}>This is a link</a>
-			</ModalTester>,
-			{ setupOptions: { advanceTimers: () => Promise.resolve() } }
+			</ModalTester>
 		);
-		await screen.findByRole('button');
-		await act(async () => {
-			await user.click(screen.getByRole('button'));
-		});
-		await screen.findByTestId('modal');
-		await waitFor(() => expect(screen.getByRole('link')).toBeVisible());
-		await user.click(screen.getByRole('link'));
-		await waitFor(() =>
-			// see https://github.com/jsdom/jsdom/blob/2d51af302581a57ee5b9b65595f1714d669b7ea2/lib/jsdom/living/nodes/HTMLAnchorElement-impl.js
-			expect(errors).toEqual(['Not implemented: navigation (except hash changes)'])
+		userEvent.click(screen.getByRole('button'));
+		userEvent.click(screen.getByRole('link'));
+		await waitFor(
+			() =>
+				new Promise((resolve) => {
+					// wait for the navigation callback of the jsdom hyperlink implementation to be called
+					setTimeout(resolve, 1);
+				})
 		);
-
+		expect(errors).toEqual([
+			expect.stringContaining('Error: Not implemented: navigation (except hash changes)')
+		]);
 		console.error = originalConsoleError;
-		jest.useFakeTimers();
 	});
 });

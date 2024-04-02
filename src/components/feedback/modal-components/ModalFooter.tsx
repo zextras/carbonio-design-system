@@ -160,15 +160,43 @@ const ModalFooterContent = ({
 };
 
 const ModalFooter = ({
+	centered,
+	confirmColor,
+	confirmLabel,
+	confirmDisabled,
+	errorActionLabel,
 	customFooter,
-	...modalFooterContentProps
+	dismissLabel,
+	onClose,
+	onConfirm,
+	onErrorAction,
+	onSecondaryAction,
+	optionalFooter,
+	secondaryActionLabel,
+	type
 }: ModalFooterProps): React.JSX.Element => (
 	<Container
-		orientation={modalFooterContentProps.centered ? 'vertical' : 'horizontal'}
+		orientation={centered ? 'vertical' : 'horizontal'}
 		mainAlignment="flex-end"
 		padding={{ top: 'large' }}
 	>
-		{customFooter ?? <ModalFooterContent {...modalFooterContentProps} />}
+		{customFooter || (
+			<ModalFooterContent
+				type={type}
+				centered={centered}
+				optionalFooter={optionalFooter}
+				confirmLabel={confirmLabel}
+				confirmColor={confirmColor}
+				confirmDisabled={confirmDisabled}
+				dismissLabel={dismissLabel}
+				onConfirm={onConfirm}
+				onClose={onClose}
+				onSecondaryAction={onSecondaryAction}
+				secondaryActionLabel={secondaryActionLabel}
+				onErrorAction={onErrorAction}
+				errorActionLabel={errorActionLabel}
+			/>
+		)}
 	</Container>
 );
 

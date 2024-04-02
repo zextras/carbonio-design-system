@@ -93,7 +93,6 @@ type AccordionItemType = {
 	onClick?: (event: KeyboardEvent | React.SyntheticEvent) => void;
 	icon?: keyof DefaultTheme['icons'];
 	CustomComponent?: React.ComponentType<{ item: AccordionItemType }>;
-	/** @deprecated Use iconColor instead */
 	iconCustomColor?: string;
 	iconColor?: string;
 	badgeType?: 'read' | 'unread';
@@ -154,14 +153,7 @@ const AccordionRoot = React.forwardRef<HTMLDivElement, AccordionRootProps>(funct
 	useKeyboard(accordionRef, keyEvents);
 
 	return (
-		<Container
-			orientation="vertical"
-			width="fill"
-			height="fit"
-			ref={ref}
-			data-testid={'accordion-item'}
-			{...rest}
-		>
+		<Container orientation="vertical" width="fill" height="fit" ref={ref} {...rest}>
 			<AccordionContainerEl
 				$active={item.active || activeId === item.id}
 				background={item.background || background}
@@ -244,7 +236,6 @@ const Accordion = React.forwardRef<HTMLDivElement, AccordionProps>(function Acco
 			crossAlignment="flex-start"
 			background={background}
 			ref={ref}
-			data-testid={'accordion'}
 			{...rest}
 		>
 			{map(items, (item, index) =>
@@ -268,9 +259,9 @@ const Accordion = React.forwardRef<HTMLDivElement, AccordionProps>(function Acco
 
 export {
 	Accordion,
-	type AccordionProps,
+	AccordionProps,
 	AccordionItem,
-	type AccordionItemProps,
-	type AccordionItemType,
-	type AccordionDivider
+	AccordionItemProps,
+	AccordionItemType,
+	AccordionDivider
 };

@@ -6,13 +6,12 @@
 
 import React from 'react';
 
-import { screen } from '@testing-library/react';
+import { screen, render as rtlRender } from '@testing-library/react';
 import { DefaultTheme } from 'styled-components';
 
 import { Theme, ThemeColorObj } from './theme';
 import { ThemeProvider } from './theme-context-provider';
 import { useTheme, generateColorSet, getColor } from './theme-utils';
-import { setup } from '../test-utils';
 
 const CUSTOM_THEME_COLOR = '#FF7514';
 
@@ -27,7 +26,7 @@ function ThemeTester<T extends DefaultTheme = DefaultTheme>({
 
 describe('ThemeProvider', () => {
 	test('Light theme as default', () => {
-		setup(
+		rtlRender(
 			<ThemeProvider>
 				<ThemeTester color="primary" />
 			</ThemeProvider>
@@ -44,12 +43,12 @@ describe('ThemeProvider', () => {
 			draft.palette.primary = generateColorSet({ regular: CUSTOM_THEME_COLOR });
 			return draft;
 		});
-		setup(
+		rtlRender(
 			<ThemeProvider extension={recipe}>
 				<ThemeTester color="primary" />
 			</ThemeProvider>
 		);
-		expect(recipe).toHaveBeenCalledTimes(1);
+		expect(recipe).toBeCalledTimes(1);
 		expect(screen.getByTestId('regular-primary-color')).toHaveTextContent(CUSTOM_THEME_COLOR);
 	});
 
@@ -64,12 +63,12 @@ describe('ThemeProvider', () => {
 			};
 			return themeExtended;
 		});
-		setup(
+		rtlRender(
 			<ThemeProvider extension={recipe}>
 				<ThemeTester<ThemeExtended> color="extra" />
 			</ThemeProvider>
 		);
-		expect(recipe).toHaveBeenCalledTimes(1);
+		expect(recipe).toBeCalledTimes(1);
 		expect(screen.getByTestId('regular-extra-color')).toHaveTextContent(CUSTOM_THEME_COLOR);
 	});
 });

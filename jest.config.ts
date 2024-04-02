@@ -6,9 +6,8 @@
 
 // For a detailed explanation regarding each configuration property, visit:
 // https://jestjs.io/docs/en/configuration.html
-import type { Config } from 'jest';
 
-const config: Config = {
+export default {
 	// All imported modules in your tests should be mocked automatically
 	// automock: false,
 
@@ -22,25 +21,25 @@ const config: Config = {
 	// cacheDirectory: "/tmp/jest_rt",
 
 	// Automatically clear mock calls and instances between every test
-	// clearMocks: true,
+	clearMocks: true,
 
 	// Indicates whether the coverage information should be collected while executing the test
 	collectCoverage: true,
 
 	// An array of glob patterns indicating a set of files for which coverage information should be collected
-	collectCoverageFrom: ['src/**/*.{js,ts}(x)?'],
+	// collectCoverageFrom: undefined,
 
 	// The directory where Jest should output its coverage files
 	coverageDirectory: 'coverage',
 
 	// An array of regexp pattern strings used to skip coverage collection
-	coveragePathIgnorePatterns: ['/node_modules/', '/src/testUtils/', '/src/test-utils.tsx'],
+	coveragePathIgnorePatterns: ['/node_modules/', '/src/icons/'],
 
 	// A list of reporter names that Jest uses when writing coverage reports
 	coverageReporters: [
 		'text',
 		// "json",
-		'lcov',
+		// "lcov",
 		// "clover",
 		'cobertura'
 	],
@@ -53,11 +52,6 @@ const config: Config = {
 
 	// Make calling deprecated APIs throw helpful error messages
 	// errorOnDeprecated: false,
-
-	// The default configuration for fake timers
-	fakeTimers: {
-		enableGlobally: true
-	},
 
 	// Force coverage collection from ignored files using an array of glob patterns
 	// forceCoverageMatch: [],
@@ -89,10 +83,7 @@ const config: Config = {
 	// ],
 
 	// A map from regular expressions to module names that allow to stub out resources with a single module
-	moduleNameMapper: {
-		'@testing-library/user-event/dist/cjs/keyboard/keyMap':
-			'<rootDir>/node_modules/@testing-library/user-event/dist/cjs/keyboard/keyMap'
-	},
+	moduleNameMapper: {},
 
 	// An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader
 	// modulePathIgnorePatterns: [],
@@ -122,7 +113,7 @@ const config: Config = {
 	// resolver: undefined,
 
 	// Automatically restore mock state between every test
-	restoreMocks: true,
+	// restoreMocks: false,
 
 	// The root directory that Jest should scan for tests and modules within
 	// rootDir: undefined,
@@ -145,7 +136,7 @@ const config: Config = {
 	// snapshotSerializers: [],
 
 	// The test environment that will be used for testing
-	testEnvironment: 'jsdom',
+	// testEnvironment: "node",
 
 	// Options that will be passed to the testEnvironment
 	// testEnvironmentOptions: {},
@@ -160,7 +151,7 @@ const config: Config = {
 	// ],
 
 	// An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
-	// testPathIgnorePatterns: ['/node_modules/'],
+	testPathIgnorePatterns: ['/node_modules/'],
 
 	// The regexp pattern or array of patterns that Jest uses to detect test files
 	// testRegex: [],
@@ -179,7 +170,7 @@ const config: Config = {
 
 	// A map from regular expressions to paths to transformers
 	transform: {
-		'^.+\\.[t|j]sx?$': ['babel-jest', { configFile: './.babelrc' }],
+		'^.+\\.[t|j]sx?$': ['babel-jest', { configFile: './babel.config.js' }],
 		'\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$':
 			'<rootDir>/src/testUtils/fileTransformer.js'
 	}
@@ -201,5 +192,3 @@ const config: Config = {
 	// Whether to use watchman for file crawling
 	// watchman: true,
 };
-
-export default config;

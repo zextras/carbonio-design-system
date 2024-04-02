@@ -21,10 +21,7 @@ const PlaceholderDefault = styled(PlaceholderInline)`
 	top: 50%;
 	left: 0;
 	transform: translateY(-50%);
-	transition:
-		transform 150ms ease-out,
-		font-size 150ms ease-out,
-		top 150ms ease-out;
+	transition: transform 150ms ease-out, font-size 150ms ease-out, top 150ms ease-out;
 `;
 
 const EmailComposerInputContainer = styled.div<{

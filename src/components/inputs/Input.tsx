@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { InputHTMLAttributes, useCallback, useMemo, useState } from 'react';
 
 import styled, { DefaultTheme } from 'styled-components';
 
@@ -15,7 +15,7 @@ import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { KeyboardPresetObj, useKeyboard } from '../../hooks/useKeyboard';
 import { getColor } from '../../theme/theme-utils';
 import { INPUT_BACKGROUND_COLOR, INPUT_DIVIDER_COLOR } from '../constants';
-import { Container, ContainerProps } from '../layout/Container';
+import { Container } from '../layout/Container';
 import { Divider, DividerProps } from '../layout/Divider';
 
 const InputEl = styled.input<{ color: keyof DefaultTheme['palette'] }>`
@@ -57,7 +57,7 @@ const CustomIconContainer = styled.span`
 	align-self: center;
 `;
 
-interface InputProps extends ContainerProps {
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 	/** Input's background color */
 	backgroundColor?: keyof DefaultTheme['palette'];
 	/** whether to disable the Input or not */

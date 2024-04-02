@@ -46,12 +46,12 @@ const Comp = styled.div<{
 					white-space: nowrap;
 					overflow: hidden;
 					text-overflow: ellipsis;
-				`
+			  `
 			: css`
 					overflow-wrap: break-word;
 					word-wrap: break-word;
 					ms-word-break: break-all;
-				`};
+			  `};
 `;
 
 const Text = React.forwardRef<HTMLDivElement, TextProps>(function TextFn(

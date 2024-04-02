@@ -19,6 +19,5 @@ export const ICONS = {
 export const SELECTORS = {
 	checkbox: 'checkbox',
 	dropdown: 'dropdown-popper-list',
-	dropdownItem: 'dropdown-item',
-	chip: 'chip'
+	dropdownItem: 'dropdown-item'
 };

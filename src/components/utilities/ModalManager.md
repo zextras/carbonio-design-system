@@ -4,13 +4,14 @@ SPDX-FileCopyrightText: 2021 Zextras <https://www.zextras.com>
 SPDX-License-Identifier: AGPL-3.0-only
 -->
 
-ModalManager is in charge of rendering the modals.
-Within a ModalManager, the `useModal` hook can be used to retrieve the function to create modals from an
-object, which fields represent the Modal props.
+Context created to create modals using javascript functions.
 
-The creation function returns a callback that **must** be manually invoked to close the modal.
+It exposes the `createModal` function to create an element and accept as argument an object with all
+props as the Modal component.
 
-Overlapping modals are allowed.
+The createModal function returns a callback, that MUST be manually invoked to close the modal.
+
+Overlapping modals are allowed and handled properly.
 
 ```jsx
 import { Button, Container, useModal, ModalManager, Text } from '@zextras/carbonio-design-system';
@@ -77,8 +78,49 @@ function App() {
 </>
 ```
 
-Under the hood, the manager uses a context to provide the creation function.
-The `useModal` hook is the preferred method to get this function,
-but the context `ModalManagerContext` is still exported to allow the user to handle special cases.
-Be aware that using this function, the returned value will be undefined if there is no `ModalManager` above.
+### Development status:
+```jsx noEditor
+import { Container, Icon } from '@zextras/carbonio-design-system';
+import StatusTable from 'status-table';
+const items = [{
+	feature: 'Graphics',
+	status: 1,
+	notes: ''
+},{
+	feature: 'Documentation',
+	status: 1,
+	notes: ''
+},{
+	feature: 'Examples',
+	status: 1,
+	notes: ''
+},{
+	feature: 'I18n Compatibility',
+	status: 1,
+	notes: ''
+},{
+	feature: 'Theme Compatibility',
+	status: 1,
+	notes: ''
+},{
+	feature: 'Dark Mode',
+	status: 1,
+	notes: 'To be checked'
+},{
+	feature: 'Prop Types',
+	status: 1,
+	notes: 'To be checked'
+},{
+	feature: 'Index Export',
+	status: 2,
+	notes: 'To be checked'
+},{
+	feature: 'Customizability',
+	status: 2,
+	notes: 'To be checked'
+},
+];
 
+<StatusTable items={items} />
+
+```

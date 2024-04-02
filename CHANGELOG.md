@@ -2,37 +2,6 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-### [4.2.1](https://github.com/Zextras/carbonio-design-system/compare/v4.2.0...v4.2.1) (2024-03-08)
-
-
-### Bug Fixes
-
-* allow to disable modal footer buttons ([ba0ae6c](https://github.com/Zextras/carbonio-design-system/commit/ba0ae6c7382bb085f35ab5e186804162500faa09)), closes [#272](https://github.com/Zextras/carbonio-design-system/issues/272)
-
-## [4.2.0](https://github.com/Zextras/carbonio-design-system/compare/v4.1.1...v4.2.0) (2024-02-27)
-
-
-### Features
-
-* allow ListV2 props propagate to ExternalContainer ([06a626f](https://github.com/Zextras/carbonio-design-system/commit/06a626fa7d7f718d194a856ba37102d7c43ede80)), closes [#267](https://github.com/Zextras/carbonio-design-system/issues/267)
-* make IntersectionObserver of useIsVisible hook customizable ([38a0409](https://github.com/Zextras/carbonio-design-system/commit/38a040912416174e15d581cb69184bd87c772c9f)), closes [#265](https://github.com/Zextras/carbonio-design-system/issues/265)
-
-### [4.1.1](https://github.com/Zextras/carbonio-design-system/compare/v4.1.0...v4.1.1) (2024-01-30)
-
-
-### Bug Fixes
-
-* **Input,types:** extend InputProps from HtmlAttributes of div element ([43be2c0](https://github.com/Zextras/carbonio-design-system/commit/43be2c047f7fd0fd3948c2cb774f25fc2964bbce)), closes [#262](https://github.com/Zextras/carbonio-design-system/issues/262)
-
-## [4.1.0](https://github.com/Zextras/carbonio-design-system/compare/v4.0.1...v4.1.0) (2024-01-17)
-
-
-### Features
-
-* **Modal,Snackbar:** remove default implementation from context ([a21b530](https://github.com/Zextras/carbonio-design-system/commit/a21b530531e9963ec4e9a43eccdc9423b071ad5f)), closes [#256](https://github.com/Zextras/carbonio-design-system/issues/256)
-
-### [4.0.1](https://github.com/Zextras/carbonio-design-system/compare/v4.0.0...v4.0.1) (2023-12-29)
-
 ## [4.0.0](https://github.com/Zextras/carbonio-design-system/compare/v3.0.2...v4.0.0) (2023-11-14)
 
 

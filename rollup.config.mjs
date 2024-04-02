@@ -28,7 +28,6 @@ const plugins = [
 	}),
 	commonjs(),
 	babel({
-		// read configs from .babelrc
 		babelHelpers: 'runtime',
 		extensions: ['.js', '.jsx', '.ts', '.tsx'],
 		ignore: ['node_modules']

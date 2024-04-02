@@ -9,7 +9,7 @@ import React from 'react';
 import { screen, act } from '@testing-library/react';
 
 import { Responsive } from './Responsive';
-import { setup } from '../../test-utils';
+import { render } from '../../test-utils';
 
 describe('Responsive', () => {
 	let prevWidth: number;
@@ -35,7 +35,7 @@ describe('Responsive', () => {
 			innerHeight: 768
 		});
 
-		setup(
+		render(
 			<>
 				<Responsive mode="desktop">
 					<div>DESKTOP TEST ELEMENT</div>
@@ -45,7 +45,7 @@ describe('Responsive', () => {
 				</Responsive>
 			</>
 		);
-		expect(screen.getByText('DESKTOP TEST ELEMENT')).toBeVisible();
+		expect(screen.getByText('DESKTOP TEST ELEMENT')).toBeInTheDocument();
 		expect(screen.queryByText('MOBILE TEST ELEMENT')).not.toBeInTheDocument();
 		// windowSpy.mockRestore();
 	});
@@ -55,7 +55,7 @@ describe('Responsive', () => {
 			innerWidth: 768,
 			innerHeight: 1024
 		});
-		setup(
+		render(
 			<>
 				<Responsive mode="desktop">
 					<div>DESKTOP TEST ELEMENT</div>
@@ -66,7 +66,7 @@ describe('Responsive', () => {
 			</>
 		);
 		expect(screen.queryByText('DESKTOP TEST ELEMENT')).not.toBeInTheDocument();
-		expect(screen.getByText('MOBILE TEST ELEMENT')).toBeVisible();
+		expect(screen.getByText('MOBILE TEST ELEMENT')).toBeInTheDocument();
 	});
 
 	test('Switch between desktop and mobile mode', () => {
@@ -75,7 +75,7 @@ describe('Responsive', () => {
 			innerHeight: 768
 		});
 
-		setup(
+		render(
 			<>
 				<Responsive mode="desktop">
 					<div>DESKTOP TEST ELEMENT</div>
@@ -85,7 +85,7 @@ describe('Responsive', () => {
 				</Responsive>
 			</>
 		);
-		expect(screen.getByText('DESKTOP TEST ELEMENT')).toBeVisible();
+		expect(screen.getByText('DESKTOP TEST ELEMENT')).toBeInTheDocument();
 		expect(screen.queryByText('MOBILE TEST ELEMENT')).not.toBeInTheDocument();
 
 		act(() => {
@@ -95,6 +95,6 @@ describe('Responsive', () => {
 			}).dispatchEvent(new window.Event('resize'));
 		});
 		expect(screen.queryByText('DESKTOP TEST ELEMENT')).not.toBeInTheDocument();
-		expect(screen.getByText('MOBILE TEST ELEMENT')).toBeVisible();
+		expect(screen.getByText('MOBILE TEST ELEMENT')).toBeInTheDocument();
 	});
 });

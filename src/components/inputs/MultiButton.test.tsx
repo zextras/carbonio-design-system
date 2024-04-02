@@ -5,41 +5,49 @@
  */
 import React from 'react';
 
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 import { MultiButton, MultiButtonProps } from './MultiButton';
-import { setup } from '../../test-utils';
+import { render } from '../../test-utils';
 import { ICONS } from '../../testUtils/constants';
-import { TIMERS } from '../constants';
 
 describe('MultiButton', () => {
-	test('Click on primary button does not open dropdown', async () => {
+	function waitForListenerToBeRegistered(ms = 1): Promise<void> {
+		return waitFor(
+			() =>
+				new Promise((resolve) => {
+					setTimeout(resolve, ms);
+				})
+		);
+	}
+	test('Click on primary button does not open dropdown', () => {
 		const items: MultiButtonProps['items'] = [
 			{ id: 'item1', label: 'item1' },
 			{ id: 'item2', label: 'item2' }
 		];
 		const clickFn = jest.fn();
-		const { user } = setup(<MultiButton items={items} onClick={clickFn} label="primary" />);
+		render(<MultiButton items={items} onClick={clickFn} label="primary" />);
 
 		expect(screen.getByText(/primary/i)).toBeVisible();
 		expect(screen.getByTestId(ICONS.multiButtonSecondaryAction)).toBeVisible();
-		await user.click(screen.getByText(/primary/i));
+		userEvent.click(screen.getByText(/primary/i));
 		expect(clickFn).toHaveBeenCalled();
 		expect(screen.queryByText(/item1/i)).not.toBeInTheDocument();
 		expect(screen.queryByText(/item2/i)).not.toBeInTheDocument();
 	});
 
-	test('Click on secondary button open dropdown', async () => {
+	test('Click on secondary button open dropdown', () => {
 		const items: MultiButtonProps['items'] = [
 			{ id: 'item1', label: 'item1' },
 			{ id: 'item2', label: 'item2' }
 		];
 		const clickFn = jest.fn();
-		const { user } = setup(<MultiButton items={items} onClick={clickFn} label="primary" />);
+		render(<MultiButton items={items} onClick={clickFn} label="primary" />);
 
 		expect(screen.getByText(/primary/i)).toBeVisible();
 		expect(screen.getByTestId(ICONS.multiButtonSecondaryAction)).toBeVisible();
-		await user.click(screen.getByTestId(ICONS.multiButtonSecondaryAction));
+		userEvent.click(screen.getByTestId(ICONS.multiButtonSecondaryAction));
 		expect(clickFn).not.toHaveBeenCalled();
 		expect(screen.getByText(/item1/i)).toBeVisible();
 		expect(screen.getByText(/item2/i)).toBeVisible();
@@ -51,17 +59,16 @@ describe('MultiButton', () => {
 			{ id: 'item2', label: 'item2' }
 		];
 		const clickFn = jest.fn();
-		const { user } = setup(<MultiButton items={items} onClick={clickFn} label="primary" />);
+		render(<MultiButton items={items} onClick={clickFn} label="primary" />);
 
 		expect(screen.getByText(/primary/i)).toBeVisible();
 		expect(screen.getByTestId(ICONS.multiButtonSecondaryAction)).toBeVisible();
-		await user.click(screen.getByTestId(ICONS.multiButtonSecondaryAction));
-		// wait for listeners to be registered
-		jest.advanceTimersByTime(TIMERS.DROPDOWN.REGISTER_LISTENER);
+		userEvent.click(screen.getByTestId(ICONS.multiButtonSecondaryAction));
+		await waitForListenerToBeRegistered(2);
 		expect(clickFn).not.toHaveBeenCalled();
 		expect(screen.getByText(/item1/i)).toBeVisible();
 		expect(screen.getByText(/item2/i)).toBeVisible();
-		await user.click(screen.getByTestId(ICONS.multiButtonSecondaryAction));
+		userEvent.click(screen.getByTestId(ICONS.multiButtonSecondaryAction));
 		expect(screen.getByText(/item1/i)).toBeVisible();
 		expect(screen.getByText(/item2/i)).toBeVisible();
 	});
@@ -72,16 +79,16 @@ describe('MultiButton', () => {
 			{ id: 'item2', label: 'item2' }
 		];
 		const clickFn = jest.fn();
-		const { user } = setup(<MultiButton items={items} onClick={clickFn} label="primary" />);
+		render(<MultiButton items={items} onClick={clickFn} label="primary" />);
 
 		expect(screen.getByText(/primary/i)).toBeVisible();
 		expect(screen.getByTestId(ICONS.multiButtonSecondaryAction)).toBeVisible();
-		await user.click(screen.getByTestId(ICONS.multiButtonSecondaryAction));
-		jest.advanceTimersByTime(TIMERS.DROPDOWN.REGISTER_LISTENER);
+		userEvent.click(screen.getByTestId(ICONS.multiButtonSecondaryAction));
+		await waitForListenerToBeRegistered();
 		expect(clickFn).not.toHaveBeenCalled();
 		expect(screen.getByText(/item1/i)).toBeVisible();
 		expect(screen.getByText(/item2/i)).toBeVisible();
-		await user.click(screen.getByText(/primary/i));
+		userEvent.click(screen.getByText(/primary/i));
 		expect(clickFn).toHaveBeenCalled();
 		expect(screen.queryByText(/item1/i)).not.toBeInTheDocument();
 		expect(screen.queryByText(/item2/i)).not.toBeInTheDocument();

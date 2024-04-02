@@ -88,7 +88,7 @@ const BannerContainer = styled(Container)<{ $isMultiline: boolean }>`
 					${ActionsContainer} {
 						order: 3;
 					}
-				`
+			  `
 			: css`
 					${CloseContainer} {
 						order: 3;
@@ -96,7 +96,7 @@ const BannerContainer = styled(Container)<{ $isMultiline: boolean }>`
 					${ActionsContainer} {
 						order: 2;
 					}
-				`};
+			  `};
 `;
 
 const Banner = React.forwardRef<HTMLDivElement, BannerProps>(function BannerFn(
@@ -185,14 +185,14 @@ const Banner = React.forwardRef<HTMLDivElement, BannerProps>(function BannerFn(
 				? (event): void => {
 						primaryAction.onClick(event);
 						closeModal();
-					}
+				  }
 				: undefined,
 			secondaryActionLabel: secondaryAction?.label,
 			onSecondaryAction: secondaryAction
 				? (event): void => {
 						secondaryAction.onClick(event);
 						closeModal();
-					}
+				  }
 				: undefined,
 			closeIconTooltip: closeLabel,
 			children: (

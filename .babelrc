@@ -5,7 +5,7 @@
       {
         "modules": false,
         "useBuiltIns": "usage",
-        "corejs": 3.32
+        "corejs": 3
       }
     ],
     "@babel/preset-react",
@@ -13,8 +13,8 @@
   ],
   "plugins": [
     "@babel/plugin-transform-runtime",
-    "babel-plugin-styled-components",
-    "lodash"
+    "@babel/plugin-proposal-class-properties",
+    "babel-plugin-styled-components"
   ],
   "env": {
     "test": {

@@ -25,9 +25,9 @@ import { Container } from '../layout/Container';
 import { Row } from '../layout/Row';
 
 const StyledCheckbox = styled(Checkbox)<{
-	$show: boolean;
+	show: boolean;
 }>`
-	display: ${({ $show }): SimpleInterpolation => ($show ? 'block' : 'none')};
+	display: ${({ show }): SimpleInterpolation => (show ? 'block' : 'none')};
 `;
 
 const StyledText = styled(Text)``;
@@ -42,10 +42,10 @@ const StyledTr = styled.tr`
 `;
 
 const TableRow = styled.tr<{
-	$selected: boolean;
-	$highlight?: boolean;
-	$showCheckbox?: boolean;
-	$clickable?: boolean;
+	selected: boolean;
+	highlight?: boolean;
+	showCheckbox?: boolean;
+	clickable?: boolean;
 }>`
 	transition: background-color 0.2s ease-out;
 	&:nth-child(odd) {
@@ -60,13 +60,13 @@ const TableRow = styled.tr<{
 			background-color: ${({ theme }): string => theme.palette.gray5.hover};
 		}
 	}
-	${({ $selected, $highlight, theme }): SimpleInterpolation =>
-		($selected || $highlight) &&
+	${({ selected, highlight, theme }): SimpleInterpolation =>
+		(selected || highlight) &&
 		css`
 			background-color: ${theme.palette.highlight.regular} !important;
 		`};
-	${({ $clickable, $showCheckbox }): SimpleInterpolation =>
-		($clickable === true || (typeof $clickable === 'undefined' && $showCheckbox === false)) &&
+	${({ clickable, showCheckbox }): SimpleInterpolation =>
+		(clickable === true || (typeof clickable === 'undefined' && showCheckbox === false)) &&
 		css`
 			cursor: pointer;
 		`};
@@ -76,8 +76,8 @@ const TableRow = styled.tr<{
 			display: block;
 		}
 	}
-	${({ $showCheckbox }): SimpleInterpolation =>
-		$showCheckbox &&
+	${({ showCheckbox }): SimpleInterpolation =>
+		showCheckbox &&
 		css`
 			&:hover,
 			&:focus {
@@ -215,7 +215,7 @@ const DefaultHeaderFactory = ({
 						value={allSelected}
 						onClick={onChange}
 						iconColor={selectionMode ? 'primary' : 'text'}
-						$show={selectionMode}
+						show={selectionMode}
 					/>
 				)}
 			</th>
@@ -246,7 +246,7 @@ const DefaultRowFactory = ({
 	const ckbRef = useRef<HTMLDivElement>(null);
 	const trRef = useRef<HTMLTableRowElement>(null);
 	const clickableRow = useMemo(
-		() => (!showCheckbox && row.clickable === undefined) || row.clickable,
+		() => (!showCheckbox && typeof row.clickable === undefined) || row.clickable,
 		[showCheckbox, row.clickable]
 	);
 
@@ -284,10 +284,10 @@ const DefaultRowFactory = ({
 		<TableRow
 			ref={trRef}
 			onClick={onClick}
-			$selected={selected}
-			$highlight={row.highlight}
-			$clickable={row.clickable}
-			$showCheckbox={showCheckbox}
+			selected={selected}
+			highlight={row.highlight}
+			clickable={row.clickable}
+			showCheckbox={showCheckbox}
 		>
 			<td>
 				<Row mainAlignment={'center'}>
@@ -298,7 +298,7 @@ const DefaultRowFactory = ({
 							value={selected}
 							onClick={_onChange}
 							iconColor={displayBlockCheckbox ? 'primary' : 'text'}
-							$show={displayBlockCheckbox}
+							show={displayBlockCheckbox}
 						/>
 					)}
 					{(!showCheckbox || !displayBlockCheckbox) && <StyledText>{index}</StyledText>}

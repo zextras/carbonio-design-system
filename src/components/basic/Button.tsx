@@ -191,12 +191,12 @@ const StyledButton = styled.button.attrs<
 			? css`
 					color: ${getColor(`${color}.active`, theme)};
 					background-color: ${getColor(`${backgroundColor}.active`, theme)};
-				`
+			  `
 			: css`
 					${pseudoClasses(theme, color, 'color')};
 					${pseudoClasses(theme, backgroundColor, 'background-color')};
 					${pseudoClasses(theme, color, 'border-color')};
-				`};
+			  `};
 
 	/* cursor */
 	cursor: pointer;

@@ -14,8 +14,9 @@ import { useIsVisible } from '../../hooks/useIsVisible';
 import { getKeyboardPreset, KeyboardPresetObj, useKeyboard } from '../../hooks/useKeyboard';
 import { Container, ContainerProps } from '../layout/Container';
 
-const ExternalContainer = styled(Container)`
-	display: block;
+const ExternalContainer = styled.div`
+	width: 100%;
+	height: 100%;
 `;
 
 const StyledList = styled(Container)`
@@ -39,36 +40,19 @@ const StyledList = styled(Container)`
 interface BottomElementProps {
 	listRef: React.RefObject<HTMLDivElement>;
 	onVisible: () => void;
-	intersectionObserverInitOptions?: IntersectionObserverInit;
 }
 
-const BottomElement = ({
-	listRef,
-	onVisible,
-	intersectionObserverInitOptions
-}: BottomElementProps): React.JSX.Element => {
-	const [inView, ref] = useIsVisible<HTMLDivElement>(
-		listRef,
-		undefined,
-		intersectionObserverInitOptions
-	);
+const BottomElement = ({ listRef, onVisible }: BottomElementProps): React.JSX.Element => {
+	const [inView, ref] = useIsVisible<HTMLDivElement>(listRef);
 	useEffect(() => {
 		if (inView && onVisible) {
 			onVisible();
 		}
 	}, [inView, onVisible]);
-	return (
-		<div
-			ref={ref}
-			style={{ minHeight: '4px', minWidth: '1px' }}
-			data-testid={'list-bottom-element'}
-		/>
-	);
+	return <div ref={ref} style={{ minHeight: '4px', minWidth: '1px' }} />;
 };
 
 interface ListV2Props extends ContainerProps {
-	/** intersectionObserverInitOptions of the intersectionObserver inside BottomElement */
-	intersectionObserverInitOptions?: IntersectionObserverInit;
 	/** callback to be executed when the bottom element is rendered */
 	onListBottom?: () => void;
 	/** List background color */
@@ -91,7 +75,6 @@ const ListV2 = React.forwardRef(function ListV2Fn(
 		background = 'transparent',
 		selectedBackground = 'gray5',
 		activeBackground = 'highlight',
-		intersectionObserverInitOptions,
 		...rest
 	}: ListV2Props,
 	ref: React.ForwardedRef<HTMLDivElement>
@@ -123,13 +106,7 @@ const ListV2 = React.forwardRef(function ListV2Fn(
 		<ExternalContainer ref={listRef} {...rest}>
 			<StyledList orientation="vertical" mainAlignment="flex-start" crossAlignment="stretch">
 				{listItems}
-				{onListBottom && (
-					<BottomElement
-						listRef={listRef}
-						onVisible={onListBottom}
-						intersectionObserverInitOptions={intersectionObserverInitOptions}
-					/>
-				)}
+				{onListBottom && <BottomElement listRef={listRef} onVisible={onListBottom} />}
 			</StyledList>
 		</ExternalContainer>
 	);
