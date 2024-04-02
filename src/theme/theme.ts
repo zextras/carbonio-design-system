@@ -355,6 +355,7 @@ export const Theme: ThemeObj = {
 		avatar_50: '#0288D1'
 	},
 	shadows: {
-		regular: '0 0 0.25rem 0 rgba(166, 166, 166, 0.5)'
+		regular: '0 0 0.25rem 0 rgba(166, 166, 166, 0.5)',
+		snackbar: '-2px 2px 5px 0 rgba(0, 0, 0, 0.25)'
 	}
 };
