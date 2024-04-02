@@ -30,7 +30,7 @@
 		"prepack": "npm run build",
 		"packTo": "npm pack --pack-destination $PKG_PATH && cd $PKG_PATH && npm i zextras-carbonio-design-system-$npm_package_version.tgz",
 		"deploy": "npm pack && rm -rf $PKG_PATH/node_modules/@zextras/carbonio-design-system/* && tar -xf zextras-carbonio-design-system-$npm_package_version.tgz -C $PKG_PATH/node_modules/@zextras/carbonio-design-system/ --strip-components 1",
-		"prepare": "is-ci || husky; npm run build",
+		"prepare": "is-ci || husky",
 		"type-check": "tsc --noEmit",
 		"postinstall": "echo '\\e[43mForcing the removal of @types/glob. This is a workaround caused by npm not honoring overrides field. To check for updates on this, see https://github.com/npm/cli/issues/5850\\e[0m'; (rm -r node_modules/@types/glob || true)"
 	},
