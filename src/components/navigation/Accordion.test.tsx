@@ -269,7 +269,7 @@ describe('Accordion', () => {
 			await user.unhover(
 				screen.getByRoleWithIcon('button', { icon: ICONS.accordionItemCloseAction })
 			);
-			jest.advanceTimersByTime(TIMERS.TOOLTIP.DELAY_SHOW);
+			jest.advanceTimersByTime(TIMERS.TOOLTIP.REGISTER_LISTENER);
 			await user.hover(
 				screen.getByRoleWithIcon('button', { icon: ICONS.accordionItemCloseAction })
 			);
@@ -292,10 +292,10 @@ describe('Accordion', () => {
 					}
 				];
 				const { user } = setup(<Accordion items={items} collapseLabel={collapseLabel} />);
-				// wait so tooltip can register the listeners
 				await user.click(
 					screen.getByRoleWithIcon('button', { icon: ICONS.accordionItemOpenAction })
 				);
+				// wait so tooltip can register the listeners
 				jest.advanceTimersByTime(TIMERS.TOOLTIP.REGISTER_LISTENER);
 				await user.hover(
 					screen.getByRoleWithIcon('button', { icon: ICONS.accordionItemCloseAction })
