@@ -6,7 +6,7 @@
 
 import React, { useCallback, useReducer, createContext } from 'react';
 
-import { Snackbar, SnackbarProps } from '../feedback/Snackbar';
+import { Snackbar, SnackbarProps } from '../feedback/snackbar/Snackbar';
 
 type CreateSnackbarFn = (props: SnackbarProps & { key?: string; replace?: boolean }) => void;
 
