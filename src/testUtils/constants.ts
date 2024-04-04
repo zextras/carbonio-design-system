@@ -25,5 +25,6 @@ export const SELECTORS = {
 	checkbox: 'checkbox',
 	dropdown: 'dropdown-popper-list',
 	dropdownItem: 'dropdown-item',
-	chip: 'chip'
+	chip: 'chip',
+	tooltip: 'tooltip'
 };
