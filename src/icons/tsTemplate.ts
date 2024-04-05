@@ -7,9 +7,10 @@
 import { types as t } from '@babel/core';
 import { TemplateBuilder } from '@babel/template';
 
-interface Template {
-	(variables: TemplateVariables, context: TemplateContext): t.Statement | t.Statement[];
-}
+type Template = (
+	variables: TemplateVariables,
+	context: TemplateContext
+) => t.Statement | t.Statement[];
 
 interface JSXRuntimeImport {
 	source: string;
