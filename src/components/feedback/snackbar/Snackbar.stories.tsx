@@ -7,6 +7,7 @@
 import React, { useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react';
+import { expect, within, userEvent } from '@storybook/test';
 
 import { Snackbar } from './Snackbar';
 import { Button } from '../../basic/Button';
@@ -35,38 +36,25 @@ export const Success: Story = {
 		disablePortal: false,
 		singleLine: false
 	},
-	render: ({
-		label,
-		type,
-		open,
-		actionLabel,
-		disableAutoHide,
-		hideButton,
-		zIndex,
-		autoHideTimeout,
-		disablePortal,
-		singleLine
-	}) => {
+	render: ({ open, label, ...rest }) => {
 		const [snack, setSnack] = useState(false);
 
 		return (
 			<>
 				<Button type="outlined" color="success" label="Success" onClick={() => setSnack(true)} />
-				<Snackbar
-					onClose={() => setSnack(false)}
-					open={open || snack}
-					type={type}
-					label={label}
-					actionLabel={actionLabel}
-					disableAutoHide={disableAutoHide}
-					hideButton={hideButton}
-					zIndex={zIndex}
-					autoHideTimeout={autoHideTimeout}
-					disablePortal={disablePortal}
-					singleLine={singleLine}
-				/>
+				<Snackbar onClose={() => setSnack(false)} label={label} open={open || snack} {...rest} />
 			</>
 		);
+	},
+	play: async ({ canvasElement }) => {
+		const canvas = within(canvasElement);
+		const { body } = canvasElement.ownerDocument;
+		const button = canvas.getByRole('button', {
+			name: /success/i
+		});
+		await expect(button).toBeVisible();
+		await userEvent.click(button);
+		expect(await within(body).findByText(/Lorem Ipsum dolor sit amet/i));
 	}
 };
 
@@ -76,36 +64,13 @@ export const Info: Story = {
 		type: 'info',
 		actionLabel: 'Ok'
 	},
-	render: ({
-		type,
-		label,
-		open,
-		actionLabel,
-		disableAutoHide,
-		hideButton,
-		zIndex,
-		autoHideTimeout,
-		disablePortal,
-		singleLine
-	}) => {
+	render: ({ label, open, ...rest }) => {
 		const [snack, setSnack] = useState(false);
 
 		return (
 			<>
 				<Button type="outlined" color="info" label="Info" onClick={() => setSnack(true)} />
-				<Snackbar
-					onClose={() => setSnack(false)}
-					open={open || snack}
-					type={type}
-					label={label}
-					actionLabel={actionLabel}
-					disableAutoHide={disableAutoHide}
-					hideButton={hideButton}
-					zIndex={zIndex}
-					autoHideTimeout={autoHideTimeout}
-					disablePortal={disablePortal}
-					singleLine={singleLine}
-				/>
+				<Snackbar onClose={() => setSnack(false)} open={open || snack} label={label} {...rest} />
 			</>
 		);
 	}
@@ -117,36 +82,13 @@ export const Warning: Story = {
 		type: 'warning',
 		actionLabel: 'Ok'
 	},
-	render: ({
-		type,
-		label,
-		open,
-		actionLabel,
-		disableAutoHide,
-		hideButton,
-		zIndex,
-		autoHideTimeout,
-		disablePortal,
-		singleLine
-	}) => {
+	render: ({ label, open, ...rest }) => {
 		const [snack, setSnack] = useState(false);
 
 		return (
 			<>
 				<Button type="outlined" color="warning" label="Warning" onClick={() => setSnack(true)} />
-				<Snackbar
-					onClose={() => setSnack(false)}
-					open={open || snack}
-					type={type}
-					label={label}
-					actionLabel={actionLabel}
-					disableAutoHide={disableAutoHide}
-					hideButton={hideButton}
-					zIndex={zIndex}
-					autoHideTimeout={autoHideTimeout}
-					disablePortal={disablePortal}
-					singleLine={singleLine}
-				/>
+				<Snackbar onClose={() => setSnack(false)} open={open || snack} label={label} {...rest} />
 			</>
 		);
 	}
@@ -159,36 +101,13 @@ export const Error: Story = {
 		actionLabel: 'Ok',
 		disableAutoHide: true
 	},
-	render: ({
-		type,
-		label,
-		open,
-		actionLabel,
-		disableAutoHide,
-		hideButton,
-		zIndex,
-		autoHideTimeout,
-		disablePortal,
-		singleLine
-	}) => {
+	render: ({ label, open, ...rest }) => {
 		const [snack, setSnack] = useState(false);
 
 		return (
 			<>
 				<Button type="outlined" color="error" label="Error" onClick={() => setSnack(true)} />
-				<Snackbar
-					onClose={() => setSnack(false)}
-					open={open || snack}
-					type={type}
-					label={label}
-					actionLabel={actionLabel}
-					disableAutoHide={disableAutoHide}
-					hideButton={hideButton}
-					zIndex={zIndex}
-					autoHideTimeout={autoHideTimeout}
-					disablePortal={disablePortal}
-					singleLine={singleLine}
-				/>
+				<Snackbar onClose={() => setSnack(false)} open={open || snack} label={label} {...rest} />
 			</>
 		);
 	}
@@ -202,18 +121,7 @@ export const LongTextAction: Story = {
 		actionLabel: 'Откройте папку корзины',
 		disableAutoHide: true
 	},
-	render: ({
-		type,
-		label,
-		open,
-		actionLabel,
-		disableAutoHide,
-		hideButton,
-		zIndex,
-		autoHideTimeout,
-		disablePortal,
-		singleLine
-	}) => {
+	render: ({ label, open, ...rest }) => {
 		const [snack, setSnack] = useState(false);
 
 		return (
@@ -224,19 +132,7 @@ export const LongTextAction: Story = {
 					label="Short text and long action"
 					onClick={() => setSnack(true)}
 				/>
-				<Snackbar
-					onClose={() => setSnack(false)}
-					open={open || snack}
-					type={type}
-					label={label}
-					actionLabel={actionLabel}
-					disableAutoHide={disableAutoHide}
-					hideButton={hideButton}
-					zIndex={zIndex}
-					autoHideTimeout={autoHideTimeout}
-					disablePortal={disablePortal}
-					singleLine={singleLine}
-				/>
+				<Snackbar onClose={() => setSnack(false)} open={open || snack} label={label} {...rest} />
 			</>
 		);
 	}
@@ -250,18 +146,7 @@ export const ShortTextLongAction: Story = {
 		actionLabel: 'Very long action on snackbar with superlongwordwithlotofchars',
 		disableAutoHide: true
 	},
-	render: ({
-		type,
-		label,
-		open,
-		actionLabel,
-		disableAutoHide,
-		hideButton,
-		zIndex,
-		autoHideTimeout,
-		disablePortal,
-		singleLine
-	}) => {
+	render: ({ label, open, ...rest }) => {
 		const [snack, setSnack] = useState(false);
 
 		return (
@@ -272,19 +157,7 @@ export const ShortTextLongAction: Story = {
 					label="Short text and long action"
 					onClick={() => setSnack(true)}
 				/>
-				<Snackbar
-					onClose={() => setSnack(false)}
-					open={open || snack}
-					type={type}
-					label={label}
-					actionLabel={actionLabel}
-					disableAutoHide={disableAutoHide}
-					hideButton={hideButton}
-					zIndex={zIndex}
-					autoHideTimeout={autoHideTimeout}
-					disablePortal={disablePortal}
-					singleLine={singleLine}
-				/>
+				<Snackbar onClose={() => setSnack(false)} open={open || snack} label={label} {...rest} />
 			</>
 		);
 	}
@@ -298,18 +171,7 @@ export const LongTextShortAction: Story = {
 		actionLabel: 'Text',
 		disableAutoHide: true
 	},
-	render: ({
-		type,
-		label,
-		open,
-		actionLabel,
-		disableAutoHide,
-		hideButton,
-		zIndex,
-		autoHideTimeout,
-		disablePortal,
-		singleLine
-	}) => {
+	render: ({ label, open, ...rest }) => {
 		const [snack, setSnack] = useState(false);
 
 		return (
@@ -320,19 +182,7 @@ export const LongTextShortAction: Story = {
 					label="Long text and short action"
 					onClick={() => setSnack(true)}
 				/>
-				<Snackbar
-					onClose={() => setSnack(false)}
-					open={open || snack}
-					type={type}
-					label={label}
-					actionLabel={actionLabel}
-					disableAutoHide={disableAutoHide}
-					hideButton={hideButton}
-					zIndex={zIndex}
-					autoHideTimeout={autoHideTimeout}
-					disablePortal={disablePortal}
-					singleLine={singleLine}
-				/>
+				<Snackbar onClose={() => setSnack(false)} open={open || snack} label={label} {...rest} />
 			</>
 		);
 	}
@@ -346,18 +196,7 @@ export const MediumTextAction: Story = {
 		actionLabel: 'Go to trash folder',
 		disableAutoHide: true
 	},
-	render: ({
-		type,
-		label,
-		open,
-		actionLabel,
-		disableAutoHide,
-		hideButton,
-		zIndex,
-		autoHideTimeout,
-		disablePortal,
-		singleLine
-	}) => {
+	render: ({ label, open, ...rest }) => {
 		const [snack, setSnack] = useState(false);
 
 		return (
@@ -368,19 +207,7 @@ export const MediumTextAction: Story = {
 					label="Medium text and medium action"
 					onClick={() => setSnack(true)}
 				/>
-				<Snackbar
-					onClose={() => setSnack(false)}
-					open={open || snack}
-					type={type}
-					label={label}
-					actionLabel={actionLabel}
-					disableAutoHide={disableAutoHide}
-					hideButton={hideButton}
-					zIndex={zIndex}
-					autoHideTimeout={autoHideTimeout}
-					disablePortal={disablePortal}
-					singleLine={singleLine}
-				/>
+				<Snackbar onClose={() => setSnack(false)} open={open || snack} label={label} {...rest} />
 			</>
 		);
 	}
