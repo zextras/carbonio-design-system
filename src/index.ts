@@ -111,7 +111,7 @@ export * from './hooks/useCombinedRefs';
 export * from './hooks/useHiddenCount';
 export * from './hooks/useKeyboard';
 export * from './hooks/useScreenMode';
-export * from './hooks/useSnackbar';
+export * from './hooks/useSnackbar/useSnackbar';
 export * from './hooks/useModal';
 export * from './hooks/useSplitVisibility';
 

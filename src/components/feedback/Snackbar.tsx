@@ -6,7 +6,7 @@
 
 import React, { useCallback, useEffect } from 'react';
 
-import styled, { css, SimpleInterpolation } from 'styled-components';
+import styled, { css, keyframes, SimpleInterpolation } from 'styled-components';
 
 import { ScreenMode, useScreenMode } from '../../hooks/useScreenMode';
 import { Button } from '../basic/Button';
@@ -32,6 +32,23 @@ const SnackContainer = styled(Container)<{ $zIndex: number; $screenMode: ScreenM
 		`};
 `;
 
+const shrink = keyframes`
+	from {
+		width: 100%;
+  }
+	to {
+		width: 0;
+  }
+`;
+
+const ProgressBarContent = styled(Container)<{ $timeout: number }>`
+	animation-name: ${shrink};
+	animation-duration: ${({ $timeout }): string => `${$timeout}ms`};
+	animation-timing-function: linear;
+	animation-fill-mode: forwards;
+	border-radius: 1rem 0 0 1rem;
+`;
+
 const icons = {
 	success: 'Checkmark',
 	info: 'InfoOutline',
@@ -39,7 +56,7 @@ const icons = {
 	error: 'Close'
 };
 
-interface SnackbarProps extends ContainerProps {
+interface SnackbarProps extends Omit<ContainerProps, 'children'> {
 	/** Whether to show the Snackbar or not */
 	open?: boolean;
 	/** Snackbar Type */
@@ -66,6 +83,11 @@ interface SnackbarProps extends ContainerProps {
 	disablePortal?: boolean;
 	/** Flag to disable the multiline implementation */
 	singleLine?: boolean;
+	/**
+	 * Show a progress bar for the auto-hide timeout counter.
+	 * Be sure to have uniq keys when showing the progress bar on multiple snackbars.
+	 */
+	progressBar?: boolean;
 }
 
 const Snackbar = React.forwardRef<HTMLDivElement, SnackbarProps>(function SnackbarFn(
@@ -83,6 +105,7 @@ const Snackbar = React.forwardRef<HTMLDivElement, SnackbarProps>(function Snackb
 		target = window,
 		disablePortal = false,
 		singleLine = false,
+		progressBar = true,
 		...rest
 	},
 	ref
@@ -90,73 +113,100 @@ const Snackbar = React.forwardRef<HTMLDivElement, SnackbarProps>(function Snackb
 	const screenMode = useScreenMode(target);
 
 	const handleClick = useCallback(() => {
-		onActionClick ? onActionClick() : onClose && onClose();
+		onActionClick ? onActionClick() : onClose?.();
 	}, [onActionClick, onClose]);
+
+	const enableTimeout = open && !disableAutoHide && onClose !== undefined;
 
 	useEffect(() => {
 		let timeout: NodeJS.Timeout;
-		if (open && !disableAutoHide && onClose) {
-			timeout = setTimeout(onClose, autoHideTimeout);
+		if (enableTimeout) {
+			timeout = setTimeout(() => {
+				onClose();
+			}, autoHideTimeout);
 		}
-		return (): void => clearTimeout(timeout);
-	}, [open, disableAutoHide, onClose, autoHideTimeout]);
-
-	if (disablePortal && !open) return null;
+		return (): void => {
+			clearTimeout(timeout);
+		};
+	}, [onClose, autoHideTimeout, enableTimeout]);
 
 	return (
 		<Portal show={open} disablePortal={disablePortal}>
 			<Transition ref={ref} type="fade-in-right">
 				<SnackContainer
 					$screenMode={screenMode}
-					orientation="horizontal"
-					mainAlignment="flex-start"
+					orientation="vertical"
 					background={type}
 					height="auto"
 					width="auto"
 					$zIndex={zIndex}
 					data-testid="snackbar"
-					padding={{
-						top: '0.5rem',
-						right: hideButton ? '1.5rem' : '0.5rem',
-						bottom: '0.5rem',
-						left: '1.5rem'
-					}}
-					gap={'1rem'}
 					maxWidth={screenMode === 'mobile' ? '100%' : '40%'}
 					{...rest}
 				>
-					<Icon size="large" icon={icons[type]} color="gray6" />
 					<Container
+						orientation="horizontal"
+						mainAlignment="flex-start"
 						gap={'1rem'}
-						wrap={'wrap'}
-						flexBasis={'fit-content'}
-						mainAlignment={'flex-start'}
-						orientation={'row'}
+						height="auto"
+						width="auto"
+						padding={{
+							top: '0.5rem',
+							right: hideButton ? '1.5rem' : '0.5rem',
+							bottom: '0.5rem',
+							left: '1.5rem'
+						}}
 					>
-						<Row
-							mainAlignment="flex-start"
-							flexBasis={'50%'}
-							flexShrink={1}
-							flexGrow={1}
-							width={'auto'}
+						<Icon size="large" icon={icons[type]} color="gray6" />
+						<Container
+							gap={'1rem'}
+							wrap={'wrap'}
+							flexBasis={'fit-content'}
+							mainAlignment={'flex-start'}
+							orientation={'row'}
 						>
-							<Text color="gray6" size="large" overflow={singleLine ? 'ellipsis' : 'break-word'}>
-								{label}
-							</Text>
-						</Row>
-						{!hideButton && (
 							<Row
-								margin={{ left: 'auto', right: '0' }}
-								wrap={'nowrap'}
-								flexGrow={0}
-								flexShrink={0}
-								minWidth={0}
-								flexBasis={'fit-content'}
+								mainAlignment="flex-start"
+								flexBasis={'50%'}
+								flexShrink={1}
+								flexGrow={1}
+								width={'auto'}
 							>
-								<Button label={actionLabel} type="ghost" color="gray6" onClick={handleClick} />
+								<Text color="gray6" size="large" overflow={singleLine ? 'ellipsis' : 'break-word'}>
+									{label}
+								</Text>
 							</Row>
-						)}
+							{!hideButton && (
+								<Row
+									margin={{ left: 'auto', right: '0' }}
+									wrap={'nowrap'}
+									flexGrow={0}
+									flexShrink={0}
+									minWidth={0}
+									flexBasis={'fit-content'}
+								>
+									<Button label={actionLabel} type="ghost" color="gray6" onClick={handleClick} />
+								</Row>
+							)}
+						</Container>
 					</Container>
+					{enableTimeout && progressBar && (
+						<Container
+							height={'0.25rem'}
+							width={'100%'}
+							background={`${type}.disabled`}
+							mainAlignment={'flex-start'}
+							crossAlignment={'flex-end'}
+							data-testid={'progress-bar'}
+						>
+							<ProgressBarContent
+								$timeout={autoHideTimeout}
+								background={`${type}.active`}
+								width={'100%'}
+								height={'100%'}
+							/>
+						</Container>
+					)}
 				</SnackContainer>
 			</Transition>
 		</Portal>

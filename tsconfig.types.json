@@ -1,12 +1,17 @@
 {
   "extends": "./tsconfig.json",
   "exclude": [
+    "node_modules",
+    "dist",
+    ".storybook",
     "src/**/*.test.*",
-    "src/test-utils.tsx"
+    "src/test-utils.tsx",
+    "src/**/*.stories.*",
+    "src/testUtils"
   ],
   "compilerOptions": {
     "declaration": true,
-    "declarationMap": true,
+    "declarationMap": false,
     "declarationDir": "types",
     "emitDeclarationOnly": true,
     "allowJs": true

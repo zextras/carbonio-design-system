@@ -12,6 +12,12 @@ const config: StorybookConfig = {
 	framework: {
 		name: '@storybook/react-webpack5',
 		options: {}
+	},
+	typescript: {
+		// see https://github.com/storybookjs/storybook/issues/26586
+		check: false,
+		skipCompiler: false,
+		reactDocgen: 'react-docgen-typescript',
 	}
 };
 export default config;

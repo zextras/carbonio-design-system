@@ -18,12 +18,18 @@ export const ICONS = {
 	warningBannerIcon: 'icon: AlertTriangleOutline',
 	infoBannerIcon: 'icon: InfoOutline',
 	errorBannerIcon: 'icon: CloseCircleOutline',
-	peopleIcon: 'icon: People'
+	peopleIcon: 'icon: People',
+	snackbarSuccess: 'icon: Checkmark',
+	snackbarInfo: 'icon: InfoOutline',
+	snackbarWarning: 'icon: AlertTriangleOutline',
+	snackbarError: 'icon: Close'
 };
 
 export const SELECTORS = {
 	checkbox: 'checkbox',
 	dropdown: 'dropdown-popper-list',
 	dropdownItem: 'dropdown-item',
-	chip: 'chip'
+	chip: 'chip',
+	progressBar: 'progress-bar',
+	snackbar: 'snackbar'
 };

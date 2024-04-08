@@ -2,13 +2,16 @@
   "extends": "@zextras/carbonio-ui-configs/rules/typescript.json",
   "include": [
     "src/**/*.ts",
-    "src/**/*.tsx"
+    "src/**/*.tsx",
+    ".storybook"
   ],
   "exclude": [
     "node_modules",
     "dist"
   ],
   "compilerOptions": {
+    "declaration": false,
+    "noEmit": true,
     "paths": {
       "@testing-library/user-event/dist/cjs/keyboard/keyMap": ["./node_modules/@testing-library/user-event/dist/types/keyboard/keyMap.d.ts"]
     }
