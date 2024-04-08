@@ -9,7 +9,7 @@ import React, { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { expect, within, userEvent } from '@storybook/test';
 
-import { Snackbar } from './Snackbar';
+import { Snackbar, SnackbarProps } from './Snackbar';
 import { Button } from '../../basic/Button';
 
 const meta: Meta = {
@@ -22,6 +22,17 @@ const meta: Meta = {
 
 export default meta;
 type Story = StoryObj<typeof meta>;
+
+const SnackbarStory = ({ open, label, ...rest }: SnackbarProps): React.JSX.Element => {
+	const [snack, setSnack] = useState(false);
+
+	return (
+		<>
+			<Button type="outlined" color="info" label="Click" onClick={() => setSnack(true)} />
+			<Snackbar onClose={() => setSnack(false)} label={label} open={open || snack} {...rest} />
+		</>
+	);
+};
 
 export const Success: Story = {
 	args: {
@@ -36,16 +47,7 @@ export const Success: Story = {
 		disablePortal: false,
 		singleLine: false
 	},
-	render: ({ open, label, ...rest }) => {
-		const [snack, setSnack] = useState(false);
-
-		return (
-			<>
-				<Button type="outlined" color="success" label="Success" onClick={() => setSnack(true)} />
-				<Snackbar onClose={() => setSnack(false)} label={label} open={open || snack} {...rest} />
-			</>
-		);
-	},
+	render: ({ open, label, ...rest }) => <SnackbarStory label={label} open={open} {...rest} />,
 	play: async ({ canvasElement }) => {
 		const canvas = within(canvasElement);
 		const { body } = canvasElement.ownerDocument;
@@ -64,16 +66,7 @@ export const Info: Story = {
 		type: 'info',
 		actionLabel: 'Ok'
 	},
-	render: ({ label, open, ...rest }) => {
-		const [snack, setSnack] = useState(false);
-
-		return (
-			<>
-				<Button type="outlined" color="info" label="Info" onClick={() => setSnack(true)} />
-				<Snackbar onClose={() => setSnack(false)} open={open || snack} label={label} {...rest} />
-			</>
-		);
-	}
+	render: ({ label, open, ...rest }) => <SnackbarStory label={label} open={open} {...rest} />
 };
 
 export const Warning: Story = {
@@ -82,16 +75,7 @@ export const Warning: Story = {
 		type: 'warning',
 		actionLabel: 'Ok'
 	},
-	render: ({ label, open, ...rest }) => {
-		const [snack, setSnack] = useState(false);
-
-		return (
-			<>
-				<Button type="outlined" color="warning" label="Warning" onClick={() => setSnack(true)} />
-				<Snackbar onClose={() => setSnack(false)} open={open || snack} label={label} {...rest} />
-			</>
-		);
-	}
+	render: ({ label, open, ...rest }) => <SnackbarStory label={label} open={open} {...rest} />
 };
 
 export const Error: Story = {
@@ -101,16 +85,7 @@ export const Error: Story = {
 		actionLabel: 'Ok',
 		disableAutoHide: true
 	},
-	render: ({ label, open, ...rest }) => {
-		const [snack, setSnack] = useState(false);
-
-		return (
-			<>
-				<Button type="outlined" color="error" label="Error" onClick={() => setSnack(true)} />
-				<Snackbar onClose={() => setSnack(false)} open={open || snack} label={label} {...rest} />
-			</>
-		);
-	}
+	render: ({ label, open, ...rest }) => <SnackbarStory label={label} open={open} {...rest} />
 };
 
 export const LongTextAction: Story = {
@@ -121,21 +96,7 @@ export const LongTextAction: Story = {
 		actionLabel: 'Откройте папку корзины',
 		disableAutoHide: true
 	},
-	render: ({ label, open, ...rest }) => {
-		const [snack, setSnack] = useState(false);
-
-		return (
-			<>
-				<Button
-					type="default"
-					color="primary"
-					label="Short text and long action"
-					onClick={() => setSnack(true)}
-				/>
-				<Snackbar onClose={() => setSnack(false)} open={open || snack} label={label} {...rest} />
-			</>
-		);
-	}
+	render: ({ label, open, ...rest }) => <SnackbarStory label={label} open={open} {...rest} />
 };
 
 export const ShortTextLongAction: Story = {
@@ -146,21 +107,7 @@ export const ShortTextLongAction: Story = {
 		actionLabel: 'Very long action on snackbar with superlongwordwithlotofchars',
 		disableAutoHide: true
 	},
-	render: ({ label, open, ...rest }) => {
-		const [snack, setSnack] = useState(false);
-
-		return (
-			<>
-				<Button
-					type="default"
-					color="secondary"
-					label="Short text and long action"
-					onClick={() => setSnack(true)}
-				/>
-				<Snackbar onClose={() => setSnack(false)} open={open || snack} label={label} {...rest} />
-			</>
-		);
-	}
+	render: ({ label, open, ...rest }) => <SnackbarStory label={label} open={open} {...rest} />
 };
 
 export const LongTextShortAction: Story = {
@@ -171,21 +118,7 @@ export const LongTextShortAction: Story = {
 		actionLabel: 'Text',
 		disableAutoHide: true
 	},
-	render: ({ label, open, ...rest }) => {
-		const [snack, setSnack] = useState(false);
-
-		return (
-			<>
-				<Button
-					type="default"
-					color="gray4"
-					label="Long text and short action"
-					onClick={() => setSnack(true)}
-				/>
-				<Snackbar onClose={() => setSnack(false)} open={open || snack} label={label} {...rest} />
-			</>
-		);
-	}
+	render: ({ label, open, ...rest }) => <SnackbarStory label={label} open={open} {...rest} />
 };
 
 export const MediumTextAction: Story = {
@@ -196,19 +129,5 @@ export const MediumTextAction: Story = {
 		actionLabel: 'Go to trash folder',
 		disableAutoHide: true
 	},
-	render: ({ label, open, ...rest }) => {
-		const [snack, setSnack] = useState(false);
-
-		return (
-			<>
-				<Button
-					type="default"
-					color="warning"
-					label="Medium text and medium action"
-					onClick={() => setSnack(true)}
-				/>
-				<Snackbar onClose={() => setSnack(false)} open={open || snack} label={label} {...rest} />
-			</>
-		);
-	}
+	render: ({ label, open, ...rest }) => <SnackbarStory label={label} open={open} {...rest} />
 };
