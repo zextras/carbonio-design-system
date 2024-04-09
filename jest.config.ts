@@ -38,7 +38,8 @@ const config: Config = {
 		'/node_modules/',
 		'/src/testUtils/',
 		'/src/test-utils.tsx',
-		'/src/types'
+		'/src/types',
+		'src/icons/tsTemplate.ts'
 	],
 
 	// A list of reporter names that Jest uses when writing coverage reports
