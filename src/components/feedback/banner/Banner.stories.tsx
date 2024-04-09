@@ -53,7 +53,7 @@ export const Description: Story = {
 export const Title: Story = {
 	args: {
 		...Default.args,
-		title: ' Title is optional',
+		title: 'Title is optional',
 		severity: 'warning'
 	},
 	play: async ({ canvasElement }) => {
