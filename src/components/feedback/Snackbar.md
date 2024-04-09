@@ -31,14 +31,14 @@ const [snack8, setSnack8] = useState(false);
         <Button type="default" color="warning" label="Medium text and medium action" onClick={() => setSnack8(true)} />
     </Container>
 
-    <Snackbar open={snack1} onClose={() => setSnack1(false)} type="success" label="Lorem Ipsum dolor sit amet" />
-    <Snackbar open={snack2} onClose={() => setSnack2(false)} type="info" label="Lorem Ipsum dolor sit amet" />
-    <Snackbar open={snack3} onClose={() => setSnack3(false)} type="warning" label="Lorem Ipsum dolor sit amet" />
-    <Snackbar open={snack4} onClose={() => setSnack4(false)} type="error" label="Lorem Ipsum dolor sit amet" disableAutoHide />
-    <Snackbar open={snack5} onClose={() => setSnack5(false)} type="info" label="Файл был перемещен в корзину" actionLabel="Откройте папку корзины"  disableAutoHide />
-    <Snackbar open={snack6} onClose={() => setSnack6(false)} type="info" label="Text" actionLabel="Very long action on snackbar with superlongwordwithlotofchars"  disableAutoHide />
-    <Snackbar open={snack7} onClose={() => setSnack7(false)} type="info" label="Very long action on snackbar with superlongwordwithlotofchars" actionLabel="Text"  disableAutoHide />
-    <Snackbar open={snack8} onClose={() => setSnack8(false)} type="info" label="Item moved to trash with success" actionLabel="Go to trash folder"  disableAutoHide />
+    <Snackbar open={snack1} onClose={() => setSnack1(false)} severity="success" label="Lorem Ipsum dolor sit amet" />
+    <Snackbar open={snack2} onClose={() => setSnack2(false)} severity="info" label="Lorem Ipsum dolor sit amet" />
+    <Snackbar open={snack3} onClose={() => setSnack3(false)} severity="warning" label="Lorem Ipsum dolor sit amet" />
+    <Snackbar open={snack4} onClose={() => setSnack4(false)} severity="error" label="Lorem Ipsum dolor sit amet" disableAutoHide />
+    <Snackbar open={snack5} onClose={() => setSnack5(false)} severity="info" label="Файл был перемещен в корзину" actionLabel="Откройте папку корзины"  disableAutoHide />
+    <Snackbar open={snack6} onClose={() => setSnack6(false)} severity="info" label="Text" actionLabel="Very long action on snackbar with superlongwordwithlotofchars"  disableAutoHide />
+    <Snackbar open={snack7} onClose={() => setSnack7(false)} severity="info" label="Very long action on snackbar with superlongwordwithlotofchars" actionLabel="Text"  disableAutoHide />
+    <Snackbar open={snack8} onClose={() => setSnack8(false)} severity="info" label="Item moved to trash with success" actionLabel="Go to trash folder"  disableAutoHide />
 </>
 ```
 

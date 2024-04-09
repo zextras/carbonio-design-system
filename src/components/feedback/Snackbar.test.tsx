@@ -29,7 +29,7 @@ const CustomSnackbar = (): React.JSX.Element => {
 			<Snackbar
 				open={snack1}
 				onClose={(): void => setSnack1(false)}
-				type="success"
+				severity="success"
 				label="Success, Lorem Ipsum dolor sit amet"
 			/>
 		</>
