@@ -78,7 +78,7 @@ function SnackbarManager({
 				onActionClick ? onActionClick() : onClose && onClose();
 				dispatchSnackbar({ type: SNACKBAR_ACTION.POP });
 			};
-			const snackKey = key || `${severity}-${label}`;
+			const snackKey = key ?? `${severity}-${label}`;
 
 			dispatchSnackbar({
 				type: replace ? SNACKBAR_ACTION.POP_AND_PREPEND : SNACKBAR_ACTION.PUSH,
