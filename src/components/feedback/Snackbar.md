@@ -50,14 +50,14 @@ const closeSnack8 = useCallback(() => { setSnack8(false); }, []);
         <Button type="default" color="warning" label="Medium text and medium action" onClick={openSnack8} />
     </Container>
 
-    <Snackbar id="s1" key="s1" open={snack1} onClose={closeSnack1} type="success" label="Lorem Ipsum dolor sit amet" />
-    <Snackbar id="s2" key="s2" open={snack2} onClose={closeSnack2} type="info" label="Lorem Ipsum dolor sit amet" />
-    <Snackbar id="s3" key="s3" open={snack3} onClose={closeSnack3} type="warning" label="Lorem Ipsum dolor sit amet" />
-    <Snackbar id="s4" key="s4" open={snack4} onClose={closeSnack4} type="error" label="Lorem Ipsum dolor sit amet" disableAutoHide />
-    <Snackbar id="s5" key="s5" open={snack5} onClose={closeSnack5} type="info" label="Файл был перемещен в корзину" actionLabel="Откройте папку корзины"  disableAutoHide />
-    <Snackbar id="s6" key="s6" open={snack6} onClose={closeSnack6} type="info" label="Text" actionLabel="Very long action on snackbar with superlongwordwithlotofchars"  disableAutoHide />
-    <Snackbar id="s7" key="s7" open={snack7} onClose={closeSnack7} type="info" label="Very long action on snackbar with superlongwordwithlotofchars" actionLabel="Text"  disableAutoHide />
-    <Snackbar id="s8" key="s8" open={snack8} onClose={closeSnack8} type="info" label="Item moved to trash with success" actionLabel="Go to trash folder"  disableAutoHide />
+    <Snackbar id="s1" key="s1" open={snack1} onClose={closeSnack1} severity="success" label="Lorem Ipsum dolor sit amet" />
+    <Snackbar id="s2" key="s2" open={snack2} onClose={closeSnack2} severity="info" label="Lorem Ipsum dolor sit amet" />
+    <Snackbar id="s3" key="s3" open={snack3} onClose={closeSnack3} severity="warning" label="Lorem Ipsum dolor sit amet" />
+    <Snackbar id="s4" key="s4" open={snack4} onClose={closeSnack4} severity="error" label="Lorem Ipsum dolor sit amet" disableAutoHide />
+    <Snackbar id="s5" key="s5" open={snack5} onClose={closeSnack5} severity="info" label="Файл был перемещен в корзину" actionLabel="Откройте папку корзины"  disableAutoHide />
+    <Snackbar id="s6" key="s6" open={snack6} onClose={closeSnack6} severity="info" label="Text" actionLabel="Very long action on snackbar with superlongwordwithlotofchars"  disableAutoHide />
+    <Snackbar id="s7" key="s7" open={snack7} onClose={closeSnack7} severity="info" label="Very long action on snackbar with superlongwordwithlotofchars" actionLabel="Text"  disableAutoHide />
+    <Snackbar id="s8" key="s8" open={snack8} onClose={closeSnack8} severity="info" label="Item moved to trash with success" actionLabel="Go to trash folder"  disableAutoHide />
 </>
 ```
 

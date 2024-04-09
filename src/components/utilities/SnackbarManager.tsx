@@ -71,7 +71,17 @@ function SnackbarManager({
 	const [snackbars, dispatchSnackbar] = useReducer(snackbarsReducer, []);
 
 	const createSnackbar = useCallback<CreateSnackbarFn>(
-		({ label, key, type = 'info', onActionClick, onClose, autoHideTimeout, replace, ...rest }) => {
+		({
+			label,
+			key,
+			type = 'info',
+			severity = type,
+			onActionClick,
+			onClose,
+			autoHideTimeout,
+			replace,
+			...rest
+		}) => {
 			const handleClose = (): void => {
 				onClose?.();
 				dispatchSnackbar({ type: SNACKBAR_ACTION.POP });
@@ -80,7 +90,7 @@ function SnackbarManager({
 				onActionClick ? onActionClick() : onClose?.();
 				dispatchSnackbar({ type: SNACKBAR_ACTION.POP });
 			};
-			const snackKey = key ?? `${type}-${label}`;
+			const snackKey = key ?? `${severity}-${label}`;
 
 			dispatchSnackbar({
 				type: replace ? SNACKBAR_ACTION.POP_AND_PREPEND : SNACKBAR_ACTION.PUSH,
@@ -88,7 +98,7 @@ function SnackbarManager({
 					<Snackbar
 						key={snackKey}
 						open
-						type={type}
+						severity={severity}
 						label={label}
 						onActionClick={handleActionClick}
 						onClose={handleClose}

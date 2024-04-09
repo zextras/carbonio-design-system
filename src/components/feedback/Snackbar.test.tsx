@@ -96,13 +96,13 @@ describe('Snackbar', () => {
 		expect(onClose).not.toHaveBeenCalled();
 	});
 
-	it.each<[string, SnackbarProps['type']]>([
+	it.each<[string, SnackbarProps['severity']]>([
 		[ICONS.snackbarSuccess, 'success'],
 		[ICONS.snackbarInfo, 'info'],
 		[ICONS.snackbarWarning, 'warning'],
 		[ICONS.snackbarError, 'error']
-	])('should show %s when type is %s', (icon, type) => {
-		setup(<Snackbar label={'test'} open type={type} />);
+	])('should show %s when severity is %s', (icon, severity) => {
+		setup(<Snackbar label={'test'} open severity={severity} />);
 		expect(screen.getByTestId(icon)).toBeVisible();
 	});
 

@@ -59,8 +59,10 @@ const icons = {
 interface SnackbarProps extends Omit<ContainerProps, 'children'> {
 	/** Whether to show the Snackbar or not */
 	open?: boolean;
-	/** Snackbar Type */
+	/** @deprecated Use severity instead */
 	type?: 'success' | 'info' | 'warning' | 'error';
+	/** Snackbar severity */
+	severity?: 'success' | 'info' | 'warning' | 'error';
 	/** Snackbar text message */
 	label: string;
 	/** Snackbar button text */
@@ -94,6 +96,7 @@ const Snackbar = React.forwardRef<HTMLDivElement, SnackbarProps>(function Snackb
 	{
 		open = false,
 		type = 'info',
+		severity = type,
 		label,
 		disableAutoHide = false,
 		hideButton = false,
@@ -136,7 +139,7 @@ const Snackbar = React.forwardRef<HTMLDivElement, SnackbarProps>(function Snackb
 				<SnackContainer
 					$screenMode={screenMode}
 					orientation="vertical"
-					background={type}
+					background={severity}
 					height="auto"
 					width="auto"
 					$zIndex={zIndex}
@@ -158,7 +161,7 @@ const Snackbar = React.forwardRef<HTMLDivElement, SnackbarProps>(function Snackb
 						}}
 					>
 						<Row flexShrink={0}>
-							<Icon size="large" icon={icons[type]} color="gray6" />
+							<Icon size="large" icon={icons[severity]} color="gray6" />
 						</Row>
 						<Container
 							gap={'1rem'}
