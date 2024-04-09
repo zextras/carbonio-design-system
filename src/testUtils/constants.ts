@@ -19,10 +19,10 @@ export const ICONS = {
 	infoBannerIcon: 'icon: InfoOutline',
 	errorBannerIcon: 'icon: CloseCircleOutline',
 	peopleIcon: 'icon: People',
-	snackbarSuccess: 'icon: Checkmark',
+	snackbarSuccess: 'icon: CheckmarkOutline',
 	snackbarInfo: 'icon: InfoOutline',
 	snackbarWarning: 'icon: AlertTriangleOutline',
-	snackbarError: 'icon: Close'
+	snackbarError: 'icon: CloseCircleOutline'
 };
 
 export const SELECTORS = {

@@ -19,7 +19,7 @@ import { Transition } from '../utilities/Transition';
 
 const SnackContainer = styled(Container)<{ $zIndex: number; $screenMode: ScreenMode }>`
 	position: fixed;
-	box-shadow: 0 0 0.25rem 0 ${({ theme }): string => theme.palette.shadow.regular};
+	box-shadow: ${({ theme }): string => theme.shadows.snackbar};
 	user-select: none;
 	z-index: ${({ $zIndex }): number => $zIndex};
 	right: 0;
@@ -50,10 +50,10 @@ const ProgressBarContent = styled(Container)<{ $timeout: number }>`
 `;
 
 const icons = {
-	success: 'Checkmark',
+	success: 'CheckmarkOutline',
 	info: 'InfoOutline',
 	warning: 'AlertTriangleOutline',
-	error: 'Close'
+	error: 'CloseCircleOutline'
 };
 
 interface SnackbarProps extends Omit<ContainerProps, 'children'> {
@@ -157,13 +157,16 @@ const Snackbar = React.forwardRef<HTMLDivElement, SnackbarProps>(function Snackb
 							left: '1.5rem'
 						}}
 					>
-						<Icon size="large" icon={icons[type]} color="gray6" />
+						<Row flexShrink={0}>
+							<Icon size="large" icon={icons[type]} color="gray6" />
+						</Row>
 						<Container
 							gap={'1rem'}
 							wrap={'wrap'}
 							flexBasis={'fit-content'}
 							mainAlignment={'flex-start'}
 							orientation={'row'}
+							minWidth={0}
 						>
 							<Row
 								mainAlignment="flex-start"
@@ -172,7 +175,7 @@ const Snackbar = React.forwardRef<HTMLDivElement, SnackbarProps>(function Snackb
 								flexGrow={1}
 								width={'auto'}
 							>
-								<Text color="gray6" size="large" overflow={singleLine ? 'ellipsis' : 'break-word'}>
+								<Text color="gray6" size="medium" overflow={singleLine ? 'ellipsis' : 'break-word'}>
 									{label}
 								</Text>
 							</Row>

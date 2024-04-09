@@ -3,7 +3,8 @@
   "include": [
     "src/**/*.ts",
     "src/**/*.tsx",
-    ".storybook"
+    ".storybook",
+    "jest.config.ts"
   ],
   "exclude": [
     "node_modules",
