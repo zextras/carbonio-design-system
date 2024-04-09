@@ -12,11 +12,11 @@ import 'jest-styled-components';
 import { find as findStyled } from 'styled-components/test-utils';
 
 import { Banner, BannerProps, InfoContainer } from './Banner';
-import { setup, UserEvent } from '../../test-utils';
-import { ICONS } from '../../testUtils/constants';
-import { Theme } from '../../theme/theme';
-import { TIMERS } from '../constants';
-import { ModalManager } from '../utilities/ModalManager';
+import { setup, UserEvent } from '../../../test-utils';
+import { ICONS } from '../../../testUtils/constants';
+import { Theme } from '../../../theme/theme';
+import { TIMERS } from '../../constants';
+import { ModalManager } from '../../utilities/ModalManager';
 
 describe('Banner', () => {
 	function makeTextCropped(
@@ -73,13 +73,13 @@ describe('Banner', () => {
 	}
 
 	test('Render a banner', () => {
-		setup(<Banner status={'success'} description={'Description'} />);
+		setup(<Banner severity={'success'} description={'Description'} />);
 		expect(screen.getByText('Description')).toBeVisible();
 	});
 
 	test.each<
 		[
-			status: BannerProps['status'],
+			severity: BannerProps['severity'],
 			type: BannerProps['type'],
 			mainColor: keyof DefaultTheme['palette'],
 			backgroundColor: keyof DefaultTheme['palette'],
@@ -99,11 +99,11 @@ describe('Banner', () => {
 		['error', 'fill', 'gray6', 'error', 'gray6'],
 		['error', 'outline', 'error', 'gray6', 'text']
 	])(
-		'Banner with status %s and type %s has main color %s, background %s and text %s',
-		(status, type, mainColor, backgroundColor, textColor) => {
+		'Banner with severity %s and type %s has main color %s, background %s and text %s',
+		(severity, type, mainColor, backgroundColor, textColor) => {
 			const { getByRoleWithIcon } = setup(
 				<Banner
-					status={status}
+					severity={severity}
 					type={type}
 					data-testid={'banner'}
 					title={'Title'}
@@ -139,15 +139,15 @@ describe('Banner', () => {
 		}
 	);
 
-	test.each<[status: BannerProps['status'], icon: keyof DefaultTheme['icons']]>([
+	test.each<[severity: BannerProps['severity'], icon: keyof DefaultTheme['icons']]>([
 		['success', 'CheckmarkCircle2Outline'],
 		['warning', 'AlertTriangleOutline'],
 		['info', 'InfoOutline'],
 		['error', 'CloseCircleOutline']
-	])('Banner with status %s has icon %s', (status, icon) => {
+	])('Banner with severity %s has icon %s', (severity, icon) => {
 		setup(
 			<Banner
-				status={status}
+				severity={severity}
 				type={faker.helpers.arrayElement<BannerProps['type']>([
 					'fill',
 					'outline',

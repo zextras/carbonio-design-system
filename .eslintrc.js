@@ -4,7 +4,10 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 module.exports = {
-	extends: ['./node_modules/@zextras/carbonio-ui-configs/rules/eslint.js'],
+	extends: [
+		'./node_modules/@zextras/carbonio-ui-configs/rules/eslint.js',
+		'plugin:storybook/recommended'
+	],
 	plugins: ['notice'],
 	rules: {
 		'notice/notice': [
@@ -30,6 +33,12 @@ module.exports = {
 				'testing-library/no-unnecessary-act': 'warn',
 				'testing-library/no-global-regexp-flag-in-query': 'error',
 				'testing-library/prefer-user-event': 'warn',
+				'import/no-extraneous-dependencies': 'off'
+			}
+		},
+		{
+			files: ['*.stories.*'],
+			rules: {
 				'import/no-extraneous-dependencies': 'off'
 			}
 		}

@@ -8,3 +8,6 @@
 /types
 /.idea
 tsTemplate.js
+/storybook-static
+*storybook.log
+*.zip

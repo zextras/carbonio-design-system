@@ -13,12 +13,18 @@ export const ICONS = {
 	datePickerClearAction: 'icon: CloseOutline',
 	dropdownNestedLevel: 'icon: ChevronRight',
 	moreVertical: 'icon: MoreVertical',
-	multiButtonSecondaryAction: 'icon: ChevronDownOutline'
+	multiButtonSecondaryAction: 'icon: ChevronDownOutline',
+	successBannerIcon: 'icon: CheckmarkCircle2Outline',
+	warningBannerIcon: 'icon: AlertTriangleOutline',
+	infoBannerIcon: 'icon: InfoOutline',
+	errorBannerIcon: 'icon: CloseCircleOutline',
+	peopleIcon: 'icon: People'
 };
 
 export const SELECTORS = {
 	checkbox: 'checkbox',
 	dropdown: 'dropdown-popper-list',
 	dropdownItem: 'dropdown-item',
-	chip: 'chip'
+	chip: 'chip',
+	tooltip: 'tooltip'
 };

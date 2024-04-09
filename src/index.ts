@@ -8,7 +8,6 @@
 export * from './components/basic/Avatar';
 export * from './components/basic/Badge';
 export * from './components/basic/Button';
-export * from './components/temp/Button';
 export * from './components/basic/Icon';
 export * from './components/basic/Link';
 export * from './components/basic/LoadMore';
@@ -81,7 +80,7 @@ export {
 export * from './components/display/CollapsingActions';
 
 /** Feedback components */
-export { Banner, type BannerProps } from './components/feedback/Banner';
+export { Banner, type BannerProps } from './components/feedback/banner/Banner';
 export * from './components/feedback/CustomModal';
 export * from './components/feedback/Modal';
 export * from './components/feedback/modal-components/ModalHeader';
