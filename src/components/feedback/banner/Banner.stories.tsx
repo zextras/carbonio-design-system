@@ -47,7 +47,7 @@ export const Description: Story = {
 export const Title: Story = {
 	args: {
 		...Default.args,
-		title: ' Title is optional',
+		title: 'Title is optional',
 		severity: 'warning'
 	}
 };
@@ -120,7 +120,7 @@ export const LongDescription: Story = {
 	args: {
 		...Default.args,
 		description:
-			'Text to edit: Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry, Lorem Ipsum has been the industry',
+			'Text to edit: lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry, Lorem Ipsum has been the industry',
 		primaryAction: { label: 'Primary action', onClick: action('onClickPrimary') },
 		type: 'standard',
 		showClose: true,
