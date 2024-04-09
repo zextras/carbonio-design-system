@@ -174,7 +174,7 @@ export const LongDescription: Story = {
 	args: {
 		...Default.args,
 		description:
-			'Text to edit: Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry, Lorem Ipsum has been the industry',
+			'Text to edit: lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry, Lorem Ipsum has been the industry',
 		primaryAction: { label: 'Primary action', onClick: console.log },
 		type: 'standard',
 		showClose: true,
