@@ -38,6 +38,10 @@
 	"author": "Zextras Frontend Tribe <https://www.zextras.com/carbonio/>",
 	"license": "AGPL-3.0-only",
 	"homepage": "https://github.com/Zextras/carbonio-design-system",
+	"files": [
+		"dist",
+		"COPYING"
+	],
 	"sideEffects": false,
 	"devDependencies": {
 		"@babel/core": "^7.23.9",
