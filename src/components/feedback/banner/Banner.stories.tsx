@@ -6,8 +6,9 @@
 
 import React from 'react';
 
+import { action } from '@storybook/addon-actions';
 import type { Meta, StoryObj } from '@storybook/react';
-import { noop } from 'lodash';
+import { fn } from '@storybook/test';
 
 import { Banner } from './Banner';
 import { ModalManager } from '../../utilities/ModalManager';
@@ -39,7 +40,7 @@ export const Description: Story = {
 		moreInfoLabel: 'More info',
 		closeLabel: 'Close label',
 		showClose: false,
-		onClose: noop
+		onClose: fn()
 	}
 };
 
@@ -56,9 +57,9 @@ export const CloseBanner: Story = {
 		...Default.args,
 		closeLabel: 'This is the close label',
 		showClose: true,
-		onClose: noop,
-		primaryAction: { label: 'Primary action', onClick: noop },
-		secondaryAction: { label: 'Secondary action', onClick: noop },
+		onClose: fn(),
+		primaryAction: { label: 'Primary action', onClick: action('onClickPrimary') },
+		secondaryAction: { label: 'Secondary action', onClick: action('onClickSecondary') },
 		severity: 'info'
 	}
 };
@@ -67,7 +68,7 @@ export const ErrorWithPrimaryAction: Story = {
 	args: {
 		...Default.args,
 		title: 'This is the title',
-		primaryAction: { label: 'Primary action', onClick: noop },
+		primaryAction: { label: 'Primary action', onClick: action('onClickPrimary') },
 		severity: 'error'
 	}
 };
@@ -76,10 +77,10 @@ export const TypeOutline: Story = {
 	args: {
 		...Default.args,
 		title: 'This is the title',
-		primaryAction: { label: 'Primary action', onClick: noop },
+		primaryAction: { label: 'Primary action', onClick: action('onClickPrimary') },
 		type: 'outline',
 		showClose: true,
-		onClose: () => noop
+		onClose: fn()
 	}
 };
 
@@ -87,20 +88,20 @@ export const SecondaryActionWithPrimaryAction: Story = {
 	args: {
 		...Default.args,
 		title: 'This is the title',
-		primaryAction: { label: 'Primary action', onClick: noop },
-		secondaryAction: { label: 'Secondary action', onClick: noop },
+		primaryAction: { label: 'Primary action', onClick: action('onClickPrimary') },
+		secondaryAction: { label: 'Secondary action', onClick: action('onClickSecondary') },
 		type: 'outline',
 		severity: 'warning',
 		showClose: true,
-		onClose: () => noop
+		onClose: fn()
 	}
 };
 
 export const OutlineWithInfoSeverity: Story = {
 	args: {
 		...Default.args,
-		primaryAction: { label: 'Primary action', onClick: noop },
-		secondaryAction: { label: 'Secondary action', onClick: noop },
+		primaryAction: { label: 'Primary action', onClick: action('onClickPrimary') },
+		secondaryAction: { label: 'Secondary action', onClick: action('onClickSecondary') },
 		type: 'outline',
 		severity: 'info'
 	}
@@ -109,7 +110,7 @@ export const OutlineWithInfoSeverity: Story = {
 export const OutlineWithErrorSeverity: Story = {
 	args: {
 		...Default.args,
-		primaryAction: { label: 'Primary action', onClick: noop },
+		primaryAction: { label: 'Primary action', onClick: action('onClickPrimary') },
 		type: 'outline',
 		severity: 'error'
 	}
@@ -120,10 +121,10 @@ export const LongDescription: Story = {
 		...Default.args,
 		description:
 			'Text to edit: Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry, Lorem Ipsum has been the industry',
-		primaryAction: { label: 'Primary action', onClick: noop },
+		primaryAction: { label: 'Primary action', onClick: action('onClickPrimary') },
 		type: 'standard',
 		showClose: true,
-		onClose: () => noop
+		onClose: fn()
 	}
 };
 
@@ -133,12 +134,12 @@ export const ShortTitle: Story = {
 		title: 'Short title',
 		description:
 			'Text to edit: Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry, Lorem Ipsum has been the industry',
-		primaryAction: { label: 'Primary action', onClick: noop },
-		secondaryAction: { label: 'Secondary action', onClick: noop },
+		primaryAction: { label: 'Primary action', onClick: action('onClickPrimary') },
+		secondaryAction: { label: 'Secondary action', onClick: action('onClickSecondary') },
 		type: 'standard',
 		severity: 'warning',
 		showClose: true,
-		onClose: () => noop
+		onClose: fn()
 	}
 };
 
@@ -149,12 +150,15 @@ export const LongTitle: Story = {
 			'The "sixth sick sheik\'s sixth sheep\'s sick" is believed to be the toughest tongue twister in the English language.',
 		description:
 			'Text to edit: Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry, Lorem Ipsum has been the industry',
-		primaryAction: { label: 'Primary action with long label', onClick: noop },
-		secondaryAction: { label: 'Secondary action with long label', onClick: noop },
+		primaryAction: { label: 'Primary action with long label', onClick: action('onClickPrimary') },
+		secondaryAction: {
+			label: 'Secondary action with long label',
+			onClick: action('onClickSecondary')
+		},
 		type: 'standard',
 		severity: 'info',
 		showClose: true,
-		onClose: () => noop
+		onClose: fn()
 	}
 };
 
@@ -163,11 +167,11 @@ export const PrimaryActionWithIcon: Story = {
 		...Default.args,
 		title: 'Lorem ipsum dolor sit amet',
 		description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-		primaryAction: { label: 'Primary action', onClick: noop, icon: 'People' },
-		secondaryAction: { label: 'Secondary action', onClick: noop },
+		primaryAction: { label: 'Primary action', onClick: action('onClickPrimary'), icon: 'People' },
+		secondaryAction: { label: 'Secondary action', onClick: action('onClickSecondary') },
 		type: 'standard',
 		severity: 'error',
 		showClose: true,
-		onClose: () => noop
+		onClose: fn()
 	}
 };

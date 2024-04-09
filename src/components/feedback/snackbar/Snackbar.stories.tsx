@@ -7,32 +7,33 @@
 import React, { useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react';
-import { expect, within, userEvent } from '@storybook/test';
+import { expect, within, userEvent, screen } from '@storybook/test';
 
 import { Snackbar, SnackbarProps } from './Snackbar';
 import { Button } from '../../basic/Button';
 
-const meta: Meta = {
-	title: 'Components/Feedback/Snackbar',
-	component: Snackbar,
-	parameters: {
-		layout: 'padded'
-	}
-} satisfies Meta<typeof Snackbar>;
-
-export default meta;
-type Story = StoryObj<typeof meta>;
-
-const SnackbarStory = ({ open, label, ...rest }: SnackbarProps): React.JSX.Element => {
+const SnackbarStory = ({ open, ...rest }: SnackbarProps): React.JSX.Element => {
 	const [snack, setSnack] = useState(false);
 
 	return (
 		<>
 			<Button type="outlined" color="info" label="Click" onClick={() => setSnack(true)} />
-			<Snackbar onClose={() => setSnack(false)} label={label} open={open || snack} {...rest} />
+			<Snackbar onClose={() => setSnack(false)} open={open || snack} {...rest} />
 		</>
 	);
 };
+
+const meta = {
+	title: 'Components/Feedback/Snackbar',
+	component: Snackbar,
+	parameters: {
+		layout: 'padded'
+	},
+	render: SnackbarStory
+} satisfies Meta<typeof Snackbar>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
 
 export const Success: Story = {
 	args: {
@@ -47,16 +48,14 @@ export const Success: Story = {
 		disablePortal: false,
 		singleLine: false
 	},
-	render: ({ open, label, ...rest }) => <SnackbarStory label={label} open={open} {...rest} />,
 	play: async ({ canvasElement }) => {
 		const canvas = within(canvasElement);
-		const { body } = canvasElement.ownerDocument;
 		const button = canvas.getByRole('button', {
-			name: /success/i
+			name: /click/i
 		});
 		await expect(button).toBeVisible();
 		await userEvent.click(button);
-		expect(await within(body).findByText(/Lorem Ipsum dolor sit amet/i));
+		await expect(screen.getByText(/Lorem Ipsum dolor sit amet/i)).toBeVisible();
 	}
 };
 
@@ -65,8 +64,7 @@ export const Info: Story = {
 		label: 'Lorem Ipsum dolor sit amet',
 		type: 'info',
 		actionLabel: 'Ok'
-	},
-	render: ({ label, open, ...rest }) => <SnackbarStory label={label} open={open} {...rest} />
+	}
 };
 
 export const Warning: Story = {
@@ -74,8 +72,7 @@ export const Warning: Story = {
 		label: 'Lorem Ipsum dolor sit amet',
 		type: 'warning',
 		actionLabel: 'Ok'
-	},
-	render: ({ label, open, ...rest }) => <SnackbarStory label={label} open={open} {...rest} />
+	}
 };
 
 export const Error: Story = {
@@ -84,8 +81,7 @@ export const Error: Story = {
 		type: 'error',
 		actionLabel: 'Ok',
 		disableAutoHide: true
-	},
-	render: ({ label, open, ...rest }) => <SnackbarStory label={label} open={open} {...rest} />
+	}
 };
 
 export const LongTextAction: Story = {
@@ -95,8 +91,7 @@ export const LongTextAction: Story = {
 		type: 'info',
 		actionLabel: 'Откройте папку корзины',
 		disableAutoHide: true
-	},
-	render: ({ label, open, ...rest }) => <SnackbarStory label={label} open={open} {...rest} />
+	}
 };
 
 export const ShortTextLongAction: Story = {
@@ -106,8 +101,7 @@ export const ShortTextLongAction: Story = {
 		type: 'info',
 		actionLabel: 'Very long action on snackbar with superlongwordwithlotofchars',
 		disableAutoHide: true
-	},
-	render: ({ label, open, ...rest }) => <SnackbarStory label={label} open={open} {...rest} />
+	}
 };
 
 export const LongTextShortAction: Story = {
@@ -117,8 +111,7 @@ export const LongTextShortAction: Story = {
 		type: 'info',
 		actionLabel: 'Text',
 		disableAutoHide: true
-	},
-	render: ({ label, open, ...rest }) => <SnackbarStory label={label} open={open} {...rest} />
+	}
 };
 
 export const MediumTextAction: Story = {
@@ -128,6 +121,5 @@ export const MediumTextAction: Story = {
 		type: 'info',
 		actionLabel: 'Go to trash folder',
 		disableAutoHide: true
-	},
-	render: ({ label, open, ...rest }) => <SnackbarStory label={label} open={open} {...rest} />
+	}
 };
