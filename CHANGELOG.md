@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.0.0](https://github.com/Zextras/carbonio-design-system/compare/v4.2.1...v5.0.0) (2024-04-09)
+
+
+### ⚠ BREAKING CHANGES
+
+* remove deprecated ButtonOld component
+
+### Features
+
+* add tooltip for the expand and collapse actions ([635dced](https://github.com/Zextras/carbonio-design-system/commit/635dced3c63afaf75865aabddd104bdb6fe507ed)), closes [#281](https://github.com/Zextras/carbonio-design-system/issues/281)
+* **Banner:** align component to UI kit ([287c33f](https://github.com/Zextras/carbonio-design-system/commit/287c33f30bedb916602c2c7421246742dce81e62)), closes [#280](https://github.com/Zextras/carbonio-design-system/issues/280)
+* remove deprecated ButtonOld component ([a3976b1](https://github.com/Zextras/carbonio-design-system/commit/a3976b1bd4fbf530c33eb76f3c65b186bef67c43)), closes [#282](https://github.com/Zextras/carbonio-design-system/issues/282)
+
 ### [4.2.1](https://github.com/Zextras/carbonio-design-system/compare/v4.2.0...v4.2.1) (2024-03-08)
 
 
