@@ -30,6 +30,7 @@ export const SELECTORS = {
 	dropdown: 'dropdown-popper-list',
 	dropdownItem: 'dropdown-item',
 	chip: 'chip',
+	tooltip: 'tooltip',
 	progressBar: 'progress-bar',
 	snackbar: 'snackbar'
 };

@@ -406,6 +406,31 @@ const items = [
 </Container>;
 ```
 
+### Collapse and Expand Labels
+
+```jsx
+import { Container, Text } from '@zextras/carbonio-design-system';
+
+const items = [
+	{
+		id: 'accordion 1',
+		label: 'Accordion',
+		items: [
+			{
+				id: 'starred',
+				label: 'Starred',
+			}
+		]
+	}
+];
+
+<>
+	<Container orientation="vertical" mainAlignment="space-around" height="fit" width={306}>
+		<Accordion items={items} background="gray4" collapseLabel={'collapse'} expandLabel={'expand'}/>
+	</Container>
+</>;
+```
+
 ### Development status:
 
 ```jsx noEditor
