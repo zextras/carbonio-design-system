@@ -6,7 +6,7 @@
 
 import React, { useCallback, useEffect } from 'react';
 
-import styled, { css, keyframes, SimpleInterpolation } from 'styled-components';
+import styled, { css, DefaultTheme, keyframes, SimpleInterpolation } from 'styled-components';
 
 import { ScreenMode, useScreenMode } from '../../hooks/useScreenMode';
 import { Button } from '../basic/Button';
@@ -47,6 +47,7 @@ const ProgressBarContent = styled(Container)<{ $timeout: number }>`
 	animation-timing-function: linear;
 	animation-fill-mode: forwards;
 	border-radius: 1rem 0 0 1rem;
+	align-self: flex-end;
 `;
 
 const icons = {
@@ -54,7 +55,7 @@ const icons = {
 	info: 'InfoOutline',
 	warning: 'AlertTriangleOutline',
 	error: 'CloseCircleOutline'
-};
+} satisfies Record<string, keyof DefaultTheme['icons']>;
 
 interface SnackbarProps extends Omit<ContainerProps, 'children'> {
 	/** Whether to show the Snackbar or not */
@@ -197,21 +198,13 @@ const Snackbar = React.forwardRef<HTMLDivElement, SnackbarProps>(function Snackb
 						</Container>
 					</Container>
 					{enableTimeout && progressBar && (
-						<Container
+						<ProgressBarContent
 							height={'0.25rem'}
-							width={'100%'}
-							background={`${type}.disabled`}
-							mainAlignment={'flex-start'}
-							crossAlignment={'flex-end'}
 							data-testid={'progress-bar'}
-						>
-							<ProgressBarContent
-								$timeout={autoHideTimeout}
-								background={`${type}.active`}
-								width={'100%'}
-								height={'100%'}
-							/>
-						</Container>
+							$timeout={autoHideTimeout}
+							background={`${severity}.active`}
+							width={'100%'}
+						/>
 					)}
 				</SnackContainer>
 			</Transition>
