@@ -1,21 +1,12 @@
 {
   "extends": "./tsconfig.json",
-  "files": ["src/index.ts"],
-  "include": ["src"],
   "exclude": [
-    "node_modules",
-    "dist",
     "src/**/*.test.*",
-    "src/test-utils.tsx",
-    "src/**/*.stories.*",
-    "src/testUtils",
-    "src/**/jest*",
-    "src/icons/tsTemplate.ts"
+    "src/test-utils.tsx"
   ],
   "compilerOptions": {
-    "noEmit": false,
     "declaration": true,
-    "declarationMap": false,
+    "declarationMap": true,
     "declarationDir": "types",
     "emitDeclarationOnly": true,
     "allowJs": true

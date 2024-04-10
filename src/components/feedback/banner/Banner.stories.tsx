@@ -15,6 +15,7 @@ import { ICONS } from '../../../testUtils/constants';
 import { ModalManager } from '../../utilities/ModalManager';
 
 const meta: Meta = {
+	title: 'Components/Feedback/Banner',
 	component: Banner,
 	parameters: {
 		layout: 'padded'

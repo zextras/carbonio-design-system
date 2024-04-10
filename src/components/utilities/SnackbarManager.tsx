@@ -8,19 +8,7 @@ import React, { useCallback, useReducer, createContext } from 'react';
 
 import { Snackbar, SnackbarProps } from '../feedback/Snackbar';
 
-interface CreateSnackbarFnArgs extends Omit<SnackbarProps, 'open'> {
-	/** Component key */
-	key?: string;
-	/**
-	 * Define the behavior over the previous snackbar in the stack.
-	 * When true, hide the previous snackbar, show this snackbar immediately, by placing it at the head of the stack.
-	 * When false, place the snackbar as last of the stack and show it when all the previous disappears.
-	 */
-	replace?: boolean;
-}
-
-type CloseSnackbarFn = () => void;
-type CreateSnackbarFn = (props: CreateSnackbarFnArgs) => CloseSnackbarFn;
+type CreateSnackbarFn = (props: SnackbarProps & { key?: string; replace?: boolean }) => void;
 
 const SnackbarManagerContext = createContext<CreateSnackbarFn | undefined>(undefined);
 
@@ -83,11 +71,11 @@ function SnackbarManager({
 			...rest
 		}) => {
 			const handleClose = (): void => {
-				onClose?.();
+				onClose && onClose();
 				dispatchSnackbar({ type: SNACKBAR_ACTION.POP });
 			};
 			const handleActionClick = (): void => {
-				onActionClick ? onActionClick() : onClose?.();
+				onActionClick ? onActionClick() : onClose && onClose();
 				dispatchSnackbar({ type: SNACKBAR_ACTION.POP });
 			};
 			const snackKey = key ?? `${severity}-${label}`;
@@ -102,7 +90,7 @@ function SnackbarManager({
 						label={label}
 						onActionClick={handleActionClick}
 						onClose={handleClose}
-						autoHideTimeout={autoHideTimeout ?? autoHideDefaultTimeout}
+						autoHideTimeout={autoHideTimeout || autoHideDefaultTimeout}
 						{...rest}
 					/>
 				)
@@ -126,6 +114,5 @@ export {
 	SnackbarManagerContext,
 	SnackbarManager,
 	type SnackbarManagerProps,
-	type CreateSnackbarFn,
-	type CreateSnackbarFnArgs
+	type CreateSnackbarFn
 };

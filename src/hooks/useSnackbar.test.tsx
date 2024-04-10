@@ -8,8 +8,8 @@ import React from 'react';
 import { act, renderHook } from '@testing-library/react-hooks';
 
 import { useSnackbar } from './useSnackbar';
-import { SnackbarManager } from '../../components/utilities/SnackbarManager';
-import { ThemeProvider } from '../../theme/theme-context-provider';
+import { SnackbarManager } from '../components/utilities/SnackbarManager';
+import { ThemeProvider } from '../theme/theme-context-provider';
 
 jest.mock<typeof import('react-dom')>('react-dom', () => ({
 	...jest.requireActual<typeof import('react-dom')>('react-dom'),
