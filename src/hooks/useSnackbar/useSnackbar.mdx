@@ -1,0 +1,20 @@
+import { Meta, Controls, Stories, Title, Primary, ArgTypes } from '@storybook/blocks';
+import * as UseSnackbarStories from './useSnackbar.stories';
+
+<Meta of={UseSnackbarStories} />
+
+<Title />
+
+The useSnackbar hook allows to easily manage stacks of snackbars.
+
+The hook can be accessed from within a _SnackbarManager_ provider, which represents the stack.
+
+By invoking multiple times the creation function returned by the hook, multiple snackbars can be shown one per time,
+from the first one created to the last. Each time a snackbar disappears, the next one is shown. This means that if the
+snackbar is configured to auto hide (default), when its time expires, the new one will be shown.
+But if the snackbar is configured to disable the auto hide, then the new snackbar will appear only if
+- the user clicks on the action (when available)
+- the close callback returned by the creation function is invoked
+- a new snackbar is created with the _replace_ prop enabled
+
+<ArgTypes />

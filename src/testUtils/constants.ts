@@ -26,5 +26,6 @@ export const SELECTORS = {
 	dropdown: 'dropdown-popper-list',
 	dropdownItem: 'dropdown-item',
 	chip: 'chip',
-	tooltip: 'tooltip'
+	tooltip: 'tooltip',
+	snackbar: 'snackbar'
 };

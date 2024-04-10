@@ -8,7 +8,19 @@ import React, { useCallback, useReducer, createContext } from 'react';
 
 import { Snackbar, SnackbarProps } from '../feedback/Snackbar';
 
-type CreateSnackbarFn = (props: SnackbarProps & { key?: string; replace?: boolean }) => void;
+interface CreateSnackbarFnArgs extends Omit<SnackbarProps, 'open'> {
+	/** Component key */
+	key?: string;
+	/**
+	 * Define the behavior over the previous snackbar in the stack.
+	 * When true, hide the previous snackbar, show this snackbar immediately, by placing it at the head of the stack.
+	 * When false, place the snackbar as last of the stack and show it when all the previous disappears.
+	 */
+	replace?: boolean;
+}
+
+type CloseSnackbarFn = () => void;
+type CreateSnackbarFn = (props: CreateSnackbarFnArgs) => CloseSnackbarFn;
 
 const SnackbarManagerContext = createContext<CreateSnackbarFn | undefined>(undefined);
 
@@ -61,14 +73,14 @@ function SnackbarManager({
 	const createSnackbar = useCallback<CreateSnackbarFn>(
 		({ label, key, type = 'info', onActionClick, onClose, autoHideTimeout, replace, ...rest }) => {
 			const handleClose = (): void => {
-				onClose && onClose();
+				onClose?.();
 				dispatchSnackbar({ type: SNACKBAR_ACTION.POP });
 			};
 			const handleActionClick = (): void => {
-				onActionClick ? onActionClick() : onClose && onClose();
+				onActionClick ? onActionClick() : onClose?.();
 				dispatchSnackbar({ type: SNACKBAR_ACTION.POP });
 			};
-			const snackKey = key || `${type}-${label}`;
+			const snackKey = key ?? `${type}-${label}`;
 
 			dispatchSnackbar({
 				type: replace ? SNACKBAR_ACTION.POP_AND_PREPEND : SNACKBAR_ACTION.PUSH,
@@ -80,7 +92,7 @@ function SnackbarManager({
 						label={label}
 						onActionClick={handleActionClick}
 						onClose={handleClose}
-						autoHideTimeout={autoHideTimeout || autoHideDefaultTimeout}
+						autoHideTimeout={autoHideTimeout ?? autoHideDefaultTimeout}
 						{...rest}
 					/>
 				)
@@ -104,5 +116,6 @@ export {
 	SnackbarManagerContext,
 	SnackbarManager,
 	type SnackbarManagerProps,
-	type CreateSnackbarFn
+	type CreateSnackbarFn,
+	type CreateSnackbarFnArgs
 };
