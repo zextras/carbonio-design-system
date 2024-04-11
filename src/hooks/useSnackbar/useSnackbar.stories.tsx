@@ -1,10 +1,9 @@
-import React from 'react';
-
 /*
  * SPDX-FileCopyrightText: 2024 Zextras <https://www.zextras.com>
  *
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+import React from 'react';
 
 import { Meta, StoryObj } from '@storybook/react';
 import { within, userEvent, screen, expect } from '@storybook/test';

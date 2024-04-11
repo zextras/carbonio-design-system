@@ -117,5 +117,6 @@ export {
 	SnackbarManager,
 	type SnackbarManagerProps,
 	type CreateSnackbarFn,
-	type CreateSnackbarFnArgs
+	type CreateSnackbarFnArgs,
+	type CloseSnackbarFn
 };

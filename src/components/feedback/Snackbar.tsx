@@ -12,6 +12,7 @@ import { ScreenMode, useScreenMode } from '../../hooks/useScreenMode';
 import { Button } from '../basic/Button';
 import { Icon } from '../basic/Icon';
 import { Text } from '../basic/Text';
+import { TIMERS } from '../constants';
 import { Container, ContainerProps } from '../layout/Container';
 import { Row } from '../layout/Row';
 import { Portal } from '../utilities/Portal';
@@ -79,7 +80,7 @@ const Snackbar = React.forwardRef<HTMLDivElement, SnackbarProps>(function Snackb
 		onActionClick,
 		onClose,
 		zIndex = 1000,
-		autoHideTimeout = 4000,
+		autoHideTimeout = TIMERS.SNACKBAR.DEFAULT_HIDE_TIMEOUT,
 		target = window,
 		disablePortal = false,
 		singleLine = false,
@@ -90,7 +91,7 @@ const Snackbar = React.forwardRef<HTMLDivElement, SnackbarProps>(function Snackb
 	const screenMode = useScreenMode(target);
 
 	const handleClick = useCallback(() => {
-		onActionClick ? onActionClick() : onClose && onClose();
+		onActionClick ? onActionClick() : onClose?.();
 	}, [onActionClick, onClose]);
 
 	useEffect(() => {
