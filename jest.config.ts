@@ -38,6 +38,7 @@ const config: Config = {
 		'/node_modules/',
 		'/src/testUtils/',
 		'/src/test-utils.tsx',
+		'/src/types',
 		'src/icons/tsTemplate.ts'
 	],
 

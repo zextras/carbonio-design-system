@@ -38,7 +38,7 @@ type Story = StoryObj<typeof meta>;
 export const Success: Story = {
 	args: {
 		label: 'Lorem Ipsum dolor sit amet',
-		type: 'success',
+		severity: 'success',
 		open: false,
 		actionLabel: 'Ok',
 		disableAutoHide: false,
@@ -62,7 +62,7 @@ export const Success: Story = {
 export const Info: Story = {
 	args: {
 		label: 'Lorem Ipsum dolor sit amet',
-		type: 'info',
+		severity: 'info',
 		actionLabel: 'Ok'
 	}
 };
@@ -70,7 +70,7 @@ export const Info: Story = {
 export const Warning: Story = {
 	args: {
 		label: 'Lorem Ipsum dolor sit amet',
-		type: 'warning',
+		severity: 'warning',
 		actionLabel: 'Ok'
 	}
 };
@@ -78,7 +78,7 @@ export const Warning: Story = {
 export const Error: Story = {
 	args: {
 		label: 'Lorem Ipsum dolor sit amet',
-		type: 'error',
+		severity: 'error',
 		actionLabel: 'Ok',
 		disableAutoHide: true
 	}
@@ -88,7 +88,7 @@ export const LongTextAction: Story = {
 	name: 'Very Long Text and Action',
 	args: {
 		label: 'Файл был перемещен в корзину',
-		type: 'info',
+		severity: 'info',
 		actionLabel: 'Откройте папку корзины',
 		disableAutoHide: true
 	}
@@ -98,7 +98,7 @@ export const ShortTextLongAction: Story = {
 	name: 'Short Text and Long Action',
 	args: {
 		label: 'Text',
-		type: 'info',
+		severity: 'info',
 		actionLabel: 'Very long action on snackbar with superlongwordwithlotofchars',
 		disableAutoHide: true
 	}
@@ -108,7 +108,7 @@ export const LongTextShortAction: Story = {
 	name: 'Long Text and Short Action',
 	args: {
 		label: 'Very long action on snackbar with superlongwordwithlotofchars',
-		type: 'info',
+		severity: 'info',
 		actionLabel: 'Text',
 		disableAutoHide: true
 	}
@@ -118,7 +118,7 @@ export const MediumTextAction: Story = {
 	name: 'Medium Text and Medium Action',
 	args: {
 		label: 'Item moved to trash with success',
-		type: 'info',
+		severity: 'info',
 		actionLabel: 'Go to trash folder',
 		disableAutoHide: true
 	}
