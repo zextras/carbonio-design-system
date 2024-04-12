@@ -8,14 +8,14 @@ import React, { useCallback, useEffect } from 'react';
 
 import styled, { css, SimpleInterpolation } from 'styled-components';
 
-import { ScreenMode, useScreenMode } from '../../hooks/useScreenMode';
-import { Button } from '../basic/Button';
-import { Icon } from '../basic/Icon';
-import { Text } from '../basic/Text';
-import { Container, ContainerProps } from '../layout/Container';
-import { Row } from '../layout/Row';
-import { Portal } from '../utilities/Portal';
-import { Transition } from '../utilities/Transition';
+import { ScreenMode, useScreenMode } from '../../../hooks/useScreenMode';
+import { Button } from '../../basic/Button';
+import { Icon } from '../../basic/Icon';
+import { Text } from '../../basic/Text';
+import { Container, ContainerProps } from '../../layout/Container';
+import { Row } from '../../layout/Row';
+import { Portal } from '../../utilities/Portal';
+import { Transition } from '../../utilities/Transition';
 
 const SnackContainer = styled(Container)<{ $zIndex: number; $screenMode: ScreenMode }>`
 	position: fixed;
@@ -87,7 +87,7 @@ const Snackbar = React.forwardRef<HTMLDivElement, SnackbarProps>(function Snackb
 		disablePortal = false,
 		singleLine = false,
 		...rest
-	},
+	}: SnackbarProps,
 	ref
 ) {
 	const screenMode = useScreenMode(target);
