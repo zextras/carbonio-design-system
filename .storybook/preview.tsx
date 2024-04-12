@@ -1,11 +1,14 @@
-import { withThemeFromJSXProvider } from '@storybook/addon-themes';
+import React from 'react'
+
 import { ThemeProvider } from '../src';
-import { Preview } from '@storybook/react'
+import { StoryFn, Preview } from '@storybook/react';
 
 export const decorators = [
-	withThemeFromJSXProvider({
-		Provider: ThemeProvider
-	})
+	(Story: StoryFn) => (
+		<ThemeProvider>
+			<Story />
+		</ThemeProvider>
+	),
 ];
 
 const preview: Preview = {

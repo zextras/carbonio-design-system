@@ -8,19 +8,19 @@ import React, { useCallback, useEffect } from 'react';
 
 import styled, { css, SimpleInterpolation } from 'styled-components';
 
-import { ScreenMode, useScreenMode } from '../../hooks/useScreenMode';
-import { Button } from '../basic/Button';
-import { Icon } from '../basic/Icon';
-import { Text } from '../basic/Text';
-import { TIMERS } from '../constants';
-import { Container, ContainerProps } from '../layout/Container';
-import { Row } from '../layout/Row';
-import { Portal } from '../utilities/Portal';
-import { Transition } from '../utilities/Transition';
+import { ScreenMode, useScreenMode } from '../../../hooks/useScreenMode';
+import { Button } from '../../basic/Button';
+import { Icon } from '../../basic/Icon';
+import { Text } from '../../basic/Text';
+import { TIMERS } from '../../constants';
+import { Container, ContainerProps } from '../../layout/Container';
+import { Row } from '../../layout/Row';
+import { Portal } from '../../utilities/Portal';
+import { Transition } from '../../utilities/Transition';
 
 const SnackContainer = styled(Container)<{ $zIndex: number; $screenMode: ScreenMode }>`
 	position: fixed;
-	box-shadow: 0 0 0.25rem 0 ${({ theme }): string => theme.palette.shadow.regular};
+	box-shadow: ${({ theme }): string => theme.shadows.snackbar};
 	user-select: none;
 	z-index: ${({ $zIndex }): number => $zIndex};
 	right: 0;
@@ -34,17 +34,19 @@ const SnackContainer = styled(Container)<{ $zIndex: number; $screenMode: ScreenM
 `;
 
 const icons = {
-	success: 'Checkmark',
+	success: 'CheckmarkOutline',
 	info: 'InfoOutline',
 	warning: 'AlertTriangleOutline',
-	error: 'Close'
+	error: 'CloseCircleOutline'
 };
 
 interface SnackbarProps extends ContainerProps {
 	/** Whether to show the Snackbar or not */
 	open?: boolean;
-	/** Snackbar Type */
+	/** @deprecated Use severity instead */
 	type?: 'success' | 'info' | 'warning' | 'error';
+	/** Snackbar severity */
+	severity?: 'success' | 'info' | 'warning' | 'error';
 	/** Snackbar text message */
 	label: string;
 	/** Snackbar button text */
@@ -73,6 +75,7 @@ const Snackbar = React.forwardRef<HTMLDivElement, SnackbarProps>(function Snackb
 	{
 		open = false,
 		type = 'info',
+		severity = type,
 		label,
 		disableAutoHide = false,
 		hideButton = false,
@@ -85,7 +88,7 @@ const Snackbar = React.forwardRef<HTMLDivElement, SnackbarProps>(function Snackb
 		disablePortal = false,
 		singleLine = false,
 		...rest
-	},
+	}: SnackbarProps,
 	ref
 ) {
 	const screenMode = useScreenMode(target);
@@ -111,7 +114,7 @@ const Snackbar = React.forwardRef<HTMLDivElement, SnackbarProps>(function Snackb
 					$screenMode={screenMode}
 					orientation="horizontal"
 					mainAlignment="flex-start"
-					background={type}
+					background={severity}
 					height="auto"
 					width="auto"
 					$zIndex={zIndex}
@@ -126,13 +129,16 @@ const Snackbar = React.forwardRef<HTMLDivElement, SnackbarProps>(function Snackb
 					maxWidth={screenMode === 'mobile' ? '100%' : '40%'}
 					{...rest}
 				>
-					<Icon size="large" icon={icons[type]} color="gray6" />
+					<Row flexShrink={0}>
+						<Icon size="large" icon={icons[severity]} color="gray6" />
+					</Row>
 					<Container
 						gap={'1rem'}
 						wrap={'wrap'}
 						flexBasis={'fit-content'}
 						mainAlignment={'flex-start'}
 						orientation={'row'}
+						minWidth={0}
 					>
 						<Row
 							mainAlignment="flex-start"
@@ -141,7 +147,7 @@ const Snackbar = React.forwardRef<HTMLDivElement, SnackbarProps>(function Snackb
 							flexGrow={1}
 							width={'auto'}
 						>
-							<Text color="gray6" size="large" overflow={singleLine ? 'ellipsis' : 'break-word'}>
+							<Text color="gray6" size="medium" overflow={singleLine ? 'ellipsis' : 'break-word'}>
 								{label}
 							</Text>
 						</Row>

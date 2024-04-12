@@ -29,7 +29,7 @@ import styled, { DefaultTheme } from 'styled-components';
 import { ChipInput, ChipInputProps, ChipItem } from './ChipInput';
 import { IconButton, IconButtonProps } from './IconButton';
 import { Input, InputProps } from './Input';
-import { SingleItemArray } from '../../typeUtils';
+import { SingleItemArray } from '../../types/utils';
 import { INPUT_BACKGROUND_COLOR } from '../constants';
 import { ChipProps } from '../display/Chip';
 import { Container, ContainerProps } from '../layout/Container';

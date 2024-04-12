@@ -40,7 +40,7 @@ const ContainerEl = styled(Container)<{
 	user-select: none;
 	outline: none;
 	${({ theme, $disabled, $selectedBackgroundColor }): SimpleInterpolation =>
-		!$disabled && pseudoClasses(theme, $selectedBackgroundColor || 'gray5')};
+		!$disabled && pseudoClasses(theme, $selectedBackgroundColor ?? 'gray5')};
 `;
 
 interface ListItemContentProps {
@@ -63,7 +63,7 @@ function ListItemContent({
 	itemTextSize,
 	itemPaddingBetween,
 	tooltipLabel
-}: ListItemContentProps): React.JSX.Element {
+}: Readonly<ListItemContentProps>): React.JSX.Element {
 	return (
 		<Tooltip disabled={!disabled || !tooltipLabel} label={tooltipLabel} placement="bottom-end">
 			<Container orientation="horizontal" mainAlignment="flex-start">
@@ -111,7 +111,7 @@ function PopperListItem({
 	itemPaddingBetween,
 	tooltipLabel,
 	...rest
-}: PopperListItemProps): React.JSX.Element {
+}: Readonly<PopperListItemProps>): React.JSX.Element {
 	const itemRef = useRef<HTMLDivElement | null>(null);
 
 	const keyEvents = useMemo(
@@ -187,7 +187,7 @@ function NestListItem({
 	dropdownListRef,
 	tooltipLabel,
 	...rest
-}: NestListItemProps): React.JSX.Element {
+}: Readonly<NestListItemProps>): React.JSX.Element {
 	const itemRef = useRef<HTMLDivElement | null>(null);
 
 	const keyEvents = useMemo(
@@ -263,7 +263,7 @@ const PopperList = styled.div<{
 	visibility: hidden;
 	pointer-events: none;
 	background-color: ${({ theme }): string => theme.palette.gray5.regular};
-	box-shadow: 0 0 0.25rem 0 ${({ theme }): string => theme.palette.shadow.regular};
+	box-shadow: ${({ theme }): string => theme.shadows.regular};
 	z-index: 999;
 
 	max-width: ${({ width, maxWidth }): string => (width === '100%' ? '100%' : maxWidth)};
@@ -310,7 +310,7 @@ interface DropdownItem {
 	disabled?: boolean;
 	items?: Array<DropdownItem>;
 	keepOpen?: boolean;
-	tooltipLabel?: string | undefined;
+	tooltipLabel?: string;
 }
 
 interface DropdownProps extends Omit<HTMLAttributes<HTMLDivElement>, 'contextMenu'> {
@@ -451,7 +451,7 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 	// TODO: it probably makes sense to merge this callback and the handleClick
 	const handleLeftClick = useCallback<React.ReactEventHandler>(
 		(e) => {
-			children.props.onClick && children.props.onClick(e);
+			children.props.onClick?.(e);
 			handleClick(e);
 		},
 		[children.props, handleClick]
@@ -516,15 +516,15 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 	);
 
 	const onStartSentinelFocus = useCallback(() => {
-		const lastChild =
-			popperItemsRef.current &&
-			popperItemsRef.current.querySelector<HTMLElement>('div[tabindex]:last-child');
+		const lastChild = popperItemsRef.current?.querySelector<HTMLElement>(
+			'div[tabindex]:last-child'
+		);
 		lastChild && lastChild.focus();
 	}, []);
 	const onEndSentinelFocus = useCallback(() => {
-		const lastChild =
-			popperItemsRef.current &&
-			popperItemsRef.current.querySelector<HTMLElement>('div[tabindex]:first-child');
+		const lastChild = popperItemsRef.current?.querySelector<HTMLElement>(
+			'div[tabindex]:first-child'
+		);
 		lastChild && lastChild.focus();
 	}, []);
 
@@ -576,8 +576,7 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 					: [];
 				selectedItems.length > 0
 					? selectedItems[0].focus()
-					: popperItemsRef.current &&
-						popperItemsRef.current.children[0] &&
+					: popperItemsRef.current?.children[0] &&
 						popperItemsRef.current.children[0] instanceof HTMLElement &&
 						popperItemsRef.current.children[0].focus();
 			}, 1);

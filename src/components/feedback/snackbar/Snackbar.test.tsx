@@ -9,9 +9,9 @@ import React, { useState } from 'react';
 import { screen } from '@testing-library/react';
 
 import { Snackbar } from './Snackbar';
-import { setup } from '../../test-utils';
-import { Button } from '../basic/Button';
-import { Container } from '../layout/Container';
+import { setup } from '../../../test-utils';
+import { Button } from '../../basic/Button';
+import { Container } from '../../layout/Container';
 
 const CustomSnackbar = (): React.JSX.Element => {
 	const [snack1, setSnack1] = useState(false);
@@ -29,7 +29,7 @@ const CustomSnackbar = (): React.JSX.Element => {
 			<Snackbar
 				open={snack1}
 				onClose={(): void => setSnack1(false)}
-				type="success"
+				severity="success"
 				label="Success, Lorem Ipsum dolor sit amet"
 			/>
 		</>

@@ -16,7 +16,7 @@ import React, {
 
 import styled, { css, SimpleInterpolation } from 'styled-components';
 
-import { NonEmptyArray, SingleItemArray } from '../../typeUtils';
+import { NonEmptyArray, SingleItemArray } from '../../types/utils';
 import { Icon } from '../basic/Icon';
 import { Text } from '../basic/Text';
 import { Checkbox } from '../inputs/Checkbox';
