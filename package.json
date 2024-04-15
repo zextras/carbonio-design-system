@@ -67,7 +67,7 @@
 		"@testing-library/user-event": "^14.5.1",
 		"@types/jest": "^29.5.12",
 		"@types/lodash": "^4.14.196",
-		"@types/react": "^17.0.63",
+		"@types/react": "^18.2.78",
 		"@types/react-datepicker": "^4.15.0",
 		"@types/styled-components": "^5.1.26",
 		"@zextras/carbonio-ui-configs": "^1.0.0",
@@ -89,10 +89,10 @@
 		"jsdom": "^24.0.0",
 		"lodash": "^4.17.21",
 		"process": "0.11.10",
-		"react": "^17.0.2",
-		"react-dom": "^17.0.2",
+		"react": "^18.2.0",
+		"react-dom": "^18.2.0",
 		"react-styleguidist": "13.0.0",
-		"react-test-renderer": "^17.0.2",
+		"react-test-renderer": "^18.2.0",
 		"rollup": "^3.28.1",
 		"standard-version": "^9.5.0",
 		"storybook": "^8.0.6",
@@ -108,8 +108,8 @@
 	],
 	"peerDependencies": {
 		"lodash": "^4.17.21",
-		"react": "^17.0.2",
-		"react-dom": "^17.0.2",
+		"react": "^18.2.0",
+		"react-dom": "^18.2.0",
 		"styled-components": "^5.3.11"
 	},
 	"dependencies": {
