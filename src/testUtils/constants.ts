@@ -32,5 +32,6 @@ export const SELECTORS = {
 	chip: 'chip',
 	tooltip: 'tooltip',
 	progressBar: 'progress-bar',
-	snackbar: 'snackbar'
+	snackbar: 'snackbar',
+	divider: 'divider'
 };

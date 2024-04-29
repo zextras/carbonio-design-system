@@ -28,7 +28,7 @@ const Divider = React.forwardRef<HTMLDivElement, Partial<DividerProps>>(function
 	{ color = 'gray2', ...rest },
 	ref
 ) {
-	return <DividerEl ref={ref} color={color} {...rest} />;
+	return <DividerEl ref={ref} color={color} data-testid={'divider'} {...rest} />;
 });
 
 export { Divider, DividerProps };
