@@ -109,10 +109,7 @@ const ModalFooterContent: React.VFC<ModalFooterContentProps> = ({
 		} else {
 			button =
 				(onSecondaryAction && secondaryActionLabel && (
-					<Tooltip
-						disabled={!secondaryActionDisabled || !secondaryActionTooltip}
-						label={secondaryActionTooltip}
-					>
+					<Tooltip disabled={!secondaryActionTooltip} label={secondaryActionTooltip}>
 						<DismissButton
 							color="primary"
 							type="outlined"
@@ -160,7 +157,7 @@ const ModalFooterContent: React.VFC<ModalFooterContentProps> = ({
 				{!centered && <Padding right="large" />}
 				{secondaryButton}
 				{(onConfirm || onClose) && (
-					<Tooltip label={confirmTooltip} disabled={!confirmDisabled || !confirmTooltip}>
+					<Tooltip label={confirmTooltip} disabled={!confirmTooltip}>
 						<ConfirmButton
 							color={confirmColor}
 							onClick={(onConfirm || onClose) as NonNullable<typeof onClose | typeof onConfirm>}
