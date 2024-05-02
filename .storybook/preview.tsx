@@ -1,6 +1,7 @@
-import { ThemeProvider } from '../src';
 import React from 'react'
-import { StoryFn } from '@storybook/react';
+
+import { ThemeProvider } from '../src';
+import { StoryFn, Preview } from '@storybook/react';
 
 export const decorators = [
 	(Story: StoryFn) => (
@@ -9,3 +10,11 @@ export const decorators = [
 		</ThemeProvider>
 	),
 ];
+
+const preview: Preview = {
+	parameters: {
+		actions: { argTypesRegex: '^on.*' },
+	},
+};
+
+export default preview;
