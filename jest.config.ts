@@ -28,7 +28,7 @@ const config: Config = {
 	collectCoverage: true,
 
 	// An array of glob patterns indicating a set of files for which coverage information should be collected
-	collectCoverageFrom: ['src/**/*.{js,ts}(x)?'],
+	collectCoverageFrom: ['src/**/*.{js,ts}(x)?', '!src/**/stories-helpers.ts(x)?'],
 
 	// The directory where Jest should output its coverage files
 	coverageDirectory: 'coverage',
@@ -39,7 +39,7 @@ const config: Config = {
 		'/src/testUtils/',
 		'/src/test-utils.tsx',
 		'/src/types',
-		'src/icons/tsTemplate.ts'
+		'/src/icons/tsTemplate.ts'
 	],
 
 	// A list of reporter names that Jest uses when writing coverage reports

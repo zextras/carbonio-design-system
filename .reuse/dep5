@@ -53,3 +53,7 @@ License: CC0-1.0
 Files: src/fonts/*
 Copyright: <https://github.com/googlefonts/roboto>
 License: Apache-2.0
+
+Files: *.mdx
+Copyright: 2024 Zextras <https://www.zextras.com>
+License: AGPL-3.0-only
