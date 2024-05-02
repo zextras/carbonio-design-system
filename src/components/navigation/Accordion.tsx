@@ -109,7 +109,7 @@ type AccordionItemType = {
 	onClose?: (e: React.SyntheticEvent | KeyboardEvent) => void;
 };
 
-type AccordionDivider = { divider: true };
+type AccordionDivider = { divider: true; key?: string };
 
 interface AccordionRootProps extends ContainerProps {
 	level: number;
@@ -283,7 +283,7 @@ const Accordion = React.forwardRef<HTMLDivElement, AccordionProps>(function Acco
 		>
 			{map(items, (item, index) =>
 				isDivider(item) ? (
-					<Divider color="gray2" />
+					<Divider color="gray2" key={item.key ?? `divider-${index}`} />
 				) : (
 					<AccordionRoot
 						key={item.id ?? item.label ?? index}

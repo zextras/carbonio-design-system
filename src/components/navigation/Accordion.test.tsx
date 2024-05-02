@@ -9,7 +9,7 @@ import React from 'react';
 import { faker } from '@faker-js/faker';
 import { waitFor } from '@testing-library/react';
 
-import { Accordion, AccordionItem, AccordionItemType } from './Accordion';
+import { Accordion, AccordionItem, AccordionItemType, AccordionProps } from './Accordion';
 import { setup, screen, within } from '../../test-utils';
 import { ICONS, SELECTORS } from '../../testUtils/constants';
 import { Button } from '../basic/Button';
@@ -17,7 +17,7 @@ import { TIMERS } from '../constants';
 
 describe('Accordion', () => {
 	test('Render root level Accordion items', () => {
-		const { container } = setup(
+		setup(
 			<Accordion
 				items={[
 					{ id: 'first', label: 'First', icon: 'Activity' },
@@ -27,52 +27,64 @@ describe('Accordion', () => {
 				]}
 			/>
 		);
-		expect(container).toHaveTextContent('FirstSecondThirdFourth');
+		expect(screen.getByText('First')).toBeVisible();
+		expect(screen.getByText('Second')).toBeVisible();
+		expect(screen.getByText('Third')).toBeVisible();
+		expect(screen.getByText('Fourth')).toBeVisible();
 	});
 
-	test('Render deep level Accordion items', () => {
-		const { container } = setup(
-			<Accordion
-				items={[
+	it('should render but not show nested level item if parents are closed', () => {
+		const items = [
+			{
+				id: 'first',
+				label: 'first',
+				items: [
 					{
-						id: 'first',
-						icon: 'Activity',
-						items: [
-							{
-								id: 'second',
-								icon: 'Activity',
-								items: [
-									{
-										id: 'third',
-										icon: 'Activity',
-										items: [
-											{
-												id: 'fourth',
-												icon: 'Activity',
-												items: [
-													{
-														id: 'fifth',
-														icon: 'Activity',
-														items: [
-															{
-																id: 'sixth',
-																icon: 'Activity',
-																items: [{ id: 'seventh', icon: 'Activity', label: 'Deep' }]
-															}
-														]
-													}
-												]
-											}
-										]
-									}
-								]
-							}
-						]
+						id: 'second',
+						label: 'second'
 					}
-				]}
-			/>
-		);
-		expect(container).toHaveTextContent('Deep');
+				]
+			}
+		];
+		setup(<Accordion items={items} />);
+		expect(screen.getByText('second')).toBeInTheDocument();
+		expect(screen.getByText('second')).not.toBeVisible();
+	});
+
+	it('should show nested level item when parent is expanded', async () => {
+		const items = [
+			{
+				id: 'first',
+				label: 'first',
+				items: [
+					{
+						id: 'second',
+						label: 'second'
+					}
+				]
+			}
+		];
+		const { user } = setup(<Accordion items={items} />);
+		// click on chevron icon expand the accordion item
+		await user.click(screen.getByTestId(ICONS.accordionItemOpenAction));
+		await waitFor(() => expect(screen.getByText(/second/i)).toBeVisible());
+	});
+
+	it('should show nested level item when parent is set as open', () => {
+		const items = [
+			{
+				id: 'first',
+				label: 'first',
+				items: [
+					{
+						id: 'second',
+						label: 'second'
+					}
+				]
+			}
+		];
+		setup(<Accordion items={items} openIds={['first']} />);
+		expect(screen.getByText(/second/i)).toBeVisible();
 	});
 
 	test('Render customized Accordion', () => {
@@ -304,5 +316,11 @@ describe('Accordion', () => {
 				expect(screen.queryByTestId(SELECTORS.tooltip)).not.toBeInTheDocument();
 			}
 		);
+	});
+
+	it('should render a divider item', () => {
+		const items: AccordionProps['items'] = [{ divider: true }];
+		setup(<Accordion items={items} />);
+		expect(screen.getByTestId(SELECTORS.divider)).toBeVisible();
 	});
 });
