@@ -15,14 +15,10 @@ const QuotaBar = styled(Container)`
 `;
 
 interface QuotaProps extends ContainerProps {
-	/** Quota background color */
-	background?: keyof DefaultTheme['palette'];
 	/** Quota percentage */
 	fill: number;
 	/** Quota fill background color */
 	fillBackground?: keyof DefaultTheme['palette'];
-	/** Quota height */
-	height?: number | string;
 }
 
 const Quota = React.forwardRef<HTMLDivElement, QuotaProps>(function QuotaFn(
@@ -37,7 +33,7 @@ const Quota = React.forwardRef<HTMLDivElement, QuotaProps>(function QuotaFn(
 			height={height}
 			{...rest}
 		>
-			<Container background={fillBackground} width={`${fill}%`} height="100%" />
+			<Container background={fillBackground} width={`${fill > 100 ? 100 : fill}%`} height="100%" />
 		</QuotaBar>
 	);
 });
