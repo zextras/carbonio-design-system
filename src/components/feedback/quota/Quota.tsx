@@ -8,7 +8,7 @@ import React from 'react';
 
 import styled, { DefaultTheme } from 'styled-components';
 
-import { Container, ContainerProps } from '../layout/Container';
+import { Container, ContainerProps } from '../../layout/Container';
 
 const QuotaBar = styled(Container)`
 	min-width: 4rem;
@@ -22,7 +22,13 @@ interface QuotaProps extends ContainerProps {
 }
 
 const Quota = React.forwardRef<HTMLDivElement, QuotaProps>(function QuotaFn(
-	{ background = 'gray6', fill, fillBackground = 'primary', height = '0.5rem', ...rest },
+	{
+		background = 'gray6',
+		fill,
+		fillBackground = 'primary',
+		height = '0.5rem',
+		...rest
+	}: QuotaProps,
 	ref
 ) {
 	return (
@@ -31,6 +37,7 @@ const Quota = React.forwardRef<HTMLDivElement, QuotaProps>(function QuotaFn(
 			background={background}
 			crossAlignment="flex-start"
 			height={height}
+			data-testid={'quota'}
 			{...rest}
 		>
 			<Container background={fillBackground} width={`${fill > 100 ? 100 : fill}%`} height="100%" />
