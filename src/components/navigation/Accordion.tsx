@@ -15,6 +15,7 @@ import { pseudoClasses } from '../../theme/theme-utils';
 import { Badge } from '../basic/Badge';
 import { Icon } from '../basic/Icon';
 import { Text, TextProps } from '../basic/Text';
+import { Tooltip } from '../display/Tooltip';
 import { IconButton } from '../inputs/IconButton';
 import { Container, ContainerProps } from '../layout/Container';
 import { Divider } from '../layout/Divider';
@@ -108,7 +109,7 @@ type AccordionItemType = {
 	onClose?: (e: React.SyntheticEvent | KeyboardEvent) => void;
 };
 
-type AccordionDivider = { divider: true };
+type AccordionDivider = { divider: true; key?: string };
 
 interface AccordionRootProps extends ContainerProps {
 	level: number;
@@ -117,10 +118,22 @@ interface AccordionRootProps extends ContainerProps {
 	activeId?: string;
 	openIds?: string[];
 	disableTransition?: boolean;
+	expandLabel?: string;
+	collapseLabel?: string;
 }
 
 const AccordionRoot = React.forwardRef<HTMLDivElement, AccordionRootProps>(function AccordionRootFn(
-	{ level, item, background, activeId, openIds, disableTransition, ...rest },
+	{
+		level,
+		item,
+		background,
+		activeId,
+		openIds,
+		disableTransition,
+		expandLabel,
+		collapseLabel,
+		...rest
+	},
 	ref
 ) {
 	const [open, setOpen] = useState(!!item.open);
@@ -153,6 +166,11 @@ const AccordionRoot = React.forwardRef<HTMLDivElement, AccordionRootProps>(funct
 	const keyEvents = useMemo(() => getKeyboardPreset('button', handleClick), [handleClick]);
 	useKeyboard(accordionRef, keyEvents);
 
+	const tooltipLabel = useMemo(
+		() => (open ? collapseLabel : expandLabel),
+		[collapseLabel, expandLabel, open]
+	);
+
 	return (
 		<Container
 			orientation="vertical"
@@ -183,11 +201,13 @@ const AccordionRoot = React.forwardRef<HTMLDivElement, AccordionRootProps>(funct
 				)}
 				{item.items && item.items.length > 0 && (
 					<Padding right="small">
-						<IconButton
-							customSize={{ iconSize: 'large', paddingSize: 0 }}
-							onClick={toggleOpen}
-							icon={open ? 'ChevronUp' : 'ChevronDown'}
-						/>
+						<Tooltip label={tooltipLabel} disabled={!tooltipLabel} placement={'top'}>
+							<IconButton
+								customSize={{ iconSize: 'large', paddingSize: 0 }}
+								onClick={toggleOpen}
+								icon={open ? 'ChevronUp' : 'ChevronDown'}
+							/>
+						</Tooltip>
 					</Padding>
 				)}
 			</AccordionContainerEl>
@@ -216,16 +236,20 @@ const AccordionRoot = React.forwardRef<HTMLDivElement, AccordionRootProps>(funct
 interface AccordionProps extends ContainerProps {
 	/** Items tree object, can be nested (each property is forwarded to the item component as a prop) */
 	items: Array<AccordionItemType | AccordionDivider>;
-	/** Depth level, internally used for recursion nesting */
-	level?: number;
 	/** Accordion background */
 	background?: keyof DefaultTheme['palette'];
+	/** Depth level, internally used for recursion nesting */
+	level?: number;
 	/** id of the currently active item (alternative to the active item flag) */
 	activeId?: string;
 	/** list of ids of the currently open items (alternative to the open item flag) */
 	openIds?: string[];
 	/** disable animation of the accordion when expanding folders */
 	disableTransition?: boolean;
+	/** tooltip of the collapsed chevron */
+	expandLabel?: string;
+	/** tooltip of the expanded chevron */
+	collapseLabel?: string;
 }
 
 function isDivider(item: AccordionItemType | AccordionDivider): item is AccordionDivider {
@@ -233,7 +257,17 @@ function isDivider(item: AccordionItemType | AccordionDivider): item is Accordio
 }
 
 const Accordion = React.forwardRef<HTMLDivElement, AccordionProps>(function AccordionFn(
-	{ items = [], level = 0, background = 'gray5', activeId, openIds, disableTransition, ...rest },
+	{
+		items = [],
+		level = 0,
+		background = 'gray5',
+		activeId,
+		openIds,
+		disableTransition,
+		expandLabel,
+		collapseLabel,
+		...rest
+	},
 	ref
 ) {
 	return (
@@ -249,7 +283,7 @@ const Accordion = React.forwardRef<HTMLDivElement, AccordionProps>(function Acco
 		>
 			{map(items, (item, index) =>
 				isDivider(item) ? (
-					<Divider color="gray2" />
+					<Divider color="gray2" key={item.key ?? `divider-${index}`} />
 				) : (
 					<AccordionRoot
 						key={item.id ?? item.label ?? index}
@@ -259,6 +293,8 @@ const Accordion = React.forwardRef<HTMLDivElement, AccordionProps>(function Acco
 						activeId={activeId}
 						openIds={openIds}
 						disableTransition={disableTransition}
+						expandLabel={expandLabel}
+						collapseLabel={collapseLabel}
 					/>
 				)
 			)}

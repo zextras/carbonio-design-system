@@ -8,7 +8,6 @@
 export * from './components/basic/Avatar';
 export * from './components/basic/Badge';
 export * from './components/basic/Button';
-export * from './components/temp/Button';
 export * from './components/basic/Icon';
 export * from './components/basic/Link';
 export * from './components/basic/LoadMore';
@@ -88,7 +87,7 @@ export * from './components/feedback/modal-components/ModalHeader';
 export * from './components/feedback/modal-components/ModalBody';
 export * from './components/feedback/modal-components/ModalFooter';
 export * from './components/feedback/Quota';
-export * from './components/feedback/Snackbar';
+export * from './components/feedback/snackbar/Snackbar';
 
 /** Utilities components */
 export * from './components/utilities/Collapse';
@@ -111,7 +110,7 @@ export * from './hooks/useCombinedRefs';
 export * from './hooks/useHiddenCount';
 export * from './hooks/useKeyboard';
 export * from './hooks/useScreenMode';
-export * from './hooks/useSnackbar';
+export * from './hooks/useSnackbar/useSnackbar';
 export * from './hooks/useModal';
 export * from './hooks/useSplitVisibility';
 

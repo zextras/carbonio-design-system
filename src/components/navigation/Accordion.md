@@ -30,11 +30,15 @@ const items = [
 		label: 'Accordion Label',
 		onClick: () => alert('root'),
     onOpen: () => console.log('open'),
-		onClose: () => console.log('close'),items: [
+		onClose: () => console.log('close'),
+    items: [
       {
         id: '1',
         label: 'One Accordion',
         onClick: () => alert(1)
+      },
+      {
+				divider: true
       },
       {
         id: '2',
@@ -404,6 +408,31 @@ const items = [
 <Container orientation="vertical" mainAlignment="space-around" height="fit" width={306}>
 	<Accordion items={items} />
 </Container>;
+```
+
+### Collapse and Expand Labels
+
+```jsx
+import { Container, Text } from '@zextras/carbonio-design-system';
+
+const items = [
+	{
+		id: 'accordion 1',
+		label: 'Accordion',
+		items: [
+			{
+				id: 'starred',
+				label: 'Starred',
+			}
+		]
+	}
+];
+
+<>
+	<Container orientation="vertical" mainAlignment="space-around" height="fit" width={306}>
+		<Accordion items={items} background="gray4" collapseLabel={'collapse'} expandLabel={'expand'}/>
+	</Container>
+</>;
 ```
 
 ### Development status:
