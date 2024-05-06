@@ -8,7 +8,7 @@ import React, { useEffect, useMemo } from 'react';
 
 import { map, forEach, some, isMatch } from 'lodash';
 
-import { RequireAtLeastOne } from '../typeUtils';
+import { RequireAtLeastOne } from '../types/utils';
 
 type HtmlElementKeyboardEventKey = {
 	[K in keyof HTMLElementEventMap]: HTMLElementEventMap[K] extends KeyboardEvent ? K : never;

@@ -106,7 +106,7 @@ const ModalContent = styled(Container).attrs<{
 	position: relative;
 	margin: 0 auto ${({ theme }): string => theme.sizes.padding.medium};
 	border-radius: 1rem;
-	box-shadow: 0 0 0.25rem 0 ${({ theme }): string => theme.palette.shadow.regular};
+	box-shadow: ${({ theme }): string => theme.shadows.regular};
 	outline: none;
 	pointer-events: auto;
 `;

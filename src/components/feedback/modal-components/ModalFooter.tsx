@@ -8,6 +8,7 @@ import React, { useMemo } from 'react';
 import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-components';
 
 import { Button } from '../../basic/Button';
+import { Tooltip } from '../../display/Tooltip';
 import { Container } from '../../layout/Container';
 import { Padding } from '../../layout/Padding';
 
@@ -55,6 +56,8 @@ interface ModalFooterProps {
 	confirmLabel?: string;
 	/** Disabled status for main action Button */
 	confirmDisabled?: boolean;
+	/** Confirm tooltip label */
+	confirmTooltip?: string;
 	/** BackgroundColor for the Main action Button */
 	confirmColor?: string | keyof DefaultTheme['palette'];
 	/** Callback for secondary action */
@@ -63,6 +66,8 @@ interface ModalFooterProps {
 	secondaryActionLabel?: string;
 	/** Disabled status for secondary action Button */
 	secondaryActionDisabled?: boolean;
+	/** Secondary action tooltip label */
+	secondaryActionTooltip?: string;
 	/** Callback to close the Modal */
 	onClose?: (event: React.MouseEvent | KeyboardEvent) => void;
 	/** Label for the Modal close Button */
@@ -85,6 +90,7 @@ const ModalFooterContent = ({
 	onConfirm,
 	confirmLabel,
 	confirmDisabled,
+	confirmTooltip,
 	confirmColor,
 	onSecondaryAction,
 	secondaryActionLabel,
@@ -93,7 +99,8 @@ const ModalFooterContent = ({
 	dismissLabel,
 	errorActionLabel,
 	optionalFooter,
-	onErrorAction
+	onErrorAction,
+	secondaryActionTooltip
 }: ModalFooterContentProps): React.JSX.Element => {
 	const secondaryButton = useMemo(() => {
 		let button;
@@ -102,13 +109,15 @@ const ModalFooterContent = ({
 		} else {
 			button =
 				(onSecondaryAction && secondaryActionLabel && (
-					<DismissButton
-						color="primary"
-						type="outlined"
-						onClick={onSecondaryAction}
-						label={secondaryActionLabel}
-						disabled={secondaryActionDisabled}
-					/>
+					<Tooltip disabled={!secondaryActionTooltip} label={secondaryActionTooltip}>
+						<DismissButton
+							color="primary"
+							type="outlined"
+							onClick={onSecondaryAction}
+							label={secondaryActionLabel}
+							disabled={secondaryActionDisabled}
+						/>
+					</Tooltip>
 				)) ||
 				(dismissLabel && onClose && (
 					<DismissButton color="secondary" onClick={onClose} label={dismissLabel} />
@@ -123,6 +132,7 @@ const ModalFooterContent = ({
 		onSecondaryAction,
 		secondaryActionLabel,
 		secondaryActionDisabled,
+		secondaryActionTooltip,
 		dismissLabel,
 		onClose
 	]);
@@ -147,12 +157,14 @@ const ModalFooterContent = ({
 				{!centered && <Padding right="large" />}
 				{secondaryButton}
 				{(onConfirm || onClose) && (
-					<ConfirmButton
-						color={confirmColor}
-						onClick={(onConfirm || onClose) as NonNullable<typeof onClose | typeof onConfirm>}
-						label={confirmLabel}
-						disabled={confirmDisabled}
-					/>
+					<Tooltip label={confirmTooltip} disabled={!confirmTooltip}>
+						<ConfirmButton
+							color={confirmColor}
+							onClick={(onConfirm || onClose) as NonNullable<typeof onClose | typeof onConfirm>}
+							label={confirmLabel}
+							disabled={confirmDisabled}
+						/>
+					</Tooltip>
 				)}
 			</ButtonContainer>
 		</>

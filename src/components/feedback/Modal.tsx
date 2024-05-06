@@ -50,10 +50,12 @@ const Modal = React.forwardRef<HTMLDivElement, ModalProps>(function ModalFn(
 		onConfirm,
 		confirmLabel = 'OK',
 		confirmDisabled,
+		confirmTooltip,
 		confirmColor = 'primary',
 		onSecondaryAction,
 		secondaryActionLabel,
 		secondaryActionDisabled,
+		secondaryActionTooltip,
 		onClose = noop,
 		dismissLabel,
 		optionalFooter,
@@ -111,6 +113,8 @@ const Modal = React.forwardRef<HTMLDivElement, ModalProps>(function ModalFn(
 						secondaryActionDisabled={secondaryActionDisabled}
 						onErrorAction={onCopyClipboard}
 						errorActionLabel={copyLabel}
+						secondaryActionTooltip={secondaryActionTooltip}
+						confirmTooltip={confirmTooltip}
 					/>
 				</>
 			)}

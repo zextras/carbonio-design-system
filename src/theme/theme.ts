@@ -72,6 +72,7 @@ export interface ThemeObj {
 		| 'success'
 		| 'info'
 		| 'text'
+		/** @deprecated Use theme.shadows instead */
 		| 'shadow'
 		| 'successBanner'
 		| 'warningBanner'
@@ -82,6 +83,7 @@ export interface ThemeObj {
 		ThemeColorObj
 	>;
 	avatarColors: Record<`avatar_${number}`, string>;
+	shadows: Record<string, string>;
 }
 
 export const Theme: ThemeObj = {
@@ -249,6 +251,7 @@ export const Theme: ThemeObj = {
 			focus: '#1a1a1a',
 			disabled: '#cccccc'
 		},
+		/** @deprecated use theme.shadows instead */
 		shadow: {
 			regular: 'rgba(166, 166, 166, 0.5)',
 			hover: 'rgba(166, 166, 166, 0.5)',
@@ -350,5 +353,9 @@ export const Theme: ThemeObj = {
 		avatar_48: '#FF7043',
 		avatar_49: '#8D6E63',
 		avatar_50: '#0288D1'
+	},
+	shadows: {
+		regular: '0 0 0.25rem 0 rgba(166, 166, 166, 0.5)',
+		snackbar: '-2px 2px 5px 0 rgba(0, 0, 0, 0.25)'
 	}
 };

@@ -93,7 +93,7 @@ const Wrapper = ({ children }: WrapperProps): React.JSX.Element => (
 
 function customRender(
 	ui: React.ReactElement,
-	options: Omit<RenderOptions, 'queries' | 'wrapper'> = {}
+	options: Omit<RenderOptions, 'queries'> = {}
 ): RenderResult<typeof queriesExtended> {
 	return render(ui, {
 		wrapper: Wrapper,
@@ -103,7 +103,7 @@ function customRender(
 }
 
 type SetupOptions = {
-	renderOptions?: Omit<RenderOptions, 'queries' | 'wrapper'>;
+	renderOptions?: Omit<RenderOptions, 'queries'>;
 	setupOptions?: Parameters<(typeof userEvent)['setup']>[0];
 };
 
