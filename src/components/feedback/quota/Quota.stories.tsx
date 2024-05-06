@@ -6,6 +6,7 @@
 import { Meta, StoryObj } from '@storybook/react';
 
 import { Quota } from './Quota';
+import { colorArgTypeControl } from '../../../docs/utils';
 
 const meta = {
 	component: Quota
@@ -15,13 +16,22 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
+const Common: Partial<Story> = {
+	argTypes: {
+		background: colorArgTypeControl,
+		fillBackground: colorArgTypeControl
+	}
+};
+
 export const Default: Story = {
+	...Common,
 	args: {
 		fill: 75
 	}
 };
 
 export const CustomColors: Story = {
+	...Common,
 	args: {
 		fill: 17,
 		fillBackground: 'error',
@@ -30,6 +40,7 @@ export const CustomColors: Story = {
 };
 
 export const CustomHeight: Story = {
+	...Common,
 	args: {
 		fill: 100,
 		height: '1.25rem'
