@@ -45,8 +45,7 @@ export const Success: Story = {
 		hideButton: false,
 		zIndex: 1000,
 		autoHideTimeout: 4000,
-		disablePortal: false,
-		singleLine: false
+		disablePortal: false
 	},
 	play: async ({ canvasElement }) => {
 		const canvas = within(canvasElement);
