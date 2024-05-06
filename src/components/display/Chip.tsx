@@ -117,7 +117,6 @@ const ContentContainer = styled(Container)<{ gap: ContainerProps['gap'] }>`
 `;
 
 const ChipContainer = styled(Container)<{
-	background: keyof DefaultTheme['palette'];
 	disabled: boolean;
 	onClick?: React.ReactEventHandler;
 	onDoubleClick?: React.ReactEventHandler;
@@ -126,10 +125,7 @@ const ChipContainer = styled(Container)<{
 	vertical-align: middle;
 	line-height: 1.5;
 	${({ background, disabled, onClick, onDoubleClick, theme }): SimpleInterpolation =>
-		!disabled &&
-		(onClick || onDoubleClick) &&
-		theme.palette[background] &&
-		pseudoClasses(theme, background)};
+		!disabled && (onClick || onDoubleClick) && background && pseudoClasses(theme, background)};
 	border-radius: ${(props): string => {
 		switch (props.borderRadius) {
 			case 'regular':

@@ -7,21 +7,19 @@
 import React, { HTMLAttributes, useMemo } from 'react';
 
 import { map } from 'lodash';
-import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-components';
+import styled, { css, SimpleInterpolation } from 'styled-components';
 
 import { getColor, getPadding, PaddingObj } from '../../theme/theme-utils';
+import { AnyColor } from '../../types/utils';
 
 interface ContainerElProps {
 	/** The Container orientation (css flex-direction prop or 'vertical' or 'horizontal') */
 	orientation?: 'row' | 'column' | 'row-reverse' | 'column-reverse';
 	/** Type of the Container's corners */
 	borderRadius?: 'regular' | 'round' | 'half' | 'none';
-	borderColor?:
-		| string
-		| keyof DefaultTheme['palette']
-		| Partial<Record<'top' | 'right' | 'bottom' | 'left', string | keyof DefaultTheme['palette']>>;
+	borderColor?: AnyColor | Partial<Record<'top' | 'right' | 'bottom' | 'left', AnyColor>>;
 	/** Container background color */
-	background?: string | keyof DefaultTheme['palette'];
+	background?: AnyColor;
 	/** Container height: <br/>
 	 *  	`fit`: shorthand for fit-content
 	 *  	`fill`: semantic alternative for `100%`
@@ -203,7 +201,21 @@ interface ContainerProps
 }
 
 const Container = React.forwardRef<HTMLDivElement, ContainerProps>(function ContainerFn(
-	{ orientation = 'vertical', children, ...rest },
+	{
+		orientation = 'vertical',
+		borderRadius = 'regular',
+		height = 'fill',
+		width = 'fill',
+		minHeight = 'unset',
+		minWidth = 'unset',
+		maxHeight = 'unset',
+		maxWidth = 'unset',
+		mainAlignment = 'center',
+		crossAlignment = 'center',
+		wrap = 'nowrap',
+		children,
+		...rest
+	},
 	ref
 ) {
 	const direction = useMemo<ContainerElProps['orientation']>(
@@ -214,24 +226,24 @@ const Container = React.forwardRef<HTMLDivElement, ContainerProps>(function Cont
 		[orientation]
 	);
 	return (
-		<ContainerEl ref={ref} orientation={direction} {...rest}>
+		<ContainerEl
+			ref={ref}
+			orientation={direction}
+			borderRadius={borderRadius}
+			height={height}
+			width={width}
+			minHeight={minHeight}
+			minWidth={minWidth}
+			maxHeight={maxHeight}
+			maxWidth={maxWidth}
+			mainAlignment={mainAlignment}
+			crossAlignment={crossAlignment}
+			wrap={wrap}
+			{...rest}
+		>
 			{children}
 		</ContainerEl>
 	);
 });
-
-Container.defaultProps = {
-	orientation: 'vertical',
-	borderRadius: 'regular',
-	height: 'fill',
-	width: 'fill',
-	minHeight: 'unset',
-	minWidth: 'unset',
-	maxHeight: 'unset',
-	maxWidth: 'unset',
-	mainAlignment: 'center',
-	crossAlignment: 'center',
-	wrap: 'nowrap'
-};
 
 export { Container, ContainerProps };

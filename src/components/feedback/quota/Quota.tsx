@@ -6,8 +6,9 @@
 
 import React from 'react';
 
-import styled, { DefaultTheme } from 'styled-components';
+import styled from 'styled-components';
 
+import { AnyColor } from '../../../types/utils';
 import { Container, ContainerProps } from '../../layout/Container';
 
 const QuotaBar = styled(Container)`
@@ -18,7 +19,7 @@ interface QuotaProps extends ContainerProps {
 	/** Quota percentage */
 	fill: number;
 	/** Quota fill background color */
-	fillBackground?: keyof DefaultTheme['palette'];
+	fillBackground?: AnyColor;
 }
 
 const Quota = React.forwardRef<HTMLDivElement, QuotaProps>(function QuotaFn(
