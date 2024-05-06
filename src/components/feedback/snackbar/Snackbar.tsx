@@ -85,7 +85,7 @@ interface SnackbarProps extends Omit<ContainerProps, 'children'> {
 	target?: Window;
 	/** Flag to disable the Portal implementation */
 	disablePortal?: boolean;
-	/** Flag to disable the multiline implementation */
+	/** @deprecated Flag to disable the multiline implementation */
 	singleLine?: boolean;
 	/**
 	 * Show a progress bar for the auto-hide timeout counter.
