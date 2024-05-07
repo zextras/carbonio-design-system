@@ -14,7 +14,7 @@ import React, {
 	useState
 } from 'react';
 
-import { filter, map, slice, isEmpty, debounce, find, trim, reduce, uniq } from 'lodash';
+import { filter, map, slice, debounce, find, trim, reduce, uniq, isEmpty } from 'lodash';
 import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-components';
 
 import { InputDescription } from './commons/InputDescription';
@@ -371,6 +371,7 @@ interface ChipInputProps<TValue = unknown>
 	wrap?: 'nowrap' | 'wrap';
 	/** maxHeight of Input in case of no horizontal scroll */
 	maxHeight?: string;
+	onOptionsDisplayChange?: (isVisible: boolean) => void;
 }
 
 type ChipInputType = (<TValue = unknown>(
@@ -421,6 +422,7 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 		ChipComponent,
 		wrap = 'wrap',
 		maxHeight = '8.125rem',
+		onOptionsDisplayChange,
 		...rest
 	}: ChipInputProps<TValue>,
 	ref: React.ForwardedRef<HTMLDivElement>
@@ -433,6 +435,8 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 	const inputElRef = useCombinedRefs<HTMLInputElement>(inputRef);
 	const scrollContainerRef = useRef<HTMLDivElement | null>(null);
 	const scrollAfterSaveRef = useRef(false);
+
+	const dropdownRef = useRef(false);
 
 	const [id] = useState(() => {
 		const ChipInputCast = ChipInputComponent as ChipInputType;
@@ -449,9 +453,33 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 
 	const uncontrolledMode = useMemo(() => value === undefined, [value]);
 
+	const inputDisabled = useMemo(
+		() => !!maxChips && items.length >= maxChips,
+		[items.length, maxChips]
+	);
+
+	const previousInputDisabled = usePrevious<boolean>(inputDisabled);
+
+	useEffect(() => {
+		if (inputDisabled && !previousInputDisabled) {
+			setIsActive(false);
+		}
+	}, [previousInputDisabled, inputDisabled]);
+
+	// dropdown disabled does not depend on chipInput disabled, so that options can be still used
+	// even if input is disabled (chip can be added through dropdown but not typing)
+	const dropdownDisabled = useMemo(
+		() => disableOptions || inputDisabled,
+		[disableOptions, inputDisabled]
+	);
+
 	const setFocus = useCallback(() => {
 		inputElRef.current && inputElRef.current.focus();
-	}, [inputElRef]);
+		if (onOptionsDisplayChange && !dropdownRef.current && !dropdownDisabled) {
+			dropdownRef.current = true;
+			onOptionsDisplayChange(dropdownRef.current);
+		}
+	}, [dropdownDisabled, inputElRef, onOptionsDisplayChange]);
 
 	const saveValue = useCallback(
 		(valueToSave: string | unknown) => {
@@ -592,8 +620,11 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 
 	const onClose = useCallback(() => {
 		setForceShowDropdown(false);
-	}, []);
-
+		if (onOptionsDisplayChange) {
+			dropdownRef.current = false;
+			onOptionsDisplayChange(dropdownRef.current);
+		}
+	}, [onOptionsDisplayChange]);
 	useEffect(() => {
 		!uncontrolledMode && dispatch({ type: 'reset', value });
 	}, [uncontrolledMode, value]);
@@ -649,31 +680,18 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 		}
 	}, [items]);
 
-	const inputDisabled = useMemo(
-		() => !!maxChips && items.length >= maxChips,
-		[items.length, maxChips]
-	);
-
-	const previousInputDisabled = usePrevious<boolean>(inputDisabled);
-
-	useEffect(() => {
-		if (inputDisabled && !previousInputDisabled) {
-			setIsActive(false);
-		}
-	}, [previousInputDisabled, inputDisabled]);
-
-	// dropdown disabled does not depend on chipInput disabled, so that options can be still used
-	// even if input is disabled (chip can be added through dropdown but not typing)
-	const dropdownDisabled = useMemo(
-		() => disableOptions || inputDisabled,
-		[disableOptions, inputDisabled]
-	);
-
 	useEffect(() => {
 		// if dropdown is set to not open on click (dropdownDisabled),
 		// force open it on options change to simulate suggestion mode
 		setForceShowDropdown(dropdownDisabled && !isEmpty(options));
 	}, [dropdownDisabled, options]);
+
+	useEffect(() => {
+		if (onOptionsDisplayChange && dropdownDisabled) {
+			dropdownRef.current = forceShowDropdown;
+			onOptionsDisplayChange(dropdownRef.current);
+		}
+	}, [dropdownDisabled, forceShowDropdown, onOptionsDisplayChange, options]);
 
 	const hasFocus = useMemo(() => isActive && !inputDisabled, [isActive, inputDisabled]);
 

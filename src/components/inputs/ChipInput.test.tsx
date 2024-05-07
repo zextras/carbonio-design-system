@@ -844,4 +844,67 @@ describe('ChipInput', () => {
 		}
 		expect(screen.getAllByText(/chip/)).toHaveLength(prevLimitMaxPlusOne);
 	});
+
+	it('should give TRUE value on onOptionsDisplayChange when the user clicks opens the dropdown by clicking the input element', async () => {
+		const onOptionsDisplayChangeFn = jest.fn();
+		const initial = [
+			{
+				id: '0',
+				address: 'helensinclair@jourrapide.com',
+				lastName: 'Sinclair',
+				firstName: 'Helen',
+				label: 'Helen',
+				value: {
+					label: 'Helen Sinclair',
+					anotherProp: 'prop1',
+					avatarIcon: 'People'
+				}
+			}
+		];
+
+		const { user } = setup(
+			<ChipInput
+				onOptionsDisplayChange={onOptionsDisplayChangeFn}
+				options={initial}
+				disableOptions={false}
+			/>
+		);
+		const inputElement = screen.getByRole('textbox');
+		await user.click(inputElement);
+		await waitFor(() => expect(onOptionsDisplayChangeFn).toHaveBeenCalled());
+		expect(onOptionsDisplayChangeFn).toHaveBeenCalledWith(true);
+	});
+
+	test('should give FALSE value on onOptionsDisplayChange when the user closes the dropdown', async () => {
+		const onOptionsDisplayChangeFn = jest.fn();
+		const initial = [
+			{
+				id: '0',
+				address: 'helensinclair@jourrapide.com',
+				lastName: 'Sinclair',
+				firstName: 'Helen',
+				label: 'Helen',
+				value: {
+					label: 'Helen Sinclair',
+					anotherProp: 'prop1',
+					avatarIcon: 'People'
+				}
+			}
+		];
+
+		const { user } = setup(
+			<ChipInput
+				onOptionsDisplayChange={onOptionsDisplayChangeFn}
+				options={initial}
+				disableOptions={false}
+			/>
+		);
+		const inputElement = screen.getByRole('textbox');
+		await user.click(inputElement);
+		await waitFor(() => expect(onOptionsDisplayChangeFn).toHaveBeenCalledTimes(1));
+		expect(onOptionsDisplayChangeFn).toHaveBeenCalledWith(true);
+		await user.click(inputElement);
+		await waitFor(() => expect(onOptionsDisplayChangeFn).toHaveBeenCalledTimes(2));
+		expect(onOptionsDisplayChangeFn).toHaveBeenLastCalledWith(false);
+	});
 });
