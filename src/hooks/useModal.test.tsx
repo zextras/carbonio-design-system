@@ -13,7 +13,7 @@ import { ThemeProvider } from '../theme/theme-context-provider';
 
 jest.mock<typeof import('react-dom')>('react-dom', () => ({
 	...jest.requireActual<typeof import('react-dom')>('react-dom'),
-	createPortal: (node): React.ReactPortal => ({ children: node, key: null, props: {}, type: '' })
+	createPortal: (node): React.ReactPortal => node as React.ReactPortal
 }));
 
 const modalContextError = 'Modal manager context not initialized';
@@ -39,7 +39,7 @@ describe('useModal', () => {
 		expect(console.error).toHaveBeenCalledWith(modalContextError);
 	});
 
-	it.skip('should return a defined function if a manager has been set', () => {
+	it('should return a defined function if a manager has been set', () => {
 		const { result } = renderHook(useModal, {
 			wrapper: ({ children }) => (
 				<ThemeProvider>

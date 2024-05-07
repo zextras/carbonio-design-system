@@ -6,7 +6,7 @@
 
 import React, { useState } from 'react';
 
-import { act, screen, waitFor } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 
 import { CustomModal, CustomModalProps } from './CustomModal';
 import { setup } from '../../test-utils';
@@ -77,8 +77,7 @@ describe('Custom Modal', () => {
 		expect(onClick).toHaveBeenCalled();
 	});
 
-	test.skip('should not blindly prevent default behavior of html elements', async () => {
-		jest.useRealTimers();
+	test('should not blindly prevent default behavior of html elements', async () => {
 		const originalConsoleError = console.error;
 		const errors: string[] = [];
 		console.error = (...args): void => {
@@ -95,13 +94,10 @@ describe('Custom Modal', () => {
 		const { user } = setup(
 			<ModalTester>
 				<a href={href}>This is a link</a>
-			</ModalTester>,
-			{ setupOptions: { advanceTimers: () => Promise.resolve() } }
+			</ModalTester>
 		);
 		await screen.findByRole('button');
-		await act(async () => {
-			await user.click(screen.getByRole('button'));
-		});
+		await user.click(screen.getByRole('button'));
 		await screen.findByTestId('modal');
 		await waitFor(() => expect(screen.getByRole('link')).toBeVisible());
 		await user.click(screen.getByRole('link'));
@@ -109,8 +105,6 @@ describe('Custom Modal', () => {
 			// see https://github.com/jsdom/jsdom/blob/2d51af302581a57ee5b9b65595f1714d669b7ea2/lib/jsdom/living/nodes/HTMLAnchorElement-impl.js
 			expect(errors).toEqual(['Not implemented: navigation (except hash changes)'])
 		);
-
 		console.error = originalConsoleError;
-		jest.useFakeTimers();
 	});
 });
