@@ -22,7 +22,7 @@ interface QuotaProps extends ContainerProps {
 }
 
 const Quota = React.forwardRef<HTMLDivElement, QuotaProps>(function QuotaFn(
-	{ background = 'gray6', fill, fillBackground = 'primary', height = '0.5rem', ...rest },
+	{ background = 'gray6', fill, fillBackground = 'info', height = '0.5rem', ...rest },
 	ref
 ) {
 	return (
