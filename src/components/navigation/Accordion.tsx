@@ -183,7 +183,7 @@ const AccordionRoot = React.forwardRef<HTMLDivElement, AccordionRootProps>(funct
 		>
 			<AccordionContainerEl
 				$active={item.active || activeId === item.id}
-				$background={item.background || background}
+				$background={item.background ?? background}
 				ref={ref}
 				$level={level}
 				$disableHover={item.disableHover}
