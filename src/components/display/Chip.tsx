@@ -16,7 +16,7 @@ import { Avatar, AvatarPropTypes } from '../basic/Avatar';
 import { Icon } from '../basic/Icon';
 import { Text } from '../basic/Text';
 import { IconButton, IconButtonProps } from '../inputs/IconButton';
-import { Container, ContainerProps } from '../layout/Container';
+import { Container } from '../layout/Container';
 import { Row, RowProps } from '../layout/Row';
 
 type ChipAction = {
@@ -107,7 +107,7 @@ const ActionContainer = styled.div<{ $spacing: string }>`
 
 const LabelContainer = styled(Container)``;
 
-const ContentContainer = styled(Container)<{ gap: ContainerProps['gap'] }>`
+const ContentContainer = styled(Container)`
 	&:first-child > ${LabelContainer}:first-child {
 		padding-left: ${({ gap }): SimpleInterpolation => css`calc(${gap} * 2)`};
 	}
@@ -117,19 +117,13 @@ const ContentContainer = styled(Container)<{ gap: ContainerProps['gap'] }>`
 `;
 
 const ChipContainer = styled(Container)<{
-	background: keyof DefaultTheme['palette'];
-	disabled: boolean;
-	onClick?: React.ReactEventHandler;
-	onDoubleClick?: React.ReactEventHandler;
+	$disabled: boolean;
 }>`
 	user-select: none;
 	vertical-align: middle;
 	line-height: 1.5;
-	${({ background, disabled, onClick, onDoubleClick, theme }): SimpleInterpolation =>
-		!disabled &&
-		(onClick || onDoubleClick) &&
-		theme.palette[background] &&
-		pseudoClasses(theme, background)};
+	${({ background, $disabled, onClick, onDoubleClick, theme }): SimpleInterpolation =>
+		!$disabled && (onClick || onDoubleClick) && background && pseudoClasses(theme, background)};
 	border-radius: ${(props): string => {
 		switch (props.borderRadius) {
 			case 'regular':
@@ -360,7 +354,7 @@ const Chip = React.forwardRef<HTMLDivElement, ChipProps>(function ChipFn(
 				}}
 				onClick={onClick && clickHandler}
 				onDoubleClick={onDoubleClick && dblClickHandler}
-				disabled={!!disabled}
+				$disabled={!!disabled}
 				width="fit"
 				height="fit"
 				minWidth={maxWidth ? '0' : 'max-content'}
