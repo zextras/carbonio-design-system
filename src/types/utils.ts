@@ -17,3 +17,15 @@ export type RequireAtLeastOne<T, Keys extends keyof T = keyof T> = Pick<T, Exclu
 export type PaletteColor = keyof DefaultTheme['palette'];
 
 export type AnyColor = PaletteColor | (string & Record<never, never>);
+
+export type Prefix<TString extends string, TPrefix extends string> = `${TPrefix}${TString}`;
+
+export type WithPrefixedKeys<
+	TObject,
+	TPrefix extends string,
+	TKeys extends keyof TObject = keyof TObject
+> = {
+	[K in TKeys as K extends string ? Prefix<K, TPrefix> : never]: TObject[K];
+};
+
+export type StyledComponentProps<TProps> = WithPrefixedKeys<TProps, '$'>;

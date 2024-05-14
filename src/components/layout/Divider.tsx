@@ -6,29 +6,33 @@
 
 import React, { HTMLAttributes } from 'react';
 
-import styled, { DefaultTheme } from 'styled-components';
+import styled from 'styled-components';
 
 import { getColor } from '../../theme/theme-utils';
+import { AnyColor, StyledComponentProps } from '../../types/utils';
 
-interface DividerProps extends HTMLAttributes<HTMLDivElement> {
+interface DividerComponentProps {
 	/** Divider color */
-	color: string | keyof DefaultTheme['palette'];
+	color: AnyColor;
 }
 
-const DividerEl = styled.div<DividerProps>`
+const DividerEl = styled.div<StyledComponentProps<DividerComponentProps>>`
 	box-sizing: border-box;
-	background-color: ${({ theme, color }): string => getColor(color, theme)};
+	background-color: ${({ theme, $color }): string => getColor($color, theme)};
 	height: 0.0625rem;
 	max-height: 0.0625rem;
 	min-height: 0.0625rem;
 	width: 100%;
 `;
 
-const Divider = React.forwardRef<HTMLDivElement, Partial<DividerProps>>(function DividerFn(
+type DividerProps = Omit<HTMLAttributes<HTMLDivElement>, keyof DividerComponentProps> &
+	Partial<DividerComponentProps>;
+
+const Divider = React.forwardRef<HTMLDivElement, DividerProps>(function DividerFn(
 	{ color = 'gray2', ...rest },
 	ref
 ) {
-	return <DividerEl ref={ref} color={color} data-testid={'divider'} {...rest} />;
+	return <DividerEl ref={ref} $color={color} data-testid={'divider'} {...rest} />;
 });
 
 export { Divider, DividerProps };

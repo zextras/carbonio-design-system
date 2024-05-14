@@ -118,3 +118,4 @@ export * from './hooks/useSplitVisibility';
 // @see https://github.com/rollup/rollup-plugin-typescript/issues/28#issuecomment-546387825
 export type Theme = import('./theme/theme').ThemeObj;
 export * from './globals';
+export type { AnyColor, PaletteColor } from './types/utils';
