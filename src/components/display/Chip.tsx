@@ -144,15 +144,7 @@ const ChipContainer = styled(Container)<{
 		onClick || onDoubleClick ? 'pointer' : 'default'};
 `;
 
-const SIZES: Record<
-	NonNullable<ChipProps['size']>,
-	{
-		avatar: keyof DefaultTheme['sizes']['avatar'];
-		font: keyof DefaultTheme['sizes']['font'];
-		icon: React.ComponentPropsWithoutRef<typeof Icon>['size'];
-		spacing: string;
-	}
-> = {
+const SIZES = {
 	small: {
 		avatar: 'small',
 		font: 'extrasmall',
@@ -171,7 +163,15 @@ const SIZES: Record<
 		icon: 'large',
 		spacing: '0.75rem'
 	}
-};
+} satisfies Record<
+	NonNullable<ChipProps['size']>,
+	{
+		avatar: keyof DefaultTheme['sizes']['avatar'];
+		font: keyof DefaultTheme['sizes']['font'];
+		icon: React.ComponentPropsWithoutRef<typeof Icon>['size'];
+		spacing: string;
+	}
+>;
 
 const Chip = React.forwardRef<HTMLDivElement, ChipProps>(function ChipFn(
 	{

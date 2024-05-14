@@ -17,6 +17,8 @@ import { Padding } from '../layout/Padding';
 
 type SwitchSize = 'medium' | 'small';
 
+const StyledIcon = styled(Icon)``;
+
 const IconWrapper = styled.div<{
 	disabled: boolean;
 	iconColor: keyof DefaultTheme['palette'];
@@ -29,19 +31,19 @@ const IconWrapper = styled.div<{
 		css`
 			&:focus {
 				outline: none;
-				> ${Icon} {
+				> ${StyledIcon} {
 					color: ${theme.palette[iconColor].focus};
 				}
 			}
 			&:hover {
 				outline: none;
-				> ${Icon} {
+				> ${StyledIcon} {
 					color: ${theme.palette[iconColor].hover};
 				}
 			}
 			&:active {
 				outline: none;
-				> ${Icon} {
+				> ${StyledIcon} {
 					color: ${theme.palette[iconColor].active};
 				}
 			}

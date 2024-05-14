@@ -18,6 +18,8 @@ import { Padding } from '../layout/Padding';
 
 type CheckboxSize = 'medium' | 'small';
 
+const StyledIcon = styled(Icon)``;
+
 const IconWrapper = styled.div<{
 	disabled: boolean;
 	iconColor: keyof DefaultTheme['palette'] | string;
@@ -31,19 +33,19 @@ const IconWrapper = styled.div<{
 		css`
 			&:focus {
 				outline: none;
-				> ${Icon} {
+				> ${StyledIcon} {
 					color: ${getColor(`${iconColor}.focus`, theme)};
 				}
 			}
 			&:hover {
 				outline: none;
-				> ${Icon} {
+				> ${StyledIcon} {
 					color: ${getColor(`${iconColor}.hover`, theme)};
 				}
 			}
 			&:active {
 				outline: none;
-				> ${Icon} {
+				> ${StyledIcon} {
 					color: ${getColor(`${iconColor}.active`, theme)};
 				}
 			}
