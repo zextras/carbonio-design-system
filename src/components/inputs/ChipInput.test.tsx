@@ -845,7 +845,7 @@ describe('ChipInput', () => {
 		expect(screen.getAllByText(/chip/)).toHaveLength(prevLimitMaxPlusOne);
 	});
 
-	it('should give TRUE value on onOptionsDisplayChange when the user clicks opens the dropdown by clicking the input element', async () => {
+	it('should give TRUE value on onOptionsDisplayChange when the user opens the dropdown by clicking the input element', async () => {
 		const onOptionsDisplayChangeFn = jest.fn();
 		const initial = [
 			{

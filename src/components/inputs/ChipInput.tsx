@@ -436,8 +436,6 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 	const scrollContainerRef = useRef<HTMLDivElement | null>(null);
 	const scrollAfterSaveRef = useRef(false);
 
-	const dropdownRef = useRef(false);
-
 	const [id] = useState(() => {
 		const ChipInputCast = ChipInputComponent as ChipInputType;
 		if (ChipInputCast._newId === undefined) {
@@ -475,11 +473,7 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 
 	const setFocus = useCallback(() => {
 		inputElRef.current && inputElRef.current.focus();
-		if (onOptionsDisplayChange && !dropdownRef.current && !dropdownDisabled) {
-			dropdownRef.current = true;
-			onOptionsDisplayChange(dropdownRef.current);
-		}
-	}, [dropdownDisabled, inputElRef, onOptionsDisplayChange]);
+	}, [inputElRef]);
 
 	const saveValue = useCallback(
 		(valueToSave: string | unknown) => {
@@ -618,13 +612,24 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 		[saveValue, setFocus, singleSelection, replaceValue]
 	);
 
+	const showDropdown = useCallback(
+		(isVisible) => {
+			if (onOptionsDisplayChange && !isEmpty(options)) {
+				onOptionsDisplayChange(isVisible);
+			}
+		},
+		[onOptionsDisplayChange, options]
+	);
+
 	const onClose = useCallback(() => {
 		setForceShowDropdown(false);
-		if (onOptionsDisplayChange) {
-			dropdownRef.current = false;
-			onOptionsDisplayChange(dropdownRef.current);
-		}
-	}, [onOptionsDisplayChange]);
+		showDropdown(false);
+	}, [showDropdown]);
+
+	const onOpen = useCallback(() => {
+		showDropdown(true);
+	}, [showDropdown]);
+
 	useEffect(() => {
 		!uncontrolledMode && dispatch({ type: 'reset', value });
 	}, [uncontrolledMode, value]);
@@ -687,11 +692,8 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 	}, [dropdownDisabled, options]);
 
 	useEffect(() => {
-		if (onOptionsDisplayChange && dropdownDisabled) {
-			dropdownRef.current = forceShowDropdown;
-			onOptionsDisplayChange(dropdownRef.current);
-		}
-	}, [dropdownDisabled, forceShowDropdown, onOptionsDisplayChange, options]);
+		dropdownDisabled && showDropdown(forceShowDropdown);
+	}, [dropdownDisabled, forceShowDropdown, showDropdown]);
 
 	const hasFocus = useMemo(() => isActive && !inputDisabled, [isActive, inputDisabled]);
 
@@ -740,6 +742,7 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 				disableAutoFocus
 				disableRestoreFocus
 				forceOpen={forceShowDropdown}
+				onOpen={onOpen}
 				onClose={onClose}
 				disabled={dropdownDisabled}
 				maxHeight={dropdownMaxHeight}
