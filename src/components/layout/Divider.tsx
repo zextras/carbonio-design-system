@@ -9,14 +9,14 @@ import React, { HTMLAttributes } from 'react';
 import styled from 'styled-components';
 
 import { getColor } from '../../theme/theme-utils';
-import { AnyColor, StyledComponentProps } from '../../types/utils';
+import { AnyColor, With$Prefix } from '../../types/utils';
 
 interface DividerComponentProps {
 	/** Divider color */
 	color: AnyColor;
 }
 
-const DividerEl = styled.div<StyledComponentProps<DividerComponentProps>>`
+const DividerEl = styled.div<With$Prefix<DividerComponentProps>>`
 	box-sizing: border-box;
 	background-color: ${({ theme, $color }): string => getColor($color, theme)};
 	height: 0.0625rem;

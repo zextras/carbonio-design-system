@@ -18,14 +18,29 @@ export type PaletteColor = keyof DefaultTheme['palette'];
 
 export type AnyColor = PaletteColor | (string & Record<never, never>);
 
-export type Prefix<TString extends string, TPrefix extends string> = `${TPrefix}${TString}`;
+export type WithPrefix<TString extends string, TPrefix extends string> = `${TPrefix}${TString}`;
 
-export type WithPrefixedKeys<
+export type WithoutPrefix<
+	TString extends string,
+	TPrefix extends string
+> = TString extends `${TPrefix}${infer S}` ? S : TString;
+
+export type KeysWithPrefix<
 	TObject,
 	TPrefix extends string,
 	TKeys extends keyof TObject = keyof TObject
 > = {
-	[K in TKeys as K extends string ? Prefix<K, TPrefix> : never]: TObject[K];
+	[K in TKeys as K extends string ? WithPrefix<K, TPrefix> : never]: TObject[K];
 };
 
-export type StyledComponentProps<TProps> = WithPrefixedKeys<TProps, '$'>;
+export type KeysWithoutPrefix<
+	TObject,
+	TPrefix extends string,
+	TKeys extends keyof TObject = keyof TObject
+> = {
+	[K in TKeys as K extends string ? WithoutPrefix<K, TPrefix> : never]: TObject[K];
+};
+
+export type With$Prefix<TProps> = KeysWithPrefix<TProps, '$'>;
+
+export type Without$Prefix<TProps> = KeysWithoutPrefix<TProps, '$'>;
