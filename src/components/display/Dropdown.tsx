@@ -246,17 +246,17 @@ function NestListItem({
 	);
 }
 
-const PopperDropdownWrapper = styled.div<{ display: string }>`
+const PopperDropdownWrapper = styled.div<{ $display: string }>`
 	position: relative;
-	display: ${({ display }): string => display};
-	width: ${({ display }): string => (display === 'block' ? '100%' : 'auto')};
+	display: ${({ $display }): string => $display};
+	width: ${({ $display }): string => ($display === 'block' ? '100%' : 'auto')};
 `;
 const PopperList = styled.div<{
-	width: string;
-	maxWidth: string;
-	maxHeight: string;
-	triggerRef: React.RefObject<HTMLElement>;
-	open: boolean;
+	$width: string;
+	$maxWidth: string;
+	$maxHeight: string;
+	$triggerRef: React.RefObject<HTMLElement>;
+	$open: boolean;
 }>`
 	position: fixed;
 	display: none;
@@ -266,10 +266,10 @@ const PopperList = styled.div<{
 	box-shadow: ${({ theme }): string => theme.shadows.regular};
 	z-index: 999;
 
-	max-width: ${({ width, maxWidth }): string => (width === '100%' ? '100%' : maxWidth)};
-	max-height: ${({ maxHeight }): string => maxHeight};
-	width: ${({ width, triggerRef }): string =>
-		width === '100%' && triggerRef.current ? `${triggerRef.current.clientWidth}px` : width};
+	max-width: ${({ $width, $maxWidth }): string => ($width === '100%' ? '100%' : $maxWidth)};
+	max-height: ${({ $maxHeight }): string => $maxHeight};
+	width: ${({ $width, $triggerRef }): string =>
+		$width === '100%' && $triggerRef.current ? `${$triggerRef.current.clientWidth}px` : $width};
 	overflow-y: auto;
 
 	&::-webkit-scrollbar {
@@ -290,8 +290,8 @@ const PopperList = styled.div<{
 		outline: none;
 	}
 
-	${({ open }): SimpleInterpolation =>
-		open &&
+	${({ $open }): SimpleInterpolation =>
+		$open &&
 		css`
 			display: block;
 			visibility: visible;
@@ -494,10 +494,8 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 					innerTriggerRef.current?.contains(e.target as Node | null));
 			const clickedOnNestedItem =
 				nestedDropdownsRef.current &&
-				some(
-					nestedDropdownsRef.current,
-					(nestedItemRef) =>
-						nestedItemRef.current && nestedItemRef.current.contains(e.target as Node | null)
+				some(nestedDropdownsRef.current, (nestedItemRef) =>
+					nestedItemRef.current?.contains(e.target as Node | null)
 				);
 			if (
 				!clickedOnDropdown &&
@@ -506,7 +504,7 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 				// check if the attribute is in the event path
 				!find(
 					e.composedPath?.() ?? [],
-					(el) => (el as Element).hasAttribute && (el as Element).hasAttribute('data-keep-open')
+					(el) => el instanceof Element && el.hasAttribute?.('data-keep-open')
 				)
 			) {
 				closePopper();
@@ -749,16 +747,16 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 	);
 
 	return (
-		<PopperDropdownWrapper ref={ref} display={display} {...rest}>
+		<PopperDropdownWrapper ref={ref} $display={display} {...rest}>
 			{triggerComponent}
 			<Portal show={open} disablePortal={disablePortal}>
 				<PopperList
 					ref={dropdownRef}
-					open={open}
-					width={width}
-					maxWidth={maxWidth}
-					maxHeight={maxHeight}
-					triggerRef={innerTriggerRef}
+					$open={open}
+					$width={width}
+					$maxWidth={maxWidth}
+					$maxHeight={maxHeight}
+					$triggerRef={innerTriggerRef}
 					data-testid="dropdown-popper-list"
 					{...popperListProps}
 				>
