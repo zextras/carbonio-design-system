@@ -16,11 +16,6 @@ describe('Text', () => {
 		expect(screen.getByText('ABCD')).toBeVisible();
 	});
 
-	test('render a div with disabled attribute', () => {
-		setup(<Text disabled>ABCD</Text>);
-		expect(screen.getByText('ABCD')).toHaveAttribute('disabled', '');
-	});
-
 	test('render text with a component as content', () => {
 		setup(
 			<Text>

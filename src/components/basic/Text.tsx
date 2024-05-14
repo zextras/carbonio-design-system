@@ -9,12 +9,13 @@ import React, { HTMLAttributes } from 'react';
 import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-components';
 
 import { getColor } from '../../theme/theme-utils';
+import { AnyColor } from '../../types/utils';
 
 type TextOverflow = 'ellipsis' | 'break-word';
 
 interface TextProps extends HTMLAttributes<HTMLDivElement> {
 	/** Text color */
-	color?: string | keyof DefaultTheme['palette'];
+	color?: AnyColor;
 	/** Text size */
 	size?: keyof DefaultTheme['sizes']['font'];
 	/** Text weight */
@@ -28,20 +29,21 @@ interface TextProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 const Comp = styled.div<{
-	disabled: boolean;
-	size: keyof DefaultTheme['sizes']['font'];
-	weight: keyof DefaultTheme['fonts']['weight'];
-	overflow: string;
+	$color: AnyColor;
+	$disabled: boolean;
+	$size: keyof DefaultTheme['sizes']['font'];
+	$weight: keyof DefaultTheme['fonts']['weight'];
+	$overflow: string;
 }>`
-	color: ${({ theme, color, disabled }): string =>
-		getColor(`${color}.${disabled ? 'disabled' : 'regular'}`, theme)};
+	color: ${({ theme, $color, $disabled }): string =>
+		getColor(`${$color}.${$disabled ? 'disabled' : 'regular'}`, theme)};
 	font-family: ${({ theme }): string => theme.fonts.default};
-	font-size: ${({ theme, size }): string => theme.sizes.font[size]};
-	font-weight: ${({ theme, weight }): number => theme.fonts.weight[weight]};
+	font-size: ${({ theme, $size }): string => theme.sizes.font[$size]};
+	font-weight: ${({ theme, $weight }): number => theme.fonts.weight[$weight]};
 	margin: 0;
 	max-width: 100%;
-	${({ overflow }): SimpleInterpolation =>
-		overflow === 'ellipsis'
+	${({ $overflow }): SimpleInterpolation =>
+		$overflow === 'ellipsis'
 			? css`
 					white-space: nowrap;
 					overflow: hidden;
@@ -69,11 +71,11 @@ const Text = React.forwardRef<HTMLDivElement, TextProps>(function TextFn(
 	return (
 		<Comp
 			ref={ref}
-			color={color}
-			size={size}
-			weight={weight}
-			overflow={overflow}
-			disabled={disabled}
+			$color={color}
+			$size={size}
+			$weight={weight}
+			$overflow={overflow}
+			$disabled={disabled}
 			{...rest}
 		>
 			{children}
