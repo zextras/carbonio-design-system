@@ -29,6 +29,7 @@ import {
 } from '../../hooks/useKeyboard';
 import { usePrevious } from '../../hooks/usePrevious';
 import { getColor, pseudoClasses } from '../../theme/theme-utils';
+import { AnyColor, PaletteColor } from '../../types/utils';
 import { Icon } from '../basic/Icon';
 import { INPUT_BACKGROUND_COLOR, INPUT_DIVIDER_COLOR } from '../constants';
 import { Chip, ChipProps } from '../display/Chip';
@@ -37,7 +38,7 @@ import { Container, ContainerProps } from '../layout/Container';
 import { Divider, DividerProps } from '../layout/Divider';
 
 const ContainerEl = styled(Container)<{
-	background: keyof DefaultTheme['palette'];
+	background: PaletteColor;
 	$hasLabel: boolean;
 	$inputDisabled: boolean;
 	$dropdownDisabled: boolean;
@@ -68,9 +69,9 @@ const ContainerEl = styled(Container)<{
 `;
 
 const ScrollContainer = styled.div<{
-	wrap: 'nowrap' | 'wrap';
-	hasLabel: boolean;
-	maxHeight: string;
+	$wrap: 'nowrap' | 'wrap';
+	$hasLabel: boolean;
+	$maxHeight: string;
 }>`
 	display: flex;
 	flex: 1 1 auto;
@@ -79,22 +80,22 @@ const ScrollContainer = styled.div<{
 	width: auto;
 	gap: 0.5rem;
 	/* handle horizontal scroll for chip overflowing */
-	flex-wrap: ${({ wrap }): string => wrap};
+	flex-wrap: ${({ $wrap }): string => $wrap};
 	overflow-x: auto;
-	-ms-overflow-style: ${({ wrap }): string =>
-		wrap === 'wrap' ? 'auto' : 'none'}; /* IE and Edge */
-	scrollbar-width: ${({ wrap }): string => (wrap === 'wrap' ? 'auto' : 'none')}; /* Firefox */
+	-ms-overflow-style: ${({ $wrap }): string =>
+		$wrap === 'wrap' ? 'auto' : 'none'}; /* IE and Edge */
+	scrollbar-width: ${({ $wrap }): string => ($wrap === 'wrap' ? 'auto' : 'none')}; /* Firefox */
 
 	&::-webkit-scrollbar {
-		display: ${({ wrap }): string => (wrap === 'wrap' ? 'auto' : 'none')};
+		display: ${({ $wrap }): string => ($wrap === 'wrap' ? 'auto' : 'none')};
 	}
-	margin-top: ${({ hasLabel, theme }): SimpleInterpolation =>
-		hasLabel ? css`calc(${theme.sizes.font.extrasmall} * 1.5)` : '0px'};
-	max-height: ${({ maxHeight }): string => maxHeight};
+	margin-top: ${({ $hasLabel, theme }): SimpleInterpolation =>
+		$hasLabel ? css`calc(${theme.sizes.font.extrasmall} * 1.5)` : '0px'};
+	max-height: ${({ $maxHeight }): string => $maxHeight};
 	overflow-y: auto;
 `;
 
-const InputEl = styled.input<{ color: keyof DefaultTheme['palette'] }>`
+const InputEl = styled.input<{ $color: keyof DefaultTheme['palette'] }>`
 	border: none !important;
 	height: auto !important;
 	width: 1em;
@@ -103,10 +104,10 @@ const InputEl = styled.input<{ color: keyof DefaultTheme['palette'] }>`
 	font-size: ${({ theme }): string => theme.sizes.font.medium};
 	font-weight: ${({ theme }): number => theme.fonts.weight.regular};
 	font-family: ${({ theme }): string => theme.fonts.default};
-	color: ${({ theme, color }): string => getColor(color, theme)};
+	color: ${({ theme, $color }): string => getColor($color, theme)};
 
 	&:disabled {
-		color: ${({ theme, color }): string => getColor(`${color}.disabled`, theme)};
+		color: ${({ theme, $color }): string => getColor(`${$color}.disabled`, theme)};
 		pointer-events: none;
 	}
 
@@ -154,7 +155,7 @@ const AdjustWidthInput = React.forwardRef<
 	{
 		color: keyof DefaultTheme['palette'];
 	} & InputHTMLAttributes<HTMLInputElement>
->(function AdjustWidthInputFn(inputProps, ref) {
+>(function AdjustWidthInputFn({ color, ...rest }, ref) {
 	const hiddenSpanRef = useRef<HTMLSpanElement | null>(null);
 	const inputRef = useCombinedRefs<HTMLInputElement>(ref);
 
@@ -185,7 +186,7 @@ const AdjustWidthInput = React.forwardRef<
 	return (
 		<InputContainer>
 			<HiddenSpan ref={hiddenSpanRef} />
-			<InputEl {...inputProps} ref={inputRef} />
+			<InputEl $color={color} {...rest} ref={inputRef} />
 		</InputContainer>
 	);
 });
@@ -312,7 +313,7 @@ interface ChipInputProps<TValue = unknown>
 	/** Debounce value in ms to which debounce the 'onInputType' callback */
 	onInputTypeDebounce?: number;
 	/** Callback called when a value is going to be added in the Chip Input, should return the configuration for the Chip */
-	onAdd?: (value: string | unknown) => ChipItem<TValue>;
+	onAdd?: (value: unknown) => ChipItem<TValue>;
 	/** Set the current input text as a Chip when it loses focus */
 	confirmChipOnBlur?: boolean;
 	/** ChipInput backgroundColor */
@@ -342,7 +343,7 @@ interface ChipInputProps<TValue = unknown>
 	/** Disable the icon */
 	iconDisabled?: boolean;
 	/** Icon color */
-	iconColor?: string | keyof DefaultTheme['palette'];
+	iconColor?: AnyColor;
 	/** select single replaceable value from options */
 	singleSelection?: boolean;
 	/** hide the input's bottom border */
@@ -454,7 +455,7 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 	}, [inputElRef]);
 
 	const saveValue = useCallback(
-		(valueToSave: string | unknown) => {
+		(valueToSave: unknown) => {
 			const trimmedValue = typeof valueToSave === 'string' ? trim(valueToSave) : valueToSave;
 
 			const duplicate =
@@ -487,7 +488,7 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 	);
 
 	const replaceValue = useCallback(
-		(valueToSave: string | unknown) => {
+		(valueToSave: unknown) => {
 			const item = onAdd(valueToSave);
 			uncontrolledMode && dispatch({ type: 'replace', item });
 			onChange && onChange([...items, item]);
@@ -500,7 +501,7 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 	);
 
 	const saveCurrentValue = useCallback(() => {
-		const inputValue = inputElRef.current?.value || '';
+		const inputValue = inputElRef.current?.value ?? '';
 		inputValue.length && saveValue(inputValue);
 	}, [inputElRef, saveValue]);
 
@@ -549,7 +550,7 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 	const onChipClose = useCallback(
 		(index: number) => {
 			uncontrolledMode && dispatch({ type: 'pop', index });
-			onChange && onChange(filter(items, (item, i) => index !== i));
+			onChange && onChange(filter(items, (_item, i) => index !== i));
 			if (inputElRef.current) {
 				inputElRef.current.focus();
 			}
@@ -568,7 +569,7 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 				if (onInputType) {
 					onInputType({
 						...ev,
-						textContent: inputElRef.current && inputElRef.current.value
+						textContent: inputElRef.current?.value ?? null
 					});
 				}
 			}, onInputTypeDebounce),
@@ -583,7 +584,7 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 	);
 
 	const onOptionClick = useCallback(
-		(valueToAdd: string | unknown) => {
+		(valueToAdd: unknown) => {
 			singleSelection ? replaceValue(valueToAdd) : saveValue(valueToAdd);
 			setFocus();
 		},
@@ -743,9 +744,9 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 				>
 					<ScrollContainer
 						ref={scrollContainerRef}
-						wrap={wrap}
-						maxHeight={maxHeight}
-						hasLabel={!!placeholder}
+						$wrap={wrap}
+						$maxHeight={maxHeight}
+						$hasLabel={!!placeholder}
 					>
 						{items.length > 0 &&
 							map(items, (item, index) => (
@@ -765,7 +766,7 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 							onBlur={onInputBlur}
 							onKeyUp={onInputType && onInputKeyUp}
 							id={id}
-							name={inputName || placeholder}
+							name={inputName ?? placeholder}
 							disabled={disabled || inputDisabled}
 							placeholder={placeholder}
 							onPaste={onPaste}
