@@ -20,31 +20,31 @@ type SwitchSize = 'medium' | 'small';
 const StyledIcon = styled(Icon)``;
 
 const IconWrapper = styled.div<{
-	disabled: boolean;
-	iconColor: keyof DefaultTheme['palette'];
+	$disabled: boolean;
+	$iconColor: keyof DefaultTheme['palette'];
 }>`
 	position: relative;
 	display: flex;
 	align-items: center;
-	${({ theme, disabled, iconColor }): SimpleInterpolation =>
-		!disabled &&
+	${({ theme, $disabled, $iconColor }): SimpleInterpolation =>
+		!$disabled &&
 		css`
 			&:focus {
 				outline: none;
 				> ${StyledIcon} {
-					color: ${theme.palette[iconColor].focus};
+					color: ${theme.palette[$iconColor].focus};
 				}
 			}
 			&:hover {
 				outline: none;
 				> ${StyledIcon} {
-					color: ${theme.palette[iconColor].hover};
+					color: ${theme.palette[$iconColor].hover};
 				}
 			}
 			&:active {
 				outline: none;
 				> ${StyledIcon} {
-					color: ${theme.palette[iconColor].active};
+					color: ${theme.palette[$iconColor].active};
 				}
 			}
 		`};
@@ -113,7 +113,7 @@ const Switch = React.forwardRef<HTMLDivElement, SwitchProps>(function SwitchFn(
 			crossAlignment="center"
 			{...rest}
 		>
-			<IconWrapper disabled={disabled} tabIndex={disabled ? -1 : 0} iconColor={iconColor}>
+			<IconWrapper $disabled={disabled} tabIndex={disabled ? -1 : 0} $iconColor={iconColor}>
 				<Icon
 					icon={checked ? 'ToggleRight' : 'ToggleLeftOutline'}
 					size={size === 'medium' ? 'large' : 'medium'}
