@@ -9,24 +9,19 @@ import React from 'react';
 import styled, { css, SimpleInterpolation } from 'styled-components';
 
 import { Container, ContainerProps } from './Container';
+import { With$Prefix } from '../../types/utils';
 
 interface RowProps extends ContainerProps {
 	display?: string;
-	flexBasis?: string;
-	flexGrow?: 'unset' | number;
-	flexShrink?: 'unset' | number;
 	order?: 'unset' | number;
 	takeAvailableSpace?: boolean;
 }
 
-const ContainerEl = styled(Container)<RowProps>`
-	display: ${({ display }): SimpleInterpolation => display};
-	flex-basis: ${({ flexBasis }): SimpleInterpolation => flexBasis};
-	flex-grow: ${({ flexGrow }): SimpleInterpolation => flexGrow};
-	flex-shrink: ${({ flexShrink }): SimpleInterpolation => flexShrink};
-	order: ${({ order }): SimpleInterpolation => order};
-	${({ takeAvailableSpace }): SimpleInterpolation =>
-		takeAvailableSpace &&
+const ContainerEl = styled(Container)<With$Prefix<RowProps>>`
+	display: ${({ $display }): SimpleInterpolation => $display};
+	order: ${({ $order }): SimpleInterpolation => $order};
+	${({ $takeAvailableSpace }): SimpleInterpolation =>
+		$takeAvailableSpace &&
 		css`
 			min-width: 0;
 			flex-basis: 0;
@@ -34,27 +29,45 @@ const ContainerEl = styled(Container)<RowProps>`
 		`};
 `;
 
-const Row = React.forwardRef<HTMLDivElement, RowProps>(function RowFn({ children, ...rest }, ref) {
+const Row = React.forwardRef<HTMLDivElement, RowProps>(function RowFn(
+	{
+		display = 'flex',
+		orientation = 'horizontal',
+		borderRadius = 'none',
+		height = 'auto',
+		width = 'auto',
+		wrap = 'wrap',
+		flexBasis = 'unset',
+		flexGrow = 'unset',
+		flexShrink = 1,
+		order = 'unset',
+		takeAvailableSpace = false,
+		maxWidth = '100%',
+		children,
+		...rest
+	},
+	ref
+) {
 	return (
-		<ContainerEl ref={ref} {...rest}>
+		<ContainerEl
+			ref={ref}
+			orientation={orientation}
+			borderRadius={borderRadius}
+			height={height}
+			width={width}
+			wrap={wrap}
+			flexBasis={flexBasis}
+			flexGrow={flexGrow}
+			flexShrink={flexShrink}
+			maxWidth={maxWidth}
+			$display={display}
+			$order={order}
+			$takeAvailableSpace={takeAvailableSpace}
+			{...rest}
+		>
 			{children}
 		</ContainerEl>
 	);
 });
-
-Row.defaultProps = {
-	display: 'flex',
-	orientation: 'horizontal',
-	borderRadius: 'none',
-	height: 'auto',
-	width: 'auto',
-	wrap: 'wrap',
-	flexBasis: 'unset',
-	flexGrow: 'unset',
-	flexShrink: 1,
-	order: 'unset',
-	takeAvailableSpace: false,
-	maxWidth: '100%'
-};
 
 export { Row, RowProps };
