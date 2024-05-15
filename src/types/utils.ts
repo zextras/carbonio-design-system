@@ -48,3 +48,5 @@ export type With$Prefix<TProps> = KeysWithPrefix<TProps, '$'>;
 export type Without$Prefix<TProps> = KeysWithoutPrefix<TProps, '$'>;
 
 export type MakeRequired<TObj, TKey extends keyof TObj> = TObj & Required<Pick<TObj, TKey>>;
+
+export type AllKeys<TObj> = TObj extends unknown ? keyof TObj : never;
