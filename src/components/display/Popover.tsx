@@ -13,10 +13,10 @@ import styled, { ThemeContext } from 'styled-components';
 import { Popper, PopperProps } from './Popper';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 
-const PopoverContainer = styled.div<{ styleAsModal: boolean }>`
+const PopoverContainer = styled.div<{ $styleAsModal: boolean }>`
 	padding: ${({ theme }): string => theme.sizes.padding.small};
-	border-radius: ${({ styleAsModal, theme }): string =>
-		styleAsModal ? '1rem' : theme.borderRadius};
+	border-radius: ${({ $styleAsModal, theme }): string =>
+		$styleAsModal ? '1rem' : theme.borderRadius};
 	background-color: ${({ theme }): string => theme.palette.gray6.regular};
 	box-shadow: ${({ theme }): string => theme.shadows.regular};
 	max-width: 92vw;
@@ -138,7 +138,7 @@ const Popover = React.forwardRef<HTMLDivElement, PopoverProps>(function PopoverF
 			onClose={innerOnClose}
 			{...rest}
 		>
-			<PopoverContainer styleAsModal={styleAsModal}>{children}</PopoverContainer>
+			<PopoverContainer $styleAsModal={styleAsModal}>{children}</PopoverContainer>
 		</Popper>
 	);
 });
