@@ -28,17 +28,17 @@ const PlaceholderDefault = styled(PlaceholderInline)`
 `;
 
 const EmailComposerInputContainer = styled.div<{
-	disabled?: boolean;
-	active: boolean;
-	hasFocus: boolean;
+	$disabled?: boolean;
+	$active: boolean;
+	$hasFocus: boolean;
 }>`
 	width: 100%;
 	padding: ${({ theme }): string =>
 		`${theme.sizes.padding.extrasmall} ${theme.sizes.padding.large}`};
 	box-sizing: border-box;
 	cursor: text;
-	${({ theme, disabled }): SimpleInterpolation =>
-		!disabled &&
+	${({ theme, $disabled }): SimpleInterpolation =>
+		!$disabled &&
 		css`
 			transition: background 0.2s ease-out;
 			&:focus {
@@ -54,8 +54,8 @@ const EmailComposerInputContainer = styled.div<{
 				background: ${theme.palette.gray6.active};
 			}
 		`};
-	${({ active, theme }): SimpleInterpolation =>
-		active &&
+	${({ $active, theme }): SimpleInterpolation =>
+		$active &&
 		css`
 			${PlaceholderDefault} {
 				top: 0.1875rem;
@@ -64,8 +64,8 @@ const EmailComposerInputContainer = styled.div<{
 			}
 		`};
 
-	${({ theme, hasFocus }): SimpleInterpolation =>
-		hasFocus &&
+	${({ theme, $hasFocus }): SimpleInterpolation =>
+		$hasFocus &&
 		css`
 			${PlaceholderDefault},
 			${PlaceholderInline} {
@@ -163,8 +163,8 @@ const EmailComposerInput = React.forwardRef<HTMLDivElement, EmailComposerInputPr
 			<EmailComposerInputContainer
 				ref={ref}
 				tabIndex={0}
-				active={active}
-				hasFocus={hasFocus}
+				$active={active}
+				$hasFocus={hasFocus}
 				onClick={setFocus}
 				role="textbox"
 				{...rest}
