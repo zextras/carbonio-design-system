@@ -11,7 +11,7 @@ import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-component
 
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { useKeyboard, getKeyboardPreset } from '../../hooks/useKeyboard';
-import { pseudoClasses } from '../../theme/theme-utils';
+import { getColor, pseudoClasses } from '../../theme/theme-utils';
 import { Badge } from '../basic/Badge';
 import { Icon } from '../basic/Icon';
 import { Text, TextProps } from '../basic/Text';
@@ -24,7 +24,6 @@ import { Collapse } from '../utilities/Collapse';
 
 const AccordionContainerEl = styled(Container)<{
 	$level: number;
-	background: keyof DefaultTheme['palette'];
 	$active?: boolean;
 	$disableHover?: boolean;
 }>`
@@ -32,10 +31,10 @@ const AccordionContainerEl = styled(Container)<{
 	padding-left: ${({ theme, $level }): SimpleInterpolation =>
 		css`calc(${Math.min($level + 1, 5)} * ${theme.sizes.padding.small})`};
 	padding-right: ${({ theme }): string => theme.sizes.padding.small};
-	background-color: ${({ theme, background, $active }): string =>
-		theme.palette[$active ? 'highlight' : background].regular};
+	background-color: ${({ theme, background, $active }): SimpleInterpolation =>
+		background && getColor(`${[$active ? 'highlight' : background]}.regular`, theme)};
 	${({ theme, background, $disableHover, $active }): SimpleInterpolation =>
-		!$disableHover && pseudoClasses(theme, $active ? 'highlight' : background)};
+		!$disableHover && background && pseudoClasses(theme, $active ? 'highlight' : background)};
 `;
 
 const StyledText = styled(Text)`
@@ -182,7 +181,7 @@ const AccordionRoot = React.forwardRef<HTMLDivElement, AccordionRootProps>(funct
 		>
 			<AccordionContainerEl
 				$active={item.active || activeId === item.id}
-				background={item.background || background}
+				background={item.background ?? background}
 				ref={ref}
 				$level={level}
 				$disableHover={item.disableHover}
@@ -223,7 +222,7 @@ const AccordionRoot = React.forwardRef<HTMLDivElement, AccordionRootProps>(funct
 						activeId={activeId}
 						openIds={openIds}
 						items={item.items}
-						level={item.level !== undefined ? item.level : level + 1}
+						level={item.level ?? level + 1}
 						background={background}
 						disableTransition={disableTransition}
 					/>

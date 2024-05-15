@@ -14,9 +14,11 @@ export type RequireAtLeastOne<T, Keys extends keyof T = keyof T> = Pick<T, Exclu
 		[K in Keys]-?: Required<Pick<T, K>> & Partial<Pick<T, Exclude<Keys, K>>>;
 	}[Keys];
 
+export type LiteralUnion<TSub, TBase> = TSub | (TBase & Record<never, never>);
+
 export type PaletteColor = keyof DefaultTheme['palette'];
 
-export type AnyColor = PaletteColor | (string & Record<never, never>);
+export type AnyColor = LiteralUnion<PaletteColor, string>;
 
 export type WithPrefix<TString extends string, TPrefix extends string> = `${TPrefix}${TString}`;
 
