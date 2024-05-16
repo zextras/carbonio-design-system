@@ -134,7 +134,7 @@ const Banner = React.forwardRef<HTMLDivElement, BannerProps>(function BannerFn(
 
 	const [isMultiline, setIsMultiline] = useState<boolean>(false);
 	const [isTextCropped, setIsTextCropped] = useState<boolean>(false);
-	const createModal = useModal();
+	const { createModal, closeModal } = useModal();
 
 	const onBannerResize = useCallback((bannerContentHeight: number) => {
 		if (actionsContainerRef.current) {
@@ -179,24 +179,25 @@ const Banner = React.forwardRef<HTMLDivElement, BannerProps>(function BannerFn(
 	}, [title, description?.length]);
 
 	const showMoreInfoModal = useCallback(() => {
-		const closeModal = createModal({
+		const id = Date.now().toString();
+		createModal(id, {
 			title,
 			showCloseIcon: true,
 			onClose: () => {
-				closeModal();
+				closeModal(id);
 			},
 			confirmLabel: primaryAction?.label,
 			onConfirm: primaryAction
 				? (event): void => {
 						primaryAction.onClick(event);
-						closeModal();
+						closeModal(id);
 					}
 				: undefined,
 			secondaryActionLabel: secondaryAction?.label,
 			onSecondaryAction: secondaryAction
 				? (event): void => {
 						secondaryAction.onClick(event);
-						closeModal();
+						closeModal(id);
 					}
 				: undefined,
 			closeIconTooltip: closeLabel,
@@ -206,7 +207,7 @@ const Banner = React.forwardRef<HTMLDivElement, BannerProps>(function BannerFn(
 				</Text>
 			)
 		});
-	}, [closeLabel, createModal, description, primaryAction, secondaryAction, title]);
+	}, [closeLabel, closeModal, createModal, description, primaryAction, secondaryAction, title]);
 
 	return (
 		<BannerContainer

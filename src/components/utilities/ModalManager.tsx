@@ -4,42 +4,47 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { useCallback, createContext, useReducer, Reducer, useContext } from 'react';
+import React, { useCallback, createContext, useReducer, Reducer, useContext, useMemo } from 'react';
 
 import { ThemeContext } from 'styled-components';
 
 import { CustomModal, CustomModalProps } from '../feedback/CustomModal';
 import { Modal, ModalProps } from '../feedback/Modal';
 
-type CloseModalFn = () => void;
-
 type CreateModalArgs =
-	| [modalProps: ModalProps, customModal?: false]
-	| [customModalProps: CustomModalProps, customModal: true];
-type CreateModalFn = (...args: CreateModalArgs) => CloseModalFn;
+	| [id: string, modalProps: ModalProps, customModal?: false]
+	| [id: string, customModalProps: CustomModalProps, customModal: true];
+type CreateModalFn = (...args: CreateModalArgs) => void;
+type CloseModalFn = (id: string) => void;
 
-const ModalManagerContext = createContext<CreateModalFn | undefined>(undefined);
+const ModalManagerContext = createContext<
+	{ createModal: CreateModalFn; closeModal: CloseModalFn } | undefined
+>(undefined);
 
 const MODAL_ACTION = {
 	PUSH: 'push',
 	REMOVE: 'remove'
 } as const;
 
-type ModalsReducerAction = {
-	type: (typeof MODAL_ACTION)[keyof typeof MODAL_ACTION];
-	value: React.JSX.Element;
-};
+type ModalState = { id: string; modal: React.JSX.Element };
 
-function modalsReducer(
-	state: React.JSX.Element[],
-	action: ModalsReducerAction
-): React.JSX.Element[] {
+type ModalsReducerAction =
+	| {
+			type: typeof MODAL_ACTION.PUSH;
+			value: ModalState;
+	  }
+	| {
+			type: typeof MODAL_ACTION.REMOVE;
+			value: string;
+	  };
+
+function modalsReducer(state: ModalState[], action: ModalsReducerAction): ModalState[] {
 	switch (action.type) {
 		case 'push': {
 			return [...state, action.value];
 		}
 		case 'remove': {
-			return state.filter((modal) => modal !== action.value);
+			return state.filter((modal) => modal.id !== action.value);
 		}
 		default: {
 			return state;
@@ -57,17 +62,14 @@ function isStandardModal(
 }
 
 function ModalManager({ children }: ModalManagerProps): React.JSX.Element {
-	const [modals, dispatchModal] = useReducer<Reducer<React.JSX.Element[], ModalsReducerAction>>(
+	const [modals, dispatchModal] = useReducer<Reducer<ModalState[], ModalsReducerAction>>(
 		modalsReducer,
 		[]
 	);
 	const { windowObj } = useContext(ThemeContext);
 
 	const createModal = useCallback<CreateModalFn>(
-		(
-			{ onClose, children: modalChildren, ...rest }: ModalProps | CustomModalProps,
-			custom = false
-		) => {
+		(id, { onClose, children: modalChildren, ...rest }, custom = false) => {
 			const overflow = windowObj.document.body.style.overflowY;
 
 			const handleClose = (event: KeyboardEvent | React.MouseEvent): void => {
@@ -112,24 +114,26 @@ function ModalManager({ children }: ModalManagerProps): React.JSX.Element {
 				</CustomModal>
 			);
 
-			const closeModal = (): void => {
-				dispatchModal({ type: MODAL_ACTION.REMOVE, value: modal });
-			};
-
 			dispatchModal({
 				type: 'push',
-				value: modal
+				value: { id, modal }
 			});
-
-			return closeModal;
 		},
 		[windowObj]
 	);
 
+	const closeModal = useCallback<CloseModalFn>((id) => {
+		dispatchModal({ type: MODAL_ACTION.REMOVE, value: id });
+	}, []);
+
+	const modalElements = useMemo(() => modals.map((value) => value.modal), [modals]);
+
+	const providerValue = useMemo(() => ({ createModal, closeModal }), [createModal, closeModal]);
+
 	return (
 		<>
-			<ModalManagerContext.Provider value={createModal}>{children}</ModalManagerContext.Provider>
-			{modals}
+			<ModalManagerContext.Provider value={providerValue}>{children}</ModalManagerContext.Provider>
+			{modalElements}
 		</>
 	);
 }
