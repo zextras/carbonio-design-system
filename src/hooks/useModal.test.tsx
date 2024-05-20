@@ -35,7 +35,7 @@ describe('useModal', () => {
 			wrapper: ({ children }) => <ThemeProvider>{children}</ThemeProvider>
 		});
 		expect(result.current).toBeDefined();
-		result.current.createModal('id', {});
+		result.current.createModal({ id: 'id' });
 		expect(console.error).toHaveBeenCalledWith(modalContextError);
 	});
 
@@ -49,7 +49,7 @@ describe('useModal', () => {
 		});
 		expect(result.current).toBeDefined();
 		act(() => {
-			result.current.createModal('id', {});
+			result.current.createModal({ id: 'id' });
 		});
 		expect(console.error).not.toHaveBeenCalledWith(modalContextError);
 	});

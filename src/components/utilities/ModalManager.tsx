@@ -12,8 +12,8 @@ import { CustomModal, CustomModalProps } from '../feedback/CustomModal';
 import { Modal, ModalProps } from '../feedback/Modal';
 
 type CreateModalArgs =
-	| [id: string, modalProps: ModalProps, customModal?: false]
-	| [id: string, customModalProps: CustomModalProps, customModal: true];
+	| [modalProps: ModalProps & { id: string }, customModal?: false]
+	| [customModalProps: CustomModalProps & { id: string }, customModal: true];
 type CreateModalFn = (...args: CreateModalArgs) => void;
 type CloseModalFn = (id: string) => void;
 
@@ -69,7 +69,7 @@ function ModalManager({ children }: ModalManagerProps): React.JSX.Element {
 	const { windowObj } = useContext(ThemeContext);
 
 	const createModal = useCallback<CreateModalFn>(
-		(id, { onClose, children: modalChildren, ...rest }, custom = false) => {
+		({ id, onClose, children: modalChildren, ...rest }, custom = false) => {
 			const overflow = windowObj.document.body.style.overflowY;
 
 			const handleClose = (event: KeyboardEvent | React.MouseEvent): void => {
@@ -99,7 +99,7 @@ function ModalManager({ children }: ModalManagerProps): React.JSX.Element {
 
 			const modal = isStandardModal(rest, custom) ? (
 				<Modal
-					key={`${rest.title}-${rest.type}`}
+					key={id}
 					{...rest}
 					onClose={handleClose}
 					onConfirm={handleConfirmClick}
@@ -109,7 +109,7 @@ function ModalManager({ children }: ModalManagerProps): React.JSX.Element {
 					{modalChildren}
 				</Modal>
 			) : (
-				<CustomModal key={Date.now()} {...rest} open onClose={handleClose}>
+				<CustomModal key={id} {...rest} open onClose={handleClose}>
 					{modalChildren}
 				</CustomModal>
 			);

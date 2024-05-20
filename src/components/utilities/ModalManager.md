@@ -25,13 +25,15 @@ function App() {
 				label="Success"
 				onClick={() => {
                     const id = 'id1';
-					createModal(id, {
+					createModal({
+                        id,
 						title: 'Title title title',
 						confirmLabel: 'Second Modal',
 						onConfirm: () => {
 							console.log('confirm');
                             const id2 = 'id2';
-							createModal(id2, {
+							createModal({
+                                id: id2,
 								title: 'Title 2',
 								cofirmLabel: 'Close Both',
 								onConfirm: () => {

@@ -180,7 +180,8 @@ const Banner = React.forwardRef<HTMLDivElement, BannerProps>(function BannerFn(
 
 	const showMoreInfoModal = useCallback(() => {
 		const id = Date.now().toString();
-		createModal(id, {
+		createModal({
+			id,
 			title,
 			showCloseIcon: true,
 			onClose: () => {
