@@ -341,7 +341,6 @@ const Chip = React.forwardRef<HTMLDivElement, ChipProps>(function ChipFn(
 			label={
 				(typeof error === 'string' && error) || (typeof disabled === 'string' && disabled) || ''
 			}
-			maxWidth="100%"
 			placement={tooltipPlacement}
 		>
 			<ChipContainer
