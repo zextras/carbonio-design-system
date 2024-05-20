@@ -979,7 +979,7 @@ describe('ChipInput', () => {
 		});
 	});
 
-	it('should call onOptionsDisplayChange with true value if options are valued and the chips created are greater than maxChips', async () => {
+	it('should call onOptionsDisplayChange with true value if options are valued and the number of chips created is equal to maxChips', async () => {
 		const onOptionsDisplayChangeFn = jest.fn();
 		const { user } = setup(
 			<ChipInput
