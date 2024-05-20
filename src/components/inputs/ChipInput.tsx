@@ -360,6 +360,10 @@ interface ChipInputProps<TValue = unknown>
 	bottomBorderColor?: DividerProps['color'];
 	/** Dropdown max height */
 	dropdownMaxHeight?: string;
+	/** Dropdown width */
+	dropdownWidth?: string;
+	/** Dropdown max width */
+	dropdownMaxWidth?: string;
 	/** Description for the input */
 	description?: string;
 	/** Custom Chip component */
@@ -418,6 +422,8 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 		singleSelection = false,
 		bottomBorderColor = INPUT_DIVIDER_COLOR,
 		dropdownMaxHeight,
+		dropdownWidth = '100%',
+		dropdownMaxWidth,
 		description,
 		ChipComponent,
 		wrap = 'wrap',
@@ -718,13 +724,14 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 			<Dropdown
 				items={dropdownItems}
 				display="block"
-				width="100%"
+				width={dropdownWidth}
 				disableAutoFocus
 				disableRestoreFocus
 				forceOpen={forceShowDropdown}
 				onClose={onClose}
 				disabled={dropdownDisabled}
 				maxHeight={dropdownMaxHeight}
+				maxWidth={dropdownMaxWidth}
 			>
 				<ContainerEl
 					ref={ref}
