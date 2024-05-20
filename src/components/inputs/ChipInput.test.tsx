@@ -978,4 +978,26 @@ describe('ChipInput', () => {
 			expect(onOptionsDisplayChangeFn).toHaveBeenCalledWith(false);
 		});
 	});
+
+	it('should call onOptionsDisplayChange with true value if options are valued and the chips created are greater than maxChips', async () => {
+		const onOptionsDisplayChangeFn = jest.fn();
+		const { user } = setup(
+			<ChipInput
+				onOptionsDisplayChange={onOptionsDisplayChangeFn}
+				options={[{ id: '1', label: 'First option' }]}
+				disableOptions={false}
+				maxChips={1}
+			/>
+		);
+		expect(onOptionsDisplayChangeFn).not.toHaveBeenCalled();
+		await user.type(screen.getByRole('textbox'), 'test');
+		await act(async () => {
+			await user.keyboard('[Space]');
+		});
+		expect(screen.getByText('test')).toBeVisible();
+		expect(onOptionsDisplayChangeFn).toHaveBeenLastCalledWith(true);
+		// chips created is not greater than maxChips, so dropdown is closed
+		await user.click(screen.getByTestId(ICONS.close));
+		expect(onOptionsDisplayChangeFn).toHaveBeenLastCalledWith(false);
+	});
 });
