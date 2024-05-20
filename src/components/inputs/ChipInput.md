@@ -529,7 +529,14 @@ const defaultValue = useMemo(() => {
 	return initial;
 }, []);
 
-<ChipInput defaultValue={defaultValue} wrap="nowrap" icon="PeopleOutline" maxChips={null} placeholder="label for chipinput" />
+<ChipInput
+  defaultValue={defaultValue}
+  wrap="nowrap"
+  icon="PeopleOutline"
+  maxChips={null}
+  placeholder="label for chipinput"
+  createChipOnPaste
+/>
 ```
 
 Wrap on new line
@@ -544,7 +551,15 @@ const defaultValue = useMemo(() => {
 	return initial;
 }, []);
 
-<ChipInput defaultValue={defaultValue} icon="PeopleOutline" maxChips={null} wrap="wrap" placeholder="label for chipinput" confirmChipOnBlur={false} />
+<ChipInput
+  defaultValue={defaultValue}
+  icon="PeopleOutline"
+  maxChips={null}
+  wrap="wrap"
+  placeholder="label for chipinput"
+  confirmChipOnBlur={false}
+  createChipOnPaste
+/>
 ```
 
 ### ChipInput Options
