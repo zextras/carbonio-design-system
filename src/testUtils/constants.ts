@@ -33,5 +33,6 @@ export const SELECTORS = {
 	tooltip: 'tooltip',
 	progressBar: 'progress-bar',
 	snackbar: 'snackbar',
-	divider: 'divider'
+	divider: 'divider',
+	quota: 'quota'
 };
