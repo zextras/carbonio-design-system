@@ -36,7 +36,7 @@ interface StyledIconProps {
 
 type IconProps = IconComponentProps & StyledIconProps;
 
-const IconBase = React.forwardRef<SVGSVGElement, IconComponentProps>(function IconFn(
+const IconBase = React.forwardRef<SVGSVGElement, IconComponentProps>(function IconBaseFn(
 	{ icon, ...rest },
 	ref
 ) {
