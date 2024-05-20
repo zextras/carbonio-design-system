@@ -12,7 +12,7 @@ import reduce from 'lodash/reduce';
 import { ChipInput, ChipInputProps, ChipItem } from './ChipInput';
 import { KeyboardPresetKey } from '../../hooks/useKeyboard';
 import { setup } from '../../test-utils';
-import { ICONS } from '../../testUtils/constants';
+import { ICONS, SELECTORS } from '../../testUtils/constants';
 
 describe('ChipInput', () => {
 	test('render a chip input with a placeholder, two chips, an icon and a description', () => {
@@ -845,66 +845,137 @@ describe('ChipInput', () => {
 		expect(screen.getAllByText(/chip/)).toHaveLength(prevLimitMaxPlusOne);
 	});
 
-	it('should give TRUE value on onOptionsDisplayChange when the user opens the dropdown by clicking the input element', async () => {
-		const onOptionsDisplayChangeFn = jest.fn();
-		const initial = [
-			{
-				id: '0',
-				address: 'helensinclair@jourrapide.com',
-				lastName: 'Sinclair',
-				firstName: 'Helen',
-				label: 'Helen',
-				value: {
-					label: 'Helen Sinclair',
-					anotherProp: 'prop1',
-					avatarIcon: 'People'
-				}
-			}
-		];
+	describe('onOptionsDisplayChange', () => {
+		it('should not call onOptionsDisplayChange when options prop is empty', async () => {
+			const onOptionsDisplayChangeFn = jest.fn();
+			const { user } = setup(
+				<ChipInput
+					onOptionsDisplayChange={onOptionsDisplayChangeFn}
+					disableOptions={false}
+					options={[]}
+				/>
+			);
+			expect(onOptionsDisplayChangeFn).not.toHaveBeenCalled();
+			await user.click(screen.getByRole('textbox'));
+			expect(onOptionsDisplayChangeFn).not.toHaveBeenCalled();
+		});
 
-		const { user } = setup(
-			<ChipInput
-				onOptionsDisplayChange={onOptionsDisplayChangeFn}
-				options={initial}
-				disableOptions={false}
-			/>
-		);
-		const inputElement = screen.getByRole('textbox');
-		await user.click(inputElement);
-		await waitFor(() => expect(onOptionsDisplayChangeFn).toHaveBeenCalled());
-		expect(onOptionsDisplayChangeFn).toHaveBeenCalledWith(true);
-	});
+		it('should call onOptionsDisplayChange when options prop is valued (options are shown)', () => {
+			const onOptionsDisplayChangeFn = jest.fn();
+			setup(
+				<ChipInput
+					onOptionsDisplayChange={onOptionsDisplayChangeFn}
+					disableOptions
+					options={[
+						{
+							id: '0',
+							label: 'Helen'
+						}
+					]}
+				/>
+			);
+			expect(onOptionsDisplayChangeFn).toHaveBeenCalledTimes(1);
+			expect(onOptionsDisplayChangeFn).toHaveBeenLastCalledWith(true);
+		});
 
-	test('should give FALSE value on onOptionsDisplayChange when the user closes the dropdown', async () => {
-		const onOptionsDisplayChangeFn = jest.fn();
-		const initial = [
-			{
-				id: '0',
-				address: 'helensinclair@jourrapide.com',
-				lastName: 'Sinclair',
-				firstName: 'Helen',
-				label: 'Helen',
-				value: {
-					label: 'Helen Sinclair',
-					anotherProp: 'prop1',
-					avatarIcon: 'People'
-				}
-			}
-		];
+		it('should call onOptionsDisplayChange when the user clicks on the input element (disableOptions is false)', async () => {
+			const onOptionsDisplayChangeFn = jest.fn();
+			const { user } = setup(
+				<ChipInput
+					onOptionsDisplayChange={onOptionsDisplayChangeFn}
+					options={[
+						{
+							id: '0',
+							label: 'Helen'
+						}
+					]}
+					disableOptions={false}
+				/>
+			);
+			const inputElement = screen.getByRole('textbox');
+			await user.click(inputElement);
+			await waitFor(() => expect(onOptionsDisplayChangeFn).toHaveBeenCalledTimes(1));
+			expect(onOptionsDisplayChangeFn).toHaveBeenCalledWith(true);
+			await user.click(inputElement);
+			await waitFor(() => expect(onOptionsDisplayChangeFn).toHaveBeenCalledTimes(2));
+			expect(onOptionsDisplayChangeFn).toHaveBeenLastCalledWith(false);
+		});
 
-		const { user } = setup(
-			<ChipInput
-				onOptionsDisplayChange={onOptionsDisplayChangeFn}
-				options={initial}
-				disableOptions={false}
-			/>
-		);
-		const inputElement = screen.getByRole('textbox');
-		await user.click(inputElement);
-		await waitFor(() => expect(onOptionsDisplayChangeFn).toHaveBeenCalledTimes(1));
-		expect(onOptionsDisplayChangeFn).toHaveBeenCalledWith(true);
-		await user.click(inputElement);
-		await waitFor(() => expect(onOptionsDisplayChangeFn).toHaveBeenCalledTimes(2));
-		expect(onOptionsDisplayChangeFn).toHaveBeenLastCalledWith(false);
+		it('should call onOptionsDisplayChange with false value when the user closes the dropdown by choosing an option', async () => {
+			const onOptionsDisplayChangeFn = jest.fn();
+			const { user } = setup(
+				<ChipInput
+					onOptionsDisplayChange={onOptionsDisplayChangeFn}
+					options={[
+						{
+							id: '0',
+							label: 'Helen'
+						}
+					]}
+					disableOptions={false}
+				/>
+			);
+			const inputElement = screen.getByRole('textbox');
+			await user.click(inputElement);
+			await waitFor(() => expect(onOptionsDisplayChangeFn).toHaveBeenCalledTimes(1));
+			expect(onOptionsDisplayChangeFn).toHaveBeenCalledWith(true);
+			await user.click(screen.getByText('Helen'));
+			await waitFor(() => expect(onOptionsDisplayChangeFn).toHaveBeenCalledTimes(2));
+			expect(onOptionsDisplayChangeFn).toHaveBeenLastCalledWith(false);
+		});
+
+		it('should call onOptionsDisplayChange when options change if disableOptions is true', async () => {
+			const onOptionsDisplayChangeFn = jest.fn();
+			const { rerender } = setup(
+				<ChipInput onOptionsDisplayChange={onOptionsDisplayChangeFn} disableOptions options={[]} />
+			);
+			expect(onOptionsDisplayChangeFn).not.toHaveBeenCalled();
+			rerender(
+				<ChipInput
+					onOptionsDisplayChange={onOptionsDisplayChangeFn}
+					disableOptions
+					options={[{ id: '1', label: 'Option 1' }]}
+				/>
+			);
+			await screen.findByText('Option 1');
+			expect(onOptionsDisplayChangeFn).toHaveBeenCalledTimes(1);
+			expect(onOptionsDisplayChangeFn).toHaveBeenLastCalledWith(true);
+			rerender(
+				<ChipInput onOptionsDisplayChange={onOptionsDisplayChangeFn} disableOptions options={[]} />
+			);
+			await waitFor(() => expect(screen.queryByTestId(SELECTORS.dropdown)).not.toBeInTheDocument());
+			expect(onOptionsDisplayChangeFn).toHaveBeenLastCalledWith(false);
+		});
+
+		it('should call onOptionsDisplayChange only when isVisible changes', async () => {
+			const onOptionsDisplayChangeFn = jest.fn();
+			const { rerender } = setup(
+				<ChipInput onOptionsDisplayChange={onOptionsDisplayChangeFn} options={[]} />
+			);
+			expect(onOptionsDisplayChangeFn).not.toHaveBeenCalled();
+			rerender(
+				<ChipInput
+					onOptionsDisplayChange={onOptionsDisplayChangeFn}
+					options={[{ id: '1', label: 'First option' }]}
+				/>
+			);
+			await screen.findByText('First option');
+			expect(onOptionsDisplayChangeFn).toHaveBeenCalledTimes(1);
+			expect(onOptionsDisplayChangeFn).toHaveBeenCalledWith(true);
+			rerender(
+				<ChipInput
+					onOptionsDisplayChange={onOptionsDisplayChangeFn}
+					options={[
+						{ id: '1', label: 'First option' },
+						{ id: '2', label: 'Second option' }
+					]}
+				/>
+			);
+			await screen.findByText('Second option');
+			expect(onOptionsDisplayChangeFn).toHaveBeenCalledTimes(1);
+			rerender(<ChipInput onOptionsDisplayChange={onOptionsDisplayChangeFn} options={[]} />);
+			expect(onOptionsDisplayChangeFn).toHaveBeenCalledTimes(2);
+			expect(onOptionsDisplayChangeFn).toHaveBeenCalledWith(false);
+		});
 	});
 });

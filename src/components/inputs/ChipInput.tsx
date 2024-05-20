@@ -14,7 +14,7 @@ import React, {
 	useState
 } from 'react';
 
-import { filter, map, slice, debounce, find, trim, reduce, uniq, isEmpty } from 'lodash';
+import { filter, map, slice, isEmpty, debounce, find, trim, reduce, uniq } from 'lodash';
 import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-components';
 
 import { InputDescription } from './commons/InputDescription';
@@ -458,6 +458,15 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 
 	const previousInputDisabled = usePrevious<boolean>(inputDisabled);
 
+	const dropdownVisibilityRef = useRef<boolean>(forceShowDropdown);
+
+	useEffect(() => {
+		if (onOptionsDisplayChange && forceShowDropdown !== dropdownVisibilityRef.current) {
+			dropdownVisibilityRef.current = forceShowDropdown;
+			onOptionsDisplayChange(dropdownVisibilityRef.current);
+		}
+	}, [forceShowDropdown, onOptionsDisplayChange]);
+
 	useEffect(() => {
 		if (inputDisabled && !previousInputDisabled) {
 			setIsActive(false);
@@ -621,13 +630,13 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 		[onOptionsDisplayChange, options]
 	);
 
+	const onOpen = useCallback(() => {
+		showDropdown(true);
+	}, [showDropdown]);
+
 	const onClose = useCallback(() => {
 		setForceShowDropdown(false);
 		showDropdown(false);
-	}, [showDropdown]);
-
-	const onOpen = useCallback(() => {
-		showDropdown(true);
 	}, [showDropdown]);
 
 	useEffect(() => {
@@ -690,10 +699,6 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 		// force open it on options change to simulate suggestion mode
 		setForceShowDropdown(dropdownDisabled && !isEmpty(options));
 	}, [dropdownDisabled, options]);
-
-	useEffect(() => {
-		dropdownDisabled && showDropdown(forceShowDropdown);
-	}, [dropdownDisabled, forceShowDropdown, showDropdown]);
 
 	const hasFocus = useMemo(() => isActive && !inputDisabled, [isActive, inputDisabled]);
 
