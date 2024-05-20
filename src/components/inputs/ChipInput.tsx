@@ -451,34 +451,7 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 
 	const uncontrolledMode = useMemo(() => value === undefined, [value]);
 
-	const inputDisabled = useMemo(
-		() => !!maxChips && items.length >= maxChips,
-		[items.length, maxChips]
-	);
-
-	const previousInputDisabled = usePrevious<boolean>(inputDisabled);
-
 	const dropdownVisibilityRef = useRef<boolean>(forceShowDropdown);
-
-	useEffect(() => {
-		if (onOptionsDisplayChange && forceShowDropdown !== dropdownVisibilityRef.current) {
-			dropdownVisibilityRef.current = forceShowDropdown;
-			onOptionsDisplayChange(dropdownVisibilityRef.current);
-		}
-	}, [forceShowDropdown, onOptionsDisplayChange]);
-
-	useEffect(() => {
-		if (inputDisabled && !previousInputDisabled) {
-			setIsActive(false);
-		}
-	}, [previousInputDisabled, inputDisabled]);
-
-	// dropdown disabled does not depend on chipInput disabled, so that options can be still used
-	// even if input is disabled (chip can be added through dropdown but not typing)
-	const dropdownDisabled = useMemo(
-		() => disableOptions || inputDisabled,
-		[disableOptions, inputDisabled]
-	);
 
 	const setFocus = useCallback(() => {
 		inputElRef.current && inputElRef.current.focus();
@@ -693,6 +666,33 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 			scrollAfterSaveRef.current = false;
 		}
 	}, [items]);
+
+	const inputDisabled = useMemo(
+		() => !!maxChips && items.length >= maxChips,
+		[items.length, maxChips]
+	);
+
+	const previousInputDisabled = usePrevious<boolean>(inputDisabled);
+
+	useEffect(() => {
+		if (onOptionsDisplayChange && forceShowDropdown !== dropdownVisibilityRef.current) {
+			dropdownVisibilityRef.current = forceShowDropdown;
+			onOptionsDisplayChange(dropdownVisibilityRef.current);
+		}
+	}, [forceShowDropdown, onOptionsDisplayChange]);
+
+	useEffect(() => {
+		if (inputDisabled && !previousInputDisabled) {
+			setIsActive(false);
+		}
+	}, [previousInputDisabled, inputDisabled]);
+
+	// dropdown disabled does not depend on chipInput disabled, so that options can be still used
+	// even if input is disabled (chip can be added through dropdown but not typing)
+	const dropdownDisabled = useMemo(
+		() => disableOptions || inputDisabled,
+		[disableOptions, inputDisabled]
+	);
 
 	useEffect(() => {
 		// if dropdown is set to not open on click (dropdownDisabled),
