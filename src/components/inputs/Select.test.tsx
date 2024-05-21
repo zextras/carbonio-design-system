@@ -206,8 +206,8 @@ describe('Select', () => {
 				);
 				await user.click(dropdownItem);
 
-				expect(onChange).toBeCalled();
-				expect(onChange).toBeCalledTimes(1);
+				expect(onChange).toHaveBeenCalled();
+				expect(onChange).toHaveBeenCalledTimes(1);
 				expect(onChange).toHaveBeenCalledWith(items[1].value);
 			});
 			test('click on an item automatically update the value of the select', async () => {
