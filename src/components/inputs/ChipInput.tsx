@@ -29,6 +29,7 @@ import {
 } from '../../hooks/useKeyboard';
 import { usePrevious } from '../../hooks/usePrevious';
 import { getColor, pseudoClasses } from '../../theme/theme-utils';
+import { AnyColor } from '../../types/utils';
 import { Icon } from '../basic/Icon';
 import { INPUT_BACKGROUND_COLOR, INPUT_DIVIDER_COLOR } from '../constants';
 import { Chip, ChipProps } from '../display/Chip';
@@ -254,7 +255,7 @@ function reducer<TValue>(
 		case 'replace':
 			return [action.item];
 		case 'pop':
-			return filter(state, (value, index) => action.index !== index);
+			return filter(state, (_value, index) => action.index !== index);
 		case 'popLast':
 			return slice(state, 0, state.length - 1);
 		case 'reset':
@@ -312,7 +313,7 @@ interface ChipInputProps<TValue = unknown>
 	/** Debounce value in ms to which debounce the 'onInputType' callback */
 	onInputTypeDebounce?: number;
 	/** Callback called when a value is going to be added in the Chip Input, should return the configuration for the Chip */
-	onAdd?: (value: string | unknown) => ChipItem<TValue>;
+	onAdd?: (value: unknown) => ChipItem<TValue>;
 	/** Set the current input text as a Chip when it loses focus */
 	confirmChipOnBlur?: boolean;
 	/** ChipInput backgroundColor */
@@ -342,7 +343,7 @@ interface ChipInputProps<TValue = unknown>
 	/** Disable the icon */
 	iconDisabled?: boolean;
 	/** Icon color */
-	iconColor?: string | keyof DefaultTheme['palette'];
+	iconColor?: AnyColor;
 	/** select single replaceable value from options */
 	singleSelection?: boolean;
 	/** hide the input's bottom border */
@@ -359,6 +360,10 @@ interface ChipInputProps<TValue = unknown>
 	bottomBorderColor?: DividerProps['color'];
 	/** Dropdown max height */
 	dropdownMaxHeight?: string;
+	/** Dropdown width */
+	dropdownWidth?: string;
+	/** Dropdown max width */
+	dropdownMaxWidth?: string;
 	/** Description for the input */
 	description?: string;
 	/** Custom Chip component */
@@ -418,6 +423,8 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 		singleSelection = false,
 		bottomBorderColor = INPUT_DIVIDER_COLOR,
 		dropdownMaxHeight,
+		dropdownWidth = '100%',
+		dropdownMaxWidth,
 		description,
 		ChipComponent,
 		wrap = 'wrap',
@@ -434,7 +441,6 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 	const [isActive, setIsActive] = useState(false);
 	const inputElRef = useCombinedRefs<HTMLInputElement>(inputRef);
 	const scrollContainerRef = useRef<HTMLDivElement | null>(null);
-	const scrollAfterSaveRef = useRef(false);
 
 	const [id] = useState(() => {
 		const ChipInputCast = ChipInputComponent as ChipInputType;
@@ -458,7 +464,7 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 	}, [inputElRef]);
 
 	const saveValue = useCallback(
-		(valueToSave: string | unknown) => {
+		(valueToSave: unknown) => {
 			const trimmedValue = typeof valueToSave === 'string' ? trim(valueToSave) : valueToSave;
 
 			const duplicate =
@@ -470,8 +476,7 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 			if (trimmedValue && !duplicate) {
 				const item = onAdd(trimmedValue);
 				uncontrolledMode && dispatch({ type: 'push', item });
-				onChange && onChange([...items, item]);
-				scrollAfterSaveRef.current = true;
+				onChange?.([...items, item]);
 			}
 			if (inputElRef.current) {
 				inputElRef.current.value = '';
@@ -485,16 +490,16 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 		(valueToSave: string[]) => {
 			const pastedItems = map(valueToSave, (vts) => onAdd(vts));
 			uncontrolledMode && dispatch({ type: 'pushMultiples', items: pastedItems });
-			onChange && onChange([...items, ...pastedItems]);
+			onChange?.([...items, ...pastedItems]);
 		},
 		[uncontrolledMode, onChange, items, onAdd]
 	);
 
 	const replaceValue = useCallback(
-		(valueToSave: string | unknown) => {
+		(valueToSave: unknown) => {
 			const item = onAdd(valueToSave);
 			uncontrolledMode && dispatch({ type: 'replace', item });
-			onChange && onChange([...items, item]);
+			onChange?.([...items, item]);
 			if (inputElRef.current) {
 				inputElRef.current.value = '';
 				inputElRef.current.dispatchEvent(new Event('change'));
@@ -504,8 +509,8 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 	);
 
 	const saveCurrentValue = useCallback(() => {
-		const inputValue = inputElRef.current?.value || '';
-		inputValue.length && saveValue(inputValue);
+		const inputValue = inputElRef.current?.value ?? '';
+		inputValue.length > 0 && saveValue(inputValue);
 	}, [inputElRef, saveValue]);
 
 	const saveCurrentEvent = useMemo(
@@ -528,7 +533,7 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 			) {
 				e.preventDefault();
 				uncontrolledMode && dispatch({ type: 'popLast' });
-				onChange && onChange(slice(items, 0, items.length - 1));
+				onChange?.(slice(items, 0, items.length - 1));
 				return false;
 			}
 			return true;
@@ -553,7 +558,7 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 	const onChipClose = useCallback(
 		(index: number) => {
 			uncontrolledMode && dispatch({ type: 'pop', index });
-			onChange && onChange(filter(items, (item, i) => index !== i));
+			onChange && onChange(filter(items, (_item, i) => index !== i));
 			if (inputElRef.current) {
 				inputElRef.current.focus();
 			}
@@ -572,7 +577,7 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 				if (onInputType) {
 					onInputType({
 						...ev,
-						textContent: inputElRef.current && inputElRef.current.value
+						textContent: inputElRef.current?.value ?? null
 					});
 				}
 			}, onInputTypeDebounce),
@@ -587,7 +592,7 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 	);
 
 	const onOptionClick = useCallback(
-		(valueToAdd: string | unknown) => {
+		(valueToAdd: unknown) => {
 			singleSelection ? replaceValue(valueToAdd) : saveValue(valueToAdd);
 			setFocus();
 		},
@@ -641,6 +646,8 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 			scrollableElement.scrollWidth > scrollableElement.clientWidth
 		) {
 			ev.preventDefault();
+			// intercept the mouse wheel and use the delta to scroll the container horizontally
+			// noinspection JSSuspiciousNameCombination
 			scrollableElement.scrollLeft += ev.deltaY;
 		}
 	}, []);
@@ -655,15 +662,14 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 
 	useEffect(() => {
 		/*
-		 * Scroll to end of horizontal scrollable container when items change and when
-		 * scrollAfterSave is true, so that the last chip is fully visible and also the input.
-		 * This is done with an effect to be sure both keyboard and blur events trigger this
-		 * calc with the final dimensions of the container
+		 * Scroll to end of horizontal or vertical scrollable container when items change,
+		 * so that the last chip and the input are fully visible.
+		 * This is done with an effect to be sure that every change on the items trigger this
+		 * update with the final dimensions of the container
 		 */
-		if (scrollAfterSaveRef.current && scrollContainerRef.current) {
-			// scroll to the end so the newly added chip is fully shown
+		if (scrollContainerRef.current) {
 			scrollContainerRef.current.scrollLeft = scrollContainerRef.current.scrollWidth;
-			scrollAfterSaveRef.current = false;
+			scrollContainerRef.current.scrollTop = scrollContainerRef.current.scrollHeight;
 		}
 	}, [items]);
 
@@ -743,7 +749,7 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 			<Dropdown
 				items={dropdownItems}
 				display="block"
-				width="100%"
+				width={dropdownWidth}
 				disableAutoFocus
 				disableRestoreFocus
 				forceOpen={forceShowDropdown}
@@ -751,6 +757,7 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 				onClose={onClose}
 				disabled={dropdownDisabled}
 				maxHeight={dropdownMaxHeight}
+				maxWidth={dropdownMaxWidth}
 			>
 				<ContainerEl
 					ref={ref}
@@ -791,7 +798,7 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 							onBlur={onInputBlur}
 							onKeyUp={onInputType && onInputKeyUp}
 							id={id}
-							name={inputName || placeholder}
+							name={inputName ?? placeholder}
 							disabled={disabled || inputDisabled}
 							placeholder={placeholder}
 							onPaste={onPaste}
