@@ -12,6 +12,7 @@ import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-component
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { useKeyboard, getKeyboardPreset } from '../../hooks/useKeyboard';
 import { pseudoClasses } from '../../theme/theme-utils';
+import { PaletteColor } from '../../types/utils';
 import { Badge } from '../basic/Badge';
 import { Icon } from '../basic/Icon';
 import { Text, TextProps } from '../basic/Text';
@@ -24,7 +25,7 @@ import { Collapse } from '../utilities/Collapse';
 
 const AccordionContainerEl = styled(Container)<{
 	$level: number;
-	background: keyof DefaultTheme['palette'];
+	$background: PaletteColor;
 	$active?: boolean;
 	$disableHover?: boolean;
 }>`
@@ -32,10 +33,10 @@ const AccordionContainerEl = styled(Container)<{
 	padding-left: ${({ theme, $level }): SimpleInterpolation =>
 		css`calc(${Math.min($level + 1, 5)} * ${theme.sizes.padding.small})`};
 	padding-right: ${({ theme }): string => theme.sizes.padding.small};
-	background-color: ${({ theme, background, $active }): string =>
-		theme.palette[$active ? 'highlight' : background].regular};
-	${({ theme, background, $disableHover, $active }): SimpleInterpolation =>
-		!$disableHover && pseudoClasses(theme, $active ? 'highlight' : background)};
+	background-color: ${({ theme, $background, $active }): string =>
+		theme.palette[$active ? 'highlight' : $background].regular};
+	${({ theme, $background, $disableHover, $active }): SimpleInterpolation =>
+		!$disableHover && pseudoClasses(theme, $active ? 'highlight' : $background)};
 `;
 
 const StyledText = styled(Text)`
@@ -109,7 +110,7 @@ type AccordionItemType = {
 	onClose?: (e: React.SyntheticEvent | KeyboardEvent) => void;
 };
 
-type AccordionDivider = { divider: true };
+type AccordionDivider = { divider: true; key?: string };
 
 interface AccordionRootProps extends ContainerProps {
 	level: number;
@@ -182,7 +183,7 @@ const AccordionRoot = React.forwardRef<HTMLDivElement, AccordionRootProps>(funct
 		>
 			<AccordionContainerEl
 				$active={item.active || activeId === item.id}
-				background={item.background || background}
+				$background={item.background ?? background}
 				ref={ref}
 				$level={level}
 				$disableHover={item.disableHover}
@@ -283,7 +284,7 @@ const Accordion = React.forwardRef<HTMLDivElement, AccordionProps>(function Acco
 		>
 			{map(items, (item, index) =>
 				isDivider(item) ? (
-					<Divider color="gray2" />
+					<Divider color="gray2" key={item.key ?? `divider-${index}`} />
 				) : (
 					<AccordionRoot
 						key={item.id ?? item.label ?? index}

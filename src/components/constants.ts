@@ -16,5 +16,8 @@ export const TIMERS = {
 	},
 	DROPDOWN: {
 		REGISTER_LISTENER: 1
+	},
+	SNACKBAR: {
+		DEFAULT_HIDE_TIMEOUT: 4000
 	}
 };

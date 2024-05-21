@@ -30,11 +30,15 @@ const items = [
 		label: 'Accordion Label',
 		onClick: () => alert('root'),
     onOpen: () => console.log('open'),
-		onClose: () => console.log('close'),items: [
+		onClose: () => console.log('close'),
+    items: [
       {
         id: '1',
         label: 'One Accordion',
         onClick: () => alert(1)
+      },
+      {
+				divider: true
       },
       {
         id: '2',

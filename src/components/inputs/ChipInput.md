@@ -529,7 +529,14 @@ const defaultValue = useMemo(() => {
 	return initial;
 }, []);
 
-<ChipInput defaultValue={defaultValue} wrap="nowrap" icon="PeopleOutline" maxChips={null} placeholder="label for chipinput" />
+<ChipInput
+  defaultValue={defaultValue}
+  wrap="nowrap"
+  icon="PeopleOutline"
+  maxChips={null}
+  placeholder="label for chipinput"
+  createChipOnPaste
+/>
 ```
 
 Wrap on new line
@@ -544,7 +551,15 @@ const defaultValue = useMemo(() => {
 	return initial;
 }, []);
 
-<ChipInput defaultValue={defaultValue} icon="PeopleOutline" maxChips={null} wrap="wrap" placeholder="label for chipinput" confirmChipOnBlur={false} />
+<ChipInput
+  defaultValue={defaultValue}
+  icon="PeopleOutline"
+  maxChips={null}
+  wrap="wrap"
+  placeholder="label for chipinput"
+  confirmChipOnBlur={false}
+  createChipOnPaste
+/>
 ```
 
 ### ChipInput Options
@@ -570,7 +585,7 @@ const options = [
 </Container>
 ```
 
-To simulate a suggestion mode, value the option prop dinamically, leaving the disableOptions prop set to false
+To simulate a suggestion mode, value the option prop dynamically, leaving the disableOptions prop set to true
 
 ```jsx
 import { useCallback, useState, useRef } from 'react';
@@ -668,6 +683,22 @@ const initOptions = useCallback(() => {
       description="Here options are shown when user starts typing or when the chevron icon is clicked"
     />
 </Container>
+```
+
+#### Options dropdown width
+
+The width of the options dropdown can be changed with the props _dropdownWidth_ and _dropdownMaxWidth_.
+
+```jsx
+<ChipInput
+      placeholder="Custom options dropdown width"
+      options={[
+        { id: 'o1', label: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ut ante quis eros sagittis placerat. Praesent porttitor erat nec metus blandit lacinia. Quisque ac laoreet lacus. Integer dolor odio, sollicitudin vitae finibus ut, dictum eget nibh. Aenean turpis ipsum, dapibus sed egestas ac, vulputate sit amet tortor.'}
+      ]}
+      dropdownWidth={'auto'}
+      dropdownMaxWidth={'100%'}
+      disableOptions={false}
+    />
 ```
 
 ### Development status:

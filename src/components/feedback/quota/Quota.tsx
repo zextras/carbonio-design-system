@@ -6,27 +6,24 @@
 
 import React from 'react';
 
-import styled, { DefaultTheme } from 'styled-components';
+import styled from 'styled-components';
 
-import { Container, ContainerProps } from '../layout/Container';
+import { AnyColor } from '../../../types/utils';
+import { Container, ContainerProps } from '../../layout/Container';
 
 const QuotaBar = styled(Container)`
 	min-width: 4rem;
 `;
 
 interface QuotaProps extends ContainerProps {
-	/** Quota background color */
-	background?: keyof DefaultTheme['palette'];
 	/** Quota percentage */
 	fill: number;
 	/** Quota fill background color */
-	fillBackground?: keyof DefaultTheme['palette'];
-	/** Quota height */
-	height?: number | string;
+	fillBackground?: AnyColor;
 }
 
 const Quota = React.forwardRef<HTMLDivElement, QuotaProps>(function QuotaFn(
-	{ background = 'gray6', fill, fillBackground = 'primary', height = '0.5rem', ...rest },
+	{ background = 'gray6', fill, fillBackground = 'info', height = '0.5rem', ...rest }: QuotaProps,
 	ref
 ) {
 	return (
@@ -35,9 +32,10 @@ const Quota = React.forwardRef<HTMLDivElement, QuotaProps>(function QuotaFn(
 			background={background}
 			crossAlignment="flex-start"
 			height={height}
+			data-testid={'quota'}
 			{...rest}
 		>
-			<Container background={fillBackground} width={`${fill}%`} height="100%" />
+			<Container background={fillBackground} width={`${fill > 100 ? 100 : fill}%`} height="100%" />
 		</QuotaBar>
 	);
 });
