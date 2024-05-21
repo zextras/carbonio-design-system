@@ -86,7 +86,7 @@ export * from './components/feedback/Modal';
 export * from './components/feedback/modal-components/ModalHeader';
 export * from './components/feedback/modal-components/ModalBody';
 export * from './components/feedback/modal-components/ModalFooter';
-export * from './components/feedback/Quota';
+export * from './components/feedback/quota/Quota';
 export * from './components/feedback/snackbar/Snackbar';
 
 /** Utilities components */
