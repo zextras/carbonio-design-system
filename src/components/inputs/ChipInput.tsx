@@ -376,6 +376,7 @@ interface ChipInputProps<TValue = unknown>
 	wrap?: 'nowrap' | 'wrap';
 	/** maxHeight of Input in case of no horizontal scroll */
 	maxHeight?: string;
+	onOptionsDisplayChange?: (isVisible: boolean) => void;
 }
 
 type ChipInputType = (<TValue = unknown>(
@@ -428,6 +429,7 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 		ChipComponent,
 		wrap = 'wrap',
 		maxHeight = '8.125rem',
+		onOptionsDisplayChange,
 		...rest
 	}: ChipInputProps<TValue>,
 	ref: React.ForwardedRef<HTMLDivElement>
@@ -454,6 +456,8 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 	const [dropdownItems, setDropdownItems] = useState<DropdownItem[]>(options);
 
 	const uncontrolledMode = useMemo(() => value === undefined, [value]);
+
+	const dropdownVisibilityRef = useRef<boolean>(forceShowDropdown);
 
 	const setFocus = useCallback(() => {
 		inputElRef.current && inputElRef.current.focus();
@@ -595,9 +599,23 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 		[saveValue, setFocus, singleSelection, replaceValue]
 	);
 
+	const showDropdown = useCallback(
+		(isVisible) => {
+			if (onOptionsDisplayChange && !isEmpty(options)) {
+				onOptionsDisplayChange(isVisible);
+			}
+		},
+		[onOptionsDisplayChange, options]
+	);
+
+	const onOpen = useCallback(() => {
+		showDropdown(true);
+	}, [showDropdown]);
+
 	const onClose = useCallback(() => {
 		setForceShowDropdown(false);
-	}, []);
+		showDropdown(false);
+	}, [showDropdown]);
 
 	useEffect(() => {
 		!uncontrolledMode && dispatch({ type: 'reset', value });
@@ -661,6 +679,13 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 	);
 
 	const previousInputDisabled = usePrevious<boolean>(inputDisabled);
+
+	useEffect(() => {
+		if (onOptionsDisplayChange && forceShowDropdown !== dropdownVisibilityRef.current) {
+			dropdownVisibilityRef.current = forceShowDropdown;
+			onOptionsDisplayChange(dropdownVisibilityRef.current);
+		}
+	}, [forceShowDropdown, onOptionsDisplayChange]);
 
 	useEffect(() => {
 		if (inputDisabled && !previousInputDisabled) {
@@ -728,6 +753,7 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 				disableAutoFocus
 				disableRestoreFocus
 				forceOpen={forceShowDropdown}
+				onOpen={onOpen}
 				onClose={onClose}
 				disabled={dropdownDisabled}
 				maxHeight={dropdownMaxHeight}
