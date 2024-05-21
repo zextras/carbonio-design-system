@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-@Library('zextras-library@0.5.0') _
+@Library('zextras-library@0.7.3') _
 
 def nodeCmd(String cmd) {
     sh '. load_nvm && nvm install && nvm use && npm ci && ' + cmd
