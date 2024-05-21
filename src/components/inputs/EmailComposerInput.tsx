@@ -8,7 +8,7 @@ import React, { useState, useEffect, useRef, useCallback, useContext, HTMLAttrib
 
 import styled, { css, SimpleInterpolation, ThemeContext } from 'styled-components';
 
-import { Text } from '../basic/Text';
+import { Text } from '../basic/text/Text';
 
 const PlaceholderInline = styled(Text)`
 	font-size: ${({ theme }): string => theme.sizes.font.medium};

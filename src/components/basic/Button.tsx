@@ -10,7 +10,7 @@ import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-component
 
 import { Icon, IconProps } from './Icon';
 import { Spinner } from './Spinner';
-import { Text } from './Text';
+import { Text } from './text/Text';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { getKeyboardPreset, useKeyboard } from '../../hooks/useKeyboard';
 import { getColor, pseudoClasses } from '../../theme/theme-utils';

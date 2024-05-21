@@ -8,13 +8,14 @@ import React, { HTMLAttributes } from 'react';
 
 import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-components';
 
-import { getColor } from '../../theme/theme-utils';
+import { getColor } from '../../../theme/theme-utils';
+import { AnyColor } from '../../../types/utils';
 
 type TextOverflow = 'ellipsis' | 'break-word';
 
 interface TextProps extends HTMLAttributes<HTMLDivElement> {
 	/** Text color */
-	color?: string | keyof DefaultTheme['palette'];
+	color?: AnyColor;
 	/** Text size */
 	size?: keyof DefaultTheme['sizes']['font'];
 	/** Text weight */
@@ -63,7 +64,7 @@ const Text = React.forwardRef<HTMLDivElement, TextProps>(function TextFn(
 		overflow = 'ellipsis',
 		disabled = false,
 		...rest
-	},
+	}: TextProps,
 	ref
 ) {
 	return (

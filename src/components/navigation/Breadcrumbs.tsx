@@ -11,7 +11,7 @@ import styled from 'styled-components';
 
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { useSplitVisibility } from '../../hooks/useSplitVisibility';
-import { Text } from '../basic/Text';
+import { Text } from '../basic/text/Text';
 import { Dropdown, DropdownItem, DropdownProps } from '../display/Dropdown';
 import { Container } from '../layout/Container';
 import { Padding, PaddingProps } from '../layout/Padding';

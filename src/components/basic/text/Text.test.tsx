@@ -8,7 +8,7 @@ import React from 'react';
 import { screen } from '@testing-library/react';
 
 import { Text } from './Text';
-import { setup } from '../../test-utils';
+import { setup } from '../../../test-utils';
 
 describe('Text', () => {
 	test('render a text with string content', () => {
