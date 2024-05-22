@@ -12,7 +12,9 @@ import { getColor } from '../../theme/theme-utils';
 
 type TextOverflow = 'ellipsis' | 'break-word';
 
-interface TextProps extends HTMLAttributes<HTMLDivElement> {
+type TextAlignType = 'left' | 'right' | 'center' | 'justify';
+
+interface TextProps extends Omit<HTMLAttributes<HTMLDivElement>, 'color' | 'children'> {
 	/** Text color */
 	color?: string | keyof DefaultTheme['palette'];
 	/** Text size */
@@ -25,6 +27,12 @@ interface TextProps extends HTMLAttributes<HTMLDivElement> {
 	disabled?: boolean;
 	/** Content of the text */
 	children?: React.ReactNode;
+	/** Italic Font style of the text */
+	italic?: boolean;
+	/** Alignment of the text */
+	textAlign?: TextAlignType;
+	/** Line Height of the text */
+	lineHeight?: number;
 }
 
 const Comp = styled.div<{
@@ -32,12 +40,16 @@ const Comp = styled.div<{
 	size: keyof DefaultTheme['sizes']['font'];
 	weight: keyof DefaultTheme['fonts']['weight'];
 	overflow: string;
+	italic: boolean;
+	textAlign?: string;
+	lineHeight: number;
 }>`
 	color: ${({ theme, color, disabled }): string =>
 		getColor(`${color}.${disabled ? 'disabled' : 'regular'}`, theme)};
 	font-family: ${({ theme }): string => theme.fonts.default};
 	font-size: ${({ theme, size }): string => theme.sizes.font[size]};
 	font-weight: ${({ theme, weight }): number => theme.fonts.weight[weight]};
+	font-style: ${({ italic }): SimpleInterpolation => italic && 'italic'};
 	margin: 0;
 	max-width: 100%;
 	${({ overflow }): SimpleInterpolation =>
@@ -52,6 +64,8 @@ const Comp = styled.div<{
 					word-wrap: break-word;
 					ms-word-break: break-all;
 				`};
+	text-align: ${({ textAlign }): SimpleInterpolation => textAlign};
+	line-height: ${({ lineHeight }): SimpleInterpolation => lineHeight};
 `;
 
 const Text = React.forwardRef<HTMLDivElement, TextProps>(function TextFn(
@@ -62,6 +76,9 @@ const Text = React.forwardRef<HTMLDivElement, TextProps>(function TextFn(
 		weight = 'regular',
 		overflow = 'ellipsis',
 		disabled = false,
+		italic = false,
+		textAlign,
+		lineHeight = 1.5,
 		...rest
 	},
 	ref
@@ -74,6 +91,9 @@ const Text = React.forwardRef<HTMLDivElement, TextProps>(function TextFn(
 			weight={weight}
 			overflow={overflow}
 			disabled={disabled}
+			italic={italic}
+			textAlign={textAlign}
+			lineHeight={lineHeight}
 			{...rest}
 		>
 			{children}

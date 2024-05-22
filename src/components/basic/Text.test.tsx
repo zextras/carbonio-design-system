@@ -7,7 +7,7 @@ import React from 'react';
 
 import { screen } from '@testing-library/react';
 
-import { Text } from './Text';
+import { Text, TextProps } from './Text';
 import { setup } from '../../test-utils';
 
 describe('Text', () => {
@@ -29,5 +29,26 @@ describe('Text', () => {
 		);
 		expect(screen.getByText('ABC')).toBeVisible();
 		expect(screen.getByText('DEF')).toBeVisible();
+	});
+
+	it('should render the text with italic style if italic prop is true', () => {
+		setup(<Text italic>ABCD</Text>);
+		expect(screen.getByText('ABCD')).toHaveStyle('font-style: italic');
+	});
+
+	it.each<TextProps['textAlign']>(['left', 'right', 'center', 'justify'])(
+		'should render the text with textAlign %s',
+		(textAlign) => {
+			setup(<Text textAlign={textAlign}>ACB</Text>);
+			expect(screen.getByText('ACB')).toHaveStyle(`text-align: ${textAlign}`);
+		}
+	);
+
+	it.each([
+		[1.5, undefined],
+		[2, 2]
+	])('should render the text with %s line height if the prop is %s', (res, lineHeight) => {
+		setup(<Text lineHeight={lineHeight}>ABC</Text>);
+		expect(screen.getByText('ABC')).toHaveStyle(`line-height: ${res}`);
 	});
 });
