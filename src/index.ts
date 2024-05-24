@@ -30,7 +30,6 @@ export {
 	type ChipItem,
 	type ChipInputProps
 } from './components/inputs/ChipInput';
-export * from './components/inputs/EmailComposerInput';
 export * from './components/inputs/FileLoader';
 export * from './components/inputs/IconButton';
 export * from './components/inputs/IconCheckbox';
