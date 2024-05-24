@@ -36,7 +36,7 @@ describe('Text', () => {
 		expect(screen.getByText('ABCD')).toHaveStyle('font-style: italic');
 	});
 
-	it.each<TextProps['textAlign']>(['left', 'right', 'center', 'justify'])(
+	it.each<TextProps['textAlign']>(['left', 'right', 'center', 'justify', 'end', 'revert', 'start'])(
 		'should render the text with textAlign %s',
 		(textAlign) => {
 			setup(<Text textAlign={textAlign}>ACB</Text>);
