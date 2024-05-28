@@ -3,24 +3,29 @@
  *
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+import React, { HTMLAttributes } from 'react';
+
 import styled, { css, SimpleInterpolation } from 'styled-components';
 
-const ModalBody = styled.div.attrs<{
+import { With$Prefix } from '../../../types/utils';
+
+interface ModalBodyProps extends HTMLAttributes<HTMLDivElement> {
+	/** Max height of the body container */
 	maxHeight?: string;
+	/** Align text to the center */
 	centered?: boolean;
-}>(({ maxHeight, centered = false }) => ({
-	maxHeight,
-	centered
-}))<{ maxHeight?: string; centered?: boolean }>`
+}
+
+const ModalBodyComponent = styled.div<With$Prefix<ModalBodyProps>>`
 	overflow-y: auto;
-	max-height: ${({ maxHeight }): SimpleInterpolation => maxHeight};
+	max-height: ${({ $maxHeight }): SimpleInterpolation => $maxHeight};
 	max-width: 100%;
 	box-sizing: border-box;
 	width: 100%;
 	padding-top: ${({ theme }): string => theme.sizes.padding.large};
 	padding-bottom: ${({ theme }): string => theme.sizes.padding.large};
-	${({ centered }): SimpleInterpolation =>
-		centered &&
+	${({ $centered }): SimpleInterpolation =>
+		$centered &&
 		css`
 			text-align: center;
 		`};
@@ -39,4 +44,15 @@ const ModalBody = styled.div.attrs<{
 	flex-grow: 1;
 `;
 
-export { ModalBody };
+const ModalBody = React.forwardRef<HTMLDivElement, ModalBodyProps>(function ModalBodyFn(
+	{ maxHeight, centered, children, ...rest },
+	ref
+) {
+	return (
+		<ModalBodyComponent $centered={centered} $maxHeight={maxHeight} ref={ref} {...rest}>
+			{children}
+		</ModalBodyComponent>
+	);
+});
+
+export { ModalBody, ModalBodyProps };

@@ -13,15 +13,15 @@ import { IconButton } from '../../inputs/IconButton';
 import { Row } from '../../layout/Row';
 
 interface ModalHeaderProps {
-	centered?: boolean | undefined;
-	type?: 'default' | 'error' | undefined;
-	title?: string | React.ReactElement | undefined;
-	showCloseIcon?: boolean | undefined;
-	onClose?: ((event: React.MouseEvent | KeyboardEvent) => void) | undefined;
+	centered?: boolean;
+	type?: 'default' | 'error';
+	title?: string | React.ReactElement;
+	showCloseIcon?: boolean;
+	onClose?: (event: React.MouseEvent | KeyboardEvent) => void;
 	closeIconTooltip?: string;
 }
 
-const ModalTitle = styled(Text)<{ centered: boolean }>`
+const ModalTitle = styled(Text)<{ $centered: boolean }>`
 	box-sizing: border-box;
 	width: 100%;
 	flex-grow: 1;
@@ -29,8 +29,8 @@ const ModalTitle = styled(Text)<{ centered: boolean }>`
 	line-height: 1.5;
 	padding: ${(props): string =>
 		`${props.theme.sizes.padding.small} ${props.theme.sizes.padding.small} ${props.theme.sizes.padding.small} 0`};
-	${({ centered }): SimpleInterpolation =>
-		centered &&
+	${({ $centered }): SimpleInterpolation =>
+		$centered &&
 		css`
 			text-align: center;
 		`};
@@ -46,7 +46,7 @@ const ModalHeader = ({
 }: ModalHeaderProps): React.JSX.Element => (
 	<Row width="100%" padding={{ bottom: 'small' }}>
 		<ModalTitle
-			centered={!!centered}
+			$centered={!!centered}
 			color={type === 'error' ? 'error' : undefined}
 			size="medium"
 			weight="bold"
