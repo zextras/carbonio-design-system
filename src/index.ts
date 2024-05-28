@@ -118,3 +118,4 @@ export * from './hooks/useSplitVisibility';
 
 export type { ThemeObj as Theme } from './theme/theme';
 export * from './globals';
+export type { AnyColor, PaletteColor } from './types/utils';

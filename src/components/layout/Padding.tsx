@@ -6,37 +6,54 @@
 
 import React, { HTMLAttributes } from 'react';
 
-import styled, { SimpleInterpolation } from 'styled-components';
+import { omit } from 'lodash';
+import styled, { DefaultTheme, SimpleInterpolation } from 'styled-components';
 
 import { getPadding, PaddingObj } from '../../theme/theme-utils';
+import { AllKeys } from '../../types/utils';
 
-type PaddingProps = {
+type PaddingComponentProps = {
 	width?: string;
 	height?: string;
 	children?: React.ReactNode | React.ReactNode[];
-} & PaddingObj &
-	HTMLAttributes<HTMLDivElement>;
+} & PaddingObj;
 
-const Comp = styled.div<PaddingProps>`
-	height: ${({ height }): SimpleInterpolation => height};
-	width: ${({ width }): SimpleInterpolation => width};
-	padding: ${({ theme, ...props }): string => getPadding(props, theme)};
+type PaddingProps = PaddingComponentProps &
+	Omit<HTMLAttributes<HTMLDivElement>, keyof PaddingComponentProps>;
+
+const Comp = styled.div<{
+	$height?: string;
+	$width?: string;
+	$padding: (args: { theme: DefaultTheme }) => string;
+}>`
+	height: ${({ $height }): SimpleInterpolation => $height};
+	width: ${({ $width }): SimpleInterpolation => $width};
+	padding: ${({ theme, $padding }): string => $padding({ theme })};
 `;
 
-const Padding = React.forwardRef<
-	HTMLDivElement,
-	PaddingProps & Omit<HTMLAttributes<HTMLDivElement>, keyof PaddingProps>
->(function PaddingFn({ children, ...rest }, ref) {
+const paddingObjKeys = Object.keys({
+	value: undefined,
+	all: undefined,
+	bottom: undefined,
+	left: undefined,
+	top: undefined,
+	right: undefined,
+	horizontal: undefined,
+	vertical: undefined
+} satisfies Record<AllKeys<PaddingObj>, undefined>);
+
+const Padding = React.forwardRef<HTMLDivElement, PaddingProps>(function PaddingFn(
+	{ children, width = 'fit-content', height = 'fit-content', ...props },
+	ref
+) {
+	// omit the padding obj properties from the props, in order to pass down to the styled components only the valid html props
+	const rest = omit(props, paddingObjKeys);
+
 	return (
-		<Comp ref={ref} {...rest}>
+		<Comp ref={ref} $height={height} $width={width} $padding={getPadding(props)} {...rest}>
 			{children}
 		</Comp>
 	);
 });
-
-Padding.defaultProps = {
-	width: 'fit-content',
-	height: 'fit-content'
-};
 
 export { Padding, PaddingProps };

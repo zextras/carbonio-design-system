@@ -35,24 +35,25 @@ interface TextProps extends Omit<HTMLAttributes<HTMLDivElement>, 'color' | 'chil
 }
 
 const Comp = styled.div<{
-	disabled: boolean;
-	size: keyof DefaultTheme['sizes']['font'];
-	weight: keyof DefaultTheme['fonts']['weight'];
-	overflow: string;
+	$color: AnyColor;
+	$disabled: boolean;
+	$size: keyof DefaultTheme['sizes']['font'];
+	$weight: keyof DefaultTheme['fonts']['weight'];
+	$overflow: string;
 	$italic: boolean;
 	$textAlign?: string;
 	$lineHeight?: number;
 }>`
-	color: ${({ theme, color, disabled }): string =>
-		getColor(`${color}.${disabled ? 'disabled' : 'regular'}`, theme)};
+	color: ${({ theme, $color, $disabled }): string =>
+		getColor(`${$color}.${$disabled ? 'disabled' : 'regular'}`, theme)};
 	font-family: ${({ theme }): string => theme.fonts.default};
-	font-size: ${({ theme, size }): string => theme.sizes.font[size]};
-	font-weight: ${({ theme, weight }): number => theme.fonts.weight[weight]};
+	font-size: ${({ theme, $size }): string => theme.sizes.font[$size]};
+	font-weight: ${({ theme, $weight }): number => theme.fonts.weight[$weight]};
 	font-style: ${({ $italic }): SimpleInterpolation => $italic && 'italic'};
 	margin: 0;
 	max-width: 100%;
-	${({ overflow }): SimpleInterpolation =>
-		overflow === 'ellipsis'
+	${({ $overflow }): SimpleInterpolation =>
+		$overflow === 'ellipsis'
 			? css`
 					white-space: nowrap;
 					overflow: hidden;
@@ -85,11 +86,11 @@ const Text = React.forwardRef<HTMLDivElement, TextProps>(function TextFn(
 	return (
 		<Comp
 			ref={ref}
-			color={color}
-			size={size}
-			weight={weight}
-			overflow={overflow}
-			disabled={disabled}
+			$color={color}
+			$size={size}
+			$weight={weight}
+			$overflow={overflow}
+			$disabled={disabled}
 			$italic={italic}
 			$textAlign={textAlign}
 			$lineHeight={lineHeight}
