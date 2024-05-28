@@ -114,7 +114,6 @@ describe('Select', () => {
 				);
 				await user.click(dropdownItem);
 
-				expect(onChange).toHaveBeenCalled();
 				expect(onChange).toHaveBeenCalledTimes(1);
 				expect(onChange).toHaveBeenCalledWith(items[1].value);
 			});
@@ -206,7 +205,6 @@ describe('Select', () => {
 				);
 				await user.click(dropdownItem);
 
-				expect(onChange).toHaveBeenCalled();
 				expect(onChange).toHaveBeenCalledTimes(1);
 				expect(onChange).toHaveBeenCalledWith(items[1].value);
 			});
