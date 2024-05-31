@@ -40,7 +40,7 @@ const Comp = styled.div<{
 	overflow: string;
 	$italic: boolean;
 	$textAlign?: string;
-	$lineHeight: number;
+	$lineHeight?: number;
 }>`
 	color: ${({ theme, color, disabled }): string =>
 		getColor(`${color}.${disabled ? 'disabled' : 'regular'}`, theme)};
@@ -76,7 +76,7 @@ const Text = React.forwardRef<HTMLDivElement, TextProps>(function TextFn(
 		disabled = false,
 		italic = false,
 		textAlign,
-		lineHeight = 1.5,
+		lineHeight,
 		...rest
 	},
 	ref

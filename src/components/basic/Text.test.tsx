@@ -5,6 +5,7 @@
  */
 import React from 'react';
 
+import { faker } from '@faker-js/faker';
 import { screen } from '@testing-library/react';
 
 import { Text, TextProps } from './Text';
@@ -44,11 +45,9 @@ describe('Text', () => {
 		}
 	);
 
-	it.each([
-		[1.5, undefined],
-		[2, 2]
-	])('should render the text with %s line height if the prop is %s', (res, lineHeight) => {
+	it('should render the text with line height', () => {
+		const lineHeight = faker.number.int({ max: 10 });
 		setup(<Text lineHeight={lineHeight}>ABC</Text>);
-		expect(screen.getByText('ABC')).toHaveStyle(`line-height: ${res}`);
+		expect(screen.getByText('ABC')).toHaveStyle(`line-height: ${lineHeight};`);
 	});
 });
