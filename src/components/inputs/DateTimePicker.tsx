@@ -1007,18 +1007,18 @@ type DateTimePickerChipInputProps = Omit<
 	handleChipChange: (items: DateChipItem[]) => void;
 };
 
-interface InputIconsProps {
+type InputIconsProps = Pick<IconButtonProps, 'onClick' | 'disabled'> & {
 	showClear: boolean;
 	onClear: IconButtonProps['onClick'];
-	onClick: IconButtonProps['onClick'];
-}
+};
 
 type DateChipItem = ChipItem<Date>;
 
 const buildInputIcons = ({
 	showClear,
 	onClear,
-	onClick
+	onClick,
+	disabled
 }: InputIconsProps): NonNullable<InputProps['CustomIcon']> =>
 	function InputIcons({ hasError }): React.JSX.Element {
 		return (
@@ -1029,6 +1029,7 @@ const buildInputIcons = ({
 						size="large"
 						onClick={onClear}
 						backgroundColor="transparent"
+						disabled={disabled}
 					/>
 				)}
 				<CustomIconButton
@@ -1037,6 +1038,7 @@ const buildInputIcons = ({
 					backgroundColor="transparent"
 					onClick={onClick}
 					iconColor={hasError ? 'error' : 'text'}
+					disabled={disabled}
 				/>
 			</InputIconsContainer>
 		);
@@ -1055,10 +1057,10 @@ const DateTimePickerInput = React.forwardRef<
 	}: DateTimePickerInputProps & ReactDatePickerCustomInputProps,
 	ref
 ) {
-	const { value, onClick = noop } = rest;
+	const { value, onClick = noop, disabled } = rest;
 	const InputIconsComponent = useMemo<InputProps['CustomIcon']>(
-		() => buildInputIcons({ showClear: isClearable && !!value, onClear, onClick }),
-		[isClearable, onClear, onClick, value]
+		() => buildInputIcons({ showClear: isClearable && !!value, onClear, onClick, disabled }),
+		[disabled, isClearable, onClear, onClick, value]
 	);
 
 	return (
@@ -1084,7 +1086,7 @@ const DateTimePickerChipInput = React.forwardRef<
 	}: DateTimePickerChipInputProps & ReactDatePickerCustomInputProps,
 	ref
 ) {
-	const { hasError, onClick } = rest;
+	const { hasError, onClick, disabled } = rest;
 	const inputRef = useRef<HTMLInputElement>(null);
 	const [chipInputValue, setChipInputValue] = useState<SingleItemArray<DateChipItem>>([]);
 
@@ -1133,6 +1135,7 @@ const DateTimePickerChipInput = React.forwardRef<
 				icon="CalendarOutline"
 				iconAction={onClick}
 				iconColor={hasError ? 'error' : 'text'}
+				iconDisabled={disabled}
 				wrap={'nowrap'}
 				separators={[]}
 				{...rest}
