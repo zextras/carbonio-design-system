@@ -5,9 +5,10 @@
  */
 import React from 'react';
 
+import { faker } from '@faker-js/faker';
 import { screen } from '@testing-library/react';
 
-import { Text } from './Text';
+import { Text, TextProps } from './Text';
 import { setup } from '../../test-utils';
 
 describe('Text', () => {
@@ -29,5 +30,24 @@ describe('Text', () => {
 		);
 		expect(screen.getByText('ABC')).toBeVisible();
 		expect(screen.getByText('DEF')).toBeVisible();
+	});
+
+	it('should render the text with italic style if italic prop is true', () => {
+		setup(<Text italic>ABCD</Text>);
+		expect(screen.getByText('ABCD')).toHaveStyle('font-style: italic');
+	});
+
+	it.each<TextProps['textAlign']>(['left', 'right', 'center', 'justify', 'end', 'revert', 'start'])(
+		'should render the text with textAlign %s',
+		(textAlign) => {
+			setup(<Text textAlign={textAlign}>ACB</Text>);
+			expect(screen.getByText('ACB')).toHaveStyle(`text-align: ${textAlign}`);
+		}
+	);
+
+	it('should render the text with line height', () => {
+		const lineHeight = faker.number.int({ max: 10 });
+		setup(<Text lineHeight={lineHeight}>ABC</Text>);
+		expect(screen.getByText('ABC')).toHaveStyle(`line-height: ${lineHeight};`);
 	});
 });
