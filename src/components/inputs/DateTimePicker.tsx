@@ -1099,7 +1099,7 @@ const DateTimePickerChipInput = React.forwardRef<
 			if (chipValue && value) {
 				return [
 					{
-						background: 'gray2',
+						background: disabled ? undefined : 'gray2',
 						avatarIcon: 'CalendarOutline',
 						color: 'text',
 						...chipProps,
