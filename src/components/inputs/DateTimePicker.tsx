@@ -955,7 +955,7 @@ interface DateTimePickerProps extends Omit<ReactDatePickerProps, 'onChange' | 'p
 	 */
 	CustomComponent?: React.ComponentType<{
 		value?: string;
-		onClick?: React.ReactEventHandler;
+		onClick?: (e: React.SyntheticEvent | KeyboardEvent) => void;
 	}>;
 	/** Disable the input */
 	disabled?: boolean;
