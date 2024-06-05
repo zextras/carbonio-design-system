@@ -894,7 +894,6 @@ const Styler = styled(Container)`
 
 	/*# sourceMappingURL=styles.css.map */
 
-	/* color: ${({ theme }): string => theme.palette.text.regular}; */
 	font-family: ${({ theme }): string => theme.fonts.default};
 	font-size: ${({ theme }): string => theme.sizes.font.medium};
 	font-weight: ${({ theme }): number => theme.fonts.weight.regular};
