@@ -1105,7 +1105,8 @@ const DateTimePickerChipInput = React.forwardRef<
 						...chipProps,
 						value: chipValue,
 						label: value,
-						onClick
+						onClick,
+						disabled
 					}
 				];
 			}
@@ -1118,7 +1119,7 @@ const DateTimePickerChipInput = React.forwardRef<
 			inputRef.current.value = '';
 			inputRef.current.dispatchEvent(new Event('change'));
 		}
-	}, [chipProps, chipValue, onClick, value]);
+	}, [chipProps, chipValue, disabled, onClick, value]);
 
 	const onInputType = useCallback(
 		(event: React.KeyboardEvent<HTMLInputElement>) => {

@@ -8,8 +8,8 @@ import React from 'react';
 import { format, addMonths, startOfMonth } from 'date-fns';
 
 import { DateTimePicker, DateTimePickerProps } from './DateTimePicker';
-import { setup, screen } from '../../test-utils';
-import { ICONS } from '../../testUtils/constants';
+import { setup, screen, within } from '../../test-utils';
+import { ICONS, SELECTORS } from '../../testUtils/constants';
 import { Button } from '../basic/Button';
 
 const DEFAULT_DATE_FORMAT = 'MMMM d, yyyy h:mm aa';
@@ -296,6 +296,17 @@ describe('DateTimePicker', () => {
 			setup(<DateTimePicker label={'Validate input'} enableChips disabled />);
 			expect(
 				screen.getByRoleWithIcon('button', { icon: ICONS.datePickerShowAction })
+			).toBeDisabled();
+		});
+
+		it('should disable the chip if component is disabled', () => {
+			setup(
+				<DateTimePicker label={'Validate input'} enableChips disabled defaultValue={new Date()} />
+			);
+			expect(
+				within(screen.getByTestId(SELECTORS.chip)).getByRoleWithIcon('button', {
+					icon: ICONS.close
+				})
 			).toBeDisabled();
 		});
 	});
