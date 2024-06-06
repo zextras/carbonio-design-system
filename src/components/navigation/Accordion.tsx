@@ -65,12 +65,7 @@ const AccordionItem = React.forwardRef<HTMLDivElement, AccordionItemProps>(funct
 		>
 			{item.icon && (
 				<Padding right="small">
-					<Icon
-						icon={item.icon}
-						customColor={item.iconCustomColor}
-						color={item.iconColor}
-						size="large"
-					/>
+					<Icon icon={item.icon} color={item.iconColor} size="large" />
 				</Padding>
 			)}
 			{item.label && (
@@ -95,8 +90,6 @@ type AccordionItemType = {
 	onClick?: (event: KeyboardEvent | React.SyntheticEvent) => void;
 	icon?: keyof DefaultTheme['icons'];
 	CustomComponent?: React.ComponentType<{ item: AccordionItemType }>;
-	/** @deprecated Use iconColor instead */
-	iconCustomColor?: string;
 	iconColor?: string;
 	badgeType?: 'read' | 'unread';
 	badgeCounter?: number;
