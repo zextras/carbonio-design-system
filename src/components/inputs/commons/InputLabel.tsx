@@ -13,6 +13,7 @@ export const InputLabel = styled.label.attrs<
 		$hasError?: boolean;
 		$hasFocus?: boolean;
 		$disabled?: boolean;
+		$decreaseMaxWidthBy?: string;
 	},
 	{ $textColor: string }
 >(({ $hasError, $hasFocus }) => ({
@@ -21,6 +22,7 @@ export const InputLabel = styled.label.attrs<
 	$hasError?: boolean;
 	$hasFocus?: boolean;
 	$disabled?: boolean;
+	$decreaseMaxWidthBy?: string;
 }>`
 	position: absolute;
 	top: 50%;
@@ -39,7 +41,11 @@ export const InputLabel = styled.label.attrs<
 		left 150ms ease-out;
 	cursor: inherit;
 	user-select: none;
-	max-width: calc(100% - ${({ theme }): string => `${theme.sizes.padding.large} * 2`});
+	max-width: calc(
+		100% -
+			${({ theme, $decreaseMaxWidthBy }): string =>
+				`${theme.sizes.padding.large} * 2 - ${$decreaseMaxWidthBy ?? 0}px`}
+	);
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;

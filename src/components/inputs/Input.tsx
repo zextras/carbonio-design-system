@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import styled, { DefaultTheme } from 'styled-components';
 
@@ -171,6 +171,12 @@ const Input: Input = React.forwardRef<HTMLDivElement, InputProps>(function Input
 		[borderColor, disabled, hasError, hasFocus, hideBorder]
 	);
 
+	const [iconWidth, setIconWidth] = useState<string>();
+	const iconRef = useRef<HTMLSpanElement | null>(null);
+	useEffect(() => {
+		setIconWidth(iconRef.current?.offsetWidth.toString());
+	}, []);
+
 	return (
 		<Container height="fit" width="fill" crossAlignment="flex-start">
 			<InputContainer
@@ -204,12 +210,18 @@ const Input: Input = React.forwardRef<HTMLDivElement, InputProps>(function Input
 					placeholder={label}
 				/>
 				{label && (
-					<Label htmlFor={id} $hasFocus={hasFocus} $hasError={hasError} $disabled={disabled}>
+					<Label
+						htmlFor={id}
+						$hasFocus={hasFocus}
+						$hasError={hasError}
+						$disabled={disabled}
+						$decreaseMaxWidthBy={iconWidth}
+					>
 						{label}
 					</Label>
 				)}
 				{CustomIcon && (
-					<CustomIconContainer>
+					<CustomIconContainer ref={iconRef}>
 						<CustomIcon hasError={hasError} hasFocus={hasFocus} disabled={disabled} />
 					</CustomIconContainer>
 				)}

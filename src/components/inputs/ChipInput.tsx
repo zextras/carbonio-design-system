@@ -744,6 +744,12 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 		[bottomBorderColor, disabled, hasError, hasFocus, hideBorder]
 	);
 
+	const [iconWidth, setIconWidth] = useState<string>();
+	const iconRef = useRef<HTMLSpanElement | null>(null);
+	useEffect(() => {
+		setIconWidth(iconRef.current?.offsetWidth.toString());
+	}, []);
+
 	return (
 		<Container height="fit" width="fill" crossAlignment="flex-start">
 			<Dropdown
@@ -810,13 +816,14 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 								$hasError={hasError}
 								$disabled={disabled && dropdownDisabled && (!iconAction || iconDisabled)}
 								$hasItems={items.length > 0 || !!inputElRef.current?.value}
+								$decreaseMaxWidthBy={iconWidth}
 							>
 								{placeholder}
 							</Label>
 						)}
 					</ScrollContainer>
 					{icon && (
-						<CustomIconContainer>
+						<CustomIconContainer ref={iconRef}>
 							<CustomIcon
 								icon={icon}
 								onClick={iconAction}
