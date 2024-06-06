@@ -6,73 +6,47 @@
 import { Meta, StoryObj } from '@storybook/react';
 
 import { Text } from './Text';
-import { colorArgTypeControl, themeFontSize, themeFontWeight } from '../../../docs/utils';
+import { colorArgTypeControl } from '../../../docs/utils';
 
 const meta = {
-	component: Text
+	component: Text,
+	argTypes: {
+		color: colorArgTypeControl
+	}
 } satisfies Meta<typeof Text>;
 
 export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-const Common: Partial<Story> = {
-	argTypes: {
-		color: colorArgTypeControl,
-		weight: {
-			control: 'radio',
-			options: themeFontWeight
-		},
-		size: {
-			control: 'radio',
-			options: themeFontSize
-		}
-	},
+export const Base: Story = {
 	args: {
 		children: 'Lorem Ipsum dolor sit amet'
 	}
 };
 
-export const Base: Story = {
-	...Common,
-	args: {
-		...Common.args,
-		size: 'medium',
-		color: 'text',
-		weight: 'regular',
-		disabled: false,
-		overflow: 'ellipsis',
-		italic: false,
-		lineHeight: 1.2
-	}
-};
-
 export const Size: Story = {
-	...Common,
 	args: {
-		...Common.args,
+		...Base.args,
 		size: 'extralarge'
 	}
 };
 
 export const Color: Story = {
-	...Common,
 	args: {
-		...Common.args,
+		...Base.args,
 		color: 'primary'
 	}
 };
 
 export const Weight: Story = {
-	...Common,
 	args: {
-		...Common.args,
+		...Base.args,
 		weight: 'bold'
 	}
 };
 
 export const Overflow: Story = {
-	...Common,
 	args: {
 		overflow: 'break-word',
 		children:
@@ -81,31 +55,27 @@ export const Overflow: Story = {
 };
 
 export const Disabled: Story = {
-	...Common,
 	args: {
-		...Common.args,
+		...Base.args,
 		disabled: true
 	}
 };
 
 export const Italic: Story = {
-	...Common,
 	args: {
-		...Common.args,
+		...Base.args,
 		italic: true
 	}
 };
 
 export const TextAlign: Story = {
-	...Common,
 	args: {
-		...Common.args,
+		...Base.args,
 		textAlign: 'right'
 	}
 };
 
 export const LineHeight: Story = {
-	...Common,
 	args: {
 		lineHeight: 2,
 		overflow: 'break-word',

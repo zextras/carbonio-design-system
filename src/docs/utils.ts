@@ -18,7 +18,3 @@ export const colorArgTypeControl: { control: Control } = {
 		presetColors: themeColors
 	}
 };
-
-export const themeFontWeight = Object.keys(Theme.fonts.weight).map((key) => key);
-
-export const themeFontSize = Object.keys(Theme.sizes.font).map((key) => key);
