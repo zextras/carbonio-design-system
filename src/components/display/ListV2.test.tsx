@@ -88,9 +88,9 @@ describe('List', () => {
 
 		const { rerender } = setup(<ListV2 onListBottom={onListBottomFn1}>{listItems}</ListV2>);
 		triggerLoadMore();
-		expect(onListBottomFn1).toBeCalledTimes(1);
+		expect(onListBottomFn1).toHaveBeenCalledTimes(1);
 		rerender(<ListV2 onListBottom={onListBottomFn2}>{listItems}</ListV2>);
-		expect(onListBottomFn1).toBeCalledTimes(1);
-		expect(onListBottomFn2).toBeCalledTimes(0);
+		expect(onListBottomFn1).toHaveBeenCalledTimes(1);
+		expect(onListBottomFn2).toHaveBeenCalledTimes(0);
 	});
 });
