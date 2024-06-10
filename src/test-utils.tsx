@@ -7,6 +7,7 @@
 import React, { type ReactElement } from 'react';
 
 import {
+	act,
 	ByRoleMatcher,
 	ByRoleOptions,
 	GetAllBy,
@@ -19,7 +20,7 @@ import {
 	screen as rtlScreen,
 	within as rtlWithin
 } from '@testing-library/react';
-import { act } from '@testing-library/react-hooks';
+import { act as hooksAct } from '@testing-library/react-hooks';
 import userEvent from '@testing-library/user-event';
 import { defaultKeyMap } from '@testing-library/user-event/dist/cjs/keyboard/keyMap';
 
@@ -129,7 +130,7 @@ export function makeItemsVisible(): void {
 	calls.forEach((call, index) => {
 		const [onChange] = call;
 		// trigger the intersection on the observed element
-		act(() => {
+		hooksAct(() => {
 			onChange(
 				[
 					{
@@ -140,5 +141,26 @@ export function makeItemsVisible(): void {
 				instances[index]
 			);
 		});
+	});
+}
+
+export function triggerLoadMore(): void {
+	const { calls, instances } = (window.IntersectionObserver as jest.Mock<IntersectionObserver>)
+		.mock;
+
+	const [onChange] = calls[calls.length - 1];
+	const instance = instances[instances.length - 1];
+	// trigger the intersection on the observed element
+	act(() => {
+		onChange(
+			[
+				{
+					target: screen.getByTestId('list-bottom-element'),
+					intersectionRatio: 0,
+					isIntersecting: true
+				} as unknown as IntersectionObserverEntry
+			],
+			instance
+		);
 	});
 }
