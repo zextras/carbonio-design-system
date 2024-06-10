@@ -47,7 +47,7 @@ const StyledIcon = styled(IconBase)
 	})
 	.attrs<IconProps, Required<Pick<IconProps, 'color' | 'size'>>>(
 		({ color = 'text', size = 'medium' }) => ({ color, size })
-	)<IconProps & React.SVGAttributes<SVGSVGElement>>`
+	)<IconProps>`
 	display: block;
 	fill: currentColor;
 	color: ${({ color, disabled, theme }): string =>
