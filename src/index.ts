@@ -12,7 +12,7 @@ export * from './components/basic/Icon';
 export * from './components/basic/Link';
 export * from './components/basic/LoadMore';
 export * from './components/basic/FormSection';
-export * from './components/basic/Text';
+export * from './components/basic/text/Text';
 export * from './components/basic/TextWithTooltip';
 export * from './components/basic/Spinner';
 /** Layout components */

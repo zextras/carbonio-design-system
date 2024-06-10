@@ -12,7 +12,7 @@ import { useCheckbox } from '../../hooks/useCheckbox';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { getColor } from '../../theme/theme-utils';
 import { Icon } from '../basic/Icon';
-import { Text } from '../basic/Text';
+import { Text } from '../basic/text/Text';
 import { Container, ContainerProps } from '../layout/Container';
 import { Padding } from '../layout/Padding';
 

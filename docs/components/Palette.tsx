@@ -8,7 +8,7 @@ import React, { Fragment } from 'react';
 import { map } from 'lodash';
 import styled from 'styled-components';
 
-import { Text } from '../../src/components/basic/Text';
+import { Text } from '../../src/components/basic/text/Text';
 import { Container } from '../../src/components/layout/Container';
 import { Row } from '../../src/components/layout/Row';
 import type { ThemeObj } from '../../src/theme/theme';

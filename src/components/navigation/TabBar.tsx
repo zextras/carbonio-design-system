@@ -12,7 +12,7 @@ import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-component
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { useKeyboard, getKeyboardPreset } from '../../hooks/useKeyboard';
 import { getColor } from '../../theme/theme-utils';
-import { Text } from '../basic/Text';
+import { Text } from '../basic/text/Text';
 import { Container, ContainerProps } from '../layout/Container';
 
 const CustomText = styled(Text)`

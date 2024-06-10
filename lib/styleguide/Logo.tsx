@@ -8,7 +8,7 @@ import React, { useEffect, useState, useMemo } from 'react';
 import { enable, disable, auto, isEnabled } from 'darkreader';
 
 import { Button } from '../../src/components/basic/Button';
-import { Text } from '../../src/components/basic/Text';
+import { Text } from '../../src/components/basic/text/Text';
 import { Container } from '../../src/components/layout/Container';
 import { Padding } from '../../src/components/layout/Padding';
 import { ThemeProvider } from '../../src/theme/theme-context-provider';
