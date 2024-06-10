@@ -39,7 +39,6 @@ import { Divider, DividerProps } from '../layout/Divider';
 
 const ContainerEl = styled(Container)<{
 	background: keyof DefaultTheme['palette'];
-	$hasLabel: boolean;
 	$inputDisabled: boolean;
 	$dropdownDisabled: boolean;
 }>`
@@ -52,47 +51,25 @@ const ContainerEl = styled(Container)<{
 		}
 		return false;
 	}};
-	position: relative;
 	${({ $inputDisabled, $dropdownDisabled, background, theme }): SimpleInterpolation =>
 		$inputDisabled && $dropdownDisabled
 			? css`
 					background: ${getColor(`${background}.disabled`, theme)};
 				`
 			: pseudoClasses(theme, background)};
-	padding: ${({ $hasLabel }): string => ($hasLabel ? '0.0625rem' : '0.625rem')} 0.75rem;
-	gap: 0.5rem;
 	min-height: calc(
 		${({ theme }): string => theme.sizes.font.medium} * 1.5 +
 			${({ theme }): string => theme.sizes.font.extrasmall} * 1.5 + 0.125rem
 	);
-	border-radius: 0.125rem 0.125rem 0 0;
 `;
 
-const ScrollContainer = styled.div<{
-	wrap: 'nowrap' | 'wrap';
-	hasLabel: boolean;
-	maxHeight: string;
-}>`
-	display: flex;
-	flex: 1 1 auto;
-	justify-content: flex-start;
-	align-items: center;
-	width: auto;
-	gap: 0.5rem;
-	/* handle horizontal scroll for chip overflowing */
-	flex-wrap: ${({ wrap }): string => wrap};
-	overflow-x: auto;
-	-ms-overflow-style: ${({ wrap }): string =>
-		wrap === 'wrap' ? 'auto' : 'none'}; /* IE and Edge */
-	scrollbar-width: ${({ wrap }): string => (wrap === 'wrap' ? 'auto' : 'none')}; /* Firefox */
-
+const ScrollContainer = styled(Container)`
+	position: relative;
+	overflow: auto;
+	scrollbar-width: ${({ wrap }): string => (wrap === 'wrap' ? 'auto' : 'none')};
 	&::-webkit-scrollbar {
 		display: ${({ wrap }): string => (wrap === 'wrap' ? 'auto' : 'none')};
 	}
-	margin-top: ${({ hasLabel, theme }): SimpleInterpolation =>
-		hasLabel ? css`calc(${theme.sizes.font.extrasmall} * 1.5)` : '0px'};
-	max-height: ${({ maxHeight }): string => maxHeight};
-	overflow-y: auto;
 `;
 
 const InputEl = styled.input<{ color: keyof DefaultTheme['palette'] }>`
@@ -195,7 +172,7 @@ const Label = styled(InputLabel)<{
 	$hasItems: boolean;
 }>`
 	${InputContainer}:focus-within + & {
-		top: 0.0625rem;
+		top: 0;
 		transform: translateY(0);
 		font-size: ${({ theme }): string => theme.sizes.font.extrasmall};
 	}
@@ -203,14 +180,10 @@ const Label = styled(InputLabel)<{
 	${({ $hasItems, theme }): SimpleInterpolation =>
 		$hasItems &&
 		css`
-			top: 0.0625rem;
+			top: 0;
 			transform: translateY(0);
 			font-size: ${theme.sizes.font.extrasmall};
 		`};
-`;
-
-const CustomIconContainer = styled.span`
-	align-self: center;
 `;
 
 const CustomInputDescription = styled(InputDescription)<{
@@ -744,12 +717,6 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 		[bottomBorderColor, disabled, hasError, hasFocus, hideBorder]
 	);
 
-	const [iconWidth, setIconWidth] = useState<string>();
-	const iconRef = useRef<HTMLSpanElement | null>(null);
-	useEffect(() => {
-		setIconWidth(iconRef.current?.offsetWidth.toString());
-	}, []);
-
 	return (
 		<Container height="fit" width="fill" crossAlignment="flex-start">
 			<Dropdown
@@ -771,10 +738,11 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 					width="fill"
 					height="fit"
 					mainAlignment="flex-start"
-					crossAlignment={placeholder ? 'flex-end' : 'center'}
+					crossAlignment={'center'}
+					padding={{ horizontal: '0.75rem' }}
+					gap={'0.5rem'}
 					borderRadius="half"
 					background={background}
-					$hasLabel={!!placeholder}
 					$inputDisabled={disabled || inputDisabled}
 					$dropdownDisabled={dropdownDisabled}
 					onClick={setFocus}
@@ -782,9 +750,21 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 				>
 					<ScrollContainer
 						ref={scrollContainerRef}
+						flexBasis={'auto'}
+						flexGrow={1}
+						flexShrink={1}
+						orientation={'horizontal'}
+						mainAlignment={'flex-start'}
+						crossAlignment={'flex-end'}
+						width={'auto'}
+						gap={'0.5rem'}
 						wrap={wrap}
+						minHeight={'inherit'}
 						maxHeight={maxHeight}
-						hasLabel={!!placeholder}
+						padding={{
+							top: placeholder ? '0.0625rem' : '0.625rem',
+							bottom: placeholder ? '0.175rem' : '0.625rem'
+						}}
 					>
 						{items.length > 0 &&
 							map(items, (item, index) => (
@@ -816,14 +796,13 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 								$hasError={hasError}
 								$disabled={disabled && dropdownDisabled && (!iconAction || iconDisabled)}
 								$hasItems={items.length > 0 || !!inputElRef.current?.value}
-								$decreaseMaxWidthBy={iconWidth}
 							>
 								{placeholder}
 							</Label>
 						)}
 					</ScrollContainer>
 					{icon && (
-						<CustomIconContainer ref={iconRef}>
+						<span>
 							<CustomIcon
 								icon={icon}
 								onClick={iconAction}
@@ -831,7 +810,7 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 								iconColor={iconColor}
 								size="large"
 							/>
-						</CustomIconContainer>
+						</span>
 					)}
 				</ContainerEl>
 			</Dropdown>

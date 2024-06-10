@@ -269,7 +269,8 @@ const TextArea: TextArea = React.forwardRef<HTMLDivElement, TextAreaProps>(funct
 				background={backgroundColor}
 				onClick={forceFocusOnTextArea}
 				$disabled={disabled}
-				$hasLabel={!!label}
+				padding={{ horizontal: '0.75rem', vertical: label ? '0.0625rem' : '0.625rem' }}
+				gap={'0.5rem'}
 			>
 				<AdjustHeightTextArea
 					maxHeight={maxHeight}

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 
 import styled, { DefaultTheme } from 'styled-components';
 
@@ -47,14 +47,14 @@ const InputEl = styled.input<{ color: keyof DefaultTheme['palette'] }>`
 const Label = styled(InputLabel)`
 	${InputEl}:focus + &,
   ${InputEl}:not(:placeholder-shown) + & {
-		top: 0.0625rem;
+		top: 0;
 		transform: translateY(0);
 		font-size: ${({ theme }): string => theme.sizes.font.extrasmall};
 	}
 `;
 
-const CustomIconContainer = styled.span`
-	align-self: center;
+const RelativeContainer = styled(Container)`
+	position: relative;
 `;
 
 interface InputProps extends ContainerProps {
@@ -171,12 +171,6 @@ const Input: Input = React.forwardRef<HTMLDivElement, InputProps>(function Input
 		[borderColor, disabled, hasError, hasFocus, hideBorder]
 	);
 
-	const [iconWidth, setIconWidth] = useState<string>();
-	const iconRef = useRef<HTMLSpanElement | null>(null);
-	useEffect(() => {
-		setIconWidth(iconRef.current?.offsetWidth.toString());
-	}, []);
-
 	return (
 		<Container height="fit" width="fill" crossAlignment="flex-start">
 			<InputContainer
@@ -184,46 +178,49 @@ const Input: Input = React.forwardRef<HTMLDivElement, InputProps>(function Input
 				orientation="horizontal"
 				width="fill"
 				height="fit"
-				crossAlignment={label ? 'flex-end' : 'center'}
+				crossAlignment={'center'}
 				borderRadius="half"
 				background={backgroundColor}
 				onClick={onInputFocus}
 				$disabled={disabled}
-				$hasLabel={!!label}
+				padding={{ horizontal: '0.75rem' }}
+				gap={'0.5rem'}
 				{...rest}
 			>
-				<InputEl
-					// eslint-disable-next-line jsx-a11y/no-autofocus
-					autoFocus={autoFocus || undefined}
-					autoComplete={autoComplete || 'off'} // This one seems to be a React quirk, 'off' doesn't really work
-					color={textColor}
-					ref={innerRef}
-					type={type}
-					onFocus={onInputFocus}
-					onBlur={onInputBlur}
-					id={id}
-					name={inputName || label}
-					defaultValue={defaultValue}
-					value={value}
-					onChange={onChange}
-					disabled={disabled}
-					placeholder={label}
-				/>
-				{label && (
-					<Label
-						htmlFor={id}
-						$hasFocus={hasFocus}
-						$hasError={hasError}
-						$disabled={disabled}
-						$decreaseMaxWidthBy={iconWidth}
-					>
-						{label}
-					</Label>
-				)}
+				<RelativeContainer
+					padding={{ vertical: label ? '0.0625rem' : '0.625rem' }}
+					mainAlignment={'flex-end'}
+					height={'fill'}
+					width={'fill'}
+					minHeight={'inherit'}
+				>
+					<InputEl
+						// eslint-disable-next-line jsx-a11y/no-autofocus
+						autoFocus={autoFocus || undefined}
+						autoComplete={autoComplete || 'off'} // This one seems to be a React quirk, 'off' doesn't really work
+						color={textColor}
+						ref={innerRef}
+						type={type}
+						onFocus={onInputFocus}
+						onBlur={onInputBlur}
+						id={id}
+						name={inputName || label}
+						defaultValue={defaultValue}
+						value={value}
+						onChange={onChange}
+						disabled={disabled}
+						placeholder={label}
+					/>
+					{label && (
+						<Label htmlFor={id} $hasFocus={hasFocus} $hasError={hasError} $disabled={disabled}>
+							{label}
+						</Label>
+					)}
+				</RelativeContainer>
 				{CustomIcon && (
-					<CustomIconContainer ref={iconRef}>
+					<span>
 						<CustomIcon hasError={hasError} hasFocus={hasFocus} disabled={disabled} />
-					</CustomIconContainer>
+					</span>
 				)}
 			</InputContainer>
 			<Divider color={dividerColor} />
