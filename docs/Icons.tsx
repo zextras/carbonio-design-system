@@ -67,7 +67,7 @@ export const Icons = (): React.JSX.Element => {
 	return (
 		<ThemeProvider>
 			<Container gap={'0.5rem'} mainAlignment={'flex-start'}>
-				<Container orientation={'horizontal'} gap={'0.5rem'}>
+				<Container orientation={'horizontal'} gap={'0.5rem'} height={'fit'} width={'fill'}>
 					<Input label="Filter" onChange={onInputChange} />
 					<Select items={paletteColors} onChange={onColorChange} label={'Color'} />
 				</Container>
