@@ -41,13 +41,9 @@ const IconBase = React.forwardRef<SVGSVGElement, IconComponentProps>(function Ic
 	return <IconComp data-testid={`icon: ${icon}`} ref={ref} viewBox="0 0 24 24" {...rest} />;
 });
 
-const StyledIcon = styled(IconBase)
-	.withConfig({
-		shouldForwardProp: (prop) => !['color', 'size'].includes(prop)
-	})
-	.attrs<IconProps, Required<Pick<IconProps, 'color' | 'size'>>>(
-		({ color = 'text', size = 'medium' }) => ({ color, size })
-	)<IconProps>`
+const StyledIcon = styled(IconBase).withConfig({
+	shouldForwardProp: (prop) => !['color', 'size'].includes(prop)
+})<IconProps & Required<Pick<IconProps, 'color' | 'size'>>>`
 	display: block;
 	fill: currentColor;
 	color: ${({ color, disabled, theme }): string =>
@@ -59,10 +55,10 @@ const StyledIcon = styled(IconBase)
 `;
 
 const Icon = React.forwardRef<SVGSVGElement, IconProps>(function IconFn(
-	props: IconProps,
+	{ color = 'text', size = 'medium', disabled = false, ...rest }: IconProps,
 	ref: React.ForwardedRef<SVGSVGElement>
 ): React.JSX.Element {
-	return <StyledIcon {...props} ref={ref} />;
+	return <StyledIcon size={size} color={color} disabled={disabled} {...rest} ref={ref} />;
 });
 
 export { Icon, IconProps, IconComponentProps };
