@@ -17,19 +17,11 @@ interface IconComponentProps extends SVGAttributes<SVGSVGElement> {
 	icon: keyof DefaultTheme['icons'] | IconComponent;
 	/** whether the icon is in a disabled element */
 	disabled?: boolean;
-	/** action to perform on Icon Click
-	 * @deprecated consider using an IconButton instead of an Icon
-	 */
-	onClick?: React.ReactEventHandler<SVGSVGElement>;
 }
 
 interface IconProps extends IconComponentProps {
 	/** Icon Color */
 	color?: AnyColor;
-	/** Custom color, css syntax
-	 * @deprecated use color instead
-	 */
-	customColor?: string;
 	/** Icon size */
 	size?: keyof DefaultTheme['sizes']['icon'];
 }
@@ -51,15 +43,15 @@ const IconBase = React.forwardRef<SVGSVGElement, IconComponentProps>(function Ic
 
 const Icon = styled(IconBase)
 	.withConfig({
-		shouldForwardProp: (prop) => !['customColor', 'color', 'size'].includes(prop)
+		shouldForwardProp: (prop) => !['color', 'size'].includes(prop)
 	})
 	.attrs<IconProps, Required<Pick<IconProps, 'color' | 'size'>>>(
 		({ color = 'text', size = 'medium' }) => ({ color, size })
 	)<IconProps & React.SVGAttributes<SVGSVGElement>>`
 	display: block;
 	fill: currentColor;
-	color: ${({ customColor, color, disabled, theme }): string =>
-		customColor ?? getColor(`${color}.${disabled ? 'disabled' : 'regular'}`, theme)};
+	color: ${({ color, disabled, theme }): string =>
+		getColor(`${color}.${disabled ? 'disabled' : 'regular'}`, theme)};
 	${({ size, theme }): SimpleInterpolation => css`
 		width: ${theme.sizes.icon[size]};
 		height: ${theme.sizes.icon[size]};
