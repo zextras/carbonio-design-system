@@ -27,7 +27,7 @@ import { useKeyboard, getKeyboardPreset, KeyboardPresetObj } from '../../hooks/u
 import { pseudoClasses } from '../../theme/theme-utils';
 import { setupFloating } from '../../utils/floating-ui';
 import { Icon } from '../basic/Icon';
-import { Text } from '../basic/Text';
+import { Text } from '../basic/text/Text';
 import { Container } from '../layout/Container';
 import { Divider } from '../layout/Divider';
 import { Padding } from '../layout/Padding';

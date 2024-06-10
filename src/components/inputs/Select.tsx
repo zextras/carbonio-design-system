@@ -10,7 +10,7 @@ import styled, { css, SimpleInterpolation } from 'styled-components';
 
 import { getColor } from '../../theme/theme-utils';
 import { Icon } from '../basic/Icon';
-import { Text } from '../basic/Text';
+import { Text } from '../basic/text/Text';
 import { INPUT_BACKGROUND_COLOR, INPUT_DIVIDER_COLOR } from '../constants';
 import { Dropdown, DropdownItem, DropdownProps } from '../display/Dropdown';
 import { Container } from '../layout/Container';

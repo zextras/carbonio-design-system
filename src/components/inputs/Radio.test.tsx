@@ -9,7 +9,7 @@ import { screen } from '@testing-library/react';
 
 import { Radio } from './Radio';
 import { setup } from '../../test-utils';
-import { Text } from '../basic/Text';
+import { Text } from '../basic/text/Text';
 
 describe('Radio', () => {
 	test('should render a radio input with a label', () => {

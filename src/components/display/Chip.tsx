@@ -14,7 +14,7 @@ import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { useTheme, pseudoClasses } from '../../theme/theme-utils';
 import { Avatar, AvatarPropTypes } from '../basic/Avatar';
 import { Icon } from '../basic/Icon';
-import { Text } from '../basic/Text';
+import { Text } from '../basic/text/Text';
 import { IconButton, IconButtonProps } from '../inputs/IconButton';
 import { Container, ContainerProps } from '../layout/Container';
 import { Row, RowProps } from '../layout/Row';

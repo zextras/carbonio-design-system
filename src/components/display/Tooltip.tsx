@@ -20,7 +20,7 @@ import styled, { css, SimpleInterpolation } from 'styled-components';
 
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { setupFloating } from '../../utils/floating-ui';
-import { Text, TextProps } from '../basic/Text';
+import { Text, TextProps } from '../basic/text/Text';
 import { Portal } from '../utilities/Portal';
 
 interface TooltipWrapperProps extends TextProps {

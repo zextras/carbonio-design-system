@@ -7,7 +7,7 @@ import React from 'react';
 
 import styled, { css, SimpleInterpolation } from 'styled-components';
 
-import { Text } from '../../basic/Text';
+import { Text } from '../../basic/text/Text';
 import { Tooltip } from '../../display/Tooltip';
 import { IconButton } from '../../inputs/IconButton';
 import { Row } from '../../layout/Row';
