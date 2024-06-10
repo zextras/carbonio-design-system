@@ -19,7 +19,7 @@ import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-component
 
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { getColor, pseudoClasses } from '../../theme/theme-utils';
-import { Text, TextProps } from '../basic/Text';
+import { Text, TextProps } from '../basic/text/Text';
 import { Container, ContainerProps } from '../layout/Container';
 
 const RADIO_SIZE: Record<

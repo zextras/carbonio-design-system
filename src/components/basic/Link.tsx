@@ -8,7 +8,7 @@ import React, { useMemo, useCallback } from 'react';
 
 import styled from 'styled-components';
 
-import { Text, TextProps } from './Text';
+import { Text, TextProps } from './text/Text';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { useKeyboard, getKeyboardPreset } from '../../hooks/useKeyboard';
 import { getColor } from '../../theme/theme-utils';
