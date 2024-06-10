@@ -15,7 +15,6 @@ import React, {
 	useRef
 } from 'react';
 
-import { noop } from 'lodash';
 import { rgba } from 'polished';
 import DatePicker, {
 	getDefaultLocale,
@@ -24,12 +23,12 @@ import DatePicker, {
 	registerLocale,
 	setDefaultLocale
 } from 'react-datepicker';
-import styled, { DefaultTheme } from 'styled-components';
+import styled from 'styled-components';
 
 import { ChipInput, ChipInputProps, ChipItem } from './ChipInput';
 import { IconButton, IconButtonProps } from './IconButton';
 import { Input, InputProps } from './Input';
-import { SingleItemArray } from '../../types/utils';
+import { LiteralUnion, PaletteColor, SingleItemArray } from '../../types/utils';
 import { INPUT_BACKGROUND_COLOR } from '../constants';
 import { ChipProps } from '../display/Chip';
 import { Container, ContainerProps } from '../layout/Container';
@@ -895,7 +894,6 @@ const Styler = styled(Container)`
 
 	/*# sourceMappingURL=styles.css.map */
 
-	/* color: ${({ theme }): string => theme.palette.text.regular}; */
 	font-family: ${({ theme }): string => theme.fonts.default};
 	font-size: ${({ theme }): string => theme.sizes.font.medium};
 	font-weight: ${({ theme }): number => theme.fonts.weight.regular};
@@ -913,7 +911,7 @@ const CustomIconButton = styled(IconButton)`
 
 interface DateTimePickerProps extends Omit<ReactDatePickerProps, 'onChange' | 'placeholderText'> {
 	/** Input's background color */
-	backgroundColor?: keyof DefaultTheme['palette'];
+	backgroundColor?: PaletteColor;
 	/** Close icon to clear the Input */
 	isClearable?: boolean;
 	/** Label for input */
@@ -947,7 +945,7 @@ interface DateTimePickerProps extends Omit<ReactDatePickerProps, 'onChange' | 'p
 	 *  <li>number: measure in px</li>
 	 *  <li>string: any measure in CSS syntax</li>
 	 */
-	width?: 'fit' | 'fill' | string | number;
+	width?: LiteralUnion<'fit' | 'fill', string> | number;
 	/**
 	 * Use a custom component instead of the default one.
 	 * The component will be cloned by react-datepicker.
@@ -955,7 +953,7 @@ interface DateTimePickerProps extends Omit<ReactDatePickerProps, 'onChange' | 'p
 	 */
 	CustomComponent?: React.ComponentType<{
 		value?: string;
-		onClick?: React.ReactEventHandler;
+		onClick?: (e: React.SyntheticEvent | KeyboardEvent) => void;
 	}>;
 	/** Disable the input */
 	disabled?: boolean;
@@ -988,6 +986,7 @@ interface ReactDatePickerCustomInputProps
 		| 'aria-required'
 	> {
 	value?: string;
+	onClick?: (e: React.SyntheticEvent | KeyboardEvent) => void;
 }
 
 type DateTimePickerInputProps = Omit<InputProps, keyof ReactDatePickerCustomInputProps> & {
@@ -1007,18 +1006,18 @@ type DateTimePickerChipInputProps = Omit<
 	handleChipChange: (items: DateChipItem[]) => void;
 };
 
-interface InputIconsProps {
+type InputIconsProps = Pick<IconButtonProps, 'onClick' | 'disabled'> & {
 	showClear: boolean;
 	onClear: IconButtonProps['onClick'];
-	onClick: IconButtonProps['onClick'];
-}
+};
 
 type DateChipItem = ChipItem<Date>;
 
 const buildInputIcons = ({
 	showClear,
 	onClear,
-	onClick
+	onClick,
+	disabled
 }: InputIconsProps): NonNullable<InputProps['CustomIcon']> =>
 	function InputIcons({ hasError }): React.JSX.Element {
 		return (
@@ -1029,6 +1028,7 @@ const buildInputIcons = ({
 						size="large"
 						onClick={onClear}
 						backgroundColor="transparent"
+						disabled={disabled}
 					/>
 				)}
 				<CustomIconButton
@@ -1037,6 +1037,7 @@ const buildInputIcons = ({
 					backgroundColor="transparent"
 					onClick={onClick}
 					iconColor={hasError ? 'error' : 'text'}
+					disabled={disabled}
 				/>
 			</InputIconsContainer>
 		);
@@ -1044,7 +1045,8 @@ const buildInputIcons = ({
 
 const DateTimePickerInput = React.forwardRef<
 	HTMLDivElement,
-	DateTimePickerInputProps & { [K in keyof ReactDatePickerCustomInputProps]: never }
+	// do not directly accept props that will come from react-datepicker
+	DateTimePickerInputProps & Partial<Record<keyof ReactDatePickerCustomInputProps, never>>
 >(function DateTimePickerInputFn(
 	{
 		width,
@@ -1055,10 +1057,11 @@ const DateTimePickerInput = React.forwardRef<
 	}: DateTimePickerInputProps & ReactDatePickerCustomInputProps,
 	ref
 ) {
-	const { value, onClick = noop } = rest;
+	const { value, onClick = (): void => undefined, disabled } = rest;
+
 	const InputIconsComponent = useMemo<InputProps['CustomIcon']>(
-		() => buildInputIcons({ showClear: isClearable && !!value, onClear, onClick }),
-		[isClearable, onClear, onClick, value]
+		() => buildInputIcons({ showClear: isClearable && !!value, onClear, onClick, disabled }),
+		[disabled, isClearable, onClear, onClick, value]
 	);
 
 	return (
@@ -1070,7 +1073,8 @@ const DateTimePickerInput = React.forwardRef<
 
 const DateTimePickerChipInput = React.forwardRef<
 	HTMLDivElement,
-	DateTimePickerChipInputProps & { [K in keyof ReactDatePickerCustomInputProps]: never }
+	// do not directly accept props that will come from react-datepicker
+	DateTimePickerChipInputProps & Partial<Record<keyof ReactDatePickerCustomInputProps, never>>
 >(function DateTimePickerChipInputFn(
 	{
 		width,
@@ -1084,7 +1088,7 @@ const DateTimePickerChipInput = React.forwardRef<
 	}: DateTimePickerChipInputProps & ReactDatePickerCustomInputProps,
 	ref
 ) {
-	const { hasError, onClick } = rest;
+	const { hasError, onClick, disabled } = rest;
 	const inputRef = useRef<HTMLInputElement>(null);
 	const [chipInputValue, setChipInputValue] = useState<SingleItemArray<DateChipItem>>([]);
 
@@ -1094,13 +1098,14 @@ const DateTimePickerChipInput = React.forwardRef<
 			if (chipValue && value) {
 				return [
 					{
-						background: 'gray2',
+						background: disabled ? undefined : 'gray2',
 						avatarIcon: 'CalendarOutline',
 						color: 'text',
 						...chipProps,
 						value: chipValue,
 						label: value,
-						onClick
+						onClick,
+						disabled
 					}
 				];
 			}
@@ -1113,7 +1118,7 @@ const DateTimePickerChipInput = React.forwardRef<
 			inputRef.current.value = '';
 			inputRef.current.dispatchEvent(new Event('change'));
 		}
-	}, [chipProps, chipValue, onClick, value]);
+	}, [chipProps, chipValue, disabled, onClick, value]);
 
 	const onInputType = useCallback(
 		(event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -1133,6 +1138,7 @@ const DateTimePickerChipInput = React.forwardRef<
 				icon="CalendarOutline"
 				iconAction={onClick}
 				iconColor={hasError ? 'error' : 'text'}
+				iconDisabled={disabled}
 				wrap={'nowrap'}
 				separators={[]}
 				{...rest}

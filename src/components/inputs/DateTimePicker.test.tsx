@@ -5,13 +5,11 @@
  */
 import React from 'react';
 
-import { screen } from '@testing-library/react';
 import { format, addMonths, startOfMonth } from 'date-fns';
-import { noop } from 'lodash';
 
 import { DateTimePicker, DateTimePickerProps } from './DateTimePicker';
-import { setup } from '../../test-utils';
-import { ICONS } from '../../testUtils/constants';
+import { setup, screen, within } from '../../test-utils';
+import { ICONS, SELECTORS } from '../../testUtils/constants';
 import { Button } from '../basic/Button';
 
 const DEFAULT_DATE_FORMAT = 'MMMM d, yyyy h:mm aa';
@@ -22,9 +20,11 @@ describe('DateTimePicker', () => {
 	}
 	describe('With default input component', () => {
 		test('Render a DateTimePicker with an input', async () => {
-			const { getByRoleWithIcon } = setup(<DateTimePicker label={'The label'} />);
+			setup(<DateTimePicker label={'The label'} />);
 			expect(screen.getByRole('textbox', { name: /the label/i })).toBeVisible();
-			expect(getByRoleWithIcon('button', { icon: ICONS.datePickerShowAction })).toBeVisible();
+			expect(
+				screen.getByRoleWithIcon('button', { icon: ICONS.datePickerShowAction })
+			).toBeVisible();
 		});
 
 		test('Click on the input opens the picker', async () => {
@@ -106,7 +106,7 @@ describe('DateTimePicker', () => {
 
 		test('When the value is cleared with the clear action, onChange prop is called with the null value and input is cleared', async () => {
 			const onChangeFn = jest.fn();
-			const { getByRoleWithIcon, user } = setup(
+			const { user } = setup(
 				<>
 					<DateTimePicker
 						label={'label'}
@@ -118,10 +118,26 @@ describe('DateTimePicker', () => {
 				</>
 			);
 			const inputElement = screen.getByRole('textbox');
-			await user.click(getByRoleWithIcon('button', { icon: ICONS.datePickerClearAction }));
+			await user.click(screen.getByRoleWithIcon('button', { icon: ICONS.datePickerClearAction }));
 			await user.click(screen.getByText('Blur'));
 			expect(onChangeFn).toHaveBeenLastCalledWith(null);
 			expect(inputElement).toHaveValue('');
+		});
+
+		it('should disable the "show calendar" action if component is disabled', () => {
+			setup(<DateTimePicker label={'Validate input'} disabled />);
+			expect(
+				screen.getByRoleWithIcon('button', { icon: ICONS.datePickerShowAction })
+			).toBeDisabled();
+		});
+
+		it('should disable the "clear" action if component is disabled', () => {
+			setup(
+				<DateTimePicker label={'Validate input'} defaultValue={new Date()} isClearable disabled />
+			);
+			expect(
+				screen.getByRoleWithIcon('button', { icon: ICONS.datePickerClearAction })
+			).toBeDisabled();
 		});
 	});
 
@@ -130,7 +146,7 @@ describe('DateTimePicker', () => {
 			const now = new Date();
 			const dateFormat = 'dd/MM/yyyy HH:mm';
 			const nowString = format(now, dateFormat);
-			const { getByRoleWithIcon } = setup(
+			setup(
 				<DateTimePicker
 					label={'The label'}
 					enableChips
@@ -139,9 +155,11 @@ describe('DateTimePicker', () => {
 				/>
 			);
 			expect(screen.getByRole('textbox', { name: /the label/i })).toBeVisible();
-			expect(getByRoleWithIcon('button', { icon: ICONS.datePickerShowAction })).toBeVisible();
+			expect(
+				screen.getByRoleWithIcon('button', { icon: ICONS.datePickerShowAction })
+			).toBeVisible();
 			expect(screen.getByText(nowString)).toBeVisible();
-			expect(getByRoleWithIcon('button', { icon: ICONS.close })).toBeVisible();
+			expect(screen.getByRoleWithIcon('button', { icon: ICONS.close })).toBeVisible();
 		});
 
 		test('Click on the input opens the picker', async () => {
@@ -152,43 +170,37 @@ describe('DateTimePicker', () => {
 		});
 
 		test('Click on calendar icon inside the input opens the picker', async () => {
-			const { getByRoleWithIcon, user } = setup(<DateTimePicker label={'The label'} enableChips />);
-			await user.click(getByRoleWithIcon('button', { icon: ICONS.datePickerShowAction }));
+			const { user } = setup(<DateTimePicker label={'The label'} enableChips />);
+			await user.click(screen.getByRoleWithIcon('button', { icon: ICONS.datePickerShowAction }));
 			const datePicker = await screen.findByText(getDatePickerHeader(Date.now()));
 			expect(datePicker).toBeVisible();
 		});
 
 		test('Selection of a date from the picker creates the chip', async () => {
-			const { getByRoleWithIcon, user } = setup(
-				<DateTimePicker label={'ChipInput DatePicker'} enableChips />
-			);
-			await user.click(getByRoleWithIcon('button', { icon: ICONS.datePickerShowAction }));
+			const { user } = setup(<DateTimePicker label={'ChipInput DatePicker'} enableChips />);
+			await user.click(screen.getByRoleWithIcon('button', { icon: ICONS.datePickerShowAction }));
 			await user.click(screen.getAllByText('1')[0]);
 			const expectedDate = new Date();
 			expectedDate.setDate(1);
 			expectedDate.setHours(0, 0, 0, 0);
 			const expectedDateString = format(expectedDate, DEFAULT_DATE_FORMAT);
 			expect(screen.getByText(expectedDateString)).toBeVisible();
-			expect(getByRoleWithIcon('button', { icon: ICONS.close })).toBeVisible();
+			expect(screen.getByRoleWithIcon('button', { icon: ICONS.close })).toBeVisible();
 		});
 
 		test('Selection of a time from the picker creates the chip', async () => {
-			const { getByRoleWithIcon, user } = setup(
-				<DateTimePicker label={'ChipInput DatePicker'} enableChips />
-			);
-			await user.click(getByRoleWithIcon('button', { icon: ICONS.datePickerShowAction }));
+			const { user } = setup(<DateTimePicker label={'ChipInput DatePicker'} enableChips />);
+			await user.click(screen.getByRoleWithIcon('button', { icon: ICONS.datePickerShowAction }));
 			await user.click(screen.getByText('11:00 AM'));
 			const expectedDate = new Date();
 			expectedDate.setHours(11, 0, 0, 0);
 			const expectedDateString = format(expectedDate, DEFAULT_DATE_FORMAT);
 			expect(screen.getByText(expectedDateString)).toBeVisible();
-			expect(getByRoleWithIcon('button', { icon: ICONS.close })).toBeVisible();
+			expect(screen.getByRoleWithIcon('button', { icon: ICONS.close })).toBeVisible();
 		});
 
 		test('Valid value typed in the input is validated and set as date', async () => {
-			const { getByRoleWithIcon, user } = setup(
-				<DateTimePicker label={'Validate input'} enableChips />
-			);
+			const { user } = setup(<DateTimePicker label={'Validate input'} enableChips />);
 			const inputElement = screen.getByRole('textbox');
 			const now = new Date();
 			const firstOfNextMonth = addMonths(startOfMonth(now), 1);
@@ -200,7 +212,7 @@ describe('DateTimePicker', () => {
 			await user.keyboard('[Enter]');
 			const expectedInputValue = format(firstOfNextMonth, DEFAULT_DATE_FORMAT);
 			expect(screen.getByText(expectedInputValue)).toBeVisible();
-			expect(getByRoleWithIcon('button', { icon: ICONS.close })).toBeVisible();
+			expect(screen.getByRoleWithIcon('button', { icon: ICONS.close })).toBeVisible();
 		});
 
 		test('Input is disabled if a default value is present', () => {
@@ -229,7 +241,7 @@ describe('DateTimePicker', () => {
 
 		test('When a new value is set, onChange prop is called with the new value', async () => {
 			const onChangeFn = jest.fn();
-			const { getByRoleWithIcon, user } = setup(
+			const { user } = setup(
 				<>
 					<DateTimePicker label={'label'} onChange={onChangeFn} enableChips />
 					<span>Blur</span>
@@ -248,12 +260,12 @@ describe('DateTimePicker', () => {
 			await user.click(screen.getByText('Blur'));
 			expect(onChangeFn).toHaveBeenLastCalledWith(parsedDateString);
 			expect(screen.getByText(format(parsedDateString, DEFAULT_DATE_FORMAT))).toBeVisible();
-			expect(getByRoleWithIcon('button', { icon: ICONS.close })).toBeVisible();
+			expect(screen.getByRoleWithIcon('button', { icon: ICONS.close })).toBeVisible();
 		});
 
 		test('When the input is cleared, onChange prop is called with the null value', async () => {
 			const onChangeFn = jest.fn();
-			const { getByRoleWithIcon, queryByRoleWithIcon, user } = setup(
+			const { user } = setup(
 				<>
 					<DateTimePicker
 						label={'label'}
@@ -265,7 +277,7 @@ describe('DateTimePicker', () => {
 				</>
 			);
 			const inputElement = screen.getByRole('textbox');
-			await user.click(getByRoleWithIcon('button', { icon: ICONS.close }));
+			await user.click(screen.getByRoleWithIcon('button', { icon: ICONS.close }));
 			expect(onChangeFn).toHaveBeenLastCalledWith(null);
 			const now = new Date();
 			const firstOfNextMonth = addMonths(startOfMonth(now), 1);
@@ -276,8 +288,26 @@ describe('DateTimePicker', () => {
 			await user.clear(inputElement);
 			await user.click(screen.getByText('Blur'));
 			expect(onChangeFn).toHaveBeenLastCalledWith(null);
-			expect(queryByRoleWithIcon('button', { icon: ICONS.close })).not.toBeInTheDocument();
+			expect(screen.queryByRoleWithIcon('button', { icon: ICONS.close })).not.toBeInTheDocument();
 			expect(inputElement).toHaveValue('');
+		});
+
+		it('should disable the "show calendar" action if component is disabled', () => {
+			setup(<DateTimePicker label={'Validate input'} enableChips disabled />);
+			expect(
+				screen.getByRoleWithIcon('button', { icon: ICONS.datePickerShowAction })
+			).toBeDisabled();
+		});
+
+		it('should disable the chip if component is disabled', () => {
+			setup(
+				<DateTimePicker label={'Validate input'} enableChips disabled defaultValue={new Date()} />
+			);
+			expect(
+				within(screen.getByTestId(SELECTORS.chip)).getByRoleWithIcon('button', {
+					icon: ICONS.close
+				})
+			).toBeDisabled();
 		});
 	});
 
@@ -285,8 +315,16 @@ describe('DateTimePicker', () => {
 		const CustomComponent = React.forwardRef<
 			HTMLDivElement,
 			React.ComponentProps<NonNullable<DateTimePickerProps['CustomComponent']>>
-		>(function CustomComponentFn({ value, onClick = noop }, ref) {
-			return <Button onClick={onClick} ref={ref} label={value || 'no value'} />;
+		>(function CustomComponentFn({ value, onClick }, ref) {
+			return (
+				<Button
+					onClick={(e) => {
+						onClick?.(e);
+					}}
+					ref={ref}
+					label={value || 'no value'}
+				/>
+			);
 		});
 
 		test('Custom component is rendered', () => {
