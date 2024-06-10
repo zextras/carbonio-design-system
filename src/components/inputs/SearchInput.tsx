@@ -9,7 +9,7 @@ import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
 
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
-import { Icon } from '../basic/Icon';
+import { Icon } from '../basic/icon/Icon';
 import { Container, ContainerProps } from '../layout/Container';
 
 const InputEl = styled.input`

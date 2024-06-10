@@ -14,7 +14,7 @@ import { useKeyboard, getKeyboardPreset } from '../../hooks/useKeyboard';
 import { pseudoClasses } from '../../theme/theme-utils';
 import { PaletteColor } from '../../types/utils';
 import { Badge } from '../basic/Badge';
-import { Icon } from '../basic/Icon';
+import { Icon } from '../basic/icon/Icon';
 import { Text, TextProps } from '../basic/text/Text';
 import { Tooltip } from '../display/Tooltip';
 import { IconButton } from '../inputs/IconButton';
