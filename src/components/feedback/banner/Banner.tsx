@@ -11,7 +11,7 @@ import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-component
 import { useCombinedRefs } from '../../../hooks/useCombinedRefs';
 import { useModal } from '../../../hooks/useModal';
 import { Button, ButtonProps } from '../../basic/Button';
-import { Icon } from '../../basic/Icon';
+import { Icon } from '../../basic/icon/Icon';
 import { Text } from '../../basic/text/Text';
 import { IconButton, IconButtonProps } from '../../inputs/IconButton';
 import { Container } from '../../layout/Container';

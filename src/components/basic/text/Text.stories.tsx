@@ -6,12 +6,12 @@
 import { Meta, StoryObj } from '@storybook/react';
 
 import { Text } from './Text';
-import { colorArgTypeControl } from '../../../docs/utils';
+import { colorArgType } from '../../../docs/utils';
 
 const meta = {
 	component: Text,
 	argTypes: {
-		color: colorArgTypeControl
+		color: colorArgType
 	}
 } satisfies Meta<typeof Text>;
 

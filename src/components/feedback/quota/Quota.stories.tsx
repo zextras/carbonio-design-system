@@ -6,7 +6,7 @@
 import { Meta, StoryObj } from '@storybook/react';
 
 import { Quota } from './Quota';
-import { colorArgTypeControl } from '../../../docs/utils';
+import { colorArgType } from '../../../docs/utils';
 
 const meta = {
 	component: Quota
@@ -18,8 +18,8 @@ type Story = StoryObj<typeof meta>;
 
 const Common: Partial<Story> = {
 	argTypes: {
-		background: colorArgTypeControl,
-		fillBackground: colorArgTypeControl
+		background: colorArgType,
+		fillBackground: colorArgType
 	}
 };
 

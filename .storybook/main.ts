@@ -1,7 +1,7 @@
 import type { StorybookConfig } from '@storybook/react-webpack5';
 
 const config: StorybookConfig = {
-	stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
+	stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)', '../docs/**/*.mdx'],
 	addons: [
         '@storybook/addon-webpack5-compiler-babel',
         '@storybook/addon-essentials',
@@ -13,9 +13,6 @@ const config: StorybookConfig = {
 		options: {}
 	},
 	typescript: {
-		// see https://github.com/storybookjs/storybook/issues/26586
-		check: false,
-		skipCompiler: false,
 		reactDocgen: 'react-docgen-typescript'
 	}
 };

@@ -13,7 +13,7 @@ import 'jest-styled-components';
 import { THeader, Table, TRow, StyledCheckbox } from './Table';
 import { setup } from '../../test-utils';
 import { ICONS, SELECTORS } from '../../testUtils/constants';
-import { Icon } from '../basic/Icon';
+import { Icon } from '../basic/icon/Icon';
 import { Container } from '../layout/Container';
 
 describe('Table', () => {
