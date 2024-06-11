@@ -10,7 +10,7 @@ import styled, { css, DefaultTheme, keyframes, SimpleInterpolation } from 'style
 
 import { ScreenMode, useScreenMode } from '../../../hooks/useScreenMode';
 import { Button } from '../../basic/Button';
-import { Icon } from '../../basic/Icon';
+import { Icon } from '../../basic/icon/Icon';
 import { Text } from '../../basic/text/Text';
 import { TIMERS } from '../../constants';
 import { Container, ContainerProps } from '../../layout/Container';

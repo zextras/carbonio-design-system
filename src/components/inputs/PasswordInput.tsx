@@ -7,7 +7,7 @@
 import React, { useCallback, useRef, useState } from 'react';
 
 import { Input, InputProps } from './Input';
-import { Icon } from '../basic/Icon';
+import { Icon } from '../basic/icon/Icon';
 import { Container } from '../layout/Container';
 
 const PasswordInput = React.forwardRef<HTMLDivElement, InputProps>(

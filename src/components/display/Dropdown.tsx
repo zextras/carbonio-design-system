@@ -26,7 +26,7 @@ import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { useKeyboard, getKeyboardPreset, KeyboardPresetObj } from '../../hooks/useKeyboard';
 import { pseudoClasses } from '../../theme/theme-utils';
 import { setupFloating } from '../../utils/floating-ui';
-import { Icon } from '../basic/Icon';
+import { Icon } from '../basic/icon/Icon';
 import { Text } from '../basic/text/Text';
 import { Container } from '../layout/Container';
 import { Divider } from '../layout/Divider';

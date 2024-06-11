@@ -8,7 +8,7 @@ import React, { HTMLAttributes, useMemo } from 'react';
 
 import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-components';
 
-import { Icon } from './Icon';
+import { Icon } from './icon/Icon';
 import { getColor } from '../../theme/theme-utils';
 
 type ShapeType = 'round' | 'square';

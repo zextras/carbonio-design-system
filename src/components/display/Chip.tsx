@@ -13,7 +13,7 @@ import { Tooltip } from './Tooltip';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { useTheme, pseudoClasses } from '../../theme/theme-utils';
 import { Avatar, AvatarPropTypes } from '../basic/Avatar';
-import { Icon } from '../basic/Icon';
+import { Icon, IconProps } from '../basic/icon/Icon';
 import { Text } from '../basic/text/Text';
 import { IconButton, IconButtonProps } from '../inputs/IconButton';
 import { Container, ContainerProps } from '../layout/Container';
@@ -145,7 +145,7 @@ const SIZES: Record<
 	{
 		avatar: keyof DefaultTheme['sizes']['avatar'];
 		font: keyof DefaultTheme['sizes']['font'];
-		icon: React.ComponentPropsWithoutRef<typeof Icon>['size'];
+		icon: NonNullable<IconProps['size']>;
 		spacing: string;
 	}
 > = {
