@@ -181,6 +181,10 @@ const Label = styled(InputLabel)<{ $textAreaHasValue: boolean }>`
 		`};
 `;
 
+const RelativeContainer = styled(Container)`
+	position: relative;
+`;
+
 const TextArea: TextArea = React.forwardRef<HTMLDivElement, TextAreaProps>(function TextAreaFn(
 	{
 		maxHeight = '10.313rem',
@@ -269,32 +273,40 @@ const TextArea: TextArea = React.forwardRef<HTMLDivElement, TextAreaProps>(funct
 				background={backgroundColor}
 				onClick={forceFocusOnTextArea}
 				$disabled={disabled}
-				padding={{ horizontal: '0.75rem', vertical: label ? '0.0625rem' : '0.625rem' }}
+				padding={{ horizontal: '0.75rem' }}
 				gap={'0.5rem'}
 			>
-				<AdjustHeightTextArea
-					maxHeight={maxHeight}
-					placeholder={label}
-					color={textColor}
-					{...props}
-					id={id}
-					ref={innerTextAreaRef}
-					onInput={onTextAreaInput}
-					onFocus={onTextAreaFocus}
-					onBlur={onTextAreaBlur}
-					hasLabel={!!label}
-				/>
-				{label && (
-					<Label
-						htmlFor={id}
-						$hasFocus={hasFocus}
-						$hasError={hasError}
-						$disabled={disabled}
-						$textAreaHasValue={textAreaHasValue}
-					>
-						{label}
-					</Label>
-				)}
+				<RelativeContainer
+					padding={{ vertical: label ? '0.0625rem' : '0.625rem' }}
+					mainAlignment={'flex-end'}
+					height={'fill'}
+					width={'fill'}
+					minHeight={'inherit'}
+				>
+					<AdjustHeightTextArea
+						maxHeight={maxHeight}
+						placeholder={label}
+						color={textColor}
+						{...props}
+						id={id}
+						ref={innerTextAreaRef}
+						onInput={onTextAreaInput}
+						onFocus={onTextAreaFocus}
+						onBlur={onTextAreaBlur}
+						hasLabel={!!label}
+					/>
+					{label && (
+						<Label
+							htmlFor={id}
+							$hasFocus={hasFocus}
+							$hasError={hasError}
+							$disabled={disabled}
+							$textAreaHasValue={textAreaHasValue}
+						>
+							{label}
+						</Label>
+					)}
+				</RelativeContainer>
 			</InputContainer>
 			<Divider color={dividerColor} />
 			{description !== undefined && (
