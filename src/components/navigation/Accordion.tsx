@@ -14,8 +14,8 @@ import { useKeyboard, getKeyboardPreset } from '../../hooks/useKeyboard';
 import { pseudoClasses } from '../../theme/theme-utils';
 import { PaletteColor } from '../../types/utils';
 import { Badge } from '../basic/Badge';
-import { Icon } from '../basic/Icon';
-import { Text, TextProps } from '../basic/Text';
+import { Icon } from '../basic/icon/Icon';
+import { Text, TextProps } from '../basic/text/Text';
 import { Tooltip } from '../display/Tooltip';
 import { IconButton } from '../inputs/IconButton';
 import { Container, ContainerProps } from '../layout/Container';
@@ -65,12 +65,7 @@ const AccordionItem = React.forwardRef<HTMLDivElement, AccordionItemProps>(funct
 		>
 			{item.icon && (
 				<Padding right="small">
-					<Icon
-						icon={item.icon}
-						customColor={item.iconCustomColor}
-						color={item.iconColor}
-						size="large"
-					/>
+					<Icon icon={item.icon} color={item.iconColor} size="large" />
 				</Padding>
 			)}
 			{item.label && (
@@ -95,8 +90,6 @@ type AccordionItemType = {
 	onClick?: (event: KeyboardEvent | React.SyntheticEvent) => void;
 	icon?: keyof DefaultTheme['icons'];
 	CustomComponent?: React.ComponentType<{ item: AccordionItemType }>;
-	/** @deprecated Use iconColor instead */
-	iconCustomColor?: string;
 	iconColor?: string;
 	badgeType?: 'read' | 'unread';
 	badgeCounter?: number;

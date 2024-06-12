@@ -24,7 +24,6 @@ const SnackbarStory = ({ open, ...rest }: SnackbarProps): React.JSX.Element => {
 };
 
 const meta = {
-	title: 'Components/Feedback/Snackbar',
 	component: Snackbar,
 	parameters: {
 		layout: 'padded'

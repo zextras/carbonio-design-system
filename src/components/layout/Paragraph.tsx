@@ -8,7 +8,7 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-import { Text, TextProps } from '../basic/Text';
+import { Text, TextProps } from '../basic/text/Text';
 
 const P = styled(Text)`
 	line-height: 1.4;

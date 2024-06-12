@@ -3,8 +3,8 @@
  *
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-import { Control } from '@storybook/blocks';
-import { DefaultTheme } from 'styled-components';
+import type { ArgTypes } from '@storybook/react';
+import type { DefaultTheme } from 'styled-components';
 
 import { Theme } from '../theme/theme';
 
@@ -12,7 +12,7 @@ export const themeColors = Object.keys(Theme.palette).map(
 	(key) => Theme.palette[key as keyof DefaultTheme['palette']].regular
 );
 
-export const colorArgTypeControl: { control: Control } = {
+export const colorArgType: Partial<ArgTypes>[string] = {
 	control: {
 		type: 'color',
 		presetColors: themeColors

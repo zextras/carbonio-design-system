@@ -8,9 +8,9 @@ import React, { ButtonHTMLAttributes, useCallback, useMemo } from 'react';
 
 import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-components';
 
-import { Icon, IconProps } from './Icon';
+import { Icon, IconProps } from './icon/Icon';
 import { Spinner } from './Spinner';
-import { Text } from './Text';
+import { Text } from './text/Text';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { getKeyboardPreset, useKeyboard } from '../../hooks/useKeyboard';
 import { getColor, pseudoClasses } from '../../theme/theme-utils';

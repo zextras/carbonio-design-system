@@ -6,7 +6,7 @@
 
 import React, { ErrorInfo } from 'react';
 
-import { Text } from '../basic/Text';
+import { Text } from '../basic/text/Text';
 import { Container } from '../layout/Container';
 
 interface CatcherProps {

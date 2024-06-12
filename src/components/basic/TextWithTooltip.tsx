@@ -8,7 +8,7 @@ import React from 'react';
 
 import { Placement } from '@floating-ui/dom';
 
-import { Text, TextProps } from './Text';
+import { Text, TextProps } from './text/Text';
 import { Tooltip } from '../display/Tooltip';
 
 interface TextWithTooltipProps extends TextProps {
