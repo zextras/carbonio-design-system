@@ -61,4 +61,4 @@ const Icon = React.forwardRef<SVGSVGElement, IconProps>(function IconFn(
 	return <StyledIcon $color={color} $size={size} $disabled={disabled} ref={ref} {...rest} />;
 });
 
-export { Icon, IconProps, IconComponentProps };
+export { Icon, IconProps, IconComponentProps, StyledIconProps };
