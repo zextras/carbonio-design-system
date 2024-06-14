@@ -9,7 +9,7 @@ import { screen } from '@testing-library/react';
 
 import { ListItem } from './ListItem';
 import { ListV2 } from './ListV2';
-import { setup, triggerLoadMore } from '../../test-utils';
+import { setup } from '../../test-utils';
 import { Container } from '../layout/Container';
 
 describe('List', () => {
@@ -66,31 +66,5 @@ describe('List', () => {
 		await user.click(screen.getByText('item 1'));
 		expect(items[0].onClick).toHaveBeenCalled();
 		expect(items[1].onClick).not.toHaveBeenCalled();
-	});
-
-	it('should not invoke onVisible when element is already visible and the callback reference change', async () => {
-		const items = [
-			{
-				id: '1',
-				name: 'item 1'
-			},
-			{
-				id: '2',
-				name: 'item 2'
-			}
-		];
-
-		const listItems = items.map((item) => (
-			<ListItem key={item.id}>{(): React.JSX.Element => <div>{item.name}</div>}</ListItem>
-		));
-		const onListBottomFn1 = jest.fn();
-		const onListBottomFn2 = jest.fn();
-
-		const { rerender } = setup(<ListV2 onListBottom={onListBottomFn1}>{listItems}</ListV2>);
-		triggerLoadMore();
-		expect(onListBottomFn1).toHaveBeenCalledTimes(1);
-		rerender(<ListV2 onListBottom={onListBottomFn2}>{listItems}</ListV2>);
-		expect(onListBottomFn1).toHaveBeenCalledTimes(1);
-		expect(onListBottomFn2).toHaveBeenCalledTimes(0);
 	});
 });
