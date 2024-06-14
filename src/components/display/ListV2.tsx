@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { useEffect, useMemo, useRef } from 'react';
+import React, { useEffect, useMemo } from 'react';
 
 import styled, { DefaultTheme } from 'styled-components';
 
@@ -52,15 +52,11 @@ const BottomElement: React.VFC<BottomElementProps> = ({
 		undefined,
 		intersectionObserverInitOptions
 	);
-
-	const onVisibleRef = useRef(onVisible);
-	onVisibleRef.current = onVisible;
-
 	useEffect(() => {
-		if (inView) {
-			onVisibleRef.current();
+		if (inView && onVisible) {
+			onVisible();
 		}
-	}, [inView]);
+	}, [inView, onVisible]);
 	return (
 		<div
 			ref={ref}
