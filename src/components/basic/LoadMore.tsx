@@ -8,8 +8,8 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-import { Icon } from './Icon';
-import { Text, TextProps } from './Text';
+import { Icon } from './icon/Icon';
+import { Text, TextProps } from './text/Text';
 import { Container, ContainerProps } from '../layout/Container';
 import { Padding } from '../layout/Padding';
 

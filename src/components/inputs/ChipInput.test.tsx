@@ -12,7 +12,7 @@ import reduce from 'lodash/reduce';
 import { ChipInput, ChipInputProps, ChipItem } from './ChipInput';
 import { KeyboardPresetKey } from '../../hooks/useKeyboard';
 import { setup } from '../../test-utils';
-import { ICONS } from '../../testUtils/constants';
+import { ICONS, SELECTORS } from '../../testUtils/constants';
 
 describe('ChipInput', () => {
 	test('render a chip input with a placeholder, two chips, an icon and a description', () => {
@@ -847,5 +847,161 @@ describe('ChipInput', () => {
 			});
 		}
 		expect(screen.getAllByText(/chip/)).toHaveLength(prevLimitMaxPlusOne);
+	});
+
+	describe('onOptionsDisplayChange', () => {
+		it('should not call onOptionsDisplayChange when options prop is empty', async () => {
+			const onOptionsDisplayChangeFn = jest.fn();
+			const { user } = setup(
+				<ChipInput
+					onOptionsDisplayChange={onOptionsDisplayChangeFn}
+					disableOptions={false}
+					options={[]}
+				/>
+			);
+			expect(onOptionsDisplayChangeFn).not.toHaveBeenCalled();
+			await user.click(screen.getByRole('textbox'));
+			expect(onOptionsDisplayChangeFn).not.toHaveBeenCalled();
+		});
+
+		it('should call onOptionsDisplayChange when options prop is valued (options are shown)', () => {
+			const onOptionsDisplayChangeFn = jest.fn();
+			setup(
+				<ChipInput
+					onOptionsDisplayChange={onOptionsDisplayChangeFn}
+					disableOptions
+					options={[
+						{
+							id: '0',
+							label: 'Helen'
+						}
+					]}
+				/>
+			);
+			expect(onOptionsDisplayChangeFn).toHaveBeenCalledTimes(1);
+			expect(onOptionsDisplayChangeFn).toHaveBeenLastCalledWith(true);
+		});
+
+		it('should call onOptionsDisplayChange when the user clicks on the input element (disableOptions is false)', async () => {
+			const onOptionsDisplayChangeFn = jest.fn();
+			const { user } = setup(
+				<ChipInput
+					onOptionsDisplayChange={onOptionsDisplayChangeFn}
+					options={[
+						{
+							id: '0',
+							label: 'Helen'
+						}
+					]}
+					disableOptions={false}
+				/>
+			);
+			const inputElement = screen.getByRole('textbox');
+			await user.click(inputElement);
+			await waitFor(() => expect(onOptionsDisplayChangeFn).toHaveBeenCalledTimes(1));
+			expect(onOptionsDisplayChangeFn).toHaveBeenCalledWith(true);
+			await user.click(inputElement);
+			await waitFor(() => expect(onOptionsDisplayChangeFn).toHaveBeenCalledTimes(2));
+			expect(onOptionsDisplayChangeFn).toHaveBeenLastCalledWith(false);
+		});
+
+		it('should call onOptionsDisplayChange with false value when the user closes the dropdown by choosing an option', async () => {
+			const onOptionsDisplayChangeFn = jest.fn();
+			const { user } = setup(
+				<ChipInput
+					onOptionsDisplayChange={onOptionsDisplayChangeFn}
+					options={[
+						{
+							id: '0',
+							label: 'Helen'
+						}
+					]}
+					disableOptions={false}
+				/>
+			);
+			const inputElement = screen.getByRole('textbox');
+			await user.click(inputElement);
+			await waitFor(() => expect(onOptionsDisplayChangeFn).toHaveBeenCalledTimes(1));
+			expect(onOptionsDisplayChangeFn).toHaveBeenCalledWith(true);
+			await user.click(screen.getByText('Helen'));
+			await waitFor(() => expect(onOptionsDisplayChangeFn).toHaveBeenCalledTimes(2));
+			expect(onOptionsDisplayChangeFn).toHaveBeenLastCalledWith(false);
+		});
+
+		it('should call onOptionsDisplayChange when options change if disableOptions is true', async () => {
+			const onOptionsDisplayChangeFn = jest.fn();
+			const { rerender } = setup(
+				<ChipInput onOptionsDisplayChange={onOptionsDisplayChangeFn} disableOptions options={[]} />
+			);
+			expect(onOptionsDisplayChangeFn).not.toHaveBeenCalled();
+			rerender(
+				<ChipInput
+					onOptionsDisplayChange={onOptionsDisplayChangeFn}
+					disableOptions
+					options={[{ id: '1', label: 'Option 1' }]}
+				/>
+			);
+			await screen.findByText('Option 1');
+			expect(onOptionsDisplayChangeFn).toHaveBeenCalledTimes(1);
+			expect(onOptionsDisplayChangeFn).toHaveBeenLastCalledWith(true);
+			rerender(
+				<ChipInput onOptionsDisplayChange={onOptionsDisplayChangeFn} disableOptions options={[]} />
+			);
+			await waitFor(() => expect(screen.queryByTestId(SELECTORS.dropdown)).not.toBeInTheDocument());
+			expect(onOptionsDisplayChangeFn).toHaveBeenLastCalledWith(false);
+		});
+
+		it('should call onOptionsDisplayChange only when isVisible changes', async () => {
+			const onOptionsDisplayChangeFn = jest.fn();
+			const { rerender } = setup(
+				<ChipInput onOptionsDisplayChange={onOptionsDisplayChangeFn} options={[]} />
+			);
+			expect(onOptionsDisplayChangeFn).not.toHaveBeenCalled();
+			rerender(
+				<ChipInput
+					onOptionsDisplayChange={onOptionsDisplayChangeFn}
+					options={[{ id: '1', label: 'First option' }]}
+				/>
+			);
+			await screen.findByText('First option');
+			expect(onOptionsDisplayChangeFn).toHaveBeenCalledTimes(1);
+			expect(onOptionsDisplayChangeFn).toHaveBeenCalledWith(true);
+			rerender(
+				<ChipInput
+					onOptionsDisplayChange={onOptionsDisplayChangeFn}
+					options={[
+						{ id: '1', label: 'First option' },
+						{ id: '2', label: 'Second option' }
+					]}
+				/>
+			);
+			await screen.findByText('Second option');
+			expect(onOptionsDisplayChangeFn).toHaveBeenCalledTimes(1);
+			rerender(<ChipInput onOptionsDisplayChange={onOptionsDisplayChangeFn} options={[]} />);
+			expect(onOptionsDisplayChangeFn).toHaveBeenCalledTimes(2);
+			expect(onOptionsDisplayChangeFn).toHaveBeenCalledWith(false);
+		});
+	});
+
+	it('should call onOptionsDisplayChange with true value if options are valued and the number of chips created is equal to maxChips', async () => {
+		const onOptionsDisplayChangeFn = jest.fn();
+		const { user } = setup(
+			<ChipInput
+				onOptionsDisplayChange={onOptionsDisplayChangeFn}
+				options={[{ id: '1', label: 'First option' }]}
+				disableOptions={false}
+				maxChips={1}
+			/>
+		);
+		expect(onOptionsDisplayChangeFn).not.toHaveBeenCalled();
+		await user.type(screen.getByRole('textbox'), 'test');
+		await act(async () => {
+			await user.keyboard('[Space]');
+		});
+		expect(screen.getByText('test')).toBeVisible();
+		expect(onOptionsDisplayChangeFn).toHaveBeenLastCalledWith(true);
+		// chips created is not greater than maxChips, so dropdown is closed
+		await user.click(screen.getByTestId(ICONS.close));
+		expect(onOptionsDisplayChangeFn).toHaveBeenLastCalledWith(false);
 	});
 });

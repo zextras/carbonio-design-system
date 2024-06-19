@@ -10,12 +10,14 @@ import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-component
 
 import { useCheckbox } from '../../hooks/useCheckbox';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
-import { Icon } from '../basic/Icon';
-import { Text } from '../basic/Text';
+import { Icon } from '../basic/icon/Icon';
+import { Text } from '../basic/text/Text';
 import { Container, ContainerProps } from '../layout/Container';
 import { Padding } from '../layout/Padding';
 
 type SwitchSize = 'medium' | 'small';
+
+const CustomIcon = styled(Icon)``;
 
 const IconWrapper = styled.div<{
 	disabled: boolean;
@@ -29,19 +31,19 @@ const IconWrapper = styled.div<{
 		css`
 			&:focus {
 				outline: none;
-				> ${Icon} {
+				> ${CustomIcon} {
 					color: ${theme.palette[iconColor].focus};
 				}
 			}
 			&:hover {
 				outline: none;
-				> ${Icon} {
+				> ${CustomIcon} {
 					color: ${theme.palette[iconColor].hover};
 				}
 			}
 			&:active {
 				outline: none;
-				> ${Icon} {
+				> ${CustomIcon} {
 					color: ${theme.palette[iconColor].active};
 				}
 			}

@@ -24,14 +24,14 @@ export const InputLabel = styled.label.attrs<
 }>`
 	position: absolute;
 	top: 50%;
-	left: 0.75rem;
+	transform: translateY(-50%);
+	left: 0;
 	font-size: ${({ theme }): string => theme.sizes.font.medium};
 	font-weight: ${({ theme }): number => theme.fonts.weight.regular};
 	font-family: ${({ theme }): string => theme.fonts.default};
 	line-height: 1.5;
 	color: ${({ theme, $textColor, $disabled }): SimpleInterpolation =>
 		getColor(`${$textColor}.${$disabled ? 'disabled' : 'regular'}`, theme)};
-	transform: translateY(-50%);
 	transition:
 		transform 150ms ease-out,
 		font-size 150ms ease-out,
@@ -39,7 +39,7 @@ export const InputLabel = styled.label.attrs<
 		left 150ms ease-out;
 	cursor: inherit;
 	user-select: none;
-	max-width: calc(100% - ${({ theme }): string => `${theme.sizes.padding.large} * 2`});
+	max-width: 100%;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;

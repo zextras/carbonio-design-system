@@ -4,14 +4,13 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { useState, useMemo, useCallback, useReducer, useEffect, Reducer } from 'react';
+import React, { useState, useMemo, useCallback, useEffect } from 'react';
 
-import { some, isEmpty, isNil, filter, map } from 'lodash';
 import styled, { css, SimpleInterpolation } from 'styled-components';
 
 import { getColor } from '../../theme/theme-utils';
-import { Icon } from '../basic/Icon';
-import { Text } from '../basic/Text';
+import { Icon } from '../basic/icon/Icon';
+import { Text } from '../basic/text/Text';
 import { INPUT_BACKGROUND_COLOR, INPUT_DIVIDER_COLOR } from '../constants';
 import { Dropdown, DropdownItem, DropdownProps } from '../display/Dropdown';
 import { Container } from '../layout/Container';
@@ -68,9 +67,7 @@ const DefaultLabelFactory = <T,>({
 	disabled
 }: LabelFactoryProps<T>): React.JSX.Element => {
 	const selectedLabels = useMemo(
-		() =>
-			!isEmpty(selected) &&
-			selected.reduce<string[]>((arr, obj) => [...arr, obj.label], []).join(', '),
+		() => selected.reduce<string[]>((arr, obj) => [...arr, obj.label], []).join(', '),
 		[selected]
 	);
 
@@ -96,8 +93,8 @@ const DefaultLabelFactory = <T,>({
 						</CustomText>
 					</Padding>
 					<Label
-						$selected={!isEmpty(selected)}
-						size={!isEmpty(selected) ? 'small' : 'medium'}
+						$selected={selected.length > 0}
+						size={selected.length > 0 ? 'small' : 'medium'}
 						color={(disabled && 'gray2') || ((open || focus) && 'primary') || 'secondary'}
 					>
 						{label}
@@ -123,103 +120,6 @@ const TabContainer = styled(Container)`
 	}
 `;
 
-const SELECT_ACTION = {
-	PUSH: 'push',
-	REMOVE: 'remove',
-	SELECT_ALL: 'selectAll',
-	RESET: 'reset',
-	SET: 'set'
-} as const;
-
-type MultipleSelectionReducerAction<T> = {
-	multiple: true;
-	onChange: MultipleSelectionOnChange<T>;
-	isControlled: boolean;
-} & (
-	| { type: typeof SELECT_ACTION.SELECT_ALL; items: SelectItem<T>[] }
-	| { type: typeof SELECT_ACTION.RESET }
-	| { type: typeof SELECT_ACTION.SET; items: SelectItem<T>[] }
-	| {
-			type: typeof SELECT_ACTION.PUSH | typeof SELECT_ACTION.REMOVE;
-			item: SelectItem<T>;
-	  }
-);
-
-type SingleSelectionReducerAction<T> = {
-	multiple?: false;
-	onChange: SingleSelectionOnChange<T>;
-	isControlled: boolean;
-	type: typeof SELECT_ACTION.SET | typeof SELECT_ACTION.PUSH;
-	item: SelectItem<T>;
-};
-
-type SelectReducerAction<T> = SingleSelectionReducerAction<T> | MultipleSelectionReducerAction<T>;
-
-const initialValue = <T,>(value: SelectItem<T> | SelectItem<T>[] | undefined): SelectItem<T>[] => {
-	if (value) {
-		if (Array.isArray(value)) {
-			return value;
-		}
-		return [value];
-	}
-	return [];
-};
-
-function singleSelectionReducer<T>(
-	state: SelectItem<T>[],
-	action: SingleSelectionReducerAction<T>
-): SelectItem<T>[] {
-	switch (action.type) {
-		case SELECT_ACTION.SET:
-			return [action.item];
-		case SELECT_ACTION.PUSH:
-			action.onChange(action.item.value);
-			return (action.isControlled && state) || (action.item ? [action.item] : []);
-		default:
-			return state;
-	}
-}
-
-function multipleSelectionReducer<T>(
-	state: SelectItem<T>[],
-	action: MultipleSelectionReducerAction<T>
-): SelectItem<T>[] {
-	switch (action.type) {
-		case SELECT_ACTION.PUSH: {
-			const value = [...state, { ...action.item }];
-			action.onChange(value);
-			return action.isControlled ? state : value;
-		}
-		case SELECT_ACTION.REMOVE: {
-			const value = filter(state, (obj) => obj.value !== action.item.value);
-			action.onChange(value);
-			return action.isControlled ? state : value;
-		}
-		case SELECT_ACTION.SELECT_ALL: {
-			const value = filter(action.items, (obj) => !obj.disabled);
-			action.onChange(value);
-			return action.isControlled ? state : value;
-		}
-		case SELECT_ACTION.RESET: {
-			action.onChange([]);
-			return action.isControlled ? state : [];
-		}
-		case SELECT_ACTION.SET: {
-			return action.items;
-		}
-		default:
-			throw new Error();
-	}
-}
-
-function selectedReducer<T>(
-	state: SelectItem<T>[],
-	action: SelectReducerAction<T>
-): SelectItem<T>[] {
-	return action.multiple
-		? multipleSelectionReducer(state, action)
-		: singleSelectionReducer(state, action);
-}
 type SelectItem<T = string> = {
 	label: string;
 	value: T;
@@ -317,49 +217,53 @@ const SelectComponent = React.forwardRef(function SelectFn<T = string>(
 	}: SelectProps<T>,
 	ref: React.ForwardedRef<HTMLDivElement>
 ): React.JSX.Element {
-	const [selected, dispatchSelected] = useReducer<
-		Reducer<SelectItem<T>[], SelectReducerAction<T>>,
-		SelectItem<T>[]
-	>(selectedReducer, initialValue(defaultSelection ?? selection), (initial) => initial);
+	const initialState = defaultSelection ?? selection ?? [];
+	const [selected, setSelected] = useState<SelectItem<T>[]>(
+		Array.isArray(initialState) ? initialState : [initialState]
+	);
 	const [open, setOpen] = useState(false);
 	const [focus, setFocus] = useState(false);
 
-	const isControlled = !isNil(selection);
+	const isControlled = selection !== undefined && selection !== null;
+
+	const updateMultipleSelection = useCallback(
+		(item: SelectItem<T>, isSelected: boolean) => {
+			const newSelected = isSelected
+				? selected.filter((obj) => obj.value !== item.value)
+				: [...selected, item];
+			if (!isControlled) {
+				setSelected(newSelected);
+			}
+			(onChange as MultipleSelectionOnChange<T>)(newSelected);
+		},
+		[isControlled, onChange, selected]
+	);
+
+	const updateSingleSelection = useCallback(
+		(item: SelectItem<T>) => {
+			if (!isControlled) {
+				setSelected(item.value ? [item] : []);
+			}
+			(onChange as SingleSelectionOnChange<T>)(item.value);
+		},
+		[isControlled, onChange]
+	);
+
 	const clickItemHandler = useCallback(
 		(item: SelectItem<T>, isSelected: boolean) => (): void => {
-			if (multiple && isSelected) {
-				dispatchSelected({
-					type: SELECT_ACTION.REMOVE,
-					item,
-					onChange: onChange as MultipleSelectionOnChange<T>,
-					multiple: true,
-					isControlled
-				});
-			} else if (multiple) {
-				dispatchSelected({
-					type: SELECT_ACTION.PUSH,
-					item,
-					onChange: onChange as MultipleSelectionOnChange<T>,
-					multiple: true,
-					isControlled
-				});
-			} else if (isEmpty(selected) || item.value !== selected[0].value) {
-				dispatchSelected({
-					type: SELECT_ACTION.PUSH,
-					item,
-					onChange: onChange as SingleSelectionOnChange<T>,
-					multiple: false,
-					isControlled
-				});
+			if (multiple) {
+				updateMultipleSelection(item, isSelected);
+			} else if (selected.length === 0 || item.value !== selected[0].value) {
+				updateSingleSelection(item);
 			}
 		},
-		[isControlled, multiple, onChange, selected]
+		[multiple, selected, updateMultipleSelection, updateSingleSelection]
 	);
 
 	const mappedItems = useMemo(
 		() =>
-			map(items, (item, index): DropdownItem => {
-				const isSelected = some(selected, { value: item.value });
+			items.map((item, index): DropdownItem => {
+				const isSelected = selected.some((s) => s.value === item.value);
 				return {
 					id: `${index}-${item.label}`,
 					label: item.label,
@@ -381,20 +285,16 @@ const SelectComponent = React.forwardRef(function SelectFn<T = string>(
 	const toggleSelectAll = useCallback(
 		(isSelected: boolean) => (): void => {
 			if (isSelected) {
-				dispatchSelected({
-					type: SELECT_ACTION.RESET,
-					onChange: onChange as MultipleSelectionOnChange<T>,
-					multiple: true,
-					isControlled
-				});
+				if (!isControlled) {
+					setSelected([]);
+				}
+				(onChange as MultipleSelectionOnChange<T>)([]);
 			} else {
-				dispatchSelected({
-					type: SELECT_ACTION.SELECT_ALL,
-					items,
-					onChange: onChange as MultipleSelectionOnChange<T>,
-					multiple: true,
-					isControlled
-				});
+				const newSelected = items.filter((obj) => !obj.disabled);
+				if (!isControlled) {
+					setSelected(newSelected);
+				}
+				(onChange as MultipleSelectionOnChange<T>)(newSelected);
 			}
 		},
 		[isControlled, items, onChange]
@@ -402,8 +302,8 @@ const SelectComponent = React.forwardRef(function SelectFn<T = string>(
 
 	const multipleMappedItems = useMemo((): DropdownItem[] => {
 		if (!multiple) return [];
-		const selectableItems = filter(items, (obj) => !obj.disabled);
-		const alreadySelected = filter(selected, (obj) => !obj.disabled);
+		const selectableItems = items.filter((obj) => !obj.disabled);
+		const alreadySelected = selected.filter((obj) => !obj.disabled);
 		const isSelected = alreadySelected.length === selectableItems.length;
 		return [
 			{
@@ -418,23 +318,11 @@ const SelectComponent = React.forwardRef(function SelectFn<T = string>(
 	}, [multiple, items, selected, i18nAllLabel, showCheckbox, toggleSelectAll, mappedItems]);
 
 	useEffect(() => {
-		if (selection) {
+		if (isControlled) {
 			if (multiple && selection instanceof Array) {
-				dispatchSelected({
-					type: SELECT_ACTION.SET,
-					items: selection,
-					onChange: onChange as MultipleSelectionOnChange<T>,
-					multiple: true,
-					isControlled
-				});
+				setSelected(selection);
 			} else if (!multiple && !(selection instanceof Array)) {
-				dispatchSelected({
-					type: SELECT_ACTION.SET,
-					item: selection,
-					onChange: onChange as SingleSelectionOnChange<T>,
-					multiple: false,
-					isControlled
-				});
+				setSelected([selection]);
 			}
 		}
 	}, [isControlled, multiple, onChange, selection]);

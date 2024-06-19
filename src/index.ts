@@ -3,16 +3,19 @@
  *
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+// import module augmentations to make ts use them while generating types definitions
+import './globals';
+import './styled-components';
 
 /** Basic components */
 export * from './components/basic/Avatar';
 export * from './components/basic/Badge';
 export * from './components/basic/Button';
-export * from './components/basic/Icon';
+export * from './components/basic/icon/Icon';
 export * from './components/basic/Link';
 export * from './components/basic/LoadMore';
 export * from './components/basic/FormSection';
-export * from './components/basic/Text';
+export * from './components/basic/text/Text';
 export * from './components/basic/TextWithTooltip';
 export * from './components/basic/Spinner';
 /** Layout components */
@@ -30,7 +33,6 @@ export {
 	type ChipItem,
 	type ChipInputProps
 } from './components/inputs/ChipInput';
-export * from './components/inputs/EmailComposerInput';
 export * from './components/inputs/FileLoader';
 export * from './components/inputs/IconButton';
 export * from './components/inputs/IconCheckbox';
@@ -114,7 +116,5 @@ export * from './hooks/useSnackbar/useSnackbar';
 export * from './hooks/useModal';
 export * from './hooks/useSplitVisibility';
 
-// export types
-// @see https://github.com/rollup/rollup-plugin-typescript/issues/28#issuecomment-546387825
-export type Theme = import('./theme/theme').ThemeObj;
+export type { ThemeObj as Theme } from './theme/theme';
 export * from './globals';

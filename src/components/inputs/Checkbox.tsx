@@ -11,12 +11,14 @@ import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-component
 import { useCheckbox } from '../../hooks/useCheckbox';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { getColor } from '../../theme/theme-utils';
-import { Icon } from '../basic/Icon';
-import { Text } from '../basic/Text';
+import { Icon } from '../basic/icon/Icon';
+import { Text } from '../basic/text/Text';
 import { Container, ContainerProps } from '../layout/Container';
 import { Padding } from '../layout/Padding';
 
 type CheckboxSize = 'medium' | 'small';
+
+const CustomIcon = styled(Icon)``;
 
 const IconWrapper = styled.div<{
 	disabled: boolean;
@@ -31,19 +33,19 @@ const IconWrapper = styled.div<{
 		css`
 			&:focus {
 				outline: none;
-				> ${Icon} {
+				> ${CustomIcon} {
 					color: ${getColor(`${iconColor}.focus`, theme)};
 				}
 			}
 			&:hover {
 				outline: none;
-				> ${Icon} {
+				> ${CustomIcon} {
 					color: ${getColor(`${iconColor}.hover`, theme)};
 				}
 			}
 			&:active {
 				outline: none;
-				> ${Icon} {
+				> ${CustomIcon} {
 					color: ${getColor(`${iconColor}.active`, theme)};
 				}
 			}

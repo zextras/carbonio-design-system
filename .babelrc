@@ -13,8 +13,7 @@
   ],
   "plugins": [
     "@babel/plugin-transform-runtime",
-    "babel-plugin-styled-components",
-    "lodash"
+    "babel-plugin-styled-components"
   ],
   "env": {
     "test": {

@@ -44,10 +44,6 @@ module.exports = {
 					content: 'docs/default-theme.md'
 				},
 				{
-					name: 'Icons',
-					content: 'docs/icons.md'
-				},
-				{
 					name: 'Theming',
 					content: 'docs/theming.md'
 				}

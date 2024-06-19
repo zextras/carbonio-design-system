@@ -17,8 +17,8 @@ import React, {
 import styled, { css, SimpleInterpolation } from 'styled-components';
 
 import { NonEmptyArray, SingleItemArray } from '../../types/utils';
-import { Icon } from '../basic/Icon';
-import { Text } from '../basic/Text';
+import { Icon } from '../basic/icon/Icon';
+import { Text } from '../basic/text/Text';
 import { Checkbox } from '../inputs/Checkbox';
 import { MultipleSelectionOnChange, Select, SelectProps } from '../inputs/Select';
 import { Container } from '../layout/Container';

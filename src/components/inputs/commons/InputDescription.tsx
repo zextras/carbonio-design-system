@@ -5,7 +5,7 @@
  */
 import styled from 'styled-components';
 
-import { Text } from '../../basic/Text';
+import { Text } from '../../basic/text/Text';
 
 export const InputDescription = styled(Text).attrs({
 	overflow: 'break-word',

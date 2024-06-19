@@ -174,6 +174,7 @@ interface ListProps<T extends ItemType> extends ContainerProps {
 	keyboardShortcutsIsDisabled?: boolean;
 }
 
+/** @deprecated use ListV2 instead */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const List = React.forwardRef<HTMLDivElement, ListProps<any>>(function ListFn(
 	{

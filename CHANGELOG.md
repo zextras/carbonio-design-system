@@ -2,6 +2,56 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [6.0.1](https://github.com/Zextras/carbonio-design-system/compare/v6.0.0...v6.0.1) (2024-06-14)
+
+## [6.0.0](https://github.com/Zextras/carbonio-design-system/compare/v5.1.0...v6.0.0) (2024-06-12)
+
+
+### ⚠ BREAKING CHANGES
+
+* **Icon:** remove customColor prop
+* **Icon:** remove onClick prop
+* **Icon:** remove iconCustomColor AccordionItemType field
+* remove EmailComposerInput component
+
+### Features
+
+* remove EmailComposerInput component ([b29de02](https://github.com/Zextras/carbonio-design-system/commit/b29de02675d14d87bbadc33b8302adb5dd126f2c)), closes [#324](https://github.com/Zextras/carbonio-design-system/issues/324)
+
+
+### Bug Fixes
+
+* avoid to call onVisible 2 times ([3741bd4](https://github.com/Zextras/carbonio-design-system/commit/3741bd4a067a808734e253c340a7d679a8f82532)), closes [#331](https://github.com/Zextras/carbonio-design-system/issues/331)
+* **DateTimePicker:** disable input actions when component is disabled ([750f6fc](https://github.com/Zextras/carbonio-design-system/commit/750f6fcb860feb6c4c111f3fd2537aa7f25387a6)), closes [#332](https://github.com/Zextras/carbonio-design-system/issues/332)
+* **Icon:** align to UI kit ([e071b2e](https://github.com/Zextras/carbonio-design-system/commit/e071b2e77972a4edf65f3ffae3ec587cf0ecfeb4)), closes [#337](https://github.com/Zextras/carbonio-design-system/issues/337)
+* **Input, ChipInput:** avoid long placeholder overlap icon ([ab9ab5d](https://github.com/Zextras/carbonio-design-system/commit/ab9ab5de5904fbb0e7b50a8da073776c9a3a3cf2)), closes [#335](https://github.com/Zextras/carbonio-design-system/issues/335)
+* **Select:** remove onChange call from reducer ([5c43154](https://github.com/Zextras/carbonio-design-system/commit/5c431541a6699db326c79f8c6c6ccc5130b55f7b)), closes [#323](https://github.com/Zextras/carbonio-design-system/issues/323)
+* **Text:** align to UI kit ([e6d42d9](https://github.com/Zextras/carbonio-design-system/commit/e6d42d916579454e11d5f4178d98cffed45a37d6)), closes [#322](https://github.com/Zextras/carbonio-design-system/issues/322)
+
+
+* **Icon:** remove Icon deprecated props ([803f72e](https://github.com/Zextras/carbonio-design-system/commit/803f72eb0974cfbe828d89e8ae08a7c229a3fcb4)), closes [#333](https://github.com/Zextras/carbonio-design-system/issues/333)
+
+## [5.1.0](https://github.com/Zextras/carbonio-design-system/compare/v5.0.0...v5.1.0) (2024-05-21)
+
+
+### Features
+
+* add onOptionsDisplayChange prop ([953063d](https://github.com/Zextras/carbonio-design-system/commit/953063dc34d8462ce178423f1dda759a57edb8a7)), closes [#310](https://github.com/Zextras/carbonio-design-system/issues/310)
+* add tooltip on buttons of Modal ([f7e338a](https://github.com/Zextras/carbonio-design-system/commit/f7e338ae10f857cc33c15d764483742cc5628c1d)), closes [#299](https://github.com/Zextras/carbonio-design-system/issues/299)
+* **ChipInput:** add props to set width of options dropdown ([5cbadb8](https://github.com/Zextras/carbonio-design-system/commit/5cbadb8837be38bfe99678e072cb30d3fcee9683)), closes [#317](https://github.com/Zextras/carbonio-design-system/issues/317)
+* remove maxWidth of tooltip ([29b537b](https://github.com/Zextras/carbonio-design-system/commit/29b537b606cace5fd9f9720b3f6c8d543658009e)), closes [#312](https://github.com/Zextras/carbonio-design-system/issues/312)
+* **Snackbar:** add progress bar on Snackbar ([3a7ded1](https://github.com/Zextras/carbonio-design-system/commit/3a7ded1d7c64798890f11d942edff0ae67959002)), closes [#292](https://github.com/Zextras/carbonio-design-system/issues/292)
+
+
+### Bug Fixes
+
+* **Accordion:** add key on divider items ([1e2c053](https://github.com/Zextras/carbonio-design-system/commit/1e2c053b35c74ae69f08bb75950a3815f8990d17)), closes [#300](https://github.com/Zextras/carbonio-design-system/issues/300)
+* **ChipInput:** scroll to the end while creating chip ([5b71261](https://github.com/Zextras/carbonio-design-system/commit/5b71261273ab5d37a30822e2722162c3b6689bad)), closes [#311](https://github.com/Zextras/carbonio-design-system/issues/311)
+* deprecate singleLine Snackbar prop ([e04fafc](https://github.com/Zextras/carbonio-design-system/commit/e04fafce778b727a21fdc042f773dc35130fa5f8)), closes [#307](https://github.com/Zextras/carbonio-design-system/issues/307)
+* **Quota:** align to UI kit ([6c3beb1](https://github.com/Zextras/carbonio-design-system/commit/6c3beb1e224e596fd179fd6af6fe0348a6cae36d))
+* **Snackbar:** align component to the UI kit ([1850f02](https://github.com/Zextras/carbonio-design-system/commit/1850f02db7704ccab515c1d64f853215b831bdb9)), closes [#284](https://github.com/Zextras/carbonio-design-system/issues/284)
+* **tooltip:** remove timeouts on event listeners registering ([872d6fe](https://github.com/Zextras/carbonio-design-system/commit/872d6fef6aab226b99cc775dbb4629d9564f896a)), closes [#306](https://github.com/Zextras/carbonio-design-system/issues/306)
+
 ## [5.0.0](https://github.com/Zextras/carbonio-design-system/compare/v4.2.1...v5.0.0) (2024-04-09)
 
 
