@@ -134,8 +134,8 @@ const ChipContainer = styled(Container)<{
 				return '100vh';
 		}
 	}};
-	cursor: ${({ onClick, onDoubleClick, disabled }): SimpleInterpolation =>
-		(onClick || onDoubleClick) && !disabled ? 'pointer' : 'default'};
+	cursor: ${({ onClick, onDoubleClick, $disabled }): SimpleInterpolation =>
+		(onClick || onDoubleClick) && !$disabled ? 'pointer' : 'default'};
 `;
 
 const SIZES = {
