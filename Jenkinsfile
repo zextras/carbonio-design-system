@@ -77,6 +77,9 @@ pipeline {
         booleanParam defaultValue: false, description: 'Deploy to dev doc playground', name: 'DEPLOY_DOC_PLAYGROUND'
     }
     environment {
+        GIT_TMP  = credentials('tarsier-bot-pr-token-github')
+        GH_TOKEN  = GH_TMP_PSW
+        NPM_TOKEN = credentials('npm-zextras-bot-auth-token')
         REPOSITORY_NAME = getRepositoryName()
     }
     stages {
@@ -188,62 +191,6 @@ pipeline {
             }
         }
 
-        stage('Bump Version') {
-            when {
-                beforeAgent true
-                allOf {
-                    expression { isReleaseBranch == true }
-                    expression { isMergeCommit == true }
-                }
-            }
-            agent {
-                node {
-                    label 'nodejs-agent-v4'
-                }
-            }
-            steps {
-                script {
-                    sh(script: """#!/bin/bash
-                        git config user.email \"bot@zextras.com\"
-                        git config user.name \"Tarsier Bot\"
-                        git remote set-url origin \$(git remote -v | head -n1 | cut -d\$'\t' -f2 | cut -d\" \" -f1 | sed 's!https://github.com/zextras!git@github.com:zextras!g')
-                        git fetch --unshallow
-                    """)
-                }
-                executeNpmLogin()
-                script {
-                    def commitVersion = getCommitVersion();
-                    if (commitVersion) {
-                        echo "Force bump to version ${commitVersion}"
-                        nodeCmd("npm run release -- --no-verify --release-as ${commitVersion}")
-                    } else {
-                        nodeCmd 'npm run release -- --no-verify'
-                    }
-                }
-                script {
-                    sh(script: """#!/bin/bash
-                        git push --follow-tags origin HEAD:$BRANCH_NAME
-                        git push origin HEAD:refs/heads/version-bumper/v${getCurrentVersion()}
-                    """)
-                    withCredentials([usernameColonPassword(credentialsId: 'tarsier-bot-pr-token-github', variable: 'ZXBOT_TOKEN')]) {
-                        sh(script: """
-                            curl https://api.github.com/repos/$REPOSITORY_NAME/pulls \
-                            -X POST \
-                            -H 'Accept: application/vnd.github.v3+json' \
-                            -H 'Authorization: token ${ZXBOT_TOKEN}' \
-                            -d '{
-                                    \"title\": \"Bumped version ${getCurrentVersion()}\",
-                                    \"head\": \"version-bumper/v${getCurrentVersion()}\",
-                                    \"base\": \"devel\",
-                                    \"maintainer_can_modify\": true,
-                                    \"close_source_branch\": true
-                                }'
-                            """)
-                    }
-                }
-            }
-        }
-
         stage('Build') {
             parallel {
                 stage('Build package') {
@@ -297,40 +244,14 @@ pipeline {
             }
         }
 
-        stage('Deploy to NPM') {
-            parallel {
-                stage('Release') {
-                    when {
-                        beforeAgent true
-                        allOf {
-                            expression { isReleaseBranch == true }
-                            expression { isMergeCommit == false }
-                        }
-                    }
-                    steps {
-                        script {
-                            executeNpmLogin()
-                            nodeCmd("NODE_ENV=\"production\" npm publish")
-                        }
-                    }
-                }
-                stage('Devel') {
-                    when {
-                        beforeAgent true
-                        allOf {
-                            expression { isDevelBranch == true }
-                        }
-                    }
-                    steps {
-                        script {
-                            executeNpmLogin()
-                            nodeCmd("npm run release -- --no-verify --release-as ${getCurrentVersion()}-devel.${currentBuild.startTimeInMillis} --skip.commit --skip.tag --skip.changelog")
-                            nodeCmd("NODE_ENV=\"production\" npm publish --tag devel")
-                        }
-                    }
+        stage('Release') {
+            steps {
+                script {
+                    nodeCmd("npx semantic-release")
                 }
             }
         }
+
         stage('Deploy documentation') {
             when {
                 beforeAgent true
