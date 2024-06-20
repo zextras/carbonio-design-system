@@ -137,7 +137,7 @@ const ChipContainer = styled(Container)<{
 		}
 	}};
 	cursor: ${({ onClick, onDoubleClick, disabled }): SimpleInterpolation =>
-		disabled ? 'default' : (onClick || onDoubleClick) && 'pointer'};
+		(onClick || onDoubleClick) && !disabled ? 'pointer' : 'default'};
 `;
 
 const SIZES: Record<
