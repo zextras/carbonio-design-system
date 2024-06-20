@@ -78,7 +78,7 @@ pipeline {
     }
     environment {
         GIT_TMP  = credentials('tarsier-bot-pr-token-github')
-        GH_TOKEN  = GH_TMP_PSW
+        GH_TOKEN  = "$GH_TMP_PSW"
         NPM_TOKEN = credentials('npm-zextras-bot-auth-token')
         REPOSITORY_NAME = getRepositoryName()
     }
