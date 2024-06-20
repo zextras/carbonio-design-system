@@ -10,21 +10,23 @@ import styled, { css, DefaultTheme, SimpleInterpolation, ThemeContext } from 'st
 
 import { IconComponent } from '../../../theme/theme';
 import { getColor } from '../../../theme/theme-utils';
-import { AnyColor } from '../../../types/utils';
+import { AnyColor, MakeRequired, With$Prefix } from '../../../types/utils';
 
 interface IconComponentProps extends SVGAttributes<SVGSVGElement> {
 	/** Icon to show. It can be a string key for the theme icons or a custom icon component */
 	icon: keyof DefaultTheme['icons'] | IconComponent;
-	/** whether the icon is in a disabled element */
-	disabled?: boolean;
 }
 
-interface IconProps extends IconComponentProps {
+interface StyledIconProps {
 	/** Icon Color */
 	color?: AnyColor;
 	/** Icon size */
 	size?: keyof DefaultTheme['sizes']['icon'];
+	/** whether the icon is in a disabled element */
+	disabled?: boolean;
 }
+
+type IconProps = IconComponentProps & StyledIconProps;
 
 const IconBase = React.forwardRef<SVGSVGElement, IconComponentProps>(function IconBaseFn(
 	{ icon, ...rest }: IconComponentProps,
@@ -41,24 +43,22 @@ const IconBase = React.forwardRef<SVGSVGElement, IconComponentProps>(function Ic
 	return <IconComp data-testid={`icon: ${icon}`} ref={ref} viewBox="0 0 24 24" {...rest} />;
 });
 
-const StyledIcon = styled(IconBase).withConfig({
-	shouldForwardProp: (prop) => !['color', 'size'].includes(prop)
-})<IconProps & Required<Pick<IconProps, 'color' | 'size'>>>`
+const StyledIcon = styled(IconBase)<With$Prefix<MakeRequired<StyledIconProps, 'color' | 'size'>>>`
 	display: block;
 	fill: currentColor;
-	color: ${({ color, disabled, theme }): string =>
-		getColor(`${color}.${disabled ? 'disabled' : 'regular'}`, theme)};
-	${({ size, theme }): SimpleInterpolation => css`
-		width: ${theme.sizes.icon[size]};
-		height: ${theme.sizes.icon[size]};
+	color: ${({ $color, $disabled, theme }): string =>
+		getColor(`${$color}.${$disabled ? 'disabled' : 'regular'}`, theme)};
+	${({ $size, theme }): SimpleInterpolation => css`
+		width: ${theme.sizes.icon[$size]};
+		height: ${theme.sizes.icon[$size]};
 	`};
 `;
 
 const Icon = React.forwardRef<SVGSVGElement, IconProps>(function IconFn(
-	{ color = 'text', size = 'medium', disabled = false, ...rest }: IconProps,
-	ref: React.ForwardedRef<SVGSVGElement>
-): React.JSX.Element {
-	return <StyledIcon size={size} color={color} disabled={disabled} {...rest} ref={ref} />;
+	{ color = 'text', size = 'medium', disabled, ...rest },
+	ref
+) {
+	return <StyledIcon $color={color} $size={size} $disabled={disabled} ref={ref} {...rest} />;
 });
 
-export { Icon, IconProps, IconComponentProps };
+export { Icon, IconProps, IconComponentProps, StyledIconProps };

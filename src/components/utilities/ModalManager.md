@@ -16,7 +16,7 @@ Overlapping modals are allowed.
 import { Button, Container, useModal, ModalManager, Text } from '@zextras/carbonio-design-system';
 
 function App() {
-	const createModal = useModal();
+	const {createModal, closeModal} = useModal();
 	return (
 		<Container orientation="horizontal" mainAlignment="space-between" width="25rem">
 			<Button
@@ -24,26 +24,30 @@ function App() {
 				color="success"
 				label="Success"
 				onClick={() => {
-					let closeModal = createModal({
+                    const id = 'id1';
+					createModal({
+                        id,
 						title: 'Title title title',
 						confirmLabel: 'Second Modal',
 						onConfirm: () => {
 							console.log('confirm');
-							let closeSecondModal = createModal({
+                            const id2 = 'id2';
+							createModal({
+                                id: id2,
 								title: 'Title 2',
 								cofirmLabel: 'Close Both',
 								onConfirm: () => {
 									console.log('confirm 2');
-									closeSecondModal();
-									closeModal();
+									closeModal(id2);
+									closeModal(id);
 									},
 								onSecondaryAction: () => {
 									console.log('cancel 2');
-									closeSecondModal();
+									closedModal(id2);
 									},
 								onClose: () => {
 									console.log('close 2');
-									closeSecondModal();
+									closeModal(id2);
 								},
 								dismissLabel: 'Cancel',
 								children: <Text overflow="break-word">Lorem impsum</Text>
@@ -51,11 +55,11 @@ function App() {
 						},
 						onSecondaryAction: () => {
 							console.log('cancel');
-							closeModal();
+							closeModal(id);
 						},
 						onClose: () => {
 							console.log('close');
-							closeModal();
+							closeModal(id);
 						},
 						dismissLabel: 'Cancel',
 						children:

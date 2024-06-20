@@ -18,7 +18,7 @@ import { INPUT_BACKGROUND_COLOR, INPUT_DIVIDER_COLOR } from '../constants';
 import { Container, ContainerProps } from '../layout/Container';
 import { Divider, DividerProps } from '../layout/Divider';
 
-const InputEl = styled.input<{ color: keyof DefaultTheme['palette'] }>`
+const InputEl = styled.input<{ $color: keyof DefaultTheme['palette'] }>`
 	border: none !important;
 	height: auto !important;
 	width: 100%;
@@ -27,10 +27,10 @@ const InputEl = styled.input<{ color: keyof DefaultTheme['palette'] }>`
 	font-size: ${({ theme }): string => theme.sizes.font.medium};
 	font-weight: ${({ theme }): number => theme.fonts.weight.regular};
 	font-family: ${({ theme }): string => theme.fonts.default};
-	color: ${({ theme, color }): string => getColor(color, theme)};
+	color: ${({ theme, $color }): string => getColor($color, theme)};
 
 	&:disabled {
-		color: ${({ theme, color }): string => getColor(`${color}.disabled`, theme)};
+		color: ${({ theme, $color }): string => getColor(`${$color}.disabled`, theme)};
 	}
 
 	transition: background 0.2s ease-out;
@@ -93,7 +93,7 @@ interface InputProps extends ContainerProps {
 	/** on Enter key callback */
 	onEnter?: (e: KeyboardEvent) => void;
 	/** Description of the input */
-	description?: string | undefined;
+	description?: string;
 }
 
 type Input = React.ForwardRefExoticComponent<InputProps & React.RefAttributes<HTMLDivElement>> & {
@@ -135,7 +135,7 @@ const Input: Input = React.forwardRef<HTMLDivElement, InputProps>(function Input
 	});
 
 	const onInputFocus = useCallback(() => {
-		if (!disabled && innerRef && innerRef.current) {
+		if (!disabled && innerRef?.current) {
 			setHasFocus(true);
 			innerRef.current.focus();
 		}
@@ -198,13 +198,13 @@ const Input: Input = React.forwardRef<HTMLDivElement, InputProps>(function Input
 						// eslint-disable-next-line jsx-a11y/no-autofocus
 						autoFocus={autoFocus || undefined}
 						autoComplete={autoComplete || 'off'} // This one seems to be a React quirk, 'off' doesn't really work
-						color={textColor}
+						$color={textColor}
 						ref={innerRef}
 						type={type}
 						onFocus={onInputFocus}
 						onBlur={onInputBlur}
 						id={id}
-						name={inputName || label}
+						name={inputName ?? label}
 						defaultValue={defaultValue}
 						value={value}
 						onChange={onChange}

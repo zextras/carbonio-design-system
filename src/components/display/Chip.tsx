@@ -16,7 +16,7 @@ import { Avatar, AvatarPropTypes } from '../basic/Avatar';
 import { Icon, IconProps } from '../basic/icon/Icon';
 import { Text } from '../basic/text/Text';
 import { IconButton, IconButtonProps } from '../inputs/IconButton';
-import { Container, ContainerProps } from '../layout/Container';
+import { Container } from '../layout/Container';
 import { Row, RowProps } from '../layout/Row';
 
 type ChipAction = {
@@ -107,7 +107,7 @@ const ActionContainer = styled.div<{ $spacing: string }>`
 
 const LabelContainer = styled(Container)``;
 
-const ContentContainer = styled(Container)<{ gap: ContainerProps['gap'] }>`
+const ContentContainer = styled(Container)`
 	&:first-child > ${LabelContainer}:first-child {
 		padding-left: ${({ gap }): SimpleInterpolation => css`calc(${gap} * 2)`};
 	}
@@ -117,15 +117,13 @@ const ContentContainer = styled(Container)<{ gap: ContainerProps['gap'] }>`
 `;
 
 const ChipContainer = styled(Container)<{
-	disabled: boolean;
-	onClick?: React.ReactEventHandler;
-	onDoubleClick?: React.ReactEventHandler;
+	$disabled: boolean;
 }>`
 	user-select: none;
 	vertical-align: middle;
 	line-height: 1.5;
-	${({ background, disabled, onClick, onDoubleClick, theme }): SimpleInterpolation =>
-		!disabled && (onClick || onDoubleClick) && background && pseudoClasses(theme, background)};
+	${({ background, $disabled, onClick, onDoubleClick, theme }): SimpleInterpolation =>
+		!$disabled && (onClick || onDoubleClick) && background && pseudoClasses(theme, background)};
 	border-radius: ${(props): string => {
 		switch (props.borderRadius) {
 			case 'regular':
@@ -140,15 +138,7 @@ const ChipContainer = styled(Container)<{
 		(onClick || onDoubleClick) && !disabled ? 'pointer' : 'default'};
 `;
 
-const SIZES: Record<
-	NonNullable<ChipProps['size']>,
-	{
-		avatar: keyof DefaultTheme['sizes']['avatar'];
-		font: keyof DefaultTheme['sizes']['font'];
-		icon: NonNullable<IconProps['size']>;
-		spacing: string;
-	}
-> = {
+const SIZES = {
 	small: {
 		avatar: 'small',
 		font: 'extrasmall',
@@ -167,7 +157,15 @@ const SIZES: Record<
 		icon: 'large',
 		spacing: '0.75rem'
 	}
-};
+} satisfies Record<
+	NonNullable<ChipProps['size']>,
+	{
+		avatar: keyof DefaultTheme['sizes']['avatar'];
+		font: keyof DefaultTheme['sizes']['font'];
+		icon: NonNullable<IconProps['size']>;
+		spacing: string;
+	}
+>;
 
 const Chip = React.forwardRef<HTMLDivElement, ChipProps>(function ChipFn(
 	{
@@ -355,7 +353,7 @@ const Chip = React.forwardRef<HTMLDivElement, ChipProps>(function ChipFn(
 				}}
 				onClick={onClick && clickHandler}
 				onDoubleClick={onDoubleClick && dblClickHandler}
-				disabled={!!disabled}
+				$disabled={!!disabled}
 				width="fit"
 				height="fit"
 				minWidth={maxWidth ? '0' : 'max-content'}

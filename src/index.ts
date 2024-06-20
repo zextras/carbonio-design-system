@@ -11,7 +11,7 @@ import './styled-components';
 export * from './components/basic/Avatar';
 export * from './components/basic/Badge';
 export * from './components/basic/Button';
-export * from './components/basic/icon/Icon';
+export { Icon, type IconProps } from './components/basic/icon/Icon';
 export * from './components/basic/Link';
 export * from './components/basic/LoadMore';
 export * from './components/basic/FormSection';
@@ -118,3 +118,4 @@ export * from './hooks/useSplitVisibility';
 
 export type { ThemeObj as Theme } from './theme/theme';
 export * from './globals';
+export type { AnyColor, PaletteColor } from './types/utils';

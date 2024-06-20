@@ -30,7 +30,7 @@ import {
 } from '../../hooks/useKeyboard';
 import { usePrevious } from '../../hooks/usePrevious';
 import { getColor } from '../../theme/theme-utils';
-import { AnyColor } from '../../types/utils';
+import { AnyColor, PaletteColor } from '../../types/utils';
 import { Icon } from '../basic/icon/Icon';
 import { INPUT_BACKGROUND_COLOR, INPUT_DIVIDER_COLOR } from '../constants';
 import { Chip, ChipProps } from '../display/Chip';
@@ -39,7 +39,7 @@ import { Container, ContainerProps } from '../layout/Container';
 import { Divider, DividerProps } from '../layout/Divider';
 
 const ContainerEl = styled(InputContainer)<{
-	background: keyof DefaultTheme['palette'];
+	background: PaletteColor;
 	$inputDisabled: boolean;
 	$dropdownDisabled: boolean;
 }>`
@@ -71,7 +71,7 @@ const RelativeContainer = styled(Container)`
 	position: relative;
 `;
 
-const InputEl = styled.input<{ color: keyof DefaultTheme['palette'] }>`
+const InputEl = styled.input<{ $color: keyof DefaultTheme['palette'] }>`
 	border: none !important;
 	height: auto !important;
 	width: 1em;
@@ -80,10 +80,10 @@ const InputEl = styled.input<{ color: keyof DefaultTheme['palette'] }>`
 	font-size: ${({ theme }): string => theme.sizes.font.medium};
 	font-weight: ${({ theme }): number => theme.fonts.weight.regular};
 	font-family: ${({ theme }): string => theme.fonts.default};
-	color: ${({ theme, color }): string => getColor(color, theme)};
+	color: ${({ theme, $color }): string => getColor($color, theme)};
 
 	&:disabled {
-		color: ${({ theme, color }): string => getColor(`${color}.disabled`, theme)};
+		color: ${({ theme, $color }): string => getColor(`${$color}.disabled`, theme)};
 		pointer-events: none;
 	}
 
@@ -131,7 +131,7 @@ const AdjustWidthInput = React.forwardRef<
 	{
 		color: keyof DefaultTheme['palette'];
 	} & InputHTMLAttributes<HTMLInputElement>
->(function AdjustWidthInputFn(inputProps, ref) {
+>(function AdjustWidthInputFn({ color, ...rest }, ref) {
 	const hiddenSpanRef = useRef<HTMLSpanElement | null>(null);
 	const inputRef = useCombinedRefs<HTMLInputElement>(ref);
 
@@ -162,7 +162,7 @@ const AdjustWidthInput = React.forwardRef<
 	return (
 		<AdjustWidthInputContainer>
 			<HiddenSpan ref={hiddenSpanRef} />
-			<InputEl {...inputProps} ref={inputRef} />
+			<InputEl $color={color} {...rest} ref={inputRef} />
 		</AdjustWidthInputContainer>
 	);
 });
@@ -530,7 +530,7 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 	const onChipClose = useCallback(
 		(index: number) => {
 			uncontrolledMode && dispatch({ type: 'pop', index });
-			onChange && onChange(filter(items, (_item, i) => index !== i));
+			onChange?.(filter(items, (_item, i) => index !== i));
 			if (inputElRef.current) {
 				inputElRef.current.focus();
 			}

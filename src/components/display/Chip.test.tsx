@@ -238,7 +238,6 @@ describe('Chip', () => {
 		await user.click(screen.getByTestId(ICONS.close));
 		await screen.findByText(/Message to explain disabled status/i);
 		expect(closeFn).not.toHaveBeenCalled();
-		expect(screen.getByText(label)).toHaveAttribute('disabled');
 		await user.hover(screen.getByText(label));
 		await waitFor(() => {
 			expect(screen.getByText('Message to explain disabled status')).toBeVisible();
