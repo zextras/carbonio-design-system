@@ -77,7 +77,6 @@ pipeline {
         booleanParam defaultValue: false, description: 'Deploy to dev doc playground', name: 'DEPLOY_DOC_PLAYGROUND'
     }
     environment {
-        NPM_TOKEN = credentials('npm-zextras-bot-auth-token')
         REPOSITORY_NAME = getRepositoryName()
     }
     stages {
@@ -245,10 +244,11 @@ pipeline {
         stage('Release') {
             steps {
                 script {
-                     withCredentials([usernameColonPassword(credentialsId: 'tarsier-bot-pr-token-github', variable: 'GH_TOKEN')]) {
-                         nodeCmd("npx semantic-release")
-                         echo "${env.GH_TOKEN}"
-                     }
+                    withCredentials([usernamePassword(credentialsId: 'npm-zextras-bot-auth-token', usernameVariable: 'AUTH_USERNAME', passwordVariable: 'NPM_TOKEN')]) {
+                        withCredentials([usernamePassword(credentialsId: 'tarsier-bot-pr-token-github', passwordVariable: 'GH_TOKEN')]) {
+                            nodeCmd("npx semantic-release")
+                        }
+                    }
                 }
             }
         }
