@@ -9,27 +9,8 @@ def nodeCmd(String cmd) {
     sh '. load_nvm && nvm install && nvm use && npm ci && ' + cmd
 }
 
-int getCommitParentsCount() {
-    return Integer.parseInt(
-        sh(
-            script: """#!/usr/bin/env bash
-                git cat-file -p HEAD | grep -w "parent" | wc -l
-            """,
-            returnStdout: true
-        ).trim()
-    )
-}
-
-boolean gitIsMergeCommit() {
-    return 2 <= getCommitParentsCount()
-}
-
 def getPackageName() {
     return sh(script: 'grep \'"name":\' package.json | sed -n --regexp-extended \'s/.*"name": "([^"]+).*/\\1/p\' ', returnStdout: true).trim()
-}
-
-def getCurrentVersion() {
-    return sh(script: 'grep \'"version":\' package.json | sed -n --regexp-extended \'s/.*"version": "([^"]+).*/\\1/p\' ', returnStdout: true).trim()
 }
 
 def getRepositoryName() {
@@ -58,7 +39,6 @@ Boolean lcovIsPresent
 Boolean isReleaseBranch
 Boolean isDevelBranch
 Boolean isPullRequest
-Boolean isMergeCommit
 Boolean isSonarQubeEnabled
 Boolean isDeployDocPlaygroundEnabled
 
@@ -76,11 +56,7 @@ pipeline {
         booleanParam defaultValue: true, description: 'Enable SonarQube Stage', name: 'RUN_SONARQUBE'
         booleanParam defaultValue: false, description: 'Deploy to dev doc playground', name: 'DEPLOY_DOC_PLAYGROUND'
     }
-    environment {
-        REPOSITORY_NAME = getRepositoryName()
-    }
     stages {
-
         stage("Read settings") {
             steps {
                 script {
@@ -90,8 +66,6 @@ pipeline {
                    echo "isDevelBranch: ${isDevelBranch}"
                    isPullRequest = "${BRANCH_NAME}" ==~ /PR-\d+/
                    echo "isPullRequest: ${isPullRequest}"
-                   isMergeCommit = gitIsMergeCommit()
-                   echo "isMergeCommit: ${isMergeCommit}"
                    isSonarQubeEnabled = params.RUN_SONARQUBE == true && (isPullRequest || isDevelBranch || isReleaseBranch)
                    echo "isSonarQubeEnabled: ${isSonarQubeEnabled}"
                    isDeployDocPlaygroundEnabled = params.DEPLOY_DOC_PLAYGROUND == true
@@ -111,22 +85,12 @@ pipeline {
             }
             parallel {
                 stage('Linting') {
-                    agent {
-                        node {
-                            label 'nodejs-agent-v4'
-                        }
-                    }
                     steps {
                         executeNpmLogin()
                         nodeCmd('npm run lint')
                     }
                 }
                 stage('TypeCheck') {
-                    agent {
-                        node {
-                            label "nodejs-agent-v4"
-                        }
-                    }
                     steps {
                         script {
                             executeNpmLogin()
@@ -135,11 +99,6 @@ pipeline {
                     }
                 }
                 stage('Unit Tests') {
-                    agent {
-                        node {
-                            label 'nodejs-agent-v4'
-                        }
-                    }
                     steps {
                         executeNpmLogin()
                         nodeCmd('npm run test')
@@ -164,11 +123,6 @@ pipeline {
         }
 
         stage('SonarQube analysis') {
-            agent {
-                node {
-                    label 'nodejs-agent-v4'
-                }
-            }
             when {
                 beforeAgent(true)
                 allOf {
@@ -191,20 +145,6 @@ pipeline {
         stage('Build') {
             parallel {
                 stage('Build package') {
-                    when {
-                        beforeAgent true
-                        not {
-                            allOf {
-                                expression { isReleaseBranch == true }
-                                expression { isMergeCommit == true }
-                            }
-                        }
-                    }
-                    agent {
-                        node {
-                            label 'nodejs-agent-v4'
-                        }
-                    }
                     steps {
                         script {
                             executeNpmLogin()
@@ -216,17 +156,10 @@ pipeline {
                     when {
                         beforeAgent true
                         anyOf {
-                            allOf {
-                                expression { isReleaseBranch == true }
-                                expression { isMergeCommit == false }
-                            }
+                            expression { isPullRequest == true }
+                            expression { isReleaseBranch == true }
                             expression { isDevelBranch == true }
                             expression { isDeployDocPlaygroundEnabled == true }
-                        }
-                    }
-                    agent {
-                        node {
-                            label 'nodejs-agent-v4'
                         }
                     }
                     steps {
@@ -257,10 +190,7 @@ pipeline {
             when {
                 beforeAgent true
                 anyOf {
-                    allOf {
-                        expression { isReleaseBranch == true }
-                        expression { isMergeCommit == false }
-                    }
+                    expression { isReleaseBranch == true }
                     expression { isDevelBranch == true }
                     expression { isDeployDocPlaygroundEnabled == true }
                 }
