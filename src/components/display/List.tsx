@@ -9,7 +9,7 @@ import React, { useRef, useEffect, useMemo } from 'react';
 import { map, some } from 'lodash';
 import styled, { DefaultTheme, SimpleInterpolation } from 'styled-components';
 
-import { useIsVisible } from '../../hooks/useIsVisible';
+import { useIsVisible } from '../../hooks/useIsVisible/useIsVisible';
 import { useKeyboard, getKeyboardPreset, KeyboardPresetObj } from '../../hooks/useKeyboard';
 import { getColor, pseudoClasses } from '../../theme/theme-utils';
 import { Container, ContainerProps } from '../layout/Container';

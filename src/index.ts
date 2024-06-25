@@ -106,7 +106,7 @@ export * from './components/utilities/Shimmer';
 export * from './theme/theme-utils';
 export * from './theme/theme-context-provider';
 export * from './theme/zimbra-classic-theme-context-provider';
-export * from './hooks/useIsVisible';
+export * from './hooks/useIsVisible/useIsVisible';
 export * from './hooks/useCheckbox';
 export * from './hooks/useCombinedRefs';
 export * from './hooks/useHiddenCount';
@@ -115,6 +115,7 @@ export * from './hooks/useScreenMode';
 export * from './hooks/useSnackbar/useSnackbar';
 export * from './hooks/useModal';
 export * from './hooks/useSplitVisibility';
+export { useIntersectionObserver } from './hooks/useIntersectionObserver/useIntersectionObserver';
 
 export type { ThemeObj as Theme } from './theme/theme';
 export * from './globals';
