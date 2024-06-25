@@ -201,6 +201,10 @@ pipeline {
             }
             steps {
                 script {
+                    String versionBumperBranchName = "version-bumper/${getLastTag()}"
+                    sh(script: """#!/bin/bash
+                        git push origin HEAD:refs/heads/${versionBumperBranchName}
+                    """)
                     withCredentials([usernamePassword(credentialsId: 'tarsier-bot-pr-token-github', usernameVariable: 'GH_USERNAME', passwordVariable: 'GH_TOKEN')]) {
                         sh(script: """
                             curl https://api.github.com/repos/${getRepositoryName()}/pulls \
@@ -209,10 +213,9 @@ pipeline {
                             -H 'Authorization: token ${GH_TOKEN}' \
                             -d '{
                                 \"title\": \"chore(release): ${getLastTag()}\",
-                                \"head\": \"${BRANCH_NAME}\",
+                                \"head\": \"${versionBumperBranchName}\",
                                 \"base\": \"devel\",
-                                \"maintainer_can_modify\": true,
-                                \"close_source_branch\": false
+                                \"maintainer_can_modify\": true
                             }'
                         """)
                     }
