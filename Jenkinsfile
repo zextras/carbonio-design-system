@@ -19,6 +19,12 @@ def getRepositoryName() {
     ''', returnStdout: true).trim()
 }
 
+def getLastTag() {
+    return sh(script: '''#!/bin/bash
+        git describe --tags --abbrev=0
+    ''', returnStdout: true).trim()
+}
+
 def executeNpmLogin() {
     withCredentials([usernamePassword(credentialsId: 'npm-zextras-bot-auth-token', usernameVariable: 'AUTH_USERNAME', passwordVariable: 'AUTH_PASSWORD')]) {
         sh(
@@ -181,6 +187,34 @@ pipeline {
                         withCredentials([usernamePassword(credentialsId: 'tarsier-bot-pr-token-github', usernameVariable: 'GH_USERNAME', passwordVariable: 'GH_TOKEN')]) {
                             nodeCmd("npx semantic-release")
                         }
+                    }
+                }
+            }
+        }
+
+        stage('Open release to devel pull request') {
+            when {
+                beforeAgent true
+                allOf {
+                    expression { isReleaseBranch == true }
+                }
+            }
+            steps {
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'tarsier-bot-pr-token-github', usernameVariable: 'GH_USERNAME', passwordVariable: 'GH_TOKEN')]) {
+                        sh(script: """
+                            curl https://api.github.com/repos/${getRepositoryName()}/pulls \
+                            -X POST \
+                            -H 'Accept: application/vnd.github.v3+json' \
+                            -H 'Authorization: token ${GH_TOKEN}' \
+                            -d '{
+                                \"title\": \"chore(release): ${getLastTag()}\",
+                                \"head\": \"${BRANCH_NAME}\",
+                                \"base\": \"devel\",
+                                \"maintainer_can_modify\": true,
+                                \"close_source_branch\": false
+                            }'
+                        """)
                     }
                 }
             }
