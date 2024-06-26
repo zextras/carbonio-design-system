@@ -181,6 +181,12 @@ pipeline {
         }
 
         stage('Release') {
+            when {
+                beforeAgent true
+                allOf {
+                    expression { isPullRequest == false }
+                }
+            }
             steps {
                 script {
                     withCredentials([usernamePassword(credentialsId: 'npm-zextras-bot-auth-token', usernameVariable: 'AUTH_USERNAME', passwordVariable: 'NPM_TOKEN')]) {
