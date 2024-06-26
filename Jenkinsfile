@@ -91,12 +91,22 @@ pipeline {
             }
             parallel {
                 stage('Linting') {
+                    agent {
+                        node {
+                            label 'nodejs-agent-v4'
+                        }
+                    }
                     steps {
                         executeNpmLogin()
                         nodeCmd('npm run lint')
                     }
                 }
                 stage('TypeCheck') {
+                    agent {
+                        node {
+                            label "nodejs-agent-v4"
+                        }
+                    }
                     steps {
                         script {
                             executeNpmLogin()
@@ -105,6 +115,11 @@ pipeline {
                     }
                 }
                 stage('Unit Tests') {
+                    agent {
+                        node {
+                            label 'nodejs-agent-v4'
+                        }
+                    }
                     steps {
                         executeNpmLogin()
                         nodeCmd('npm run test')
@@ -129,6 +144,11 @@ pipeline {
         }
 
         stage('SonarQube analysis') {
+            agent {
+                node {
+                    label 'nodejs-agent-v4'
+                }
+            }
             when {
                 beforeAgent(true)
                 allOf {
@@ -151,6 +171,11 @@ pipeline {
         stage('Build') {
             parallel {
                 stage('Build package') {
+                    agent {
+                        node {
+                            label 'nodejs-agent-v4'
+                        }
+                    }
                     steps {
                         script {
                             executeNpmLogin()
@@ -166,6 +191,11 @@ pipeline {
                             expression { isReleaseBranch == true }
                             expression { isDevelBranch == true }
                             expression { isDeployDocPlaygroundEnabled == true }
+                        }
+                    }
+                    agent {
+                        node {
+                            label 'nodejs-agent-v4'
                         }
                     }
                     steps {
