@@ -11,3 +11,4 @@ tsTemplate.js
 /storybook-static
 *storybook.log
 *.zip
+.DS_Store
