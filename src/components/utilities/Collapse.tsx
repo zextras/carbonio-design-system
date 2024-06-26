@@ -13,23 +13,23 @@ import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { Container } from '../layout/Container';
 
 const CollapseEl = styled.div<{
-	crossSize?: string;
-	orientation: 'horizontal' | 'vertical';
-	disableTransition: boolean;
-	open: boolean;
+	$crossSize?: string;
+	$orientation: 'horizontal' | 'vertical';
+	$disableTransition: boolean;
+	$open: boolean;
 }>`
-	${({ crossSize, orientation }): SimpleInterpolation =>
-		crossSize && `${orientation === 'horizontal' ? 'height' : 'width'}: ${crossSize};`};
-	${({ orientation }): string => (orientation === 'horizontal' ? 'width' : 'height')}: 0;
+	${({ $crossSize, $orientation }): SimpleInterpolation =>
+		$crossSize && `${$orientation === 'horizontal' ? 'height' : 'width'}: ${$crossSize};`};
+	${({ $orientation }): string => ($orientation === 'horizontal' ? 'width' : 'height')}: 0;
 	visibility: hidden;
 	overflow: hidden;
 	pointer-events: none;
 
-	${({ disableTransition, open, orientation }): SimpleInterpolation =>
-		disableTransition &&
-		open &&
+	${({ $disableTransition, $open, $orientation }): SimpleInterpolation =>
+		$disableTransition &&
+		$open &&
 		css`
-			${orientation === 'horizontal' ? 'width' : 'height'}: fit-content;
+			${$orientation === 'horizontal' ? 'width' : 'height'}: fit-content;
 			visibility: visible;
 			pointer-events: auto;
 		`};
@@ -90,10 +90,10 @@ const Collapse = React.forwardRef<HTMLElement, CollapseProps>(function CollapseF
 			disabled={disableTransition}
 		>
 			<CollapseEl
-				crossSize={crossSize}
-				open={open}
-				orientation={orientation}
-				disableTransition={disableTransition}
+				$crossSize={crossSize}
+				$open={open}
+				$orientation={orientation}
+				$disableTransition={disableTransition}
 				{...rest}
 			>
 				{children}

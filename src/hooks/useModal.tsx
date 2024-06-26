@@ -6,15 +6,26 @@
 
 import { useCallback, useContext } from 'react';
 
-import { CreateModalFn, ModalManagerContext } from '../components/utilities/ModalManager';
+import {
+	CloseModalFn,
+	CreateModalFn,
+	ModalManagerContext
+} from '../components/utilities/ModalManager';
 
-function useModal(): CreateModalFn {
-	const createModal = useContext(ModalManagerContext);
+function useModal(): { createModal: CreateModalFn; closeModal: CloseModalFn } {
+	const context = useContext(ModalManagerContext);
 	const fallback = useCallback<CreateModalFn>(() => {
 		console.error('Modal manager context not initialized');
 		return (): void => undefined;
 	}, []);
-	return createModal ?? fallback;
+	const closeFallback = useCallback<CloseModalFn>(() => {
+		console.error('Modal manager context not initialized');
+		return (): void => undefined;
+	}, []);
+	return {
+		createModal: context?.createModal ?? fallback,
+		closeModal: context?.closeModal ?? closeFallback
+	};
 }
 
 export { useModal };

@@ -33,37 +33,37 @@ const StyledContainer = styled(Container)`
 `;
 
 const StyledDiv = styled.div<{
-	background: keyof DefaultTheme['palette'];
-	selectedBackground: keyof DefaultTheme['palette'];
-	activeBackground: keyof DefaultTheme['palette'];
-	selected: boolean;
-	active: boolean;
+	$background: keyof DefaultTheme['palette'];
+	$selectedBackground: keyof DefaultTheme['palette'];
+	$activeBackground: keyof DefaultTheme['palette'];
+	$selected: boolean;
+	$active: boolean;
 }>`
 	user-select: none;
 	outline: none;
 	background: ${({
 		theme,
-		background,
-		selectedBackground,
-		activeBackground,
-		active,
-		selected
+		$background,
+		$selectedBackground,
+		$activeBackground,
+		$active,
+		$selected
 	}): string =>
 		getColor(
-			(active && activeBackground) || (selected && selectedBackground) || background,
+			($active && $activeBackground) || ($selected && $selectedBackground) || $background,
 			theme
 		)};
 	${({
 		theme,
-		background,
-		selectedBackground,
-		activeBackground,
-		active,
-		selected
+		$background,
+		$selectedBackground,
+		$activeBackground,
+		$active,
+		$selected
 	}): SimpleInterpolation =>
 		pseudoClasses(
 			theme,
-			(active && activeBackground) || (selected && selectedBackground) || background
+			($active && $activeBackground) || ($selected && $selectedBackground) || $background
 		)};
 `;
 
@@ -115,11 +115,11 @@ const LIWrapper = React.memo<LIWrapperProps<any>>(function LIWrapperFn({
 		<StyledDiv
 			tabIndex={index}
 			ref={ref}
-			active={active}
-			selected={selected}
-			selectedBackground={selectedBackground}
-			activeBackground={activeBackground}
-			background={background}
+			$active={active}
+			$selected={selected}
+			$selectedBackground={selectedBackground}
+			$activeBackground={activeBackground}
+			$background={background}
 		>
 			<ItemComponent
 				visible={inView}
