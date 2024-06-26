@@ -37,7 +37,7 @@ describe('Badge', () => {
 			const number = faker.number.int({ min: 2001 });
 			const maxValue = 2000;
 			setup(<Badge value={number} maxValue={maxValue} />);
-			expect(screen.getByText(`${maxValue}+`));
+			expect(screen.getByText(`${maxValue}+`)).toBeVisible();
 		});
 
 		it('should render a number = 999', () => {
