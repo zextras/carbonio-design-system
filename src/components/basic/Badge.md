@@ -8,7 +8,11 @@ SPDX-License-Identifier: AGPL-3.0-only
 
 ```jsx
 <>
+    <Badge />
+    <Badge icon={'AcceptanceMeeting'} color={'success'}/>
+    <Badge icon={'ArrowIosUpward'}/>
     <Badge value="1" />
+    <Badge value={'With text'}/>
     <br/>
     <Badge value={10} type="unread" />
     <br/>

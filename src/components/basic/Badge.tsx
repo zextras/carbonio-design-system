@@ -6,55 +6,109 @@
 
 import React, { useMemo, forwardRef, HTMLAttributes } from 'react';
 
-import styled from 'styled-components';
+import styled, { DefaultTheme } from 'styled-components';
 
+import { Icon } from './icon/Icon';
+import { getColor, useTheme } from '../../theme/theme-utils';
+import { AnyColor } from '../../types/utils';
 import { Tooltip } from '../display/Tooltip';
 
-const Comp = styled.span<{ isRead: boolean; isNumber: boolean }>`
-	display: inline-block;
-	min-width: 2em;
-	padding: ${({ isNumber, theme }): string =>
-		isNumber
-			? theme.sizes.padding.extrasmall
-			: `${theme.sizes.padding.extrasmall} ${theme.sizes.padding.small}`};
+type CompProps = {
+	$backgroundColor: AnyColor;
+	$color: AnyColor;
+	$padding: string;
+	$isBadgeCircle: boolean;
+};
+
+const Comp = styled.span<CompProps>`
+	vertical-align: middle;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: ${({ $isBadgeCircle }): string => ($isBadgeCircle ? 'auto' : '2em')};
+	padding: ${({ $isBadgeCircle, $padding }): string => ($isBadgeCircle ? 'auto' : $padding)};
+	height: ${({ theme, $isBadgeCircle }): string =>
+		$isBadgeCircle
+			? `calc(2 * ${theme.sizes.padding.extrasmall} + ${theme.sizes.font.small})`
+			: 'auto'};
+	width: ${({ theme, $isBadgeCircle }): string =>
+		$isBadgeCircle
+			? `calc(2 * ${theme.sizes.padding.extrasmall} + ${theme.sizes.font.small})`
+			: 'auto'};
 	font-family: ${(props): string => props.theme.fonts.default};
-	font-size: ${(props): string => props.theme.sizes.font.small};
+	font-size: ${(props): string => props.theme.sizes.font.extrasmall};
 	font-weight: ${(props): number => props.theme.fonts.weight.regular};
-	background-color: ${({ theme, isRead }): string =>
-		theme.palette[isRead ? 'gray2' : 'primary'].regular};
-	color: ${({ theme, isRead }): string => theme.palette[isRead ? 'gray0' : 'gray6'].regular};
+	background-color: ${({ theme, $backgroundColor }): string => getColor($backgroundColor, theme)};
+	color: ${({ theme, $color }): string => getColor($color, theme)};
 	border-radius: 1.2em;
 	text-align: center;
 `;
 
-const isNumber = (value: string | number): value is number => typeof value === 'number';
+const isNumber = (value?: string | number): value is number => typeof value === 'number';
 
 const Badge = forwardRef<HTMLSpanElement, BadgeProps>(function BadgeFn(
-	{ type = 'read', value, ...rest },
+	{
+		type,
+		value,
+		backgroundColor = (type === 'read' && 'gray2') || (type === 'unread' && 'primary') || 'gray2',
+		icon,
+		maxValue = 999,
+		color = (type === 'read' && 'gray0') || (type === 'unread' && 'gray6') || 'gray0',
+		...rest
+	},
 	ref
 ) {
-	const MAX_VALUE = 999;
+	const theme = useTheme();
 	const badgeText = useMemo(
-		() => (isNumber(value) && value > MAX_VALUE ? `${MAX_VALUE}+` : value),
+		() => (isNumber(value) && value > maxValue ? `${maxValue}+` : value),
+		[maxValue, value]
+	);
+	const showTooltip = useMemo(() => isNumber(value) && value > maxValue, [maxValue, value]);
+
+	const isValueEmpty = useMemo(
+		(): boolean => value === undefined || (typeof value === 'string' && value.trim() === ''),
 		[value]
 	);
-	const isRead = useMemo(() => type === 'read', [type]);
-	const showTooltip = useMemo(() => isNumber(value) && value > MAX_VALUE, [value]);
+
+	const padding = useMemo(
+		() =>
+			isNumber(value)
+				? theme.sizes.padding.extrasmall
+				: `${theme.sizes.padding.extrasmall} ${theme.sizes.padding.small}`,
+		[theme.sizes.padding.extrasmall, theme.sizes.padding.small, value]
+	);
+
+	const isBadgeCircle = useMemo((): boolean => isValueEmpty || !!icon, [icon, isValueEmpty]);
 
 	return (
 		<Tooltip label={String(value)} disabled={!showTooltip}>
-			<Comp ref={ref} isRead={isRead} isNumber={isNumber(value)} {...rest}>
-				{badgeText}
+			<Comp
+				ref={ref}
+				$backgroundColor={backgroundColor}
+				$color={color}
+				$padding={padding}
+				$isBadgeCircle={isBadgeCircle}
+				{...rest}
+			>
+				{icon ? <Icon icon={icon} size={'medium'} color={color} /> : badgeText}
 			</Comp>
 		</Tooltip>
 	);
 });
 
 interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {
-	/** Badge type */
+	/** @deprecated Badge type */
 	type?: 'read' | 'unread';
 	/** Badge text */
-	value: string | number;
+	value?: string | number;
+	/** Badge background color */
+	backgroundColor?: AnyColor;
+	/** Icon */
+	icon?: keyof DefaultTheme['icons'];
+	/** Max value */
+	maxValue?: number;
+	/** Badge or Icon color */
+	color?: AnyColor;
 }
 
 export { Badge, BadgeProps };
