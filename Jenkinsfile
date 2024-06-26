@@ -44,7 +44,6 @@ def getCommitVersion() {
 Boolean lcovIsPresent
 Boolean isReleaseBranch
 Boolean isDevelBranch
-Boolean isReact18Branch
 Boolean isPullRequest
 Boolean isSonarQubeEnabled
 Boolean isDeployDocPlaygroundEnabled
@@ -71,8 +70,6 @@ pipeline {
                    echo "isReleaseBranch: ${isReleaseBranch}"
                    isDevelBranch = "${BRANCH_NAME}" ==~ /devel/
                    echo "isDevelBranch: ${isDevelBranch}"
-                   isReact18Branch = "${BRANCH_NAME}" ==~ /.*(?i)React.*18.*/
-                   echo "isReact18Branch: ${isReact18Branch}"
                    isPullRequest = "${BRANCH_NAME}" ==~ /PR-\d+/
                    echo "isPullRequest: ${isPullRequest}"
                    isSonarQubeEnabled = params.RUN_SONARQUBE == true && (isPullRequest || isDevelBranch || isReleaseBranch)
@@ -225,21 +222,6 @@ pipeline {
                     withCredentials([usernamePassword(credentialsId: 'npm-zextras-bot-auth-token', usernameVariable: 'AUTH_USERNAME', passwordVariable: 'NPM_TOKEN')]) {
                         withCredentials([usernamePassword(credentialsId: 'tarsier-bot-pr-token-github', usernameVariable: 'GH_USERNAME', passwordVariable: 'GH_TOKEN')]) {
                             nodeCmd("npx semantic-release")
-                        }
-                    }
-                }
-                stage('React 18') {
-                    when {
-                        beforeAgent true
-                        allOf {
-                            expression { isReact18Branch == true }
-                        }
-                    }
-                    steps {
-                        script {
-                            executeNpmLogin()
-                            nodeCmd("npm run release -- --no-verify --prerelease react18 --skip.commit --skip.tag --skip.changelog")
-                            nodeCmd("NODE_ENV=\"production\" npm publish --tag react18")
                         }
                     }
                 }
