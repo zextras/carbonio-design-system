@@ -572,7 +572,7 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 	);
 
 	const showDropdown = useCallback(
-		(isVisible) => {
+		(isVisible: boolean) => {
 			if (onOptionsDisplayChange && !isEmpty(options)) {
 				onOptionsDisplayChange(isVisible);
 			}

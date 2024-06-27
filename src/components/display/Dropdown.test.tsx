@@ -5,7 +5,7 @@
  */
 import React from 'react';
 
-import { screen, act, fireEvent } from '@testing-library/react';
+import { screen, act } from '@testing-library/react';
 
 import { Dropdown, DropdownItem } from './Dropdown';
 import { setup } from '../../test-utils';
@@ -282,21 +282,21 @@ describe('Dropdown', () => {
 		// dropdown is closed
 		expect(screen.queryByText(/some item/i)).not.toBeInTheDocument();
 		// right click trigger open
-		fireEvent.contextMenu(screen.getByRole('button', { name: /opener/i }));
+		await user.rightClick(screen.getByRole('button', { name: /opener/i }));
 		await screen.findByText(/some item/i);
+		jest.advanceTimersByTime(TIMERS.DROPDOWN.REGISTER_LISTENER);
 		expect(screen.getByText(/some item/i)).toBeVisible();
 		expect(screen.getByText(/Some Other Item/i)).toBeVisible();
 		expect(screen.getByText(/Yet Another Item/i)).toBeVisible();
 		// second right click trigger open of a new dropdown, closing the previous one
-		fireEvent.contextMenu(screen.getByRole('button', { name: /opener/i }));
+		await user.rightClick(screen.getByRole('button', { name: /opener/i }));
 		await screen.findByText(/some item/i);
+		jest.advanceTimersByTime(TIMERS.DROPDOWN.REGISTER_LISTENER);
 		expect(screen.getByText(/some item/i)).toBeVisible();
 		expect(screen.getByText(/Some Other Item/i)).toBeVisible();
 		expect(screen.getByText(/Yet Another Item/i)).toBeVisible();
 		// left click trigger close
-		await act(async () => {
-			await user.click(screen.getByRole('button', { name: /opener/i }));
-		});
+		await user.click(screen.getByRole('button', { name: /opener/i }));
 		expect(screen.queryByText(/some item/i)).not.toBeInTheDocument();
 		expect(screen.queryByText(/Some Other Item/i)).not.toBeInTheDocument();
 		expect(screen.queryByText(/Yet Another Item/i)).not.toBeInTheDocument();

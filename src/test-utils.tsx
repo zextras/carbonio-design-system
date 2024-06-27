@@ -7,6 +7,7 @@
 import React, { type ReactElement } from 'react';
 
 import {
+	act,
 	ByRoleMatcher,
 	ByRoleOptions,
 	GetAllBy,
@@ -19,13 +20,14 @@ import {
 	screen as rtlScreen,
 	within as rtlWithin
 } from '@testing-library/react';
-import { act } from '@testing-library/react-hooks';
 import userEvent from '@testing-library/user-event';
 import { defaultKeyMap } from '@testing-library/user-event/dist/cjs/keyboard/keyMap';
 
 import { ThemeProvider } from './theme/theme-context-provider';
 
-export type UserEvent = ReturnType<(typeof userEvent)['setup']>;
+export type UserEvent = ReturnType<(typeof userEvent)['setup']> & {
+	readonly rightClick: (target: Element) => Promise<void>;
+};
 
 interface WrapperProps {
 	children?: React.ReactNode;
@@ -34,6 +36,7 @@ interface WrapperProps {
 type ByRoleWithIconOptions = ByRoleOptions & {
 	icon: string | RegExp;
 };
+
 /**
  * Matcher function to search an icon button through the icon data-testid
  */
@@ -45,16 +48,17 @@ const queryAllByRoleWithIcon: GetAllBy<[ByRoleMatcher, ByRoleWithIconOptions]> =
 	rtlWithin(container)
 		.queryAllByRole(role, options)
 		.filter((element) => rtlWithin(element).queryByTestId(icon) !== null);
+
 const getByRoleWithIconMultipleError = (
 	_container: Element | null,
 	role: ByRoleMatcher,
 	options: ByRoleWithIconOptions
-): string => `Found multiple elements with role ${role} and icon ${options.icon}`;
+): string => `Found multiple elements with role ${role as string} and icon ${options.icon}`;
 const getByRoleWithIconMissingError = (
 	_container: Element | null,
 	role: ByRoleMatcher,
 	options: ByRoleWithIconOptions
-): string => `Unable to find an element with role ${role} and icon ${options.icon}`;
+): string => `Unable to find an element with role ${role as string} and icon ${options.icon}`;
 
 const [
 	queryByRoleWithIcon,
@@ -107,11 +111,22 @@ type SetupOptions = {
 	setupOptions?: Parameters<(typeof userEvent)['setup']>[0];
 };
 
+const setupUserEvent = (options: SetupOptions['setupOptions']): UserEvent => {
+	const user = userEvent.setup(options);
+	const rightClick = (target: Element): Promise<void> =>
+		user.pointer({ target, keys: '[MouseRight]' });
+
+	return {
+		...user,
+		rightClick
+	};
+};
+
 export const setup = (
 	ui: ReactElement,
 	options?: SetupOptions
 ): { user: UserEvent } & ReturnType<typeof customRender> => ({
-	user: userEvent.setup({
+	user: setupUserEvent({
 		keyboardMap: [{ code: 'Comma', key: ',' }, ...defaultKeyMap],
 		advanceTimers: jest.advanceTimersByTime,
 		...options?.setupOptions

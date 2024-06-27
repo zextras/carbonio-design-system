@@ -42,11 +42,11 @@ interface BottomElementProps {
 	intersectionObserverInitOptions?: IntersectionObserverInit;
 }
 
-const BottomElement: React.VFC<BottomElementProps> = ({
+const BottomElement = ({
 	listRef,
 	onVisible,
 	intersectionObserverInitOptions
-}) => {
+}: BottomElementProps): React.JSX.Element => {
 	const [inView, ref] = useIsVisible<HTMLDivElement>(
 		listRef,
 		undefined,
