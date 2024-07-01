@@ -4,30 +4,46 @@ SPDX-FileCopyrightText: 2021 Zextras <https://www.zextras.com>
 SPDX-License-Identifier: AGPL-3.0-only
 -->
 
-### Counter Badge 
+### Value / MaxValue
 
 ```jsx
 <>
+    <Badge />
+    <br />
+    <Badge value={'With text'}/>
+    <br/>
     <Badge value="1" />
-    <br/>
-    <Badge value={10} type="unread" />
-    <br/>
-    <Badge value={100} type="unread" />
-    <br/>
-    <Badge value={1000} type="unread" />
-
+    <br />
+    <Badge value={10} />
+    <br/ >
+    <Badge value={999} />
+    <br />
+    <Badge value={1000} />
+    <br />
+    <Badge value={2000} maxValue={1500} />    
 </>
 ```
 
-### Label Badge
+### BackgroundColor / Color
 ```jsx
-import { Text, ContactListItem } from '@zextras/carbonio-design-system';
+import { Text } from '@zextras/carbonio-design-system';
 <>
-    <Badge value="Sent" />
+    <Badge value={10} backgroundColor={'error'} color={'gray6'} />
+    <br />
+    <Badge value="Sent" backgroundColor={'gray4'} />
     <br/>
-    <Badge value="Sent" type="unread" />
+    <Badge value="Sent" backgroundColor={'primary'} color={'gray6'} />
     <br/>
-    <Text overflow="break-word">Lorem ipsum dolor sit <Badge value="amet" type="unread" /></Text>
+    <Text overflow="break-word">Lorem ipsum dolor sit <Badge value="amet" backgroundColor={'warning'} /></Text>
+</>
+```
+
+### Icon
+```jsx
+<>
+    <Badge icon={'AcceptanceMeeting'} color={'primary'} /> <Badge icon={'AcceptanceMeetingOutline'} color={'primary'} /> <Badge icon={'AlertTriangle'} color={'error'}/> <Badge icon={'AlertTriangleOutline'} color={'error'} />
+    <br/>
+    <Badge icon={'MoreVertical'} /> <Badge icon={'Music'} color={'warning'} /> <Badge icon={'ArrowIosUpwardOutline'} /> <Badge icon={'ArrowIosDownwardOutline'} /> 
 </>
 ```
 
