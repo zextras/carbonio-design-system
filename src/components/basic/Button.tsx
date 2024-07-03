@@ -353,6 +353,7 @@ const Button = React.forwardRef<HTMLDivElement, ButtonProps>(function ButtonFn(
 	},
 	ref
 ) {
+	const gridRef = useCombinedRefs(ref);
 	const innerButtonRef = useCombinedRefs<HTMLButtonElement>(buttonRef);
 
 	const clickHandler = useCallback(
@@ -380,7 +381,7 @@ const Button = React.forwardRef<HTMLDivElement, ButtonProps>(function ButtonFn(
 	const colors = useMemo(() => getColors(type, { type, ...rest }), [type, rest]);
 
 	return (
-		<StyledGrid $width={width} $minWidth={minWidth} $padding={SIZES[size].padding} ref={ref}>
+		<StyledGrid $width={width} $minWidth={minWidth} $padding={SIZES[size].padding} ref={gridRef}>
 			<StyledButton
 				{...rest}
 				$backgroundColor={colors.backgroundColor}
