@@ -15,7 +15,7 @@ const useIsVisible = <T extends HTMLElement>(
 	intersectionObserverInitOptions?: IntersectionObserverInit
 ): [boolean, React.RefObject<T>] => {
 	const [visible, setVisible] = useState(false);
-	const ref = useCombinedRefs(itemRef || null);
+	const ref = useCombinedRefs(itemRef ?? null);
 
 	const onIntersect = useCallback((entry: IntersectionObserverEntry) => {
 		setVisible(entry.isIntersecting);
