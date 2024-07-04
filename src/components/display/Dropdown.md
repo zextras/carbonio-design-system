@@ -256,11 +256,12 @@ const items = [
 	},
 	{
 		id: 'item2',
-		label: 'item2',
+		label: 'item2 keep open',
 		tooltipLabel: 'item 2 tooltip',
 		onClick: () => {
 			setSelectedOption('item2')
-		}
+		},
+    keepOpen: true,
 	},
 	{
 		id: 'item3',
@@ -275,7 +276,6 @@ const items = [
 				label: 'item3-1',
 				tooltipLabel: 'item 3-1 tooltip',
 				onClick: (e) => {
-          e.preventDefault();
 					setSelectedOption('item3-1')
 				}
 			},
@@ -284,9 +284,17 @@ const items = [
 				label: 'item3-2',
 				tooltipLabel: 'item 3-2 tooltip',
 				onClick: (e) => {
-          e.preventDefault();
 					setSelectedOption('item3-2')
 				}
+			},
+			{
+				id: 'item33',
+				label: 'item3-3 keep open',
+				tooltipLabel: 'item 3-3 tooltip',
+				onClick: (e) => {
+					setSelectedOption('item3-3')
+				},
+        keepOpen: true
 			}
 		]
 	}

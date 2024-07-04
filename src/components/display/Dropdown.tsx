@@ -111,36 +111,15 @@ function PopperListItem({
 	tooltipLabel,
 	...rest
 }: Readonly<PopperListItemProps>): React.JSX.Element {
-	const itemRef = useRef<HTMLDivElement | null>(null);
-
-	const keyEvents = useMemo(
-		() => (onClick && getKeyboardPreset('listItem', onClick)) || [],
-		[onClick]
-	);
-	useKeyboard(itemRef, keyEvents);
-
-	const onClickHandler = useCallback<React.MouseEventHandler<HTMLElement>>(
-		(e) => {
-			if (keepOpen) {
-				e.stopPropagation();
-			}
-			if (!disabled && onClick) {
-				onClick(e);
-			}
-		},
-		[onClick, disabled, keepOpen]
-	);
-
 	return (
 		<ContainerEl
-			ref={itemRef}
 			data-keep-open={keepOpen}
 			className={selected ? 'zapp-selected' : ''}
 			orientation="horizontal"
 			mainAlignment="flex-start"
 			padding={{ vertical: 'small', horizontal: 'large' }}
 			style={{ cursor: onClick && !disabled ? 'pointer' : 'default' }}
-			onClick={onClickHandler}
+			onClick={(!disabled && onClick) || undefined}
 			tabIndex={disabled ? -1 : 0}
 			$disabled={disabled}
 			$selectedBackgroundColor={selected ? selectedBackgroundColor : undefined}
@@ -236,19 +215,16 @@ function NestListItem({
 		itemRef.current?.focus({ preventScroll: true });
 	}, [onClose]);
 
-	const itemKeyEvents = useMemo((): KeyboardPresetObj[] => {
-		const presets: KeyboardPresetObj[] = [
+	const itemKeyEvents = useMemo(
+		(): KeyboardPresetObj[] => [
 			{
 				type: 'keydown',
 				callback: openNestedDropdown,
 				keys: [{ key: 'ArrowRight', ctrlKey: false }]
 			}
-		];
-		if (onClick) {
-			presets.push(...getKeyboardPreset('listItem', onClick));
-		}
-		return presets;
-	}, [onClick, openNestedDropdown]);
+		],
+		[openNestedDropdown]
+	);
 
 	useKeyboard(itemRef, itemKeyEvents);
 
@@ -545,7 +521,7 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 		[closePopper, disabled, openPopper]
 	);
 
-	const handleLeftClick = useCallback<React.ReactEventHandler>(
+	const triggerComponentLeftClickHandler = useCallback<React.ReactEventHandler>(
 		(e) => {
 			children.props.onClick?.(e);
 			toggleOpen(e);
@@ -553,7 +529,7 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 		[children.props, toggleOpen]
 	);
 
-	const handleRightClick = useCallback<React.MouseEventHandler<HTMLElement>>(
+	const triggerComponentRightClickHandler = useCallback<React.MouseEventHandler<HTMLElement>>(
 		(e) => {
 			e.preventDefault();
 			const virtualElement: VirtualElement = {
@@ -714,6 +690,8 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 				}
 				if (!multiple && !keepOpen) {
 					closePopper();
+				} else {
+					event.stopPropagation();
 				}
 			},
 		[closePopper, multiple]
@@ -800,9 +778,17 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 	);
 
 	const triggerComponent = useMemo(() => {
-		const props = contextMenu ? { onContextMenu: handleRightClick } : { onClick: handleLeftClick };
+		const props = contextMenu
+			? { onContextMenu: triggerComponentRightClickHandler }
+			: { onClick: triggerComponentLeftClickHandler };
 		return React.cloneElement(children, { ref: innerTriggerRef, ...props });
-	}, [children, innerTriggerRef, contextMenu, handleLeftClick, handleRightClick]);
+	}, [
+		children,
+		innerTriggerRef,
+		contextMenu,
+		triggerComponentLeftClickHandler,
+		triggerComponentRightClickHandler
+	]);
 
 	const popperListProps = useMemo(
 		() =>

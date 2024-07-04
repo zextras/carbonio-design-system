@@ -522,6 +522,25 @@ describe('Dropdown', () => {
 			expect(findDropdownItem(items[1].label)).toHaveFocus();
 		});
 
+		it('should invoke the onClick callback of the item on Enter and close dropdown', async () => {
+			const parentItem = {
+				id: '1',
+				label: 'item 1',
+				onClick: jest.fn()
+			} satisfies DropdownItem;
+			const items = [parentItem];
+			const { user } = setup(
+				<Dropdown items={items}>
+					<Button label="opener" onClick={jest.fn()} />
+				</Dropdown>
+			);
+			await user.click(screen.getByRole('button'));
+			expect(findDropdownItem(parentItem.label)).toHaveFocus();
+			await user.enter();
+			expect(parentItem.onClick).toHaveBeenCalled();
+			expect(screen.queryByText(parentItem.label)).not.toBeInTheDocument();
+		});
+
 		it('should invoke the onClick callback of the nested item on Enter and close dropdown', async () => {
 			const subItem = { id: '2', label: 'item 2', onClick: jest.fn() } satisfies DropdownItem;
 			const parentItem = {
