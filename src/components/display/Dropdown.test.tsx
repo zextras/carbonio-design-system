@@ -51,6 +51,33 @@ describe('Dropdown', () => {
 		expect(screen.getByText('Yet Another Item')).toBeVisible();
 	});
 
+	it('should render the icon of the dropdown item if set', async () => {
+		const items = [{ id: '1', label: 'Some Item', icon: 'People' }] satisfies DropdownItem[];
+		const { user } = setup(
+			<Dropdown items={items} placement="bottom-end">
+				<Button icon="ArrowDown" label="Create" onClick={jest.fn()} />
+			</Dropdown>
+		);
+
+		await user.click(screen.getByRole('button'));
+		expect(screen.getByTestId('icon: People')).toBeVisible();
+	});
+
+	it('should render a divider if the item has type "divider"', async () => {
+		const items = [
+			{ id: '1', label: 'Some Item', icon: 'People' },
+			{ id: '2', type: 'divider' }
+		] satisfies DropdownItem[];
+		const { user } = setup(
+			<Dropdown items={items} placement="bottom-end">
+				<Button icon="ArrowDown" label="Create" onClick={jest.fn()} />
+			</Dropdown>
+		);
+
+		await user.click(screen.getByRole('button'));
+		expect(screen.getByTestId(SELECTORS.divider)).toBeVisible();
+	});
+
 	it('should toggle dropdown visibility when clicking trigger', async () => {
 		const items = [{ id: '1', label: 'Some Item' }] satisfies DropdownItem[];
 		const { user } = setup(
@@ -208,6 +235,41 @@ describe('Dropdown', () => {
 		expect(firstDropdownItem).toHaveFocus();
 	});
 
+	it('should set focus on selected item on open', async () => {
+		const items = [
+			{ id: '1', label: 'item 1' },
+			{ id: '2', label: 'item 2', selected: true }
+		] satisfies DropdownItem[];
+		const { user } = setup(
+			<Dropdown items={items}>
+				<Button label="opener" onClick={jest.fn()} />
+			</Dropdown>
+		);
+		await user.click(screen.getByRole('button'));
+		const firstDropdownItem = findDropdownItem(items[1].label);
+		expect(firstDropdownItem).toHaveFocus();
+	});
+
+	it('should set focus on selected sub-item on open of nested dropdown', async () => {
+		const subitems = [
+			{ id: '2', label: 'item 2' },
+			{ id: '3', label: 'item 3', selected: true }
+		] satisfies DropdownItem[];
+		const items = [
+			{ id: '1', label: 'item 1', items: subitems },
+			{ id: '4', label: 'item 4', selected: true }
+		] satisfies DropdownItem[];
+		const { user } = setup(
+			<Dropdown items={items}>
+				<Button label="opener" onClick={jest.fn()} />
+			</Dropdown>
+		);
+		await user.click(screen.getByRole('button'));
+		expect(findDropdownItem(items[1].label)).toHaveFocus();
+		await user.hover(screen.getByText(items[0].label));
+		expect(findDropdownItem(subitems[1].label)).toHaveFocus();
+	});
+
 	it('should keep focus on trigger component if the disabledAutoFocus prop is set to true', async () => {
 		const items = [{ id: '1', label: 'Some Item' }] satisfies DropdownItem[];
 		const firstItem = items[0];
@@ -226,13 +288,34 @@ describe('Dropdown', () => {
 		const firstItem = items[0];
 		const { user } = setup(
 			<Dropdown items={items}>
-				<Button label="opener" onClick={jest.fn()} />
+				{/* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */}
+				<div tabIndex={0}>opener</div>
 			</Dropdown>
 		);
-		await user.click(screen.getByRole('button'));
+		await user.click(screen.getByText('opener'));
 		await user.click(screen.getByText(firstItem.label));
 		expect(screen.queryByText(firstItem.label)).not.toBeInTheDocument();
-		expect(screen.getByRole('button', { name: /opener/i })).toHaveFocus();
+		expect(screen.getByText('opener')).toHaveFocus();
+	});
+
+	it('should set focus on first focusable element inside trigger component on close after clicking an item', async () => {
+		const items = [{ id: '1', label: 'Some Item' }] satisfies DropdownItem[];
+		const firstItem = items[0];
+		const { user } = setup(
+			<Dropdown items={items}>
+				<div>
+					<div>Non focusable element</div>
+					{/* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */}
+					<div tabIndex={0}>opener</div>
+					{/* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */}
+					<div tabIndex={0}>another focusable element</div>
+				</div>
+			</Dropdown>
+		);
+		await user.click(screen.getByText('Non focusable element'));
+		await user.click(screen.getByText(firstItem.label));
+		expect(screen.queryByText(firstItem.label)).not.toBeInTheDocument();
+		expect(screen.getByText('opener')).toHaveFocus();
 	});
 
 	it('should not set focus on trigger component on close if disabledRestoreFocus is true', async () => {
@@ -267,11 +350,11 @@ describe('Dropdown', () => {
 	});
 
 	it('should set focus on trigger component on close when clicking on a nested item', async () => {
-		const subItem: DropdownItem = {
+		const subItem = {
 			id: 'sub1',
 			label: 'sub1',
 			onClick: jest.fn()
-		};
+		} satisfies DropdownItem;
 		const items = [{ id: '1', label: 'Some Item', items: [subItem] }] satisfies DropdownItem[];
 		const firstItem = items[0];
 		const { user } = setup(
@@ -303,6 +386,131 @@ describe('Dropdown', () => {
 		jest.advanceTimersByTime(TIMERS.DROPDOWN.CLOSE_NESTED);
 		expect(screen.getByText('1')).toBeVisible();
 		expect(screen.getByText('2')).toBeVisible();
+	});
+
+	it('should keep nested dropdown open if mouse leaves it and then quickly enter again in it', async () => {
+		const subItem = { id: '2', label: '2' } satisfies DropdownItem;
+		const items = [
+			{ id: '1', label: '1', items: [subItem] },
+			{ id: '3', label: 'item 3' }
+		] satisfies DropdownItem[];
+
+		const { user } = setup(
+			<Dropdown items={items}>
+				<Button label="opener" onClick={jest.fn()} />
+			</Dropdown>
+		);
+
+		await user.click(screen.getByRole('button'));
+		await user.hover(screen.getByText(items[0].label));
+		await user.hover(screen.getByText(subItem.label));
+		await user.hover(screen.getByText(items[1].label));
+		jest.advanceTimersByTime(TIMERS.DROPDOWN.CLOSE_NESTED - 1);
+		expect(screen.getByText(subItem.label)).toBeVisible();
+		await user.hover(screen.getByText(subItem.label));
+		jest.runOnlyPendingTimers();
+		expect(screen.getByText(subItem.label)).toBeVisible();
+	});
+
+	it('should keep nested dropdown open when hovering from nested dropdown to parent item', async () => {
+		const subItem = { id: '2', label: '2' } satisfies DropdownItem;
+		const items = [{ id: '1', label: '1', items: [subItem] }] satisfies DropdownItem[];
+
+		const { user } = setup(
+			<Dropdown items={items}>
+				<Button label="opener" onClick={jest.fn()} />
+			</Dropdown>
+		);
+
+		await user.click(screen.getByRole('button'));
+		await user.hover(screen.getByText(items[0].label));
+		await user.hover(screen.getByText(subItem.label));
+		jest.advanceTimersByTime(TIMERS.DROPDOWN.CLOSE_NESTED - 1);
+		await user.hover(screen.getByText(items[0].label));
+		jest.runOnlyPendingTimers();
+		expect(screen.getByText(subItem.label)).toBeVisible();
+	});
+
+	it('should close nested dropdown if mouse leaves the nested dropdown and enter a different item', async () => {
+		const subItem = { id: '2', label: '2' } satisfies DropdownItem;
+		const items = [
+			{ id: '1', label: '1', items: [subItem] },
+			{ id: '3', label: 'item 3' }
+		] satisfies DropdownItem[];
+
+		const { user } = setup(
+			<Dropdown items={items}>
+				<Button label="opener" onClick={jest.fn()} />
+			</Dropdown>
+		);
+
+		await user.click(screen.getByRole('button'));
+		await user.hover(screen.getByText(items[0].label));
+		await user.hover(screen.getByText(subItem.label));
+		await user.hover(screen.getByText(items[1].label));
+		act(() => {
+			jest.advanceTimersByTime(TIMERS.DROPDOWN.CLOSE_NESTED);
+		});
+		expect(screen.queryByText(subItem.label)).not.toBeInTheDocument();
+	});
+
+	it('should keep dropdown open when clicking on item if keepOpen is set on it', async () => {
+		const items = [
+			{ id: '1', label: '1', keepOpen: true, onClick: jest.fn() }
+		] satisfies DropdownItem[];
+
+		const { user } = setup(
+			<Dropdown items={items}>
+				<Button label="opener" onClick={jest.fn()} />
+			</Dropdown>
+		);
+
+		await user.click(screen.getByRole('button'));
+		await user.click(screen.getByText(items[0].label));
+		expect(items[0].onClick).toHaveBeenCalled();
+		expect(screen.getByText(items[0].label)).toBeVisible();
+	});
+
+	it('should keep dropdown open when clicking on sub-item if keepOpen is set on it', async () => {
+		const subItem = {
+			id: '2',
+			label: 'item 2',
+			keepOpen: true,
+			onClick: jest.fn()
+		} satisfies DropdownItem;
+		const items = [
+			{ id: '1', label: 'item 1', onClick: jest.fn(), items: [subItem] }
+		] satisfies DropdownItem[];
+
+		const { user } = setup(
+			<Dropdown items={items}>
+				<Button label="opener" onClick={jest.fn()} />
+			</Dropdown>
+		);
+
+		await user.click(screen.getByRole('button'));
+		await user.hover(screen.getByText(items[0].label));
+		await user.click(screen.getByText(subItem.label));
+		expect(subItem.onClick).toHaveBeenCalled();
+		expect(items[0].onClick).not.toHaveBeenCalled();
+		expect(screen.getByText(items[0].label)).toBeVisible();
+		expect(screen.getByText(subItem.label)).toBeVisible();
+	});
+
+	it('should not call onClick on disabled item', async () => {
+		const items = [
+			{ id: '1', label: 'item 1', onClick: jest.fn(), disabled: true }
+		] satisfies DropdownItem[];
+
+		const { user } = setup(
+			<Dropdown items={items}>
+				<Button label="opener" onClick={jest.fn()} />
+			</Dropdown>
+		);
+
+		await user.click(screen.getByRole('button'));
+		await user.click(screen.getByText(items[0].label));
+		expect(items[0].onClick).not.toHaveBeenCalled();
 	});
 
 	describe('Keyboard shortcuts', () => {
@@ -408,6 +616,40 @@ describe('Dropdown', () => {
 			expect(findDropdownItem(items[2].label)).toHaveFocus();
 			await user.tab({ shift: true });
 			expect(findDropdownItem(items[1].label)).toHaveFocus();
+		});
+
+		it('should set focus on last item when pressing shift+tab and focus is on first item', async () => {
+			const items = [
+				{ id: '1', label: 'item 1' },
+				{ id: '2', label: 'item 2' },
+				{ id: '3', label: 'item 3' }
+			] satisfies DropdownItem[];
+			const { user } = setup(
+				<Dropdown items={items} forceOpen>
+					<Button label="opener" onClick={jest.fn()} />
+				</Dropdown>
+			);
+			expect(findDropdownItem(items[0].label)).toHaveFocus();
+			await user.tab({ shift: true });
+			expect(findDropdownItem(items[items.length - 1].label)).toHaveFocus();
+		});
+
+		it('should set focus on first item when pressing tab and focus is on last item', async () => {
+			const items = [
+				{ id: '1', label: 'item 1' },
+				{ id: '2', label: 'item 2' },
+				{ id: '3', label: 'item 3' }
+			] satisfies DropdownItem[];
+			const { user } = setup(
+				<Dropdown items={items} forceOpen>
+					<Button label="opener" onClick={jest.fn()} />
+				</Dropdown>
+			);
+			expect(findDropdownItem(items[0].label)).toHaveFocus();
+			await user.tab({ shift: true });
+			expect(findDropdownItem(items[items.length - 1].label)).toHaveFocus();
+			await user.tab();
+			expect(findDropdownItem(items[0].label)).toHaveFocus();
 		});
 
 		it('should open nested dropdown when pressing arrow right', async () => {
@@ -563,6 +805,97 @@ describe('Dropdown', () => {
 			expect(parentItem.onClick).not.toHaveBeenCalled();
 			expect(screen.queryByText(parentItem.label)).not.toBeInTheDocument();
 			expect(screen.queryByText(subItem.label)).not.toBeInTheDocument();
+		});
+
+		it('should not call onClick for disabled item when pressing Enter', async () => {
+			const item = {
+				id: '1',
+				label: 'item 1',
+				onClick: jest.fn(),
+				disabled: true
+			} satisfies DropdownItem;
+			const items = [item];
+			const { user } = setup(
+				<Dropdown items={items}>
+					<Button label="opener" onClick={jest.fn()} />
+				</Dropdown>
+			);
+			await user.click(screen.getByRole('button'));
+			await user.enter();
+			expect(item.onClick).not.toHaveBeenCalled();
+		});
+
+		it('should keep dropdown open when pressing Enter on item with keepOpen set on it', async () => {
+			const items = [
+				{ id: '1', label: '1', keepOpen: true, onClick: jest.fn() }
+			] satisfies DropdownItem[];
+
+			const { user } = setup(
+				<Dropdown items={items}>
+					<Button label="opener" onClick={jest.fn()} />
+				</Dropdown>
+			);
+
+			await user.click(screen.getByRole('button'));
+			await user.enter();
+			expect(items[0].onClick).toHaveBeenCalled();
+			expect(screen.getByText(items[0].label)).toBeVisible();
+		});
+
+		it('should keep dropdown open when pressing Enter on sub-item if keepOpen is set on it', async () => {
+			const subItem = {
+				id: '2',
+				label: 'item 2',
+				keepOpen: true,
+				onClick: jest.fn()
+			} satisfies DropdownItem;
+			const items = [
+				{ id: '1', label: 'item 1', onClick: jest.fn(), items: [subItem] }
+			] satisfies DropdownItem[];
+
+			const { user } = setup(
+				<Dropdown items={items}>
+					<Button label="opener" onClick={jest.fn()} />
+				</Dropdown>
+			);
+
+			await user.click(screen.getByRole('button'));
+			await user.hover(screen.getByText(items[0].label));
+			await user.enter();
+			expect(subItem.onClick).toHaveBeenCalled();
+			expect(items[0].onClick).not.toHaveBeenCalled();
+			expect(screen.getByText(items[0].label)).toBeVisible();
+			expect(screen.getByText(subItem.label)).toBeVisible();
+		});
+
+		it('should open the dropdown with Enter if the trigger element is not a button and handleTriggerEvents is set to true', async () => {
+			const items = [{ id: '1', label: 'item 1', onClick: jest.fn() }] satisfies DropdownItem[];
+
+			const { user } = setup(
+				<Dropdown items={items} handleTriggerEvents>
+					{/* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */}
+					<div tabIndex={0}>opener</div>
+				</Dropdown>
+			);
+			await user.tab();
+			expect(screen.getByText('opener')).toHaveFocus();
+			await user.enter();
+			expect(screen.getByText(items[0].label)).toBeVisible();
+		});
+
+		it('should not open the dropdown with Enter if the trigger element is not a button and handleTriggerEvents is set to false', async () => {
+			const items = [{ id: '1', label: 'item 1', onClick: jest.fn() }] satisfies DropdownItem[];
+
+			const { user } = setup(
+				<Dropdown items={items} handleTriggerEvents={false}>
+					{/* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */}
+					<div tabIndex={0}>opener</div>
+				</Dropdown>
+			);
+			await user.tab();
+			expect(screen.getByText('opener')).toHaveFocus();
+			await user.enter();
+			expect(screen.queryByText(items[0].label)).not.toBeInTheDocument();
 		});
 	});
 });

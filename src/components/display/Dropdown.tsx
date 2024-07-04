@@ -381,7 +381,7 @@ const PopperList = styled.div<{
 interface DropdownItem {
 	type?: 'divider';
 	id: string;
-	label: string;
+	label?: string;
 	icon?: string;
 	onClick?: (e: React.SyntheticEvent<HTMLElement> | KeyboardEvent) => void;
 	selected?: boolean;
@@ -501,7 +501,14 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 			setOpen(forceOpen);
 			openRef.current = forceOpen;
 			if (!disableRestoreFocus) {
-				innerTriggerRef.current?.querySelector<HTMLElement>(FOCUSABLE_SELECTOR)?.focus();
+				const triggerElement = innerTriggerRef.current;
+				if (triggerElement) {
+					if (triggerElement.matches(FOCUSABLE_SELECTOR)) {
+						triggerElement.focus();
+					} else {
+						triggerElement.querySelector<HTMLElement>(FOCUSABLE_SELECTOR)?.focus();
+					}
+				}
 			}
 			onClose?.();
 		},
@@ -724,7 +731,7 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 						(subItems && (
 							<NestListItem
 								icon={icon}
-								label={label}
+								label={label ?? ''}
 								onClick={listItemClickHandler(onClick, keepOpen)}
 								keepOpen={keepOpen}
 								selected={selected}
@@ -742,7 +749,7 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 						)) || (
 							<PopperListItem
 								icon={icon}
-								label={label}
+								label={label ?? ''}
 								onClick={listItemClickHandler(onClick, keepOpen)}
 								keepOpen={keepOpen}
 								selected={selected}

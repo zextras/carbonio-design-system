@@ -308,6 +308,14 @@ const items = [
 </Container>
 ```
 
+```jsx
+
+const items = [{ id: 'item1', label: 'item 1'}, { id: 'divider', type: 'divider'}, { id: 'item2', label: 'item 2'}];
+<Dropdown items={items} handleTriggerEvents>
+  <div tabIndex={0}>place focus on this container, then press space or enter to open the dropdown</div>
+</Dropdown>
+```
+
 ### Development status:
 
 ```jsx noEditor
