@@ -34,6 +34,8 @@ export type UserEvent = User & {
 	readonly arrowLeft: KeyboardEventFn;
 	readonly arrowRight: KeyboardEventFn;
 	readonly esc: KeyboardEventFn;
+	readonly enter: KeyboardEventFn;
+	readonly rightClick: (target: Element) => Promise<void>;
 };
 
 interface WrapperProps {
@@ -128,7 +130,9 @@ function setupUserEvent(options?: SetupOptions['setupOptions']): UserEvent {
 		arrowDown: () => user.keyboard('[ArrowDown]'),
 		arrowLeft: () => user.keyboard('[ArrowLeft]'),
 		arrowRight: () => user.keyboard('[ArrowRight]'),
-		esc: () => user.keyboard('[Escape]')
+		esc: () => user.keyboard('[Escape]'),
+		enter: () => user.keyboard('[Enter]'),
+		rightClick: (target: Element): Promise<void> => user.pointer({ target, keys: '[MouseRight]' })
 	};
 }
 

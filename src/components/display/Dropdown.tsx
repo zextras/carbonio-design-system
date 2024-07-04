@@ -17,7 +17,6 @@ import React, {
 } from 'react';
 
 import { flip, limitShift, Placement, shift, VirtualElement } from '@floating-ui/dom';
-import { find, some } from 'lodash';
 import styled, { css, DefaultTheme, SimpleInterpolation, ThemeContext } from 'styled-components';
 
 import { Tooltip } from './Tooltip';
@@ -190,7 +189,23 @@ function NestListItem({
 }: Readonly<NestListItemProps>): React.JSX.Element {
 	const [open, setOpen] = useState(false);
 	const itemRef = useRef<HTMLDivElement | null>(null);
-	const innerDropdownListRef = useCombinedRefs(dropdownListRef);
+	const [innerDropdownListElement, setInnerDropdownListElement] = useState<HTMLDivElement | null>(
+		null
+	);
+	const setDropdownListRef = useCallback<React.RefCallback<HTMLDivElement>>(
+		(node) => {
+			setInnerDropdownListElement(node);
+			if (dropdownListRef) {
+				if (typeof dropdownListRef === 'function') {
+					dropdownListRef(node);
+				} else {
+					// eslint-disable-next-line no-param-reassign
+					dropdownListRef.current = node;
+				}
+			}
+		},
+		[dropdownListRef]
+	);
 	const closeNestedDropdownTimeoutRef = useRef<NodeJS.Timeout>();
 
 	useEffect(
@@ -201,6 +216,7 @@ function NestListItem({
 		},
 		[]
 	);
+
 	const openNestedDropdown = useCallback(() => {
 		if (closeNestedDropdownTimeoutRef.current !== undefined) {
 			clearTimeout(closeNestedDropdownTimeoutRef.current);
@@ -250,17 +266,13 @@ function NestListItem({
 		[closeNestedDropdown]
 	);
 
-	const [innerDropdownListElement, setInnerDropdownListElement] = useState<HTMLDivElement | null>(
-		null
-	);
-
 	useKeyboard(innerDropdownListElement, dropdownKeyEvents, open);
 
 	const closeOnMouseLeave = useCallback(
 		(event: Event) => {
 			if (event.target instanceof Node) {
 				const eventIsOnTrigger = itemRef.current?.contains(event.target);
-				const eventIsOnDropdown = innerDropdownListRef.current?.contains(event.target);
+				const eventIsOnDropdown = innerDropdownListElement?.contains(event.target);
 				if (!eventIsOnDropdown && !eventIsOnTrigger) {
 					if (closeNestedDropdownTimeoutRef.current === undefined) {
 						closeNestedDropdownTimeoutRef.current = setTimeout(() => {
@@ -273,7 +285,7 @@ function NestListItem({
 				}
 			}
 		},
-		[closeNestedDropdown, innerDropdownListRef]
+		[closeNestedDropdown, innerDropdownListElement]
 	);
 
 	useEffect(() => {
@@ -311,7 +323,7 @@ function NestListItem({
 				itemIconSize={itemIconSize}
 				itemTextSize={itemTextSize}
 				itemPaddingBetween={itemPaddingBetween}
-				dropdownListRef={setInnerDropdownListElement}
+				dropdownListRef={setDropdownListRef}
 			>
 				<Container
 					orientation="horizontal"
@@ -509,7 +521,7 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 
 	const closePopper = useCallback(
 		(e?: React.SyntheticEvent | KeyboardEvent) => {
-			e?.stopPropagation();
+			e?.preventDefault();
 			setOpen(forceOpen);
 			openRef.current = forceOpen;
 			if (!disableRestoreFocus) {
@@ -574,20 +586,17 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 				innerTriggerRef.current &&
 				(e.target === innerTriggerRef.current ||
 					innerTriggerRef.current?.contains(e.target as Node | null));
-			const clickedOnNestedItem =
-				nestedDropdownsRef.current &&
-				some(nestedDropdownsRef.current, (nestedItemRef) =>
-					nestedItemRef.current?.contains(e.target as Node | null)
-				);
+			const clickedOnNestedItem = nestedDropdownsRef.current?.some((nestedItemRef) =>
+				nestedItemRef.current?.contains(e.target as Node | null)
+			);
 			if (
 				!clickedOnDropdown &&
 				!clickedOnTrigger &&
 				!clickedOnNestedItem &&
 				// check if the attribute is in the event path
-				!find(
-					e.composedPath?.() ?? [],
-					(el) => el instanceof Element && el.hasAttribute?.('data-keep-open')
-				)
+				!e
+					.composedPath?.()
+					?.some((el) => el instanceof Element && el.hasAttribute?.('data-keep-open'))
 			) {
 				closePopper();
 			}
@@ -700,7 +709,9 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 	>(
 		(onClick, keepOpen) =>
 			(event): void => {
-				onClick?.(event);
+				if (!event.defaultPrevented) {
+					onClick?.(event);
+				}
 				if (!multiple && !keepOpen) {
 					closePopper();
 				}

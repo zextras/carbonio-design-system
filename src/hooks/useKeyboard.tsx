@@ -123,7 +123,7 @@ function handleCtrlArrowDown(ref?: React.RefObject<HTMLElement>): void {
 function getListItemKeyboardPreset(callback: NativeKeyboardEventHandler): KeyboardPresetObj[] {
 	return [
 		{
-			type: 'keypress',
+			type: 'keydown',
 			callback,
 			keys: [{ key: 'Enter', ctrlKey: false }]
 		}
@@ -134,12 +134,12 @@ function getButtonKeyboardPreset(callback: NativeKeyboardEventHandler): Keyboard
 	return [
 		{ type: 'keyup', callback, keys: [{ code: 'Space', ctrlKey: false }] },
 		{
-			type: 'keypress',
+			type: 'keydown',
 			callback: (e: KeyboardEvent) => e.preventDefault(),
 			keys: [{ code: 'Space', ctrlKey: false }]
 		},
 		{
-			type: 'keypress',
+			type: 'keydown',
 			callback,
 			keys: [{ key: 'Enter', ctrlKey: false }]
 		}

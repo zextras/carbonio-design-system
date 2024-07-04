@@ -239,42 +239,65 @@ const toggleDisabled = (itemIndex) => {
 | Arrow left                 | Close nested dropdown and return focus to the item of the parent dropdown |                                                                                                                                          |
 
 ```jsx
+import { useState } from 'react';
 import { noop } from 'lodash';
-import { Button, Container } from '@zextras/carbonio-design-system';
+import { Button, Container, Text } from '@zextras/carbonio-design-system';
+
+const [selectedOption, setSelectedOption] = useState('');
 
 const items = [
 	{
 		id: 'item1',
-        label: 'item1',
-        tooltipLabel: 'item 1 tooltip'
-    },
-    { 
-        id: 'item2',
-        label: 'item2',
-        tooltipLabel: 'item 2 tooltip'
-    },
-	{
-        id: 'item3',
-        label: 'item3',
-        tooltipLabel: 'item 3 tooltip',
-        items: [
-            {
-                id: 'item31',
-                label: 'item3-1',
-                tooltipLabel: 'item 3-1 tooltip'
-            },
-            {
-                id: 'item32',
-                label: 'item3-2',
-                tooltipLabel: 'item 3-2 tooltip'
-            }
-        ]
+		label: 'item1',
+		tooltipLabel: 'item 1 tooltip',
+    onClick: () => {
+			setSelectedOption('item1')
     }
+	},
+	{
+		id: 'item2',
+		label: 'item2',
+		tooltipLabel: 'item 2 tooltip',
+		onClick: () => {
+			setSelectedOption('item2')
+		}
+	},
+	{
+		id: 'item3',
+		label: 'item3',
+		tooltipLabel: 'item 3 tooltip',
+		onClick: () => {
+			setSelectedOption('item3')
+		},
+		items: [
+			{
+				id: 'item31',
+				label: 'item3-1',
+				tooltipLabel: 'item 3-1 tooltip',
+				onClick: (e) => {
+          e.preventDefault();
+					setSelectedOption('item3-1')
+				}
+			},
+			{
+				id: 'item32',
+				label: 'item3-2',
+				tooltipLabel: 'item 3-2 tooltip',
+				onClick: (e) => {
+          e.preventDefault();
+					setSelectedOption('item3-2')
+				}
+			}
+		]
+	}
 ];
 
-<Dropdown items={items} handleTriggerEvents>
+<Container orientation={'horizontal'} mainAlignment={'space-evenly'}>
+  <Dropdown items={items} handleTriggerEvents>
     <Button label="space or enter to open" onClick={noop} />
-</Dropdown>
+  </Dropdown>
+  <Text>{selectedOption}</Text>
+</Container>
 ```
 
 ### Development status:

@@ -5,56 +5,14 @@
  */
 import React from 'react';
 
-import { screen, act, fireEvent, waitFor } from '@testing-library/react';
+import { screen, act } from '@testing-library/react';
 
 import { Dropdown, DropdownItem } from './Dropdown';
 import { setup, within } from '../../test-utils';
-import { ICONS, SELECTORS } from '../../testUtils/constants';
+import { SELECTORS } from '../../testUtils/constants';
 import { Button } from '../basic/Button';
 import { TIMERS } from '../constants';
 import { Modal } from '../feedback/Modal';
-
-const generateItems = (): DropdownItem[] => [
-	{
-		id: 'item-1',
-		icon: 'item',
-		label: 'Some Item',
-		onClick: jest.fn()
-	},
-	{
-		id: 'item-2',
-		icon: 'Plus',
-		label: 'Some Other Item',
-		onClick: jest.fn(),
-		disabled: true
-	},
-	{
-		id: 'item-3',
-		icon: 'item',
-		label: 'Yet Another Item',
-		onClick: jest.fn()
-	},
-	{
-		id: 'item-4',
-		icon: 'item',
-		label: 'Item 4',
-		onClick: jest.fn(),
-		items: [
-			{
-				id: 'item-4-1',
-				icon: 'item',
-				label: 'item 4 sub 1',
-				onClick: jest.fn()
-			},
-			{
-				id: 'item-4-2',
-				icon: 'item',
-				label: 'item 4 sub 2',
-				onClick: jest.fn()
-			}
-		]
-	}
-];
 
 function findDropdownItem(label: string): HTMLElement {
 	const dropdownItem = screen
@@ -65,76 +23,62 @@ function findDropdownItem(label: string): HTMLElement {
 }
 
 describe('Dropdown', () => {
-	test('Render closed dropdown', () => {
-		const onClick = jest.fn();
+	it('should render a closed dropdown by default', () => {
+		const items = [{ id: '1', label: 'Some Item' }] satisfies DropdownItem[];
 		setup(
-			<Dropdown items={generateItems()} placement="bottom-end">
-				<Button icon="ArrowDown" label="Create" onClick={onClick} />
+			<Dropdown items={items} placement="bottom-end">
+				<Button icon="ArrowDown" label="Create" onClick={jest.fn()} />
 			</Dropdown>
 		);
-
 		expect(screen.queryByText('Some Item')).not.toBeInTheDocument();
-		expect(screen.queryByText('Some Other Item')).not.toBeInTheDocument();
-		expect(screen.queryByText('Yet Another Item')).not.toBeInTheDocument();
 	});
 
-	test('Render opened dropdown', async () => {
-		const onClick = jest.fn();
+	it('should show the dropdown when trigger element is clicked', async () => {
+		const items = [
+			{ id: '1', label: 'Some Item' },
+			{ id: '2', label: 'Some Other Item' },
+			{ id: '3', label: 'Yet Another Item' }
+		] satisfies DropdownItem[];
 		const { user } = setup(
-			<Dropdown items={generateItems()} placement="bottom-end">
-				<Button icon="ArrowDown" label="Create" onClick={onClick} />
+			<Dropdown items={items} placement="bottom-end">
+				<Button icon="ArrowDown" label="Create" onClick={jest.fn()} />
 			</Dropdown>
 		);
 
 		await user.click(screen.getByRole('button'));
-
 		expect(screen.getByText('Some Item')).toBeVisible();
 		expect(screen.getByText('Some Other Item')).toBeVisible();
 		expect(screen.getByText('Yet Another Item')).toBeVisible();
 	});
 
-	test('click on dropdown trigger toggle dropdown visibility', async () => {
-		const onClick = jest.fn();
+	it('should toggle dropdown visibility when clicking trigger', async () => {
+		const items = [{ id: '1', label: 'Some Item' }] satisfies DropdownItem[];
 		const { user } = setup(
-			<Dropdown items={generateItems()}>
-				<Button label="opener" onClick={onClick} />
+			<Dropdown items={items}>
+				<Button label="opener" onClick={jest.fn()} />
 			</Dropdown>
 		);
-
-		expect(screen.getByRole('button', { name: /opener/i })).toBeVisible();
-		// dropdown is closed
-		expect(screen.queryByText(/some item/i)).not.toBeInTheDocument();
 		// first click trigger open
-		await user.click(screen.getByRole('button', { name: /opener/i }));
-		await screen.findByText(/some item/i);
+		await user.click(screen.getByRole('button'));
 		expect(screen.getByText(/some item/i)).toBeVisible();
-		expect(screen.getByText(/Some Other Item/i)).toBeVisible();
-		expect(screen.getByText(/Yet Another Item/i)).toBeVisible();
 		// second click trigger close
-		await user.click(screen.getByRole('button', { name: /opener/i }));
+		await user.click(screen.getByRole('button'));
 		expect(screen.queryByText(/some item/i)).not.toBeInTheDocument();
-		expect(screen.queryByText(/Some Other Item/i)).not.toBeInTheDocument();
-		expect(screen.queryByText(/Yet Another Item/i)).not.toBeInTheDocument();
 		// third click trigger open
-		await user.click(screen.getByRole('button', { name: /opener/i }));
-		await screen.findByText(/some item/i);
+		await user.click(screen.getByRole('button'));
 		expect(screen.getByText(/some item/i)).toBeVisible();
-		expect(screen.getByText(/Some Other Item/i)).toBeVisible();
-		expect(screen.getByText(/Yet Another Item/i)).toBeVisible();
 		// fourth click trigger close
-		await user.click(screen.getByRole('button', { name: /opener/i }));
+		await user.click(screen.getByRole('button'));
 		expect(screen.queryByText(/some item/i)).not.toBeInTheDocument();
-		expect(screen.queryByText(/Some Other Item/i)).not.toBeInTheDocument();
-		expect(screen.queryByText(/Yet Another Item/i)).not.toBeInTheDocument();
 	});
 
-	test('dropdown inside a modal open and close properly', async () => {
+	it('should open and close properly when rendered inside a modal', async () => {
+		const items = [{ id: '1', label: 'Some Item' }] satisfies DropdownItem[];
 		const onClose = jest.fn();
-		const onClick = jest.fn();
 		const { user } = setup(
 			<Modal open title="modal with dropdown" onClose={onClose}>
-				<Dropdown items={generateItems()}>
-					<Button label="opener" onClick={onClick} />
+				<Dropdown items={items}>
+					<Button label="opener" onClick={jest.fn()} />
 				</Dropdown>
 			</Modal>
 		);
@@ -144,72 +88,53 @@ describe('Dropdown', () => {
 		});
 		// modal is open
 		expect(screen.getByText('modal with dropdown')).toBeVisible();
-		expect(screen.getByRole('button', { name: /opener/i })).toBeVisible();
 		// dropdown is closed
 		expect(screen.queryByText(/some item/i)).not.toBeInTheDocument();
 		// first click trigger open
 		await user.click(screen.getByRole('button', { name: /opener/i }));
-		await screen.findByText(/some item/i);
 		expect(screen.getByText(/some item/i)).toBeVisible();
-		expect(screen.getByText(/Some Other Item/i)).toBeVisible();
-		expect(screen.getByText(/Yet Another Item/i)).toBeVisible();
 		// second click trigger close
 		await user.click(screen.getByRole('button', { name: /opener/i }));
 		expect(screen.queryByText(/some item/i)).not.toBeInTheDocument();
-		expect(screen.queryByText(/Some Other Item/i)).not.toBeInTheDocument();
-		expect(screen.queryByText(/Yet Another Item/i)).not.toBeInTheDocument();
 		// third click trigger open
 		await user.click(screen.getByRole('button', { name: /opener/i }));
-		await screen.findByText(/some item/i);
 		expect(screen.getByText(/some item/i)).toBeVisible();
-		expect(screen.getByText(/Some Other Item/i)).toBeVisible();
-		expect(screen.getByText(/Yet Another Item/i)).toBeVisible();
-		// fourth click trigger close
-		await user.click(screen.getByRole('button', { name: /opener/i }));
-		expect(screen.queryByText(/some item/i)).not.toBeInTheDocument();
-		expect(screen.queryByText(/Some Other Item/i)).not.toBeInTheDocument();
-		expect(screen.queryByText(/Yet Another Item/i)).not.toBeInTheDocument();
+		// click on item
+		await user.click(screen.getByText(items[0].label));
+		// dropdown is close
+		expect(screen.queryByText(items[0].label)).not.toBeInTheDocument();
 		// modal close callback is not called
 		expect(onClose).not.toHaveBeenCalled();
 	});
 
-	test('Click on a nested item calls nested item click callback and close dropdown', async () => {
-		const onClick = jest.fn();
-		const item3Sub1ClickFn = jest.fn((e: React.SyntheticEvent | KeyboardEvent) => {
-			e.preventDefault();
-		});
-		const item3ClickInternalFn = jest.fn();
-		const item3ClickFn = jest.fn((e: React.SyntheticEvent | KeyboardEvent) => {
-			if (!e.defaultPrevented) {
-				item3ClickInternalFn();
-			}
-		});
-		const items = generateItems();
-		(items[3].items as DropdownItem[])[0].onClick = item3Sub1ClickFn;
-		items[3].onClick = item3ClickFn;
+	it('should call onClick of sub-item only and close dropdown when user clicks on sub-item', async () => {
+		const subItem = {
+			id: '2',
+			label: '2',
+			onClick: jest.fn()
+		} satisfies DropdownItem;
+		const parentItem = {
+			id: '1',
+			label: '1',
+			onClick: jest.fn(),
+			items: [subItem]
+		} satisfies DropdownItem;
+		const items = [parentItem];
 		const { user } = setup(
 			<Dropdown items={items}>
-				<Button label="opener" onClick={onClick} />
+				<Button label="opener" onClick={jest.fn()} />
 			</Dropdown>
 		);
-		expect(screen.getByRole('button', { name: /opener/i })).toBeVisible();
-		// dropdown is closed
-		expect(screen.queryByText(/some item/i)).not.toBeInTheDocument();
-		// first click trigger open
-		await user.click(screen.getByRole('button', { name: /opener/i }));
-		await screen.findByText(/item 4/i);
-		expect(screen.getByTestId(ICONS.dropdownNestedLevel)).toBeVisible();
-		await user.hover(screen.getByTestId(ICONS.dropdownNestedLevel));
-		await screen.findByText(/item 4 sub 1/i);
-		expect(screen.getByText(/item 4 sub 1/i)).toBeVisible();
-		await user.click(screen.getByText(/item 4 sub 1/i));
-		expect(item3Sub1ClickFn).toHaveBeenCalled();
-		expect(item3ClickFn).toHaveBeenCalled();
-		expect(item3ClickInternalFn).not.toHaveBeenCalled();
-		expect(screen.queryByText(/item 4/i)).not.toBeInTheDocument();
+		await user.click(screen.getByRole('button'));
+		await user.hover(screen.getByText(parentItem.label));
+		await user.click(screen.getByText(subItem.label));
+		expect(subItem.onClick).toHaveBeenCalled();
+		expect(parentItem.onClick).not.toHaveBeenCalled();
+		expect(screen.queryByText(subItem.label)).not.toBeInTheDocument();
+		expect(screen.queryByText(parentItem.label)).not.toBeInTheDocument();
 	});
 
-	test('Disabled items show a tooltip if tooltipLabel is provided', async () => {
+	it('should show a tooltip on disabled item if tooltipLabel is provided', async () => {
 		const dropdownItems: DropdownItem[] = [
 			{
 				id: 'item1',
@@ -230,44 +155,30 @@ describe('Dropdown', () => {
 				tooltipLabel: undefined
 			}
 		];
-		const onClick = jest.fn();
 		const { user } = setup(
 			<Dropdown items={dropdownItems}>
-				<Button label="opener" onClick={onClick} />
+				<Button label="opener" onClick={jest.fn()} />
 			</Dropdown>
 		);
 
-		expect(screen.getByRole('button', { name: /opener/i })).toBeVisible();
-		// dropdown is closed
-		expect(screen.queryByText(/item/i)).not.toBeInTheDocument();
-		// open dropdown
 		await user.click(screen.getByRole('button', { name: /opener/i }));
-		await screen.findAllByText(/item/i);
-		expect(screen.getByText('item 1')).toBeVisible();
-		expect(screen.getByText('item 2')).toBeVisible();
-		expect(screen.getByText('item 3')).toBeVisible();
-		expect(screen.queryByText(/tooltip/i)).not.toBeInTheDocument();
-		// wait so tooltip can register the listeners
-		jest.advanceTimersByTime(TIMERS.TOOLTIP.REGISTER_LISTENER);
 		await user.hover(screen.getByText('item 1'));
 		jest.advanceTimersByTime(TIMERS.TOOLTIP.DELAY_SHOW);
 		expect(screen.queryByText(/tooltip/i)).not.toBeInTheDocument();
+		await user.unhover(screen.getByText('item 1'));
 		await user.hover(screen.getByText('item 2'));
-		await screen.findByText(/tooltip/i);
-		expect(screen.getByText('tooltip 2')).toBeVisible();
-		await act(async () => {
-			await user.unhover(screen.getByText('item 2'));
-		});
+		expect(await screen.findByText('tooltip 2')).toBeVisible();
+		await user.unhover(screen.getByText('item 2'));
 		await user.hover(screen.getByText('item 3'));
 		jest.advanceTimersByTime(TIMERS.TOOLTIP.DELAY_SHOW);
 		expect(screen.queryByText(/tooltip/i)).not.toBeInTheDocument();
 	});
 
-	test('Click on trigger component of a contextMenu dropdown close the dropdown', async () => {
-		const onClick = jest.fn();
+	it('should close dropdown when clicking on trigger component of a contextMenu dropdown', async () => {
+		const items = [{ id: '1', label: 'Some Item' }] satisfies DropdownItem[];
 		const { user } = setup(
-			<Dropdown items={generateItems()} contextMenu>
-				<Button label="opener" onClick={onClick} />
+			<Dropdown items={items} contextMenu>
+				<Button label="opener" onClick={jest.fn()} />
 			</Dropdown>
 		);
 
@@ -275,28 +186,17 @@ describe('Dropdown', () => {
 		// dropdown is closed
 		expect(screen.queryByText(/some item/i)).not.toBeInTheDocument();
 		// right click trigger open
-		fireEvent.contextMenu(screen.getByRole('button', { name: /opener/i }));
-		await screen.findByText(/some item/i);
+		await user.rightClick(screen.getByRole('button', { name: /opener/i }));
 		expect(screen.getByText(/some item/i)).toBeVisible();
-		expect(screen.getByText(/Some Other Item/i)).toBeVisible();
-		expect(screen.getByText(/Yet Another Item/i)).toBeVisible();
 		// second right click trigger open of a new dropdown, closing the previous one
-		fireEvent.contextMenu(screen.getByRole('button', { name: /opener/i }));
-		await screen.findByText(/some item/i);
+		await user.rightClick(screen.getByRole('button', { name: /opener/i }));
 		expect(screen.getByText(/some item/i)).toBeVisible();
-		expect(screen.getByText(/Some Other Item/i)).toBeVisible();
-		expect(screen.getByText(/Yet Another Item/i)).toBeVisible();
-		// left click trigger close
-		await act(async () => {
-			await user.click(screen.getByRole('button', { name: /opener/i }));
-		});
+		await user.click(screen.getByRole('button', { name: /opener/i }));
 		expect(screen.queryByText(/some item/i)).not.toBeInTheDocument();
-		expect(screen.queryByText(/Some Other Item/i)).not.toBeInTheDocument();
-		expect(screen.queryByText(/Yet Another Item/i)).not.toBeInTheDocument();
 	});
 
-	test('should set focus on first element on open', async () => {
-		const items = generateItems();
+	it('should set focus on first element on open', async () => {
+		const items = [{ id: '1', label: 'Some Item' }] satisfies DropdownItem[];
 		const firstItem = items[0];
 		const { user } = setup(
 			<Dropdown items={items}>
@@ -304,13 +204,12 @@ describe('Dropdown', () => {
 			</Dropdown>
 		);
 		await user.click(screen.getByRole('button'));
-		await screen.findByText(firstItem.label);
 		const firstDropdownItem = findDropdownItem(firstItem.label);
-		await waitFor(() => expect(firstDropdownItem).toHaveFocus());
+		expect(firstDropdownItem).toHaveFocus();
 	});
 
-	test('should keep focus on trigger component if the disabledAutoFocus prop is set to true', async () => {
-		const items = generateItems();
+	it('should keep focus on trigger component if the disabledAutoFocus prop is set to true', async () => {
+		const items = [{ id: '1', label: 'Some Item' }] satisfies DropdownItem[];
 		const firstItem = items[0];
 		const { user } = setup(
 			<Dropdown items={items} disableAutoFocus>
@@ -322,8 +221,8 @@ describe('Dropdown', () => {
 		expect(screen.getByRole('button', { name: /opener/i })).toHaveFocus();
 	});
 
-	test('should set focus on trigger component on close', async () => {
-		const items = generateItems();
+	it('should set focus on trigger component on close after clicking an item', async () => {
+		const items = [{ id: '1', label: 'Some Item' }] satisfies DropdownItem[];
 		const firstItem = items[0];
 		const { user } = setup(
 			<Dropdown items={items}>
@@ -331,13 +230,13 @@ describe('Dropdown', () => {
 			</Dropdown>
 		);
 		await user.click(screen.getByRole('button'));
-		const firstItemElement = await screen.findByText(firstItem.label);
-		await user.click(firstItemElement);
+		await user.click(screen.getByText(firstItem.label));
+		expect(screen.queryByText(firstItem.label)).not.toBeInTheDocument();
 		expect(screen.getByRole('button', { name: /opener/i })).toHaveFocus();
 	});
 
-	test('should not set focus on trigger component on close if disabledRestoreFocus is true', async () => {
-		const items = generateItems();
+	it('should not set focus on trigger component on close if disabledRestoreFocus is true', async () => {
+		const items = [{ id: '1', label: 'Some Item' }] satisfies DropdownItem[];
 		const firstItem = items[0];
 		const { user } = setup(
 			<Dropdown items={items} disableRestoreFocus>
@@ -347,220 +246,219 @@ describe('Dropdown', () => {
 		await user.click(screen.getByRole('button'));
 		await screen.findByText(firstItem.label);
 		await user.click(screen.getByText(firstItem.label));
+		expect(screen.queryByText(firstItem.label)).not.toBeInTheDocument();
 		expect(screen.getByRole('button', { name: /opener/i })).not.toHaveFocus();
 	});
 
-	test('should set focus on first sub-item when opening nested dropdown', async () => {
-		const items = generateItems();
-		const itemWithSubItems = items[3];
-		const firstSubItem = itemWithSubItems.items?.[0] as DropdownItem;
+	it('should set focus on first sub-item when opening nested dropdown', async () => {
+		const subItem = { id: '2', label: 'sub item' } satisfies DropdownItem;
+		const items = [
+			{ id: '1', label: 'Some Item', items: [subItem, { id: '3', label: 'sub item 2' }] }
+		] satisfies DropdownItem[];
 		const { user } = setup(
 			<Dropdown items={items}>
 				<Button label="opener" onClick={jest.fn()} />
 			</Dropdown>
 		);
 		await user.click(screen.getByRole('button'));
-		const parentItem = await screen.findByText(itemWithSubItems.label);
-		await user.hover(parentItem);
-		await screen.findByText(firstSubItem.label);
-		const firstNestedDropdownItem = findDropdownItem(firstSubItem.label);
-		await waitFor(() => expect(firstNestedDropdownItem).toHaveFocus());
+		await user.hover(screen.getByText(items[0].label));
+		const nestedDropdownItem = findDropdownItem(subItem.label);
+		expect(nestedDropdownItem).toHaveFocus();
 	});
 
-	test('should set focus on trigger component when clicking on a nested item', async () => {
-		const items = generateItems();
-		const firstItem = items[0];
+	it('should set focus on trigger component on close when clicking on a nested item', async () => {
 		const subItem: DropdownItem = {
 			id: 'sub1',
 			label: 'sub1',
 			onClick: jest.fn()
 		};
-		firstItem.items = [subItem];
+		const items = [{ id: '1', label: 'Some Item', items: [subItem] }] satisfies DropdownItem[];
+		const firstItem = items[0];
 		const { user } = setup(
 			<Dropdown items={items}>
 				<Button label="opener" onClick={jest.fn()} />
 			</Dropdown>
 		);
 		await user.click(screen.getByRole('button'));
-		const firstItemElement = await screen.findByText(firstItem.label);
-		await user.hover(firstItemElement);
-		const subItemElement = await screen.findByText(subItem.label);
-		await user.click(subItemElement);
-		await waitFor(() => expect(screen.getByRole('button', { name: /opener/i })).toHaveFocus());
+		await user.hover(screen.getByText(firstItem.label));
+		await user.click(screen.getByText(subItem.label));
+		expect(screen.queryByText(firstItem.label)).not.toBeInTheDocument();
+		expect(screen.queryByText(subItem.label)).not.toBeInTheDocument();
+		expect(screen.getByRole('button', { name: /opener/i })).toHaveFocus();
+	});
+
+	it('should keep nested dropdown open when hovering on subitem', async () => {
+		const subItem = { id: '2', label: '2' } satisfies DropdownItem;
+		const items = [{ id: '1', label: '1', items: [subItem] }] satisfies DropdownItem[];
+
+		const { user } = setup(
+			<Dropdown items={items}>
+				<Button label="opener" onClick={jest.fn()} />
+			</Dropdown>
+		);
+
+		await user.click(screen.getByRole('button'));
+		await user.hover(screen.getByText('1'));
+		await user.hover(screen.getByText('2'));
+		jest.advanceTimersByTime(TIMERS.DROPDOWN.CLOSE_NESTED);
+		expect(screen.getByText('1')).toBeVisible();
+		expect(screen.getByText('2')).toBeVisible();
 	});
 
 	describe('Keyboard shortcuts', () => {
-		test('should set focus on next item when pressing arrow down', async () => {
-			const items = generateItems();
-			items.forEach((item) => {
-				// eslint-disable-next-line no-param-reassign
-				item.disabled = false;
-			});
+		it('should set focus on next item when pressing arrow down', async () => {
+			const items = [
+				{ id: '1', label: 'item 1' },
+				{ id: '2', label: 'item 2' },
+				{ id: '3', label: 'item 3' }
+			] satisfies DropdownItem[];
 			const { user } = setup(
 				<Dropdown items={items} forceOpen>
 					<Button label="opener" onClick={jest.fn()} />
 				</Dropdown>
 			);
-			await waitFor(() => expect(findDropdownItem(items[0].label)).toHaveFocus());
+			expect(findDropdownItem(items[0].label)).toHaveFocus();
 			await user.arrowDown();
-			await waitFor(() => expect(findDropdownItem(items[1].label)).toHaveFocus());
+			expect(findDropdownItem(items[1].label)).toHaveFocus();
 		});
 
-		test('should set focus on previous item when pressing arrow up', async () => {
-			const items = generateItems();
-			items.forEach((item) => {
-				// eslint-disable-next-line no-param-reassign
-				item.disabled = false;
-			});
+		it('should set focus on previous item when pressing arrow up', async () => {
+			const items = [
+				{ id: '1', label: 'item 1' },
+				{ id: '2', label: 'item 2' },
+				{ id: '3', label: 'item 3' }
+			] satisfies DropdownItem[];
 			const { user } = setup(
 				<Dropdown items={items} forceOpen>
 					<Button label="opener" onClick={jest.fn()} />
 				</Dropdown>
 			);
-			await waitFor(() => expect(findDropdownItem(items[0].label)).toHaveFocus());
+			expect(findDropdownItem(items[0].label)).toHaveFocus();
 			await user.arrowDown();
-			await waitFor(() => expect(findDropdownItem(items[1].label)).toHaveFocus());
+			expect(findDropdownItem(items[1].label)).toHaveFocus();
 			await user.arrowUp();
-			await waitFor(() => expect(findDropdownItem(items[0].label)).toHaveFocus());
+			expect(findDropdownItem(items[0].label)).toHaveFocus();
 		});
 
-		test('should set focus on last item when pressing arrow up and focus is on first item', async () => {
-			const items = generateItems();
-			items.forEach((item) => {
-				// eslint-disable-next-line no-param-reassign
-				item.disabled = false;
-			});
+		it('should set focus on last item when pressing arrow up and focus is on first item', async () => {
+			const items = [
+				{ id: '1', label: 'item 1' },
+				{ id: '2', label: 'item 2' },
+				{ id: '3', label: 'item 3' }
+			] satisfies DropdownItem[];
 			const { user } = setup(
 				<Dropdown items={items} forceOpen>
 					<Button label="opener" onClick={jest.fn()} />
 				</Dropdown>
 			);
-			await waitFor(() => expect(findDropdownItem(items[0].label)).toHaveFocus());
+			expect(findDropdownItem(items[0].label)).toHaveFocus();
 			await user.arrowUp();
-			await waitFor(() => expect(findDropdownItem(items[items.length - 1].label)).toHaveFocus());
+			expect(findDropdownItem(items[items.length - 1].label)).toHaveFocus();
 		});
 
-		test('should set focus on first item when pressing arrow down and focus is on last item', async () => {
-			const items = generateItems();
-			items.forEach((item) => {
-				// eslint-disable-next-line no-param-reassign
-				item.disabled = false;
-			});
+		it('should set focus on first item when pressing arrow down and focus is on last item', async () => {
+			const items = [
+				{ id: '1', label: 'item 1' },
+				{ id: '2', label: 'item 2' },
+				{ id: '3', label: 'item 3' }
+			] satisfies DropdownItem[];
 			const { user } = setup(
 				<Dropdown items={items} forceOpen>
 					<Button label="opener" onClick={jest.fn()} />
 				</Dropdown>
 			);
-			await waitFor(() => expect(findDropdownItem(items[0].label)).toHaveFocus());
+			expect(findDropdownItem(items[0].label)).toHaveFocus();
 			await user.arrowUp();
-			await waitFor(() => expect(findDropdownItem(items[items.length - 1].label)).toHaveFocus());
+			expect(findDropdownItem(items[items.length - 1].label)).toHaveFocus();
 			await user.arrowDown();
-			await waitFor(() => expect(findDropdownItem(items[0].label)).toHaveFocus());
+			expect(findDropdownItem(items[0].label)).toHaveFocus();
 		});
 
-		test('should set focus on next item when pressing tab', async () => {
-			const items = generateItems();
-			items.forEach((item) => {
-				// eslint-disable-next-line no-param-reassign
-				item.disabled = false;
-			});
+		it('should set focus on next item when pressing tab', async () => {
+			const items = [
+				{ id: '1', label: 'item 1' },
+				{ id: '2', label: 'item 2' },
+				{ id: '3', label: 'item 3' }
+			] satisfies DropdownItem[];
 			const { user } = setup(
 				<Dropdown items={items} forceOpen>
 					<Button label="opener" onClick={jest.fn()} />
 				</Dropdown>
 			);
-			await waitFor(() => expect(findDropdownItem(items[0].label)).toHaveFocus());
+			expect(findDropdownItem(items[0].label)).toHaveFocus();
 			await user.tab();
-			await waitFor(() => expect(findDropdownItem(items[1].label)).toHaveFocus());
+			expect(findDropdownItem(items[1].label)).toHaveFocus();
 		});
 
-		test('should set focus on previous item when pressing shift+tab', async () => {
-			const items = generateItems();
-			items.forEach((item) => {
-				// eslint-disable-next-line no-param-reassign
-				item.disabled = false;
-			});
+		it('should set focus on previous item when pressing shift+tab', async () => {
+			const items = [
+				{ id: '1', label: 'item 1' },
+				{ id: '2', label: 'item 2' },
+				{ id: '3', label: 'item 3' }
+			] satisfies DropdownItem[];
 			const { user } = setup(
 				<Dropdown items={items} forceOpen>
 					<Button label="opener" onClick={jest.fn()} />
 				</Dropdown>
 			);
-			await waitFor(() => expect(findDropdownItem(items[0].label)).toHaveFocus());
+			expect(findDropdownItem(items[0].label)).toHaveFocus();
 			await user.tab();
-			await waitFor(() => expect(findDropdownItem(items[1].label)).toHaveFocus());
+			expect(findDropdownItem(items[1].label)).toHaveFocus();
 			await user.tab();
-			await waitFor(() => expect(findDropdownItem(items[2].label)).toHaveFocus());
+			expect(findDropdownItem(items[2].label)).toHaveFocus();
 			await user.tab({ shift: true });
-			await waitFor(() => expect(findDropdownItem(items[1].label)).toHaveFocus());
+			expect(findDropdownItem(items[1].label)).toHaveFocus();
 		});
 
-		test('should open nested dropdown when pressing arrow right', async () => {
-			const items = generateItems();
-			items[0].disabled = false;
-			const subItem: DropdownItem = {
-				id: 'item-1-1',
-				label: 'item-1-1'
-			};
-			items[0].items = [subItem];
+		it('should open nested dropdown when pressing arrow right', async () => {
+			const subItem = { id: '2', label: 'item 2' } satisfies DropdownItem;
+			const items = [{ id: '1', label: 'item 1', items: [subItem] }] satisfies DropdownItem[];
 			const { user } = setup(
 				<Dropdown items={items} forceOpen>
 					<Button label="opener" onClick={jest.fn()} />
 				</Dropdown>
 			);
-			await waitFor(() => expect(findDropdownItem(items[0].label)).toHaveFocus());
+			expect(findDropdownItem(items[0].label)).toHaveFocus();
 			await user.arrowRight();
-			const subItemElement = await screen.findByText(subItem.label);
-			expect(subItemElement).toBeVisible();
+			expect(screen.getByText(subItem.label)).toBeVisible();
 		});
 
-		test('should move focus between items of the open nested dropdown', async () => {
-			const items = generateItems();
-			items[0].disabled = false;
-			const subItems: DropdownItem[] = [
-				{
-					id: 'item-1-1',
-					label: 'item-1-1'
-				},
-				{
-					id: 'item-1-2',
-					label: 'item-1-2'
-				}
-			];
-			items[0].items = subItems;
+		it('should move focus between items of the open nested dropdown', async () => {
+			const subItems = [
+				{ id: '2', label: 'item 2' },
+				{ id: '3', label: 'item 3' }
+			] satisfies DropdownItem[];
+			const items = [{ id: '1', label: 'item 1', items: subItems }] satisfies DropdownItem[];
 			const { user } = setup(
 				<Dropdown items={items} forceOpen>
 					<Button label="opener" onClick={jest.fn()} />
 				</Dropdown>
 			);
-			await waitFor(() => expect(findDropdownItem(items[0].label)).toHaveFocus());
+			expect(findDropdownItem(items[0].label)).toHaveFocus();
 			await user.arrowRight();
-			await waitFor(() => expect(findDropdownItem(subItems[0].label)).toHaveFocus());
+			expect(findDropdownItem(subItems[0].label)).toHaveFocus();
 			await user.arrowDown();
-			await waitFor(() => expect(findDropdownItem(subItems[1].label)).toHaveFocus());
+			expect(findDropdownItem(subItems[1].label)).toHaveFocus();
 		});
 
-		test('should close nested dropdown when pressing arrow left', async () => {
-			const items = generateItems();
-			items[0].disabled = false;
-			const subItem: DropdownItem = {
-				id: 'item-1-1',
-				label: 'item-1-1'
-			};
-			items[0].items = [subItem];
+		it('should close nested dropdown when pressing arrow left', async () => {
+			const subItem = { id: '2', label: 'item 2' } satisfies DropdownItem;
+			const items = [{ id: '1', label: 'item 1', items: [subItem] }] satisfies DropdownItem[];
 			const { user } = setup(
 				<Dropdown items={items} forceOpen>
 					<Button label="opener" onClick={jest.fn()} />
 				</Dropdown>
 			);
-			await waitFor(() => expect(findDropdownItem(items[0].label)).toHaveFocus());
+			expect(findDropdownItem(items[0].label)).toHaveFocus();
 			await user.arrowRight();
-			await waitFor(() => expect(findDropdownItem(subItem.label)).toHaveFocus());
+			expect(findDropdownItem(subItem.label)).toHaveFocus();
 			await user.arrowLeft();
 			expect(screen.queryByText(subItem.label)).not.toBeInTheDocument();
+			expect(screen.getByText(items[0].label)).toBeVisible();
 		});
 
-		test('should close dropdown on esc', async () => {
-			const items = generateItems();
+		it('should close dropdown on esc', async () => {
+			const items = [{ id: '1', label: 'item 1' }] satisfies DropdownItem[];
 			const { user } = setup(
 				<Dropdown items={items}>
 					<Button label="opener" onClick={jest.fn()} />
@@ -572,66 +470,80 @@ describe('Dropdown', () => {
 			expect(screen.queryByText(items[0].label)).not.toBeInTheDocument();
 		});
 
-		test('should close nested dropdown on esc', async () => {
-			const items = generateItems();
-			const subItem: DropdownItem = {
-				id: 'item-1-1',
-				label: 'item-1-1'
-			};
-			items[0].items = [subItem];
+		it('should close nested dropdown on esc', async () => {
+			const subItem = { id: '2', label: 'item 2' } satisfies DropdownItem;
+			const items = [{ id: '1', label: 'item 1', items: [subItem] }] satisfies DropdownItem[];
 			const { user } = setup(
 				<Dropdown items={items} forceOpen>
 					<Button label="opener" onClick={jest.fn()} />
 				</Dropdown>
 			);
-			const parentItem = await screen.findByText(items[0].label);
-			await user.hover(parentItem);
+			await user.hover(screen.getByText(items[0].label));
 			await screen.findByText(subItem.label);
 			await user.esc();
 			expect(screen.queryByText(subItem.label)).not.toBeInTheDocument();
-			expect(parentItem).toBeVisible();
+			expect(screen.getByText(items[0].label)).toBeVisible();
 		});
 
-		test('should set focus on parent dropdown when closing a nested dropdown', async () => {
-			const items = generateItems();
-			const subItem: DropdownItem = {
-				id: 'item-1-1',
-				label: 'item-1-1'
-			};
-			items[0].items = [subItem];
+		it('should set focus on parent dropdown when closing a nested dropdown', async () => {
+			const subItem = { id: '2', label: 'item 2' } satisfies DropdownItem;
+			const items = [{ id: '1', label: 'item 1', items: [subItem] }] satisfies DropdownItem[];
 			const { user } = setup(
 				<Dropdown items={items} forceOpen>
 					<Button label="opener" onClick={jest.fn()} />
 				</Dropdown>
 			);
-			const parentItem = await screen.findByText(items[0].label);
-			await user.hover(parentItem);
+			await user.hover(screen.getByText(items[0].label));
 			await screen.findByText(subItem.label);
 			await user.esc();
 			expect(findDropdownItem(items[0].label)).toHaveFocus();
 		});
 
-		test('should keep working on second time dropdown is opened', async () => {
-			const items = generateItems();
-			items.forEach((item) => {
-				// eslint-disable-next-line no-param-reassign
-				item.disabled = false;
-			});
+		it('should keep working on second time dropdown is opened', async () => {
+			const subItem = { id: '2', label: 'item 2' } satisfies DropdownItem;
+			const items = [
+				{ id: '1', label: 'item 1', items: [subItem] },
+				{ id: '3', label: 'item 3' }
+			] satisfies DropdownItem[];
 			const { user } = setup(
 				<Dropdown items={items}>
 					<Button label="opener" onClick={jest.fn()} />
 				</Dropdown>
 			);
 			await user.click(screen.getByRole('button'));
-			await waitFor(() => expect(findDropdownItem(items[0].label)).toHaveFocus());
+			expect(findDropdownItem(items[0].label)).toHaveFocus();
 			await user.arrowDown();
-			await waitFor(() => expect(findDropdownItem(items[1].label)).toHaveFocus());
+			expect(findDropdownItem(items[1].label)).toHaveFocus();
 			await user.click(screen.getByRole('button'));
 			expect(screen.queryByText(items[0].label)).not.toBeInTheDocument();
 			await user.click(screen.getByRole('button'));
-			await waitFor(() => expect(findDropdownItem(items[0].label)).toHaveFocus());
+			expect(findDropdownItem(items[0].label)).toHaveFocus();
 			await user.arrowDown();
-			await waitFor(() => expect(findDropdownItem(items[1].label)).toHaveFocus());
+			expect(findDropdownItem(items[1].label)).toHaveFocus();
+		});
+
+		it('should invoke the onClick callback of the nested item on Enter and close dropdown', async () => {
+			const subItem = { id: '2', label: 'item 2', onClick: jest.fn() } satisfies DropdownItem;
+			const parentItem = {
+				id: '1',
+				label: 'item 1',
+				onClick: jest.fn(),
+				items: [subItem]
+			} satisfies DropdownItem;
+			const items = [parentItem];
+			const { user } = setup(
+				<Dropdown items={items}>
+					<Button label="opener" onClick={jest.fn()} />
+				</Dropdown>
+			);
+			await user.click(screen.getByRole('button'));
+			await user.arrowRight();
+			expect(findDropdownItem(subItem.label)).toHaveFocus();
+			await user.enter();
+			expect(subItem.onClick).toHaveBeenCalled();
+			expect(parentItem.onClick).not.toHaveBeenCalled();
+			expect(screen.queryByText(parentItem.label)).not.toBeInTheDocument();
+			expect(screen.queryByText(subItem.label)).not.toBeInTheDocument();
 		});
 	});
 });
