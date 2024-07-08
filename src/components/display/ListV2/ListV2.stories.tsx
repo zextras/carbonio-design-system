@@ -8,8 +8,8 @@ import React from 'react';
 import { Meta, StoryObj } from '@storybook/react';
 
 import { ListV2, ListV2Props } from './ListV2';
-import { PaginatedList } from './stories/ListV2.stories.paginated';
-import { WithComplexItem } from './stories/ListV2.stories.withComplexItem';
+import { PaginatedList } from './ListV2.stories.paginated';
+import { WithComplexItem } from './ListV2.stories.withComplexItem';
 import { Container } from '../../layout/Container';
 import { ListItem } from '../ListItem';
 

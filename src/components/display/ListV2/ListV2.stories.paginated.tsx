@@ -6,9 +6,9 @@
 
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 
-import { Container } from '../../../layout/Container';
-import { ListItem } from '../../ListItem';
-import { ListV2, ListV2Props } from '../ListV2';
+import { ListV2, ListV2Props } from './ListV2';
+import { Container } from '../../layout/Container';
+import { ListItem } from '../ListItem';
 
 export const PaginatedList = ({
 	limit,

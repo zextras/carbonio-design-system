@@ -7,14 +7,14 @@ import React, { useCallback, useMemo, useState } from 'react';
 
 import { faker } from '@faker-js/faker';
 
-import { Avatar } from '../../../basic/Avatar';
-import { Text } from '../../../basic/text/Text';
-import { Container } from '../../../layout/Container';
-import { Divider } from '../../../layout/Divider';
-import { Row } from '../../../layout/Row';
-import { Drag } from '../../../utilities/Drag';
-import { ListItem } from '../../ListItem';
-import { ListV2, ListV2Props } from '../ListV2';
+import { ListV2, ListV2Props } from './ListV2';
+import { Avatar } from '../../basic/Avatar';
+import { Text } from '../../basic/text/Text';
+import { Container } from '../../layout/Container';
+import { Divider } from '../../layout/Divider';
+import { Row } from '../../layout/Row';
+import { Drag } from '../../utilities/Drag';
+import { ListItem } from '../ListItem';
 
 type Item = { id: string; name: string; image: string; email: string; text: string };
 type ListItemContentProps = {
