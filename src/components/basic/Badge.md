@@ -8,18 +8,16 @@ SPDX-License-Identifier: AGPL-3.0-only
 
 ```jsx
 <>
-    <Badge />
-    <br />
     <Badge value={'With text'}/>
-    <br/>
+    <br/><br/>
     <Badge value="1" />
-    <br />
+    <br /><br/>
     <Badge value={10} />
-    <br/ >
+    <br/ ><br/>
     <Badge value={999} />
-    <br />
+    <br /><br/>
     <Badge value={1000} />
-    <br />
+    <br /><br/>
     <Badge value={2000} maxValue={1500} />    
 </>
 ```
@@ -29,11 +27,11 @@ SPDX-License-Identifier: AGPL-3.0-only
 import { Text } from '@zextras/carbonio-design-system';
 <>
     <Badge value={10} backgroundColor={'error'} color={'gray6'} />
-    <br />
+    <br /><br/>
     <Badge value="Sent" backgroundColor={'gray4'} />
-    <br/>
+    <br/><br/>
     <Badge value="Sent" backgroundColor={'primary'} color={'gray6'} />
-    <br/>
+    <br/><br/>
     <Text overflow="break-word">Lorem ipsum dolor sit <Badge value="amet" backgroundColor={'warning'} /></Text>
 </>
 ```
@@ -43,7 +41,7 @@ import { Text } from '@zextras/carbonio-design-system';
 <>
     <Badge icon={'AcceptanceMeeting'} color={'primary'} /> <Badge icon={'AcceptanceMeetingOutline'} color={'primary'} /> <Badge icon={'AlertTriangle'} color={'error'}/> <Badge icon={'AlertTriangleOutline'} color={'error'} />
     <br/>
-    <Badge icon={'MoreVertical'} /> <Badge icon={'Music'} color={'warning'} /> <Badge icon={'ArrowIosUpwardOutline'} /> <Badge icon={'ArrowIosDownwardOutline'} /> 
+    <Badge icon={'MoreVertical'} /> <Badge icon={'Music'} color={'warning'} /> <Badge icon={'ArrowIosUpwardOutline'} backgroundColor={'primary'} color={'gray6'}  /> <Badge icon={'ArrowIosDownwardOutline'} /> 
 </>
 ```
 

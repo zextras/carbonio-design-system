@@ -25,7 +25,7 @@ const Comp = styled(Container)<CompProps>`
 	font-family: ${(props): string => props.theme.fonts.default};
 	font-size: ${(props): string => props.theme.sizes.font.extrasmall};
 	font-weight: ${(props): number => props.theme.fonts.weight.regular};
-	border-radius: 1.2em;
+	border-radius: 3.125em;
 	text-align: center;
 `;
 
@@ -61,23 +61,15 @@ const Badge = forwardRef<HTMLDivElement, BadgeProps>(function BadgeFn(
 		<Tooltip label={String(value)} disabled={!showTooltip}>
 			<Comp
 				ref={ref}
-				minWidth={isBadgeCircle ? 'unset' : '2rem'}
-				padding={{ vertical: 'extrasmall', horizontal: 'small' }}
-				height={
-					isBadgeCircle
-						? `calc(2 * ${theme.sizes.padding.extrasmall} + ${theme.sizes.font.small})`
-						: 'auto'
-				}
-				width={
-					isBadgeCircle
-						? `calc(2 * ${theme.sizes.padding.extrasmall} + ${theme.sizes.font.small})`
-						: 'auto'
-				}
+				orientation={'column'}
+				padding={{ vertical: '4px', horizontal: '8px' }}
+				height={isBadgeCircle ? '1rem' : '20px'}
+				width={isBadgeCircle ? '1rem' : 'auto'}
 				background={getColor(backgroundColor, theme)}
 				$color={color}
 				{...rest}
 			>
-				{icon ? <Icon icon={icon} size={'medium'} color={color} /> : badgeText}
+				{icon ? <Icon icon={icon} color={color} /> : badgeText}
 			</Comp>
 		</Tooltip>
 	);
