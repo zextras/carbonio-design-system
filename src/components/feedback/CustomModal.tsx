@@ -15,7 +15,7 @@ import React, {
 	useState
 } from 'react';
 
-import { DefaultTheme, ThemeContext } from 'styled-components';
+import { ThemeContext } from 'styled-components';
 
 import {
 	getScrollbarSize,
@@ -26,13 +26,14 @@ import {
 } from './modal-components/ModalComponents';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { KeyboardPresetObj, useKeyboard } from '../../hooks/useKeyboard';
+import { AnyColor } from '../../types/utils';
 import { TIMERS } from '../constants';
 import { Portal } from '../utilities/Portal';
 import { Transition } from '../utilities/Transition';
 
 type BareModalProps = {
 	/** Modal background */
-	background?: string | keyof DefaultTheme['palette'];
+	background?: AnyColor;
 	/** Modal size */
 	size?: 'extrasmall' | 'small' | 'medium' | 'large';
 	/** Boolean to show the modal */
@@ -176,10 +177,10 @@ const CustomModal = React.forwardRef<HTMLDivElement, CustomModalProps>(function 
 		<Portal show={open} disablePortal={disablePortal} container={windowObj.document.body}>
 			<ModalContainer
 				ref={modalRef}
-				open={delayedOpen}
-				mounted={open}
+				$open={delayedOpen}
+				$mounted={open}
 				onClick={onBackdropClick}
-				zIndex={zIndex}
+				$zIndex={zIndex}
 				data-testid="modal"
 				{...rest}
 			>

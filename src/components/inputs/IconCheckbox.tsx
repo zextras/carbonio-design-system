@@ -16,47 +16,47 @@ import { Container, ContainerProps } from '../layout/Container';
 import { Padding } from '../layout/Padding';
 
 const IconWrapper = styled.div<{
-	borderRadius: 'regular' | 'round';
-	isActive: boolean;
-	disabled: boolean;
+	$borderRadius: 'regular' | 'round';
+	$isActive: boolean;
+	$disabled: boolean;
 }>`
-	border-radius: ${({ borderRadius, theme }): string =>
-		borderRadius === 'regular' ? theme.borderRadius : '50%'};
-	background: ${({ theme, isActive }): string =>
-		isActive ? theme.palette.primary.regular : 'transparent'};
+	border-radius: ${({ $borderRadius, theme }): string =>
+		$borderRadius === 'regular' ? theme.borderRadius : '50%'};
+	background: ${({ theme, $isActive }): string =>
+		$isActive ? theme.palette.primary.regular : 'transparent'};
 	transition: 0.2s ease-out;
 
-	${({ disabled, isActive, theme }): SimpleInterpolation =>
-		disabled &&
+	${({ $disabled, $isActive, theme }): SimpleInterpolation =>
+		$disabled &&
 		css`
-			background: ${theme.palette[isActive ? 'primary' : 'transparent'].disabled};
+			background: ${theme.palette[$isActive ? 'primary' : 'transparent'].disabled};
 		`};
 	svg {
 		transition: 0.2s ease-out;
-		fill: ${({ theme, isActive }): string =>
-			isActive ? theme.palette.gray6.regular : 'currentColor'};
+		fill: ${({ theme, $isActive }): string =>
+			$isActive ? theme.palette.gray6.regular : 'currentColor'};
 	}
-	${({ theme, disabled, isActive }): SimpleInterpolation =>
-		!disabled &&
+	${({ theme, $disabled, $isActive }): SimpleInterpolation =>
+		!$disabled &&
 		css`
 			transition: background 0.2s ease-out;
 			&:focus {
 				outline: none;
-				background: ${theme.palette[isActive ? 'primary' : 'transparent'].focus};
+				background: ${theme.palette[$isActive ? 'primary' : 'transparent'].focus};
 				svg {
-					fill: ${isActive ? theme.palette.gray6.focus : theme.palette.primary.focus};
+					fill: ${$isActive ? theme.palette.gray6.focus : theme.palette.primary.focus};
 				}
 			}
 			&:hover {
 				outline: none;
-				background: ${theme.palette[isActive ? 'primary' : 'transparent'].hover};
+				background: ${theme.palette[$isActive ? 'primary' : 'transparent'].hover};
 				svg {
-					fill: ${isActive ? theme.palette.gray6.hover : theme.palette.primary.hover};
+					fill: ${$isActive ? theme.palette.gray6.hover : theme.palette.primary.hover};
 				}
 			}
 			&:active {
 				outline: none;
-				background: ${theme.palette[isActive ? 'primary' : 'transparent'].active};
+				background: ${theme.palette[$isActive ? 'primary' : 'transparent'].active};
 			}
 		`};
 `;
@@ -141,9 +141,9 @@ const IconCheckbox = React.forwardRef<HTMLDivElement, IconCheckboxProps>(functio
 		>
 			<IconWrapper
 				ref={iconCheckboxRef}
-				isActive={checked}
-				borderRadius={borderRadius}
-				disabled={disabled}
+				$isActive={checked}
+				$borderRadius={borderRadius}
+				$disabled={disabled}
 				tabIndex={disabled ? -1 : 0}
 			>
 				<Padding all={padding[size]}>

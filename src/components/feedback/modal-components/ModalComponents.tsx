@@ -49,7 +49,7 @@ function getScrollbarSize(windowObj: Window): number {
 	return 0;
 }
 
-const ModalContainer = styled.div<{ mounted: boolean; open: boolean; zIndex: number }>`
+const ModalContainer = styled.div<{ $mounted: boolean; $open: boolean; $zIndex: number }>`
 	display: flex;
 	position: fixed;
 	top: 0;
@@ -67,13 +67,13 @@ const ModalContainer = styled.div<{ mounted: boolean; open: boolean; zIndex: num
 	align-items: center;
 	overflow-y: auto;
 
-	${({ mounted, open, zIndex }): SimpleInterpolation =>
-		(mounted || open) &&
+	${({ $mounted, $open, $zIndex }): SimpleInterpolation =>
+		($mounted || $open) &&
 		css`
-			z-index: ${zIndex};
+			z-index: ${$zIndex};
 		`};
-	${({ open, theme }): SimpleInterpolation =>
-		open &&
+	${({ $open, theme }): SimpleInterpolation =>
+		$open &&
 		css`
 			background-color: ${rgba(theme.palette.black.regular, 0.5)};
 			opacity: 1;

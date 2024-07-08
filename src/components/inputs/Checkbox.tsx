@@ -11,6 +11,7 @@ import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-component
 import { useCheckbox } from '../../hooks/useCheckbox';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { getColor } from '../../theme/theme-utils';
+import { AnyColor } from '../../types/utils';
 import { Icon } from '../basic/icon/Icon';
 import { Text } from '../basic/text/Text';
 import { Container, ContainerProps } from '../layout/Container';
@@ -21,32 +22,32 @@ type CheckboxSize = 'medium' | 'small';
 const CustomIcon = styled(Icon)``;
 
 const IconWrapper = styled.div<{
-	disabled: boolean;
-	iconColor: keyof DefaultTheme['palette'] | string;
-	size: CheckboxSize;
+	$disabled: boolean;
+	$iconColor: AnyColor;
+	$size: CheckboxSize;
 }>`
-	height: ${({ theme, size }): SimpleInterpolation => css`calc(${theme.sizes.font[size]} * 1.5)`};
+	height: ${({ theme, $size }): SimpleInterpolation => css`calc(${theme.sizes.font[$size]} * 1.5)`};
 	display: flex;
 	align-items: center;
-	${({ theme, disabled, iconColor }): SimpleInterpolation =>
-		!disabled &&
+	${({ theme, $disabled, $iconColor }): SimpleInterpolation =>
+		!$disabled &&
 		css`
 			&:focus {
 				outline: none;
 				> ${CustomIcon} {
-					color: ${getColor(`${iconColor}.focus`, theme)};
+					color: ${getColor(`${$iconColor}.focus`, theme)};
 				}
 			}
 			&:hover {
 				outline: none;
 				> ${CustomIcon} {
-					color: ${getColor(`${iconColor}.hover`, theme)};
+					color: ${getColor(`${$iconColor}.hover`, theme)};
 				}
 			}
 			&:active {
 				outline: none;
 				> ${CustomIcon} {
-					color: ${getColor(`${iconColor}.active`, theme)};
+					color: ${getColor(`${$iconColor}.active`, theme)};
 				}
 			}
 		`};
@@ -67,7 +68,7 @@ interface CheckboxProps extends Omit<ContainerProps, 'onChange' | 'onClick'> {
 	 */
 	iconSize?: keyof DefaultTheme['sizes']['icon'];
 	/** Checkbox color */
-	iconColor?: keyof DefaultTheme['palette'] | string;
+	iconColor?: AnyColor;
 	/** Checkbox text */
 	label?: string;
 	/** Checkbox padding */
@@ -112,7 +113,7 @@ const Checkbox = React.forwardRef<HTMLDivElement, CheckboxProps>(function Checkb
 	const computedIconSize = useMemo(
 		() =>
 			// TODO simplify when iconSize will be removed
-			iconSize || (size === 'medium' ? 'large' : 'medium'),
+			iconSize ?? (size === 'medium' ? 'large' : 'medium'),
 		[size, iconSize]
 	);
 
@@ -129,10 +130,10 @@ const Checkbox = React.forwardRef<HTMLDivElement, CheckboxProps>(function Checkb
 			{...rest}
 		>
 			<IconWrapper
-				iconColor={iconColor}
-				disabled={disabled}
+				$iconColor={iconColor}
+				$disabled={disabled}
+				$size={size}
 				tabIndex={disabled ? -1 : 0}
-				size={size}
 			>
 				<Icon
 					size={computedIconSize}

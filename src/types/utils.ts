@@ -19,3 +19,34 @@ export type LiteralUnion<TSub, TBase> = TSub | (TBase & Record<never, never>);
 export type PaletteColor = keyof DefaultTheme['palette'];
 
 export type AnyColor = LiteralUnion<PaletteColor, string>;
+
+export type WithPrefix<TString extends string, TPrefix extends string> = `${TPrefix}${TString}`;
+
+export type WithoutPrefix<
+	TString extends string,
+	TPrefix extends string
+> = TString extends `${TPrefix}${infer S}` ? S : TString;
+
+export type KeysWithPrefix<
+	TObject,
+	TPrefix extends string,
+	TKeys extends keyof TObject = keyof TObject
+> = {
+	[K in TKeys as K extends string ? WithPrefix<K, TPrefix> : never]: TObject[K];
+};
+
+export type KeysWithoutPrefix<
+	TObject,
+	TPrefix extends string,
+	TKeys extends keyof TObject = keyof TObject
+> = {
+	[K in TKeys as K extends string ? WithoutPrefix<K, TPrefix> : never]: TObject[K];
+};
+
+export type With$Prefix<TProps> = KeysWithPrefix<TProps, '$'>;
+
+export type Without$Prefix<TProps> = KeysWithoutPrefix<TProps, '$'>;
+
+export type MakeRequired<TObj, TKey extends keyof TObj> = TObj & Required<Pick<TObj, TKey>>;
+
+export type AllKeys<TObj> = TObj extends unknown ? keyof TObj : never;
