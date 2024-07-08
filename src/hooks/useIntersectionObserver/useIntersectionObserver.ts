@@ -17,7 +17,10 @@ export const useIntersectionObserver = (
 	const observedElementsRef = useRef<Element[]>([]);
 
 	const onIntersectRef = useRef<typeof onIntersect>(onIntersect);
-	onIntersectRef.current = onIntersect;
+
+	useEffect(() => {
+		onIntersectRef.current = onIntersect;
+	}, [onIntersect]);
 
 	useEffect(() => {
 		if (!observerRef.current && !!containerRef?.current) {

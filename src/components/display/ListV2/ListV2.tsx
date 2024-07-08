@@ -8,11 +8,11 @@ import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 
 import styled, { DefaultTheme } from 'styled-components';
 
-import { ListItemProps } from './ListItem';
-import { useCombinedRefs } from '../../hooks/useCombinedRefs';
-import { useIntersectionObserver } from '../../hooks/useIntersectionObserver/useIntersectionObserver';
-import { getKeyboardPreset, KeyboardPresetObj, useKeyboard } from '../../hooks/useKeyboard';
-import { Container, ContainerProps } from '../layout/Container';
+import { useCombinedRefs } from '../../../hooks/useCombinedRefs';
+import { useIntersectionObserver } from '../../../hooks/useIntersectionObserver/useIntersectionObserver';
+import { getKeyboardPreset, KeyboardPresetObj, useKeyboard } from '../../../hooks/useKeyboard';
+import { Container, ContainerProps } from '../../layout/Container';
+import { ListItemProps } from '../ListItem';
 
 const ExternalContainer = styled(Container)`
 	display: block;
@@ -92,7 +92,10 @@ const ListV2 = React.forwardRef(function ListV2Fn(
 	);
 
 	const onListBottomRef = useRef(onListBottom);
-	onListBottomRef.current = onListBottom;
+
+	useEffect(() => {
+		onListBottomRef.current = onListBottom;
+	}, [onListBottom]);
 
 	const onIntersect = useCallback((entry: IntersectionObserverEntry) => {
 		if (entry.target === bottomElementRef.current && entry.isIntersecting) {
