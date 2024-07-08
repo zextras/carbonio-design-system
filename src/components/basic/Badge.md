@@ -7,42 +7,46 @@ SPDX-License-Identifier: AGPL-3.0-only
 ### Value / MaxValue
 
 ```jsx
-<>
+import { Container } from '@zextras/carbonio-design-system';
+<Container crossAlignment={'flex-start'} gap={'1rem'}>
+    <Badge value={''}/>
     <Badge value={'With text'}/>
-    <br/><br/>
     <Badge value="1" />
-    <br /><br/>
     <Badge value={10} />
-    <br/ ><br/>
     <Badge value={999} />
-    <br /><br/>
     <Badge value={1000} />
-    <br /><br/>
     <Badge value={2000} maxValue={1500} />    
-</>
+</Container>
 ```
 
 ### BackgroundColor / Color
 ```jsx
-import { Text } from '@zextras/carbonio-design-system';
-<>
+import { Container, Text } from '@zextras/carbonio-design-system';
+<Container crossAlignment={'flex-start'} gap={'1rem'}>
     <Badge value={10} backgroundColor={'error'} color={'gray6'} />
-    <br /><br/>
     <Badge value="Sent" backgroundColor={'gray4'} />
-    <br/><br/>
     <Badge value="Sent" backgroundColor={'primary'} color={'gray6'} />
-    <br/><br/>
     <Text overflow="break-word">Lorem ipsum dolor sit <Badge value="amet" backgroundColor={'warning'} /></Text>
-</>
+</Container>
 ```
 
 ### Icon
 ```jsx
-<>
-    <Badge icon={'AcceptanceMeeting'} color={'primary'} /> <Badge icon={'AcceptanceMeetingOutline'} color={'primary'} /> <Badge icon={'AlertTriangle'} color={'error'}/> <Badge icon={'AlertTriangleOutline'} color={'error'} />
-    <br/>
-    <Badge icon={'MoreVertical'} /> <Badge icon={'Music'} color={'warning'} /> <Badge icon={'ArrowIosUpwardOutline'} backgroundColor={'primary'} color={'gray6'}  /> <Badge icon={'ArrowIosDownwardOutline'} /> 
-</>
+import { Container } from '@zextras/carbonio-design-system';
+<Container crossAlignment={'flex-start'}>
+    <Container mainAlignment={'flex-start'} orientation={'horizontal'}>
+        <Badge icon={'QuestionMarkOutline'} color={'primary'} />
+        <Badge icon={'AcceptanceMeetingOutline'} color={'primary'} />
+        <Badge icon={'AlertTriangle'} color={'error'}/>
+        <Badge icon={'AlertTriangleOutline'} color={'error'} />
+    </Container>
+    <Container mainAlignment={'flex-start'} orientation={'horizontal'}>
+        <Badge icon={'MoreVertical'} />
+        <Badge icon={'Music'} color={'warning'} />
+        <Badge icon={'ChevronUp'} backgroundColor={'primary'} color={'gray6'}  />
+        <Badge icon={'ArrowIosDownwardOutline'} />
+    </Container>    
+</Container>
 ```
 
 ### Development status:
