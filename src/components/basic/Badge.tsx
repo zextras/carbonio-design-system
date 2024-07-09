@@ -17,7 +17,6 @@ import { Container } from '../layout/Container';
 const Comp = styled(Container)`
 	vertical-align: middle;
 	display: inline-flex;
-	font-family: ${(props): string => props.theme.fonts.default};
 	border-radius: 3.125rem;
 `;
 
@@ -53,8 +52,8 @@ const Badge = forwardRef<HTMLDivElement, BadgeProps>(function BadgeFn(
 			<Comp
 				ref={ref}
 				orientation={'column'}
-				padding={isBadgeCircle ? undefined : { vertical: 'extrasmall', horizontal: 'small' }}
-				height={isBadgeCircle ? '1rem' : '1.25rem'}
+				padding={isBadgeCircle ? undefined : { vertical: '0.0625rem', horizontal: 'small' }}
+				height={isBadgeCircle ? '1rem' : 'auto'}
 				width={isBadgeCircle ? '1rem' : 'auto'}
 				background={backgroundColor}
 				{...rest}
@@ -62,7 +61,7 @@ const Badge = forwardRef<HTMLDivElement, BadgeProps>(function BadgeFn(
 				{icon ? (
 					<Icon icon={icon} size={'small'} color={color} />
 				) : (
-					<Text color={color} size={'extrasmall'} weight={'regular'} lineHeight={1.125}>
+					<Text color={color} size={'extrasmall'} weight={'regular'} lineHeight={1.5}>
 						{badgeText}
 					</Text>
 				)}
