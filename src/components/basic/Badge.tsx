@@ -9,24 +9,15 @@ import React, { useMemo, forwardRef, HTMLAttributes } from 'react';
 import styled, { DefaultTheme } from 'styled-components';
 
 import { Icon } from './icon/Icon';
-import { getColor, useTheme } from '../../theme/theme-utils';
+import { Text } from './text/Text';
 import { AnyColor } from '../../types/utils';
 import { Tooltip } from '../display/Tooltip';
 import { Container } from '../layout/Container';
 
-type CompProps = {
-	$color: AnyColor;
-};
-
-const Comp = styled(Container)<CompProps>`
-	color: ${({ theme, $color }): string => getColor($color, theme)};
+const Comp = styled(Container)`
 	vertical-align: middle;
 	display: inline-flex;
-	font-family: ${(props): string => props.theme.fonts.default};
-	font-size: ${(props): string => props.theme.sizes.font.extrasmall};
-	font-weight: ${(props): number => props.theme.fonts.weight.regular};
-	border-radius: 1.2em;
-	text-align: center;
+	border-radius: 3.125rem;
 `;
 
 const isNumber = (value?: string | number): value is number => typeof value === 'number';
@@ -43,7 +34,6 @@ const Badge = forwardRef<HTMLDivElement, BadgeProps>(function BadgeFn(
 	},
 	ref
 ) {
-	const theme = useTheme();
 	const badgeText = useMemo(
 		() => (isNumber(value) && value > maxValue ? `${maxValue}+` : value),
 		[maxValue, value]
@@ -61,29 +51,26 @@ const Badge = forwardRef<HTMLDivElement, BadgeProps>(function BadgeFn(
 		<Tooltip label={String(value)} disabled={!showTooltip}>
 			<Comp
 				ref={ref}
-				minWidth={isBadgeCircle ? 'unset' : '2rem'}
-				padding={{ vertical: 'extrasmall', horizontal: 'small' }}
-				height={
-					isBadgeCircle
-						? `calc(2 * ${theme.sizes.padding.extrasmall} + ${theme.sizes.font.small})`
-						: 'auto'
-				}
-				width={
-					isBadgeCircle
-						? `calc(2 * ${theme.sizes.padding.extrasmall} + ${theme.sizes.font.small})`
-						: 'auto'
-				}
-				background={getColor(backgroundColor, theme)}
-				$color={color}
+				orientation={'column'}
+				padding={isBadgeCircle ? undefined : { vertical: '0.0625rem', horizontal: 'small' }}
+				height={isBadgeCircle ? '1rem' : 'auto'}
+				width={isBadgeCircle ? '1rem' : 'auto'}
+				background={backgroundColor}
 				{...rest}
 			>
-				{icon ? <Icon icon={icon} size={'medium'} color={color} /> : badgeText}
+				{icon ? (
+					<Icon icon={icon} size={'small'} color={color} />
+				) : (
+					<Text color={color} size={'extrasmall'} weight={'regular'} lineHeight={1.5}>
+						{badgeText}
+					</Text>
+				)}
 			</Comp>
 		</Tooltip>
 	);
 });
 
-interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {
+interface BadgeComponentProps {
 	/**
 	 * Badge type
 	 * @deprecated use backgroundColor and color instead
@@ -100,5 +87,8 @@ interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {
 	/** Badge or Icon color */
 	color?: AnyColor;
 }
+
+type BadgeProps = BadgeComponentProps &
+	Omit<HTMLAttributes<HTMLSpanElement>, keyof BadgeComponentProps>;
 
 export { Badge, BadgeProps };
