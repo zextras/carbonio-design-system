@@ -23,7 +23,7 @@ export const useIntersectionObserver = (
 	}, [onIntersect]);
 
 	useEffect(() => {
-		if (!observerRef.current && !!containerRef?.current) {
+		if (containerRef?.current) {
 			observerRef.current = new IntersectionObserver(
 				(entries) => {
 					entries.forEach((entry) => {

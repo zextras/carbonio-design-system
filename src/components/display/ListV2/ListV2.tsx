@@ -109,21 +109,18 @@ const ListV2 = React.forwardRef(function ListV2Fn(
 		intersectionObserverInitOptions
 	);
 
-	useEffect(
-		() => {
-			const bottomElement = bottomElementRef.current;
-			if (bottomElement) {
-				observe(bottomElement);
-			}
-
-			return (): void => {
-				if (bottomElement) {
-					unobserve(bottomElement);
-				}
-			};
+	useEffect(() => {
+		const bottomElement = bottomElementRef.current;
+		if (bottomElement) {
+			observe(bottomElement);
 		}
-		/* do not define deps array -> un-observe and re-observe each time the component is re-rendered */
-	);
+
+		return (): void => {
+			if (bottomElement) {
+				unobserve(bottomElement);
+			}
+		};
+	}, [children, observe, unobserve]);
 
 	return (
 		<ExternalContainer ref={listRef} {...rest}>
