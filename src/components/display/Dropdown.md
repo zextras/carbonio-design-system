@@ -222,6 +222,100 @@ const toggleDisabled = (itemIndex) => {
 </Container>
 ```
 
+### Keyboard shortcuts
+#### Trigger component
+| Key              | Action                     | Notes                                          |
+|------------------|----------------------------|------------------------------------------------|
+| Enter<br/> Space | Toggle dropdown open state | Can be enabled with prop `handleTriggerEvents` | 
+
+#### Dropdown
+| Key                        | Action                                                                    | Notes                                                                                                                                    |
+|----------------------------|---------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------|
+| Arrow down <br/> Tab       | Focus on next item <br/> On last item: focus on first item                |                                                                                                                                          |
+| Arrow up <br/> Shift + Tab | Focus on previous item <br/> On first item: focus on last item            |                                                                                                                                          |
+| Enter                      | Select current item                                                       |                                                                                                                                          |
+| Escape                     | Close dropdown and return focus to trigger component                      | Use `disableRestoreFocus` to not return of the focus <br/> For nested dropdown, the trigger component is the item of the parent dropdown |
+| Arrow right                | Open nested dropdown (if present)                                         |                                                                                                                                          |
+| Arrow left                 | Close nested dropdown and return focus to the item of the parent dropdown |                                                                                                                                          |
+
+```jsx
+import { useState } from 'react';
+import { noop } from 'lodash';
+import { Button, Container, Text } from '@zextras/carbonio-design-system';
+
+const [selectedOption, setSelectedOption] = useState('');
+
+const items = [
+	{
+		id: 'item1',
+		label: 'item1',
+		tooltipLabel: 'item 1 tooltip',
+    onClick: () => {
+			setSelectedOption('item1')
+    }
+	},
+	{
+		id: 'item2',
+		label: 'item2 keep open',
+		tooltipLabel: 'item 2 tooltip',
+		onClick: () => {
+			setSelectedOption('item2')
+		},
+    keepOpen: true,
+	},
+	{
+		id: 'item3',
+		label: 'item3',
+		tooltipLabel: 'item 3 tooltip',
+		onClick: () => {
+			setSelectedOption('item3')
+		},
+		items: [
+			{
+				id: 'item31',
+				label: 'item3-1',
+				tooltipLabel: 'item 3-1 tooltip',
+				onClick: (e) => {
+					setSelectedOption('item3-1')
+				}
+			},
+			{
+				id: 'item32',
+				label: 'item3-2',
+				tooltipLabel: 'item 3-2 tooltip',
+				onClick: (e) => {
+					setSelectedOption('item3-2')
+				}
+			},
+			{
+				id: 'item33',
+				label: 'item3-3 keep open',
+				tooltipLabel: 'item 3-3 tooltip',
+				onClick: (e) => {
+					setSelectedOption('item3-3')
+				},
+        keepOpen: true
+			}
+		]
+	}
+];
+
+<Container orientation={'horizontal'} mainAlignment={'space-evenly'}>
+  <Dropdown items={items} handleTriggerEvents>
+    <Button label="space or enter to open" onClick={noop} />
+  </Dropdown>
+  <Text>{selectedOption}</Text>
+</Container>
+```
+
+```jsx
+
+const items = [{ id: 'item1', label: 'item 1'}, { id: 'divider', type: 'divider'}, { id: 'item2', label: 'item 2'}];
+<Dropdown items={items} handleTriggerEvents>
+  <div tabIndex={0}>place focus on this container, then press space or enter to open the dropdown</div>
+</Dropdown>
+```
+
 ### Development status:
 
 ```jsx noEditor

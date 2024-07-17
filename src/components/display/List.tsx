@@ -196,11 +196,9 @@ const List = React.forwardRef<HTMLDivElement, ListProps<any>>(function ListFn(
 ) {
 	const selecting = useMemo(() => some(selected, (i) => !!i), [selected]);
 	const listRef = useRef<HTMLDivElement | null>(null);
-	const useKeyboardShortcuts = (): undefined => undefined;
 
 	const keyEvents = useMemo<KeyboardPresetObj[]>(
-		() =>
-			keyboardShortcutsIsDisabled ? [] : getKeyboardPreset('list', useKeyboardShortcuts, listRef),
+		() => (keyboardShortcutsIsDisabled ? [] : getKeyboardPreset('list', undefined, listRef)),
 		[listRef, keyboardShortcutsIsDisabled]
 	);
 	useKeyboard(listRef, keyEvents);
