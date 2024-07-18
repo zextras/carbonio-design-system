@@ -25,7 +25,18 @@ import { defaultKeyMap } from '@testing-library/user-event/dist/cjs/keyboard/key
 
 import { ThemeProvider } from './theme/theme-context-provider';
 
-export type UserEvent = ReturnType<(typeof userEvent)['setup']> & {
+type User = ReturnType<(typeof userEvent)['setup']> & {
+	readonly rightClick: (target: Element) => Promise<void>;
+};
+type KeyboardEventFn = () => ReturnType<User['keyboard']>;
+
+export type UserEvent = User & {
+	readonly arrowUp: KeyboardEventFn;
+	readonly arrowDown: KeyboardEventFn;
+	readonly arrowLeft: KeyboardEventFn;
+	readonly arrowRight: KeyboardEventFn;
+	readonly esc: KeyboardEventFn;
+	readonly enter: KeyboardEventFn;
 	readonly rightClick: (target: Element) => Promise<void>;
 };
 
@@ -111,26 +122,29 @@ type SetupOptions = {
 	setupOptions?: Parameters<(typeof userEvent)['setup']>[0];
 };
 
-const setupUserEvent = (options: SetupOptions['setupOptions']): UserEvent => {
-	const user = userEvent.setup(options);
-	const rightClick = (target: Element): Promise<void> =>
-		user.pointer({ target, keys: '[MouseRight]' });
-
+function setupUserEvent(options?: SetupOptions['setupOptions']): UserEvent {
+	const user = userEvent.setup({
+		keyboardMap: [{ code: 'Comma', key: ',' }, ...defaultKeyMap],
+		advanceTimers: jest.advanceTimersByTimeAsync,
+		...options
+	});
 	return {
 		...user,
-		rightClick
+		arrowUp: () => user.keyboard('[ArrowUp]'),
+		arrowDown: () => user.keyboard('[ArrowDown]'),
+		arrowLeft: () => user.keyboard('[ArrowLeft]'),
+		arrowRight: () => user.keyboard('[ArrowRight]'),
+		esc: () => user.keyboard('[Escape]'),
+		enter: () => user.keyboard('[Enter]'),
+		rightClick: (target: Element): Promise<void> => user.pointer({ target, keys: '[MouseRight]' })
 	};
-};
+}
 
 export const setup = (
 	ui: ReactElement,
 	options?: SetupOptions
 ): { user: UserEvent } & ReturnType<typeof customRender> => ({
-	user: setupUserEvent({
-		keyboardMap: [{ code: 'Comma', key: ',' }, ...defaultKeyMap],
-		advanceTimers: jest.advanceTimersByTime,
-		...options?.setupOptions
-	}),
+	user: setupUserEvent(options?.setupOptions),
 	...customRender(ui, options?.renderOptions)
 });
 

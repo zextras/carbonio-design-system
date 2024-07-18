@@ -12,7 +12,6 @@ import { Icon, IconProps } from './icon/Icon';
 import { Spinner } from './Spinner';
 import { Text } from './text/Text';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
-import { getKeyboardPreset, useKeyboard } from '../../hooks/useKeyboard';
 import { getColor, pseudoClasses } from '../../theme/theme-utils';
 import { AnyColor, With$Prefix, Without$Prefix } from '../../types/utils';
 
@@ -373,9 +372,6 @@ const Button = React.forwardRef<HTMLDivElement, ButtonProps>(function ButtonFn(
 		},
 		[secondaryAction]
 	);
-
-	const keyEvents = useMemo(() => getKeyboardPreset('button', clickHandler), [clickHandler]);
-	useKeyboard(innerButtonRef, keyEvents);
 
 	const colors = useMemo(() => getColors(type, { type, ...rest }), [type, rest]);
 
