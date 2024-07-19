@@ -1,0 +1,17 @@
+import { Meta, Controls, Stories, Title, Primary } from '@storybook/blocks';
+import * as ListV2Stories from './ListV2.stories';
+
+<Meta of={ListV2Stories} />
+
+<Title />
+
+The items are passed as children of the List component, and the management of the selected, active and
+of the other controlled statuses are left to the external Component.
+
+The props **background**, **activeBackground** and **selectedBackground** are available on the main list
+with their default, but be aware that they are just passed to the children.
+In other words, they represent a short way to define the background on the ListItems.
+
+<Primary />
+
+<Controls />
