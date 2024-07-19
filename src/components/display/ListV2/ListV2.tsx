@@ -4,15 +4,15 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 
 import styled, { DefaultTheme } from 'styled-components';
 
-import { ListItemProps } from './ListItem';
-import { useCombinedRefs } from '../../hooks/useCombinedRefs';
-import { useIsVisible } from '../../hooks/useIsVisible';
-import { getKeyboardPreset, KeyboardPresetObj, useKeyboard } from '../../hooks/useKeyboard';
-import { Container, ContainerProps } from '../layout/Container';
+import { useCombinedRefs } from '../../../hooks/useCombinedRefs';
+import { useIntersectionObserver } from '../../../hooks/useIntersectionObserver/useIntersectionObserver';
+import { getKeyboardPreset, KeyboardPresetObj, useKeyboard } from '../../../hooks/useKeyboard';
+import { Container, ContainerProps } from '../../layout/Container';
+import { ListItemProps } from '../ListItem';
 
 const ExternalContainer = styled(Container)`
 	display: block;
@@ -35,36 +35,6 @@ const StyledList = styled(Container)`
 		border-radius: 0.25rem;
 	}
 `;
-
-interface BottomElementProps {
-	listRef: React.RefObject<HTMLDivElement>;
-	onVisible: () => void;
-	intersectionObserverInitOptions?: IntersectionObserverInit;
-}
-
-const BottomElement: React.VFC<BottomElementProps> = ({
-	listRef,
-	onVisible,
-	intersectionObserverInitOptions
-}) => {
-	const [inView, ref] = useIsVisible<HTMLDivElement>(
-		listRef,
-		undefined,
-		intersectionObserverInitOptions
-	);
-	useEffect(() => {
-		if (inView && onVisible) {
-			onVisible();
-		}
-	}, [inView, onVisible]);
-	return (
-		<div
-			ref={ref}
-			style={{ minHeight: '4px', minWidth: '1px' }}
-			data-testid={'list-bottom-element'}
-		/>
-	);
-};
 
 interface ListV2Props extends ContainerProps {
 	/** intersectionObserverInitOptions of the intersectionObserver inside BottomElement */
@@ -104,28 +74,61 @@ const ListV2 = React.forwardRef(function ListV2Fn(
 	);
 	useKeyboard(listRef, keyEvents);
 
+	const bottomElementRef = useRef<HTMLDivElement>(null);
+
 	const listItems = useMemo(
 		() =>
 			children.map((child) =>
 				React.cloneElement(child, {
 					listRef,
-					selectedBackground: child.props.selectedBackground || selectedBackground,
-					activeBackground: child.props.activeBackground || activeBackground,
-					background: child.props.background || background
+					selectedBackground: child.props.selectedBackground ?? selectedBackground,
+					activeBackground: child.props.activeBackground ?? activeBackground,
+					background: child.props.background ?? background
 				})
 			),
 		[activeBackground, background, children, listRef, selectedBackground]
 	);
+
+	const onListBottomRef = useRef(onListBottom);
+
+	useEffect(() => {
+		onListBottomRef.current = onListBottom;
+	}, [onListBottom]);
+
+	const onIntersect = useCallback((entry: IntersectionObserverEntry) => {
+		if (entry.target === bottomElementRef.current && entry.isIntersecting) {
+			onListBottomRef.current?.();
+		}
+	}, []);
+
+	const { observe, unobserve } = useIntersectionObserver(
+		listRef,
+		onIntersect,
+		intersectionObserverInitOptions
+	);
+
+	useEffect(() => {
+		const bottomElement = bottomElementRef.current;
+		if (bottomElement) {
+			observe(bottomElement);
+		}
+
+		return (): void => {
+			if (bottomElement) {
+				unobserve(bottomElement);
+			}
+		};
+	}, [children, observe, unobserve]);
 
 	return (
 		<ExternalContainer ref={listRef} {...rest}>
 			<StyledList orientation="vertical" mainAlignment="flex-start" crossAlignment="stretch">
 				{listItems}
 				{onListBottom && (
-					<BottomElement
-						listRef={listRef}
-						onVisible={onListBottom}
-						intersectionObserverInitOptions={intersectionObserverInitOptions}
+					<div
+						ref={bottomElementRef}
+						style={{ minHeight: '4px', minWidth: '1px' }}
+						data-testid={'list-bottom-element'}
 					/>
 				)}
 			</StyledList>

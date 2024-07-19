@@ -7,6 +7,7 @@
 import React, { type ReactElement } from 'react';
 
 import {
+	act,
 	ByRoleMatcher,
 	ByRoleOptions,
 	GetAllBy,
@@ -19,7 +20,6 @@ import {
 	screen as rtlScreen,
 	within as rtlWithin
 } from '@testing-library/react';
-import { act } from '@testing-library/react-hooks';
 import userEvent from '@testing-library/user-event';
 import { defaultKeyMap } from '@testing-library/user-event/dist/cjs/keyboard/keyMap';
 

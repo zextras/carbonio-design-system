@@ -7,10 +7,10 @@ import React from 'react';
 
 import { screen } from '@testing-library/react';
 
-import { ListItem } from './ListItem';
 import { ListV2 } from './ListV2';
-import { setup } from '../../test-utils';
-import { Container } from '../layout/Container';
+import { setup } from '../../../test-utils';
+import { Container } from '../../layout/Container';
+import { ListItem } from '../ListItem';
 
 describe('List', () => {
 	test('Render a basic list', () => {
