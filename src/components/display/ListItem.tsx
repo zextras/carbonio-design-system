@@ -11,22 +11,6 @@ import { useIsVisible } from '../../hooks/useIsVisible/useIsVisible';
 import { pseudoClasses } from '../../theme/theme-utils';
 import { AnyColor } from '../../types/utils';
 
-/**
- * @deprecated Use ListItemProps instead
- */
-interface ListItemWrapperProps {
-	/** Base background color for the item */
-	background?: AnyColor;
-	/** Background color for the selected status */
-	selectedBackground?: AnyColor;
-	/** Background color for the active status */
-	activeBackground?: AnyColor;
-	/** Define if the item is active in order to show the activeBackground */
-	active?: boolean;
-	/** Define if the item is selected in order to show the selectedBackground */
-	selected?: boolean;
-}
-
 const ListItemWrapper = styled.div<{ $backgroundColor?: AnyColor }>`
 	user-select: none;
 	outline: none;
@@ -93,4 +77,4 @@ function ListItemFn(
 
 const ListItem = React.forwardRef(ListItemFn);
 
-export { ListItem, ListItemProps, ListItemWrapperProps };
+export { ListItem, type ListItemProps };
