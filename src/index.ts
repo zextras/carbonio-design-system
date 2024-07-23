@@ -9,7 +9,7 @@ import './styled-components';
 
 /** Basic components */
 export * from './components/basic/Avatar';
-export * from './components/basic/Badge';
+export * from './components/basic/badge/Badge';
 export * from './components/basic/Button';
 export { Icon, type IconProps } from './components/basic/icon/Icon';
 export * from './components/basic/Link';
