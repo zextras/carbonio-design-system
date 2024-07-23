@@ -19,10 +19,6 @@ import { Container } from '../../layout/Container';
 type ActionButton = ButtonProps & { type?: never; color?: never; backgroundColor?: never };
 
 type BannerProps = HTMLAttributes<HTMLDivElement> & {
-	/**
-	 * @deprecated use severity instead
-	 */
-	status?: 'success' | 'warning' | 'info' | 'error';
 	severity?: 'success' | 'warning' | 'info' | 'error';
 	type?: 'standard' | 'fill' | 'outline';
 	title?: string;
@@ -105,8 +101,7 @@ const BannerContainer = styled(Container)<{ $isMultiline: boolean }>`
 
 const Banner = React.forwardRef<HTMLDivElement, BannerProps>(function BannerFn(
 	{
-		status = 'success',
-		severity = status,
+		severity = 'success',
 		type = 'fill',
 		title,
 		description,
@@ -167,7 +162,7 @@ const Banner = React.forwardRef<HTMLDivElement, BannerProps>(function BannerFn(
 	}, [bannerRef, onBannerResize]);
 
 	const contentFlexBasis = useMemo(() => {
-		const titleLength = title?.length || 0;
+		const titleLength = title?.length ?? 0;
 		const descriptionLength = description.length * 0.875;
 		// calculate the number of character which can be seen in a line,
 		// in order to keep all text visible (both title and description - more or less, it is not super precise)
