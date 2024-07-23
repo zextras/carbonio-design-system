@@ -7,6 +7,7 @@
 import React, { type ReactElement } from 'react';
 
 import {
+	act,
 	ByRoleMatcher,
 	ByRoleOptions,
 	GetAllBy,
@@ -19,13 +20,23 @@ import {
 	screen as rtlScreen,
 	within as rtlWithin
 } from '@testing-library/react';
-import { act } from '@testing-library/react-hooks';
 import userEvent from '@testing-library/user-event';
 import { defaultKeyMap } from '@testing-library/user-event/dist/cjs/keyboard/keyMap';
 
 import { ThemeProvider } from './theme/theme-context-provider';
 
-export type UserEvent = ReturnType<(typeof userEvent)['setup']>;
+type User = ReturnType<(typeof userEvent)['setup']>;
+type KeyboardEventFn = () => ReturnType<User['keyboard']>;
+
+export type UserEvent = User & {
+	readonly arrowUp: KeyboardEventFn;
+	readonly arrowDown: KeyboardEventFn;
+	readonly arrowLeft: KeyboardEventFn;
+	readonly arrowRight: KeyboardEventFn;
+	readonly esc: KeyboardEventFn;
+	readonly enter: KeyboardEventFn;
+	readonly rightClick: (target: Element) => Promise<void>;
+};
 
 interface WrapperProps {
 	children?: React.ReactNode;
@@ -107,15 +118,29 @@ type SetupOptions = {
 	setupOptions?: Parameters<(typeof userEvent)['setup']>[0];
 };
 
+function setupUserEvent(options?: SetupOptions['setupOptions']): UserEvent {
+	const user = userEvent.setup({
+		keyboardMap: [{ code: 'Comma', key: ',' }, ...defaultKeyMap],
+		advanceTimers: jest.advanceTimersByTime,
+		...options
+	});
+	return {
+		...user,
+		arrowUp: () => user.keyboard('[ArrowUp]'),
+		arrowDown: () => user.keyboard('[ArrowDown]'),
+		arrowLeft: () => user.keyboard('[ArrowLeft]'),
+		arrowRight: () => user.keyboard('[ArrowRight]'),
+		esc: () => user.keyboard('[Escape]'),
+		enter: () => user.keyboard('[Enter]'),
+		rightClick: (target: Element): Promise<void> => user.pointer({ target, keys: '[MouseRight]' })
+	};
+}
+
 export const setup = (
 	ui: ReactElement,
 	options?: SetupOptions
 ): { user: UserEvent } & ReturnType<typeof customRender> => ({
-	user: userEvent.setup({
-		keyboardMap: [{ code: 'Comma', key: ',' }, ...defaultKeyMap],
-		advanceTimers: jest.advanceTimersByTime,
-		...options?.setupOptions
-	}),
+	user: setupUserEvent(options?.setupOptions),
 	...customRender(ui, options?.renderOptions)
 });
 

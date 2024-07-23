@@ -7,7 +7,7 @@ import React from 'react';
 
 import styled, { SimpleInterpolation } from 'styled-components';
 
-import { useIsVisible } from '../../hooks/useIsVisible';
+import { useIsVisible } from '../../hooks/useIsVisible/useIsVisible';
 import { pseudoClasses } from '../../theme/theme-utils';
 import { AnyColor } from '../../types/utils';
 
