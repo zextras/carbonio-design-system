@@ -10,7 +10,7 @@ import { screen } from '@testing-library/react';
 
 import { Tooltip } from './Tooltip';
 import { setup } from '../../test-utils';
-import { Button } from '../basic/Button';
+import { Button } from '../basic/button/Button';
 import { TIMERS } from '../constants';
 import { Container } from '../layout/Container';
 
