@@ -1,9 +1,18 @@
-import { Meta, Controls, Stories, Title, Primary } from '@storybook/blocks';
+import { Meta, Controls, Stories, Title, Primary, Story } from '@storybook/blocks';
 import * as ButtonStories from './Button.stories';
 
 <Meta of={ButtonStories} />
 
 <Title />
+
+- Button can optionally have an icon.
+
+- forceActive property fix the status and styles the button as active.
+
+- Disabled has priority on forceActive.
+
+- Secondary action is totally independent of main button, and so are its status.\
+To set the disabled and forceActive status on the secondary action, set the properties on the secondaryAction object prop.
 
 <Primary />
 
