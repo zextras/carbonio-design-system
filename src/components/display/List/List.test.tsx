@@ -7,7 +7,7 @@ import React from 'react';
 
 import { screen } from '@testing-library/react';
 
-import { ListV2 } from './ListV2';
+import { List } from './List';
 import { setup } from '../../../test-utils';
 import { Container } from '../../layout/Container';
 import { ListItem } from '../ListItem';
@@ -29,7 +29,7 @@ describe('List', () => {
 			<ListItem key={item.id}>{(): React.JSX.Element => <div>{item.name}</div>}</ListItem>
 		));
 
-		setup(<ListV2>{listItems}</ListV2>);
+		setup(<List>{listItems}</List>);
 
 		expect(screen.getByText('item 1')).toBeVisible();
 		expect(screen.getByText('item 2')).toBeVisible();
@@ -59,7 +59,7 @@ describe('List', () => {
 			</ListItem>
 		));
 
-		const { user } = setup(<ListV2>{listItems}</ListV2>);
+		const { user } = setup(<List>{listItems}</List>);
 
 		expect(screen.getByText('item 1')).toBeVisible();
 		expect(screen.getByText('item 2')).toBeVisible();
