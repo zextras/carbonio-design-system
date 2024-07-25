@@ -61,8 +61,6 @@ const icons = {
 interface SnackbarProps extends Omit<ContainerProps, 'children'> {
 	/** Whether to show the Snackbar or not */
 	open?: boolean;
-	/** @deprecated Use severity instead */
-	type?: 'success' | 'info' | 'warning' | 'error';
 	/** Snackbar severity */
 	severity?: 'success' | 'info' | 'warning' | 'error';
 	/** Snackbar text message */
@@ -85,8 +83,6 @@ interface SnackbarProps extends Omit<ContainerProps, 'children'> {
 	target?: Window;
 	/** Flag to disable the Portal implementation */
 	disablePortal?: boolean;
-	/** @deprecated Flag to disable the multiline implementation */
-	singleLine?: boolean;
 	/**
 	 * Show a progress bar for the auto-hide timeout counter.
 	 * Be sure to have uniq keys when showing the progress bar on multiple snackbars.
@@ -97,8 +93,7 @@ interface SnackbarProps extends Omit<ContainerProps, 'children'> {
 const Snackbar = React.forwardRef<HTMLDivElement, SnackbarProps>(function SnackbarFn(
 	{
 		open = false,
-		type = 'info',
-		severity = type,
+		severity = 'info',
 		label,
 		disableAutoHide = false,
 		hideButton = false,
@@ -109,7 +104,6 @@ const Snackbar = React.forwardRef<HTMLDivElement, SnackbarProps>(function Snackb
 		autoHideTimeout = TIMERS.SNACKBAR.DEFAULT_HIDE_TIMEOUT,
 		target = window,
 		disablePortal = false,
-		singleLine = false,
 		progressBar = true,
 		...rest
 	}: SnackbarProps,
@@ -182,7 +176,7 @@ const Snackbar = React.forwardRef<HTMLDivElement, SnackbarProps>(function Snackb
 								flexGrow={1}
 								width={'auto'}
 							>
-								<Text color="gray6" size="medium" overflow={singleLine ? 'ellipsis' : 'break-word'}>
+								<Text color="gray6" size="medium" overflow={'break-word'}>
 									{label}
 								</Text>
 							</Row>
