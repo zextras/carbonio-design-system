@@ -70,7 +70,7 @@ const Badge = forwardRef<HTMLDivElement, BadgeProps>(function BadgeFn(
 	);
 });
 
-interface BadgeComponentProps {
+interface BadgeProps extends Omit<HTMLAttributes<HTMLDivElement>, 'color'> {
 	/**
 	 * Badge type
 	 * @deprecated use backgroundColor and color instead
@@ -88,7 +88,4 @@ interface BadgeComponentProps {
 	color?: AnyColor;
 }
 
-type BadgeProps = BadgeComponentProps &
-	Omit<HTMLAttributes<HTMLSpanElement>, keyof BadgeComponentProps>;
-
-export { Badge, BadgeProps, BadgeComponentProps };
+export { Badge, BadgeProps };

@@ -6,7 +6,7 @@
 
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { Badge, BadgeComponentProps } from './Badge';
+import { Badge } from './Badge';
 import { colorArgType } from '../../../docs/utils';
 
 const meta = {
@@ -15,7 +15,7 @@ const meta = {
 		color: colorArgType,
 		backgroundColor: colorArgType
 	}
-} satisfies Meta<BadgeComponentProps>;
+} satisfies Meta<typeof Badge>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
