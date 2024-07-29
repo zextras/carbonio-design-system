@@ -46,7 +46,7 @@ type ChipAction = {
 	  }
 );
 
-interface ChipProps extends RowProps {
+interface ChipProps extends Omit<RowProps, 'children'> {
 	/** Chip actions (buttons or icons) */
 	actions?: ChipAction[];
 	/** Chip Avatar Icon */
