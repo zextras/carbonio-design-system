@@ -11,6 +11,7 @@ import { expect, within, userEvent, screen } from '@storybook/test';
 
 import { Snackbar, SnackbarProps } from './Snackbar';
 import { Button } from '../../basic/Button';
+import { Text } from '../../basic/text/Text';
 
 const SnackbarStory = ({ open, ...rest }: SnackbarProps): React.JSX.Element => {
 	const [snack, setSnack] = useState(false);
@@ -121,3 +122,9 @@ export const MediumTextAction: Story = {
 		disableAutoHide: true
 	}
 };
+
+export const WithComponentLabel = {
+	args: {
+		label: <Text>Label is a custom component</Text>
+	}
+} satisfies Story;
