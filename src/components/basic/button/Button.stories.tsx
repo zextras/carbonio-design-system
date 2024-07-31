@@ -35,71 +35,71 @@ export const Label = {
 	args: {
 		label: 'Label'
 	}
-};
+} satisfies Story;
 
 export const Color = {
 	args: {
 		color: 'warning',
 		labelColor: 'error'
 	}
-};
+} satisfies Story;
 
 export const Type = {
 	args: { type: 'outlined' }
-};
+} satisfies Story;
 
 export const Icon = {
 	args: {
 		icon: 'AppointmentOutline'
 	}
-};
+} satisfies Story;
 
 export const Size = {
 	args: {
 		size: 'extralarge'
 	}
-};
+} satisfies Story;
 
 export const Width = {
 	args: {
 		width: 'fill'
 	}
-};
+} satisfies Story;
 
 export const Shape = {
 	args: {
 		shape: 'round'
 	}
-};
+} satisfies Story;
 
 export const ForceActive = {
 	args: {
 		forceActive: true
 	}
-};
+} satisfies Story;
 
 export const Disabled = {
 	args: {
 		disabled: true
 	}
-};
+} satisfies Story;
 
 export const IconPlacement = {
 	args: {
 		icon: 'AppointmentOutline',
 		iconPlacement: 'left'
 	}
-};
+} satisfies Story;
 
 export const Loading = {
 	args: {
 		loading: true
 	}
-};
+} satisfies Story;
 
 export const SecondaryAction = {
 	args: {
 		icon: 'AppointmentOutline',
 		secondaryAction: { onClick: fn(), icon: 'ChevronDown' }
 	}
-};
+} satisfies Story;
