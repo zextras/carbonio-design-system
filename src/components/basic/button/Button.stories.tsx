@@ -97,7 +97,7 @@ export const Loading = {
 	}
 } satisfies Story;
 
-export const SecodaryAction = {
+export const SecondaryAction = {
 	args: {
 		icon: 'AppointmentOutline',
 		secondaryAction: { onClick: fn(), icon: 'ChevronDown' }
