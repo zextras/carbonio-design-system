@@ -63,6 +63,7 @@ type IconButtonProps = ButtonProps & {
 	secondaryAction?: never;
 };
 
+/** @deprecated use Button with just the icon instead */
 const IconButton = React.forwardRef<HTMLDivElement, IconButtonProps>(function IconButtonFn(
 	{
 		iconColor = 'text',
