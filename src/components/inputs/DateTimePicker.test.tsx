@@ -10,7 +10,7 @@ import { format, addMonths, startOfMonth } from 'date-fns';
 import { DateTimePicker, DateTimePickerProps } from './DateTimePicker';
 import { setup, screen, within } from '../../test-utils';
 import { ICONS, SELECTORS } from '../../testUtils/constants';
-import { Button } from '../basic/Button';
+import { Button } from '../basic/button/Button';
 
 const DEFAULT_DATE_FORMAT = 'MMMM d, yyyy h:mm aa';
 

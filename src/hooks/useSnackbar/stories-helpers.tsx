@@ -7,7 +7,7 @@
 import React, { useRef } from 'react';
 
 import { useSnackbar } from './useSnackbar';
-import { Button } from '../../components/basic/Button';
+import { Button } from '../../components/basic/button/Button';
 import { CreateSnackbarFnArgs } from '../../components/utilities/SnackbarManager';
 
 export const Hook = (createSnackbarArgs: CreateSnackbarFnArgs): React.JSX.Element => {
