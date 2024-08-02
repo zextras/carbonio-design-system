@@ -9,7 +9,7 @@ import { act as rtlAct } from '@testing-library/react';
 import { act, renderHook } from '@testing-library/react-hooks';
 
 import { useSnackbar } from './useSnackbar';
-import { Button } from '../../components/basic/Button';
+import { Button } from '../../components/basic/button/Button';
 import { TIMERS } from '../../components/constants';
 import {
 	CloseSnackbarFn,

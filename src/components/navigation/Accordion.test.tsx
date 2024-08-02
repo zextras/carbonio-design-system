@@ -12,7 +12,7 @@ import { waitFor } from '@testing-library/react';
 import { Accordion, AccordionItem, AccordionItemType, AccordionProps } from './Accordion';
 import { setup, screen, within } from '../../test-utils';
 import { ICONS, SELECTORS } from '../../testUtils/constants';
-import { Button } from '../basic/Button';
+import { Button } from '../basic/button/Button';
 import { TIMERS } from '../constants';
 
 describe('Accordion', () => {
