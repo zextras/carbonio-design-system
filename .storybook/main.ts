@@ -7,6 +7,7 @@ const config: StorybookConfig = {
         '@storybook/addon-essentials',
         '@storybook/addon-interactions',
         '@storybook/test',
+        '@storybook/addon-designs'
     ],
 	framework: {
 		name: '@storybook/react-webpack5',
