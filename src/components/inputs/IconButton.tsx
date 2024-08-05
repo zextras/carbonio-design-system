@@ -11,7 +11,7 @@ import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-component
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { useKeyboard, getKeyboardPreset } from '../../hooks/useKeyboard';
 import { getPadding, isThemeSize, useTheme } from '../../theme/theme-utils';
-import { Button, ButtonProps } from '../basic/Button';
+import { Button, ButtonProps } from '../basic/button/Button';
 
 const StyledIconButton = styled(Button)<{
 	$iconSize?: string;
@@ -63,6 +63,7 @@ type IconButtonProps = ButtonProps & {
 	secondaryAction?: never;
 };
 
+/** @deprecated use Button with just the icon instead */
 const IconButton = React.forwardRef<HTMLDivElement, IconButtonProps>(function IconButtonFn(
 	{
 		iconColor = 'text',

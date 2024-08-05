@@ -8,8 +8,8 @@ import React from 'react';
 import { screen } from '@testing-library/react';
 
 import { MultiButton, MultiButtonProps } from './MultiButton';
-import { setup } from '../../test-utils';
-import { ICONS } from '../../testUtils/constants';
+import { setup } from '../../../test-utils';
+import { ICONS } from '../../../testUtils/constants';
 
 describe('MultiButton', () => {
 	test('Click on primary button does not open dropdown', async () => {

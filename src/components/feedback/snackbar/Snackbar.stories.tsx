@@ -10,7 +10,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { expect, within, userEvent, screen } from '@storybook/test';
 
 import { Snackbar, SnackbarProps } from './Snackbar';
-import { Button } from '../../basic/Button';
+import { Button } from '../../basic/button/Button';
 
 const SnackbarStory = ({ open, ...rest }: SnackbarProps): React.JSX.Element => {
 	const [snack, setSnack] = useState(false);

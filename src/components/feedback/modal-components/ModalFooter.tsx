@@ -7,7 +7,7 @@ import React, { useMemo } from 'react';
 
 import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-components';
 
-import { Button } from '../../basic/Button';
+import { Button } from '../../basic/button/Button';
 import { Tooltip } from '../../display/Tooltip';
 import { Container } from '../../layout/Container';
 import { Padding } from '../../layout/Padding';

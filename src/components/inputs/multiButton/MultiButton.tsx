@@ -8,8 +8,9 @@ import React, { useCallback, useMemo, useRef, useState } from 'react';
 
 import styled, { DefaultTheme } from 'styled-components';
 
-import { Button, ButtonProps } from '../basic/Button';
-import { Dropdown, DropdownProps } from '../display/Dropdown';
+import { AnyColor } from '../../../types/utils';
+import { Button, ButtonProps } from '../../basic/button/Button';
+import { Dropdown, DropdownProps } from '../../display/Dropdown';
 
 const StyledDropdown = styled(Dropdown)<{ $containerWidth: string }>`
 	width: ${({ $containerWidth }): string => $containerWidth};
@@ -27,9 +28,9 @@ type MultiButtonProps = {
 	/** Main icon */
 	primaryIcon?: keyof DefaultTheme['icons'];
 	/** Color of the Button label */
-	color?: string;
+	color?: AnyColor;
 	/** Color of the Button background */
-	background?: string;
+	background?: AnyColor;
 	/** Dropdown items */
 	items: DropdownProps['items'];
 	/** Button size */

@@ -12,7 +12,7 @@ import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-component
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { useKeyboard, getKeyboardPreset } from '../../hooks/useKeyboard';
 import { getColor, pseudoClasses } from '../../theme/theme-utils';
-import { Badge } from '../basic/Badge';
+import { Badge } from '../basic/badge/Badge';
 import { Icon } from '../basic/icon/Icon';
 import { Text, TextProps } from '../basic/text/Text';
 import { Tooltip } from '../display/Tooltip';
