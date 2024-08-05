@@ -15,9 +15,23 @@ export const TIMERS = {
 		DELAY_SHOW: 500
 	},
 	DROPDOWN: {
-		REGISTER_LISTENER: 1
+		CLOSE_NESTED: 500
 	},
 	SNACKBAR: {
 		DEFAULT_HIDE_TIMEOUT: 4000
 	}
 };
+
+// see https://github.com/microsoft/tabster/blob/b5ebf6a9e7cc632427c2159a97c2e74c7e8c0c1c/src/Consts.ts#L9
+export const FOCUSABLE_SELECTOR = [
+	'a[href]',
+	'button:not([disabled])',
+	'input:not([disabled])',
+	'select:not([disabled])',
+	'textarea:not([disabled])',
+	'*[tabindex]',
+	'*[contenteditable]',
+	'details > summary',
+	'audio[controls]',
+	'video[controls]'
+].join(', ');

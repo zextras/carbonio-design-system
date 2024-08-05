@@ -5,37 +5,46 @@
  */
 import React from 'react';
 
-import styled, { DefaultTheme, SimpleInterpolation } from 'styled-components';
+import styled, { SimpleInterpolation } from 'styled-components';
 
-import { useIsVisible } from '../../hooks/useIsVisible';
+import { useIsVisible } from '../../hooks/useIsVisible/useIsVisible';
 import { pseudoClasses } from '../../theme/theme-utils';
+import { AnyColor } from '../../types/utils';
 
+/**
+ * @deprecated Use ListItemProps instead
+ */
 interface ListItemWrapperProps {
 	/** Base background color for the item */
-	background?: string | keyof DefaultTheme['palette'];
+	background?: AnyColor;
 	/** Background color for the selected status */
-	selectedBackground?: string | keyof DefaultTheme['palette'];
+	selectedBackground?: AnyColor;
 	/** Background color for the active status */
-	activeBackground?: string | keyof DefaultTheme['palette'];
+	activeBackground?: AnyColor;
 	/** Define if the item is active in order to show the activeBackground */
 	active?: boolean;
 	/** Define if the item is selected in order to show the selectedBackground */
 	selected?: boolean;
 }
 
-const ListItemWrapper = styled.div.attrs<
-	ListItemWrapperProps,
-	{ backgroundColor?: string | keyof DefaultTheme['palette'] }
->(({ background, selectedBackground, activeBackground, active, selected }) => ({
-	backgroundColor: (active && activeBackground) || (selected && selectedBackground) || background
-}))`
+const ListItemWrapper = styled.div<{ $backgroundColor?: AnyColor }>`
 	user-select: none;
 	outline: none;
-	${({ theme, backgroundColor }): SimpleInterpolation =>
-		backgroundColor && pseudoClasses(theme, backgroundColor)};
+	${({ theme, $backgroundColor }): SimpleInterpolation =>
+		$backgroundColor && pseudoClasses(theme, $backgroundColor)};
 `;
 
-interface ListItemProps extends ListItemWrapperProps {
+interface ListItemProps {
+	/** Base background color for the item */
+	background?: AnyColor;
+	/** Background color for the selected status */
+	selectedBackground?: AnyColor;
+	/** Background color for the active status */
+	activeBackground?: AnyColor;
+	/** Define if the item is active in order to show the activeBackground */
+	active?: boolean;
+	/** Define if the item is selected in order to show the selectedBackground */
+	selected?: boolean;
 	/**
 	 * Ref of the list used to set the visibility of the item.
 	 * The ref is set by the list itself.
@@ -54,13 +63,29 @@ interface ListItemProps extends ListItemWrapperProps {
 }
 
 function ListItemFn(
-	{ listRef, children, ...rest }: ListItemProps,
+	{
+		listRef,
+		children,
+		active,
+		activeBackground,
+		selected,
+		selectedBackground,
+		background,
+		...rest
+	}: ListItemProps,
 	ref: React.ForwardedRef<HTMLDivElement>
 ): React.JSX.Element {
 	const [inView, itemRef] = useIsVisible<HTMLDivElement>(listRef, ref);
 
 	return (
-		<ListItemWrapper tabIndex={0} ref={itemRef} {...rest}>
+		<ListItemWrapper
+			tabIndex={0}
+			ref={itemRef}
+			$backgroundColor={
+				(active && activeBackground) || (selected && selectedBackground) || background
+			}
+			{...rest}
+		>
 			{children(inView)}
 		</ListItemWrapper>
 	);

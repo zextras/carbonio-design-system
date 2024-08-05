@@ -21,7 +21,7 @@ const InputEl = styled.input`
 	font-family: ${({ theme }): string => theme.fonts.default};
 `;
 
-const Label = styled.label<{ active: boolean }>`
+const Label = styled.label<{ $active: boolean }>`
 	position: absolute;
 	left: calc(
 		${({ theme }): string => theme.sizes.padding.large} +
@@ -31,7 +31,7 @@ const Label = styled.label<{ active: boolean }>`
 	font-weight: ${({ theme }): number => theme.fonts.weight.regular};
 	font-family: ${({ theme }): string => theme.fonts.default};
 	color: ${({ theme }): string => theme.palette.secondary.regular};
-	display: ${({ active }): string => (active ? 'none' : 'block')};
+	display: ${({ $active }): string => ($active ? 'none' : 'block')};
 `;
 
 interface SearchInputProps extends ContainerProps {
@@ -48,7 +48,7 @@ const SearchInput = React.forwardRef<HTMLDivElement, SearchInputProps>(function 
 
 	const onInputFocus = useCallback(() => {
 		setActive(true);
-		comboRef.current && comboRef.current.focus();
+		comboRef.current?.focus();
 	}, [setActive, comboRef]);
 
 	const onInputBlur = useCallback(() => setActive(false), [setActive]);
@@ -75,7 +75,7 @@ const SearchInput = React.forwardRef<HTMLDivElement, SearchInputProps>(function 
 		>
 			<Label
 				htmlFor="search"
-				active={active || (comboRef.current !== null && comboRef.current.value !== '')}
+				$active={active || (comboRef.current !== null && comboRef.current.value !== '')}
 			>
 				Search
 			</Label>

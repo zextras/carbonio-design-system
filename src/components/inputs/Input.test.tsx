@@ -9,7 +9,7 @@ import { act, screen, waitFor } from '@testing-library/react';
 
 import { Input } from './Input';
 import { setup } from '../../test-utils';
-import { Button } from '../basic/Button';
+import { Button } from '../basic/button/Button';
 import { Modal } from '../feedback/Modal';
 
 const ModalWithInput = (): React.JSX.Element => {

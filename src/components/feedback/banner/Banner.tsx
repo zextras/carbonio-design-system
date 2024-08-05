@@ -10,7 +10,7 @@ import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-component
 
 import { useCombinedRefs } from '../../../hooks/useCombinedRefs';
 import { useModal } from '../../../hooks/useModal';
-import { Button, ButtonProps } from '../../basic/Button';
+import { Button, ButtonProps } from '../../basic/button/Button';
 import { Icon } from '../../basic/icon/Icon';
 import { Text } from '../../basic/text/Text';
 import { IconButton, IconButtonProps } from '../../inputs/IconButton';
@@ -19,10 +19,6 @@ import { Container } from '../../layout/Container';
 type ActionButton = ButtonProps & { type?: never; color?: never; backgroundColor?: never };
 
 type BannerProps = HTMLAttributes<HTMLDivElement> & {
-	/**
-	 * @deprecated use severity instead
-	 */
-	status?: 'success' | 'warning' | 'info' | 'error';
 	severity?: 'success' | 'warning' | 'info' | 'error';
 	type?: 'standard' | 'fill' | 'outline';
 	title?: string;
@@ -105,8 +101,7 @@ const BannerContainer = styled(Container)<{ $isMultiline: boolean }>`
 
 const Banner = React.forwardRef<HTMLDivElement, BannerProps>(function BannerFn(
 	{
-		status = 'success',
-		severity = status,
+		severity = 'success',
 		type = 'fill',
 		title,
 		description,
@@ -134,7 +129,7 @@ const Banner = React.forwardRef<HTMLDivElement, BannerProps>(function BannerFn(
 
 	const [isMultiline, setIsMultiline] = useState<boolean>(false);
 	const [isTextCropped, setIsTextCropped] = useState<boolean>(false);
-	const createModal = useModal();
+	const { createModal, closeModal } = useModal();
 
 	const onBannerResize = useCallback((bannerContentHeight: number) => {
 		if (actionsContainerRef.current) {
@@ -167,7 +162,7 @@ const Banner = React.forwardRef<HTMLDivElement, BannerProps>(function BannerFn(
 	}, [bannerRef, onBannerResize]);
 
 	const contentFlexBasis = useMemo(() => {
-		const titleLength = title?.length || 0;
+		const titleLength = title?.length ?? 0;
 		const descriptionLength = description.length * 0.875;
 		// calculate the number of character which can be seen in a line,
 		// in order to keep all text visible (both title and description - more or less, it is not super precise)
@@ -179,24 +174,26 @@ const Banner = React.forwardRef<HTMLDivElement, BannerProps>(function BannerFn(
 	}, [title, description?.length]);
 
 	const showMoreInfoModal = useCallback(() => {
-		const closeModal = createModal({
+		const id = Date.now().toString();
+		createModal({
+			id,
 			title,
 			showCloseIcon: true,
 			onClose: () => {
-				closeModal();
+				closeModal(id);
 			},
 			confirmLabel: primaryAction?.label,
 			onConfirm: primaryAction
 				? (event): void => {
 						primaryAction.onClick(event);
-						closeModal();
+						closeModal(id);
 					}
 				: undefined,
 			secondaryActionLabel: secondaryAction?.label,
 			onSecondaryAction: secondaryAction
 				? (event): void => {
 						secondaryAction.onClick(event);
-						closeModal();
+						closeModal(id);
 					}
 				: undefined,
 			closeIconTooltip: closeLabel,
@@ -206,7 +203,7 @@ const Banner = React.forwardRef<HTMLDivElement, BannerProps>(function BannerFn(
 				</Text>
 			)
 		});
-	}, [closeLabel, createModal, description, primaryAction, secondaryAction, title]);
+	}, [closeLabel, closeModal, createModal, description, primaryAction, secondaryAction, title]);
 
 	return (
 		<BannerContainer

@@ -9,7 +9,7 @@ import React, { useRef, useEffect, useMemo } from 'react';
 import { map, some } from 'lodash';
 import styled, { DefaultTheme, SimpleInterpolation } from 'styled-components';
 
-import { useIsVisible } from '../../hooks/useIsVisible';
+import { useIsVisible } from '../../hooks/useIsVisible/useIsVisible';
 import { useKeyboard, getKeyboardPreset, KeyboardPresetObj } from '../../hooks/useKeyboard';
 import { getColor, pseudoClasses } from '../../theme/theme-utils';
 import { Container, ContainerProps } from '../layout/Container';
@@ -33,37 +33,37 @@ const StyledContainer = styled(Container)`
 `;
 
 const StyledDiv = styled.div<{
-	background: keyof DefaultTheme['palette'];
-	selectedBackground: keyof DefaultTheme['palette'];
-	activeBackground: keyof DefaultTheme['palette'];
-	selected: boolean;
-	active: boolean;
+	$background: keyof DefaultTheme['palette'];
+	$selectedBackground: keyof DefaultTheme['palette'];
+	$activeBackground: keyof DefaultTheme['palette'];
+	$selected: boolean;
+	$active: boolean;
 }>`
 	user-select: none;
 	outline: none;
 	background: ${({
 		theme,
-		background,
-		selectedBackground,
-		activeBackground,
-		active,
-		selected
+		$background,
+		$selectedBackground,
+		$activeBackground,
+		$active,
+		$selected
 	}): string =>
 		getColor(
-			(active && activeBackground) || (selected && selectedBackground) || background,
+			($active && $activeBackground) || ($selected && $selectedBackground) || $background,
 			theme
 		)};
 	${({
 		theme,
-		background,
-		selectedBackground,
-		activeBackground,
-		active,
-		selected
+		$background,
+		$selectedBackground,
+		$activeBackground,
+		$active,
+		$selected
 	}): SimpleInterpolation =>
 		pseudoClasses(
 			theme,
-			(active && activeBackground) || (selected && selectedBackground) || background
+			($active && $activeBackground) || ($selected && $selectedBackground) || $background
 		)};
 `;
 
@@ -115,11 +115,11 @@ const LIWrapper = React.memo<LIWrapperProps<any>>(function LIWrapperFn({
 		<StyledDiv
 			tabIndex={index}
 			ref={ref}
-			active={active}
-			selected={selected}
-			selectedBackground={selectedBackground}
-			activeBackground={activeBackground}
-			background={background}
+			$active={active}
+			$selected={selected}
+			$selectedBackground={selectedBackground}
+			$activeBackground={activeBackground}
+			$background={background}
 		>
 			<ItemComponent
 				visible={inView}
@@ -196,11 +196,9 @@ const List = React.forwardRef<HTMLDivElement, ListProps<any>>(function ListFn(
 ) {
 	const selecting = useMemo(() => some(selected, (i) => !!i), [selected]);
 	const listRef = useRef<HTMLDivElement | null>(null);
-	const useKeyboardShortcuts = (): undefined => undefined;
 
 	const keyEvents = useMemo<KeyboardPresetObj[]>(
-		() =>
-			keyboardShortcutsIsDisabled ? [] : getKeyboardPreset('list', useKeyboardShortcuts, listRef),
+		() => (keyboardShortcutsIsDisabled ? [] : getKeyboardPreset('list', undefined, listRef)),
 		[listRef, keyboardShortcutsIsDisabled]
 	);
 	useKeyboard(listRef, keyEvents);

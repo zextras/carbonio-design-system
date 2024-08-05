@@ -10,6 +10,7 @@ import { screen } from '@testing-library/react';
 
 import { Text, TextProps } from './Text';
 import { setup } from '../../../test-utils';
+import { Theme } from '../../../theme/theme';
 
 describe('Text', () => {
 	test('render a text with string content', () => {
@@ -17,9 +18,9 @@ describe('Text', () => {
 		expect(screen.getByText('ABCD')).toBeVisible();
 	});
 
-	test('render a div with disabled attribute', () => {
+	test('render a text with disabled color', () => {
 		setup(<Text disabled>ABCD</Text>);
-		expect(screen.getByText('ABCD')).toHaveAttribute('disabled', '');
+		expect(screen.getByText('ABCD')).toHaveStyle({ color: Theme.palette.text.disabled });
 	});
 
 	test('render text with a component as content', () => {
@@ -41,13 +42,13 @@ describe('Text', () => {
 		'should render the text with textAlign %s',
 		(textAlign) => {
 			setup(<Text textAlign={textAlign}>ACB</Text>);
-			expect(screen.getByText('ACB')).toHaveStyle(`text-align: ${textAlign}`);
+			expect(screen.getByText('ACB')).toHaveStyle({ textAlign });
 		}
 	);
 
 	it('should render the text with line height', () => {
 		const lineHeight = faker.number.int({ max: 10 });
 		setup(<Text lineHeight={lineHeight}>ABC</Text>);
-		expect(screen.getByText('ABC')).toHaveStyle(`line-height: ${lineHeight};`);
+		expect(screen.getByText('ABC')).toHaveStyle({ lineHeight });
 	});
 });

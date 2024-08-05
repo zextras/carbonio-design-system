@@ -9,9 +9,9 @@ import './styled-components';
 
 /** Basic components */
 export * from './components/basic/Avatar';
-export * from './components/basic/Badge';
-export * from './components/basic/Button';
-export * from './components/basic/icon/Icon';
+export * from './components/basic/badge/Badge';
+export * from './components/basic/button/Button';
+export { Icon, type IconProps } from './components/basic/icon/Icon';
 export * from './components/basic/Link';
 export * from './components/basic/LoadMore';
 export * from './components/basic/FormSection';
@@ -36,7 +36,7 @@ export {
 export * from './components/inputs/FileLoader';
 export * from './components/inputs/IconButton';
 export * from './components/inputs/IconCheckbox';
-export * from './components/inputs/MultiButton';
+export * from './components/inputs/multiButton/MultiButton';
 export * from './components/inputs/Input';
 export * from './components/inputs/PasswordInput';
 export { Radio, type RadioProps } from './components/inputs/Radio';
@@ -64,7 +64,7 @@ export * from './components/navigation/TabBar';
 export * from './components/display/Chip';
 export * from './components/display/Dropdown';
 export * from './components/display/List';
-export * from './components/display/ListV2';
+export * from './components/display/ListV2/ListV2';
 export * from './components/display/ListItem';
 export * from './components/display/Popover';
 export * from './components/display/Popper';
@@ -106,7 +106,7 @@ export * from './components/utilities/Shimmer';
 export * from './theme/theme-utils';
 export * from './theme/theme-context-provider';
 export * from './theme/zimbra-classic-theme-context-provider';
-export * from './hooks/useIsVisible';
+export * from './hooks/useIsVisible/useIsVisible';
 export * from './hooks/useCheckbox';
 export * from './hooks/useCombinedRefs';
 export * from './hooks/useHiddenCount';
@@ -115,6 +115,8 @@ export * from './hooks/useScreenMode';
 export * from './hooks/useSnackbar/useSnackbar';
 export * from './hooks/useModal';
 export * from './hooks/useSplitVisibility';
+export { useIntersectionObserver } from './hooks/useIntersectionObserver/useIntersectionObserver';
 
 export type { ThemeObj as Theme } from './theme/theme';
 export * from './globals';
+export type { AnyColor, PaletteColor } from './types/utils';

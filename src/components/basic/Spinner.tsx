@@ -5,12 +5,13 @@
  */
 import React, { HTMLAttributes } from 'react';
 
-import styled, { DefaultTheme, keyframes } from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 import { getColor } from '../../theme/theme-utils';
+import { AnyColor } from '../../types/utils';
 
 interface SpinnerProps extends HTMLAttributes<HTMLDivElement> {
-	color: string | keyof DefaultTheme['palette'];
+	color: AnyColor;
 }
 
 const rotateKeyframes = keyframes`
@@ -22,10 +23,10 @@ const rotateKeyframes = keyframes`
 	}
 `;
 
-const StyledSpinner = styled.div<SpinnerProps>`
+const StyledSpinner = styled.div<{ $color: AnyColor }>`
 	width: 0.75rem;
 	height: 0.75rem;
-	color: ${({ theme, color }): string => getColor(color, theme)};
+	color: ${({ theme, $color }): string => getColor($color, theme)};
 	border: 0.125rem solid currentColor;
 	border-right-color: transparent;
 	border-radius: 50%;
@@ -36,7 +37,7 @@ const Spinner = React.forwardRef<HTMLDivElement, SpinnerProps>(function SpinnerF
 	{ color, ...rest },
 	ref
 ) {
-	return <StyledSpinner data-testid="spinner" color={color} ref={ref} {...rest} />;
+	return <StyledSpinner data-testid="spinner" $color={color} ref={ref} {...rest} />;
 });
 
 export { Spinner, SpinnerProps };

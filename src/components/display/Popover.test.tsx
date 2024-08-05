@@ -10,7 +10,7 @@ import { screen } from '@testing-library/react';
 
 import { Popover } from './Popover';
 import { setup } from '../../test-utils';
-import { Button } from '../basic/Button';
+import { Button } from '../basic/button/Button';
 import { Input } from '../inputs/Input';
 import { Container } from '../layout/Container';
 

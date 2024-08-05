@@ -23,11 +23,11 @@ import { KeyboardPresetObj, useKeyboard } from '../../hooks/useKeyboard';
 import { setupFloating } from '../../utils/floating-ui';
 import { Portal } from '../utilities/Portal';
 
-const PopperContainer = styled.div<{ open: boolean }>`
+const PopperContainer = styled.div<{ $open: boolean }>`
 	display: none;
 	position: absolute;
-	${({ open }): SimpleInterpolation =>
-		open &&
+	${({ $open }): SimpleInterpolation =>
+		$open &&
 		css`
 			display: block;
 			z-index: 99;
@@ -80,34 +80,31 @@ const Popper = React.forwardRef<HTMLDivElement, PopperProps>(function PopperFn(
 
 	const closePopper = useCallback(
 		(e: Event) => {
-			if (!(popperRef.current && popperRef.current.contains(e.target as Node)) && onClose) {
-				onClose();
+			if (!popperRef.current?.contains(e.target as Node)) {
+				onClose?.();
 			}
 		},
 		[onClose, popperRef]
 	);
 
 	const keyboardClosePopper = useCallback(() => {
-		!disableRestoreFocus && anchorEl.current && anchorEl.current.focus();
-		onClose && onClose();
+		!disableRestoreFocus && anchorEl.current?.focus();
+		onClose?.();
 	}, [anchorEl, disableRestoreFocus, onClose]);
 
 	const onStartSentinelFocus = useCallback(() => {
-		const nodeList = wrapperRef.current
-			? wrapperRef.current.querySelectorAll<HTMLElement>(
-					'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-				)
-			: [];
+		const nodeList =
+			wrapperRef.current?.querySelectorAll<HTMLElement>(
+				'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+			) ?? [];
 		nodeList.length > 0 && nodeList[nodeList.length - 1].focus();
 	}, []);
 
 	const onEndSentinelFocus = useCallback(() => {
-		const node =
-			wrapperRef.current &&
-			wrapperRef.current.querySelector<HTMLElement>(
-				'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-			);
-		node && node.focus();
+		const node = wrapperRef.current?.querySelector<HTMLElement>(
+			'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+		);
+		node?.focus();
 	}, []);
 
 	const escapeEvent = useMemo<KeyboardPresetObj[]>(
@@ -171,21 +168,20 @@ const Popper = React.forwardRef<HTMLDivElement, PopperProps>(function PopperFn(
 		const startSentinelRefSave = startSentinelRef.current;
 		const endSentinelRefSave = endSentinelRef.current;
 		if (open) {
-			wrapperRef.current && wrapperRef.current.focus();
-			startSentinelRefSave && startSentinelRefSave.addEventListener('focus', onStartSentinelFocus);
-			endSentinelRefSave && endSentinelRefSave.addEventListener('focus', onEndSentinelFocus);
+			wrapperRef.current?.focus();
+			startSentinelRefSave?.addEventListener('focus', onStartSentinelFocus);
+			endSentinelRefSave?.addEventListener('focus', onEndSentinelFocus);
 		}
 
 		return (): void => {
-			startSentinelRefSave &&
-				startSentinelRefSave.removeEventListener('focus', onStartSentinelFocus);
-			endSentinelRefSave && endSentinelRefSave.removeEventListener('focus', onEndSentinelFocus);
+			startSentinelRefSave?.removeEventListener('focus', onStartSentinelFocus);
+			endSentinelRefSave?.removeEventListener('focus', onEndSentinelFocus);
 		};
 	}, [open, startSentinelRef, endSentinelRef, onStartSentinelFocus, onEndSentinelFocus]);
 
 	return (
 		<Portal show={open} disablePortal={disablePortal}>
-			<PopperContainer ref={popperRef} open={open} data-testid="popper" {...rest}>
+			<PopperContainer ref={popperRef} $open={open} data-testid="popper" {...rest}>
 				<div tabIndex={0} ref={startSentinelRef} />
 				<PopperWrapper ref={wrapperRef} tabIndex={-1}>
 					{children}
