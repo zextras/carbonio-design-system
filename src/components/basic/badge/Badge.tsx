@@ -8,11 +8,11 @@ import React, { useMemo, forwardRef, HTMLAttributes } from 'react';
 
 import styled, { DefaultTheme } from 'styled-components';
 
-import { Icon } from './icon/Icon';
-import { Text } from './text/Text';
-import { AnyColor } from '../../types/utils';
-import { Tooltip } from '../display/Tooltip';
-import { Container } from '../layout/Container';
+import { AnyColor } from '../../../types/utils';
+import { Tooltip } from '../../display/Tooltip';
+import { Container } from '../../layout/Container';
+import { Icon } from '../icon/Icon';
+import { Text } from '../text/Text';
 
 const Comp = styled(Container)`
 	vertical-align: middle;
@@ -70,7 +70,7 @@ const Badge = forwardRef<HTMLDivElement, BadgeProps>(function BadgeFn(
 	);
 });
 
-interface BadgeComponentProps {
+interface BadgeProps extends Omit<HTMLAttributes<HTMLDivElement>, 'color'> {
 	/**
 	 * Badge type
 	 * @deprecated use backgroundColor and color instead
@@ -87,8 +87,5 @@ interface BadgeComponentProps {
 	/** Badge or Icon color */
 	color?: AnyColor;
 }
-
-type BadgeProps = BadgeComponentProps &
-	Omit<HTMLAttributes<HTMLSpanElement>, keyof BadgeComponentProps>;
 
 export { Badge, BadgeProps };

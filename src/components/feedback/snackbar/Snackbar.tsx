@@ -9,7 +9,7 @@ import React, { useCallback, useEffect } from 'react';
 import styled, { css, DefaultTheme, keyframes, SimpleInterpolation } from 'styled-components';
 
 import { ScreenMode, useScreenMode } from '../../../hooks/useScreenMode';
-import { Button } from '../../basic/Button';
+import { Button } from '../../basic/button/Button';
 import { Icon } from '../../basic/icon/Icon';
 import { Text } from '../../basic/text/Text';
 import { TIMERS } from '../../constants';

@@ -8,7 +8,7 @@ import React, { useRef } from 'react';
 import { act as rtlAct, renderHook } from '@testing-library/react';
 
 import { useSnackbar } from './useSnackbar';
-import { Button } from '../../components/basic/Button';
+import { Button } from '../../components/basic/button/Button';
 import { TIMERS } from '../../components/constants';
 import {
 	CloseSnackbarFn,

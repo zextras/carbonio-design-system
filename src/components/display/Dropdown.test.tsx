@@ -10,7 +10,7 @@ import { screen, act } from '@testing-library/react';
 import { Dropdown, DropdownItem } from './Dropdown';
 import { setup, within } from '../../test-utils';
 import { SELECTORS } from '../../testUtils/constants';
-import { Button } from '../basic/Button';
+import { Button } from '../basic/button/Button';
 import { TIMERS } from '../constants';
 import { Modal } from '../feedback/Modal';
 

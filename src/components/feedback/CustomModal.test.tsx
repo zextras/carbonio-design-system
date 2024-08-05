@@ -10,7 +10,7 @@ import { screen, waitFor } from '@testing-library/react';
 
 import { CustomModal, CustomModalProps } from './CustomModal';
 import { setup } from '../../test-utils';
-import { Button } from '../basic/Button';
+import { Button } from '../basic/button/Button';
 import { Text } from '../basic/text/Text';
 
 const ModalTester = ({ children, ...props }: CustomModalProps): React.JSX.Element => {
