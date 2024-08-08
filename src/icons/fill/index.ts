@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 Zextras <https://www.zextras.com>
+ * SPDX-FileCopyrightText: 2024 Zextras <https://www.zextras.com>
  *
  * SPDX-License-Identifier: AGPL-3.0-only
  */
@@ -52,6 +52,7 @@ export { default as Behance } from './Behance';
 export { default as BellOff } from './BellOff';
 export { default as Bell } from './Bell';
 export { default as Bluetooth } from './Bluetooth';
+export { default as Blur } from './Blur';
 export { default as BoardCollapse } from './BoardCollapse';
 export { default as BoardOpen } from './BoardOpen';
 export { default as BookOpen } from './BookOpen';

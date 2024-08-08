@@ -6,7 +6,7 @@ const SvgBuildingOutline = (props: SVGProps<SVGSVGElement>): React.JSX.Element =
 		<g clipPath="url(#a)">
 			<path
 				fillRule="evenodd"
-				d="M9 4v5H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2h-7a2 2 0 0 0-2 2Zm2 0h7v16H6v-9h5V4Z"
+				d="M9 4v5H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2h-7a2 2 0 0 0-2 2m2 0h7v16H6v-9h5z"
 				clipRule="evenodd"
 			/>
 			<rect width={2} height={2} x={12} y={5} rx={0.6} />
