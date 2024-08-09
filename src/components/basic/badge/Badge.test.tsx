@@ -10,8 +10,8 @@ import { faker } from '@faker-js/faker';
 import { screen, within } from '@testing-library/react';
 
 import { Badge } from './Badge';
-import { setup } from '../../test-utils';
-import { TIMERS } from '../constants';
+import { setup } from '../../../test-utils';
+import { TIMERS } from '../../constants';
 
 describe('Badge', () => {
 	describe('Value and maxValues', () => {

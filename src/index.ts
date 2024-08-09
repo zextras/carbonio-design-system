@@ -9,8 +9,8 @@ import './styled-components';
 
 /** Basic components */
 export * from './components/basic/Avatar';
-export * from './components/basic/Badge';
-export * from './components/basic/Button';
+export * from './components/basic/badge/Badge';
+export * from './components/basic/button/Button';
 export { Icon, type IconProps } from './components/basic/icon/Icon';
 export * from './components/basic/Link';
 export * from './components/basic/LoadMore';
@@ -36,7 +36,7 @@ export {
 export * from './components/inputs/FileLoader';
 export * from './components/inputs/IconButton';
 export * from './components/inputs/IconCheckbox';
-export * from './components/inputs/MultiButton';
+export * from './components/inputs/multiButton/MultiButton';
 export * from './components/inputs/Input';
 export * from './components/inputs/PasswordInput';
 export { Radio, type RadioProps } from './components/inputs/Radio';

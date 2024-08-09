@@ -11,7 +11,7 @@ import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-component
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { useKeyboard, getKeyboardPreset } from '../../hooks/useKeyboard';
 import { getPadding, isThemeSize, useTheme } from '../../theme/theme-utils';
-import { Button, ButtonProps } from '../basic/Button';
+import { Button, ButtonProps } from '../basic/button/Button';
 
 const StyledIconButton = styled(Button)<{
 	$iconSize?: string;
