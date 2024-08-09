@@ -66,7 +66,7 @@ interface SnackbarProps extends Omit<ContainerProps, 'children'> {
 	/** Snackbar severity */
 	severity?: 'success' | 'info' | 'warning' | 'error';
 	/** Snackbar text message */
-	label: string;
+	label: string | React.ReactElement;
 	/** Snackbar button text */
 	actionLabel?: string;
 	/** Button's click callback */
