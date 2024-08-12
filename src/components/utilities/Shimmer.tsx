@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import styled, { DefaultTheme, keyframes, SimpleInterpolation } from 'styled-components';
+import styled, { DefaultTheme, keyframes } from 'styled-components';
 
 import { LiteralUnion, With$Prefix } from '../../types/utils';
 import { FormSection, FormSubSection } from '../basic/FormSection';
@@ -78,7 +78,7 @@ const AvatarSkeletonComponent = styled.div<With$Prefix<AvatarSkeletonComponentPr
 	background-size: ${backgroundSize};
 	aspect-ratio: 1/1;
 	border-radius: ${({ $radius }): string => $radius ?? '50%'};
-	width: ${({ $size, $width }): SimpleInterpolation =>
+	width: ${({ $size, $width }): string | undefined =>
 		$width ?? ($size && `${SIZES[$size] * 3.2}rem`)};
 `;
 
@@ -97,9 +97,9 @@ const BadgeSkeletonComponent = styled.div<With$Prefix<BadgeSkeletonProps>>`
 	background-size: ${backgroundSize};
 	display: inline-block;
 	border-radius: ${({ $radius }): string => $radius ?? '2rem'};
-	width: ${({ $size, $width }): SimpleInterpolation =>
+	width: ${({ $size, $width }): string | undefined =>
 		$width ?? ($size && `${SIZES[$size] * 3.6}rem`)};
-	height: ${({ $size, $height }): SimpleInterpolation =>
+	height: ${({ $size, $height }): string | undefined =>
 		$height ?? ($size && `${SIZES[$size] * 1.9}rem`)};
 `;
 
@@ -116,9 +116,9 @@ const ButtonSkeletonComponent = styled.div<With$Prefix<ButtonSkeletonProps>>`
 	background: ${({ $variant, theme }): string => backgroundFunction($variant ?? '', theme)};
 	background-size: ${backgroundSize};
 	border-radius: ${({ $radius }): string => $radius ?? '0.125rem'};
-	width: ${({ $size, $width }): SimpleInterpolation =>
+	width: ${({ $size, $width }): string | undefined =>
 		$width ?? ($size && `${SIZES[$size] * 8.9}rem`)};
-	height: ${({ $size, $height }): SimpleInterpolation =>
+	height: ${({ $size, $height }): string | undefined =>
 		$height ?? ($size && `${SIZES[$size] * 3.2}rem`)};
 `;
 
@@ -155,7 +155,7 @@ const IconSkeletonComponent = styled.div<With$Prefix<IconSkeletonProps>>`
 	background-size: ${backgroundSize};
 	aspect-ratio: 1/1;
 	border-radius: 0.125rem;
-	width: ${({ $size, $width }): SimpleInterpolation =>
+	width: ${({ $size, $width }): string | undefined =>
 		$width ?? ($size && `${SIZES[$size] * 1.6}rem`)};
 `;
 
@@ -171,9 +171,9 @@ const LogoSkeletonComponent = styled.div<With$Prefix<LogoSkeletonProps>>`
 	animation: ${shimmerEffect} 1.5s linear infinite;
 	background: ${({ $variant, theme }): string => backgroundFunction($variant ?? '', theme)};
 	border-radius: ${({ $radius }): string => $radius ?? '0.625rem'};
-	width: ${({ $size, $width }): SimpleInterpolation =>
+	width: ${({ $size, $width }): string | undefined =>
 		$width ?? ($size && `${SIZES[$size] * 20}rem`)};
-	height: ${({ $size, $height }): SimpleInterpolation =>
+	height: ${({ $size, $height }): string | undefined =>
 		$height ?? ($size && `${SIZES[$size] * 10}rem`)};
 `;
 

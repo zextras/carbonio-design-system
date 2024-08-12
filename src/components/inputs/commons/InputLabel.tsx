@@ -4,24 +4,20 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import styled, { SimpleInterpolation } from 'styled-components';
+import styled from 'styled-components';
 
 import { getColor } from '../../../theme/theme-utils';
 
-export const InputLabel = styled.label.attrs<
-	{
-		$hasError?: boolean;
-		$hasFocus?: boolean;
-		$disabled?: boolean;
-	},
-	{ $textColor: string }
->(({ $hasError, $hasFocus }) => ({
-	$textColor: ($hasError && 'error') || ($hasFocus && 'primary') || 'secondary'
-}))<{
+type InputLabelProps = {
 	$hasError?: boolean;
 	$hasFocus?: boolean;
 	$disabled?: boolean;
-}>`
+	$textColor?: string;
+};
+
+export const InputLabel = styled.label.attrs<InputLabelProps>(({ $hasError, $hasFocus }) => ({
+	$textColor: ($hasError && 'error') || ($hasFocus && 'primary') || 'secondary'
+}))<InputLabelProps>`
 	position: absolute;
 	top: 50%;
 	transform: translateY(-50%);
@@ -30,7 +26,7 @@ export const InputLabel = styled.label.attrs<
 	font-weight: ${({ theme }): number => theme.fonts.weight.regular};
 	font-family: ${({ theme }): string => theme.fonts.default};
 	line-height: 1.5;
-	color: ${({ theme, $textColor, $disabled }): SimpleInterpolation =>
+	color: ${({ theme, $textColor, $disabled }): string =>
 		getColor(`${$textColor}.${$disabled ? 'disabled' : 'regular'}`, theme)};
 	transition:
 		transform 150ms ease-out,

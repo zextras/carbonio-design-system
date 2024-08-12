@@ -5,11 +5,11 @@
  */
 import React from 'react';
 
-import styled, { css, SimpleInterpolation } from 'styled-components';
+import styled, { css } from 'styled-components';
 
+import { Button } from '../../basic/button/Button';
 import { Text } from '../../basic/text/Text';
 import { Tooltip } from '../../display/Tooltip';
-import { IconButton } from '../../inputs/IconButton';
 import { Row } from '../../layout/Row';
 
 interface ModalHeaderProps {
@@ -29,7 +29,7 @@ const ModalTitle = styled(Text)<{ $centered: boolean }>`
 	line-height: 1.5;
 	padding: ${(props): string =>
 		`${props.theme.sizes.padding.small} ${props.theme.sizes.padding.small} ${props.theme.sizes.padding.small} 0`};
-	${({ $centered }): SimpleInterpolation =>
+	${({ $centered }): ReturnType<typeof css> | false =>
 		$centered &&
 		css`
 			text-align: center;
@@ -55,7 +55,7 @@ const ModalHeader = ({
 		</ModalTitle>
 		{showCloseIcon && onClose && (
 			<Tooltip label={closeIconTooltip} disabled={!closeIconTooltip}>
-				<IconButton icon="Close" size="large" onClick={onClose} />
+				<Button icon="Close" size="large" onClick={onClose} />
 			</Tooltip>
 		)}
 	</Row>

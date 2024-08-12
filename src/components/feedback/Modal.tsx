@@ -6,10 +6,10 @@
 
 /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 
-import React, { HTMLAttributes, useCallback, useContext, useRef } from 'react';
+import React, { HTMLAttributes, useCallback, useRef } from 'react';
 
 import { noop } from 'lodash';
-import { ThemeContext } from 'styled-components';
+import { useTheme } from 'styled-components';
 
 import { CustomModal, CustomModalProps } from './CustomModal';
 import { ModalBody } from './modal-components/ModalBody';
@@ -70,7 +70,7 @@ const Modal = React.forwardRef<HTMLDivElement, ModalProps>(function ModalFn(
 	},
 	ref
 ) {
-	const { windowObj: themeWindowObj } = useContext(ThemeContext);
+	const { windowObj: themeWindowObj } = useTheme();
 	const windowObj = containerWindow ?? themeWindowObj;
 
 	const modalBodyRef = useRef<HTMLDivElement | null>(null);

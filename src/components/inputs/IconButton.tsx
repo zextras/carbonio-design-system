@@ -6,11 +6,12 @@
 
 import React, { useCallback, useMemo } from 'react';
 
-import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-components';
+import styled, { css, DefaultTheme, useTheme } from 'styled-components';
 
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { useKeyboard, getKeyboardPreset } from '../../hooks/useKeyboard';
-import { getPadding, isThemeSize, useTheme } from '../../theme/theme-utils';
+import { getPadding, isThemeSize } from '../../theme/theme-utils';
+import { AnyColor } from '../../types/utils';
 import { Button, ButtonProps } from '../basic/button/Button';
 
 const StyledIconButton = styled(Button)<{
@@ -18,7 +19,7 @@ const StyledIconButton = styled(Button)<{
 	$paddingSize?: string;
 }>`
 	min-width: fit-content;
-	${({ $iconSize }): SimpleInterpolation =>
+	${({ $iconSize }): ReturnType<typeof css> | undefined | string =>
 		$iconSize &&
 		css`
 			svg {
@@ -28,7 +29,7 @@ const StyledIconButton = styled(Button)<{
 				min-height: ${$iconSize};
 			}
 		`};
-	${({ $paddingSize }): SimpleInterpolation =>
+	${({ $paddingSize }): ReturnType<typeof css> | undefined | string =>
 		$paddingSize &&
 		css`
 			padding: ${$paddingSize};
@@ -37,7 +38,7 @@ const StyledIconButton = styled(Button)<{
 
 type IconButtonProps = ButtonProps & {
 	/** Color of the icon */
-	iconColor?: string | keyof DefaultTheme['palette'];
+	iconColor?: AnyColor;
 	/** Color of the button */
 	backgroundColor?: string | keyof DefaultTheme['palette'];
 	/** whether to disable the IconButton or not */

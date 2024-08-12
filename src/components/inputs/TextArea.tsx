@@ -12,7 +12,7 @@ import React, {
 	useState
 } from 'react';
 
-import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-components';
+import styled, { css, DefaultTheme } from 'styled-components';
 
 import { InputContainer } from './commons/InputContainer';
 import { InputDescription } from './commons/InputDescription';
@@ -28,7 +28,7 @@ type HTMLTextAreaProps = TextareaHTMLAttributes<HTMLTextAreaElement>;
 
 interface AdjustHeightTextAreaProps extends HTMLTextAreaProps {
 	hasLabel: boolean;
-	maxHeight?: string;
+	$maxHeight?: string;
 	color: string;
 }
 
@@ -84,9 +84,9 @@ const StyledTextArea = styled.textarea<{ $color: string }>`
 const GrowContainer = styled.div<{ $hasLabel: boolean; $maxHeight?: string }>`
 	width: 100%;
 	height: auto;
-	margin-top: ${({ $hasLabel, theme }): SimpleInterpolation =>
+	margin-top: ${({ $hasLabel, theme }): ReturnType<typeof css> | string =>
 		$hasLabel ? css`calc(${theme.sizes.font.extrasmall} * 1.5)` : '0px'};
-	max-height: ${({ $maxHeight }): SimpleInterpolation => $maxHeight};
+	max-height: ${({ $maxHeight }): string | undefined => $maxHeight};
 	overflow-y: auto;
 	font-size: ${({ theme }): string => theme.sizes.font.medium};
 	font-weight: ${({ theme }): number => theme.fonts.weight.regular};
@@ -129,7 +129,7 @@ const GrowContainer = styled.div<{ $hasLabel: boolean; $maxHeight?: string }>`
 
 const AdjustHeightTextArea = React.forwardRef<HTMLTextAreaElement, AdjustHeightTextAreaProps>(
 	function AdjustTextAreaHeightFn({ hasLabel, onInput, color, ...props }, ref) {
-		const { maxHeight, value, defaultValue } = props;
+		const { $maxHeight, value, defaultValue } = props;
 		const containerRef = useRef<HTMLDivElement>(null);
 		const textAreaRef = useCombinedRefs<HTMLTextAreaElement>(ref);
 
@@ -153,7 +153,7 @@ const AdjustHeightTextArea = React.forwardRef<HTMLTextAreaElement, AdjustHeightT
 		);
 
 		return (
-			<GrowContainer $hasLabel={hasLabel} $maxHeight={maxHeight} ref={containerRef}>
+			<GrowContainer $hasLabel={hasLabel} $maxHeight={$maxHeight} ref={containerRef}>
 				<StyledTextArea
 					{...props}
 					$color={color}
@@ -172,7 +172,7 @@ const Label = styled(InputLabel)<{ $textAreaHasValue: boolean }>`
 		transform: translateY(0);
 		font-size: ${({ theme }): string => theme.sizes.font.extrasmall};
 	}
-	${({ $textAreaHasValue, theme }): SimpleInterpolation =>
+	${({ $textAreaHasValue, theme }): ReturnType<typeof css> | false =>
 		$textAreaHasValue &&
 		css`
 			top: 0.0625rem;
@@ -284,7 +284,7 @@ const TextArea: TextArea = React.forwardRef<HTMLDivElement, TextAreaProps>(funct
 					minHeight={'inherit'}
 				>
 					<AdjustHeightTextArea
-						maxHeight={maxHeight}
+						$maxHeight={maxHeight}
 						placeholder={label}
 						color={textColor}
 						{...props}
@@ -302,6 +302,7 @@ const TextArea: TextArea = React.forwardRef<HTMLDivElement, TextAreaProps>(funct
 							$hasError={hasError}
 							$disabled={disabled}
 							$textAreaHasValue={textAreaHasValue}
+							// $textColor={textColor}
 						>
 							{label}
 						</Label>

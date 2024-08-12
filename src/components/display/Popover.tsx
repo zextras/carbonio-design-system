@@ -4,11 +4,11 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { useEffect, useState, useCallback, useMemo, useContext } from 'react';
+import React, { useEffect, useState, useCallback, useMemo } from 'react';
 
 import { VirtualElement } from '@floating-ui/dom';
 import { debounce } from 'lodash';
-import styled, { ThemeContext } from 'styled-components';
+import styled, { useTheme } from 'styled-components';
 
 import { Popper, PopperProps } from './Popper';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
@@ -43,7 +43,7 @@ const Popover = React.forwardRef<HTMLDivElement, PopoverProps>(function PopoverF
 	},
 	ref
 ) {
-	const { windowObj } = useContext(ThemeContext);
+	const { windowObj } = useTheme();
 	const popoverRef = useCombinedRefs<HTMLDivElement>(ref);
 	const [innerOpen, setInnerOpen] = useState(false);
 	const [virtualElement, setVirtualElement] =

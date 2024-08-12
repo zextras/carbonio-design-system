@@ -6,7 +6,7 @@
 import React from 'react';
 
 import { rgba } from 'polished';
-import styled, { css, SimpleInterpolation } from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { Container } from '../../layout/Container';
 
@@ -67,12 +67,12 @@ const ModalContainer = styled.div<{ $mounted: boolean; $open: boolean; $zIndex: 
 	align-items: center;
 	overflow-y: auto;
 
-	${({ $mounted, $open, $zIndex }): SimpleInterpolation =>
+	${({ $mounted, $open, $zIndex }): ReturnType<typeof css> | false =>
 		($mounted || $open) &&
 		css`
 			z-index: ${$zIndex};
 		`};
-	${({ $open, theme }): SimpleInterpolation =>
+	${({ $open, theme }): ReturnType<typeof css> | false =>
 		$open &&
 		css`
 			background-color: ${rgba(theme.palette.black.regular, 0.5)};

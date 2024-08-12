@@ -7,7 +7,7 @@
 import React, { useRef, useEffect, useMemo } from 'react';
 
 import { map, some } from 'lodash';
-import styled, { DefaultTheme, SimpleInterpolation } from 'styled-components';
+import styled, { css, DefaultTheme } from 'styled-components';
 
 import { useIsVisible } from '../../hooks/useIsVisible/useIsVisible';
 import { useKeyboard, getKeyboardPreset, KeyboardPresetObj } from '../../hooks/useKeyboard';
@@ -60,7 +60,7 @@ const StyledDiv = styled.div<{
 		$activeBackground,
 		$active,
 		$selected
-	}): SimpleInterpolation =>
+	}): ReturnType<typeof css> =>
 		pseudoClasses(
 			theme,
 			($active && $activeBackground) || ($selected && $selectedBackground) || $background

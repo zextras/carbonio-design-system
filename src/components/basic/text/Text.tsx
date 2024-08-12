@@ -6,7 +6,7 @@
 
 import React, { HTMLAttributes } from 'react';
 
-import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-components';
+import styled, { css, DefaultTheme } from 'styled-components';
 
 import { getColor } from '../../../theme/theme-utils';
 import { AnyColor } from '../../../types/utils';
@@ -49,10 +49,10 @@ const Comp = styled.div<{
 	font-family: ${({ theme }): string => theme.fonts.default};
 	font-size: ${({ theme, $size }): string => theme.sizes.font[$size]};
 	font-weight: ${({ theme, $weight }): number => theme.fonts.weight[$weight]};
-	font-style: ${({ $italic }): SimpleInterpolation => $italic && 'italic'};
+	font-style: ${({ $italic }): string | false => $italic && 'italic'};
 	margin: 0;
 	max-width: 100%;
-	${({ $overflow }): SimpleInterpolation =>
+	${({ $overflow }): ReturnType<typeof css> =>
 		$overflow === 'ellipsis'
 			? css`
 					white-space: nowrap;
@@ -64,8 +64,8 @@ const Comp = styled.div<{
 					word-wrap: break-word;
 					ms-word-break: break-all;
 				`};
-	text-align: ${({ $textAlign }): SimpleInterpolation => $textAlign};
-	line-height: ${({ $lineHeight }): SimpleInterpolation => $lineHeight};
+	text-align: ${({ $textAlign }): string | undefined => $textAlign};
+	line-height: ${({ $lineHeight }): number | undefined => $lineHeight};
 `;
 
 const Text = React.forwardRef<HTMLDivElement, TextProps>(function TextFn(

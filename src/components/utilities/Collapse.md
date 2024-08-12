@@ -17,7 +17,7 @@ const toggle = () => {
 <>
     <Button onClick={toggle} label="Click Me!"/>
     <Padding all="large">
-        <Collapse orientation="vertical" open={open} maxSize="6.25rem">
+        <Collapse orientation="vertical" open={open}>
             <div style={{ background: 'lightblue', width: '1.5rem', height: '1.5rem' }}/>
             <div style={{ background: 'darkblue', width: '1.5rem', height: '1.5rem' }}/>
             <Icon icon="Activity" size="large"/>
@@ -25,7 +25,7 @@ const toggle = () => {
         </Collapse>
     </Padding>
     <Padding all="large">
-        <Collapse orientation="horizontal" open={open} maxSize="3.125rem">
+        <Collapse orientation="horizontal" open={open}>
             <div style={{ background: 'lightblue', width: '1.5rem', height: '1.5rem' }}/>
             <div style={{ background: 'darkblue', width: '1.5rem', height: '1.5rem' }}/>
             <Icon icon="Activity" size="large"/>

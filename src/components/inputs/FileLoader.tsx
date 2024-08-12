@@ -8,7 +8,8 @@ import React, { useRef, useCallback } from 'react';
 
 import styled from 'styled-components';
 
-import { IconButton, IconButtonProps } from './IconButton';
+import { IconButtonProps } from './IconButton';
+import { Button } from '../basic/button/Button';
 
 const FileInput = styled.input`
 	display: none;
@@ -53,7 +54,7 @@ const FileLoader = React.forwardRef<HTMLDivElement, FileLoaderProps>(function Fi
 				multiple={multiple}
 				accept={accept}
 			/>
-			<IconButton ref={ref} icon={icon} {...rest} onClick={onClick} />
+			<Button ref={ref} icon={icon} {...rest} onClick={onClick} />
 		</>
 	);
 });

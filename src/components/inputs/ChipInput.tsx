@@ -15,7 +15,7 @@ import React, {
 } from 'react';
 
 import { filter, map, slice, isEmpty, debounce, find, trim, reduce, uniq } from 'lodash';
-import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-components';
+import styled, { css, DefaultTheme } from 'styled-components';
 
 import { InputContainer } from './commons/InputContainer';
 import { InputDescription } from './commons/InputDescription';
@@ -60,7 +60,7 @@ const ScrollContainer = styled(Container)<{ $hasLabel: boolean }>`
 	&::-webkit-scrollbar {
 		display: ${({ wrap }): string => (wrap === 'wrap' ? 'auto' : 'none')};
 	}
-	${({ theme, $hasLabel }): SimpleInterpolation =>
+	${({ theme, $hasLabel }): ReturnType<typeof css> | false | undefined =>
 		$hasLabel &&
 		css`
 			margin-block-start: calc(${theme.sizes.font.extrasmall} * 1.5);
@@ -176,7 +176,7 @@ const Label = styled(InputLabel)<{
 		font-size: ${({ theme }): string => theme.sizes.font.extrasmall};
 	}
 
-	${({ $hasItems, theme }): SimpleInterpolation =>
+	${({ $hasItems, theme }): ReturnType<typeof css> | false | undefined =>
 		$hasItems &&
 		css`
 			top: 0;
@@ -200,7 +200,7 @@ const CustomIcon = styled(({ onClick, iconColor, ...rest }) =>
 	)
 )`
 	padding: 0.125rem;
-	${({ onClick }): SimpleInterpolation =>
+	${({ onClick }): ReturnType<typeof css> | false =>
 		!onClick &&
 		css`
 			width: 1.25rem;
@@ -311,7 +311,9 @@ interface ChipInputProps<TValue = unknown>
 	/** Icon on the right of the input */
 	icon?: keyof DefaultTheme['icons'];
 	/** Action on Icon click */
-	iconAction?: React.ReactEventHandler;
+	iconAction?:
+		| React.ReactEventHandler
+		| ((e: KeyboardEvent | React.MouseEvent<HTMLButtonElement, MouseEvent>) => void);
 	/** Disable the icon */
 	iconDisabled?: boolean;
 	/** Icon color */

@@ -6,14 +6,13 @@
 
 import React, { HTMLAttributes, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
-import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-components';
+import styled, { css, DefaultTheme } from 'styled-components';
 
 import { useCombinedRefs } from '../../../hooks/useCombinedRefs';
 import { useModal } from '../../../hooks/useModal';
 import { Button, ButtonProps } from '../../basic/button/Button';
 import { Icon } from '../../basic/icon/Icon';
 import { Text } from '../../basic/text/Text';
-import { IconButton, IconButtonProps } from '../../inputs/IconButton';
 import { Container } from '../../layout/Container';
 
 type ActionButton = ButtonProps & { type?: never; color?: never; backgroundColor?: never };
@@ -31,7 +30,7 @@ type BannerProps = HTMLAttributes<HTMLDivElement> & {
 } & (
 		| {
 				showClose: true;
-				onClose: IconButtonProps['onClick'];
+				onClose: ButtonProps['onClick'];
 		  }
 		| {
 				showClose?: false;
@@ -63,7 +62,11 @@ const BannerText = styled(Text)`
 	overflow: visible;
 `;
 
-const WrapAndGrowContainer = styled(Container).attrs(({ theme, gap, flexBasis }) => ({
+const WrapAndGrowContainer = styled(Container).attrs<{
+	theme: DefaultTheme;
+	gap: string;
+	flexBasis: ReturnType<typeof css> | string;
+}>(({ theme, gap, flexBasis }) => ({
 	flexBasis: css`calc(${flexBasis} + ${theme.sizes.icon.large} + ${gap})`
 }))``;
 
@@ -72,14 +75,14 @@ const ActionsContainer = styled(Container)`
 `;
 
 const CloseContainer = styled(Container)<{ $alignSelf?: string }>`
-	align-self: ${({ $alignSelf }): SimpleInterpolation => $alignSelf};
+	align-self: ${({ $alignSelf }): string | undefined => $alignSelf};
 `;
 
 const BannerContainer = styled(Container)<{ $isMultiline: boolean }>`
 	${WrapAndGrowContainer} {
 		order: 1;
 	}
-	${({ $isMultiline }): SimpleInterpolation =>
+	${({ $isMultiline }): ReturnType<typeof css> =>
 		$isMultiline
 			? css`
 					${CloseContainer} {
@@ -223,9 +226,9 @@ const Banner = React.forwardRef<HTMLDivElement, BannerProps>(function BannerFn(
 			<WrapAndGrowContainer
 				width={'auto'}
 				maxWidth={
-					showClose &&
-					closeContainerRef.current &&
-					`calc(${BANNER_WIDTH} - ${BANNER_GAP} - ${closeContainerRef.current.clientWidth}px)`
+					showClose && closeContainerRef.current
+						? `calc(${BANNER_WIDTH} - ${BANNER_GAP} - ${closeContainerRef.current.clientWidth}px)`
+						: undefined
 				}
 				minWidth={0}
 				flexGrow={1}
@@ -295,7 +298,7 @@ const Banner = React.forwardRef<HTMLDivElement, BannerProps>(function BannerFn(
 					minHeight={'fit'}
 					ref={closeContainerRef}
 				>
-					<IconButton
+					<Button
 						onClick={onClose}
 						icon={'Close'}
 						color={textColor}

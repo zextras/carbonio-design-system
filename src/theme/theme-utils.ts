@@ -4,18 +4,10 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import { useContext } from 'react';
-
 import { reduce } from 'lodash';
 import { darken, lighten, parseToHsl, setLightness, toColorString } from 'polished';
 import { HslColor } from 'polished/lib/types/color';
-import {
-	css,
-	DefaultTheme,
-	FlattenSimpleInterpolation,
-	SimpleInterpolation,
-	ThemeContext
-} from 'styled-components';
+import { css, DefaultTheme, useTheme as Theme } from 'styled-components';
 
 import type { ThemeColorObj, ThemeSizeObj } from './theme';
 
@@ -259,11 +251,11 @@ function pseudoClasses(
 	color: string,
 	cssProperty = 'background',
 	options: { transition?: boolean; outline?: boolean } = {}
-): FlattenSimpleInterpolation {
+): ReturnType<typeof css> {
 	const optionsWithDefault = { transition: true, outline: false, ...options };
 	function buildPseudoRule(
 		pseudoStatus: 'focus' | 'disabled' | 'active' | 'hover'
-	): SimpleInterpolation {
+	): ReturnType<typeof css> {
 		return css`
 			${!optionsWithDefault.outline &&
 			css`
@@ -293,7 +285,7 @@ function pseudoClasses(
 	`;
 }
 
-const useTheme = (): DefaultTheme => useContext(ThemeContext);
+const useTheme = (): DefaultTheme => Theme();
 
 export {
 	generateColorSet,

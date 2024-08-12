@@ -14,7 +14,7 @@ import React, {
 	HTMLAttributes
 } from 'react';
 
-import styled, { css, SimpleInterpolation } from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { NonEmptyArray, SingleItemArray } from '../../types/utils';
 import { Icon } from '../basic/icon/Icon';
@@ -27,7 +27,7 @@ import { Row } from '../layout/Row';
 const StyledCheckbox = styled(Checkbox)<{
 	$show: boolean;
 }>`
-	display: ${({ $show }): SimpleInterpolation => ($show ? 'block' : 'none')};
+	display: ${({ $show }): string => ($show ? 'block' : 'none')};
 `;
 
 const StyledText = styled(Text)``;
@@ -60,12 +60,12 @@ const TableRow = styled.tr<{
 			background-color: ${({ theme }): string => theme.palette.gray5.hover};
 		}
 	}
-	${({ $selected, $highlight, theme }): SimpleInterpolation =>
+	${({ $selected, $highlight, theme }): ReturnType<typeof css> | false | undefined =>
 		($selected || $highlight) &&
 		css`
 			background-color: ${theme.palette.highlight.regular} !important;
 		`};
-	${({ $clickable, $showCheckbox }): SimpleInterpolation =>
+	${({ $clickable, $showCheckbox }): ReturnType<typeof css> | false =>
 		($clickable === true || (typeof $clickable === 'undefined' && $showCheckbox === false)) &&
 		css`
 			cursor: pointer;
@@ -76,7 +76,7 @@ const TableRow = styled.tr<{
 			display: block;
 		}
 	}
-	${({ $showCheckbox }): SimpleInterpolation =>
+	${({ $showCheckbox }): ReturnType<typeof css> | false | undefined =>
 		$showCheckbox &&
 		css`
 			&:hover,
