@@ -8,17 +8,16 @@ import React, { useRef, useCallback } from 'react';
 
 import styled from 'styled-components';
 
-import { IconButtonProps } from './IconButton';
-import { Button } from '../basic/button/Button';
+import { Button, ButtonProps } from '../basic/button/Button';
 
 const FileInput = styled.input`
 	display: none;
 `;
 
-type FileLoaderProps = IconButtonProps & {
+type FileLoaderProps = ButtonProps & {
 	onChange?: (event: React.ChangeEvent<HTMLInputElement>, files: FileList | null) => void;
 	/** icon name */
-	icon?: IconButtonProps['icon'];
+	icon?: ButtonProps['icon'];
 	/** accept multiple files */
 	multiple?: boolean;
 	/** capture mode (see <input type="file"> docs) */

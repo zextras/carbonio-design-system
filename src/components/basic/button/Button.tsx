@@ -26,8 +26,11 @@ type ButtonColorsByType =
 			| {
 					/** Main color */
 					color?: AnyColor;
+					backgroundColor?: never;
+					labelColor?: never;
 			  }
 			| {
+					color?: never;
 					/** Background color of the button (only for 'default' and 'outlined' types, to use instead of color for more specificity) */
 					backgroundColor?: AnyColor;
 					/** Specific color of the content (only for 'default' and 'outlined' types, to use instead of color for more specificity) */
@@ -38,6 +41,8 @@ type ButtonColorsByType =
 			type: 'ghost';
 			/** Main color */
 			color?: AnyColor;
+			backgroundColor?: never;
+			labelColor?: never;
 	  };
 type ButtonType = NonNullable<ButtonColorsByType['type']>;
 
@@ -304,22 +309,22 @@ const DEFAULT_COLORS = {
 
 function getColors(
 	type: ButtonType,
-	props: ButtonColorsByType
+	{ color, labelColor, backgroundColor }: Omit<ButtonColorsByType, 'type'>
 ): Without$Prefix<Pick<StyledButtonProps, '$color' | '$backgroundColor'>> {
 	const colors: Without$Prefix<Pick<StyledButtonProps, '$color' | '$backgroundColor'>> = {
 		...DEFAULT_COLORS[type]
 	};
-	if ('backgroundColor' in props && props.backgroundColor) {
-		colors.backgroundColor = props.backgroundColor;
+	if (backgroundColor) {
+		colors.backgroundColor = backgroundColor;
 	}
-	if ('labelColor' in props && props.labelColor) {
-		colors.color = props.labelColor;
+	if (labelColor) {
+		colors.color = labelColor;
 	}
-	if ('color' in props && props.color) {
+	if (color) {
 		if (type === 'default') {
-			colors.backgroundColor = props.color;
+			colors.backgroundColor = color;
 		} else if (type === 'outlined' || type === 'ghost') {
-			colors.color = props.color;
+			colors.color = color;
 		}
 	}
 	return colors;
@@ -341,6 +346,9 @@ const Button = React.forwardRef<HTMLDivElement, ButtonProps>(function ButtonFn(
 		secondaryAction,
 		minWidth,
 		buttonRef = null,
+		color,
+		labelColor,
+		backgroundColor,
 		...rest
 	},
 	ref
@@ -366,7 +374,10 @@ const Button = React.forwardRef<HTMLDivElement, ButtonProps>(function ButtonFn(
 		[secondaryAction]
 	);
 
-	const colors = useMemo(() => getColors(type, { type, ...rest }), [type, rest]);
+	const colors = useMemo(
+		() => getColors(type, { labelColor, backgroundColor, color }),
+		[type, backgroundColor, color, labelColor]
+	);
 
 	return (
 		<StyledGrid $width={width} $minWidth={minWidth} $padding={SIZES[size].padding} ref={ref}>

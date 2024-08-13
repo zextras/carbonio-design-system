@@ -20,7 +20,7 @@ import styled, { css, DefaultTheme } from 'styled-components';
 import { InputContainer } from './commons/InputContainer';
 import { InputDescription } from './commons/InputDescription';
 import { InputLabel } from './commons/InputLabel';
-import { IconButton } from './IconButton';
+import { IconButton, IconButtonProps } from './IconButton';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import {
 	useKeyboard,
@@ -192,20 +192,13 @@ const CustomInputDescription = styled(InputDescription)<{
 		$backgroundColor && getColor($backgroundColor, theme)};
 `;
 
-const CustomIcon = styled(({ onClick, iconColor, ...rest }) =>
-	onClick ? (
-		<IconButton onClick={onClick} iconColor={iconColor} {...rest} />
-	) : (
-		<Icon color={iconColor} {...rest} />
-	)
-)`
+const CustomIconButton = styled(IconButton)`
 	padding: 0.125rem;
-	${({ onClick }): ReturnType<typeof css> | false =>
-		!onClick &&
-		css`
-			width: 1.25rem;
-			height: 1.25rem;
-		`};
+`;
+
+const CustomIcon = styled(Icon)`
+	width: 1.25rem;
+	height: 1.25rem;
 `;
 
 type ReducerAction<TValue> =
@@ -311,9 +304,7 @@ interface ChipInputProps<TValue = unknown>
 	/** Icon on the right of the input */
 	icon?: keyof DefaultTheme['icons'];
 	/** Action on Icon click */
-	iconAction?:
-		| React.ReactEventHandler
-		| ((e: KeyboardEvent | React.MouseEvent<HTMLButtonElement, MouseEvent>) => void);
+	iconAction?: IconButtonProps['onClick'];
 	/** Disable the icon */
 	iconDisabled?: boolean;
 	/** Icon color */
@@ -603,7 +594,7 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 			return map(options, (o) => ({
 				...o,
 				onClick: (event): void => {
-					o.onClick && o.onClick(event);
+					o.onClick?.(event);
 					onOptionClick(o.value ? o.value : o.label);
 				}
 			}));
@@ -818,13 +809,17 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 					</RelativeContainer>
 					{icon && (
 						<span>
-							<CustomIcon
-								icon={icon}
-								onClick={iconAction}
-								disabled={iconDisabled}
-								iconColor={iconColor}
-								size="large"
-							/>
+							{iconAction ? (
+								<CustomIconButton
+									icon={icon}
+									onClick={iconAction}
+									disabled={iconDisabled}
+									iconColor={iconColor}
+									size={'large'}
+								/>
+							) : (
+								<CustomIcon icon={icon} disabled={iconDisabled} color={iconColor} size="large" />
+							)}
 						</span>
 					)}
 				</ContainerEl>

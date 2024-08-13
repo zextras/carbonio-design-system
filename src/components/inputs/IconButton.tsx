@@ -36,11 +36,11 @@ const StyledIconButton = styled(Button)<{
 		`};
 `;
 
-type IconButtonProps = ButtonProps & {
+type IconButtonProps = Omit<ButtonProps, 'secondaryAction'> & {
 	/** Color of the icon */
 	iconColor?: AnyColor;
 	/** Color of the button */
-	backgroundColor?: string | keyof DefaultTheme['palette'];
+	backgroundColor?: AnyColor;
 	/** whether to disable the IconButton or not */
 	disabled?: boolean;
 	/** button size */
@@ -61,7 +61,6 @@ type IconButtonProps = ButtonProps & {
 	 * @deprecated use iconColor instead
 	 */
 	customIconColor?: string;
-	secondaryAction?: never;
 };
 
 /** @deprecated use Button with just the icon instead */
@@ -77,6 +76,8 @@ const IconButton = React.forwardRef<HTMLDivElement, IconButtonProps>(function Ic
 		onClick,
 		customIconColor,
 		type = 'default',
+		color,
+		labelColor,
 		...rest
 	},
 	ref
@@ -104,19 +105,38 @@ const IconButton = React.forwardRef<HTMLDivElement, IconButtonProps>(function Ic
 	const keyEvents = useMemo(() => getKeyboardPreset('button', handleClick), [handleClick]);
 	useKeyboard(iconButtonRef, keyEvents);
 
+	const colorsAndType = useMemo<
+		| { type: 'default' | 'outlined'; labelColor: AnyColor; backgroundColor: AnyColor }
+		| { type: 'ghost'; color: AnyColor }
+	>(() => {
+		if (type === 'ghost') {
+			return { type, color: color ?? labelColor ?? customIconColor ?? iconColor };
+		}
+		if (type === 'outlined') {
+			return {
+				type,
+				labelColor: color ?? labelColor ?? customIconColor ?? iconColor,
+				backgroundColor
+			};
+		}
+		return {
+			type,
+			labelColor: labelColor ?? customIconColor ?? iconColor,
+			backgroundColor: color ?? backgroundColor
+		};
+	}, [backgroundColor, color, customIconColor, iconColor, labelColor, type]);
+
 	return (
 		<StyledIconButton
 			onClick={handleClick}
 			icon={icon}
 			$iconSize={iconSize}
 			$paddingSize={paddingSize}
-			backgroundColor={backgroundColor}
-			labelColor={customIconColor || iconColor}
 			shape={borderRadius}
 			size={size}
 			ref={iconButtonRef}
 			disabled={disabled}
-			type={type}
+			{...colorsAndType}
 			{...rest}
 		/>
 	);

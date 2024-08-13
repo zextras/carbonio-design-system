@@ -10,12 +10,16 @@ import styled, { css, DefaultTheme } from 'styled-components';
 
 import { useCombinedRefs } from '../../../hooks/useCombinedRefs';
 import { useModal } from '../../../hooks/useModal';
+import { AnyColor } from '../../../types/utils';
 import { Button, ButtonProps } from '../../basic/button/Button';
 import { Icon } from '../../basic/icon/Icon';
 import { Text } from '../../basic/text/Text';
 import { Container } from '../../layout/Container';
 
-type ActionButton = ButtonProps & { type?: never; color?: never; backgroundColor?: never };
+type ActionButton = Omit<
+	ButtonProps,
+	'type' | 'color' | 'backgroundColor' | 'labelColor' | 'secondaryAction'
+>;
 
 type BannerProps = HTMLAttributes<HTMLDivElement> & {
 	severity?: 'success' | 'warning' | 'info' | 'error';
@@ -123,9 +127,12 @@ const Banner = React.forwardRef<HTMLDivElement, BannerProps>(function BannerFn(
 	const actionsContainerRef = useRef<HTMLDivElement>(null);
 	const closeContainerRef = useRef<HTMLDivElement>(null);
 
-	const mainColor = useMemo(() => (type === 'fill' ? 'gray6' : severity), [type, severity]);
-	const textColor = useMemo(() => (type === 'fill' ? 'gray6' : 'text'), [type]);
-	const backgroundColor = useMemo(
+	const mainColor = useMemo<AnyColor>(
+		() => (type === 'fill' ? 'gray6' : severity),
+		[type, severity]
+	);
+	const textColor = useMemo<AnyColor>(() => (type === 'fill' ? 'gray6' : 'text'), [type]);
+	const backgroundColor = useMemo<AnyColor>(
 		() => (type === 'outline' && 'gray6') || (type === 'fill' && severity) || `${severity}Banner`,
 		[type, severity]
 	);
@@ -277,14 +284,14 @@ const Banner = React.forwardRef<HTMLDivElement, BannerProps>(function BannerFn(
 						{...primaryAction}
 						type={'outlined'}
 						backgroundColor={'transparent'}
-						color={mainColor}
+						labelColor={mainColor}
 					/>
 				)}
 				{isTextCropped && (
 					<Button
 						type={'outlined'}
 						backgroundColor={'transparent'}
-						color={mainColor}
+						labelColor={mainColor}
 						label={moreInfoLabel}
 						onClick={showMoreInfoModal}
 					/>
