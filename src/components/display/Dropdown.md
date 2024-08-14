@@ -277,7 +277,25 @@ const items = [
 				tooltipLabel: 'item 3-1 tooltip',
 				onClick: (e) => {
 					setSelectedOption('item3-1')
-				}
+				},
+        items: [
+					{
+						id: 'item311',
+						label: 'item3-1-1',
+						tooltipLabel: 'item 3-1-1 tooltip',
+						onClick: (e) => {
+							setSelectedOption('item3-1-1')
+						}
+					},
+					{
+						id: 'item312',
+						label: 'item3-1-2',
+						tooltipLabel: 'item 3-1-2 tooltip',
+						onClick: (e) => {
+							setSelectedOption('item3-1-2')
+						}
+					},
+        ]
 			},
 			{
 				id: 'item32',

@@ -41,7 +41,7 @@ function getFocusableElement(
 	return getFocusableElement(siblingElement, direction);
 }
 
-function handleArrowUp(ref?: React.RefObject<HTMLElement>): void {
+export function focusOnPreviousNode(ref: React.RefObject<HTMLElement> | undefined): void {
 	if (ref?.current) {
 		const focusedElement = ref.current.querySelector<HTMLElement>('[tabindex]:focus');
 		if (focusedElement) {
@@ -50,16 +50,16 @@ function handleArrowUp(ref?: React.RefObject<HTMLElement>): void {
 				prevEl.focus();
 			} else {
 				const lastChild = ref.current.querySelector<HTMLElement>('[tabindex]:last-child');
-				lastChild && lastChild.focus();
+				lastChild?.focus();
 			}
 		} else {
 			const firstChild = ref.current.querySelector<HTMLElement>('[tabindex]:first-child');
-			firstChild && firstChild.focus();
+			firstChild?.focus();
 		}
 	}
 }
 
-function handleArrowDown(ref?: React.RefObject<HTMLElement>): void {
+export function focusOnNextNode(ref: React.RefObject<HTMLElement> | undefined): void {
 	if (ref?.current) {
 		const focusedElement = ref.current.querySelector<HTMLElement>('[tabindex]:focus');
 		if (focusedElement) {
@@ -68,16 +68,16 @@ function handleArrowDown(ref?: React.RefObject<HTMLElement>): void {
 				nextEl.focus();
 			} else {
 				const firstChild = ref.current.querySelector<HTMLElement>('[tabindex]:first-child');
-				firstChild && firstChild.focus();
+				firstChild?.focus();
 			}
 		} else {
 			const firstChild = ref.current.querySelector<HTMLElement>('[tabindex]:first-child');
-			firstChild && firstChild.focus();
+			firstChild?.focus();
 		}
 	}
 }
 
-function handleEscape(ref?: React.RefObject<HTMLElement>): void {
+export function blurNodeWithFocus(ref: React.RefObject<HTMLElement> | undefined): void {
 	if (ref?.current) {
 		const focusedElement = ref.current.querySelector<HTMLElement>('[tabindex]:focus');
 		if (focusedElement) {
@@ -94,7 +94,7 @@ const findFirstChildWithClick = (element: HTMLElement): HTMLElement => {
 	return result;
 };
 
-const handleEnter = (ref?: React.RefObject<HTMLElement>): void => {
+export const clickNodeWithFocus = (ref: React.RefObject<HTMLElement> | undefined): void => {
 	if (ref?.current) {
 		const focusedElement = ref.current.querySelector<HTMLElement>('[tabindex]:focus');
 		if (focusedElement) {
@@ -106,17 +106,17 @@ const handleEnter = (ref?: React.RefObject<HTMLElement>): void => {
 	}
 };
 
-function handleCtrlArrowUp(ref?: React.RefObject<HTMLElement>): void {
+export function focusOnFirstNode(ref: React.RefObject<HTMLElement> | undefined): void {
 	if (ref?.current) {
 		const firstChild = ref.current.querySelector<HTMLElement>('[tabindex]:first-child');
-		firstChild && firstChild.focus();
+		firstChild?.focus();
 	}
 }
 
-function handleCtrlArrowDown(ref?: React.RefObject<HTMLElement>): void {
+export function focusOnLastNode(ref: React.RefObject<HTMLElement> | undefined): void {
 	if (ref?.current) {
 		const lastChild = ref.current.querySelector<HTMLElement>('[tabindex]:last-child');
-		lastChild && lastChild.focus();
+		lastChild?.focus();
 	}
 }
 
@@ -150,32 +150,32 @@ function getListKeyboardPreset(ref: React.RefObject<HTMLElement> | undefined): K
 	return [
 		{
 			type: 'keydown',
-			callback: () => handleArrowUp(ref),
+			callback: () => focusOnPreviousNode(ref),
 			keys: [{ key: 'ArrowUp', ctrlKey: false }]
 		},
 		{
 			type: 'keydown',
-			callback: () => handleArrowDown(ref),
+			callback: () => focusOnNextNode(ref),
 			keys: [{ key: 'ArrowDown', ctrlKey: false }]
 		},
 		{
 			type: 'keydown',
-			callback: () => handleCtrlArrowUp(ref),
+			callback: () => focusOnFirstNode(ref),
 			keys: [{ key: 'ArrowUp', ctrlKey: true }]
 		},
 		{
 			type: 'keydown',
-			callback: () => handleCtrlArrowDown(ref),
+			callback: () => focusOnLastNode(ref),
 			keys: [{ key: 'ArrowDown', ctrlKey: true }]
 		},
 		{
 			type: 'keydown',
-			callback: () => handleEscape(ref),
+			callback: () => blurNodeWithFocus(ref),
 			keys: [{ key: 'Escape', ctrlKey: false }]
 		},
 		{
 			type: 'keydown',
-			callback: () => handleEnter(ref),
+			callback: () => clickNodeWithFocus(ref),
 			keys: [{ key: 'Enter', ctrlKey: false }]
 		}
 	];

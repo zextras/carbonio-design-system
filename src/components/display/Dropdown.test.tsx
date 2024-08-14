@@ -5,19 +5,23 @@
  */
 import React from 'react';
 
-import { screen, act } from '@testing-library/react';
+import { act } from '@testing-library/react';
 
 import { Dropdown, DropdownItem } from './Dropdown';
-import { setup, within } from '../../test-utils';
+import { setup, within, screen, UserEvent } from '../../test-utils';
 import { SELECTORS } from '../../testUtils/constants';
 import { Button } from '../basic/button/Button';
 import { TIMERS } from '../constants';
 import { Modal } from '../feedback/Modal';
 
-function findDropdownItem(label: string): HTMLElement {
-	const dropdownItem = screen
-		.getAllByTestId(SELECTORS.dropdownItem)
-		.find((item) => within(item).queryByText(label) !== null);
+function findDropdownItem(label: string, container: HTMLElement = document.body): HTMLElement {
+	function findNested(fromElement: HTMLElement): HTMLElement | undefined {
+		return within(fromElement)
+			.queryAllByTestId(SELECTORS.dropdownItem)
+			.find((item) => within(item).queryByText(label) !== null && findNested(item) === undefined);
+	}
+
+	const dropdownItem = findNested(container);
 	expect(dropdownItem).toBeDefined();
 	return dropdownItem as HTMLElement;
 }
@@ -513,6 +517,43 @@ describe('Dropdown', () => {
 		expect(items[0].onClick).not.toHaveBeenCalled();
 	});
 
+	it('should keep second level open while hovering on third level', async () => {
+		const items = [
+			{
+				id: '1',
+				label: 'item 1',
+				items: [
+					{
+						id: '2',
+						label: 'item 2',
+						items: [
+							{
+								id: '3',
+								label: 'item 3'
+							}
+						]
+					}
+				]
+			}
+		] satisfies DropdownItem[];
+
+		const { user } = setup(
+			<Dropdown items={items}>
+				<Button label="opener" onClick={jest.fn()} />
+			</Dropdown>
+		);
+		await user.click(screen.getByRole('button'));
+		await user.hover(screen.getByText('item 1'));
+		await user.hover(screen.getByText('item 2'));
+		await user.hover(screen.getByText('item 3'));
+		act(() => {
+			jest.advanceTimersByTime(TIMERS.DROPDOWN.CLOSE_NESTED);
+		});
+		expect(screen.getByText('item 1')).toBeVisible();
+		expect(screen.getByText('item 2')).toBeVisible();
+		expect(screen.getByText('item 3')).toBeVisible();
+	});
+
 	describe('Keyboard shortcuts', () => {
 		it('should set focus on next item when pressing arrow down', async () => {
 			const items = [
@@ -683,7 +724,7 @@ describe('Dropdown', () => {
 			expect(findDropdownItem(subItems[1].label)).toHaveFocus();
 		});
 
-		it('should close nested dropdown when pressing arrow left', async () => {
+		it('should close only nested dropdown when pressing arrow left', async () => {
 			const subItem = { id: '2', label: 'item 2' } satisfies DropdownItem;
 			const items = [{ id: '1', label: 'item 1', items: [subItem] }] satisfies DropdownItem[];
 			const { user } = setup(
@@ -712,7 +753,7 @@ describe('Dropdown', () => {
 			expect(screen.queryByText(items[0].label)).not.toBeInTheDocument();
 		});
 
-		it('should close nested dropdown on esc', async () => {
+		it('should close only nested dropdown on esc', async () => {
 			const subItem = { id: '2', label: 'item 2' } satisfies DropdownItem;
 			const items = [{ id: '1', label: 'item 1', items: [subItem] }] satisfies DropdownItem[];
 			const { user } = setup(
@@ -897,5 +938,43 @@ describe('Dropdown', () => {
 			await user.enter();
 			expect(screen.queryByText(items[0].label)).not.toBeInTheDocument();
 		});
+
+		it.each<keyof Pick<UserEvent, 'esc' | 'arrowLeft'>>(['esc', 'arrowLeft'])(
+			'should keep second level open when pressing %s on third level',
+			async (key) => {
+				const items = [
+					{
+						id: '1',
+						label: 'item 1',
+						items: [
+							{
+								id: '2',
+								label: 'item 2',
+								items: [
+									{
+										id: '3',
+										label: 'item 3'
+									}
+								]
+							}
+						]
+					}
+				] satisfies DropdownItem[];
+
+				const { user } = setup(
+					<Dropdown items={items}>
+						<Button label={'opener'} onClick={jest.fn()} />
+					</Dropdown>
+				);
+
+				await user.click(screen.getByRole('button'));
+				await user.arrowRight();
+				await user.arrowRight();
+				expect(screen.getByText('item 3')).toBeVisible();
+				await user[key]();
+				expect(screen.getByText('item 2')).toBeVisible();
+				expect(screen.queryByText('item 3')).not.toBeInTheDocument();
+			}
+		);
 	});
 });
