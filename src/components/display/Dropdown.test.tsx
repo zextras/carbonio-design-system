@@ -554,6 +554,53 @@ describe('Dropdown', () => {
 		expect(screen.getByText('item 3')).toBeVisible();
 	});
 
+	it('should keep focus on second dropdown of third level when opening it with hover cause first dropdown of third level to close', async () => {
+		const items = [
+			{
+				id: '1',
+				label: 'item 1',
+				items: [
+					{
+						id: '2',
+						label: 'item 2',
+						items: [
+							{
+								id: '3',
+								label: 'item 3'
+							}
+						]
+					},
+					{
+						id: '4',
+						label: 'item 4',
+						items: [
+							{
+								id: '5',
+								label: 'item 5'
+							}
+						]
+					}
+				]
+			}
+		] satisfies DropdownItem[];
+		const { user } = setup(
+			<Dropdown items={items}>
+				<Button label={'opener'} onClick={jest.fn()} />
+			</Dropdown>
+		);
+
+		await user.click(screen.getByRole('button'));
+		await user.hover(screen.getByText('item 1'));
+		await user.hover(screen.getByText('item 2'));
+		expect(findDropdownItem('item 3')).toHaveFocus();
+		await user.hover(screen.getByText('item 4'));
+		expect(findDropdownItem('item 5')).toHaveFocus();
+		act(() => {
+			jest.advanceTimersByTime(TIMERS.DROPDOWN.CLOSE_NESTED);
+		});
+		expect(findDropdownItem('item 5')).toHaveFocus();
+	});
+
 	describe('Keyboard shortcuts', () => {
 		it('should set focus on next item when pressing arrow down', async () => {
 			const items = [
@@ -691,6 +738,40 @@ describe('Dropdown', () => {
 			expect(findDropdownItem(items[items.length - 1].label)).toHaveFocus();
 			await user.tab();
 			expect(findDropdownItem(items[0].label)).toHaveFocus();
+		});
+
+		it('should set focus on first item when pressing ctrl arrow up', async () => {
+			const items = [
+				{ id: '1', label: 'item 1' },
+				{ id: '2', label: 'item 2' },
+				{ id: '3', label: 'item 3' }
+			] satisfies DropdownItem[];
+			const { user } = setup(
+				<Dropdown items={items} forceOpen>
+					<Button label="opener" onClick={jest.fn()} />
+				</Dropdown>
+			);
+			expect(findDropdownItem(items[0].label)).toHaveFocus();
+			await user.tab({ shift: true });
+			expect(findDropdownItem(items[items.length - 1].label)).toHaveFocus();
+			await user.arrowUp({ ctrl: true });
+			expect(findDropdownItem(items[0].label)).toHaveFocus();
+		});
+
+		it('should set focus on last item when pressing ctrl arrow down', async () => {
+			const items = [
+				{ id: '1', label: 'item 1' },
+				{ id: '2', label: 'item 2' },
+				{ id: '3', label: 'item 3' }
+			] satisfies DropdownItem[];
+			const { user } = setup(
+				<Dropdown items={items} forceOpen>
+					<Button label="opener" onClick={jest.fn()} />
+				</Dropdown>
+			);
+			expect(findDropdownItem(items[0].label)).toHaveFocus();
+			await user.arrowDown({ ctrl: true });
+			expect(findDropdownItem(items[items.length - 1].label)).toHaveFocus();
 		});
 
 		it('should open nested dropdown when pressing arrow right', async () => {

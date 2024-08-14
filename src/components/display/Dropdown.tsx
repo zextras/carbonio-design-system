@@ -219,9 +219,12 @@ function NestListItem({
 			clearTimeout(closeNestedDropdownTimeoutRef.current);
 			closeNestedDropdownTimeoutRef.current = undefined;
 		}
+		const focusIsOnChild = itemRef.current?.contains(document.activeElement);
 		setOpen(false);
 		onClose?.();
-		itemRef.current?.focus({ preventScroll: true });
+		if (focusIsOnChild) {
+			itemRef.current?.focus({ preventScroll: true });
+		}
 	}, [onClose]);
 
 	const itemKeyEvents = useMemo(

@@ -278,7 +278,7 @@ const items = [
 				onClick: (e) => {
 					setSelectedOption('item3-1')
 				},
-        items: [
+				items: [
 					{
 						id: 'item311',
 						label: 'item3-1-1',
@@ -295,7 +295,7 @@ const items = [
 							setSelectedOption('item3-1-2')
 						}
 					},
-        ]
+				]
 			},
 			{
 				id: 'item32',
@@ -303,7 +303,25 @@ const items = [
 				tooltipLabel: 'item 3-2 tooltip',
 				onClick: (e) => {
 					setSelectedOption('item3-2')
-				}
+				},
+				items: [
+					{
+						id: 'item321',
+						label: 'item3-2-1',
+						tooltipLabel: 'item 3-2-1 tooltip',
+						onClick: (e) => {
+							setSelectedOption('item3-2-1')
+						}
+					},
+					{
+						id: 'item322',
+						label: 'item3-2-2',
+						tooltipLabel: 'item 3-2-2 tooltip',
+						onClick: (e) => {
+							setSelectedOption('item3-2-2')
+						}
+					},
+				]
 			},
 			{
 				id: 'item33',
