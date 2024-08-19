@@ -32,7 +32,7 @@ export {
 	type ChipInputType,
 	type ChipItem,
 	type ChipInputProps
-} from './components/inputs/ChipInput';
+} from './components/inputs/chipInput/ChipInput';
 export * from './components/inputs/FileLoader';
 export * from './components/inputs/IconButton';
 export * from './components/inputs/IconCheckbox';
