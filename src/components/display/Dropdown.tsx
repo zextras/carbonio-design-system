@@ -28,7 +28,7 @@ import { Icon } from '../basic/icon/Icon';
 import { Text } from '../basic/text/Text';
 import { FOCUSABLE_SELECTOR, TIMERS } from '../constants';
 import { Container } from '../layout/Container';
-import { Divider } from '../layout/Divider';
+import { Divider } from '../layout/divider/Divider';
 import { Padding } from '../layout/Padding';
 import { Portal } from '../utilities/Portal';
 

@@ -36,7 +36,7 @@ import { INPUT_BACKGROUND_COLOR, INPUT_DIVIDER_COLOR } from '../constants';
 import { Chip, ChipProps } from '../display/Chip';
 import { Dropdown, DropdownItem } from '../display/Dropdown';
 import { Container, ContainerProps } from '../layout/Container';
-import { Divider, DividerProps } from '../layout/Divider';
+import { Divider, DividerProps } from '../layout/divider/Divider';
 
 const ContainerEl = styled(InputContainer)<{
 	background: PaletteColor;
