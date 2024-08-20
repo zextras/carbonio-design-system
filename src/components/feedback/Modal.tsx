@@ -15,7 +15,7 @@ import { CustomModal, CustomModalProps } from './CustomModal';
 import { ModalBody } from './modal-components/ModalBody';
 import { ModalFooter, ModalFooterProps } from './modal-components/ModalFooter';
 import { ModalHeader } from './modal-components/ModalHeader';
-import { Divider } from '../layout/Divider';
+import { Divider } from '../layout/divider/Divider';
 
 function copyToClipboard(node: HTMLDivElement | null, windowObj: Window): void {
 	const el = windowObj.document.createElement('textarea');

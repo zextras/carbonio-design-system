@@ -22,7 +22,7 @@ import { getColor } from '../../theme/theme-utils';
 import { TextProps } from '../basic/text/Text';
 import { INPUT_BACKGROUND_COLOR, INPUT_DIVIDER_COLOR } from '../constants';
 import { Container } from '../layout/Container';
-import { Divider, DividerProps } from '../layout/Divider';
+import { Divider, DividerProps } from '../layout/divider/Divider';
 
 type HTMLTextAreaProps = TextareaHTMLAttributes<HTMLTextAreaElement>;
 

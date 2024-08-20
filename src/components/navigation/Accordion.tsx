@@ -18,7 +18,7 @@ import { Text, TextProps } from '../basic/text/Text';
 import { Tooltip } from '../display/Tooltip';
 import { IconButton } from '../inputs/IconButton';
 import { Container, ContainerProps } from '../layout/Container';
-import { Divider } from '../layout/Divider';
+import { Divider } from '../layout/divider/Divider';
 import { Padding } from '../layout/Padding';
 import { Collapse } from '../utilities/Collapse';
 
