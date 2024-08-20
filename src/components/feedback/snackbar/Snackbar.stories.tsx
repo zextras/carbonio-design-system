@@ -128,3 +128,10 @@ export const WithComponentLabel = {
 		label: <Text>Label is a custom component</Text>
 	}
 } satisfies Story;
+
+export const LongWordLabel = {
+	args: {
+		label:
+			'Dziewięćsetdziewięćdziesiątdziewięćmiliardówdziewięćsetdziewięćdziesiątdziewięćmilionówdziewięćsetdziewięćdziesiątdziewięćtysięcydziewięćsetdziewięćdziesięciodziewięcioletniego'
+	}
+} satisfies Story;
