@@ -25,7 +25,7 @@ import DatePicker, {
 } from 'react-datepicker';
 import styled from 'styled-components';
 
-import { ChipInput, ChipInputProps, ChipItem } from './ChipInput';
+import { ChipInput, ChipInputProps, ChipItem } from './chipInput/ChipInput';
 import { IconButton, IconButtonProps } from './IconButton';
 import { Input, InputProps } from './Input';
 import { LiteralUnion, PaletteColor, SingleItemArray } from '../../types/utils';

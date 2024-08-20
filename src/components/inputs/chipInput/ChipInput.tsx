@@ -14,29 +14,29 @@ import React, {
 	useState
 } from 'react';
 
-import { filter, map, slice, isEmpty, debounce, find, trim, reduce, uniq } from 'lodash';
+import { filter, slice, isEmpty, debounce, trim, uniq } from 'lodash';
 import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-components';
 
-import { InputContainer } from './commons/InputContainer';
-import { InputDescription } from './commons/InputDescription';
-import { InputLabel } from './commons/InputLabel';
-import { IconButton } from './IconButton';
-import { useCombinedRefs } from '../../hooks/useCombinedRefs';
+import { useCombinedRefs } from '../../../hooks/useCombinedRefs';
 import {
 	useKeyboard,
 	getKeyboardPreset,
 	KeyboardPresetKey,
 	KeyboardPresetObj
-} from '../../hooks/useKeyboard';
-import { usePrevious } from '../../hooks/usePrevious';
-import { getColor } from '../../theme/theme-utils';
-import { AnyColor, PaletteColor } from '../../types/utils';
-import { Icon } from '../basic/icon/Icon';
-import { INPUT_BACKGROUND_COLOR, INPUT_DIVIDER_COLOR } from '../constants';
-import { Chip, ChipProps } from '../display/Chip';
-import { Dropdown, DropdownItem } from '../display/Dropdown';
-import { Container, ContainerProps } from '../layout/Container';
-import { Divider, DividerProps } from '../layout/Divider';
+} from '../../../hooks/useKeyboard';
+import { usePrevious } from '../../../hooks/usePrevious';
+import { getColor } from '../../../theme/theme-utils';
+import { AnyColor, PaletteColor } from '../../../types/utils';
+import { Icon } from '../../basic/icon/Icon';
+import { INPUT_BACKGROUND_COLOR, INPUT_DIVIDER_COLOR } from '../../constants';
+import { Chip, ChipProps } from '../../display/Chip';
+import { Dropdown, DropdownItem } from '../../display/Dropdown';
+import { Container, ContainerProps } from '../../layout/Container';
+import { Divider, DividerProps } from '../../layout/divider/Divider';
+import { InputContainer } from '../commons/InputContainer';
+import { InputDescription } from '../commons/InputDescription';
+import { InputLabel } from '../commons/InputLabel';
+import { IconButton } from '../IconButton';
 
 const ContainerEl = styled(InputContainer)<{
 	background: PaletteColor;
@@ -237,7 +237,7 @@ function reducer<TValue>(
 	}
 }
 
-function DefaultOnAdd<TValue>(valueToAdd: TValue | string): { label: string } {
+function DefaultOnAdd<TValue>(valueToAdd: unknown): ChipItem<TValue> {
 	if (typeof valueToAdd === 'string') {
 		return { label: valueToAdd };
 	}
@@ -371,7 +371,7 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 		options = [],
 		onInputType,
 		onInputTypeDebounce = 300,
-		onAdd = DefaultOnAdd,
+		onAdd = DefaultOnAdd<TValue>,
 		background = INPUT_BACKGROUND_COLOR,
 		confirmChipOnBlur = true,
 		separators = [
@@ -414,7 +414,7 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 	const inputElRef = useCombinedRefs<HTMLInputElement>(inputRef);
 	const scrollContainerRef = useRef<HTMLDivElement | null>(null);
 
-	const [id] = useState(() => {
+	const id = useMemo(() => {
 		const ChipInputCast = ChipInputComponent as ChipInputType;
 		if (ChipInputCast._newId === undefined) {
 			ChipInputCast._newId = 0;
@@ -422,7 +422,7 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 		const { _newId } = ChipInputCast;
 		ChipInputCast._newId += 1;
 		return `chipInput-${_newId}`;
-	});
+	}, []);
 
 	const [forceShowDropdown, setForceShowDropdown] = useState(false);
 	const [dropdownItems, setDropdownItems] = useState<DropdownItem[]>(options);
@@ -432,22 +432,20 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 	const dropdownVisibilityRef = useRef<boolean>(forceShowDropdown);
 
 	const setFocus = useCallback(() => {
-		inputElRef.current && inputElRef.current.focus();
+		inputElRef.current?.focus();
 	}, [inputElRef]);
 
 	const saveValue = useCallback(
 		(valueToSave: unknown) => {
 			const trimmedValue = typeof valueToSave === 'string' ? trim(valueToSave) : valueToSave;
 
-			const duplicate =
-				requireUniqueChips &&
-				find(items, {
-					label: trimmedValue
-				});
+			const isDuplicated = requireUniqueChips && items.some((item) => item.label === trimmedValue);
 
-			if (trimmedValue && !duplicate) {
+			if (trimmedValue && !isDuplicated) {
 				const item = onAdd(trimmedValue);
-				uncontrolledMode && dispatch({ type: 'push', item });
+				if (uncontrolledMode) {
+					dispatch({ type: 'push', item });
+				}
 				onChange?.([...items, item]);
 			}
 			if (inputElRef.current) {
@@ -460,8 +458,10 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 
 	const savePastedValue = useCallback(
 		(valueToSave: string[]) => {
-			const pastedItems = map(valueToSave, (vts) => onAdd(vts));
-			uncontrolledMode && dispatch({ type: 'pushMultiples', items: pastedItems });
+			const pastedItems = valueToSave.map((vts) => onAdd(vts));
+			if (uncontrolledMode) {
+				dispatch({ type: 'pushMultiples', items: pastedItems });
+			}
 			onChange?.([...items, ...pastedItems]);
 		},
 		[uncontrolledMode, onChange, items, onAdd]
@@ -470,7 +470,9 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 	const replaceValue = useCallback(
 		(valueToSave: unknown) => {
 			const item = onAdd(valueToSave);
-			uncontrolledMode && dispatch({ type: 'replace', item });
+			if (uncontrolledMode) {
+				dispatch({ type: 'replace', item });
+			}
 			onChange?.([...items, item]);
 			if (inputElRef.current) {
 				inputElRef.current.value = '';
@@ -482,7 +484,9 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 
 	const saveCurrentValue = useCallback(() => {
 		const inputValue = inputElRef.current?.value ?? '';
-		inputValue.length > 0 && saveValue(inputValue);
+		if (inputValue.length > 0) {
+			saveValue(inputValue);
+		}
 	}, [inputElRef, saveValue]);
 
 	const saveCurrentEvent = useMemo(
@@ -504,7 +508,9 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 				inputElement.selectionStart === inputElement.selectionEnd
 			) {
 				e.preventDefault();
-				uncontrolledMode && dispatch({ type: 'popLast' });
+				if (uncontrolledMode) {
+					dispatch({ type: 'popLast' });
+				}
 				onChange?.(slice(items, 0, items.length - 1));
 				return false;
 			}
@@ -529,18 +535,20 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 
 	const onChipClose = useCallback(
 		(index: number) => {
-			uncontrolledMode && dispatch({ type: 'pop', index });
-			onChange?.(filter(items, (_item, i) => index !== i));
-			if (inputElRef.current) {
-				inputElRef.current.focus();
+			if (uncontrolledMode) {
+				dispatch({ type: 'pop', index });
 			}
+			onChange?.(filter(items, (_item, i) => index !== i));
+			inputElRef.current?.focus();
 		},
 		[inputElRef, items, onChange, uncontrolledMode]
 	);
 
 	const onInputBlur = useCallback(() => {
 		setIsActive(false);
-		confirmChipOnBlur && options.length === 0 && saveCurrentValue();
+		if (confirmChipOnBlur && options.length === 0) {
+			saveCurrentValue();
+		}
 	}, [confirmChipOnBlur, options, saveCurrentValue]);
 
 	const onInputKeyUp = useMemo(
@@ -565,7 +573,11 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 
 	const onOptionClick = useCallback(
 		(valueToAdd: unknown) => {
-			singleSelection ? replaceValue(valueToAdd) : saveValue(valueToAdd);
+			if (singleSelection) {
+				replaceValue(valueToAdd);
+			} else {
+				saveValue(valueToAdd);
+			}
 			setFocus();
 		},
 		[saveValue, setFocus, singleSelection, replaceValue]
@@ -590,7 +602,9 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 	}, [showDropdown]);
 
 	useEffect(() => {
-		!uncontrolledMode && dispatch({ type: 'reset', value });
+		if (!uncontrolledMode) {
+			dispatch({ type: 'reset', value });
+		}
 	}, [uncontrolledMode, value]);
 
 	useEffect(() => {
@@ -598,10 +612,10 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 			if (options.length === 0 && prevState.length === 0) {
 				return prevState;
 			}
-			return map(options, (o) => ({
+			return options.map((o) => ({
 				...o,
 				onClick: (event): void => {
-					o.onClick && o.onClick(event);
+					o.onClick?.(event);
 					onOptionClick(o.value ? o.value : o.label);
 				}
 			}));
@@ -612,7 +626,6 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 	const flipScroll = useCallback<(e: WheelEvent) => void>((ev) => {
 		const scrollableElement = ev.currentTarget;
 		if (
-			scrollableElement &&
 			scrollableElement instanceof HTMLElement &&
 			// avoid catching scroll if entire content is visible
 			scrollableElement.scrollWidth > scrollableElement.clientWidth
@@ -626,9 +639,9 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 
 	useEffect(() => {
 		const wrapperElement = scrollContainerRef.current;
-		wrapperElement && wrapperElement.addEventListener('wheel', flipScroll);
+		wrapperElement?.addEventListener('wheel', flipScroll);
 		return (): void => {
-			wrapperElement && wrapperElement.removeEventListener('wheel', flipScroll);
+			wrapperElement?.removeEventListener('wheel', flipScroll);
 		};
 	}, [flipScroll, scrollContainerRef]);
 
@@ -645,12 +658,12 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 		}
 	}, [items]);
 
-	const inputDisabled = useMemo(
+	const isInputDisabled = useMemo(
 		() => !!maxChips && items.length >= maxChips,
 		[items.length, maxChips]
 	);
 
-	const previousInputDisabled = usePrevious<boolean>(inputDisabled);
+	const previousIsInputDisabled = usePrevious<boolean>(isInputDisabled);
 
 	useEffect(() => {
 		if (onOptionsDisplayChange && forceShowDropdown !== dropdownVisibilityRef.current) {
@@ -660,25 +673,25 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 	}, [forceShowDropdown, onOptionsDisplayChange]);
 
 	useEffect(() => {
-		if (inputDisabled && !previousInputDisabled) {
+		if (isInputDisabled && !previousIsInputDisabled) {
 			setIsActive(false);
 		}
-	}, [previousInputDisabled, inputDisabled]);
+	}, [previousIsInputDisabled, isInputDisabled]);
 
 	// dropdown disabled does not depend on chipInput disabled, so that options can be still used
 	// even if input is disabled (chip can be added through dropdown but not typing)
-	const dropdownDisabled = useMemo(
-		() => disableOptions || inputDisabled,
-		[disableOptions, inputDisabled]
+	const isDropdownDisabled = useMemo(
+		() => disableOptions || isInputDisabled,
+		[disableOptions, isInputDisabled]
 	);
 
 	useEffect(() => {
 		// if dropdown is set to not open on click (dropdownDisabled),
 		// force open it on options change to simulate suggestion mode
-		setForceShowDropdown(dropdownDisabled && !isEmpty(options));
-	}, [dropdownDisabled, options]);
+		setForceShowDropdown(isDropdownDisabled && !isEmpty(options));
+	}, [isDropdownDisabled, options]);
 
-	const hasFocus = useMemo(() => isActive && !inputDisabled, [isActive, inputDisabled]);
+	const hasFocus = useMemo(() => isActive && !isInputDisabled, [isActive, isInputDisabled]);
 
 	const onInputFocus = useCallback(() => setIsActive(true), []);
 
@@ -689,14 +702,14 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 				// TODO: investigate if reading data from text with uppercase T is right
 				const pastedText = e.clipboardData.getData('Text');
 				const separatorsRegex = new RegExp(pasteSeparators.join('|'), 'gi');
-				const reducedChips = reduce<string, string[]>(
-					pastedText.split(separatorsRegex),
-					(acc, v) => {
-						if (trim(v) !== '') acc.push(trim(v));
-						return acc;
-					},
-					[]
-				);
+				const reducedChips = pastedText
+					.split(separatorsRegex)
+					.reduce<string[]>((values, textItem) => {
+						if (textItem.trim() !== '') {
+							values.push(textItem.trim());
+						}
+						return values;
+					}, []);
 				savePastedValue(requireUniqueChips ? uniq(reducedChips) : reducedChips);
 			}
 		},
@@ -727,7 +740,7 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 				forceOpen={forceShowDropdown}
 				onOpen={onOpen}
 				onClose={onClose}
-				disabled={dropdownDisabled}
+				disabled={isDropdownDisabled}
 				maxHeight={dropdownMaxHeight}
 				maxWidth={dropdownMaxWidth}
 			>
@@ -743,9 +756,9 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 					gap={'0.5rem'}
 					borderRadius="half"
 					background={background}
-					$disabled={(disabled || inputDisabled) && dropdownDisabled}
-					$inputDisabled={disabled || inputDisabled}
-					$dropdownDisabled={dropdownDisabled}
+					$disabled={(disabled || isInputDisabled) && isDropdownDisabled}
+					$inputDisabled={disabled || isInputDisabled}
+					$dropdownDisabled={isDropdownDisabled}
 					onClick={setFocus}
 					{...rest}
 				>
@@ -778,16 +791,15 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 							maxHeight={maxHeight}
 							$hasLabel={!!placeholder}
 						>
-							{items.length > 0 &&
-								map(items, (item, index) => (
-									<ChipComp
-										key={`${index}-${item.value}`}
-										maxWidth={(wrap === 'wrap' && '100%') || undefined}
-										{...item}
-										closable
-										onClose={(): void => onChipClose(index)}
-									/>
-								))}
+							{items.map((item, index) => (
+								<ChipComp
+									key={`${index}-${item.value}`}
+									maxWidth={(wrap === 'wrap' && '100%') || undefined}
+									{...item}
+									closable
+									onClose={(): void => onChipClose(index)}
+								/>
+							))}
 							<AdjustWidthInput
 								color="text"
 								autoComplete="off"
@@ -797,7 +809,7 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 								onKeyUp={onInputType && onInputKeyUp}
 								id={id}
 								name={inputName ?? placeholder}
-								disabled={disabled || inputDisabled}
+								disabled={disabled || isInputDisabled}
 								placeholder={placeholder}
 								onPaste={onPaste}
 							/>
@@ -806,7 +818,7 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 									htmlFor={id}
 									$hasFocus={hasFocus}
 									$hasError={hasError}
-									$disabled={disabled && dropdownDisabled && (!iconAction || iconDisabled)}
+									$disabled={disabled && isDropdownDisabled && (!iconAction || iconDisabled)}
 									$hasItems={items.length > 0 || !!inputElRef.current?.value}
 								>
 									{placeholder}
@@ -831,7 +843,7 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 			{description !== undefined && (
 				<CustomInputDescription
 					color={(hasError && 'error') || (hasFocus && 'primary') || 'secondary'}
-					disabled={disabled && dropdownDisabled && (!iconAction || iconDisabled)}
+					disabled={disabled && isDropdownDisabled && (!iconAction || iconDisabled)}
 					$backgroundColor={errorBackgroundColor}
 				>
 					{description}
@@ -844,4 +856,11 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 const ChipInput = ChipInputComponent as ChipInputType;
 ChipInput._newId = 0;
 
-export { ChipInputComponent, ChipInput, type ChipInputType, type ChipInputProps, type ChipItem };
+export {
+	ChipInputComponent,
+	ChipInput,
+	type ChipInputType,
+	type ChipInputProps,
+	type ChipItem,
+	DefaultOnAdd
+};
