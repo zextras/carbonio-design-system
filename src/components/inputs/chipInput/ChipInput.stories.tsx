@@ -32,30 +32,38 @@ export const Default = {} satisfies Story;
 
 export const DisabledInput = {
 	args: {
-		disabled: true
+		placeholder: 'Disabled input',
+		disabled: true,
+		icon: 'PeopleOutline'
 	}
 } satisfies Story;
 
 export const DisabledDropdown = {
 	args: {
+		placeholder: 'Disabled dropdown',
 		disableOptions: true,
-		options: []
+		options: [],
+		icon: 'PeopleOutline'
 	}
 } satisfies Story;
 
 export const DisabledIcon = {
 	args: {
-		iconDisabled: true
+		placeholder: 'Disabled icon',
+		iconDisabled: true,
+		icon: 'PeopleOutline'
 	}
 } satisfies Story;
 
 export const FullDisabledWithOptions = {
 	render: ChipInputDisabledWithOptions,
 	args: {
+		placeholder: 'Fully disabled with options',
 		disabled: true,
 		disableOptions: true,
 		onOptionsDisplayChange: fn(),
-		iconDisabled: true
+		iconDisabled: true,
+		icon: 'PeopleOutline'
 	}
 } satisfies Story;
 
