@@ -19,7 +19,7 @@ const SnackbarStory = ({ open, ...rest }: SnackbarProps): React.JSX.Element => {
 	return (
 		<>
 			<Button type="outlined" color="info" label="Click" onClick={() => setSnack(true)} />
-			<Snackbar onClose={() => setSnack(false)} open={open || snack} {...rest} />
+			<Snackbar {...rest} onClose={() => setSnack(false)} open={open || snack} />
 		</>
 	);
 };
