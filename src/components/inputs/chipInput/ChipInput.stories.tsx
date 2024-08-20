@@ -10,6 +10,7 @@ import { fn } from '@storybook/test';
 import { times } from 'lodash';
 
 import { ChipInput, ChipItem, DefaultOnAdd } from './ChipInput';
+import { ChipInputControlledCleanInput } from './ChipInput.stories.cleanInput';
 import { ControlledChipInput } from './ChipInput.stories.controlledMode';
 import { ChipInputDisabledWithOptions } from './ChipInput.stories.disabledWithOptions';
 import { ChipInputSuggestionMode } from './ChipInput.stories.suggestionMode';
@@ -295,5 +296,13 @@ export const OptionsDropdownWidth = {
 		dropdownWidth: 'auto',
 		dropdownMaxWidth: '100%',
 		disableOptions: false
+	}
+} satisfies Story;
+
+export const CleaningInput = {
+	render: ChipInputControlledCleanInput,
+	args: {
+		placeholder: 'Cleaning the input after controlled change',
+		confirmChipOnBlur: false
 	}
 } satisfies Story;
