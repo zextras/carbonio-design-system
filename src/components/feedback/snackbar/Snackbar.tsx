@@ -175,7 +175,6 @@ const Snackbar = React.forwardRef<HTMLDivElement, SnackbarProps>(function Snackb
 							mainAlignment={'flex-start'}
 							orientation={'row'}
 							minWidth={0}
-							data-testid={'containerrrr'}
 						>
 							<Row
 								mainAlignment="flex-start"
