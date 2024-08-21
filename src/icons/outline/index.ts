@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 Zextras <https://www.zextras.com>
+ * SPDX-FileCopyrightText: 2024 Zextras <https://www.zextras.com>
  *
  * SPDX-License-Identifier: AGPL-3.0-only
  */
@@ -386,4 +386,5 @@ export { default as WeekViewOutline } from './WeekViewOutline';
 export { default as WifiOffOutline } from './WifiOffOutline';
 export { default as WifiOutline } from './WifiOutline';
 export { default as WorkweekViewOutline } from './WorkweekViewOutline';
+export { default as WscOutline } from './WscOutline';
 export { default as ZedOutline } from './ZedOutline';

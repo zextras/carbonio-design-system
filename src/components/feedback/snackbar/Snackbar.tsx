@@ -64,7 +64,7 @@ interface SnackbarProps extends Omit<ContainerProps, 'children'> {
 	/** Snackbar severity */
 	severity?: 'success' | 'info' | 'warning' | 'error';
 	/** Snackbar text message */
-	label: string;
+	label: string | React.ReactElement;
 	/** Snackbar button text */
 	actionLabel?: string;
 	/** Button's click callback */
@@ -155,6 +155,7 @@ const Snackbar = React.forwardRef<HTMLDivElement, SnackbarProps>(function Snackb
 							bottom: '0.5rem',
 							left: '1.5rem'
 						}}
+						maxWidth={'100%'}
 					>
 						<Row flexShrink={0}>
 							<Row flexShrink={0}>

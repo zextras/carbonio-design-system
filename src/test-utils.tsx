@@ -25,10 +25,11 @@ import { defaultKeyMap } from '@testing-library/user-event/dist/cjs/keyboard/key
 
 import { ThemeProvider } from './theme/theme-context-provider';
 
-type User = ReturnType<(typeof userEvent)['setup']> & {
-	readonly rightClick: (target: Element) => Promise<void>;
-};
-type KeyboardEventFn = () => ReturnType<User['keyboard']>;
+type User = ReturnType<(typeof userEvent)['setup']>;
+interface KeyboardModifiers {
+	ctrl?: boolean;
+}
+type KeyboardEventFn = (modifiers?: KeyboardModifiers) => ReturnType<User['keyboard']>;
 
 export type UserEvent = User & {
 	readonly arrowUp: KeyboardEventFn;
@@ -122,6 +123,14 @@ type SetupOptions = {
 	setupOptions?: Parameters<(typeof userEvent)['setup']>[0];
 };
 
+function wrapKeyboardTextWithModifier(text: string, modifiers?: KeyboardModifiers): string {
+	let finalText = text;
+	if (modifiers?.ctrl) {
+		finalText = `{Control>}${finalText}{/Control}`;
+	}
+	return finalText;
+}
+
 function setupUserEvent(options?: SetupOptions['setupOptions']): UserEvent {
 	const user = userEvent.setup({
 		keyboardMap: [{ code: 'Comma', key: ',' }, ...defaultKeyMap],
@@ -130,8 +139,8 @@ function setupUserEvent(options?: SetupOptions['setupOptions']): UserEvent {
 	});
 	return {
 		...user,
-		arrowUp: () => user.keyboard('[ArrowUp]'),
-		arrowDown: () => user.keyboard('[ArrowDown]'),
+		arrowUp: (modifiers) => user.keyboard(wrapKeyboardTextWithModifier('[ArrowUp]', modifiers)),
+		arrowDown: (modifiers) => user.keyboard(wrapKeyboardTextWithModifier('[ArrowDown]', modifiers)),
 		arrowLeft: () => user.keyboard('[ArrowLeft]'),
 		arrowRight: () => user.keyboard('[ArrowRight]'),
 		esc: () => user.keyboard('[Escape]'),

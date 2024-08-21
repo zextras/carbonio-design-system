@@ -11,6 +11,7 @@ import { expect, within, userEvent, screen } from '@storybook/test';
 
 import { Snackbar, SnackbarProps } from './Snackbar';
 import { Button } from '../../basic/button/Button';
+import { Text } from '../../basic/text/Text';
 
 const SnackbarStory = ({ open, ...rest }: SnackbarProps): React.JSX.Element => {
 	const [snack, setSnack] = useState(false);
@@ -18,7 +19,7 @@ const SnackbarStory = ({ open, ...rest }: SnackbarProps): React.JSX.Element => {
 	return (
 		<>
 			<Button type="outlined" color="info" label="Click" onClick={() => setSnack(true)} />
-			<Snackbar onClose={() => setSnack(false)} open={open || snack} {...rest} />
+			<Snackbar {...rest} onClose={() => setSnack(false)} open={open || snack} />
 		</>
 	);
 };
@@ -121,3 +122,16 @@ export const MediumTextAction: Story = {
 		disableAutoHide: true
 	}
 };
+
+export const WithComponentLabel = {
+	args: {
+		label: <Text>Label is a custom component</Text>
+	}
+} satisfies Story;
+
+export const LongWordLabel = {
+	args: {
+		label:
+			'Dziewięćsetdziewięćdziesiątdziewięćmiliardówdziewięćsetdziewięćdziesiątdziewięćmilionówdziewięćsetdziewięćdziesiątdziewięćtysięcydziewięćsetdziewięćdziesięciodziewięcioletniego'
+	}
+} satisfies Story;

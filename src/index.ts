@@ -20,7 +20,7 @@ export * from './components/basic/TextWithTooltip';
 export * from './components/basic/Spinner';
 /** Layout components */
 export * from './components/layout/Container';
-export * from './components/layout/Divider';
+export * from './components/layout/divider/Divider';
 export * from './components/layout/Padding';
 export * from './components/layout/Paragraph';
 export * from './components/layout/Row';
@@ -32,7 +32,7 @@ export {
 	type ChipInputType,
 	type ChipItem,
 	type ChipInputProps
-} from './components/inputs/ChipInput';
+} from './components/inputs/chipInput/ChipInput';
 export * from './components/inputs/FileLoader';
 export * from './components/inputs/IconButton';
 export * from './components/inputs/IconCheckbox';
