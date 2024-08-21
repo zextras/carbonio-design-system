@@ -21,14 +21,23 @@ import styled, { css, DefaultTheme, SimpleInterpolation, ThemeContext } from 'st
 
 import { Tooltip } from './Tooltip';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
-import { useKeyboard, getKeyboardPreset, KeyboardPresetObj } from '../../hooks/useKeyboard';
+import {
+	useKeyboard,
+	getKeyboardPreset,
+	KeyboardPresetObj,
+	focusOnNextNode,
+	focusOnPreviousNode,
+	focusOnFirstNode,
+	focusOnLastNode,
+	clickNodeWithFocus
+} from '../../hooks/useKeyboard';
 import { pseudoClasses } from '../../theme/theme-utils';
 import { setupFloating } from '../../utils/floating-ui';
 import { Icon } from '../basic/icon/Icon';
 import { Text } from '../basic/text/Text';
 import { FOCUSABLE_SELECTOR, TIMERS } from '../constants';
 import { Container } from '../layout/Container';
-import { Divider } from '../layout/Divider';
+import { Divider } from '../layout/divider/Divider';
 import { Padding } from '../layout/Padding';
 import { Portal } from '../utilities/Portal';
 
@@ -210,9 +219,12 @@ function NestListItem({
 			clearTimeout(closeNestedDropdownTimeoutRef.current);
 			closeNestedDropdownTimeoutRef.current = undefined;
 		}
+		const focusIsOnChild = itemRef.current?.contains(document.activeElement);
 		setOpen(false);
 		onClose?.();
-		itemRef.current?.focus({ preventScroll: true });
+		if (focusIsOnChild) {
+			itemRef.current?.focus({ preventScroll: true });
+		}
 	}, [onClose]);
 
 	const itemKeyEvents = useMemo(
@@ -232,7 +244,10 @@ function NestListItem({
 		(): KeyboardPresetObj[] => [
 			{
 				type: 'keydown',
-				callback: closeNestedDropdown,
+				callback: (event): void => {
+					closeNestedDropdown();
+					event.stopPropagation();
+				},
 				keys: [
 					{ key: 'Escape', ctrlKey: false },
 					{ key: 'ArrowLeft', ctrlKey: false }
@@ -300,6 +315,7 @@ function NestListItem({
 				itemTextSize={itemTextSize}
 				itemPaddingBetween={itemPaddingBetween}
 				dropdownListRef={setDropdownListRef}
+				disablePortal
 			>
 				<Container
 					orientation="horizontal"
@@ -602,8 +618,69 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 	);
 	useKeyboard(innerTriggerRef, triggerEvents);
 
-	const listEvents = useMemo(
-		() => getKeyboardPreset('list', undefined, popperItemsRef),
+	const listEvents = useMemo<KeyboardPresetObj[]>(
+		() => [
+			{
+				type: 'keydown',
+				callback: (event): void => {
+					if (event.defaultPrevented) {
+						return;
+					}
+					focusOnPreviousNode(popperItemsRef);
+					event.preventDefault();
+				},
+				keys: [{ key: 'ArrowUp', ctrlKey: false }],
+				haveToPreventDefault: false
+			},
+			{
+				type: 'keydown',
+				callback: (event): void => {
+					if (event.defaultPrevented) {
+						return;
+					}
+					focusOnNextNode(popperItemsRef);
+					event.preventDefault();
+				},
+				keys: [{ key: 'ArrowDown', ctrlKey: false }],
+				haveToPreventDefault: false
+			},
+			{
+				type: 'keydown',
+				callback: (event): void => {
+					if (event.defaultPrevented) {
+						return;
+					}
+					focusOnFirstNode(popperItemsRef);
+					event.preventDefault();
+				},
+				keys: [{ key: 'ArrowUp', ctrlKey: true }],
+				haveToPreventDefault: false
+			},
+			{
+				type: 'keydown',
+				callback: (event): void => {
+					if (event.defaultPrevented) {
+						return;
+					}
+					focusOnLastNode(popperItemsRef);
+					event.preventDefault();
+				},
+				keys: [{ key: 'ArrowDown', ctrlKey: true }],
+				haveToPreventDefault: false
+			},
+			{
+				type: 'keydown',
+				callback: (event): void => {
+					if (event.defaultPrevented) {
+						return;
+					}
+					clickNodeWithFocus(popperItemsRef);
+					event.preventDefault();
+				},
+				keys: [{ key: 'Enter', ctrlKey: false }],
+				haveToPreventDefault: false
+			}
+		],
 		[popperItemsRef]
 	);
 

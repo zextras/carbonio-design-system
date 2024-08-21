@@ -159,4 +159,9 @@ describe('Snackbar', () => {
 		setup(<Snackbar open label={'test'} disableAutoHide={false} progressBar onClose={undefined} />);
 		expect(screen.queryByTestId(SELECTORS.progressBar)).not.toBeInTheDocument();
 	});
+
+	it('should accept a component as label', () => {
+		setup(<Snackbar label={<div data-testid={'component'}>A component</div>} open />);
+		expect(screen.getByTestId('component')).toBeVisible();
+	});
 });
