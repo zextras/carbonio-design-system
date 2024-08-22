@@ -1,5 +1,6 @@
-import { Meta, Controls, Story, Title, Primary } from '@storybook/blocks';
+import { Meta, Controls, Story, Title, Primary, Canvas } from '@storybook/blocks';
 import * as ChipInputStories from './ChipInput.stories';
+import CleaningInputStorySrc from './ChipInput.stories.cleanInput?raw'
 
 <Meta of={ChipInputStories} />
 
@@ -68,6 +69,12 @@ through the ChipInput, the checks are done, but when you set a new value through
 and so are duplicates.
 
 <Story of={ChipInputStories.ControlledMode} />
+
+> #### Cleaning the input after a controlled change
+> When changing the value of the ChipInput from the outside, in a controlled way, the input may remain valued if the user
+> typed something.
+> In order to clean it, the inputRef prop must be used to reset the value of the input element through its reference
+> <Canvas of={ChipInputStories.CleaningInput} source={{ code: CleaningInputStorySrc  }} />
 
 ## Uncontrolled ChipInput
 
