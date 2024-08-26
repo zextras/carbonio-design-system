@@ -228,6 +228,7 @@ const Banner = React.forwardRef<HTMLDivElement, BannerProps>(function BannerFn(
 			mainAlignment={'flex-start'}
 			wrap={'wrap'}
 			$isMultiline={isMultiline}
+			data-testid={'banner'}
 			{...rest}
 		>
 			<WrapAndGrowContainer
@@ -258,6 +259,7 @@ const Banner = React.forwardRef<HTMLDivElement, BannerProps>(function BannerFn(
 					minWidth={0}
 					flexGrow={1}
 					ref={infoContainerRef}
+					data-testid={'banner-info-container'}
 				>
 					{title && (
 						<BannerText color={textColor} size={'medium'} weight={'bold'} overflow={'break-word'}>
