@@ -8,15 +8,15 @@ import React, { HTMLAttributes } from 'react';
 
 import styled from 'styled-components';
 
-import { getColor } from '../../theme/theme-utils';
-import { AnyColor, With$Prefix } from '../../types/utils';
+import { getColor } from '../../../theme/theme-utils';
+import { AnyColor, MakeRequired, With$Prefix } from '../../../types/utils';
 
-interface DividerComponentProps {
+interface DividerProps extends Omit<HTMLAttributes<HTMLDivElement>, 'color'> {
 	/** Divider color */
-	color: AnyColor;
+	color?: AnyColor;
 }
 
-const DividerEl = styled.div<With$Prefix<DividerComponentProps>>`
+const DividerEl = styled.div<With$Prefix<MakeRequired<DividerProps, 'color'>>>`
 	box-sizing: border-box;
 	background-color: ${({ theme, $color }): string => getColor($color, theme)};
 	height: 0.0625rem;
@@ -24,9 +24,6 @@ const DividerEl = styled.div<With$Prefix<DividerComponentProps>>`
 	min-height: 0.0625rem;
 	width: 100%;
 `;
-
-type DividerProps = Omit<HTMLAttributes<HTMLDivElement>, keyof DividerComponentProps> &
-	Partial<DividerComponentProps>;
 
 const Divider = React.forwardRef<HTMLDivElement, DividerProps>(function DividerFn(
 	{ color = 'gray2', ...rest },

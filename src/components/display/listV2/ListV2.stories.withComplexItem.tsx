@@ -11,7 +11,7 @@ import { ListV2, ListV2Props } from './ListV2';
 import { Avatar } from '../../basic/Avatar';
 import { Text } from '../../basic/text/Text';
 import { Container } from '../../layout/Container';
-import { Divider } from '../../layout/Divider';
+import { Divider } from '../../layout/divider/Divider';
 import { Row } from '../../layout/Row';
 import { Drag } from '../../utilities/Drag';
 import { ListItem } from '../ListItem';

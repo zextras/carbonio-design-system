@@ -1,0 +1,111 @@
+import { Meta, Controls, Story, Title, Primary, Canvas } from '@storybook/blocks';
+import * as ChipInputStories from './ChipInput.stories';
+import CleaningInputStorySrc from './ChipInput.stories.cleanInput?raw'
+
+<Meta of={ChipInputStories} />
+
+<Title />
+
+The ChipInput is an input where the entered values are shown as Chip elements.
+
+By default, values are added when
+
+- the 'space', 'enter' or 'comma' key are pressed
+- ChipInput lose the focus (onBlur)
+
+and are deleted when the 'Backspace' key is pressed.
+
+When the internal state of the input changes, the 'onChange' callback is called (with the current internal values as parameter).
+
+You can pass the 'options' prop to populate a Dropdown to show within the ChipInput.
+The view of single elements in the Dropdown can be modified passing down a ['customComponent' in the options value](#/Components/Data%20display/Dropdown).
+
+**It's necessary to memoize** 'onChange' and 'onAdd' callbacks to avoid unusual behaviors.
+
+A custom Chip can be used in order to have more control on what a chip can do, but the component has to be an instance of the base Chip.
+
+
+## onAdd vs onChange
+**onAdd** and **onChange** have two different meaning in the chip input:
+- **onAdd**: has to be used only for converting a value in a chip. The value received by arg can be a string or the value of a dropdown option,
+if present (value intended as the field _value_ of the Dropdown option object)
+- **onChange**: onChange is called when a chip is added/removed/replaced from "inside" the chip input component. This means that if you
+have to update the value from the outside, you can just change the value prop you pass to your ChipInput, and onChange will not be called.
+
+<Primary />
+
+<Controls />
+
+## Disabled variants
+
+ChipInput elements can be disabled independently.
+
+To disable only the input, use the _disable_ prop.
+
+<Story of={ChipInputStories.DisabledInput} />
+
+To disable the dropdown (hide it), use the _disableOptions_ prop and also leave the _options_ prop empty (or valued with an empty array)
+
+<Story of={ChipInputStories.DisabledDropdown} />
+
+To disable the icon / iconButton, use the _iconDisabled_ prop
+
+<Story of={ChipInputStories.DisabledIcon} />
+
+To entirely disable the chipInput, all the three disabling props has to be set to false and the _options_ prop has to be empty.
+If options are provided, they will become visible, and chips can be added through them
+
+<Story of={ChipInputStories.FullDisabledWithOptions} />
+
+## Controlled ChipInput
+
+In controlled mode value can be updated from outside the ChipInput.
+When updated, the new value is applied to the ChipInput **without any internal check**,
+so **you need to perform any additional check before setting the new value** (e.g. if you intend to have only uniq chips
+or a max number of chips).
+
+In the example below, the ChipInput has both the requireUniqChips and the maxChips prop valued. When chips are added directly
+through the ChipInput, the checks are done, but when you set a new value through the external component, more than 8 chips are allowed,
+and so are duplicates.
+
+<Story of={ChipInputStories.ControlledMode} />
+
+> #### Cleaning the input after a controlled change
+> When changing the value of the ChipInput from the outside, in a controlled way, the input may remain valued if the user
+> typed something.
+> In order to clean it, the inputRef prop must be used to reset the value of the input element through its reference
+> <Canvas of={ChipInputStories.CleaningInput} source={{ code: CleaningInputStorySrc  }} />
+
+## Uncontrolled ChipInput
+
+In uncontrolled mode, the value of the ChipInput is fully controlled by the ChipInput itself.
+The chip shape can be manipulated through the onAdd prop.
+To get the value of the ChipInput, the onChange callback must be used.
+
+<Story of={ChipInputStories.UncontrolledMode} />
+
+## ChipInput Options
+
+Dropdown is accessible even if chipInput is disabled. This allows chips to be entered only through options and not with typing.
+To entirely disable the ChipInput, both the disable options have to be set to false.
+
+When options are provided, and there is some option in the dropdown, blur event does not create a chip.
+
+<Story of={ChipInputStories.EnabledWithOptions} />
+
+<Story of={ChipInputStories.DisabledWithOptions} />
+
+To simulate a suggestion mode, value the option prop dynamically, leaving the disableOptions prop set to true
+
+<Story of={ChipInputStories.SuggestionMode} />
+
+To show all options also on focus an additional listener is required
+
+<Story of={ChipInputStories.SuggestionModeWithFocusListener} />
+
+The width of the options dropdown can be changed with the props _dropdownWidth_ and _dropdownMaxWidth_
+
+<Story of={ChipInputStories.OptionsDropdownWidth} />
+
+
+

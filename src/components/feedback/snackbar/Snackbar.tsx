@@ -161,6 +161,7 @@ const Snackbar = React.forwardRef<HTMLDivElement, SnackbarProps>(function Snackb
 							bottom: '0.5rem',
 							left: '1.5rem'
 						}}
+						maxWidth={'100%'}
 					>
 						<Row flexShrink={0}>
 							<Row flexShrink={0}>

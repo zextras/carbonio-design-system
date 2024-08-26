@@ -19,7 +19,7 @@ const SnackbarStory = ({ open, ...rest }: SnackbarProps): React.JSX.Element => {
 	return (
 		<>
 			<Button type="outlined" color="info" label="Click" onClick={() => setSnack(true)} />
-			<Snackbar onClose={() => setSnack(false)} open={open || snack} {...rest} />
+			<Snackbar {...rest} onClose={() => setSnack(false)} open={open || snack} />
 		</>
 	);
 };
@@ -126,5 +126,12 @@ export const MediumTextAction: Story = {
 export const WithComponentLabel = {
 	args: {
 		label: <Text>Label is a custom component</Text>
+	}
+} satisfies Story;
+
+export const LongWordLabel = {
+	args: {
+		label:
+			'Dziewięćsetdziewięćdziesiątdziewięćmiliardówdziewięćsetdziewięćdziesiątdziewięćmilionówdziewięćsetdziewięćdziesiątdziewięćtysięcydziewięćsetdziewięćdziesięciodziewięcioletniego'
 	}
 } satisfies Story;
