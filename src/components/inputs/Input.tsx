@@ -14,11 +14,12 @@ import { InputLabel } from './commons/InputLabel';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { KeyboardPresetObj, useKeyboard } from '../../hooks/useKeyboard';
 import { getColor } from '../../theme/theme-utils';
+import { AnyColor } from '../../types/utils';
 import { INPUT_BACKGROUND_COLOR, INPUT_DIVIDER_COLOR } from '../constants';
 import { Container, ContainerProps } from '../layout/Container';
 import { Divider, DividerProps } from '../layout/divider/Divider';
 
-const InputEl = styled.input<{ $color: keyof DefaultTheme['palette'] }>`
+const InputEl = styled.input<{ $color: AnyColor }>`
 	border: none !important;
 	height: auto !important;
 	width: 100%;
@@ -58,14 +59,16 @@ const RelativeContainer = styled(Container)`
 `;
 
 interface InputProps extends ContainerProps {
-	/** Input's background color */
+	/** Input's background color
+	 * @deprecated use background prop instead
+	 * */
 	backgroundColor?: keyof DefaultTheme['palette'];
 	/** whether to disable the Input or not */
 	disabled?: boolean;
 	/** Input's text color */
-	textColor?: keyof DefaultTheme['palette'];
+	textColor?: AnyColor;
 	/** Input's bottom border color */
-	borderColor?: keyof DefaultTheme['palette'];
+	borderColor?: AnyColor;
 	/** Label of the input, will act (graphically) as placeholder when the input is not focused */
 	label?: string;
 	/** input change callback */
@@ -88,7 +91,8 @@ interface InputProps extends ContainerProps {
 	CustomIcon?: React.ComponentType<{ hasError: boolean; hasFocus: boolean; disabled: boolean }>;
 	/** input type attribute */
 	type?: string;
-	/** hide the inputs bottom line */
+	/** hide the inputs bottom line
+	 * @deprecated */
 	hideBorder?: boolean;
 	/** on Enter key callback */
 	onEnter?: (e: KeyboardEvent) => void;
