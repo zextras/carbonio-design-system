@@ -27,7 +27,7 @@ import styled from 'styled-components';
 
 import { ChipInput, ChipInputProps, ChipItem } from './chipInput/ChipInput';
 import { IconButton, IconButtonProps } from './IconButton';
-import { Input, InputProps } from './Input';
+import { Input, InputProps } from './input/Input';
 import { LiteralUnion, PaletteColor, SingleItemArray } from '../../types/utils';
 import { INPUT_BACKGROUND_COLOR } from '../constants';
 import { ChipProps } from '../display/Chip';
