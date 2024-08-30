@@ -92,7 +92,8 @@ interface InputProps extends ContainerProps {
 	/** input type attribute */
 	type?: string;
 	/** hide the inputs bottom line
-	 * @deprecated */
+	 * @deprecated
+	 * */
 	hideBorder?: boolean;
 	/** on Enter key callback */
 	onEnter?: (e: KeyboardEvent) => void;
