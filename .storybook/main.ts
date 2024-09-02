@@ -7,7 +7,8 @@ const config: StorybookConfig = {
 		'@storybook/addon-essentials',
 		'@storybook/addon-interactions',
 		'@storybook/test',
-		'@storybook/addon-designs'
+		'@storybook/addon-designs',
+		'./addons/darkreader/register'
 	],
 	framework: {
 		name: '@storybook/react-webpack5',
