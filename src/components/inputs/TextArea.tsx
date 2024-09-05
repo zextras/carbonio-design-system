@@ -302,7 +302,6 @@ const TextArea: TextArea = React.forwardRef<HTMLDivElement, TextAreaProps>(funct
 							$hasError={hasError}
 							$disabled={disabled}
 							$textAreaHasValue={textAreaHasValue}
-							// $textColor={textColor}
 						>
 							{label}
 						</Label>
