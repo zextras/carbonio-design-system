@@ -3,7 +3,7 @@ import React, {useEffect} from 'react'
 import { ThemeProvider } from '../src';
 import { StoryFn, Preview } from '@storybook/react';
 import { DocsContainer, DocsContextProps } from "@storybook/blocks";
-import { disable, enable } from "darkreader";
+import {auto, disable, enable} from "darkreader";
 
 interface ContainerProps {
 	children: React.ReactNode,
@@ -29,7 +29,13 @@ const preview: Preview = {
 				const { globals } = (context as any).store.globals;
 				const isDarkModeEnabled = globals.isDarkMode;
 				useEffect(() => {
-					isDarkModeEnabled ? enable({ sepia: -10 }) : disable()
+					if (isDarkModeEnabled) {
+						auto(false);
+						enable({ sepia: -10 });
+					} else {
+						auto(false);
+						disable();
+					}
 				}, [isDarkModeEnabled]);
 
 				return (
