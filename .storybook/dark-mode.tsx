@@ -8,26 +8,39 @@ import React, { JSX, useCallback, useEffect, useMemo, useState } from 'react';
 import { IconButton } from '@storybook/components';
 import { MoonIcon, SunIcon } from '@storybook/icons';
 import { auto, disable, enable, isEnabled } from 'darkreader';
+import { useGlobals } from "@storybook/manager-api";
 
 export const DarkMode = (): JSX.Element => {
     const [mode, setMode] = useState('auto');
+    const [globals, updateGlobals] = useGlobals();
 
     useEffect(() => {
         switch (mode) {
             case 'light':
+                updateGlobals({
+                    ['isDarkMode']: false
+                });
                 auto(false);
                 disable();
                 break;
             case 'dark':
-                auto(false);
-                enable({ sepia: -10 });
+                updateGlobals({
+                    ['isDarkMode']: true
+                });
+                if (globals.isDarkMode) {
+                    auto(false);
+                    enable({ sepia: -10 });
+                }
                 break;
             case 'auto':
             default:
                 auto({});
+                updateGlobals({
+                    ['isDarkMode']: false
+                });
                 break;
         }
-    }, [mode]);
+    }, [mode, globals.isDarkMode]);
 
     const DarkModeIcon = useCallback(() => {
         switch (mode) {
