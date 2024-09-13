@@ -1,14 +1,17 @@
-<!--
-SPDX-FileCopyrightText: 2021 Zextras <https://www.zextras.com>
+import { Meta, Title } from '@storybook/blocks';
 
-SPDX-License-Identifier: AGPL-3.0-only
--->
+<Meta title="Getting started" />
 
-![Mascotte](./BGURL.svg)
+<Title>Getting started</Title>
+
+![Mascotte](/BGURL.svg)
 
 This documentation page serves as a starting point for the successful integration and use of the Zextras Design System.
-It will be incrementally expanded over time to accomodate tips, procedures and solutions to common problems that come up
+It will be incrementally expanded over time to accommodate tips, procedures and solutions to common problems that come up
 with the deployment and use of the library.
+
+> If you don't find the component documented here,
+> check the old documentation [https://doc.dev.zextras.com/iris/zapp-ui/release/](https://doc.dev.zextras.com/iris/zapp-ui/release/)
 
 ## Under the hood
 
@@ -20,7 +23,7 @@ and styled with [`styled-components`](https://styled-components.com/).
 
 [Uncontrolled input](https://reactjs.org/docs/uncontrolled-components.html)
 
-Every input component (checkbox, select, etc) can be used in either controlled and uncontrolled mode by using different
+Every input component (checkbox, select, etc.) can be used in either controlled and uncontrolled mode by using different
 props.
 
 Usually uncontrolled components receive a default state, and emit change events, while controlled inputs work by latching

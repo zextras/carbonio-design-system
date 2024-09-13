@@ -357,9 +357,6 @@ type ChipInputType = (<TValue = unknown>(
 	_newId?: number;
 };
 
-/**
- * @visibleName ChipInput
- */
 const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknown>(
 	{
 		inputRef = null,
