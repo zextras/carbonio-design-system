@@ -14,6 +14,11 @@ export const decorators = [
 const preview: Preview = {
 	parameters: {
 		actions: { argTypesRegex: '^on.*' },
+		options: {
+			storySort: {
+				order: ['Getting started', 'Theme', 'Components', 'Hooks'],
+			},
+		},
 	},
 };
 

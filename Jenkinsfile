@@ -202,7 +202,6 @@ pipeline {
                         script {
                             executeNpmLogin()
                             nodeCmd('npm run build:docs')
-                            stash includes: 'styleguide/', name: 'doc'
                             stash includes: 'storybook-static/', name: 'storybook-doc'
                         }
                     }
@@ -270,13 +269,10 @@ pipeline {
             }
             steps {
                 script {
-                    unstash 'doc'
                     unstash 'storybook-doc'
                     def outDir = isDeployDocPlaygroundEnabled == true ? "playground" : BRANCH_NAME
-                    doc.rm file: "iris/zapp-ui/${outDir}"
-                    doc.mkdir folder: "iris/zapp-ui/${outDir}"
+                    doc.rm file: "iris/zapp-ui/${outDir}/storybook-static"
                     doc.upload file: 'storybook-static', destination: "iris/zapp-ui/${outDir}"
-                    doc.upload file: 'styleguide/**', destination: "iris/zapp-ui/${outDir}"
                 }
             }
         }
