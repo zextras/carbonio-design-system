@@ -1,0 +1,31 @@
+import { Meta, Source, Title } from '@storybook/blocks';
+import { CustomThemeProvider } from '../components/CustomTheme';
+import CustomThemeProviderSrc from '../components/CustomTheme?raw';
+
+
+<Meta title="Theme/Theming" />
+
+<Title>Theming</Title>
+
+A theme is an extension of the default theme bundled within the `@zextras/carbonio-design-system` package.
+
+The theme customization can be accomplished by providing a modifier function to the `extension` prop:
+
+<CustomThemeProvider />
+
+<Source code={CustomThemeProviderSrc} />
+
+When using typescript and [styled-components](https://styled-components.com/),
+in order to have the theme correctly typed inside a styled component declaration,
+the augmentation of the styled-components module default theme is required.
+To do so, create a declaration file styled-components.d.ts in the root folder of your project and
+re-export the interface DefaultTheme, extending the Design System Theme type (or your theme type if case you have a custom theme)
+
+```typescript noedit static
+import { Theme } from '@zextras/carbonio-design-system';
+declare module 'styled-components' {
+  export interface DefaultTheme extends Theme {
+		additionalProperty: unknown
+  }
+}
+```
