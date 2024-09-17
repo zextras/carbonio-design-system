@@ -14,14 +14,13 @@ import { Text } from '../../basic/text/Text';
 import { Container } from '../../layout/Container';
 
 const meta = {
-	component: Input,
-	args: {
-		label: 'Input label'
-	}
+	component: Input
 } satisfies Meta<typeof Input>;
 export default meta;
 
 type Story = StoryObj<typeof Input>;
+
+export const Default = {} satisfies Story;
 
 export const Label = {
 	args: {
