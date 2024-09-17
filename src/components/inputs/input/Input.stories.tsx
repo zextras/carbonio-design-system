@@ -23,8 +23,6 @@ export default meta;
 
 type Story = StoryObj<typeof Input>;
 
-export const Default = {} satisfies Story;
-
 export const Label = {
 	args: {
 		label: 'This is the Input label'
