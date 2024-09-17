@@ -13,7 +13,7 @@ import { AnyColor } from '../../../types/utils';
 
 type TextOverflow = 'ellipsis' | 'break-word';
 
-interface TextProps extends Omit<HTMLAttributes<HTMLDivElement>, 'color' | 'children'> {
+interface TextProps extends Omit<HTMLAttributes<HTMLDivElement>, 'color'> {
 	/** Text color */
 	color?: AnyColor;
 	/** Text size */
@@ -24,8 +24,6 @@ interface TextProps extends Omit<HTMLAttributes<HTMLDivElement>, 'color' | 'chil
 	overflow?: TextOverflow;
 	/** Disabled status */
 	disabled?: boolean;
-	/** Content of the text */
-	children?: React.ReactNode;
 	/** Italic Font style of the text */
 	italic?: boolean;
 	/** Alignment of the text */

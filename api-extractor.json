@@ -9,21 +9,19 @@
   "docModel": {
     "enabled": false
   },
+  "tsdocMetadata": {
+    "enabled": false
+  },
   "dtsRollup": {
     "enabled": true,
     "untrimmedFilePath": "./dist/zapp-ui.bundle.d.ts"
   },
   "messages": {
     "extractorMessageReporting": {
-      "default": {
+      "ae-missing-release-tag": {
         "logLevel": "none"
       },
-      "ae-wrong-input-file-type": {
-        "logLevel": "warning"
-      }
-    },
-    "tsdocMessageReporting": {
-      "default": {
+      "ae-forgotten-export": {
         "logLevel": "none"
       }
     }

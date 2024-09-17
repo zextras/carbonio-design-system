@@ -192,9 +192,6 @@ type SelectType = <T = string>(
 	p: SelectProps<T> & React.RefAttributes<HTMLDivElement>
 ) => React.ReactElement | null;
 
-/**
- * @visibleName Select
- */
 const SelectComponent = React.forwardRef(function SelectFn<T = string>(
 	{
 		background = INPUT_BACKGROUND_COLOR,
@@ -358,7 +355,6 @@ const SelectComponent = React.forwardRef(function SelectFn<T = string>(
 	);
 });
 
-// styleguidist is not able to parse the props if the cast is made directly on the component
 const Select = SelectComponent as SelectType;
 
 export {

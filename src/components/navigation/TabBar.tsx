@@ -4,14 +4,15 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { useCallback, useMemo, HTMLAttributes } from 'react';
+import React, { useCallback, HTMLAttributes, useMemo } from 'react';
 
 import { map } from 'lodash';
-import styled, { css, DefaultTheme } from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
-import { useKeyboard, getKeyboardPreset } from '../../hooks/useKeyboard';
+import { getKeyboardPreset, useKeyboard } from '../../hooks/useKeyboard';
 import { getColor } from '../../theme/theme-utils';
+import { AnyColor } from '../../types/utils';
 import { Text } from '../basic/text/Text';
 import { Container, ContainerProps } from '../layout/Container';
 
@@ -22,7 +23,7 @@ const CustomText = styled(Text)`
 const DefaultTabBarItemContainer = styled(Container)<{
 	$forceWidthEquallyDistributed: boolean;
 	$selected: boolean;
-	$underlineColor: string | keyof DefaultTheme['palette'];
+	$underlineColor: AnyColor;
 	$disabled?: boolean;
 }>`
 	outline: none;
@@ -66,11 +67,11 @@ interface TabBarProps extends Omit<ContainerProps, 'onChange'> {
 	/** id of the selected item */
 	selected: string;
 	/** change callback, is called with the new selected id */
-	onChange: (ev: React.SyntheticEvent, selectedId: string) => void;
+	onChange: (ev: React.MouseEvent<HTMLDivElement> | KeyboardEvent, selectedId: string) => void;
 	/** background color of the tabBar */
-	background: string | keyof DefaultTheme['palette'];
+	background: AnyColor;
 	/** underline color of the selected tab */
-	underlineColor?: string | keyof DefaultTheme['palette'];
+	underlineColor?: AnyColor;
 	/** Force tabs to have all the same width */
 	forceWidthEquallyDistributed?: boolean;
 }
@@ -78,9 +79,9 @@ interface TabBarProps extends Omit<ContainerProps, 'onChange'> {
 interface DefaultTabBarItemProps extends ContainerProps {
 	item: Item;
 	selected: boolean;
-	background: string | keyof DefaultTheme['palette'];
-	onClick: React.ReactEventHandler;
-	underlineColor: string | keyof DefaultTheme['palette'];
+	background: AnyColor;
+	onClick: (ev: React.MouseEvent<HTMLDivElement> | KeyboardEvent) => void;
+	underlineColor: AnyColor;
 	forceWidthEquallyDistributed: boolean;
 }
 
@@ -99,8 +100,10 @@ const DefaultTabBarItem = React.forwardRef<HTMLDivElement, DefaultTabBarItemProp
 		ref
 	) {
 		const activationCb = useCallback(
-			(ev) => {
-				if (!item.disabled) onClick(ev);
+			(ev: React.MouseEvent<HTMLDivElement> | KeyboardEvent) => {
+				if (!item.disabled) {
+					onClick(ev);
+				}
 			},
 			[item.disabled, onClick]
 		);
@@ -152,7 +155,7 @@ const TabBar = React.forwardRef<HTMLDivElement, TabBarProps>(function TabBarFn(
 ) {
 	const onItemClickCb = useCallback(
 		(id: string) =>
-			(ev: React.SyntheticEvent): void => {
+			(ev: React.MouseEvent<HTMLDivElement> | KeyboardEvent): void => {
 				onChange(ev, id);
 			},
 		[onChange]

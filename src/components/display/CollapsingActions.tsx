@@ -23,9 +23,10 @@ const RefDiv = styled.div`
 type Action = { type?: never; iconType?: IconButtonProps['type'] } & IconButtonProps & DropdownItem;
 
 interface CollapsingActionsProps extends HTMLAttributes<HTMLDivElement> {
-	/** Actions to show
-	 * <br />
-	 * <code>type Action = { type?: never; iconType?: IconButtonProps['type'] } & IconButtonProps & DropdownItem;</code>
+	/**
+	 * Actions to show
+	 *
+	 * `type Action = { type?: never; iconType?: IconButtonProps['type'] } & IconButtonProps & DropdownItem;`
 	 */
 	actions: Action[];
 	/** Size for the collapser and default size for the icons (can be overwritten with the single action prop) */

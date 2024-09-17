@@ -42,7 +42,7 @@ interface PopperProps extends HTMLAttributes<HTMLDivElement> {
 	open?: boolean;
 	/** Ref to the DOM element triggering the popper */
 	anchorEl: React.RefObject<HTMLElement>;
-	/** Optional parameter to anchor the popper to a virtual element, defined by his x, y coordinates (ex. {x: 2, y: 2}) */
+	/** Optional parameter to anchor the popper to a virtual element, defined by his x, y coordinates (ex. \{x: 2, y: 2\}) */
 	virtualElement?: { x: number; y: number };
 	/** Whether to disable the re-focus of Popper trigger */
 	disableRestoreFocus?: boolean;

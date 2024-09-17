@@ -5,7 +5,7 @@
  */
 import React from 'react';
 
-import { EventType, screen, within } from '@testing-library/react';
+import { act, EventType, screen, within } from '@testing-library/react';
 
 import { Drop } from './Drop';
 import { setup } from '../../test-utils';
@@ -21,12 +21,14 @@ describe('Drop', () => {
 	}
 
 	function drop(element: HTMLElement, props?: Partial<React.DragEvent>): void {
-		element.dispatchEvent(
-			createBubbledEvent('drop', {
-				dataTransfer: {} as unknown as DataTransfer,
-				...props
-			} satisfies Partial<React.DragEvent>)
-		);
+		act(() => {
+			element.dispatchEvent(
+				createBubbledEvent('drop', {
+					dataTransfer: {} as unknown as DataTransfer,
+					...props
+				} satisfies Partial<React.DragEvent>)
+			);
+		});
 	}
 
 	function dragEnter(
@@ -34,22 +36,26 @@ describe('Drop', () => {
 		fromElement: HTMLElement | null,
 		props?: Partial<React.DragEvent>
 	): void {
-		toElement.dispatchEvent(
-			createBubbledEvent('dragenter', {
-				dataTransfer: {} as unknown as DataTransfer,
-				...props,
-				relatedTarget: fromElement
-			} satisfies Partial<React.DragEvent>)
-		);
+		act(() => {
+			toElement.dispatchEvent(
+				createBubbledEvent('dragenter', {
+					dataTransfer: {} as unknown as DataTransfer,
+					...props,
+					relatedTarget: fromElement
+				} satisfies Partial<React.DragEvent>)
+			);
+		});
 	}
 
 	function dragOver(element: HTMLElement, props?: Partial<React.DragEvent>): void {
-		element.dispatchEvent(
-			createBubbledEvent('dragover', {
-				dataTransfer: {} as unknown as DataTransfer,
-				...props
-			} satisfies Partial<React.DragEvent>)
-		);
+		act(() => {
+			element.dispatchEvent(
+				createBubbledEvent('dragover', {
+					dataTransfer: {} as unknown as DataTransfer,
+					...props
+				} satisfies Partial<React.DragEvent>)
+			);
+		});
 	}
 
 	function dragLeave(
@@ -57,13 +63,15 @@ describe('Drop', () => {
 		toElement: HTMLElement | null,
 		props?: Partial<React.DragEvent>
 	): void {
-		fromElement.dispatchEvent(
-			createBubbledEvent('dragleave', {
-				dataTransfer: {} as unknown as DataTransfer,
-				...props,
-				relatedTarget: toElement
-			} satisfies Partial<React.DragEvent>)
-		);
+		act(() => {
+			fromElement.dispatchEvent(
+				createBubbledEvent('dragleave', {
+					dataTransfer: {} as unknown as DataTransfer,
+					...props,
+					relatedTarget: toElement
+				} satisfies Partial<React.DragEvent>)
+			);
+		});
 	}
 
 	test('should show the accept overlay if the type match', async () => {

@@ -74,8 +74,7 @@ function SnackbarManager({
 		({
 			label,
 			key,
-			type = 'info',
-			severity = type,
+			severity = 'info',
 			onActionClick,
 			onClose,
 			autoHideTimeout,

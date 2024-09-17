@@ -5,8 +5,7 @@
  */
 import React, { useRef } from 'react';
 
-import { act as rtlAct } from '@testing-library/react';
-import { act, renderHook } from '@testing-library/react-hooks';
+import { act as rtlAct, renderHook } from '@testing-library/react';
 
 import { useSnackbar } from './useSnackbar';
 import { Button } from '../../components/basic/button/Button';
@@ -98,13 +97,13 @@ describe('useSnackbar', () => {
 			)
 		});
 		expect(result.current).toBeDefined();
-		act(() => {
+		rtlAct(() => {
 			result.current({
 				label: 'test'
 			});
 		});
 		expect(console.error).not.toHaveBeenCalledWith(snackbarContextError);
-		act(() => {
+		rtlAct(() => {
 			jest.runOnlyPendingTimers();
 		});
 	});
