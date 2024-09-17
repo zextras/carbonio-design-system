@@ -6,14 +6,14 @@
 
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 
-import { ListV2, ListV2Props } from './ListV2';
+import { List, ListProps } from './List';
 import { Container } from '../../layout/Container';
 import { ListItem } from '../ListItem';
 
 export const PaginatedList = ({
 	limit,
 	...props
-}: ListV2Props & { limit: number }): React.JSX.Element => {
+}: ListProps & { limit: number }): React.JSX.Element => {
 	const offsetRef = useRef(0);
 	const [items, setItems] = useState<{ id: string; name: string }[]>([]);
 
@@ -41,8 +41,8 @@ export const PaginatedList = ({
 		[items]
 	);
 	return (
-		<ListV2 {...props} onListBottom={loadItems}>
+		<List {...props} onListBottom={loadItems}>
 			{listItems}
-		</ListV2>
+		</List>
 	);
 };

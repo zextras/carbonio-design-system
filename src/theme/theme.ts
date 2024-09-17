@@ -72,8 +72,6 @@ export interface ThemeObj {
 		| 'success'
 		| 'info'
 		| 'text'
-		/** @deprecated Use theme.shadows instead */
-		| 'shadow'
 		| 'successBanner'
 		| 'warningBanner'
 		| 'infoBanner'
@@ -250,14 +248,6 @@ export const Theme: ThemeObj = {
 			active: '#0d0d0d',
 			focus: '#1a1a1a',
 			disabled: '#cccccc'
-		},
-		/** @deprecated use theme.shadows instead */
-		shadow: {
-			regular: 'rgba(166, 166, 166, 0.5)',
-			hover: 'rgba(166, 166, 166, 0.5)',
-			active: 'rgba(166, 166, 166, 0.5)',
-			focus: 'rgba(166, 166, 166, 0.5)',
-			disabled: 'rgba(166, 166, 166, 0.5)'
 		},
 		black: {
 			regular: '#000000',

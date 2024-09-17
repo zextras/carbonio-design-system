@@ -48,8 +48,6 @@ interface ListItemProps {
 	/**
 	 * Ref of the list used to set the visibility of the item.
 	 * The ref is set by the list itself.
-	 *
-	 * @ignore
 	 */
 	listRef?: React.RefObject<HTMLDivElement>;
 	/**

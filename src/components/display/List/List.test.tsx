@@ -7,14 +7,14 @@ import React from 'react';
 
 import { screen } from '@testing-library/react';
 
-import { ItemComponentProps, ItemType, List, ListProps } from './List';
-import { setup } from '../../test-utils';
-import { Container } from '../layout/Container';
+import { List } from './List';
+import { setup } from '../../../test-utils';
+import { Container } from '../../layout/Container';
+import { ListItem } from '../ListItem';
 
 describe('List', () => {
 	test('Render a basic list', () => {
-		type ListItemType = ItemType & { name: string };
-		const items: ListProps<ListItemType>['items'] = [
+		const items = [
 			{
 				id: '1',
 				name: 'item 1'
@@ -25,21 +25,18 @@ describe('List', () => {
 			}
 		];
 
-		const ItemComponent = ({ item }: ItemComponentProps<ListItemType>): React.JSX.Element => (
-			<div key={item.id}>{item.name}</div>
-		);
-		setup(<List items={items} ItemComponent={ItemComponent} />);
+		const listItems = items.map((item) => (
+			<ListItem key={item.id}>{(): React.JSX.Element => <div>{item.name}</div>}</ListItem>
+		));
+
+		setup(<List>{listItems}</List>);
 
 		expect(screen.getByText('item 1')).toBeVisible();
 		expect(screen.getByText('item 2')).toBeVisible();
 	});
 
 	test('Render a list with a clickable item', async () => {
-		type ListItemType = ItemType & {
-			name: string;
-			onClick: (e: React.SyntheticEvent | KeyboardEvent) => void;
-		};
-		const items: ListProps<ListItemType>['items'] = [
+		const items = [
 			{
 				id: '1',
 				name: 'item 1',
@@ -52,12 +49,17 @@ describe('List', () => {
 			}
 		];
 
-		const ItemComponent = ({ item }: ItemComponentProps<ListItemType>): React.JSX.Element => (
-			<Container key={item.id} onClick={item.onClick}>
-				{item.name}
-			</Container>
-		);
-		const { user } = setup(<List items={items} ItemComponent={ItemComponent} />);
+		const listItems = items.map((item) => (
+			<ListItem key={item.id}>
+				{(): React.JSX.Element => (
+					<Container key={item.id} onClick={item.onClick}>
+						{item.name}
+					</Container>
+				)}
+			</ListItem>
+		));
+
+		const { user } = setup(<List>{listItems}</List>);
 
 		expect(screen.getByText('item 1')).toBeVisible();
 		expect(screen.getByText('item 2')).toBeVisible();

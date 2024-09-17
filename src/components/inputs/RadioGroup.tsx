@@ -36,9 +36,6 @@ const Fieldset = styled.fieldset`
 	width: 100%;
 `;
 
-/**
- * @visibleName RadioGroup
- */
 const RadioGroupComponent = React.forwardRef(function RadioGroupFn<
 	T extends RadioProps['value'] = string
 >(
