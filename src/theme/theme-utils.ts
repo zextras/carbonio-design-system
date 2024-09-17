@@ -102,13 +102,13 @@ function generateHighlightSet(fromColorSet: Parameters<typeof generateColorSet>[
 
 /**
  * Retrieve the color from the colorSet
- * @param color {string} - in the form color[.variant]
+ * @param color - in the form color[.variant]
  * <ul>
  *  <li>Color can be a palette key or any css compliant color.</li>
  *  <li>Variant (optional) has to be one of the set</li>
  * </ul>
- * @param theme {Theme} - the theme object used to retrieve the palette colors
- * @returns {string} - the css color of the palette or the one generated with the colorSet
+ * @param theme - the theme object used to retrieve the palette colors
+ * @returns the css color of the palette or the one generated with the colorSet
  */
 function getColorValue(color: string, theme: DefaultTheme): string {
 	const variants = Object.keys(colorsSet.light);
@@ -127,31 +127,35 @@ function getColorValue(color: string, theme: DefaultTheme): string {
  * Create a function to retrieve the color of the given name based on the theme palette if the name is a palette key,
  * generating a set with the colorSet utility if the color is not a palette key.
  * Useful for calling inside styledComponents in a short mode
- * @param {string} color It can contain also the variant in the form color[.variant]
+ * @param color - It can contain also the variant in the form color[.variant]
+ * @returns a function that, given the theme, returns the wanted color
+ *
  * @example
+ * ```ts
  * getColor('primary.disabled');
  *
  * // from styled components
- * const StyledComponent = styled.div`
+ * const StyledComponent = styled...
  * 		background-color: ${getColor('secondary')}
- * `
- * @returns {({theme?: Theme}) => string} a function that, given the theme, returns the wanted color
+ * ```
  */
 function getColor(color: string): (args: { theme: DefaultTheme }) => string;
 /**
  * Retrieve the color of the given name based on the theme palette if the name is a palette key,
  * generating a set with the colorSet utility if the color is not a palette key
- * @param {string} color - It can contain also the variant in the form color[.variant]
- * @param {DefaultTheme} theme - The theme object
+ * @param color - It can contain also the variant in the form color[.variant]
+ * @param theme - The theme object
+ * @returns The wanted color
+ *
  * @example
+ * ```ts
  * const theme = useTheme();
  * getColor('gray5', theme);
  *
  * // from styled components
- * const StyledComponent = styled.div`
+ * const StyledComponent = styled...
  * 		background-color: ${({ theme }) => getColor('secondary', theme)}
- * `
- * @returns {string} The wanted color
+ * ```
  */
 function getColor(color: string, theme: DefaultTheme): string;
 // see overloads for documentation
@@ -173,8 +177,6 @@ type PaddingStringComposition =
 /**
  * Given a string for the css padding, where there are both css dimensions and theme tokens,
  * it replaces theme tokens with the theme value
- * @param size
- * @param theme
  */
 const simpleParsePadding = (size: PaddingStringComposition, theme: DefaultTheme): string => {
 	const explodedSizes = size.split(' ');

@@ -5,7 +5,7 @@
  */
 import React, { useContext } from 'react';
 
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook } from '@testing-library/react';
 
 import { ModalManager, ModalManagerContext } from './ModalManager';
 import { ThemeProvider } from '../../theme/theme-context-provider';

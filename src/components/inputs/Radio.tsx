@@ -153,9 +153,6 @@ type RadioType = (<T extends RadioInputHTMLAttributes['value'] = string>(
 	_id?: number;
 };
 
-/**
- * @visibleName Radio
- */
 const RadioComponent = React.forwardRef(function RadioFn<
 	T extends RadioInputHTMLAttributes['value'] = string
 >(
