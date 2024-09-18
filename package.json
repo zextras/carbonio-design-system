@@ -14,11 +14,10 @@
 		"CHANGELOG.md"
 	],
 	"scripts": {
-		"start": "npm run styleguide",
+		"start": "npm run storybook",
 		"release": "standard-version",
 		"lint": "eslint --ext .js,.jsx,.ts,.tsx --resolve-plugins-relative-to node_modules/@zextras/carbonio-ui-configs src",
 		"lint:icons": "eslint --ext .ts,.tsx --resolve-plugins-relative-to node_modules/@zextras/carbonio-ui-configs src/icons --fix",
-		"styleguide": "styleguidist server",
 		"test": "(is-ci && jest --runInBand) || jest --maxWorkers=50%",
 		"icons:build": "tsc ./src/icons/tsTemplate.ts && npx @svgr/cli svg && npm run lint:icons",
 		"prebuild": "npm run clean",
@@ -31,9 +30,8 @@
 		"deploy": "npm pack && rm -rf $PKG_PATH/node_modules/@zextras/carbonio-design-system/* && tar -xf zextras-carbonio-design-system-$npm_package_version.tgz -C $PKG_PATH/node_modules/@zextras/carbonio-design-system/ --strip-components 1",
 		"prepare": "is-ci || husky",
 		"type-check": "tsc --noEmit",
-		"postinstall": "echo '\\e[43mForcing the removal of @types/glob. This is a workaround caused by npm not honoring overrides field. To check for updates on this, see https://github.com/npm/cli/issues/5850\\e[0m'; (rm -r node_modules/@types/glob || true)",
 		"storybook": "storybook dev -p 6006",
-		"build:docs": "styleguidist build && storybook build"
+		"build:docs": "storybook build"
 	},
 	"repository": {
 		"type": "git",
@@ -65,12 +63,12 @@
 		"@rollup/plugin-typescript": "^11.1.6",
 		"@rollup/plugin-url": "^8.0.2",
 		"@storybook/addon-designs": "^8.0.3",
-		"@storybook/addon-essentials": "^8.2.4",
-		"@storybook/addon-interactions": "^8.2.4",
+		"@storybook/addon-essentials": "^8.3.0",
+		"@storybook/addon-interactions": "^8.3.0",
 		"@storybook/addon-webpack5-compiler-babel": "^3.0.3",
-		"@storybook/blocks": "^8.2.4",
-		"@storybook/react-webpack5": "^8.2.4",
-		"@storybook/test": "^8.2.4",
+		"@storybook/blocks": "^8.3.0",
+		"@storybook/react-webpack5": "^8.3.0",
+		"@storybook/test": "^8.3.0",
 		"@svgr/cli": "^8.0.1",
 		"@testing-library/dom": "^10.3.2",
 		"@testing-library/jest-dom": "^6.4.6",
@@ -82,7 +80,7 @@
 		"@types/react-datepicker": "^4.15.0",
 		"@types/react-dom": "^18.3.0",
 		"@types/styled-components": "^5.1.26",
-		"@zextras/carbonio-ui-configs": "^1.0.2",
+		"@zextras/carbonio-ui-configs": "^1.0.3",
 		"babel-jest": "^29.7.0",
 		"babel-loader": "^9.1.3",
 		"babel-plugin-styled-components": "^2.1.4",
@@ -102,13 +100,11 @@
 		"lodash": "^4.17.21",
 		"process": "0.11.10",
 		"react-docgen-typescript": "^2.2.2",
-		"react-styleguidist": "13.1.2",
 		"rollup": "^4.13.2",
 		"semantic-release": "^24.0.0",
-		"storybook": "^8.2.4",
+		"storybook": "^8.3.0",
 		"ts-node": "^10 >=10.9.2",
-		"typescript": "^5.4.5",
-		"webpack": "^5.91.0"
+		"typescript": "^5.4.5"
 	},
 	"browserslist": [
 		">1%",
@@ -124,15 +120,9 @@
 	},
 	"dependencies": {
 		"@floating-ui/dom": "^1.5.3",
+		"core-js": "^3.38.1",
 		"darkreader": "^4.9.58",
 		"polished": "^4.2.2",
 		"react-datepicker": "^4.25.0"
-	},
-	"overrides": {
-		"react-styleguidist": {
-			"clean-webpack-plugin": {
-				"del": ">=5.0.0"
-			}
-		}
 	}
 }
