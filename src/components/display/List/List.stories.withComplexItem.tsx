@@ -7,7 +7,7 @@ import React, { useCallback, useMemo, useState } from 'react';
 
 import { faker } from '@faker-js/faker';
 
-import { ListV2, ListV2Props } from './ListV2';
+import { List, ListProps } from './List';
 import { Avatar } from '../../basic/Avatar';
 import { Text } from '../../basic/text/Text';
 import { Container } from '../../layout/Container';
@@ -84,7 +84,7 @@ const ListItemContent = React.memo(function ListItemContentFn({
 	);
 });
 
-export const WithComplexItem = (props: ListV2Props): React.JSX.Element => {
+export const WithComplexItem = (props: ListProps): React.JSX.Element => {
 	const [selected, setSelected] = useState<string[]>([]);
 
 	const toggleSelect = useCallback((id: string) => {
@@ -138,5 +138,5 @@ export const WithComplexItem = (props: ListV2Props): React.JSX.Element => {
 		[data, selected, selecting, toggleSelect]
 	);
 
-	return <ListV2 {...props}>{items}</ListV2>;
+	return <List {...props}>{items}</List>;
 };

@@ -23,9 +23,11 @@ export const ChipInputSuggestionMode = ({
 	const [options, setOptions] = useState<ChipInputProps['options']>();
 	const inputRef = useRef<HTMLInputElement>(null);
 
-	const filterOptions = useCallback(({ textContent }) => {
+	const filterOptions = useCallback(({ textContent }: { textContent: string | null }) => {
 		setOptions(
-			allOptions.filter((option) => option.label.toLowerCase().includes(textContent.toLowerCase()))
+			allOptions.filter(
+				(option) => !textContent || option.label.toLowerCase().includes(textContent.toLowerCase())
+			)
 		);
 	}, []);
 

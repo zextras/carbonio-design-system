@@ -14,10 +14,10 @@ import {
 	InputProps,
 	Select,
 	SelectItem,
-	SingleSelectionOnChange
-} from '../src';
-import { Theme } from '../src/theme/theme';
-import { PaletteColor } from '../src/types/utils';
+	SingleSelectionOnChange,
+	PaletteColor
+} from '../../src';
+import { Theme } from '../../src/theme/theme';
 
 const sortedIcons = Object.keys(Theme.icons).toSorted((a, b) => (a <= b ? -1 : 1));
 const paletteColors = Object.keys(Theme.palette).map(

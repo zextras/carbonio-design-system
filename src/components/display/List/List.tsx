@@ -36,7 +36,7 @@ const StyledList = styled(Container)`
 	}
 `;
 
-interface ListV2Props extends ContainerProps {
+interface ListProps extends ContainerProps {
 	/** intersectionObserverInitOptions of the intersectionObserver inside BottomElement */
 	intersectionObserverInitOptions?: IntersectionObserverInit;
 	/** callback to be executed when the bottom element is rendered */
@@ -53,7 +53,7 @@ interface ListV2Props extends ContainerProps {
 	children: React.ReactElement<ListItemProps>[];
 }
 
-const ListV2 = React.forwardRef(function ListV2Fn(
+const List = React.forwardRef(function ListFn(
 	{
 		onListBottom,
 		keyboardShortcutsIsDisabled,
@@ -63,7 +63,7 @@ const ListV2 = React.forwardRef(function ListV2Fn(
 		activeBackground = 'highlight',
 		intersectionObserverInitOptions,
 		...rest
-	}: ListV2Props,
+	}: ListProps,
 	ref: React.ForwardedRef<HTMLDivElement>
 ) {
 	const listRef = useCombinedRefs(ref);
@@ -136,4 +136,13 @@ const ListV2 = React.forwardRef(function ListV2Fn(
 	);
 });
 
-export { ListV2, ListV2Props };
+/**
+ * @deprecated ListV2 has been renamed to List
+ */
+const ListV2 = List;
+/**
+ * @deprecated ListV2Props has been renamed to ListProps
+ */
+type ListV2Props = ListProps;
+
+export { List, type ListProps, ListV2, type ListV2Props };

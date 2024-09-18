@@ -5,13 +5,9 @@
  */
 import React, { Fragment } from 'react';
 
-import { map } from 'lodash';
 import styled from 'styled-components';
 
-import { Text } from '../../src/components/basic/text/Text';
-import { Container } from '../../src/components/layout/Container';
-import { Row } from '../../src/components/layout/Row';
-import type { ThemeObj } from '../../src/theme/theme';
+import { Text, Container, Row, ThemeProvider, useTheme } from '../../src';
 
 const PaletteEl = styled(Container)`
 	height: 6.25rem;
@@ -25,38 +21,49 @@ const ScrollFrame = styled.div`
 	width: 100%;
 	overflow-x: auto;
 `;
-const Palette = ({ palette }: ThemeObj): React.JSX.Element => (
-	<Container width="fill" height="fit" orientation="vertical" crossAlignment="flex-start">
-		{map(palette, (set, name) => (
-			<Fragment key={name}>
-				<Text size="large" weight={'bold'}>
-					{name}
-				</Text>
-				<ScrollFrame>
-					<Container
-						orientation="horizontal"
-						height="fit"
-						width="fill"
-						padding={{ all: 'extrasmall', bottom: 'large' }}
-						mainAlignment="stretch"
-						gap={'0.25rem'}
-					>
-						{map(set, (color, colorName) => (
-							<PaletteEl key={colorName} background={color} mainAlignment={'flex-start'}>
-								<TextFrame
-									background={'rgba(200, 200, 200, 0.8)'}
-									padding={{ vertical: '0.25rem', horizontal: '0.5rem' }}
-									width={'fill'}
-								>
-									<Text size="extrasmall" overflow={'break-word'}>{`${colorName}: ${color}`}</Text>
-								</TextFrame>
-							</PaletteEl>
-						))}
-					</Container>
-				</ScrollFrame>
-			</Fragment>
-		))}
-	</Container>
-);
 
-export default Palette;
+const PaletteComponent = (): React.JSX.Element => {
+	const { palette } = useTheme();
+	return (
+		<Container width="fill" height="fit" orientation="vertical" crossAlignment="flex-start">
+			{Object.entries(palette).map(([name, set]) => (
+				<Fragment key={name}>
+					<Text size="large" weight={'bold'}>
+						{name}
+					</Text>
+					<ScrollFrame>
+						<Container
+							orientation="horizontal"
+							height="fit"
+							width="fill"
+							padding={{ all: 'extrasmall', bottom: 'large' }}
+							mainAlignment="stretch"
+							gap={'0.25rem'}
+						>
+							{Object.entries(set).map(([variantName, color]) => (
+								<PaletteEl key={variantName} background={color} mainAlignment={'flex-start'}>
+									<TextFrame
+										background={'rgba(200, 200, 200, 0.8)'}
+										padding={{ vertical: '0.25rem', horizontal: '0.5rem' }}
+										width={'fill'}
+									>
+										<Text
+											size="extrasmall"
+											overflow={'break-word'}
+										>{`${variantName}: ${color}`}</Text>
+									</TextFrame>
+								</PaletteEl>
+							))}
+						</Container>
+					</ScrollFrame>
+				</Fragment>
+			))}
+		</Container>
+	);
+};
+
+export const Palette = (): React.JSX.Element => (
+	<ThemeProvider>
+		<PaletteComponent />
+	</ThemeProvider>
+);

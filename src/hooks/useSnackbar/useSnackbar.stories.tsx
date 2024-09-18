@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-import React from 'react';
+import React, { ComponentType } from 'react';
 
 import { Meta, StoryObj } from '@storybook/react';
 import { within, userEvent, screen, expect } from '@storybook/test';
@@ -18,7 +18,8 @@ import { SELECTORS } from '../../testUtils/constants';
 
 const meta = {
 	component: Hook,
-	subcomponents: { SnackbarManager },
+	// TODO https://github.com/storybookjs/storybook/issues/23170 remove cast when fixed
+	subcomponents: { SnackbarManager: SnackbarManager as ComponentType<unknown> },
 	decorators: (Story): React.JSX.Element => (
 		<SnackbarManager>
 			<Story />

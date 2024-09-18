@@ -50,9 +50,7 @@ const initial: ChipItem<User>[] = [
 	}
 ];
 
-const getChipLabel = (item: User): string => item.address || item.lastName || item.firstName;
-
-export const ControlledChipInput = (props: ChipInputProps): React.JSX.Element => {
+export const ControlledChipInput = (props: ChipInputProps<User>): React.JSX.Element => {
 	const [value, setValue] = useState<ChipItem<User>[]>(initial);
 	const [inputValue, setInputValue] = useState('');
 	const [options, setOptions] = useState<NonNullable<ChipInputProps['options']>>([]);
@@ -63,7 +61,7 @@ export const ControlledChipInput = (props: ChipInputProps): React.JSX.Element =>
 		setInputValue('');
 	}, [inputValue, value]);
 
-	const onChange = useCallback((newValue) => {
+	const onChange = useCallback<NonNullable<ChipInputProps<User>['onChange']>>((newValue) => {
 		setValue(newValue);
 	}, []);
 

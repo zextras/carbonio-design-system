@@ -5,7 +5,7 @@
  */
 import React from 'react';
 
-import { act, renderHook } from '@testing-library/react-hooks';
+import { act, renderHook } from '@testing-library/react';
 
 import { useModal } from './useModal';
 import { ModalManager } from '../components/utilities/ModalManager';
@@ -13,7 +13,7 @@ import { ThemeProvider } from '../theme/theme-context-provider';
 
 jest.mock<typeof import('react-dom')>('react-dom', () => ({
 	...jest.requireActual<typeof import('react-dom')>('react-dom'),
-	createPortal: (node): React.ReactPortal => ({ children: node, key: null, props: {}, type: '' })
+	createPortal: (node): React.ReactPortal => node as React.ReactPortal
 }));
 
 const modalContextError = 'Modal manager context not initialized';
