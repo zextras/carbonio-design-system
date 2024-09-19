@@ -115,7 +115,7 @@ type StyledButtonProps = With$Prefix<{
 }>;
 
 const StyledIcon = styled(Icon)<{ $loading?: boolean; $size: string }>`
-	${({ $loading }): ReturnType<typeof css> | false | undefined =>
+	${({ $loading = false }): ReturnType<typeof css> | false =>
 		$loading &&
 		css`
 			opacity: 0;
@@ -131,7 +131,7 @@ const StyledText = styled(Text)<{ $loading: boolean; $size: string }>`
 	user-select: none;
 	text-transform: uppercase;
 	font-size: ${({ $size }): string => $size};
-	${({ $loading }): ReturnType<typeof css> | false | undefined =>
+	${({ $loading = false }): ReturnType<typeof css> | false =>
 		$loading &&
 		css`
 			opacity: 0;
