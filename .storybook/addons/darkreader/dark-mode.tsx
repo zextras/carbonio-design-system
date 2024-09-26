@@ -3,31 +3,29 @@
  *
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-import React, { useCallback, useEffect, useState } from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 
 import { IconButton  } from '@storybook/components';
 import { MoonIcon, SunIcon } from '@storybook/icons';
 import { disable, enable } from 'darkreader';
-import { API } from 'storybook/internal/manager-api';
+import { useGlobals } from 'storybook/internal/manager-api';
 
-export const DarkMode = ({ api }: { api: API }) => {
-    const [isDarkModeEnabled, setIsDarkModeEnabled] = useState<boolean>(false);
-    const globals = api.getGlobals();
+export const DarkMode = () => {
+    const [globals, updateGlobals] = useGlobals();
 
     const darkModeToggle = useCallback(() => {
-        setIsDarkModeEnabled((prevState) => !prevState);
-    }, []);
+        updateGlobals({
+            isDarkModeEnabled: !globals.isDarkModeEnabled
+        });
+    }, [globals.isDarkModeEnabled]);
 
     useEffect(() => {
-        api.updateGlobals({
-            isDarkModeEnabled: isDarkModeEnabled
-        });
         globals.isDarkModeEnabled ? enable({}) : disable()
-    }, [isDarkModeEnabled, globals.isDarkModeEnabled]);
+    }, [globals.isDarkModeEnabled]);
 
     return (
         <IconButton title="dark mode" onClick={darkModeToggle}>
-            {isDarkModeEnabled ? <SunIcon /> : <MoonIcon />}
+            {globals.isDarkModeEnabled ? <SunIcon /> : <MoonIcon />}
         </IconButton>
     );
 };

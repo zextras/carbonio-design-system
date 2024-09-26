@@ -35,6 +35,3 @@ export const FOCUSABLE_SELECTOR = [
 	'audio[controls]',
 	'video[controls]'
 ].join(', ');
-
-export const ADDON_ID = 'storybook/dark-mode';
-export const TOOL_ID = `${ADDON_ID}/tool`;
