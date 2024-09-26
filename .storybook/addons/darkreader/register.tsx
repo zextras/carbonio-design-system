@@ -5,16 +5,16 @@
  */
 import React from 'react';
 
-import { addons, types } from '@storybook/addons';
-import { ADDON_ID } from "../../../src/components/constants";
-import { DarkMode } from "../../dark-mode";
+import { ADDON_ID, TOOL_ID } from "../../../src/components/constants";
+import { DarkMode } from "./dark-mode";
+import { addons, types } from "storybook/internal/manager-api";
 
-addons.register(ADDON_ID, () => {
-    addons.add(ADDON_ID, {
+addons.register(ADDON_ID, (api) => {
+    addons.add(TOOL_ID, {
         title: 'Dark reader',
         type: types.TOOL,
         match: ({ viewMode }) => !!(viewMode && viewMode.match(/^(story|docs)$/)),
-        render: () => <DarkMode />
+        render: () => <DarkMode api={api} />
     });
 });
 

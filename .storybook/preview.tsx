@@ -1,50 +1,26 @@
-import React, {useEffect} from 'react'
+import React from 'react'
 
 import { ThemeProvider } from '../src';
 import { StoryFn, Preview } from '@storybook/react';
-import { DocsContainer, DocsContextProps } from "@storybook/blocks";
-import {auto, disable, enable} from "darkreader";
-
-interface ContainerProps {
-	children: React.ReactNode,
-	context: DocsContextProps
-}
+import { withDarkreader } from "./addons/darkreader/with-darkreader";
 
 export const decorators = [
 	(Story: StoryFn) => (
 		<ThemeProvider>
 			<Story />
 		</ThemeProvider>
-	)
+	),
+	withDarkreader
 ];
 
-const preview: Preview = {
+const preview = {
 	initialGlobals: {
-		isDarkMode: false
+		isDarkModeEnabled: false
 	},
 	parameters: {
-		actions: { argTypesRegex: '^on.*' },
-		docs: {
-			container: ({ children, context }: ContainerProps) => {
-				const { globals } = (context as any).store.globals;
-				const isDarkModeEnabled = globals.isDarkMode;
-				useEffect(() => {
-					if (isDarkModeEnabled) {
-						auto(false);
-						enable({ sepia: -10 });
-					} else {
-						auto(false);
-						disable();
-					}
-				}, [isDarkModeEnabled]);
-
-				return (
-					<DocsContainer context={context}>{children}</DocsContainer>
-				)
-			}
-		}
+		actions: { argTypesRegex: '^on.*' }
 	}
-};
+} satisfies Preview;
 
 export default preview;
 

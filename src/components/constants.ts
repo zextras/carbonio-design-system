@@ -37,3 +37,4 @@ export const FOCUSABLE_SELECTOR = [
 ].join(', ');
 
 export const ADDON_ID = 'storybook/dark-mode';
+export const TOOL_ID = `${ADDON_ID}/tool`;
