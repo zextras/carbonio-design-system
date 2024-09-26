@@ -1,0 +1,65 @@
+import { Meta, Controls, Story, Title, Primary, Canvas } from '@storybook/blocks';
+
+import * as InputStories from './Input.stories';
+
+<Meta of={InputStories} />
+
+<Title />
+
+<Primary />
+
+<Controls />
+
+The input component works like a standard html input, and can be either [controlled](https://legacy.reactjs.org/docs/forms.html#controlled-components) or [uncontrolled](https://legacy.reactjs.org/docs/uncontrolled-components.html).
+
+### Mixed Inputs
+
+If you have mixed inputs, some with a description and some without a description, the components might have different heights. To avoid expansion of the external container components, there are a few possibilities:
+1. set description to an empty string to reserve space for the description (single line)
+2. set min height on external container
+
+However, a flex-start or baseline crossAlignment might be required in order to have components aligned nicely in a row.
+
+<Canvas of={InputStories.MixedInputs} />
+
+## Stories
+
+### Label
+
+<Canvas of={InputStories.Label} />
+
+### Description
+
+<Canvas of={InputStories.Description} />
+
+### AutoFocus
+
+<Canvas of={InputStories.AutoFocus} />
+
+### BorderColor
+
+<Canvas of={InputStories.BorderColor} />
+
+### DefaultValue
+
+<Canvas of={InputStories.DefaultValue} />
+
+### Disabled
+
+<Canvas of={InputStories.Disabled} />
+
+### TextColor
+
+<Canvas of={InputStories.TextColor} />
+
+### CustomIcon
+
+<Canvas of={InputStories.CustomIcon} />
+
+### HasError
+
+<Canvas of={InputStories.HasError} />
+
+### Type
+
+<Canvas of={InputStories.Type} />

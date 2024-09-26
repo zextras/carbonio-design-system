@@ -10,7 +10,7 @@ import { Button } from '../../basic/button/Button';
 import { Text } from '../../basic/text/Text';
 import { DropdownItem } from '../../display/Dropdown';
 import { Container } from '../../layout/Container';
-import { Input, InputProps } from '../Input';
+import { Input, InputProps } from '../input/Input';
 
 type User = {
 	address?: string;
