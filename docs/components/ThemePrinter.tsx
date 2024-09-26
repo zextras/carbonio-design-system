@@ -3,17 +3,24 @@
  *
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-import React, { useContext } from 'react';
+import React from 'react';
 
-import styled, { ThemeContext } from 'styled-components';
+import styled from 'styled-components';
+
+import { ThemeProvider, useTheme } from '../../src';
 
 const Pre = styled.pre`
 	color: ${({ theme }): string => theme.palette.text.regular};
 `;
 
-export default function ThemePrinter(): React.JSX.Element {
-	// eslint-disable-next-line unused-imports/no-unused-vars
-	const { windowObj, ...theme } = useContext(ThemeContext);
+const ThemePrinterComponent = (): React.JSX.Element => {
+	const { windowObj: _windowObj, ...theme } = useTheme();
 
 	return <Pre>{JSON.stringify(theme, null, 2)}</Pre>;
-}
+};
+
+export const ThemePrinter = (): React.JSX.Element => (
+	<ThemeProvider>
+		<ThemePrinterComponent />
+	</ThemeProvider>
+);

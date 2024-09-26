@@ -7,19 +7,19 @@ import React from 'react';
 
 import { Meta, StoryObj } from '@storybook/react';
 
-import { ListV2, ListV2Props } from './ListV2';
-import { PaginatedList } from './ListV2.stories.paginated';
-import { WithComplexItem } from './ListV2.stories.withComplexItem';
+import { List, ListProps } from './List';
+import { PaginatedList } from './List.stories.paginated';
+import { WithComplexItem } from './List.stories.withComplexItem';
 import { Container } from '../../layout/Container';
 import { ListItem } from '../ListItem';
 
 const meta = {
-	component: ListV2,
+	component: List,
 	args: {
 		height: '50vh',
 		borderColor: 'info'
 	}
-} satisfies Meta<typeof ListV2>;
+} satisfies Meta<typeof List>;
 
 export default meta;
 
@@ -46,7 +46,7 @@ export const WithPagination = {
 	args: {
 		limit: 3
 	}
-} satisfies StoryObj<ListV2Props & { limit: number }>;
+} satisfies StoryObj<ListProps & { limit: number }>;
 
 export const WithComplexListItem = {
 	args: {

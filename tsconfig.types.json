@@ -3,13 +3,15 @@
   "exclude": [
     "src/**/*.stories.*",
     "src/**/*.test.*",
-    "src/test-utils.tsx"
+    "src/test-utils.tsx",
+    "**/tsTemplate.ts"
   ],
   "compilerOptions": {
     "declaration": true,
     "declarationMap": true,
     "declarationDir": "types",
     "emitDeclarationOnly": true,
-    "allowJs": true
+    "allowJs": true,
+    "moduleResolution": "node",
   }
 }

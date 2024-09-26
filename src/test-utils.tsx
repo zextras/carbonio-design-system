@@ -48,6 +48,7 @@ interface WrapperProps {
 type ByRoleWithIconOptions = ByRoleOptions & {
 	icon: string | RegExp;
 };
+
 /**
  * Matcher function to search an icon button through the icon data-testid
  */
@@ -59,16 +60,17 @@ const queryAllByRoleWithIcon: GetAllBy<[ByRoleMatcher, ByRoleWithIconOptions]> =
 	rtlWithin(container)
 		.queryAllByRole(role, options)
 		.filter((element) => rtlWithin(element).queryByTestId(icon) !== null);
+
 const getByRoleWithIconMultipleError = (
 	_container: Element | null,
 	role: ByRoleMatcher,
 	options: ByRoleWithIconOptions
-): string => `Found multiple elements with role ${role} and icon ${options.icon}`;
+): string => `Found multiple elements with role ${role as string} and icon ${options.icon}`;
 const getByRoleWithIconMissingError = (
 	_container: Element | null,
 	role: ByRoleMatcher,
 	options: ByRoleWithIconOptions
-): string => `Unable to find an element with role ${role} and icon ${options.icon}`;
+): string => `Unable to find an element with role ${role as string} and icon ${options.icon}`;
 
 const [
 	queryByRoleWithIcon,
@@ -132,7 +134,7 @@ function wrapKeyboardTextWithModifier(text: string, modifiers?: KeyboardModifier
 function setupUserEvent(options?: SetupOptions['setupOptions']): UserEvent {
 	const user = userEvent.setup({
 		keyboardMap: [{ code: 'Comma', key: ',' }, ...defaultKeyMap],
-		advanceTimers: jest.advanceTimersByTime,
+		advanceTimers: jest.advanceTimersByTimeAsync,
 		...options
 	});
 	return {
