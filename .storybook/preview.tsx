@@ -2,15 +2,14 @@ import React from 'react'
 
 import { ThemeProvider } from '../src';
 import { StoryFn, Preview } from '@storybook/react';
-import { withDarkreader } from "./addons/darkreader/with-darkreader";
+import { DarkReaderDocsContainer } from "./addons/darkreader/DarkReaderDocsContainer";
 
 export const decorators = [
 	(Story: StoryFn) => (
 		<ThemeProvider>
 			<Story />
 		</ThemeProvider>
-	),
-	withDarkreader
+	)
 ];
 
 const preview = {
@@ -24,6 +23,9 @@ const preview = {
 				order: ['Getting started', 'Theme', 'Components', 'Hooks'],
 			},
 		},
+		docs: {
+			container: DarkReaderDocsContainer
+		}
 	}
 } satisfies Preview;
 
