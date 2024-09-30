@@ -8,7 +8,6 @@ import React from 'react';
 import { MultiButton, MultiButtonProps } from './MultiButton';
 import { screen, setup, within } from '../../../test-utils';
 import { ICONS, SELECTORS } from '../../../testUtils/constants';
-import { DropdownProps } from '../../display/Dropdown';
 
 describe('MultiButton', () => {
 	it('should not open dropdown when click on primary button', async () => {
@@ -20,7 +19,9 @@ describe('MultiButton', () => {
 		const { user } = setup(<MultiButton items={items} onClick={clickFn} label="primary" />);
 
 		expect(screen.getByText(/primary/i)).toBeVisible();
-		expect(screen.getByTestId(ICONS.multiButtonSecondaryOpenAction)).toBeVisible();
+		expect(
+			screen.getByRoleWithIcon('button', { icon: ICONS.multiButtonSecondaryOpenAction })
+		).toBeVisible();
 		await user.click(screen.getByText(/primary/i));
 		expect(clickFn).toHaveBeenCalled();
 		expect(screen.queryByText(/item1/i)).not.toBeInTheDocument();
@@ -66,7 +67,9 @@ describe('MultiButton', () => {
 		const clickFn = jest.fn();
 		const { user } = setup(<MultiButton items={items} onClick={clickFn} label="primary" />);
 
-		await user.click(screen.getByTestId(ICONS.multiButtonSecondaryOpenAction));
+		await user.click(
+			screen.getByRoleWithIcon('button', { icon: ICONS.multiButtonSecondaryOpenAction })
+		);
 		expect(clickFn).not.toHaveBeenCalled();
 		const dropdown = screen.getByTestId(SELECTORS.dropdown);
 		expect(within(dropdown).getByText(/item1/i)).toBeVisible();
@@ -78,14 +81,14 @@ describe('MultiButton', () => {
 	});
 
 	describe('dropdownProps', () => {
-		it('should does not interfere with the dropdown if "items" prop in dropdownProps is set', async () => {
+		it('should not interfere with the dropdown if "items" prop in dropdownProps is set', async () => {
 			const items: MultiButtonProps['items'] = [
 				{ id: 'item1', label: 'item1' },
 				{ id: 'item2', label: 'item2' }
 			];
 			const dropdownProps = {
 				items: [{ id: 'dropdown-item1', label: 'dropdownItem1' }]
-			} as DropdownProps;
+			} as MultiButtonProps['dropdownProps'];
 			const clickFn = jest.fn();
 			const { user } = setup(
 				<MultiButton
@@ -96,27 +99,60 @@ describe('MultiButton', () => {
 				/>
 			);
 
-			await user.click(screen.getByTestId(ICONS.multiButtonSecondaryOpenAction));
+			await user.click(
+				screen.getByRoleWithIcon('button', { icon: ICONS.multiButtonSecondaryOpenAction })
+			);
 			const dropdown = screen.getByTestId(SELECTORS.dropdown);
 			expect(within(dropdown).getByText(/item1/i)).toBeVisible();
 			expect(within(dropdown).getByText(/item2/i)).toBeVisible();
 			expect(screen.queryByText(/dropdownItem1/i)).not.toBeInTheDocument();
 		});
 
-		it('should does not interfere with the dropdown if "onClose" prop in dropdownProps is set', async () => {
+		it('should not interfere with the dropdown if "onClose" prop in dropdownProps is set', async () => {
 			const items: MultiButtonProps['items'] = [{ id: 'item1', label: 'item1' }];
 			const clickFn = jest.fn();
+			const onCloseFn = jest.fn();
 			const label = 'primary';
-			const dropdownProps = { onClose: jest.fn() } as Omit<DropdownProps, 'children' | 'items'>;
+			const dropdownProps = { onClose: onCloseFn } as MultiButtonProps['dropdownProps'];
 
 			const { user } = setup(
 				<MultiButton items={items} onClick={clickFn} label={label} dropdownProps={dropdownProps} />
 			);
 
-			await user.click(screen.getByTestId(ICONS.multiButtonSecondaryOpenAction));
+			await user.click(
+				screen.getByRoleWithIcon('button', { icon: ICONS.multiButtonSecondaryOpenAction })
+			);
 			const dropdown = screen.getByTestId(SELECTORS.dropdown);
 			expect(within(dropdown).getByText(/item1/i)).toBeVisible();
 			await user.click(screen.getByText(label));
+			expect(screen.queryByText(/item1/i)).not.toBeInTheDocument();
+			expect(onCloseFn).not.toHaveBeenCalled();
+		});
+
+		it('should not interfere with the dropdown if "forceOpen" prop in dropdownProps is set', () => {
+			const items: MultiButtonProps['items'] = [{ id: 'item1', label: 'item1' }];
+			const clickFn = jest.fn();
+			const label = 'primary';
+			const dropdownProps = { forceOpen: true } as MultiButtonProps['dropdownProps'];
+
+			setup(
+				<MultiButton items={items} onClick={clickFn} label={label} dropdownProps={dropdownProps} />
+			);
+
+			expect(screen.queryByText(/item1/i)).not.toBeInTheDocument();
+		});
+
+		it('should not interfere with the dropdown if "disabled" prop in dropdownProps is set', async () => {
+			const items: MultiButtonProps['items'] = [{ id: 'item1', label: 'item1' }];
+			const clickFn = jest.fn();
+			const label = 'primary';
+			const dropdownProps = { disabled: false } as MultiButtonProps['dropdownProps'];
+
+			const { user } = setup(
+				<MultiButton items={items} onClick={clickFn} label={label} dropdownProps={dropdownProps} />
+			);
+
+			await user.click(screen.getByRole('button', { name: label }));
 			expect(screen.queryByText(/item1/i)).not.toBeInTheDocument();
 		});
 	});
