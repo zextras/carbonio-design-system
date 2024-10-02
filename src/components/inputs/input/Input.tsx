@@ -8,16 +8,16 @@ import React, { useCallback, useMemo, useState } from 'react';
 
 import styled, { DefaultTheme } from 'styled-components';
 
-import { InputContainer } from './commons/InputContainer';
-import { InputDescription } from './commons/InputDescription';
-import { InputLabel } from './commons/InputLabel';
-import { useCombinedRefs } from '../../hooks/useCombinedRefs';
-import { KeyboardPresetObj, useKeyboard } from '../../hooks/useKeyboard';
-import { getColor } from '../../theme/theme-utils';
-import { AnyColor } from '../../types/utils';
-import { INPUT_BACKGROUND_COLOR, INPUT_DIVIDER_COLOR } from '../constants';
-import { Container, ContainerProps } from '../layout/Container';
-import { Divider, DividerProps } from '../layout/divider/Divider';
+import { useCombinedRefs } from '../../../hooks/useCombinedRefs';
+import { KeyboardPresetObj, useKeyboard } from '../../../hooks/useKeyboard';
+import { getColor } from '../../../theme/theme-utils';
+import { AnyColor } from '../../../types/utils';
+import { INPUT_BACKGROUND_COLOR, INPUT_DIVIDER_COLOR } from '../../constants';
+import { Container, ContainerProps } from '../../layout/Container';
+import { Divider, DividerProps } from '../../layout/divider/Divider';
+import { InputContainer } from '../commons/InputContainer';
+import { InputDescription } from '../commons/InputDescription';
+import { InputLabel } from '../commons/InputLabel';
 
 const InputEl = styled.input<{ $color: AnyColor }>`
 	border: none !important;
