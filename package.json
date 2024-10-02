@@ -63,12 +63,14 @@
 		"@rollup/plugin-typescript": "^11.1.6",
 		"@rollup/plugin-url": "^8.0.2",
 		"@storybook/addon-designs": "^8.0.3",
-		"@storybook/addon-essentials": "^8.3.0",
-		"@storybook/addon-interactions": "^8.3.0",
+		"@storybook/addon-essentials": "^8.3.3",
+		"@storybook/addon-interactions": "^8.3.3",
 		"@storybook/addon-webpack5-compiler-babel": "^3.0.3",
-		"@storybook/blocks": "^8.3.0",
-		"@storybook/react-webpack5": "^8.3.0",
-		"@storybook/test": "^8.3.0",
+		"@storybook/blocks": "^8.3.3",
+		"@storybook/components": "^8.3.3",
+		"@storybook/icons": "^1.2.12",
+		"@storybook/react-webpack5": "^8.3.3",
+		"@storybook/test": "^8.3.3",
 		"@svgr/cli": "^8.0.1",
 		"@testing-library/dom": "^10.3.2",
 		"@testing-library/jest-dom": "^6.4.6",
@@ -102,7 +104,7 @@
 		"react-docgen-typescript": "^2.2.2",
 		"rollup": "^4.13.2",
 		"semantic-release": "^24.0.0",
-		"storybook": "^8.3.0",
+		"storybook": "^8.3.3",
 		"ts-node": "^10 >=10.9.2",
 		"typescript": "^5.4.5"
 	},
@@ -121,7 +123,7 @@
 	"dependencies": {
 		"@floating-ui/dom": "^1.5.3",
 		"core-js": "^3.38.1",
-		"darkreader": "^4.9.58",
+		"darkreader": "^4.9.92",
 		"polished": "^4.2.2",
 		"react-datepicker": "^4.25.0"
 	}
