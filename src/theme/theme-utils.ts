@@ -7,7 +7,7 @@
 import { reduce } from 'lodash';
 import { darken, lighten, parseToHsl, setLightness, toColorString } from 'polished';
 import { HslColor } from 'polished/lib/types/color';
-import { css, DefaultTheme, useTheme as Theme } from 'styled-components';
+import { css, DefaultTheme, useTheme as useThemeSC } from 'styled-components';
 
 import type { ThemeColorObj, ThemeSizeObj } from './theme';
 
@@ -287,7 +287,7 @@ function pseudoClasses(
 	`;
 }
 
-const useTheme = (): DefaultTheme => Theme();
+const useTheme = (): DefaultTheme => useThemeSC();
 
 export {
 	generateColorSet,

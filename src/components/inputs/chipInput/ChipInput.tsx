@@ -197,6 +197,7 @@ const CustomIconButton = styled(IconButton)`
 `;
 
 const CustomIcon = styled(Icon)`
+	padding: 0.125rem;
 	width: 1.25rem;
 	height: 1.25rem;
 `;
@@ -806,9 +807,9 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 							{placeholder && (
 								<Label
 									htmlFor={id}
-									$hasFocus={hasFocus}
-									$hasError={hasError}
-									$disabled={disabled && isDropdownDisabled && (!iconAction || iconDisabled)}
+									hasFocus={hasFocus}
+									hasError={hasError}
+									disabled={disabled && isDropdownDisabled && (!iconAction || iconDisabled)}
 									$hasItems={items.length > 0 || !!inputElRef.current?.value}
 								>
 									{placeholder}

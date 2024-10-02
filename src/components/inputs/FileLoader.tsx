@@ -8,16 +8,16 @@ import React, { useRef, useCallback } from 'react';
 
 import styled from 'styled-components';
 
-import { Button, ButtonProps } from '../basic/button/Button';
+import { IconButton, IconButtonProps } from './IconButton';
 
 const FileInput = styled.input`
 	display: none;
 `;
 
-type FileLoaderProps = ButtonProps & {
+type FileLoaderProps = IconButtonProps & {
 	onChange?: (event: React.ChangeEvent<HTMLInputElement>, files: FileList | null) => void;
 	/** icon name */
-	icon?: ButtonProps['icon'];
+	icon?: IconButtonProps['icon'];
 	/** accept multiple files */
 	multiple?: boolean;
 	/** capture mode (see <input type="file"> docs) */
@@ -53,7 +53,7 @@ const FileLoader = React.forwardRef<HTMLDivElement, FileLoaderProps>(function Fi
 				multiple={multiple}
 				accept={accept}
 			/>
-			<Button ref={ref} icon={icon} {...rest} onClick={onClick} />
+			<IconButton ref={ref} icon={icon} {...rest} onClick={onClick} />
 		</>
 	);
 });

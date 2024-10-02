@@ -55,7 +55,7 @@ const ModalHeader = ({
 		</ModalTitle>
 		{showCloseIcon && onClose && (
 			<Tooltip label={closeIconTooltip} disabled={!closeIconTooltip}>
-				<Button icon="Close" size="large" onClick={onClose} />
+				<Button icon="Close" size="large" type={'ghost'} color={'text'} onClick={onClose} />
 			</Tooltip>
 		)}
 	</Row>

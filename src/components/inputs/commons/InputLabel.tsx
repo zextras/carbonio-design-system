@@ -4,20 +4,19 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
+import React, { LabelHTMLAttributes } from 'react';
+
 import styled from 'styled-components';
 
 import { getColor } from '../../../theme/theme-utils';
 
-type InputLabelProps = {
-	$hasError?: boolean;
-	$hasFocus?: boolean;
-	$disabled?: boolean;
-	$textColor?: string;
-};
+interface InputLabelProps extends LabelHTMLAttributes<HTMLLabelElement> {
+	hasError?: boolean;
+	hasFocus?: boolean;
+	disabled?: boolean;
+}
 
-export const InputLabel = styled.label.attrs<InputLabelProps>(({ $hasError, $hasFocus }) => ({
-	$textColor: ($hasError && 'error') || ($hasFocus && 'primary') || 'secondary'
-}))<InputLabelProps>`
+const StyledInputLabel = styled.label<{ $textColor: string }>`
 	position: absolute;
 	top: 50%;
 	transform: translateY(-50%);
@@ -26,8 +25,7 @@ export const InputLabel = styled.label.attrs<InputLabelProps>(({ $hasError, $has
 	font-weight: ${({ theme }): number => theme.fonts.weight.regular};
 	font-family: ${({ theme }): string => theme.fonts.default};
 	line-height: 1.5;
-	color: ${({ theme, $textColor, $disabled }): string =>
-		getColor(`${$textColor}.${$disabled ? 'disabled' : 'regular'}`, theme)};
+	color: ${({ theme, $textColor }): string => getColor($textColor, theme)};
 	transition:
 		transform 150ms ease-out,
 		font-size 150ms ease-out,
@@ -40,3 +38,17 @@ export const InputLabel = styled.label.attrs<InputLabelProps>(({ $hasError, $has
 	overflow: hidden;
 	text-overflow: ellipsis;
 `;
+
+export const InputLabel = React.forwardRef<HTMLDivElement, InputLabelProps>(function InputLabelFn({
+	disabled,
+	hasFocus,
+	hasError,
+	...rest
+}): React.JSX.Element {
+	return (
+		<StyledInputLabel
+			{...rest}
+			$textColor={`${(hasError && 'error') || (hasFocus && 'primary') || 'secondary'}${disabled ? '.disabled' : ''}`}
+		/>
+	);
+});

@@ -62,16 +62,20 @@ const CollapsingActions = React.forwardRef<HTMLDivElement, CollapsingActionsProp
 
 		const visibleActions = useMemo(
 			() =>
-				map(visibleItems, ({ label, ...itemRest }) => (
-					<Tooltip label={label} disabled={!label} key={itemRest.id}>
-						<IconButton
-							type={'ghost'}
-							color={globalIconColor}
-							size={globalIconSize}
-							{...itemRest}
-						/>
-					</Tooltip>
-				)),
+				map(
+					visibleItems,
+					({
+						iconType = 'ghost',
+						color = globalIconColor,
+						size = globalIconSize,
+						label,
+						...itemRest
+					}) => (
+						<Tooltip label={label} disabled={!label} key={itemRest.id}>
+							<IconButton type={iconType} color={color} size={size} {...itemRest} />
+						</Tooltip>
+					)
+				),
 			[globalIconColor, globalIconSize, visibleItems]
 		);
 

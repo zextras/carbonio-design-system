@@ -66,13 +66,10 @@ const BannerText = styled(Text)`
 	overflow: visible;
 `;
 
-const WrapAndGrowContainer = styled(Container).attrs<{
-	theme: DefaultTheme;
-	gap: string;
-	flexBasis: ReturnType<typeof css> | string;
-}>(({ theme, gap, flexBasis }) => ({
-	flexBasis: css`calc(${flexBasis} + ${theme.sizes.icon.large} + ${gap})`
-}))``;
+const WrapAndGrowContainer = styled(Container)`
+	flex-basis: ${({ theme, gap, flexBasis }): ReturnType<typeof css> =>
+		css`calc(${flexBasis} + ${theme.sizes.icon.large} + ${gap})`})
+`;
 
 const ActionsContainer = styled(Container)`
 	align-self: stretch;
