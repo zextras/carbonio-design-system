@@ -39,13 +39,10 @@ const StyledInputLabel = styled.label<{ $textColor: string }>`
 	text-overflow: ellipsis;
 `;
 
-export const InputLabel = React.forwardRef<HTMLLabelElement, InputLabelProps>(function InputLabelFn({
-
-	disabled,
-	hasFocus,
-	hasError,
-	...rest
-}, ref): React.JSX.Element {
+export const InputLabel = React.forwardRef<HTMLLabelElement, InputLabelProps>(function InputLabelFn(
+	{ disabled, hasFocus, hasError, ...rest },
+	ref
+): React.JSX.Element {
 	return (
 		<StyledInputLabel
 			{...rest}
