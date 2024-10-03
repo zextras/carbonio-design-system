@@ -44,7 +44,7 @@ export const InputLabel = React.forwardRef<HTMLDivElement, InputLabelProps>(func
 	hasFocus,
 	hasError,
 	...rest
-}): React.JSX.Element {
+}, ref): React.JSX.Element {
 	return (
 		<StyledInputLabel
 			{...rest}
