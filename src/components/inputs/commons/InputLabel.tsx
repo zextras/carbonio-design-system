@@ -49,6 +49,7 @@ export const InputLabel = React.forwardRef<HTMLLabelElement, InputLabelProps>(fu
 	return (
 		<StyledInputLabel
 			{...rest}
+			ref={ref}
 			$textColor={`${(hasError && 'error') || (hasFocus && 'primary') || 'secondary'}${disabled ? '.disabled' : ''}`}
 		/>
 	);
