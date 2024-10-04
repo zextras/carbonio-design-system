@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import styled, { css, SimpleInterpolation } from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { Container, ContainerProps } from './Container';
 import { With$Prefix } from '../../types/utils';
@@ -18,9 +18,9 @@ interface RowProps extends ContainerProps {
 }
 
 const ContainerEl = styled(Container)<With$Prefix<RowProps>>`
-	display: ${({ $display }): SimpleInterpolation => $display};
-	order: ${({ $order }): SimpleInterpolation => $order};
-	${({ $takeAvailableSpace }): SimpleInterpolation =>
+	display: ${({ $display }): string | undefined => $display};
+	order: ${({ $order }): number | string | undefined => $order};
+	${({ $takeAvailableSpace }): ReturnType<typeof css> | false | undefined =>
 		$takeAvailableSpace &&
 		css`
 			min-width: 0;

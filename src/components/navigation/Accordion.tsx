@@ -7,7 +7,7 @@
 import React, { useMemo, useState, useCallback, useEffect } from 'react';
 
 import { map } from 'lodash';
-import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-components';
+import styled, { css, DefaultTheme } from 'styled-components';
 
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { useKeyboard, getKeyboardPreset } from '../../hooks/useKeyboard';
@@ -28,12 +28,12 @@ const AccordionContainerEl = styled(Container)<{
 	$disableHover?: boolean;
 }>`
 	cursor: pointer;
-	padding-left: ${({ theme, $level }): SimpleInterpolation =>
+	padding-left: ${({ theme, $level }): ReturnType<typeof css> =>
 		css`calc(${Math.min($level + 1, 5)} * ${theme.sizes.padding.small})`};
 	padding-right: ${({ theme }): string => theme.sizes.padding.small};
-	background-color: ${({ theme, background, $active }): SimpleInterpolation =>
+	background-color: ${({ theme, background, $active }): string | undefined =>
 		background && getColor(`${[$active ? 'highlight' : background]}.regular`, theme)};
-	${({ theme, background, $disableHover, $active }): SimpleInterpolation =>
+	${({ theme, background, $disableHover, $active }): ReturnType<typeof css> | false | undefined =>
 		!$disableHover && background && pseudoClasses(theme, $active ? 'highlight' : background)};
 `;
 

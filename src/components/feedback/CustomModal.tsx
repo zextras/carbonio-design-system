@@ -5,17 +5,9 @@
  */
 
 /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
-import React, {
-	useEffect,
-	useMemo,
-	useCallback,
-	useRef,
-	useContext,
-	HTMLAttributes,
-	useState
-} from 'react';
+import React, { useEffect, useMemo, useCallback, useRef, HTMLAttributes, useState } from 'react';
 
-import { ThemeContext } from 'styled-components';
+import { useTheme } from 'styled-components';
 
 import {
 	getScrollbarSize,
@@ -78,7 +70,7 @@ const CustomModal = React.forwardRef<HTMLDivElement, CustomModalProps>(function 
 	ref
 ) {
 	const [delayedOpen, setDelayedOpen] = useState(false);
-	const { windowObj: themeWindowObj } = useContext(ThemeContext);
+	const { windowObj: themeWindowObj } = useTheme();
 	const windowObj = containerWindow ?? themeWindowObj;
 
 	const modalRef = useCombinedRefs<HTMLDivElement>(ref);

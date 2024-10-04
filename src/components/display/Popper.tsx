@@ -11,12 +11,11 @@ import React, {
 	useRef,
 	useCallback,
 	useMemo,
-	useContext,
 	HTMLAttributes
 } from 'react';
 
 import { flip, Placement, VirtualElement, offset, shift, limitShift } from '@floating-ui/dom';
-import styled, { css, SimpleInterpolation, ThemeContext } from 'styled-components';
+import styled, { css, useTheme } from 'styled-components';
 
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { KeyboardPresetObj, useKeyboard } from '../../hooks/useKeyboard';
@@ -26,7 +25,7 @@ import { Portal } from '../utilities/Portal';
 const PopperContainer = styled.div<{ $open: boolean }>`
 	display: none;
 	position: absolute;
-	${({ $open }): SimpleInterpolation =>
+	${({ $open }): ReturnType<typeof css> | false =>
 		$open &&
 		css`
 			display: block;
@@ -71,7 +70,7 @@ const Popper = React.forwardRef<HTMLDivElement, PopperProps>(function PopperFn(
 	},
 	ref
 ) {
-	const { windowObj } = useContext(ThemeContext);
+	const { windowObj } = useTheme();
 	const popperRef = useCombinedRefs<HTMLDivElement>(ref);
 	const wrapperRef = useRef<HTMLDivElement>(null);
 

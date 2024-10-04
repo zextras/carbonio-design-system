@@ -34,5 +34,7 @@ export const SELECTORS = {
 	progressBar: 'progress-bar',
 	snackbar: 'snackbar',
 	divider: 'divider',
-	quota: 'quota'
+	quota: 'quota',
+	banner: 'banner',
+	bannerInfoContainer: 'banner-info-container'
 };
