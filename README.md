@@ -31,7 +31,7 @@ nvm use
 npm install
 ```
 
-- Run Styleguidist in watch mode with
+- Run the documentation in watch mode with
 
 ```
 npm start

@@ -2,12 +2,14 @@ import type { StorybookConfig } from '@storybook/react-webpack5';
 
 const config: StorybookConfig = {
 	stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)', '../docs/**/*.mdx'],
+	staticDirs: ['../docs/assets'],
 	addons: [
 		'@storybook/addon-webpack5-compiler-babel',
 		'@storybook/addon-essentials',
 		'@storybook/addon-interactions',
 		'@storybook/test',
-		'@storybook/addon-designs'
+		'@storybook/addon-designs',
+		'./addons/darkreader/register'
 	],
 	framework: {
 		name: '@storybook/react-webpack5',

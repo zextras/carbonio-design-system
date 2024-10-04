@@ -74,7 +74,7 @@ export const ControlledMode = {
 		requireUniqueChips: true,
 		maxChips: 8
 	}
-} satisfies Story;
+} satisfies StoryObj<typeof ControlledChipInput>;
 
 export const UncontrolledMode = {
 	args: {

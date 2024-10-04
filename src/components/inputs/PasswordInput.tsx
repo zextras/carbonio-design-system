@@ -6,7 +6,7 @@
 
 import React, { useCallback, useRef, useState } from 'react';
 
-import { Input, InputProps } from './Input';
+import { Input, InputProps } from './input/Input';
 import { Icon } from '../basic/icon/Icon';
 import { Container } from '../layout/Container';
 
@@ -24,7 +24,15 @@ const PasswordInput = React.forwardRef<HTMLDivElement, InputProps>(
 		}, []);
 
 		const CustomIcon: InputProps['CustomIcon'] = useCallback(
-			({ hasError, hasFocus, disabled }) => (
+			({
+				hasError,
+				hasFocus,
+				disabled
+			}: {
+				hasError: boolean;
+				hasFocus: boolean;
+				disabled: boolean;
+			}) => (
 				<Container
 					style={{
 						cursor: disabled ? 'default' : 'pointer',
