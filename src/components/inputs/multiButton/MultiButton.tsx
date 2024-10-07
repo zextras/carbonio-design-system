@@ -36,7 +36,10 @@ type MultiButtonProps = {
 	/** Button size */
 	size?: Extract<ButtonProps['size'], 'medium' | 'large' | 'extralarge'>;
 	/** Dropdown properties */
-	dropdownProps?: Omit<DropdownProps, 'children'>;
+	dropdownProps?: Omit<
+		DropdownProps,
+		'children' | 'items' | 'onClose' | 'forceOpen' | 'disabled' | 'disableRestoreFocus'
+	>;
 } & Omit<ButtonProps, 'secondaryAction' | 'icon' | 'disabled'>;
 
 const MultiButton = React.forwardRef<HTMLButtonElement, MultiButtonProps>(function MultiButtonFn(
@@ -46,7 +49,7 @@ const MultiButton = React.forwardRef<HTMLButtonElement, MultiButtonProps>(functi
 		label,
 		disabledPrimary,
 		disabledSecondary,
-		icon = 'ChevronDownOutline',
+		icon,
 		items,
 		onClick,
 		primaryIcon,
@@ -62,8 +65,8 @@ const MultiButton = React.forwardRef<HTMLButtonElement, MultiButtonProps>(functi
 	const [dropdownOpen, setDropdownOpen] = useState(false);
 	const secondaryButtonRef = useRef<HTMLButtonElement>(null);
 
-	const openDropdown = useCallback(() => {
-		setDropdownOpen(true);
+	const toggleDropdown = useCallback(() => {
+		setDropdownOpen((prevState) => !prevState);
 	}, []);
 
 	const closeDropdown = useCallback(() => {
@@ -73,15 +76,25 @@ const MultiButton = React.forwardRef<HTMLButtonElement, MultiButtonProps>(functi
 		}
 	}, []);
 
+	const secondaryActionIcon = useMemo(() => {
+		if (icon) {
+			return icon;
+		}
+		if (dropdownOpen) {
+			return 'ChevronUpOutline';
+		}
+		return 'ChevronDownOutline';
+	}, [dropdownOpen, icon]);
+
 	const secondaryAction = useMemo<NonNullable<ButtonProps['secondaryAction']>>(
 		() => ({
-			icon,
-			onClick: openDropdown,
+			icon: secondaryActionIcon,
+			onClick: toggleDropdown,
 			disabled: disabledSecondary,
 			forceActive: dropdownOpen,
 			ref: secondaryButtonRef
 		}),
-		[disabledSecondary, dropdownOpen, icon, openDropdown]
+		[disabledSecondary, dropdownOpen, toggleDropdown, secondaryActionIcon]
 	);
 
 	const colorsAndType = useMemo<
@@ -104,13 +117,13 @@ const MultiButton = React.forwardRef<HTMLButtonElement, MultiButtonProps>(functi
 
 	return (
 		<StyledDropdown
+			{...dropdownProps}
 			items={items}
 			placement="bottom-end"
 			forceOpen={dropdownOpen}
 			onClose={closeDropdown}
 			disabled
 			disableRestoreFocus
-			{...dropdownProps}
 			$containerWidth={(width === 'fill' && '100%') || 'auto'}
 			triggerRef={ref}
 		>
