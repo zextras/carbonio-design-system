@@ -6,7 +6,7 @@
 
 import React, { ButtonHTMLAttributes, useCallback, useMemo } from 'react';
 
-import styled, { css, SimpleInterpolation } from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { useCombinedRefs } from '../../../hooks/useCombinedRefs';
 import { getColor, pseudoClasses } from '../../../theme/theme-utils';
@@ -26,8 +26,11 @@ type ButtonColorsByType =
 			| {
 					/** Main color */
 					color?: AnyColor;
+					backgroundColor?: never;
+					labelColor?: never;
 			  }
 			| {
+					color?: never;
 					/** Background color of the button (only for 'default' and 'outlined' types, to use instead of color for more specificity) */
 					backgroundColor?: AnyColor;
 					/** Specific color of the content (only for 'default' and 'outlined' types, to use instead of color for more specificity) */
@@ -38,6 +41,8 @@ type ButtonColorsByType =
 			type: 'ghost';
 			/** Main color */
 			color?: AnyColor;
+			backgroundColor?: never;
+			labelColor?: never;
 	  };
 type ButtonType = NonNullable<ButtonColorsByType['type']>;
 
@@ -110,7 +115,7 @@ type StyledButtonProps = With$Prefix<{
 }>;
 
 const StyledIcon = styled(Icon)<{ $loading?: boolean; $size: string }>`
-	${({ $loading }): SimpleInterpolation =>
+	${({ $loading = false }): ReturnType<typeof css> | false =>
 		$loading &&
 		css`
 			opacity: 0;
@@ -126,7 +131,7 @@ const StyledText = styled(Text)<{ $loading: boolean; $size: string }>`
 	user-select: none;
 	text-transform: uppercase;
 	font-size: ${({ $size }): string => $size};
-	${({ $loading }): SimpleInterpolation =>
+	${({ $loading = false }): ReturnType<typeof css> | false =>
 		$loading &&
 		css`
 			opacity: 0;
@@ -144,15 +149,7 @@ const StyledLoadingContainer = styled.div`
 	align-items: center;
 `;
 
-const StyledButton = styled.button.attrs<
-	StyledButtonProps,
-	{
-		$border: string;
-		$outerPadding: string;
-	}
->(({ $buttonType, $padding, disabled, $minWidth }) => ({
-	$border: $buttonType === 'outlined' ? '0.0625rem solid' : 'none',
-	$outerPadding: $buttonType === 'outlined' ? `calc(${$padding} - 0.0625rem)` : $padding,
+const StyledButton = styled.button.attrs<StyledButtonProps>(({ disabled, $minWidth }) => ({
 	tabIndex: disabled ? -1 : 0,
 	$minWidth: $minWidth ?? '0'
 }))<StyledButtonProps>`
@@ -164,10 +161,11 @@ const StyledButton = styled.button.attrs<
 	position: relative;
 	text-transform: uppercase;
 	/* padding */
-	padding: ${({ $outerPadding }): string => $outerPadding};
+	padding: ${({ $buttonType, $padding }): string =>
+		$buttonType === 'outlined' ? `calc(${$padding} - 0.0625rem)` : $padding};
 	gap: ${({ $gap }): string => $gap};
 	/* width */
-	width: ${({ $width }): SimpleInterpolation =>
+	width: ${({ $width }): string | false | undefined =>
 		($width === 'fill' && '100%') || ($width === 'fit' && 'auto')};
 	max-width: 100%;
 	min-width: 0;
@@ -181,11 +179,11 @@ const StyledButton = styled.button.attrs<
 			($iconPlacement === 'left' && 2) || ($iconPlacement === 'right' && 1)};
 	}
 	/* border */
-	border: ${({ $border }): string => $border};
-	border-radius: ${({ $shape }): SimpleInterpolation =>
+	border: ${({ $buttonType }): string => ($buttonType === 'outlined' ? '0.0625rem solid' : 'none')};
+	border-radius: ${({ $shape }): false | string =>
 		($shape === 'regular' && '0.25rem') || ($shape === 'round' && '3.125rem')};
 	/* colors */
-	${({ $color, $backgroundColor, theme, $forceActive }): SimpleInterpolation =>
+	${({ $color, $backgroundColor, theme, $forceActive }): ReturnType<typeof css> =>
 		$forceActive
 			? css`
 					color: ${getColor(`${$color}.active`, theme)};
@@ -207,7 +205,7 @@ const StyledButton = styled.button.attrs<
 const StyledSecondaryAction = styled(StyledButton)<{ $loading: boolean }>`
 	flex-shrink: 0;
 	min-width: fit-content;
-	${({ $loading }): SimpleInterpolation =>
+	${({ $loading }): ReturnType<typeof css> | false | undefined =>
 		$loading &&
 		css`
 			opacity: 0;
@@ -222,10 +220,10 @@ const StyledSecondaryActionPlaceholder = styled.span<{ $padding: string }>`
 `;
 
 const StyledGrid = styled.div<{ $width: 'fill' | 'fit'; $padding: string; $minWidth?: string }>`
-	width: ${({ $width }): SimpleInterpolation =>
+	width: ${({ $width }): false | string =>
 		($width === 'fill' && '100%') || ($width === 'fit' && 'fit-content')};
 	max-width: 100%;
-	min-width: ${({ $minWidth }): SimpleInterpolation => $minWidth};
+	min-width: ${({ $minWidth }): string | undefined => $minWidth};
 
 	display: grid;
 	place-items: center;
@@ -311,22 +309,22 @@ const DEFAULT_COLORS = {
 
 function getColors(
 	type: ButtonType,
-	props: ButtonColorsByType
+	{ color, labelColor, backgroundColor }: Omit<ButtonColorsByType, 'type'>
 ): Without$Prefix<Pick<StyledButtonProps, '$color' | '$backgroundColor'>> {
 	const colors: Without$Prefix<Pick<StyledButtonProps, '$color' | '$backgroundColor'>> = {
 		...DEFAULT_COLORS[type]
 	};
-	if ('backgroundColor' in props && props.backgroundColor) {
-		colors.backgroundColor = props.backgroundColor;
+	if (backgroundColor) {
+		colors.backgroundColor = backgroundColor;
 	}
-	if ('labelColor' in props && props.labelColor) {
-		colors.color = props.labelColor;
+	if (labelColor) {
+		colors.color = labelColor;
 	}
-	if ('color' in props && props.color) {
+	if (color) {
 		if (type === 'default') {
-			colors.backgroundColor = props.color;
+			colors.backgroundColor = color;
 		} else if (type === 'outlined' || type === 'ghost') {
-			colors.color = props.color;
+			colors.color = color;
 		}
 	}
 	return colors;
@@ -348,6 +346,9 @@ const Button = React.forwardRef<HTMLDivElement, ButtonProps>(function ButtonFn(
 		secondaryAction,
 		minWidth,
 		buttonRef = null,
+		color,
+		labelColor,
+		backgroundColor,
 		...rest
 	},
 	ref
@@ -373,7 +374,10 @@ const Button = React.forwardRef<HTMLDivElement, ButtonProps>(function ButtonFn(
 		[secondaryAction]
 	);
 
-	const colors = useMemo(() => getColors(type, { type, ...rest }), [type, rest]);
+	const colors = useMemo(
+		() => getColors(type, { labelColor, backgroundColor, color }),
+		[type, backgroundColor, color, labelColor]
+	);
 
 	return (
 		<StyledGrid $width={width} $minWidth={minWidth} $padding={SIZES[size].padding} ref={ref}>

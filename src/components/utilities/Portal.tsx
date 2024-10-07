@@ -4,10 +4,10 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { useContext } from 'react';
+import React from 'react';
 
 import ReactDOM from 'react-dom';
-import { ThemeContext } from 'styled-components';
+import { useTheme } from 'styled-components';
 
 interface PortalProps {
 	/** The children to render into the `container` */
@@ -28,7 +28,7 @@ const Portal = React.forwardRef<React.ReactPortal, PortalProps>(function PortalF
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	_ref
 ): React.ReactElement | null {
-	const { windowObj } = useContext(ThemeContext);
+	const { windowObj } = useTheme();
 
 	if (!show) return null;
 

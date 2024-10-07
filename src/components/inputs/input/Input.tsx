@@ -217,7 +217,7 @@ const Input: Input = React.forwardRef<HTMLDivElement, InputProps>(function Input
 						placeholder={label}
 					/>
 					{label && (
-						<Label htmlFor={id} $hasFocus={hasFocus} $hasError={hasError} $disabled={disabled}>
+						<Label htmlFor={id} hasFocus={hasFocus} hasError={hasError} disabled={disabled}>
 							{label}
 						</Label>
 					)}

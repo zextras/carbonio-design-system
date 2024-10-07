@@ -5,7 +5,7 @@
  */
 import React, { HTMLAttributes } from 'react';
 
-import styled, { css, SimpleInterpolation } from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { With$Prefix } from '../../../types/utils';
 
@@ -18,13 +18,13 @@ interface ModalBodyProps extends HTMLAttributes<HTMLDivElement> {
 
 const ModalBodyComponent = styled.div<With$Prefix<ModalBodyProps>>`
 	overflow-y: auto;
-	max-height: ${({ $maxHeight }): SimpleInterpolation => $maxHeight};
+	max-height: ${({ $maxHeight }): string | undefined => $maxHeight};
 	max-width: 100%;
 	box-sizing: border-box;
 	width: 100%;
 	padding-top: ${({ theme }): string => theme.sizes.padding.large};
 	padding-bottom: ${({ theme }): string => theme.sizes.padding.large};
-	${({ $centered }): SimpleInterpolation =>
+	${({ $centered }): ReturnType<typeof css> | false | undefined =>
 		$centered &&
 		css`
 			text-align: center;

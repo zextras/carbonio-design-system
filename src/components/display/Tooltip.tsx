@@ -16,7 +16,7 @@ import React, {
 
 import { flip, Placement, offset, shift, limitShift } from '@floating-ui/dom';
 import { rgba } from 'polished';
-import styled, { css, SimpleInterpolation } from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { setupFloating } from '../../utils/floating-ui';
@@ -55,7 +55,7 @@ const TooltipWrapperWithCss = styled(TooltipWrapper)<{ $maxWidth: string }>`
 	user-select: none;
 	box-shadow: 0 0 0.25rem 0 ${({ theme }): string => rgba(theme.palette.gray0.regular, 0.5)};
 
-	${({ open }): SimpleInterpolation =>
+	${({ open }): ReturnType<typeof css> | false =>
 		open &&
 		css`
 			display: block;

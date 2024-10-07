@@ -7,7 +7,7 @@
 import React, { HTMLAttributes, useMemo } from 'react';
 
 import { map } from 'lodash';
-import styled, { css, SimpleInterpolation } from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { getColor, getPadding, PaddingObj } from '../../theme/theme-utils';
 import { AnyColor, LiteralUnion, With$Prefix } from '../../types/utils';
@@ -93,14 +93,14 @@ interface ContainerElProps {
 
 const ContainerEl = styled.div<With$Prefix<ContainerElProps>>`
 	display: flex;
-	flex-direction: ${({ $orientation }): SimpleInterpolation => $orientation};
-	align-items: ${({ $crossAlignment }): SimpleInterpolation => $crossAlignment};
-	justify-content: ${({ $mainAlignment }): SimpleInterpolation => $mainAlignment};
-	flex-wrap: ${({ $wrap }): SimpleInterpolation => $wrap};
-	flex-grow: ${({ $flexGrow }): SimpleInterpolation => $flexGrow};
-	flex-shrink: ${({ $flexShrink }): SimpleInterpolation => $flexShrink};
-	flex-basis: ${({ $flexBasis }): SimpleInterpolation => $flexBasis};
-	${({ $margin }): SimpleInterpolation =>
+	flex-direction: ${({ $orientation }): string | undefined => $orientation};
+	align-items: ${({ $crossAlignment }): string | undefined => $crossAlignment};
+	justify-content: ${({ $mainAlignment }): string | undefined => $mainAlignment};
+	flex-wrap: ${({ $wrap }): string | undefined => $wrap};
+	flex-grow: ${({ $flexGrow }): number | string | undefined => $flexGrow};
+	flex-shrink: ${({ $flexShrink }): string | number | undefined => $flexShrink};
+	flex-basis: ${({ $flexBasis }): string | undefined => $flexBasis};
+	${({ $margin }): ReturnType<typeof css> | undefined =>
 		$margin &&
 		css`
 			${$margin.left &&
@@ -112,7 +112,7 @@ const ContainerEl = styled.div<With$Prefix<ContainerElProps>>`
 				margin-right: ${$margin.right};
 			`};
 		`};
-	border-radius: ${({ $borderRadius, theme }): SimpleInterpolation => {
+	border-radius: ${({ $borderRadius, theme }): string => {
 		switch ($borderRadius) {
 			case 'regular':
 				return theme.borderRadius;
@@ -124,46 +124,46 @@ const ContainerEl = styled.div<With$Prefix<ContainerElProps>>`
 				return '0';
 		}
 	}};
-	background: ${({ $background, theme }): SimpleInterpolation =>
+	background: ${({ $background, theme }): string | undefined =>
 		$background && getColor($background, theme)};
 	box-sizing: border-box;
-	width: ${({ $width }): SimpleInterpolation => {
+	width: ${({ $width }): string | undefined => {
 		if ($width === 'fill') return '100%;';
 		if ($width === 'fit') return 'fit-content';
 		if (typeof $width === 'number') return `${$width}px`;
 		return $width;
 	}};
-	min-width: ${({ $minWidth }): SimpleInterpolation => {
+	min-width: ${({ $minWidth }): string | undefined => {
 		if ($minWidth === 'fill') return '100%;';
 		if ($minWidth === 'fit') return 'fit-content';
 		if (typeof $minWidth === 'number') return `${$minWidth}px`;
 		return $minWidth;
 	}};
-	max-width: ${({ $maxWidth }): SimpleInterpolation => {
+	max-width: ${({ $maxWidth }): string | undefined => {
 		if ($maxWidth === 'fill') return '100%;';
 		if ($maxWidth === 'fit') return 'fit-content';
 		if (typeof $maxWidth === 'number') return `${$maxWidth}px`;
 		return $maxWidth;
 	}};
-	height: ${({ $height }): SimpleInterpolation => {
+	height: ${({ $height }): string | undefined => {
 		if ($height === 'fill') return '100%';
 		if ($height === 'fit') return 'fit-content';
 		if (typeof $height === 'number') return `${$height}px`;
 		return $height;
 	}};
-	min-height: ${({ $minHeight }): SimpleInterpolation => {
+	min-height: ${({ $minHeight }): string | undefined => {
 		if ($minHeight === 'fill') return '100%';
 		if ($minHeight === 'fit') return 'fit-content';
 		if (typeof $minHeight === 'number') return `${$minHeight}px`;
 		return $minHeight;
 	}};
-	max-height: ${({ $maxHeight }): SimpleInterpolation => {
+	max-height: ${({ $maxHeight }): string | undefined => {
 		if ($maxHeight === 'fill') return '100%';
 		if ($maxHeight === 'fit') return 'fit-content';
 		if (typeof $maxHeight === 'number') return `${$maxHeight}px`;
 		return $maxHeight;
 	}};
-	${({ $borderColor, theme }): SimpleInterpolation => {
+	${({ $borderColor, theme }): ReturnType<typeof css> | false => {
 		if ($borderColor) {
 			if (typeof $borderColor === 'string') {
 				return css`
@@ -177,8 +177,9 @@ const ContainerEl = styled.div<With$Prefix<ContainerElProps>>`
 		}
 		return false;
 	}};
-	padding: ${({ theme, $padding }): SimpleInterpolation => $padding && getPadding($padding, theme)};
-	gap: ${({ $gap }): SimpleInterpolation => $gap};
+	padding: ${({ theme, $padding }): string | undefined | 0 =>
+		$padding && getPadding($padding, theme)};
+	gap: ${({ $gap }): string | undefined => $gap};
 	&::-webkit-scrollbar {
 		width: 0.5rem;
 	}

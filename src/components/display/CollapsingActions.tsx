@@ -72,7 +72,7 @@ const CollapsingActions = React.forwardRef<HTMLDivElement, CollapsingActionsProp
 						...itemRest
 					}) => (
 						<Tooltip label={label} disabled={!label} key={itemRest.id}>
-							<IconButton {...itemRest} type={iconType} color={color} size={size} />
+							<IconButton type={iconType} color={color} size={size} {...itemRest} />
 						</Tooltip>
 					)
 				),

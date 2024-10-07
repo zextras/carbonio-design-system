@@ -4,14 +4,14 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import { useLayoutEffect, useState, useContext, useCallback } from 'react';
+import { useLayoutEffect, useState, useCallback } from 'react';
 
-import { ThemeContext } from 'styled-components';
+import { useTheme } from 'styled-components';
 
 type ScreenMode = 'mobile' | 'desktop';
 
 function useScreenMode(target: Window = window): ScreenMode {
-	const theme = useContext(ThemeContext);
+	const theme = useTheme();
 
 	const check = useCallback(
 		(width: number, height: number): ScreenMode =>

@@ -6,7 +6,7 @@
 
 import React, { useRef, useCallback, useMemo } from 'react';
 
-import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-components';
+import styled, { css, DefaultTheme } from 'styled-components';
 
 import { useCheckbox } from '../../hooks/useCheckbox';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
@@ -26,7 +26,7 @@ const IconWrapper = styled.div<{
 		$isActive ? theme.palette.primary.regular : 'transparent'};
 	transition: 0.2s ease-out;
 
-	${({ $disabled, $isActive, theme }): SimpleInterpolation =>
+	${({ $disabled, $isActive, theme }): ReturnType<typeof css> | false =>
 		$disabled &&
 		css`
 			background: ${theme.palette[$isActive ? 'primary' : 'transparent'].disabled};
@@ -36,7 +36,7 @@ const IconWrapper = styled.div<{
 		fill: ${({ theme, $isActive }): string =>
 			$isActive ? theme.palette.gray6.regular : 'currentColor'};
 	}
-	${({ theme, $disabled, $isActive }): SimpleInterpolation =>
+	${({ theme, $disabled, $isActive }): ReturnType<typeof css> | false =>
 		!$disabled &&
 		css`
 			transition: background 0.2s ease-out;

@@ -55,6 +55,9 @@ const MultiButton = React.forwardRef<HTMLButtonElement, MultiButtonProps>(functi
 		primaryIcon,
 		width,
 		dropdownProps,
+		type,
+		labelColor,
+		backgroundColor,
 		...rest
 	},
 	ref
@@ -94,6 +97,24 @@ const MultiButton = React.forwardRef<HTMLButtonElement, MultiButtonProps>(functi
 		[disabledSecondary, dropdownOpen, toggleDropdown, secondaryActionIcon]
 	);
 
+	const colorsAndType = useMemo<
+		| { type: 'ghost'; color?: AnyColor }
+		| { type?: 'default' | 'outlined'; labelColor?: AnyColor; backgroundColor?: AnyColor }
+	>(() => {
+		if (type === 'ghost') {
+			return { type, color };
+		}
+		if (type === 'outlined') {
+			return {
+				type,
+				labelColor: color ?? labelColor,
+				backgroundColor: background ?? backgroundColor
+			};
+		}
+
+		return { type, labelColor, backgroundColor: background ?? color ?? backgroundColor };
+	}, [background, backgroundColor, color, labelColor, type]);
+
 	return (
 		<StyledDropdown
 			{...dropdownProps}
@@ -107,14 +128,13 @@ const MultiButton = React.forwardRef<HTMLButtonElement, MultiButtonProps>(functi
 			triggerRef={ref}
 		>
 			<Button
-				backgroundColor={background}
 				label={label}
-				labelColor={color}
 				onClick={onClick}
 				disabled={disabledPrimary}
 				icon={primaryIcon}
 				secondaryAction={secondaryAction}
 				width={width}
+				{...colorsAndType}
 				{...rest}
 			/>
 		</StyledDropdown>

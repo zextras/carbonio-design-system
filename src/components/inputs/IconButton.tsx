@@ -6,11 +6,12 @@
 
 import React, { useCallback, useMemo } from 'react';
 
-import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-components';
+import styled, { css, DefaultTheme, useTheme } from 'styled-components';
 
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { useKeyboard, getKeyboardPreset } from '../../hooks/useKeyboard';
-import { getPadding, isThemeSize, useTheme } from '../../theme/theme-utils';
+import { getPadding, isThemeSize } from '../../theme/theme-utils';
+import { AnyColor } from '../../types/utils';
 import { Button, ButtonProps } from '../basic/button/Button';
 
 const StyledIconButton = styled(Button)<{
@@ -18,7 +19,7 @@ const StyledIconButton = styled(Button)<{
 	$paddingSize?: string;
 }>`
 	min-width: fit-content;
-	${({ $iconSize }): SimpleInterpolation =>
+	${({ $iconSize }): ReturnType<typeof css> | undefined | string =>
 		$iconSize &&
 		css`
 			svg {
@@ -28,18 +29,18 @@ const StyledIconButton = styled(Button)<{
 				min-height: ${$iconSize};
 			}
 		`};
-	${({ $paddingSize }): SimpleInterpolation =>
+	${({ $paddingSize }): ReturnType<typeof css> | undefined | string =>
 		$paddingSize &&
 		css`
 			padding: ${$paddingSize};
 		`};
 `;
 
-type IconButtonProps = ButtonProps & {
+type IconButtonProps = Omit<ButtonProps, 'secondaryAction'> & {
 	/** Color of the icon */
-	iconColor?: string | keyof DefaultTheme['palette'];
+	iconColor?: AnyColor;
 	/** Color of the button */
-	backgroundColor?: string | keyof DefaultTheme['palette'];
+	backgroundColor?: AnyColor;
 	/** whether to disable the IconButton or not */
 	disabled?: boolean;
 	/** button size */
@@ -60,7 +61,6 @@ type IconButtonProps = ButtonProps & {
 	 * @deprecated use iconColor instead
 	 */
 	customIconColor?: string;
-	secondaryAction?: never;
 };
 
 /** @deprecated use Button with just the icon instead */
@@ -76,6 +76,8 @@ const IconButton = React.forwardRef<HTMLDivElement, IconButtonProps>(function Ic
 		onClick,
 		customIconColor,
 		type = 'default',
+		color,
+		labelColor,
 		...rest
 	},
 	ref
@@ -103,19 +105,38 @@ const IconButton = React.forwardRef<HTMLDivElement, IconButtonProps>(function Ic
 	const keyEvents = useMemo(() => getKeyboardPreset('button', handleClick), [handleClick]);
 	useKeyboard(iconButtonRef, keyEvents);
 
+	const colorsAndType = useMemo<
+		| { type: 'default' | 'outlined'; labelColor: AnyColor; backgroundColor: AnyColor }
+		| { type: 'ghost'; color: AnyColor }
+	>(() => {
+		if (type === 'ghost') {
+			return { type, color: color ?? labelColor ?? customIconColor ?? iconColor };
+		}
+		if (type === 'outlined') {
+			return {
+				type,
+				labelColor: color ?? labelColor ?? customIconColor ?? iconColor,
+				backgroundColor
+			};
+		}
+		return {
+			type,
+			labelColor: labelColor ?? customIconColor ?? iconColor,
+			backgroundColor: color ?? backgroundColor
+		};
+	}, [backgroundColor, color, customIconColor, iconColor, labelColor, type]);
+
 	return (
 		<StyledIconButton
 			onClick={handleClick}
 			icon={icon}
 			$iconSize={iconSize}
 			$paddingSize={paddingSize}
-			backgroundColor={backgroundColor}
-			labelColor={customIconColor || iconColor}
 			shape={borderRadius}
 			size={size}
 			ref={iconButtonRef}
 			disabled={disabled}
-			type={type}
+			{...colorsAndType}
 			{...rest}
 		/>
 	);

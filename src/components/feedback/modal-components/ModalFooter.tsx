@@ -5,7 +5,7 @@
  */
 import React, { useMemo } from 'react';
 
-import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-components';
+import styled, { css, DefaultTheme } from 'styled-components';
 
 import { Button } from '../../basic/button/Button';
 import { Tooltip } from '../../display/Tooltip';
@@ -22,7 +22,7 @@ const ButtonContainer = styled(Container)<{ $pushLeftFirstChild?: boolean }>`
 	min-width: 0.0625rem;
 	flex-basis: auto;
 	flex-grow: 1;
-	${({ $pushLeftFirstChild }): SimpleInterpolation =>
+	${({ $pushLeftFirstChild }): ReturnType<typeof css> | false | undefined =>
 		$pushLeftFirstChild &&
 		css`
 			> * {
