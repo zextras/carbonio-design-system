@@ -12,13 +12,14 @@ import React, {
 	useState
 } from 'react';
 
-import styled, { css, DefaultTheme } from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { InputContainer } from './commons/InputContainer';
 import { InputDescription } from './commons/InputDescription';
 import { InputLabel } from './commons/InputLabel';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { getColor } from '../../theme/theme-utils';
+import { AnyColor } from '../../types/utils';
 import { TextProps } from '../basic/text/Text';
 import { INPUT_BACKGROUND_COLOR, INPUT_DIVIDER_COLOR } from '../constants';
 import { Container } from '../layout/Container';
@@ -42,13 +43,13 @@ interface TextAreaProps extends HTMLTextAreaProps {
 	/** Label for the textarea */
 	label?: string;
 	/** Background color for the textarea */
-	backgroundColor?: string | keyof DefaultTheme['palette'];
+	backgroundColor?: AnyColor;
 	/** Color for the text */
-	textColor?: string;
+	textColor?: AnyColor;
 	/** Max height for the text area, limit beyond which the scroll is enabled */
 	maxHeight?: string;
 	/** Divider color */
-	borderColor?: string | keyof DefaultTheme['palette'];
+	borderColor?: AnyColor;
 }
 
 type TextArea = ReturnType<typeof React.forwardRef<HTMLDivElement, TextAreaProps>> & {
@@ -187,7 +188,7 @@ const RelativeContainer = styled(Container)`
 
 const TextArea: TextArea = React.forwardRef<HTMLDivElement, TextAreaProps>(function TextAreaFn(
 	{
-		maxHeight = '10.313rem',
+		maxHeight = '10.5rem',
 		hasError,
 		textAreaRef = null,
 		label,
