@@ -25,13 +25,13 @@ import DatePicker, {
 } from 'react-datepicker';
 import styled from 'styled-components';
 
-import { ChipInput, ChipInputProps, ChipItem } from './chipInput/ChipInput';
-import { IconButton, IconButtonProps } from './IconButton';
-import { Input, InputProps } from './input/Input';
-import { LiteralUnion, PaletteColor, SingleItemArray } from '../../types/utils';
-import { INPUT_BACKGROUND_COLOR } from '../constants';
-import { ChipProps } from '../display/Chip';
-import { Container, ContainerProps } from '../layout/Container';
+import { LiteralUnion, PaletteColor, SingleItemArray } from '../../../types/utils';
+import { INPUT_BACKGROUND_COLOR } from '../../constants';
+import { ChipProps } from '../../display/Chip';
+import { Container, ContainerProps } from '../../layout/Container';
+import { ChipInput, ChipInputProps, ChipItem } from '../chipInput/ChipInput';
+import { IconButton, IconButtonProps } from '../IconButton';
+import { Input, InputProps } from '../input/Input';
 
 const COLORS = {
 	NAVIGATION_ICON_BORDER: '#CCCCCC',
@@ -1181,8 +1181,8 @@ const DateTimePicker = React.forwardRef<ReactDatePicker, DateTimePickerProps>(
 		ref
 	) {
 		const dateTimeRef = useRef<Date | null>(defaultValue);
-		const [dateTime, _setDateTime] = useState(defaultValue);
-		const setDateTime = useCallback<
+		const [dateTime, setDateTime] = useState(defaultValue);
+		const updateDateTimeState = useCallback<
 			(
 				action:
 					| { type: 'SAVE' | 'SAVE_AND_UPDATE'; value: Date | null }
@@ -1196,13 +1196,13 @@ const DateTimePicker = React.forwardRef<ReactDatePicker, DateTimePickerProps>(
 						dateTimeRef.current = newValue;
 						break;
 					case 'UPDATE':
-						_setDateTime(currentValue);
-						onChange && onChange(currentValue);
+						setDateTime(currentValue);
+						onChange?.(currentValue);
 						break;
 					case 'SAVE_AND_UPDATE':
 						dateTimeRef.current = newValue;
-						_setDateTime(newValue);
-						onChange && onChange(newValue);
+						setDateTime(newValue);
+						onChange?.(newValue);
 						break;
 					default:
 						break;
@@ -1212,18 +1212,18 @@ const DateTimePicker = React.forwardRef<ReactDatePicker, DateTimePickerProps>(
 		);
 
 		useEffect(() => {
-			setDateTime({ type: 'SAVE_AND_UPDATE', value: defaultValue });
-		}, [defaultValue, setDateTime]);
+			updateDateTimeState({ type: 'SAVE_AND_UPDATE', value: defaultValue });
+		}, [defaultValue, updateDateTimeState]);
 
 		const onClear = useCallback(() => {
-			setDateTime({ type: 'SAVE_AND_UPDATE', value: null });
-		}, [setDateTime]);
+			updateDateTimeState({ type: 'SAVE_AND_UPDATE', value: null });
+		}, [updateDateTimeState]);
 
 		const onValueChange = useCallback<ReactDatePickerProps['onChange']>(
 			(date) => {
-				setDateTime({ type: 'SAVE', value: date });
+				updateDateTimeState({ type: 'SAVE', value: date });
 			},
-			[setDateTime]
+			[updateDateTimeState]
 		);
 
 		const handleChipChange = useCallback(
@@ -1232,9 +1232,9 @@ const DateTimePicker = React.forwardRef<ReactDatePicker, DateTimePickerProps>(
 				// so the value set as new date should always be null.
 				// Other changes are handled from outside by changing the value of the chip input directly.
 				const newDateTime = items.length > 0 ? (items[0].value as Date) : null;
-				setDateTime({ type: 'SAVE_AND_UPDATE', value: newDateTime });
+				updateDateTimeState({ type: 'SAVE_AND_UPDATE', value: newDateTime });
 			},
-			[setDateTime]
+			[updateDateTimeState]
 		);
 
 		const defaultInputComponent = useMemo(() => {
@@ -1277,8 +1277,8 @@ const DateTimePicker = React.forwardRef<ReactDatePicker, DateTimePickerProps>(
 		]);
 
 		const updateDateTime = useCallback<NonNullable<ReactDatePickerProps['onCalendarClose']>>(() => {
-			setDateTime({ type: 'UPDATE' });
-		}, [setDateTime]);
+			updateDateTimeState({ type: 'UPDATE' });
+		}, [updateDateTimeState]);
 
 		return (
 			<Styler orientation="horizontal" height="fit" mainAlignment="flex-start">

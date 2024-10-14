@@ -1,0 +1,69 @@
+import { Canvas, Controls, Description, Meta, Primary, Stories, Subheading, Title } from '@storybook/blocks';
+import * as DateTimePickerStories from './DateTimePicker.stories';
+import WithCustomInput from './DateTimePicker.stories.customInput?raw'
+import WithDefaultLocale from './DateTimePicker.stories.defaultLocale?raw'
+import WithRegisteredLocale from './DateTimePicker.stories.registeredLocale?raw'
+import WithLocaleObject from './DateTimePicker.stories.localeObject?raw'
+
+<Meta of={DateTimePickerStories} />
+
+<Title />
+
+DateTimePicker is an extension of the picker provided by react-datepicker library. The extension is made to style the
+library component in a ds-style and to give a default input ready to be used.
+
+The props shown here are the one defined for the extension, but it is possible to use all the props of the library itself,
+where not specified here (in this case, they are being overwritten by our component, with a possible different meaning).
+Refer to the official documentation to get a list of them [https://github.com/Hacker0x01/react-datepicker]()
+
+By default, the DateTimePicker provide 2 types of input, a text input and a chip input.
+The behaviour of the two components can differ a bit because of how react-datepicker works under the hood.
+
+Examples of the library component are visible here [https://reactdatepicker.com/]()
+
+<Canvas of={DateTimePickerStories.Default} story={{ height: '350px' }} withToolbar />
+
+<Controls />
+
+### With Custom input
+When defining a custom input, it is important to create a component which accept a ref. React-datepicker offer the possibility to set
+a different name for the prop of the input component in charge of accepting the ref object. This prop is `customInputRef`.
+On most of the cases, creating a component with React.forwardRef is sufficient.
+React-datetimepicker under the hood takes the customInput (CustomComponent here), clones it, and set some props with internal
+implementations. It is important, to have react-datepicker works as expected, to propagate all the standard html attributes to the input component.
+The most important ones are
+ * value: set the value of the input
+ * onClick: makes the picker open on click
+ * onChange: perform a validation of the input and set the new value of the picker (and not the input, which is updated by selecting a date/time from the picker)
+ * onFocus: makes the picker open on focus
+ * onKeyDown: update the picker value while typing
+For a better understanding of what react-datepicker does to create the input element, check the method [renderDateInput](https://github.com/Hacker0x01/react-datepicker/blob/10e64e21fddf2b24196d7c17d47670a5be9545f9/src/index.jsx#L1100C6-L1145) of the DatePicker component
+
+<Canvas of={DateTimePickerStories.WithCustomInput} source={{ code: WithCustomInput }} story={{ height: '300px' }} />
+
+### Localization
+
+Accept locale both as a string (and perform the required [registration of react-datepicker](https://github.com/Hacker0x01/react-datepicker#localization) automatically)
+or as an object, imported from date-fns library.
+
+Locale does not change the "time" label, which requires to be translated from the outside and pass it in the **timeLabel** prop.
+
+#### Important note about bundle
+The lib react-datepicker works with _date-fns_.
+To avoid importing all locales inside the bundle of the DS, it's left up to the external
+project to install date-fns and configure it to limit the bundle size.
+See [https://date-fns.org/v2.29.3/docs/webpack]() for more details.
+
+**Important:** check inside installed dependency date-fns/locale for available locales (e.g.: en does not exists, en-US is the default)
+
+Locale can be set in 3 ways:
+1) **By registering the locale and set it as default.**
+	Locale can be then overridden for a single component by passing the locale prop.
+	If not specified differently, default locale is en-US.
+	<Canvas of={DateTimePickerStories.WithDefaultLocale} source={{ code: WithDefaultLocale }} story={{ height: '350px' }} />
+
+2) **By registering the locale and pass the locale key as in the locale prop**
+	<Canvas of={DateTimePickerStories.WithRegisteredLocale} source={{ code: WithRegisteredLocale }} story={{ height: '350px' }} />
+
+3) **By passing the locale object in the locale prop**
+	<Canvas of={DateTimePickerStories.WithLocaleObject} source={{ code: WithLocaleObject }} story={{ height: '350px' }} />
