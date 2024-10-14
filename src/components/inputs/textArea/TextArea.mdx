@@ -1,6 +1,9 @@
-import { Meta, Controls, Stories, Title, Primary } from '@storybook/blocks';
+import { Meta, Controls, Title, Primary, Canvas } from '@storybook/blocks';
 
 import * as TextAreaStories from './TextArea.stories';
+import { Figma } from "@storybook/addon-designs/blocks";
+import UncontrolledModeCode from './TextArea.stories.uncontrolledMode?raw'
+import ControlledModeCode from './TextArea.stories.controlledMode?raw'
 
 <Meta of={TextAreaStories} />
 
@@ -12,6 +15,44 @@ TextArea is an HTML textarea element with some styled applied to make it totally
 
 Through the maxHeight prop is possible to set the height limit, beyond which the scroll is activated.
 
+<Figma
+	height="30%"
+	collapsable
+	url="https://www.figma.com/design/crORWeAU5S8Xugs4OmqPEV/UI-kit?node-id=1242-24185&node-type=frame&t=ZQFoAOmGXbCdO8ev-0"
+/>
+
 <Controls />
 
-<Stories />
+## Stories
+
+### Label
+
+<Canvas of={TextAreaStories.Label} />
+
+### Description
+
+<Canvas of={TextAreaStories.Description} />
+
+### HasError
+
+<Canvas of={TextAreaStories.HasError} />
+
+### BackgroundColor
+
+<Canvas of={TextAreaStories.BackgroundColor} />
+
+### TextColor
+
+<Canvas of={TextAreaStories.TextColor} />
+
+### BorderColor
+
+<Canvas of={TextAreaStories.BorderColor} />
+
+### UncontrolledMode
+
+<Canvas of={TextAreaStories.UncontrolledMode} source={{ code: UncontrolledModeCode }} />
+
+### ControlledMode
+
+<Canvas of={TextAreaStories.ControlledMode} source={{ code: ControlledModeCode }} />

@@ -28,7 +28,7 @@ export const Label = {
 	args: {
 		label: 'This is the Input label'
 	}
-};
+} satisfies Story;
 
 export const Description = {
 	args: {
@@ -41,30 +41,30 @@ export const HasError = {
 		hasError: true,
 		description: 'Custom description with error'
 	}
-};
+} satisfies Story;
 
 export const BackgroundColor = {
 	args: {
 		backgroundColor: 'primary'
 	}
-};
+} satisfies Story;
 
 export const TextColor = {
 	args: {
 		textColor: 'error'
 	}
-};
+} satisfies Story;
 
 export const BorderColor = {
 	args: {
 		borderColor: 'warning'
 	}
-};
+} satisfies Story;
 
 export const UncontrolledMode = {
 	render: UncontrolledTextArea
-};
+} satisfies StoryObj<typeof UncontrolledTextArea>;
 
 export const ControlledMode = {
 	render: ControlledTextArea
-};
+} satisfies StoryObj<typeof ControlledTextArea>;
