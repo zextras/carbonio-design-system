@@ -29,7 +29,7 @@
 		"packTo": "npm pack --pack-destination $PKG_PATH && cd $PKG_PATH && npm i zextras-carbonio-design-system-$npm_package_version.tgz",
 		"deploy": "npm pack && rm -rf $PKG_PATH/node_modules/@zextras/carbonio-design-system/* && tar -xf zextras-carbonio-design-system-$npm_package_version.tgz -C $PKG_PATH/node_modules/@zextras/carbonio-design-system/ --strip-components 1",
 		"prepare": "is-ci || husky",
-		"type-check": "tsc --noEmit",
+		"type-check": "tsc --noEmit --noUncheckedSideEffectImports",
 		"storybook": "storybook dev -p 6006",
 		"build:docs": "storybook build"
 	},
