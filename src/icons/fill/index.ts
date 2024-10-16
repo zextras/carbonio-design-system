@@ -187,6 +187,7 @@ export { default as Globe3 } from './Globe3';
 export { default as Globe } from './Globe';
 export { default as Google } from './Google';
 export { default as Grid } from './Grid';
+export { default as GroupCalendar } from './GroupCalendar';
 export { default as Group } from './Group';
 export { default as Hangup } from './Hangup';
 export { default as HardDrive } from './HardDrive';
