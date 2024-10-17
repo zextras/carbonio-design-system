@@ -14,16 +14,16 @@ import React, {
 
 import styled, { css } from 'styled-components';
 
-import { InputContainer } from './commons/InputContainer';
-import { InputDescription } from './commons/InputDescription';
-import { InputLabel } from './commons/InputLabel';
-import { useCombinedRefs } from '../../hooks/useCombinedRefs';
-import { getColor } from '../../theme/theme-utils';
-import { AnyColor } from '../../types/utils';
-import { TextProps } from '../basic/text/Text';
-import { INPUT_BACKGROUND_COLOR, INPUT_DIVIDER_COLOR } from '../constants';
-import { Container } from '../layout/Container';
-import { Divider, DividerProps } from '../layout/divider/Divider';
+import { useCombinedRefs } from '../../../hooks/useCombinedRefs';
+import { getColor } from '../../../theme/theme-utils';
+import { AnyColor } from '../../../types/utils';
+import { TextProps } from '../../basic/text/Text';
+import { INPUT_BACKGROUND_COLOR, INPUT_DIVIDER_COLOR } from '../../constants';
+import { Container } from '../../layout/Container';
+import { Divider, DividerProps } from '../../layout/divider/Divider';
+import { InputContainer } from '../commons/InputContainer';
+import { InputDescription } from '../commons/InputDescription';
+import { InputLabel } from '../commons/InputLabel';
 
 type HTMLTextAreaProps = TextareaHTMLAttributes<HTMLTextAreaElement>;
 
@@ -70,6 +70,7 @@ const StyledTextArea = styled.textarea<{ $color: string }>`
 	border: none;
 	padding: 0;
 	margin: 0;
+	color: ${({ theme, $color }): string => getColor($color, theme)};
 
 	&:disabled {
 		color: ${({ theme, $color }): string => getColor(`${$color}.disabled`, theme)};
