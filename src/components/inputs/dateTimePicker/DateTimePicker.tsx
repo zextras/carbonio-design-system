@@ -21,11 +21,13 @@ import DatePicker, {
 	setDefaultLocale
 } from 'react-datepicker';
 
+import styles from './DateTimePicker.module.css';
 import { DateTimePickerChipInput, DateTimePickerChipInputProps } from './DateTimePickerChipInput';
 import { DateTimePickerInput } from './DateTimePickerInput';
 import { LiteralUnion, PaletteColor } from '../../../types/utils';
 import { INPUT_BACKGROUND_COLOR } from '../../constants';
 import { ChipProps } from '../../display/Chip';
+import { Container } from '../../layout/Container';
 
 import 'react-datepicker/dist/react-datepicker.min.css';
 
@@ -224,23 +226,27 @@ const DateTimePicker = React.forwardRef<DatePicker, DateTimePickerProps>(functio
 	}, [updateDateTimeState]);
 
 	return (
-		<DatePicker
-			showPopperArrow={false}
-			selected={dateTime}
-			onChange={onValueChange}
-			showTimeSelect={showTimeSelect}
-			timeIntervals={timeIntervals}
-			dateFormat={dateFormat}
-			disabled={disabled}
-			customInput={CustomComponent ? <CustomComponent /> : defaultInputComponent}
-			ref={ref}
-			placeholderText={label}
-			onCalendarClose={updateDateTime}
-			onSelect={updateDateTime}
-			onBlur={updateDateTime}
-			popperModifiers={popperModifiers}
-			{...datePickerProps}
-		/>
+		<Container orientation={'horizontal'} width={width} mainAlignment={'flex-start'} height={'fit'}>
+			<DatePicker
+				showPopperArrow={false}
+				selected={dateTime}
+				onChange={onValueChange}
+				showTimeSelect={showTimeSelect}
+				timeIntervals={timeIntervals}
+				dateFormat={dateFormat}
+				disabled={disabled}
+				customInput={CustomComponent ? <CustomComponent /> : defaultInputComponent}
+				ref={ref}
+				placeholderText={label}
+				onCalendarClose={updateDateTime}
+				onSelect={updateDateTime}
+				onBlur={updateDateTime}
+				popperModifiers={popperModifiers}
+				wrapperClassName={styles.wrapper}
+				popperPlacement={'bottom-start'}
+				{...datePickerProps}
+			/>
+		</Container>
 	);
 });
 

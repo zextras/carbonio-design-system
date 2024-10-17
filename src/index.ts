@@ -58,7 +58,7 @@ export {
 	setDefaultLocale,
 	getDefaultLocale,
 	DEFAULT_MODIFIERS
-} from './components/inputs/datetimePicker/DateTimePicker';
+} from './components/inputs/dateTimePicker/DateTimePicker';
 export * from './components/inputs/Slider';
 export * from './components/inputs/TextArea';
 
