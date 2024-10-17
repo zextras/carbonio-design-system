@@ -53,7 +53,7 @@ export {
 export * from './components/inputs/Switch';
 export * from './components/inputs/DateTimePicker';
 export * from './components/inputs/Slider';
-export * from './components/inputs/TextArea';
+export * from './components/inputs/textArea/TextArea';
 
 /** navigation components */
 export * from './components/navigation/Accordion';
