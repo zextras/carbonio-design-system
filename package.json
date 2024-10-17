@@ -126,6 +126,6 @@
 		"core-js": "^3.38.1",
 		"darkreader": "^4.9.92",
 		"polished": "^4.3.1",
-		"react-datepicker": "file:react-datepicker-7.4.0.tgz"
+		"react-datepicker": "^7.5.0"
 	}
 }
