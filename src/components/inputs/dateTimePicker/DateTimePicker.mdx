@@ -16,7 +16,7 @@ The props shown here are the one defined for the extension, but it is possible t
 where not specified here (in this case, they are being overwritten by our component, with a possible different meaning).
 Refer to the official documentation to get a list of them [https://github.com/Hacker0x01/react-datepicker]()
 
-By default, the DateTimePicker provide 2 types of input, a text input and a chip input.
+By default, the DateTimePicker provides 2 types of input, a text input and a chip input.
 The behaviour of the two components can differ a bit because of how react-datepicker works under the hood.
 
 Examples of the library component are visible here [https://reactdatepicker.com/]()
@@ -26,9 +26,9 @@ Examples of the library component are visible here [https://reactdatepicker.com/
 <Controls />
 
 ### With Custom input
-When defining a custom input, it is important to create a component which accept a ref. React-datepicker offer the possibility to set
+When defining a custom input, it is important to create a component that accepts a ref. React-datepicker offers the possibility to set
 a different name for the prop of the input component in charge of accepting the ref object. This prop is `customInputRef`.
-On most of the cases, creating a component with React.forwardRef is sufficient.
+In most of the cases, creating a component with React.forwardRef is enough.
 React-datetimepicker under the hood takes the customInput (CustomComponent here), clones it, and set some props with internal
 implementations. It is important, to have react-datepicker works as expected, to propagate all the standard html attributes to the input component.
 The most important ones are
@@ -52,18 +52,18 @@ Locale does not change the "time" label, which requires to be translated from th
 The lib react-datepicker works with _date-fns_.
 To avoid importing all locales inside the bundle of the DS, it's left up to the external
 project to install date-fns and configure it to limit the bundle size.
-See [https://date-fns.org/v4.1.0/docs/webpack]() for more details.
+See [https://date-fns.org/v2.29.3/docs/webpack]() for more details.
 
 **Important:** check inside installed dependency date-fns/locale for available locales (e.g.: en does not exists, en-US is the default)
 
 Locale can be set in 3 ways:
 1) **By registering the locale and set it as default.**
-	Locale can be then overridden for a single component by passing the locale prop.
-	If not specified differently, default locale is en-US.
-	<Canvas of={DateTimePickerStories.WithDefaultLocale} source={{ code: WithDefaultLocale }} story={{ height: '350px' }} />
+Locale can be then overridden for a single component by passing the locale prop.
+If not specified differently, default locale is en-US.
+<Canvas of={DateTimePickerStories.WithDefaultLocale} source={{ code: WithDefaultLocale }} story={{ height: '350px' }} />
 
 2) **By registering the locale and pass the locale key as in the locale prop**
-	<Canvas of={DateTimePickerStories.WithRegisteredLocale} source={{ code: WithRegisteredLocale }} story={{ height: '350px' }} />
+<Canvas of={DateTimePickerStories.WithRegisteredLocale} source={{ code: WithRegisteredLocale }} story={{ height: '350px' }} />
 
 3) **By passing the locale object in the locale prop**
-	<Canvas of={DateTimePickerStories.WithLocaleObject} source={{ code: WithLocaleObject }} story={{ height: '350px' }} />
+<Canvas of={DateTimePickerStories.WithLocaleObject} source={{ code: WithLocaleObject }} story={{ height: '350px' }} />

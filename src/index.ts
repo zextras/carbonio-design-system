@@ -60,7 +60,7 @@ export {
 	DEFAULT_MODIFIERS
 } from './components/inputs/dateTimePicker/DateTimePicker';
 export * from './components/inputs/Slider';
-export * from './components/inputs/TextArea';
+export * from './components/inputs/textArea/TextArea';
 
 /** navigation components */
 export * from './components/navigation/Accordion';
