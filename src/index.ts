@@ -51,7 +51,7 @@ export {
 	type LabelFactoryProps
 } from './components/inputs/Select';
 export * from './components/inputs/Switch';
-export * from './components/inputs/DateTimePicker';
+export * from './components/inputs/datetimePicker/DateTimePicker';
 export * from './components/inputs/Slider';
 export * from './components/inputs/textArea/TextArea';
 

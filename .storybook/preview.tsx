@@ -24,7 +24,10 @@ const preview = {
 			},
 		},
 		docs: {
-			container: DarkReaderDocsContainer
+			container: DarkReaderDocsContainer,
+			source: {
+				language: 'tsx'
+			}
 		}
 	}
 } satisfies Preview;
