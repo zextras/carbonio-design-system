@@ -5,7 +5,7 @@
  */
 import React from 'react';
 
-import ru from 'date-fns/locale/ru';
+import { ru } from 'date-fns/locale/ru';
 
 import { DateTimePicker } from './DateTimePicker';
 
