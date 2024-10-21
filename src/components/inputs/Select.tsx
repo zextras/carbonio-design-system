@@ -6,7 +6,7 @@
 
 import React, { useState, useMemo, useCallback, useEffect } from 'react';
 
-import styled, { css, SimpleInterpolation } from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { getColor } from '../../theme/theme-utils';
 import { Icon } from '../basic/icon/Icon';
@@ -32,7 +32,7 @@ const ContainerEl = styled(Container)<{ $focus: boolean }>`
 	&:hover {
 		background: ${({ theme, background }): string => getColor(`${background}.hover`, theme)};
 	}
-	${({ $focus, theme, background }): SimpleInterpolation =>
+	${({ $focus, theme, background }): ReturnType<typeof css> | false =>
 		$focus &&
 		css`
 			background: ${getColor(`${background}.focus`, theme)};

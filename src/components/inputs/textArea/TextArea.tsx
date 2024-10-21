@@ -12,17 +12,18 @@ import React, {
 	useState
 } from 'react';
 
-import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-components';
+import styled, { css } from 'styled-components';
 
-import { InputContainer } from './commons/InputContainer';
-import { InputDescription } from './commons/InputDescription';
-import { InputLabel } from './commons/InputLabel';
-import { useCombinedRefs } from '../../hooks/useCombinedRefs';
-import { getColor } from '../../theme/theme-utils';
-import { TextProps } from '../basic/text/Text';
-import { INPUT_BACKGROUND_COLOR, INPUT_DIVIDER_COLOR } from '../constants';
-import { Container } from '../layout/Container';
-import { Divider, DividerProps } from '../layout/divider/Divider';
+import { useCombinedRefs } from '../../../hooks/useCombinedRefs';
+import { getColor } from '../../../theme/theme-utils';
+import { AnyColor } from '../../../types/utils';
+import { TextProps } from '../../basic/text/Text';
+import { INPUT_BACKGROUND_COLOR, INPUT_DIVIDER_COLOR } from '../../constants';
+import { Container } from '../../layout/Container';
+import { Divider, DividerProps } from '../../layout/divider/Divider';
+import { InputContainer } from '../commons/InputContainer';
+import { InputDescription } from '../commons/InputDescription';
+import { InputLabel } from '../commons/InputLabel';
 
 type HTMLTextAreaProps = TextareaHTMLAttributes<HTMLTextAreaElement>;
 
@@ -42,13 +43,13 @@ interface TextAreaProps extends HTMLTextAreaProps {
 	/** Label for the textarea */
 	label?: string;
 	/** Background color for the textarea */
-	backgroundColor?: string | keyof DefaultTheme['palette'];
+	backgroundColor?: AnyColor;
 	/** Color for the text */
-	textColor?: string;
+	textColor?: AnyColor;
 	/** Max height for the text area, limit beyond which the scroll is enabled */
 	maxHeight?: string;
 	/** Divider color */
-	borderColor?: string | keyof DefaultTheme['palette'];
+	borderColor?: AnyColor;
 }
 
 type TextArea = ReturnType<typeof React.forwardRef<HTMLDivElement, TextAreaProps>> & {
@@ -69,6 +70,7 @@ const StyledTextArea = styled.textarea<{ $color: string }>`
 	border: none;
 	padding: 0;
 	margin: 0;
+	color: ${({ theme, $color }): string => getColor($color, theme)};
 
 	&:disabled {
 		color: ${({ theme, $color }): string => getColor(`${$color}.disabled`, theme)};
@@ -84,9 +86,9 @@ const StyledTextArea = styled.textarea<{ $color: string }>`
 const GrowContainer = styled.div<{ $hasLabel: boolean; $maxHeight?: string }>`
 	width: 100%;
 	height: auto;
-	margin-top: ${({ $hasLabel, theme }): SimpleInterpolation =>
+	margin-top: ${({ $hasLabel, theme }): ReturnType<typeof css> | string =>
 		$hasLabel ? css`calc(${theme.sizes.font.extrasmall} * 1.5)` : '0px'};
-	max-height: ${({ $maxHeight }): SimpleInterpolation => $maxHeight};
+	max-height: ${({ $maxHeight }): string | undefined => $maxHeight};
 	overflow-y: auto;
 	font-size: ${({ theme }): string => theme.sizes.font.medium};
 	font-weight: ${({ theme }): number => theme.fonts.weight.regular};
@@ -128,8 +130,8 @@ const GrowContainer = styled.div<{ $hasLabel: boolean; $maxHeight?: string }>`
 `;
 
 const AdjustHeightTextArea = React.forwardRef<HTMLTextAreaElement, AdjustHeightTextAreaProps>(
-	function AdjustTextAreaHeightFn({ hasLabel, onInput, color, ...props }, ref) {
-		const { maxHeight, value, defaultValue } = props;
+	function AdjustTextAreaHeightFn({ hasLabel, maxHeight, onInput, color, ...props }, ref) {
+		const { value, defaultValue } = props;
 		const containerRef = useRef<HTMLDivElement>(null);
 		const textAreaRef = useCombinedRefs<HTMLTextAreaElement>(ref);
 
@@ -172,7 +174,7 @@ const Label = styled(InputLabel)<{ $textAreaHasValue: boolean }>`
 		transform: translateY(0);
 		font-size: ${({ theme }): string => theme.sizes.font.extrasmall};
 	}
-	${({ $textAreaHasValue, theme }): SimpleInterpolation =>
+	${({ $textAreaHasValue, theme }): ReturnType<typeof css> | false =>
 		$textAreaHasValue &&
 		css`
 			top: 0.0625rem;
@@ -187,7 +189,7 @@ const RelativeContainer = styled(Container)`
 
 const TextArea: TextArea = React.forwardRef<HTMLDivElement, TextAreaProps>(function TextAreaFn(
 	{
-		maxHeight = '10.313rem',
+		maxHeight = '10.5rem',
 		hasError,
 		textAreaRef = null,
 		label,
@@ -298,9 +300,9 @@ const TextArea: TextArea = React.forwardRef<HTMLDivElement, TextAreaProps>(funct
 					{label && (
 						<Label
 							htmlFor={id}
-							$hasFocus={hasFocus}
-							$hasError={hasError}
-							$disabled={disabled}
+							hasFocus={hasFocus}
+							hasError={hasError}
+							disabled={disabled}
 							$textAreaHasValue={textAreaHasValue}
 						>
 							{label}

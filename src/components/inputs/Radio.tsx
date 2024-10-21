@@ -15,7 +15,7 @@ import React, {
 	useState
 } from 'react';
 
-import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-components';
+import styled, { css, DefaultTheme } from 'styled-components';
 
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { getColor, pseudoClasses } from '../../theme/theme-utils';
@@ -43,12 +43,12 @@ const RadioInput = styled.input<{
 	&:focus-visible {
 		outline: none;
 	}
-	${({ disabled }): SimpleInterpolation =>
+	${({ disabled }): ReturnType<typeof css> | false =>
 		!disabled &&
 		css`
 			cursor: pointer;
 		`};
-	${({ $size, theme }): SimpleInterpolation => css`
+	${({ $size, theme }): ReturnType<typeof css> => css`
 		/* calc internal sizes following the proportion on base 24 */
 		--radio-outer-diameter: calc(${theme.sizes.icon[$size]} * (20 / 24));
 		--radio-inner-diameter: calc(${theme.sizes.icon[$size]} * (10 / 24));
@@ -72,9 +72,9 @@ const RadioInput = styled.input<{
 	padding: var(--radio-padding);
 	/* background is the inner circle */
 	background-clip: content-box;
-	${({ $color, theme }): SimpleInterpolation =>
+	${({ $color, theme }): ReturnType<typeof css> =>
 		pseudoClasses(theme, $color, 'background-color', { transition: false, outline: false })};
-	${({ $color, theme }): SimpleInterpolation =>
+	${({ $color, theme }): ReturnType<typeof css> =>
 		pseudoClasses(theme, $color, 'border-color', { transition: false, outline: false })};
 	/* box shadow cover the background when the radio is not checked, simulating the empty content */
 	box-shadow: inset 0 0 0 var(--radio-inner-diameter) var(--radio-bg-color);
@@ -93,7 +93,7 @@ const RadioInput = styled.input<{
 
 const Label = styled(Text).attrs({ forwardedAs: 'label' })<LabelHTMLAttributes<HTMLLabelElement>>`
 	line-height: 1.5;
-	${({ disabled }): SimpleInterpolation =>
+	${({ disabled }): ReturnType<typeof css> | false =>
 		!disabled &&
 		css`
 			cursor: pointer;
@@ -105,7 +105,7 @@ const RadioContainer = styled(Container)<{
 	$disabled: boolean;
 }>`
 	outline: none;
-	${({ theme, $disabled, $iconColor }): SimpleInterpolation =>
+	${({ theme, $disabled, $iconColor }): ReturnType<typeof css> | false =>
 		!$disabled &&
 		css`
 			&:hover {

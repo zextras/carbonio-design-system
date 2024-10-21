@@ -6,17 +6,20 @@
 
 import React, { HTMLAttributes, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
-import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-components';
+import styled, { css, DefaultTheme } from 'styled-components';
 
 import { useCombinedRefs } from '../../../hooks/useCombinedRefs';
 import { useModal } from '../../../hooks/useModal';
+import { AnyColor } from '../../../types/utils';
 import { Button, ButtonProps } from '../../basic/button/Button';
 import { Icon } from '../../basic/icon/Icon';
 import { Text } from '../../basic/text/Text';
-import { IconButton, IconButtonProps } from '../../inputs/IconButton';
 import { Container } from '../../layout/Container';
 
-type ActionButton = ButtonProps & { type?: never; color?: never; backgroundColor?: never };
+type ActionButton = Omit<
+	ButtonProps,
+	'type' | 'color' | 'backgroundColor' | 'labelColor' | 'secondaryAction'
+>;
 
 type BannerProps = HTMLAttributes<HTMLDivElement> & {
 	severity?: 'success' | 'warning' | 'info' | 'error';
@@ -31,7 +34,7 @@ type BannerProps = HTMLAttributes<HTMLDivElement> & {
 } & (
 		| {
 				showClose: true;
-				onClose: IconButtonProps['onClick'];
+				onClose: ButtonProps['onClick'];
 		  }
 		| {
 				showClose?: false;
@@ -63,23 +66,24 @@ const BannerText = styled(Text)`
 	overflow: visible;
 `;
 
-const WrapAndGrowContainer = styled(Container).attrs(({ theme, gap, flexBasis }) => ({
-	flexBasis: css`calc(${flexBasis} + ${theme.sizes.icon.large} + ${gap})`
-}))``;
+const WrapAndGrowContainer = styled(Container)`
+	flex-basis: ${({ theme, gap, flexBasis }): ReturnType<typeof css> =>
+		css`calc(${flexBasis} + ${theme.sizes.icon.large} + ${gap})`})
+`;
 
 const ActionsContainer = styled(Container)`
 	align-self: stretch;
 `;
 
 const CloseContainer = styled(Container)<{ $alignSelf?: string }>`
-	align-self: ${({ $alignSelf }): SimpleInterpolation => $alignSelf};
+	align-self: ${({ $alignSelf }): string | undefined => $alignSelf};
 `;
 
 const BannerContainer = styled(Container)<{ $isMultiline: boolean }>`
 	${WrapAndGrowContainer} {
 		order: 1;
 	}
-	${({ $isMultiline }): SimpleInterpolation =>
+	${({ $isMultiline }): ReturnType<typeof css> =>
 		$isMultiline
 			? css`
 					${CloseContainer} {
@@ -120,9 +124,12 @@ const Banner = React.forwardRef<HTMLDivElement, BannerProps>(function BannerFn(
 	const actionsContainerRef = useRef<HTMLDivElement>(null);
 	const closeContainerRef = useRef<HTMLDivElement>(null);
 
-	const mainColor = useMemo(() => (type === 'fill' ? 'gray6' : severity), [type, severity]);
-	const textColor = useMemo(() => (type === 'fill' ? 'gray6' : 'text'), [type]);
-	const backgroundColor = useMemo(
+	const mainColor = useMemo<AnyColor>(
+		() => (type === 'fill' ? 'gray6' : severity),
+		[type, severity]
+	);
+	const textColor = useMemo<AnyColor>(() => (type === 'fill' ? 'gray6' : 'text'), [type]);
+	const backgroundColor = useMemo<AnyColor>(
 		() => (type === 'outline' && 'gray6') || (type === 'fill' && severity) || `${severity}Banner`,
 		[type, severity]
 	);
@@ -218,14 +225,15 @@ const Banner = React.forwardRef<HTMLDivElement, BannerProps>(function BannerFn(
 			mainAlignment={'flex-start'}
 			wrap={'wrap'}
 			$isMultiline={isMultiline}
+			data-testid={'banner'}
 			{...rest}
 		>
 			<WrapAndGrowContainer
 				width={'auto'}
 				maxWidth={
-					showClose &&
-					closeContainerRef.current &&
-					`calc(${BANNER_WIDTH} - ${BANNER_GAP} - ${closeContainerRef.current.clientWidth}px)`
+					showClose && closeContainerRef.current
+						? `calc(${BANNER_WIDTH} - ${BANNER_GAP} - ${closeContainerRef.current.clientWidth}px)`
+						: undefined
 				}
 				minWidth={0}
 				flexGrow={1}
@@ -248,6 +256,7 @@ const Banner = React.forwardRef<HTMLDivElement, BannerProps>(function BannerFn(
 					minWidth={0}
 					flexGrow={1}
 					ref={infoContainerRef}
+					data-testid={'banner-info-container'}
 				>
 					{title && (
 						<BannerText color={textColor} size={'medium'} weight={'bold'} overflow={'break-word'}>
@@ -274,14 +283,14 @@ const Banner = React.forwardRef<HTMLDivElement, BannerProps>(function BannerFn(
 						{...primaryAction}
 						type={'outlined'}
 						backgroundColor={'transparent'}
-						color={mainColor}
+						labelColor={mainColor}
 					/>
 				)}
 				{isTextCropped && (
 					<Button
 						type={'outlined'}
 						backgroundColor={'transparent'}
-						color={mainColor}
+						labelColor={mainColor}
 						label={moreInfoLabel}
 						onClick={showMoreInfoModal}
 					/>
@@ -295,7 +304,7 @@ const Banner = React.forwardRef<HTMLDivElement, BannerProps>(function BannerFn(
 					minHeight={'fit'}
 					ref={closeContainerRef}
 				>
-					<IconButton
+					<Button
 						onClick={onClose}
 						icon={'Close'}
 						color={textColor}

@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { SVGAttributes, useContext, useMemo } from 'react';
+import React, { SVGAttributes, useMemo } from 'react';
 
-import styled, { css, DefaultTheme, SimpleInterpolation, ThemeContext } from 'styled-components';
+import styled, { css, DefaultTheme, useTheme } from 'styled-components';
 
 import { IconComponent } from '../../../theme/theme';
 import { getColor } from '../../../theme/theme-utils';
@@ -32,7 +32,7 @@ const IconBase = React.forwardRef<SVGSVGElement, IconComponentProps>(function Ic
 	{ icon, ...rest }: IconComponentProps,
 	ref
 ) {
-	const theme = useContext(ThemeContext);
+	const theme = useTheme();
 	const IconComp = useMemo(() => {
 		if (typeof icon === 'string') {
 			return theme.icons[icon] || theme.icons.AlertTriangleOutline;
@@ -48,7 +48,7 @@ const StyledIcon = styled(IconBase)<With$Prefix<MakeRequired<StyledIconProps, 'c
 	fill: currentColor;
 	color: ${({ $color, $disabled, theme }): string =>
 		getColor(`${$color}.${$disabled ? 'disabled' : 'regular'}`, theme)};
-	${({ $size, theme }): SimpleInterpolation => css`
+	${({ $size, theme }): ReturnType<typeof css> => css`
 		width: ${theme.sizes.icon[$size]};
 		height: ${theme.sizes.icon[$size]};
 	`};

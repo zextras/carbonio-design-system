@@ -6,7 +6,7 @@
 
 import React, { HTMLAttributes, useMemo } from 'react';
 
-import styled, { css, SimpleInterpolation } from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { Transition } from './Transition';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
@@ -18,14 +18,14 @@ const CollapseEl = styled.div<{
 	$disableTransition: boolean;
 	$open: boolean;
 }>`
-	${({ $crossSize, $orientation }): SimpleInterpolation =>
+	${({ $crossSize, $orientation }): string | undefined =>
 		$crossSize && `${$orientation === 'horizontal' ? 'height' : 'width'}: ${$crossSize};`};
 	${({ $orientation }): string => ($orientation === 'horizontal' ? 'width' : 'height')}: 0;
 	visibility: hidden;
 	overflow: hidden;
 	pointer-events: none;
 
-	${({ $disableTransition, $open, $orientation }): SimpleInterpolation =>
+	${({ $disableTransition, $open, $orientation }): ReturnType<typeof css> | false =>
 		$disableTransition &&
 		$open &&
 		css`

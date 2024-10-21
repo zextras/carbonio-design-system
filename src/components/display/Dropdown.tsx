@@ -12,12 +12,11 @@ import React, {
 	useLayoutEffect,
 	useCallback,
 	useMemo,
-	useContext,
 	HTMLAttributes
 } from 'react';
 
 import { flip, limitShift, Placement, shift, VirtualElement } from '@floating-ui/dom';
-import styled, { css, DefaultTheme, SimpleInterpolation, ThemeContext } from 'styled-components';
+import styled, { css, DefaultTheme, useTheme } from 'styled-components';
 
 import { Tooltip } from './Tooltip';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
@@ -47,7 +46,7 @@ const ContainerEl = styled(Container)<{
 }>`
 	user-select: none;
 	outline: none;
-	${({ theme, $disabled, $selectedBackgroundColor }): SimpleInterpolation =>
+	${({ theme, $disabled, $selectedBackgroundColor }): ReturnType<typeof css> | false =>
 		!$disabled && pseudoClasses(theme, $selectedBackgroundColor ?? 'gray5')};
 `;
 
@@ -385,7 +384,7 @@ const PopperList = styled.div<{
 		outline: none;
 	}
 
-	${({ $open }): SimpleInterpolation =>
+	${({ $open }): ReturnType<typeof css> | false =>
 		$open &&
 		css`
 			display: block;
@@ -489,7 +488,7 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 	},
 	ref
 ) {
-	const { windowObj } = useContext(ThemeContext);
+	const { windowObj } = useTheme();
 	const [open, setOpen] = useState<boolean>(forceOpen);
 	const openRef = useRef<boolean>(open);
 	const dropdownRef = useCombinedRefs<HTMLDivElement>(dropdownListRef);

@@ -7,11 +7,11 @@
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 
 import { map } from 'lodash';
-import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-components';
+import styled, { css, DefaultTheme, useTheme } from 'styled-components';
 
 import { Tooltip } from './Tooltip';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
-import { useTheme, pseudoClasses } from '../../theme/theme-utils';
+import { pseudoClasses } from '../../theme/theme-utils';
 import { Avatar, AvatarPropTypes } from '../basic/Avatar';
 import { Icon, IconProps } from '../basic/icon/Icon';
 import { Text } from '../basic/text/Text';
@@ -101,7 +101,7 @@ const ActionIconButton = styled(IconButton)``;
 const ActionContainer = styled.div<{ $spacing: string }>`
 	min-width: fit-content;
 	& > ${ActionIcon} {
-		padding: ${({ $spacing }): SimpleInterpolation => css`calc(${$spacing} / 2)`};
+		padding: ${({ $spacing }): ReturnType<typeof css> => css`calc(${$spacing} / 2)`};
 	}
 `;
 
@@ -109,10 +109,10 @@ const LabelContainer = styled(Container)``;
 
 const ContentContainer = styled(Container)`
 	&:first-child > ${LabelContainer}:first-child {
-		padding-left: ${({ gap }): SimpleInterpolation => css`calc(${gap} * 2)`};
+		padding-left: ${({ gap }): ReturnType<typeof css> => css`calc(${gap} * 2)`};
 	}
 	& > ${LabelContainer}:last-child {
-		padding-right: ${({ gap }): SimpleInterpolation => css`calc(${gap} * 2)`};
+		padding-right: ${({ gap }): ReturnType<typeof css> => css`calc(${gap} * 2)`};
 	}
 `;
 
@@ -122,7 +122,13 @@ const ChipContainer = styled(Container)<{
 	user-select: none;
 	vertical-align: middle;
 	line-height: 1.5;
-	${({ background, $disabled, onClick, onDoubleClick, theme }): SimpleInterpolation =>
+	${({
+		background,
+		$disabled,
+		onClick,
+		onDoubleClick,
+		theme
+	}): ReturnType<typeof css> | false | undefined =>
 		!$disabled && (onClick || onDoubleClick) && background && pseudoClasses(theme, background)};
 	border-radius: ${(props): string => {
 		switch (props.borderRadius) {
@@ -134,7 +140,7 @@ const ChipContainer = styled(Container)<{
 				return '100vh';
 		}
 	}};
-	cursor: ${({ onClick, onDoubleClick, $disabled }): SimpleInterpolation =>
+	cursor: ${({ onClick, onDoubleClick, $disabled }): string =>
 		(onClick || onDoubleClick) && !$disabled ? 'pointer' : 'default'};
 `;
 
