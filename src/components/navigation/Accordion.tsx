@@ -13,10 +13,10 @@ import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { useKeyboard, getKeyboardPreset } from '../../hooks/useKeyboard';
 import { getColor, pseudoClasses } from '../../theme/theme-utils';
 import { Badge } from '../basic/badge/Badge';
+import { Button } from '../basic/button/Button';
 import { Icon } from '../basic/icon/Icon';
 import { Text, TextProps } from '../basic/text/Text';
 import { Tooltip } from '../display/Tooltip';
-import { IconButton } from '../inputs/IconButton';
 import { Container, ContainerProps } from '../layout/Container';
 import { Divider } from '../layout/divider/Divider';
 import { Padding } from '../layout/Padding';
@@ -41,6 +41,27 @@ const StyledText = styled(Text)`
 	min-width: 0;
 	flex-basis: 0;
 	flex-grow: 1;
+`;
+
+const StyledButton = styled(Button)<{
+	$iconSize?: keyof DefaultTheme['sizes']['icon'];
+	$paddingSize?: string;
+}>`
+	${({ $iconSize, theme }): ReturnType<typeof css> | undefined | string =>
+		$iconSize &&
+		css`
+			svg {
+				width: ${theme.sizes.icon[$iconSize]};
+				min-width: ${theme.sizes.icon[$iconSize]};
+				height: ${theme.sizes.icon[$iconSize]};
+				min-height: ${theme.sizes.icon[$iconSize]};
+			}
+		`};
+	${({ $paddingSize }): ReturnType<typeof css> | undefined | string =>
+		$paddingSize &&
+		css`
+			padding: ${$paddingSize};
+		`};
 `;
 
 interface AccordionItemProps extends ContainerProps {
@@ -73,7 +94,14 @@ const AccordionItem = React.forwardRef<HTMLDivElement, AccordionItemProps>(funct
 			)}
 			{item.badgeCounter !== undefined && (
 				<Padding left="small">
-					<Badge type={item.badgeType} value={item.badgeCounter} />
+					<Badge
+						backgroundColor={
+							(item.badgeType === 'read' && 'gray2') ||
+							(item.badgeType === 'unread' && 'primary') ||
+							'gray2'
+						}
+						value={item.badgeCounter}
+					/>
 				</Padding>
 			)}
 			{children}
@@ -194,10 +222,13 @@ const AccordionRoot = React.forwardRef<HTMLDivElement, AccordionRootProps>(funct
 				{item.items && item.items.length > 0 && (
 					<Padding right="small">
 						<Tooltip label={tooltipLabel} disabled={!tooltipLabel} placement={'top'}>
-							<IconButton
-								customSize={{ iconSize: 'large', paddingSize: 0 }}
+							<StyledButton
+								$iconSize={'large'}
+								$paddingSize={'0'}
 								onClick={toggleOpen}
 								icon={open ? 'ChevronUp' : 'ChevronDown'}
+								type={'ghost'}
+								color={'text'}
 							/>
 						</Tooltip>
 					</Padding>
