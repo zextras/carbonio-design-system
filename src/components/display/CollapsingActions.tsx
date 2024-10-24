@@ -5,14 +5,15 @@
  */
 import React, { HTMLAttributes, useMemo } from 'react';
 
-import { map, noop } from 'lodash';
+import { noop } from 'lodash';
 import styled from 'styled-components';
 
 import { Dropdown, DropdownItem } from './Dropdown';
 import { Tooltip } from './Tooltip';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { useSplitVisibility } from '../../hooks/useSplitVisibility';
-import { IconButton, IconButtonProps } from '../inputs/IconButton';
+import { AnyColor } from '../../types/utils';
+import { Button, ButtonProps } from '../basic/button/Button';
 import { Container, ContainerProps } from '../layout/Container';
 
 const RefDiv = styled.div`
@@ -20,23 +21,28 @@ const RefDiv = styled.div`
 	width: 100%;
 `;
 
-type Action = { type?: never; iconType?: IconButtonProps['type'] } & IconButtonProps & DropdownItem;
+type Action = {
+	type?: never;
+	iconType?: ButtonProps['type'];
+	secondaryAction?: never;
+} & ButtonProps &
+	DropdownItem;
 
 interface CollapsingActionsProps extends HTMLAttributes<HTMLDivElement> {
 	/**
 	 * Actions to show
 	 *
-	 * `type Action = { type?: never; iconType?: IconButtonProps['type'] } & IconButtonProps & DropdownItem;`
+	 * `type Action = { type?: never; iconType?: ButtonProps['type'] } & ButtonProps & DropdownItem;`
 	 */
 	actions: Action[];
 	/** Size for the collapser and default size for the icons (can be overwritten with the single action prop) */
-	size?: IconButtonProps['size'];
+	size?: ButtonProps['size'];
 	/** Max number of actions to show when there is plenty of space */
 	maxVisible?: number;
 	/** Alignment of the actions inside the container */
 	alignment?: 'start' | 'end';
 	/** Color for the collapser and default color for the icons (can be overwritten with the single action prop) */
-	color?: IconButtonProps['color'];
+	color?: ButtonProps['color'];
 	/** Gap for the visible items */
 	gap?: ContainerProps['gap'];
 }
@@ -48,7 +54,7 @@ const CollapsingActions = React.forwardRef<HTMLDivElement, CollapsingActionsProp
 			maxVisible,
 			size: globalIconSize,
 			alignment = 'end',
-			color: globalIconColor,
+			color: globalIconColor = 'text',
 			gap,
 			...rest
 		},
@@ -62,19 +68,44 @@ const CollapsingActions = React.forwardRef<HTMLDivElement, CollapsingActionsProp
 
 		const visibleActions = useMemo(
 			() =>
-				map(
-					visibleItems,
+				visibleItems.map(
 					({
 						iconType = 'ghost',
 						color = globalIconColor,
 						size = globalIconSize,
 						label,
+						labelColor,
+						backgroundColor,
 						...itemRest
-					}) => (
-						<Tooltip label={label} disabled={!label} key={itemRest.id}>
-							<IconButton type={iconType} color={color} size={size} {...itemRest} />
-						</Tooltip>
-					)
+					}) => {
+						const colorsAndType = ():
+							| { type: 'default' | 'outlined'; labelColor?: AnyColor; backgroundColor?: AnyColor }
+							| { type: 'ghost'; color: AnyColor } => {
+							if (iconType === 'ghost') {
+								return {
+									type: iconType,
+									color: color ?? labelColor
+								};
+							}
+							if (iconType === 'outlined') {
+								return {
+									type: iconType,
+									labelColor: color ?? labelColor,
+									backgroundColor
+								};
+							}
+							return {
+								type: iconType,
+								labelColor,
+								backgroundColor: color ?? backgroundColor
+							};
+						};
+						return (
+							<Tooltip label={label} disabled={!label} key={itemRest.id}>
+								<Button {...colorsAndType()} size={size} {...itemRest} />
+							</Tooltip>
+						);
+					}
 				),
 			[globalIconColor, globalIconSize, visibleItems]
 		);
@@ -94,10 +125,11 @@ const CollapsingActions = React.forwardRef<HTMLDivElement, CollapsingActionsProp
 					{visibleActions}
 					{hiddenItems.length > 0 && (
 						<Dropdown items={hiddenItems} placement="bottom-end">
-							<IconButton
+							<Button
+								type={'ghost'}
 								icon="MoreVertical"
 								size={globalIconSize}
-								iconColor={globalIconColor}
+								color={globalIconColor}
 								onClick={noop}
 							/>
 						</Dropdown>
