@@ -8,9 +8,9 @@ import { babel } from '@rollup/plugin-babel';
 import commonjs from '@rollup/plugin-commonjs';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import url from '@rollup/plugin-url';
+import postcss from 'rollup-plugin-postcss';
 
 import pkg from './package.json' assert { type: 'json' };
-
 
 const plugins = [
 	url({
@@ -23,6 +23,7 @@ const plugins = [
 		],
 		limit: Infinity
 	}),
+	postcss(),
 	nodeResolve({
 		extensions: ['.mjs', '.js', '.json', '.node', '.ts', '.tsx', '.jsx']
 	}),
@@ -54,5 +55,5 @@ export default [
 		],
 		plugins,
 		external
-	},
+	}
 ];

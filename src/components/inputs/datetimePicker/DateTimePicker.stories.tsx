@@ -36,7 +36,7 @@ export const WithReactDatePickerProps = {
 
 export const WithoutTime = {
 	args: {
-		includeTime: false,
+		showTimeSelect: false,
 		defaultValue: new Date()
 	}
 } satisfies Story;
