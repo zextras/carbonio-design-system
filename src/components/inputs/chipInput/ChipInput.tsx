@@ -27,6 +27,7 @@ import {
 import { usePrevious } from '../../../hooks/usePrevious';
 import { getColor } from '../../../theme/theme-utils';
 import { AnyColor, PaletteColor } from '../../../types/utils';
+import { Button, ButtonProps } from '../../basic/button/Button';
 import { Icon } from '../../basic/icon/Icon';
 import { INPUT_BACKGROUND_COLOR, INPUT_DIVIDER_COLOR } from '../../constants';
 import { Chip, ChipProps } from '../../display/Chip';
@@ -36,7 +37,6 @@ import { Divider, DividerProps } from '../../layout/divider/Divider';
 import { InputContainer } from '../commons/InputContainer';
 import { InputDescription } from '../commons/InputDescription';
 import { InputLabel } from '../commons/InputLabel';
-import { IconButton, IconButtonProps } from '../IconButton';
 
 const ContainerEl = styled(InputContainer)<{
 	background: PaletteColor;
@@ -192,7 +192,7 @@ const CustomInputDescription = styled(InputDescription)<{
 		$backgroundColor && getColor($backgroundColor, theme)};
 `;
 
-const CustomIconButton = styled(IconButton)`
+const CustomIconButton = styled(Button)`
 	padding: 0.125rem;
 `;
 
@@ -305,7 +305,7 @@ interface ChipInputProps<TValue = unknown>
 	/** Icon on the right of the input */
 	icon?: keyof DefaultTheme['icons'];
 	/** Action on Icon click */
-	iconAction?: IconButtonProps['onClick'];
+	iconAction?: ButtonProps['onClick'];
 	/** Disable the icon */
 	iconDisabled?: boolean;
 	/** Icon color */
@@ -373,7 +373,7 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 		icon,
 		iconAction,
 		iconDisabled = false,
-		iconColor,
+		iconColor = 'text',
 		disabled = false,
 		requireUniqueChips = false,
 		createChipOnPaste = false,
@@ -821,10 +821,11 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 						<span>
 							{iconAction ? (
 								<CustomIconButton
+									type={'ghost'}
 									icon={icon}
 									onClick={iconAction}
 									disabled={iconDisabled}
-									iconColor={iconColor}
+									color={iconColor}
 									size={'large'}
 								/>
 							) : (
