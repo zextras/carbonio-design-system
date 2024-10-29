@@ -8,10 +8,10 @@ import React from 'react';
 
 import styled, { DefaultTheme, keyframes } from 'styled-components';
 
-import { LiteralUnion, With$Prefix } from '../../types/utils';
-import { FormSection, FormSubSection } from '../basic/FormSection';
-import { Container } from '../layout/Container';
-import { Padding } from '../layout/Padding';
+import { LiteralUnion, With$Prefix } from '../../../types/utils';
+import { FormElementProps, FormSection, FormSubSection } from '../../basic/FormSection';
+import { Container } from '../../layout/Container';
+import { Padding } from '../../layout/Padding';
 
 const SIZES = {
 	small: 0.3125,
@@ -361,11 +361,17 @@ const ShimmerObject = {
 			) : null}
 		</SkeletonComponent>
 	),
-	FormSection: ({ variant }: FormSectionSkeletonProps): React.JSX.Element => (
-		<FormSectionSkeletonComponent $variant={variant} />
+	FormSection: ({
+		variant,
+		...rest
+	}: FormSectionSkeletonProps & FormElementProps): React.JSX.Element => (
+		<FormSectionSkeletonComponent $variant={variant} {...rest} />
 	),
-	FormSubSection: ({ variant }: FormSectionSkeletonProps): React.JSX.Element => (
-		<FormSubSectionSkeletonComponent $variant={variant} />
+	FormSubSection: ({
+		variant,
+		...rest
+	}: FormSectionSkeletonProps & FormElementProps): React.JSX.Element => (
+		<FormSubSectionSkeletonComponent $variant={variant} {...rest} />
 	),
 	Icon: ({ size = 'medium', variant, width, ...rest }: IconSkeletonProps): React.JSX.Element => (
 		<IconSkeletonComponent $size={size} $variant={variant} $width={width} {...rest} />
@@ -625,7 +631,25 @@ const ShimmerObject = {
 			{...rest}
 		/>
 	),
-	Text: SkeletonComponent,
+	Text: ({
+		radius,
+		height,
+		width,
+		variant,
+		orientation,
+		mainAlignment,
+		...rest
+	}: SkeletonProps & React.ComponentPropsWithoutRef<'div'>): React.JSX.Element => (
+		<SkeletonComponent
+			$radius={radius}
+			$height={height}
+			$width={width}
+			$variant={variant}
+			$orientation={orientation}
+			$mainAlignment={mainAlignment}
+			{...rest}
+		/>
+	),
 	Quota: ({
 		radius,
 		height,
