@@ -107,7 +107,7 @@ export * from './components/utilities/ModalManager';
 export * from './components/utilities/Transition';
 export * from './components/utilities/Drag';
 export * from './components/utilities/Drop';
-export * from './components/utilities/Shimmer';
+export * from './components/utilities/shimmer/Shimmer';
 
 export * from './theme/theme-utils';
 export * from './theme/theme-context-provider';
