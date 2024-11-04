@@ -18,7 +18,7 @@ const ExampleCustomInput = React.forwardRef<HTMLDivElement, CustomInputProps>(
 export const DateTimePickerWithCustomInput = (): React.JSX.Element => (
 	<DateTimePicker
 		label="Date Time Picker"
-		includeTime={false}
+		showTimeSelect={false}
 		dateFormat="dd/MM/yyyy"
 		CustomComponent={ExampleCustomInput}
 	/>

@@ -5,7 +5,7 @@
  */
 import React from 'react';
 
-import enUS from 'date-fns/locale/en-US';
+import { enUS } from 'date-fns/locale/en-US';
 
 import { DateTimePicker, registerLocale, setDefaultLocale } from './DateTimePicker';
 

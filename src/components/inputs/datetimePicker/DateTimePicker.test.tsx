@@ -331,7 +331,7 @@ describe('DateTimePicker', () => {
 			setup(
 				<DateTimePicker
 					label="picker label"
-					includeTime={false}
+					showTimeSelect={false}
 					dateFormat="dd/MM/yyyy"
 					CustomComponent={CustomComponent}
 				/>
@@ -346,7 +346,7 @@ describe('DateTimePicker', () => {
 			const { user } = setup(
 				<DateTimePicker
 					label="picker label"
-					includeTime={false}
+					showTimeSelect={false}
 					dateFormat="dd/MM/yyyy"
 					CustomComponent={CustomComponent}
 				/>
@@ -361,7 +361,7 @@ describe('DateTimePicker', () => {
 			const { user } = setup(
 				<DateTimePicker
 					label="picker label"
-					includeTime={false}
+					showTimeSelect={false}
 					dateFormat={dateFormat}
 					CustomComponent={CustomComponent}
 				/>
