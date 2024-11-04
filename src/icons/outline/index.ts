@@ -196,6 +196,7 @@ export { default as GoFirstOutline } from './GoFirstOutline';
 export { default as GoLastOutline } from './GoLastOutline';
 export { default as GoogleOutline } from './GoogleOutline';
 export { default as GridOutline } from './GridOutline';
+export { default as GroupCalendarOutline } from './GroupCalendarOutline';
 export { default as GroupOutline } from './GroupOutline';
 export { default as HangupOutline } from './HangupOutline';
 export { default as HardDriveOutline } from './HardDriveOutline';

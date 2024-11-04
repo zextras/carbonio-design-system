@@ -11,4 +11,5 @@ tsTemplate.js
 /storybook-static
 *storybook.log
 *.zip
+.tool-versions
 .DS_Store
