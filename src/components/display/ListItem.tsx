@@ -5,7 +5,7 @@
  */
 import React from 'react';
 
-import styled, { SimpleInterpolation } from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { useIsVisible } from '../../hooks/useIsVisible/useIsVisible';
 import { pseudoClasses } from '../../theme/theme-utils';
@@ -30,7 +30,7 @@ interface ListItemWrapperProps {
 const ListItemWrapper = styled.div<{ $backgroundColor?: AnyColor }>`
 	user-select: none;
 	outline: none;
-	${({ theme, $backgroundColor }): SimpleInterpolation =>
+	${({ theme, $backgroundColor }): ReturnType<typeof css> | undefined =>
 		$backgroundColor && pseudoClasses(theme, $backgroundColor)};
 `;
 

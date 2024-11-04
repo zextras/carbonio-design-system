@@ -6,7 +6,7 @@
 
 import React, { useMemo, useRef } from 'react';
 
-import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-components';
+import styled, { css, DefaultTheme } from 'styled-components';
 
 import { useCheckbox } from '../../hooks/useCheckbox';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
@@ -26,10 +26,11 @@ const IconWrapper = styled.div<{
 	$iconColor: AnyColor;
 	$size: CheckboxSize;
 }>`
-	height: ${({ theme, $size }): SimpleInterpolation => css`calc(${theme.sizes.font[$size]} * 1.5)`};
+	height: ${({ theme, $size }): ReturnType<typeof css> =>
+		css`calc(${theme.sizes.font[$size]} * 1.5)`};
 	display: flex;
 	align-items: center;
-	${({ theme, $disabled, $iconColor }): SimpleInterpolation =>
+	${({ theme, $disabled, $iconColor }): ReturnType<typeof css> | false | undefined =>
 		!$disabled &&
 		css`
 			&:focus {

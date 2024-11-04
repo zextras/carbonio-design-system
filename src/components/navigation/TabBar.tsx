@@ -7,7 +7,7 @@
 import React, { useCallback, HTMLAttributes, useMemo } from 'react';
 
 import { map } from 'lodash';
-import styled, { css, SimpleInterpolation } from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { getKeyboardPreset, useKeyboard } from '../../hooks/useKeyboard';
@@ -29,7 +29,7 @@ const DefaultTabBarItemContainer = styled(Container)<{
 	outline: none;
 	min-width: 0;
 	flex-basis: fit-content;
-	${({ $forceWidthEquallyDistributed }): SimpleInterpolation =>
+	${({ $forceWidthEquallyDistributed }): ReturnType<typeof css> | false =>
 		$forceWidthEquallyDistributed &&
 		css`
 			flex-basis: unset;

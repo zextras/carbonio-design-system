@@ -6,7 +6,7 @@
 
 import React, { useCallback, useRef, useState } from 'react';
 
-import { Input, InputProps } from './Input';
+import { Input, InputProps } from './input/Input';
 import { Icon } from '../basic/icon/Icon';
 import { Container } from '../layout/Container';
 

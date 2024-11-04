@@ -37,7 +37,7 @@ export * from './components/inputs/FileLoader';
 export * from './components/inputs/IconButton';
 export * from './components/inputs/IconCheckbox';
 export * from './components/inputs/multiButton/MultiButton';
-export * from './components/inputs/Input';
+export * from './components/inputs/input/Input';
 export * from './components/inputs/PasswordInput';
 export { Radio, type RadioProps } from './components/inputs/Radio';
 export { RadioGroup, type RadioGroupProps } from './components/inputs/RadioGroup';
@@ -51,9 +51,16 @@ export {
 	type LabelFactoryProps
 } from './components/inputs/Select';
 export * from './components/inputs/Switch';
-export * from './components/inputs/DateTimePicker';
+export {
+	DateTimePicker,
+	type DateTimePickerProps,
+	registerLocale,
+	setDefaultLocale,
+	getDefaultLocale,
+	DEFAULT_MODIFIERS
+} from './components/inputs/datetimePicker/DateTimePicker';
 export * from './components/inputs/Slider';
-export * from './components/inputs/TextArea';
+export * from './components/inputs/textArea/TextArea';
 
 /** navigation components */
 export * from './components/navigation/Accordion';
@@ -100,7 +107,7 @@ export * from './components/utilities/ModalManager';
 export * from './components/utilities/Transition';
 export * from './components/utilities/Drag';
 export * from './components/utilities/Drop';
-export * from './components/utilities/Shimmer';
+export * from './components/utilities/shimmer/Shimmer';
 
 export * from './theme/theme-utils';
 export * from './theme/theme-context-provider';

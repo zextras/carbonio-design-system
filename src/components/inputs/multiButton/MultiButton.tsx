@@ -36,7 +36,10 @@ type MultiButtonProps = {
 	/** Button size */
 	size?: Extract<ButtonProps['size'], 'medium' | 'large' | 'extralarge'>;
 	/** Dropdown properties */
-	dropdownProps?: Omit<DropdownProps, 'children'>;
+	dropdownProps?: Omit<
+		DropdownProps,
+		'children' | 'items' | 'onClose' | 'forceOpen' | 'disabled' | 'disableRestoreFocus'
+	>;
 } & Omit<ButtonProps, 'secondaryAction' | 'icon' | 'disabled'>;
 
 const MultiButton = React.forwardRef<HTMLButtonElement, MultiButtonProps>(function MultiButtonFn(
@@ -46,12 +49,15 @@ const MultiButton = React.forwardRef<HTMLButtonElement, MultiButtonProps>(functi
 		label,
 		disabledPrimary,
 		disabledSecondary,
-		icon = 'ChevronDownOutline',
+		icon,
 		items,
 		onClick,
 		primaryIcon,
 		width,
 		dropdownProps,
+		type,
+		labelColor,
+		backgroundColor,
 		...rest
 	},
 	ref
@@ -59,8 +65,8 @@ const MultiButton = React.forwardRef<HTMLButtonElement, MultiButtonProps>(functi
 	const [dropdownOpen, setDropdownOpen] = useState(false);
 	const secondaryButtonRef = useRef<HTMLButtonElement>(null);
 
-	const openDropdown = useCallback(() => {
-		setDropdownOpen(true);
+	const toggleDropdown = useCallback(() => {
+		setDropdownOpen((prevState) => !prevState);
 	}, []);
 
 	const closeDropdown = useCallback(() => {
@@ -70,38 +76,65 @@ const MultiButton = React.forwardRef<HTMLButtonElement, MultiButtonProps>(functi
 		}
 	}, []);
 
+	const secondaryActionIcon = useMemo(() => {
+		if (icon) {
+			return icon;
+		}
+		if (dropdownOpen) {
+			return 'ChevronUpOutline';
+		}
+		return 'ChevronDownOutline';
+	}, [dropdownOpen, icon]);
+
 	const secondaryAction = useMemo<NonNullable<ButtonProps['secondaryAction']>>(
 		() => ({
-			icon,
-			onClick: openDropdown,
+			icon: secondaryActionIcon,
+			onClick: toggleDropdown,
 			disabled: disabledSecondary,
 			forceActive: dropdownOpen,
 			ref: secondaryButtonRef
 		}),
-		[disabledSecondary, dropdownOpen, icon, openDropdown]
+		[disabledSecondary, dropdownOpen, toggleDropdown, secondaryActionIcon]
 	);
+
+	const colorsAndType = useMemo<
+		| { type: 'ghost'; color?: AnyColor }
+		| { type?: 'default' | 'outlined'; labelColor?: AnyColor; backgroundColor?: AnyColor }
+	>(() => {
+		if (type === 'ghost') {
+			return { type, color };
+		}
+		if (type === 'outlined') {
+			return {
+				type,
+				labelColor: color ?? labelColor,
+				backgroundColor: background ?? backgroundColor
+			};
+		}
+
+		return { type, labelColor, backgroundColor: background ?? color ?? backgroundColor };
+	}, [background, backgroundColor, color, labelColor, type]);
 
 	return (
 		<StyledDropdown
+			{...dropdownProps}
 			items={items}
 			placement="bottom-end"
 			forceOpen={dropdownOpen}
 			onClose={closeDropdown}
 			disabled
 			disableRestoreFocus
-			{...dropdownProps}
 			$containerWidth={(width === 'fill' && '100%') || 'auto'}
 			triggerRef={ref}
 		>
 			<Button
-				backgroundColor={background}
 				label={label}
-				labelColor={color}
 				onClick={onClick}
 				disabled={disabledPrimary}
 				icon={primaryIcon}
 				secondaryAction={secondaryAction}
 				width={width}
+				{...colorsAndType}
 				{...rest}
 			/>
 		</StyledDropdown>

@@ -9,8 +9,8 @@ import { faker } from '@faker-js/faker';
 import { screen } from '@testing-library/react';
 
 import { TextArea } from './TextArea';
-import { setup } from '../../test-utils';
-import { Theme } from '../../theme/theme';
+import { setup } from '../../../test-utils';
+import { Theme } from '../../../theme/theme';
 
 describe('TextArea', () => {
 	test('Render an empty text area', () => {

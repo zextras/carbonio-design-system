@@ -15,7 +15,7 @@ import React, {
 } from 'react';
 
 import { filter, slice, isEmpty, debounce, trim, uniq } from 'lodash';
-import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-components';
+import styled, { css, DefaultTheme } from 'styled-components';
 
 import { useCombinedRefs } from '../../../hooks/useCombinedRefs';
 import {
@@ -27,6 +27,7 @@ import {
 import { usePrevious } from '../../../hooks/usePrevious';
 import { getColor } from '../../../theme/theme-utils';
 import { AnyColor, PaletteColor } from '../../../types/utils';
+import { Button, ButtonProps } from '../../basic/button/Button';
 import { Icon } from '../../basic/icon/Icon';
 import { INPUT_BACKGROUND_COLOR, INPUT_DIVIDER_COLOR } from '../../constants';
 import { Chip, ChipProps } from '../../display/Chip';
@@ -36,7 +37,6 @@ import { Divider, DividerProps } from '../../layout/divider/Divider';
 import { InputContainer } from '../commons/InputContainer';
 import { InputDescription } from '../commons/InputDescription';
 import { InputLabel } from '../commons/InputLabel';
-import { IconButton } from '../IconButton';
 
 const ContainerEl = styled(InputContainer)<{
 	background: PaletteColor;
@@ -60,7 +60,7 @@ const ScrollContainer = styled(Container)<{ $hasLabel: boolean }>`
 	&::-webkit-scrollbar {
 		display: ${({ wrap }): string => (wrap === 'wrap' ? 'auto' : 'none')};
 	}
-	${({ theme, $hasLabel }): SimpleInterpolation =>
+	${({ theme, $hasLabel }): ReturnType<typeof css> | false | undefined =>
 		$hasLabel &&
 		css`
 			margin-block-start: calc(${theme.sizes.font.extrasmall} * 1.5);
@@ -176,7 +176,7 @@ const Label = styled(InputLabel)<{
 		font-size: ${({ theme }): string => theme.sizes.font.extrasmall};
 	}
 
-	${({ $hasItems, theme }): SimpleInterpolation =>
+	${({ $hasItems, theme }): ReturnType<typeof css> | false | undefined =>
 		$hasItems &&
 		css`
 			top: 0;
@@ -192,20 +192,14 @@ const CustomInputDescription = styled(InputDescription)<{
 		$backgroundColor && getColor($backgroundColor, theme)};
 `;
 
-const CustomIcon = styled(({ onClick, iconColor, ...rest }) =>
-	onClick ? (
-		<IconButton onClick={onClick} iconColor={iconColor} {...rest} />
-	) : (
-		<Icon color={iconColor} {...rest} />
-	)
-)`
+const CustomIconButton = styled(Button)`
 	padding: 0.125rem;
-	${({ onClick }): SimpleInterpolation =>
-		!onClick &&
-		css`
-			width: 1.25rem;
-			height: 1.25rem;
-		`};
+`;
+
+const CustomIcon = styled(Icon)`
+	padding: 0.125rem;
+	width: 1.25rem;
+	height: 1.25rem;
 `;
 
 type ReducerAction<TValue> =
@@ -311,7 +305,7 @@ interface ChipInputProps<TValue = unknown>
 	/** Icon on the right of the input */
 	icon?: keyof DefaultTheme['icons'];
 	/** Action on Icon click */
-	iconAction?: React.ReactEventHandler;
+	iconAction?: ButtonProps['onClick'];
 	/** Disable the icon */
 	iconDisabled?: boolean;
 	/** Icon color */
@@ -379,7 +373,7 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 		icon,
 		iconAction,
 		iconDisabled = false,
-		iconColor,
+		iconColor = 'text',
 		disabled = false,
 		requireUniqueChips = false,
 		createChipOnPaste = false,
@@ -813,9 +807,9 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 							{placeholder && (
 								<Label
 									htmlFor={id}
-									$hasFocus={hasFocus}
-									$hasError={hasError}
-									$disabled={disabled && isDropdownDisabled && (!iconAction || iconDisabled)}
+									hasFocus={hasFocus}
+									hasError={hasError}
+									disabled={disabled && isDropdownDisabled && (!iconAction || iconDisabled)}
 									$hasItems={items.length > 0 || !!inputElRef.current?.value}
 								>
 									{placeholder}
@@ -825,13 +819,18 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 					</RelativeContainer>
 					{icon && (
 						<span>
-							<CustomIcon
-								icon={icon}
-								onClick={iconAction}
-								disabled={iconDisabled}
-								iconColor={iconColor}
-								size="large"
-							/>
+							{iconAction ? (
+								<CustomIconButton
+									type={'ghost'}
+									icon={icon}
+									onClick={iconAction}
+									disabled={iconDisabled}
+									color={iconColor}
+									size={'large'}
+								/>
+							) : (
+								<CustomIcon icon={icon} disabled={iconDisabled} color={iconColor} size="large" />
+							)}
 						</span>
 					)}
 				</ContainerEl>

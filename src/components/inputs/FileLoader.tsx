@@ -4,20 +4,19 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { useRef, useCallback } from 'react';
+import React, { useRef, useCallback, useMemo } from 'react';
 
 import styled from 'styled-components';
 
-import { IconButton, IconButtonProps } from './IconButton';
+import { AnyColor } from '../../types/utils';
+import { Button, ButtonProps } from '../basic/button/Button';
 
 const FileInput = styled.input`
 	display: none;
 `;
 
-type FileLoaderProps = IconButtonProps & {
+type FileLoaderProps = Omit<ButtonProps, 'onClick' | 'secondaryAction'> & {
 	onChange?: (event: React.ChangeEvent<HTMLInputElement>, files: FileList | null) => void;
-	/** icon name */
-	icon?: IconButtonProps['icon'];
 	/** accept multiple files */
 	multiple?: boolean;
 	/** capture mode (see <input type="file"> docs) */
@@ -27,7 +26,17 @@ type FileLoaderProps = IconButtonProps & {
 };
 
 const FileLoader = React.forwardRef<HTMLDivElement, FileLoaderProps>(function FileLoaderFn(
-	{ icon = 'Attach', onChange = (): void => undefined, multiple = false, accept, ...rest },
+	{
+		icon = 'Attach',
+		onChange = (): void => undefined,
+		multiple = false,
+		accept,
+		type = 'ghost',
+		color = 'text',
+		labelColor,
+		backgroundColor,
+		...rest
+	},
 	ref
 ) {
 	const inputRef = useRef<HTMLInputElement>(null);
@@ -44,6 +53,27 @@ const FileLoader = React.forwardRef<HTMLDivElement, FileLoaderProps>(function Fi
 		[onChange]
 	);
 
+	const colorsAndType = useMemo<
+		| { type: 'default' | 'outlined'; labelColor?: AnyColor; backgroundColor?: AnyColor }
+		| { type: 'ghost'; color: AnyColor }
+	>(() => {
+		if (type === 'ghost') {
+			return { type, color: color ?? labelColor };
+		}
+		if (type === 'outlined') {
+			return {
+				type,
+				labelColor: color ?? labelColor,
+				backgroundColor
+			};
+		}
+		return {
+			type,
+			labelColor,
+			backgroundColor: color ?? backgroundColor
+		};
+	}, [backgroundColor, color, labelColor, type]);
+
 	return (
 		<>
 			<FileInput
@@ -53,7 +83,7 @@ const FileLoader = React.forwardRef<HTMLDivElement, FileLoaderProps>(function Fi
 				multiple={multiple}
 				accept={accept}
 			/>
-			<IconButton ref={ref} icon={icon} {...rest} onClick={onClick} />
+			<Button ref={ref} icon={icon} {...colorsAndType} {...rest} onClick={onClick} />
 		</>
 	);
 });

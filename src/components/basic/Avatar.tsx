@@ -6,7 +6,7 @@
 
 import React, { HTMLAttributes, useMemo } from 'react';
 
-import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-components';
+import styled, { css, DefaultTheme } from 'styled-components';
 
 import { Icon } from './icon/Icon';
 import { getColor } from '../../theme/theme-utils';
@@ -65,18 +65,14 @@ const AvatarContainer = styled.div<AvatarContainerProps>`
 	max-width: ${({ theme, $size }): string => theme.sizes.avatar[$size].diameter};
 	max-height: ${({ theme, $size }): string => theme.sizes.avatar[$size].diameter};
 	min-height: ${({ theme, $size }): string => theme.sizes.avatar[$size].diameter};
-	background-color: ${({
-		theme,
-		$background,
-		$color,
-		$selecting,
-		$selected,
-		$disabled
-	}): SimpleInterpolation =>
+	background-color: ${({ theme, $background, $color, $selecting, $selected, $disabled }): string =>
 		($selecting && getColor($selected ? 'primary' : 'gray6', theme)) ||
 		($background && getColor(`${$background}.${$disabled ? 'disabled' : 'regular'}`, theme)) ||
 		theme.avatarColors[$color]};
-	background-image: ${({ $picture, $selecting }): SimpleInterpolation =>
+	background-image: ${({
+		$picture,
+		$selecting
+	}): ReturnType<typeof css> | false | undefined | string =>
 		$picture && !$selecting && css`url(${$picture})`};
 	background-position: center;
 	background-repeat: no-repeat;

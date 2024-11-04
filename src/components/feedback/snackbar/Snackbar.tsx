@@ -6,7 +6,7 @@
 
 import React, { useCallback, useEffect } from 'react';
 
-import styled, { css, DefaultTheme, keyframes, SimpleInterpolation } from 'styled-components';
+import styled, { css, DefaultTheme, keyframes } from 'styled-components';
 
 import { ScreenMode, useScreenMode } from '../../../hooks/useScreenMode';
 import { Button } from '../../basic/button/Button';
@@ -25,7 +25,7 @@ const SnackContainer = styled(Container)<{ $zIndex: number; $screenMode: ScreenM
 	z-index: ${({ $zIndex }): number => $zIndex};
 	right: 0;
 	bottom: 5vh;
-	${({ $screenMode }): SimpleInterpolation =>
+	${({ $screenMode }): ReturnType<typeof css> | false =>
 		$screenMode === 'mobile' &&
 		css`
 			right: 50%;

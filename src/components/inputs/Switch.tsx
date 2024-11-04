@@ -6,7 +6,7 @@
 
 import React, { useRef } from 'react';
 
-import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-components';
+import styled, { css, DefaultTheme } from 'styled-components';
 
 import { useCheckbox } from '../../hooks/useCheckbox';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
@@ -26,7 +26,7 @@ const IconWrapper = styled.div<{
 	position: relative;
 	display: flex;
 	align-items: center;
-	${({ theme, $disabled, $iconColor }): SimpleInterpolation =>
+	${({ theme, $disabled, $iconColor }): ReturnType<typeof css> | false =>
 		!$disabled &&
 		css`
 			&:focus {

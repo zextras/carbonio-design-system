@@ -13,7 +13,8 @@ export const ICONS = {
 	datePickerClearAction: 'icon: CloseOutline',
 	dropdownNestedLevel: 'icon: ChevronRight',
 	moreVertical: 'icon: MoreVertical',
-	multiButtonSecondaryAction: 'icon: ChevronDownOutline',
+	multiButtonSecondaryOpenAction: 'icon: ChevronDownOutline',
+	multiButtonSecondaryCloseAction: 'icon: ChevronUpOutline',
 	successBannerIcon: 'icon: CheckmarkCircle2Outline',
 	warningBannerIcon: 'icon: AlertTriangleOutline',
 	infoBannerIcon: 'icon: InfoOutline',
@@ -34,5 +35,7 @@ export const SELECTORS = {
 	progressBar: 'progress-bar',
 	snackbar: 'snackbar',
 	divider: 'divider',
-	quota: 'quota'
+	quota: 'quota',
+	banner: 'banner',
+	bannerInfoContainer: 'banner-info-container'
 };

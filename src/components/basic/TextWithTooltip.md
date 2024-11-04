@@ -36,7 +36,6 @@ import { Container } from '@zextras/carbonio-design-system';
         label="3 seconds before tooltip trigger Lorem ipsum dolor sit amet"
         triggerDelay={3000}
         style={{ maxWidth: '6.25rem' }}
-		overflowTooltip
 	>
 		3 seconds before tooltip trigger Lorem ipsum dolor sit amet
 	</TextWithTooltip>

@@ -8,14 +8,22 @@ const config: StorybookConfig = {
 		'@storybook/addon-essentials',
 		'@storybook/addon-interactions',
 		'@storybook/test',
-		'@storybook/addon-designs'
+		'@storybook/addon-designs',
+		'./addons/darkreader/register'
 	],
 	framework: {
 		name: '@storybook/react-webpack5',
 		options: {}
 	},
 	typescript: {
-		reactDocgen: 'react-docgen-typescript'
+		reactDocgen: 'react-docgen-typescript',
+		reactDocgenTypescriptOptions: {
+			// Makes string and boolean types that can be undefined appear as inputs and switches
+			shouldRemoveUndefinedFromOptional: true,
+			// Filter out third-party props from node_modules except react-datepicker package
+			propFilter: (prop) =>
+				prop.parent ? !/node_modules\/(?!react-datepicker)/.test(prop.parent.fileName) : true,
+		},
 	},
 	webpackFinal: async (config) => {
 		return {

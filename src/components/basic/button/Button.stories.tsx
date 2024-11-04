@@ -39,7 +39,7 @@ export const Label = {
 
 export const Color = {
 	args: {
-		color: 'warning',
+		backgroundColor: 'warning',
 		labelColor: 'error'
 	}
 } satisfies Story;

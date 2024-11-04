@@ -7,7 +7,7 @@
 import React, { HTMLAttributes } from 'react';
 
 import { omit } from 'lodash';
-import styled, { DefaultTheme, SimpleInterpolation } from 'styled-components';
+import styled, { DefaultTheme } from 'styled-components';
 
 import { getPadding, PaddingObj } from '../../theme/theme-utils';
 import { AllKeys } from '../../types/utils';
@@ -26,8 +26,8 @@ const Comp = styled.div<{
 	$width?: string;
 	$padding: (args: { theme: DefaultTheme }) => string;
 }>`
-	height: ${({ $height }): SimpleInterpolation => $height};
-	width: ${({ $width }): SimpleInterpolation => $width};
+	height: ${({ $height }): string | undefined => $height};
+	width: ${({ $width }): string | undefined => $width};
 	padding: ${({ theme, $padding }): string => $padding({ theme })};
 `;
 
