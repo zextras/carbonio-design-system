@@ -19,7 +19,7 @@ interface TextWithTooltipProps extends TextProps {
 	/** Tooltip delay */
 	triggerDelay?: number;
 }
-
+/** @deprecated use the Tooltip with a Text instead */
 const TextWithTooltip = React.forwardRef<HTMLDivElement, TextWithTooltipProps>(function TextFn(
 	{ children, triggerDelay, tooltipMaxWidth, tooltipPlacement, ...rest },
 	ref
