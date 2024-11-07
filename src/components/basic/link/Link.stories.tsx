@@ -75,7 +75,6 @@ export const WeightMedium = {
 	}
 } satisfies Story;
 
-// create all sizes stories
 export const SizeSmall = {
 	args: {
 		children: 'Link',
