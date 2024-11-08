@@ -11,8 +11,7 @@ import styled, { css, DefaultTheme } from 'styled-components';
 import { getColor } from '../../../theme/theme-utils';
 import { AnyColor } from '../../../types/utils';
 
-export const textOverflowValues = ['ellipsis', 'break-word'] as const;
-type TextOverflow = (typeof textOverflowValues)[number];
+type TextOverflow = 'ellipsis' | 'break-word';
 
 interface TextProps extends Omit<HTMLAttributes<HTMLDivElement>, 'color'> {
 	/** Text color */

@@ -8,7 +8,6 @@ import React from 'react';
 import type { ArgTypes } from '@storybook/react';
 import type { DefaultTheme } from 'styled-components';
 
-import { textOverflowValues } from '../components/basic/text/Text';
 import { Theme } from '../theme/theme';
 
 export const themeColors = Object.keys(Theme.palette).map(
@@ -63,5 +62,5 @@ export const overflowArgType: ArgTypes[string] = {
 	control: {
 		type: 'radio'
 	},
-	options: textOverflowValues
+	options: ['ellipsis', 'break-word']
 };
