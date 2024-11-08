@@ -10,10 +10,10 @@ const jsx = `() => {
     const decrementByOne = () => setCount(prev => prev - 1);
     
     return (
-      <Container mainAlignment="flex-start" crossAlignment="center" orientation="horizontal" gap={'1rem'}>
-        <Button icon={'Minus'} onClick={decrementByOne} />
+      <Container mainAlignment="flex-start" crossAlignment="center" orientation="horizontal" gap="1rem">
+        <Button icon="Minus" onClick={decrementByOne} />
         <Text>{count}</Text>
-        <Button icon={'Plus'} onClick={incrementByOne} />
+        <Button icon="Plus" onClick={incrementByOne} />
       </Container>
     )
 }`;
