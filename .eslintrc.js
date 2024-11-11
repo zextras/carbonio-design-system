@@ -17,7 +17,8 @@ module.exports = {
 			}
 		],
 		'sonarjs/cognitive-complexity': 'warn',
-		'sonarjs/no-duplicate-string': 'off'
+		'sonarjs/no-duplicate-string': 'off',
+		'import/no-duplicates': ['error', { considerQueryString: true }]
 	},
 	overrides: [
 		{
