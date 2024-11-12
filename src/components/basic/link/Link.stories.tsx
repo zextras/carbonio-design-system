@@ -3,16 +3,13 @@
  *
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+import React from 'react';
+
 import { Meta, StoryObj } from '@storybook/react';
 
 import { Link } from './Link';
-import {
-	colorArgType,
-	overflowArgType,
-	sizeArgType,
-	textAlignArgType,
-	weightArgType
-} from '../../../docs/utils';
+import { colorArgType, sizeArgType, textAlignArgType, weightArgType } from '../../../docs/utils';
+import { Container } from '../../layout/Container';
 
 const meta = {
 	component: Link,
@@ -20,8 +17,7 @@ const meta = {
 		color: colorArgType,
 		weight: weightArgType,
 		size: sizeArgType,
-		textAlign: textAlignArgType,
-		overflow: overflowArgType
+		textAlign: textAlignArgType
 	},
 	args: {
 		children: 'Link'
@@ -45,92 +41,38 @@ export const Href = {
 	}
 } satisfies Story;
 
-export const WeightBold = {
-	args: {
-		weight: 'bold'
-	}
+export const Weight = {
+	render: (): React.JSX.Element => (
+		<Container crossAlignment={'flex-start'} gap={'0.5rem'}>
+			<Link weight={'bold'}>bold</Link>
+			<Link weight={'medium'}>medium</Link>
+			<Link weight={'light'}>light</Link>
+			<Link weight={'regular'}>regular</Link>
+		</Container>
+	)
 } satisfies Story;
 
-export const WeightLight = {
-	args: {
-		weight: 'light'
-	}
+export const Size = {
+	render: (): React.JSX.Element => (
+		<Container crossAlignment={'flex-start'} gap={'0.5rem'}>
+			<Link size={'extrasmall'}>extrasmall</Link>
+			<Link size={'small'}>small</Link>
+			<Link size={'medium'}>medium</Link>
+			<Link size={'large'}>large</Link>
+			<Link size={'extralarge'}>extralarge</Link>
+		</Container>
+	)
 } satisfies Story;
 
-export const WeightRegular = {
-	args: {
-		weight: 'regular'
-	}
-} satisfies Story;
-
-export const WeightMedium = {
-	args: {
-		weight: 'medium'
-	}
-} satisfies Story;
-
-export const SizeSmall = {
-	args: {
-		size: 'small'
-	}
-} satisfies Story;
-
-export const SizeMedium = {
-	args: {
-		size: 'medium'
-	}
-} satisfies Story;
-
-export const SizeLarge = {
-	args: {
-		size: 'large'
-	}
-} satisfies Story;
-
-export const SizeExtraLarge = {
-	args: {
-		size: 'extralarge'
-	}
-} satisfies Story;
-
-export const SizeExtraSmall = {
-	args: {
-		size: 'extrasmall'
-	}
-} satisfies Story;
-
-export const ColorPrimary = {
-	args: {
-		color: 'primary'
-	}
-} satisfies Story;
-
-export const ColorSecondary = {
-	args: {
-		color: 'secondary'
-	}
-} satisfies Story;
-
-export const ColorText = {
-	args: {
-		color: 'text'
-	}
-} satisfies Story;
-
-export const ColorError = {
-	args: {
-		color: 'error'
-	}
-} satisfies Story;
-
-export const ColorSuccess = {
-	args: {
-		color: 'success'
-	}
-} satisfies Story;
-
-export const ColorWarning = {
-	args: {
-		color: 'warning'
-	}
+export const Color = {
+	render: (): React.JSX.Element => (
+		<Container crossAlignment={'flex-start'} gap={'0.5rem'}>
+			<Link color={'primary'}>primary</Link>
+			<Link color={'secondary'}>secondary</Link>
+			<Link color={'text'}>text</Link>
+			<Link color={'error'}>error</Link>
+			<Link color={'success'}>success</Link>
+			<Link color={'warning'}>warning</Link>
+		</Container>
+	)
 } satisfies Story;

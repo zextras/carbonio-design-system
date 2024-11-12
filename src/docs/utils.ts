@@ -57,10 +57,3 @@ export const textAlignArgType: ArgTypes[string] = {
 	},
 	options: textAlignValues
 };
-
-export const overflowArgType: ArgTypes[string] = {
-	control: {
-		type: 'radio'
-	},
-	options: ['ellipsis', 'break-word']
-};
