@@ -41,7 +41,6 @@ export * from './components/inputs/input/Input';
 export * from './components/inputs/PasswordInput';
 export { Radio, type RadioProps } from './components/inputs/Radio';
 export { RadioGroup, type RadioGroupProps } from './components/inputs/RadioGroup';
-export * from './components/inputs/SearchInput';
 export {
 	Select,
 	type SelectProps,
