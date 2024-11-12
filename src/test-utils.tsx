@@ -8,11 +8,6 @@ import React, { type ReactElement } from 'react';
 
 import {
 	act,
-	ByRoleMatcher,
-	ByRoleOptions,
-	GetAllBy,
-	queries,
-	queryHelpers,
 	render,
 	RenderOptions,
 	RenderResult,
@@ -23,6 +18,7 @@ import {
 import userEvent from '@testing-library/user-event';
 import { defaultKeyMap } from '@testing-library/user-event/dist/cjs/keyboard/keyMap';
 
+import { queriesExtended } from './tests/custom-queries';
 import { ThemeProvider } from './theme/theme-context-provider';
 
 type User = ReturnType<(typeof userEvent)['setup']>;
@@ -45,56 +41,6 @@ interface WrapperProps {
 	children?: React.ReactNode;
 }
 
-type ByRoleWithIconOptions = ByRoleOptions & {
-	icon: string | RegExp;
-};
-
-/**
- * Matcher function to search an icon button through the icon data-testid
- */
-const queryAllByRoleWithIcon: GetAllBy<[ByRoleMatcher, ByRoleWithIconOptions]> = (
-	container,
-	role,
-	{ icon, ...options }
-) =>
-	rtlWithin(container)
-		.queryAllByRole(role, options)
-		.filter((element) => rtlWithin(element).queryByTestId(icon) !== null);
-
-const getByRoleWithIconMultipleError = (
-	_container: Element | null,
-	role: ByRoleMatcher,
-	options: ByRoleWithIconOptions
-): string => `Found multiple elements with role ${role as string} and icon ${options.icon}`;
-const getByRoleWithIconMissingError = (
-	_container: Element | null,
-	role: ByRoleMatcher,
-	options: ByRoleWithIconOptions
-): string => `Unable to find an element with role ${role as string} and icon ${options.icon}`;
-
-const [
-	queryByRoleWithIcon,
-	getAllByRoleWithIcon,
-	getByRoleWithIcon,
-	findAllByRoleWithIcon,
-	findByRoleWithIcon
-] = queryHelpers.buildQueries<[ByRoleMatcher, ByRoleWithIconOptions]>(
-	queryAllByRoleWithIcon,
-	getByRoleWithIconMultipleError,
-	getByRoleWithIconMissingError
-);
-
-const customQueries = {
-	// byRoleWithIcon
-	queryByRoleWithIcon,
-	getAllByRoleWithIcon,
-	getByRoleWithIcon,
-	findAllByRoleWithIcon,
-	findByRoleWithIcon
-};
-
-const queriesExtended = { ...queries, ...customQueries };
-
 export function within(
 	element: Parameters<typeof rtlWithin<typeof queriesExtended>>[0]
 ): ReturnType<typeof rtlWithin<typeof queriesExtended>> {
@@ -113,7 +59,7 @@ function customRender(
 ): RenderResult<typeof queriesExtended> {
 	return render(ui, {
 		wrapper: Wrapper,
-		queries: { ...queries, ...customQueries },
+		queries: queriesExtended,
 		...options
 	});
 }
