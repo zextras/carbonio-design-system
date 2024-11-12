@@ -58,7 +58,6 @@ const Comp = styled.div<{
 			: css`
 					overflow-wrap: break-word;
 					word-wrap: break-word;
-					ms-word-break: break-all;
 				`};
 	text-align: ${({ $textAlign }): string | undefined => $textAlign};
 	line-height: ${({ $lineHeight }): number | undefined => $lineHeight};
