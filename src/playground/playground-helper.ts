@@ -23,4 +23,4 @@ const css = `* {
     padding: 0;
 }`;
 
-export default { jsx, css };
+export { jsx, css };

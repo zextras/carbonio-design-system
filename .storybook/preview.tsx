@@ -4,7 +4,7 @@ import * as Utils from '../src'
 import { ThemeProvider } from '../src';
 import { StoryFn, Preview } from '@storybook/react';
 import { DarkReaderDocsContainer } from "./addons/darkreader/DarkReaderDocsContainer";
-import introCode from '../src/playground/playground-helper';
+import { jsx, css } from '../src/playground/playground-helper';
 
 export const decorators = [
 	(Story: StoryFn) => (
@@ -34,7 +34,7 @@ const preview = {
 		playground: {
 			storyId: "playground",
 			components: {...Utils},
-			introCode,
+			introCode: { jsx, css },
 			share: true
 		},
 	}
