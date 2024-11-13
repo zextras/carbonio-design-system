@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import styled, { DefaultTheme } from 'styled-components';
 
@@ -38,11 +38,11 @@ type MultiButtonProps = {
 	/** Dropdown properties */
 	dropdownProps?: Omit<
 		DropdownProps,
-		'children' | 'items' | 'onClose' | 'forceOpen' | 'disabled' | 'disableRestoreFocus'
+		'children' | 'items' | 'forceOpen' | 'disabled' | 'disableRestoreFocus' | 'triggerRef'
 	>;
 } & Omit<ButtonProps, 'secondaryAction' | 'icon' | 'disabled'>;
 
-const MultiButton = React.forwardRef<HTMLButtonElement, MultiButtonProps>(function MultiButtonFn(
+const MultiButton = React.forwardRef<HTMLDivElement, MultiButtonProps>(function MultiButtonFn(
 	{
 		background,
 		color,
@@ -54,7 +54,7 @@ const MultiButton = React.forwardRef<HTMLButtonElement, MultiButtonProps>(functi
 		onClick,
 		primaryIcon,
 		width,
-		dropdownProps,
+		dropdownProps = {},
 		type,
 		labelColor,
 		backgroundColor,
@@ -64,10 +64,19 @@ const MultiButton = React.forwardRef<HTMLButtonElement, MultiButtonProps>(functi
 ) {
 	const [dropdownOpen, setDropdownOpen] = useState(false);
 	const secondaryButtonRef = useRef<HTMLButtonElement>(null);
+	const { onOpen, onClose, ...dropdownPropsRest } = dropdownProps;
 
 	const toggleDropdown = useCallback(() => {
 		setDropdownOpen((prevState) => !prevState);
 	}, []);
+
+	useEffect(() => {
+		if (dropdownOpen) {
+			onOpen?.();
+		} else {
+			onClose?.();
+		}
+	}, [dropdownOpen, onClose, onOpen]);
 
 	const closeDropdown = useCallback(() => {
 		setDropdownOpen(false);
@@ -117,9 +126,9 @@ const MultiButton = React.forwardRef<HTMLButtonElement, MultiButtonProps>(functi
 
 	return (
 		<StyledDropdown
-			{...dropdownProps}
-			items={items}
 			placement="bottom-end"
+			{...dropdownPropsRest}
+			items={items}
 			forceOpen={dropdownOpen}
 			onClose={closeDropdown}
 			disabled

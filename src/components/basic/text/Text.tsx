@@ -11,8 +11,6 @@ import styled, { css, DefaultTheme } from 'styled-components';
 import { getColor } from '../../../theme/theme-utils';
 import { AnyColor } from '../../../types/utils';
 
-type TextOverflow = 'ellipsis' | 'break-word';
-
 interface TextProps extends Omit<HTMLAttributes<HTMLDivElement>, 'color'> {
 	/** Text color */
 	color?: AnyColor;
@@ -21,7 +19,7 @@ interface TextProps extends Omit<HTMLAttributes<HTMLDivElement>, 'color'> {
 	/** Text weight */
 	weight?: keyof DefaultTheme['fonts']['weight'];
 	/** Overflow handling */
-	overflow?: TextOverflow;
+	overflow?: 'ellipsis' | 'break-word';
 	/** Disabled status */
 	disabled?: boolean;
 	/** Italic Font style of the text */
@@ -60,7 +58,6 @@ const Comp = styled.div<{
 			: css`
 					overflow-wrap: break-word;
 					word-wrap: break-word;
-					ms-word-break: break-all;
 				`};
 	text-align: ${({ $textAlign }): string | undefined => $textAlign};
 	line-height: ${({ $lineHeight }): number | undefined => $lineHeight};

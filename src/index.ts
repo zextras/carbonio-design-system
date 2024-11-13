@@ -12,7 +12,7 @@ export * from './components/basic/Avatar';
 export * from './components/basic/badge/Badge';
 export * from './components/basic/button/Button';
 export { Icon, type IconProps } from './components/basic/icon/Icon';
-export * from './components/basic/Link';
+export * from './components/basic/link/Link';
 export * from './components/basic/LoadMore';
 export * from './components/basic/FormSection';
 export * from './components/basic/text/Text';
@@ -41,7 +41,6 @@ export * from './components/inputs/input/Input';
 export * from './components/inputs/PasswordInput';
 export { Radio, type RadioProps } from './components/inputs/Radio';
 export { RadioGroup, type RadioGroupProps } from './components/inputs/RadioGroup';
-export * from './components/inputs/SearchInput';
 export {
 	Select,
 	type SelectProps,

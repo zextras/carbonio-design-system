@@ -108,12 +108,12 @@ describe('MultiButton', () => {
 			expect(screen.queryByText(/dropdownItem1/i)).not.toBeInTheDocument();
 		});
 
-		it('should not interfere with the dropdown if "onClose" prop in dropdownProps is set', async () => {
+		it('should close the dropdown and call the "onClose" prop set in dropdownProps when clicking on label', async () => {
 			const items: MultiButtonProps['items'] = [{ id: 'item1', label: 'item1' }];
 			const clickFn = jest.fn();
 			const onCloseFn = jest.fn();
 			const label = 'primary';
-			const dropdownProps = { onClose: onCloseFn } as MultiButtonProps['dropdownProps'];
+			const dropdownProps = { onClose: onCloseFn };
 
 			const { user } = setup(
 				<MultiButton items={items} onClick={clickFn} label={label} dropdownProps={dropdownProps} />
@@ -126,7 +126,30 @@ describe('MultiButton', () => {
 			expect(within(dropdown).getByText(/item1/i)).toBeVisible();
 			await user.click(screen.getByText(label));
 			expect(screen.queryByText(/item1/i)).not.toBeInTheDocument();
-			expect(onCloseFn).not.toHaveBeenCalled();
+			expect(onCloseFn).toHaveBeenCalled();
+		});
+
+		it('should call onOpen/onClose when clicking on secondary action', async () => {
+			const items: MultiButtonProps['items'] = [{ id: 'item1', label: 'item1' }];
+			const clickFn = jest.fn();
+			const onOpenFn = jest.fn();
+			const onCloseFn = jest.fn();
+			const label = 'primary';
+			const dropdownProps = { onClose: onCloseFn, onOpen: onOpenFn };
+
+			const { user } = setup(
+				<MultiButton items={items} onClick={clickFn} label={label} dropdownProps={dropdownProps} />
+			);
+
+			await user.click(
+				screen.getByRoleWithIcon('button', { icon: ICONS.multiButtonSecondaryOpenAction })
+			);
+			expect(onOpenFn).toHaveBeenCalled();
+			await user.click(
+				screen.getByRoleWithIcon('button', { icon: ICONS.multiButtonSecondaryCloseAction })
+			);
+			expect(screen.queryByText(/item1/i)).not.toBeInTheDocument();
+			expect(onCloseFn).toHaveBeenCalled();
 		});
 
 		it('should not interfere with the dropdown if "forceOpen" prop in dropdownProps is set', () => {
