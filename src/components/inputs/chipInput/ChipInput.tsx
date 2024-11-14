@@ -56,9 +56,9 @@ const ContainerEl = styled(InputContainer)<{
 
 const ScrollContainer = styled(Container)<{ $hasLabel: boolean }>`
 	overflow: auto;
-	scrollbar-width: ${({ wrap }): string => (wrap === 'wrap' ? 'auto' : 'none')};
+	scrollbar-width: ${({ wrap }): string | false => wrap !== 'wrap' && 'none'};
 	&::-webkit-scrollbar {
-		display: ${({ wrap }): string => (wrap === 'wrap' ? 'auto' : 'none')};
+		display: ${({ wrap }): string | false => wrap !== 'wrap' && 'none'};
 	}
 	${({ theme, $hasLabel }): ReturnType<typeof css> | false | undefined =>
 		$hasLabel &&
