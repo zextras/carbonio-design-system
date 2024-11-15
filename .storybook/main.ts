@@ -9,7 +9,8 @@ const config: StorybookConfig = {
 		'@storybook/addon-interactions',
 		'@storybook/test',
 		'@storybook/addon-designs',
-		'./addons/darkreader/register'
+		'./addons/darkreader/register',
+		'storybook-addon-playground'
 	],
 	framework: {
 		name: '@storybook/react-webpack5',
