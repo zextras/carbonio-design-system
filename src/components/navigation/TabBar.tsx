@@ -14,7 +14,7 @@ import { getKeyboardPreset, useKeyboard } from '../../hooks/useKeyboard';
 import { getColor } from '../../theme/theme-utils';
 import { AnyColor } from '../../types/utils';
 import { Text } from '../basic/text/Text';
-import { Container, ContainerProps } from '../layout/Container';
+import { Container, ContainerProps } from '../layout/container/Container';
 
 const CustomText = styled(Text)`
 	line-height: 1.5;

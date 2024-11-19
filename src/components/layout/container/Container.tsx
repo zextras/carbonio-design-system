@@ -9,8 +9,8 @@ import React, { HTMLAttributes, useMemo } from 'react';
 import { map } from 'lodash';
 import styled, { css } from 'styled-components';
 
-import { getColor, getPadding, PaddingObj } from '../../theme/theme-utils';
-import { AnyColor, LiteralUnion, With$Prefix } from '../../types/utils';
+import { getColor, getPadding, PaddingObj } from '../../../theme/theme-utils';
+import { AnyColor, LiteralUnion, With$Prefix } from '../../../types/utils';
 
 interface ContainerElProps {
 	/** The Container orientation (css flex-direction prop or 'vertical' or 'horizontal') */

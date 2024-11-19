@@ -20,7 +20,7 @@ import styled, { css, DefaultTheme } from 'styled-components';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { getColor, pseudoClasses } from '../../theme/theme-utils';
 import { Text, TextProps } from '../basic/text/Text';
-import { Container, ContainerProps } from '../layout/Container';
+import { Container, ContainerProps } from '../layout/container/Container';
 
 const RADIO_SIZE: Record<
 	'small' | 'medium',

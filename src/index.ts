@@ -19,7 +19,7 @@ export * from './components/basic/text/Text';
 export * from './components/basic/TextWithTooltip';
 export * from './components/basic/Spinner';
 /** Layout components */
-export * from './components/layout/Container';
+export * from './components/layout/container/Container';
 export * from './components/layout/divider/Divider';
 export * from './components/layout/Padding';
 export * from './components/layout/Paragraph';

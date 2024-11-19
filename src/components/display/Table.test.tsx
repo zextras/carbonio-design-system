@@ -14,7 +14,7 @@ import { THeader, Table, TRow, StyledCheckbox } from './Table';
 import { setup } from '../../test-utils';
 import { ICONS, SELECTORS } from '../../testUtils/constants';
 import { Icon } from '../basic/icon/Icon';
-import { Container } from '../layout/Container';
+import { Container } from '../layout/container/Container';
 
 describe('Table', () => {
 	function getRowByColumnLabel(label: string): HTMLElement {

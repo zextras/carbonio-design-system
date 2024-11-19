@@ -9,7 +9,7 @@ import { Meta, StoryObj } from '@storybook/react';
 
 import { Link } from './Link';
 import { colorArgType, sizeArgType, textAlignArgType, weightArgType } from '../../../docs/utils';
-import { Container } from '../../layout/Container';
+import { Container } from '../../layout/container/Container';
 
 const meta = {
 	component: Link,

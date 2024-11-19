@@ -21,7 +21,7 @@ import { Icon } from '../basic/icon/Icon';
 import { Text } from '../basic/text/Text';
 import { Checkbox } from '../inputs/Checkbox';
 import { MultipleSelectionOnChange, Select, SelectProps } from '../inputs/Select';
-import { Container } from '../layout/Container';
+import { Container } from '../layout/container/Container';
 import { Row } from '../layout/Row';
 
 const StyledCheckbox = styled(Checkbox)<{

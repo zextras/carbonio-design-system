@@ -14,7 +14,7 @@ import { getColor } from '../../theme/theme-utils';
 import { AnyColor } from '../../types/utils';
 import { Icon } from '../basic/icon/Icon';
 import { Text } from '../basic/text/Text';
-import { Container, ContainerProps } from '../layout/Container';
+import { Container, ContainerProps } from '../layout/container/Container';
 import { Padding } from '../layout/Padding';
 
 type CheckboxSize = 'medium' | 'small';
