@@ -16,7 +16,6 @@ export * from './components/basic/link/Link';
 export * from './components/basic/LoadMore';
 export * from './components/basic/FormSection';
 export * from './components/basic/text/Text';
-export * from './components/basic/TextWithTooltip';
 export * from './components/basic/Spinner';
 /** Layout components */
 export * from './components/layout/Container';
