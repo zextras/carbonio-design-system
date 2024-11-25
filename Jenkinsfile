@@ -48,6 +48,7 @@ Boolean isPullRequest
 Boolean isSonarQubeEnabled
 Boolean isDeployDocPlaygroundEnabled
 Boolean isUpdateImages
+String pullRequestId
 
 pipeline {
     agent {
@@ -80,6 +81,8 @@ pipeline {
                     echo "isDeployDocPlaygroundEnabled: ${isDeployDocPlaygroundEnabled}"
                     isUpdateImages = params.UPDATE_IMAGES_TESTS == true
                     echo "isUpdateImages: ${isUpdateImages}"
+                    pullRequestId = env.CHANGE_ID
+                    echo "pullRequestId: ${pullRequestId}"
                 }
             }
         }
@@ -98,6 +101,11 @@ pipeline {
             steps {
                 executeNpmLogin()
                 nodeCmd('npm run test-storybook:update-images')
+                 sh(script: """#!/bin/bash
+                    git add .storybook-images
+                    git commit -m -n "test: update images"
+                    git push
+                 """)
             }
         }
 
