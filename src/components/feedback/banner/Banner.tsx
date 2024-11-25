@@ -284,6 +284,7 @@ const Banner = React.forwardRef<HTMLDivElement, BannerProps>(function BannerFn(
 						type={'outlined'}
 						backgroundColor={'transparent'}
 						labelColor={mainColor}
+						size={'small'}
 					/>
 				)}
 				{isTextCropped && (
