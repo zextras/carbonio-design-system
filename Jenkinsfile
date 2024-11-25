@@ -107,7 +107,7 @@ pipeline {
                 nodeCmd('npm run test-storybook:update-images')
                  sh(script: """#!/bin/bash
                     git add .storybook-images
-                    git commit -m "test: update images" -n
+                    git commit -m "test: update images"
                     git push origin HEAD:refs/heads/${getBranchName()}
                  """)
             }
@@ -116,10 +116,13 @@ pipeline {
         stage('Tests') {
             when {
                 beforeAgent true
-                anyOf {
-                    expression { isSonarQubeEnabled == true }
-                    expression { isPullRequest == true }
-                    expression { isDevelBranch == true }
+                allOf {
+                    expression { isUpdateImages == false }
+                    anyOf {
+                        expression { isSonarQubeEnabled == true }
+                        expression { isPullRequest == true }
+                        expression { isDevelBranch == true }
+                    }
                 }
             }
             parallel {
@@ -200,6 +203,7 @@ pipeline {
                 beforeAgent(true)
                 allOf {
                     expression { isSonarQubeEnabled == true }
+                    expression { isUpdateImages == false }
                 }
             }
             steps {
@@ -216,6 +220,11 @@ pipeline {
         }
 
         stage('Build') {
+            when {
+                allOf {
+                    expression { isUpdateImages == false }
+                }
+            }
             parallel {
                 stage('Build package') {
                     agent {
@@ -261,6 +270,7 @@ pipeline {
                 beforeAgent true
                 allOf {
                     expression { isPullRequest == false }
+                    expression { isUpdateImages == false }
                 }
             }
             steps {
@@ -279,6 +289,7 @@ pipeline {
                 beforeAgent true
                 allOf {
                     expression { isReleaseBranch == true }
+                    expression { isUpdateImages == false }
                 }
             }
             steps {
@@ -308,10 +319,13 @@ pipeline {
         stage('Deploy documentation') {
             when {
                 beforeAgent true
-                anyOf {
-                    expression { isReleaseBranch == true }
-                    expression { isDevelBranch == true }
-                    expression { isDeployDocPlaygroundEnabled == true }
+                allOf {
+                    expression { isUpdateImages == false }
+                    anyOf {
+                        expression { isReleaseBranch == true }
+                        expression { isDevelBranch == true }
+                        expression { isDeployDocPlaygroundEnabled == true }
+                    }
                 }
             }
             steps {
