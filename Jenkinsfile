@@ -150,6 +150,11 @@ pipeline {
                         executeNpmLogin()
                         nodeCmd('npm run test-storybook')
                     }
+                    post {
+                        failure {
+                            archiveArtifacts artifacts: '.storybook-images/__diff_output__/*'
+                        }
+                    }
                 }
             }
         }
