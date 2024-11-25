@@ -140,6 +140,17 @@ pipeline {
                         }
                     }
                 }
+                stage('Visual test') {
+                    agent {
+                        node {
+                            label 'nodejs-agent-v4'
+                        }
+                    }
+                    steps {
+                        executeNpmLogin()
+                        nodeCmd('npm run test-storybook')
+                    }
+                }
             }
         }
 
