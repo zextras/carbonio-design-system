@@ -148,6 +148,7 @@ pipeline {
                     }
                     steps {
                         executeNpmLogin()
+                        nodeCmd('npx playwright install')
                         nodeCmd('npm run test-storybook')
                     }
                 }
