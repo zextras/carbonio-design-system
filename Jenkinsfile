@@ -47,6 +47,7 @@ Boolean isDevelBranch
 Boolean isPullRequest
 Boolean isSonarQubeEnabled
 Boolean isDeployDocPlaygroundEnabled
+Boolean isUpdateImages
 
 pipeline {
     agent {
@@ -61,22 +62,42 @@ pipeline {
     parameters {
         booleanParam defaultValue: true, description: 'Enable SonarQube Stage', name: 'RUN_SONARQUBE'
         booleanParam defaultValue: false, description: 'Deploy to dev doc playground', name: 'DEPLOY_DOC_PLAYGROUND'
+        booleanParam defaultValue: false, description: 'Update Images for Visual Tests', name: 'UPDATE_IMAGES_TESTS'
     }
     stages {
         stage("Read settings") {
             steps {
                 script {
-                   isReleaseBranch = "${BRANCH_NAME}" ==~ /release/
-                   echo "isReleaseBranch: ${isReleaseBranch}"
-                   isDevelBranch = "${BRANCH_NAME}" ==~ /devel/
-                   echo "isDevelBranch: ${isDevelBranch}"
-                   isPullRequest = "${BRANCH_NAME}" ==~ /PR-\d+/
-                   echo "isPullRequest: ${isPullRequest}"
-                   isSonarQubeEnabled = params.RUN_SONARQUBE == true && (isPullRequest || isDevelBranch || isReleaseBranch)
-                   echo "isSonarQubeEnabled: ${isSonarQubeEnabled}"
-                   isDeployDocPlaygroundEnabled = params.DEPLOY_DOC_PLAYGROUND == true
-                   echo "isDeployDocPlaygroundEnabled: ${isDeployDocPlaygroundEnabled}"
+                    isReleaseBranch = "${BRANCH_NAME}" ==~ /release/
+                    echo "isReleaseBranch: ${isReleaseBranch}"
+                    isDevelBranch = "${BRANCH_NAME}" ==~ /devel/
+                    echo "isDevelBranch: ${isDevelBranch}"
+                    isPullRequest = "${BRANCH_NAME}" ==~ /PR-\d+/
+                    echo "isPullRequest: ${isPullRequest}"
+                    isSonarQubeEnabled = params.RUN_SONARQUBE == true && (isPullRequest || isDevelBranch || isReleaseBranch)
+                    echo "isSonarQubeEnabled: ${isSonarQubeEnabled}"
+                    isDeployDocPlaygroundEnabled = params.DEPLOY_DOC_PLAYGROUND == true
+                    echo "isDeployDocPlaygroundEnabled: ${isDeployDocPlaygroundEnabled}"
+                    isUpdateImages = params.UPDATE_IMAGES_TESTS == true
+                    echo "isUpdateImages: ${isUpdateImages}"
                 }
+            }
+        }
+        stage('Update Visual Test Images') {
+            when {
+                beforeAgent true
+                allOf {
+                    expression { isUpdateImages == true }
+                }
+            }
+            agent {
+                node {
+                    label 'nodejs-agent-v4'
+                }
+            }
+            steps {
+                executeNpmLogin()
+                nodeCmd('npm run test-storybook:update-images')
             }
         }
 
@@ -108,10 +129,8 @@ pipeline {
                         }
                     }
                     steps {
-                        script {
-                            executeNpmLogin()
-                            nodeCmd('npm run type-check')
-                        }
+                        executeNpmLogin()
+                        nodeCmd('npm run type-check')
                     }
                 }
                 stage('Unit Tests') {
