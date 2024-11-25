@@ -41,6 +41,10 @@ def getCommitVersion() {
     return sh(script: 'git log -1 | grep \'version:\' | sed -n \'s/.*version:\\s*//p\' ', returnStdout: true).trim()
 }
 
+String getBranchName() {
+    return sh(script: 'git rev-parse --abbrev-ref HEAD', returnStdout: true)
+}
+
 Boolean lcovIsPresent
 Boolean isReleaseBranch
 Boolean isDevelBranch
@@ -103,8 +107,8 @@ pipeline {
                 nodeCmd('npm run test-storybook:update-images')
                  sh(script: """#!/bin/bash
                     git add .storybook-images
-                    git commit -m -n "test: update images"
-                    git push
+                    git commit -m "test: update images" -n
+                    git push origin HEAD:refs/heads/${getBranchName()}
                  """)
             }
         }
