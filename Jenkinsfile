@@ -200,7 +200,7 @@ pipeline {
                 }
             }
             when {
-                beforeAgent(true)
+                beforeAgent true
                 allOf {
                     expression { isSonarQubeEnabled == true }
                     expression { isUpdateImages == false }
@@ -220,13 +220,14 @@ pipeline {
         }
 
         stage('Build') {
-            when {
-                allOf {
-                    expression { isUpdateImages == false }
-                }
-            }
             parallel {
                 stage('Build package') {
+                    when {
+                        beforeAgent true
+                        allOf {
+                            expression { isUpdateImages == false }
+                        }
+                    }
                     agent {
                         node {
                             label 'nodejs-agent-v4'
@@ -242,11 +243,14 @@ pipeline {
                 stage('Build documentation') {
                     when {
                         beforeAgent true
-                        anyOf {
-                            expression { isPullRequest == true }
-                            expression { isReleaseBranch == true }
-                            expression { isDevelBranch == true }
-                            expression { isDeployDocPlaygroundEnabled == true }
+                        allOf {
+                            expression { isUpdateImages == false }
+                            anyOf {
+                                expression { isPullRequest == true }
+                                expression { isReleaseBranch == true }
+                                expression { isDevelBranch == true }
+                                expression { isDeployDocPlaygroundEnabled == true }
+                            }
                         }
                     }
                     agent {
