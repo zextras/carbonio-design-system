@@ -106,7 +106,7 @@ pipeline {
                 executeNpmLogin()
                 nodeCmd('npm run test-storybook:update-images')
                 sh(script: """#!/bin/bash
-                    git checkout ${getBranchName}
+                    git checkout ${getBranchName()}
                     git add .storybook-images
                     git commit -m "test: update images"
                     git lfs push --all
