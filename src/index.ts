@@ -16,7 +16,6 @@ export * from './components/basic/link/Link';
 export * from './components/basic/LoadMore';
 export * from './components/basic/FormSection';
 export * from './components/basic/text/Text';
-export * from './components/basic/TextWithTooltip';
 export * from './components/basic/Spinner';
 /** Layout components */
 export * from './components/layout/container/Container';
@@ -58,7 +57,7 @@ export {
 	getDefaultLocale,
 	DEFAULT_MODIFIERS
 } from './components/inputs/datetimePicker/DateTimePicker';
-export * from './components/inputs/Slider';
+export * from './components/inputs/slider/Slider';
 export * from './components/inputs/textArea/TextArea';
 
 /** navigation components */
