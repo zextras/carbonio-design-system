@@ -106,9 +106,13 @@ pipeline {
                 executeNpmLogin()
                 nodeCmd('npm run test-storybook:update-images')
                 sh(script: """#!/bin/bash
+                    echo "checking out branch ${getBranchName()}"
                     git checkout ${getBranchName()}
+                    echo "add all new images from .storybook-images"
                     git add .storybook-images
+                    echo "create commit"
                     git commit -m "test: update images"
+                    echo "p"
                     git push
                 """)
             }
