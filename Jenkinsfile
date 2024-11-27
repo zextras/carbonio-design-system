@@ -116,10 +116,9 @@ pipeline {
                 executeNpmLogin()
                 nodeCmd('npm run test-storybook:update-images')
                 sh(script: """#!/bin/bash
-                    git checkout ${branchName}
                     git add .storybook-images
                     git commit -m "test: update images"
-                    git push
+                    git push origin HEAD:refs/heads/${branchName}
                 """)
             }
         }
