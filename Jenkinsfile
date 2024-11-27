@@ -118,6 +118,7 @@ pipeline {
                 sh(script: """#!/bin/bash
                     git add .storybook-images
                     git commit -m "test: update images"
+                    git lfs push origin HEAD:refs/heads/${branchName} --all
                     git push origin HEAD:refs/heads/${branchName}
                 """)
             }
