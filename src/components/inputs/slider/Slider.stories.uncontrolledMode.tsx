@@ -9,7 +9,7 @@ import React, { useCallback, useRef, useState } from 'react';
 import { Slider } from './Slider';
 import { Button } from '../../basic/button/Button';
 import { Text } from '../../basic/text/Text';
-import { Container } from '../../layout/Container';
+import { Container } from '../../layout/container/Container';
 
 export const UncontrolledSlider = (): React.JSX.Element => {
 	const options = [
