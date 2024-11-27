@@ -45,6 +45,10 @@ String getBranchName() {
     return sh(script: 'git rev-parse --abbrev-ref HEAD', returnStdout: true)
 }
 
+String getLastCommit() {
+    return sh(script: 'git rev-parse HEAD', returnStdout: true)
+}
+
 String sourceBranch(){
     return sh(
         script: 'git name-rev --name-only HEAD',
@@ -116,10 +120,10 @@ pipeline {
                 executeNpmLogin()
                 nodeCmd('npm run test-storybook:update-images')
                 sh(script: """#!/bin/bash
+                    git fetch origin ${branchName}:refs/remotes/origin/${branchName}
                     git add .storybook-images
                     git commit -m "test: update images"
-                    git lfs push origin HEAD:refs/heads/${branchName} --all
-                    git push origin HEAD:refs/heads/${branchName}
+                    echo "git push origin ${getLastCommit()}:refs/heads/${branchName}"
                 """)
             }
         }
