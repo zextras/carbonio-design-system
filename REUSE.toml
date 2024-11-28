@@ -1,0 +1,22 @@
+version = 1
+SPDX-PackageName = "carbonio-design-system"
+SPDX-PackageSupplier = "Zextras <https://www.zextras.com>"
+
+[[annotations]]
+path = [".idea/**", ".vscode/**", ".husky/**", ".github/**", ".nvmrc", ".svgrrc", ".babelrc", "**/tsconfig.json", "CHANGELOG.md",
+".npmignore", ".gitignore", "tsconfig.types.json", "api-extractor.json", "release.config.mjs"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2021 Zextras <https://www.zextras.com>"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = ["package.json", "package-lock.json", "**.mdx", "src/icons/**", "**.md", "**.css"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2021 Zextras <https://www.zextras.com>"
+SPDX-License-Identifier = "AGPL-3.0-only"
+
+[[annotations]]
+path = "src/fonts/**"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "<https://github.com/googlefonts/roboto>"
+SPDX-License-Identifier = "Apache-2.0"

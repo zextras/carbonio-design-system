@@ -16,7 +16,8 @@ module.exports = {
 		}
 	},
 	parserOptions: {
-		project: ['tsconfig.json']
+		project: true,
+		tsconfigRootDir: __dirname,
 	},
 	plugins: ['notice'],
 	rules: {
@@ -50,7 +51,7 @@ module.exports = {
 			}
 		},
 		{
-			files: ['*.stories.*'],
+			files: ['*.stories.*', "docs/**/*", ".storybook/**/*"],
 			rules: {
 				'import/no-extraneous-dependencies': 'off'
 			}

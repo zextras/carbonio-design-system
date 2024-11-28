@@ -2,7 +2,7 @@
   "extends": "@zextras/carbonio-ui-configs/rules/typescript.json",
   "include": [
     "src/**/*",
-    ".storybook/**/*"
+    ".storybook/**/*",
   ],
   "exclude": [
     "node_modules",

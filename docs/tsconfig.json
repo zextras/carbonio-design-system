@@ -1,0 +1,4 @@
+{
+  "extends": ["@zextras/carbonio-ui-configs/rules/typescript.json"],
+  "include": ["components/*"]
+}

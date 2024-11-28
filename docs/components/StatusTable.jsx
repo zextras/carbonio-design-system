@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 import React, { useMemo } from 'react';
+
 import { Table, Container, Icon } from '../../src';
 
 const icon = (status) => {
