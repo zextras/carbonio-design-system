@@ -9,7 +9,7 @@ import styled, { css, DefaultTheme } from 'styled-components';
 
 import { Button } from '../../basic/button/Button';
 import { Tooltip } from '../../display/Tooltip';
-import { Container } from '../../layout/Container';
+import { Container } from '../../layout/container/Container';
 import { Padding } from '../../layout/Padding';
 
 const OptionalFooterContainer = styled(Container)`

@@ -8,7 +8,7 @@ import React, { HTMLAttributes, useCallback, useState } from 'react';
 
 import styled, { css } from 'styled-components';
 
-import { Container } from '../layout/Container';
+import { Container } from '../layout/container/Container';
 
 const DropEl = styled(Container)`
 	display: inline;

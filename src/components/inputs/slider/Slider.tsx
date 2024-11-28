@@ -10,7 +10,7 @@ import styled, { DefaultTheme } from 'styled-components';
 
 import { useCombinedRefs } from '../../../hooks/useCombinedRefs';
 import { Tooltip } from '../../display/Tooltip';
-import { Container } from '../../layout/Container';
+import { Container } from '../../layout/container/Container';
 
 const SLIDER_SIZES = {
 	TRACK_HEIGHT: '0.25rem',

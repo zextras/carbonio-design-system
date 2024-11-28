@@ -10,7 +10,7 @@ import styled, { DefaultTheme, keyframes } from 'styled-components';
 
 import { LiteralUnion, With$Prefix } from '../../../types/utils';
 import { FormElementProps, FormSection, FormSubSection } from '../../basic/FormSection';
-import { Container } from '../../layout/Container';
+import { Container } from '../../layout/container/Container';
 import { Padding } from '../../layout/Padding';
 
 const SIZES = {

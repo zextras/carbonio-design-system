@@ -9,7 +9,7 @@ import React, { useRef } from 'react';
 import { Meta, StoryObj } from '@storybook/react';
 
 import { useIsVisible } from './useIsVisible';
-import { Container } from '../../components/layout/Container';
+import { Container } from '../../components/layout/container/Container';
 
 const Hook = (): React.JSX.Element => {
 	const containerRef = useRef<HTMLDivElement>(null);

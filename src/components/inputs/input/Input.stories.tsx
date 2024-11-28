@@ -11,7 +11,7 @@ import { Meta, StoryObj } from '@storybook/react';
 import { Input } from './Input';
 import { Icon } from '../../basic/icon/Icon';
 import { Text } from '../../basic/text/Text';
-import { Container } from '../../layout/Container';
+import { Container } from '../../layout/container/Container';
 
 const meta = {
 	component: Input

@@ -35,7 +35,7 @@ import { setupFloating } from '../../utils/floating-ui';
 import { Icon } from '../basic/icon/Icon';
 import { Text } from '../basic/text/Text';
 import { FOCUSABLE_SELECTOR, TIMERS } from '../constants';
-import { Container } from '../layout/Container';
+import { Container } from '../layout/container/Container';
 import { Divider } from '../layout/divider/Divider';
 import { Padding } from '../layout/Padding';
 import { Portal } from '../utilities/Portal';

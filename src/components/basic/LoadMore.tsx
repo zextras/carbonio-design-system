@@ -10,7 +10,7 @@ import styled from 'styled-components';
 
 import { Icon } from './icon/Icon';
 import { Text, TextProps } from './text/Text';
-import { Container, ContainerProps } from '../layout/Container';
+import { Container, ContainerProps } from '../layout/container/Container';
 import { Padding } from '../layout/Padding';
 
 const CustomText = styled(Text)`
