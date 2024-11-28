@@ -8,7 +8,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import type { DatePickerCustomInputProps } from './DateTimePicker';
 import { SingleItemArray } from '../../../types/utils';
 import { ChipProps } from '../../display/Chip';
-import { Container, ContainerProps } from '../../layout/Container';
+import { Container, ContainerProps } from '../../layout/container/Container';
 import { ChipInput, ChipInputProps, ChipItem } from '../chipInput/ChipInput';
 
 type DateChipItem = ChipItem<Date>;

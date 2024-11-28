@@ -32,7 +32,7 @@ import { Icon } from '../../basic/icon/Icon';
 import { INPUT_BACKGROUND_COLOR, INPUT_DIVIDER_COLOR } from '../../constants';
 import { Chip, ChipProps } from '../../display/Chip';
 import { Dropdown, DropdownItem } from '../../display/Dropdown';
-import { Container, ContainerProps } from '../../layout/Container';
+import { Container, ContainerProps } from '../../layout/container/Container';
 import { Divider, DividerProps } from '../../layout/divider/Divider';
 import { InputContainer } from '../commons/InputContainer';
 import { InputDescription } from '../commons/InputDescription';
@@ -56,9 +56,9 @@ const ContainerEl = styled(InputContainer)<{
 
 const ScrollContainer = styled(Container)<{ $hasLabel: boolean }>`
 	overflow: auto;
-	scrollbar-width: ${({ wrap }): string => (wrap === 'wrap' ? 'auto' : 'none')};
+	scrollbar-width: ${({ wrap }): string | false => wrap !== 'wrap' && 'none'};
 	&::-webkit-scrollbar {
-		display: ${({ wrap }): string => (wrap === 'wrap' ? 'auto' : 'none')};
+		display: ${({ wrap }): string | false => wrap !== 'wrap' && 'none'};
 	}
 	${({ theme, $hasLabel }): ReturnType<typeof css> | false | undefined =>
 		$hasLabel &&

@@ -15,7 +15,7 @@ import { Avatar, AvatarPropTypes } from '../basic/Avatar';
 import { Button, ButtonProps } from '../basic/button/Button';
 import { Icon } from '../basic/icon/Icon';
 import { Text } from '../basic/text/Text';
-import { Container } from '../layout/Container';
+import { Container } from '../layout/container/Container';
 import { Row, RowProps } from '../layout/Row';
 
 type ChipAction = {
@@ -304,7 +304,7 @@ const Chip = React.forwardRef<HTMLDivElement, ChipProps>(function ChipFn(
 						>
 							<ActionIconButton
 								icon={action.icon}
-								labelColor={error ? 'error' : action.color}
+								labelColor={error ? 'error' : (action.color ?? 'text')}
 								shape={shape}
 								backgroundColor={error || !action.background ? 'gray5' : action.background}
 								disabled={!!disabled || action.disabled}

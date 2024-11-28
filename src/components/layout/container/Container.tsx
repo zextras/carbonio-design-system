@@ -9,8 +9,8 @@ import React, { HTMLAttributes, useMemo } from 'react';
 import { map } from 'lodash';
 import styled, { css } from 'styled-components';
 
-import { getColor, getPadding, PaddingObj } from '../../theme/theme-utils';
-import { AnyColor, LiteralUnion, With$Prefix } from '../../types/utils';
+import { getColor, getPadding, PaddingObj } from '../../../theme/theme-utils';
+import { AnyColor, LiteralUnion, With$Prefix } from '../../../types/utils';
 
 interface ContainerElProps {
 	/** The Container orientation (css flex-direction prop or 'vertical' or 'horizontal') */
@@ -63,18 +63,22 @@ interface ContainerElProps {
 	 */
 	maxWidth?: LiteralUnion<'fit' | 'fill', CSSStyleDeclaration['maxWidth']> | number;
 	/** Container flex alignment along the main axis */
-	mainAlignment?:
+	mainAlignment?: LiteralUnion<
 		| 'stretch'
 		| 'center'
-		| 'baseline'
+		| 'normal'
 		| 'flex-start'
 		| 'flex-end'
 		| 'space-between'
 		| 'space-around'
-		| 'space-evenly'
-		| 'unset';
+		| 'space-evenly',
+		CSSStyleDeclaration['justifyContent']
+	>;
 	/** Container flex alignment along the cross axis */
-	crossAlignment?: 'stretch' | 'center' | 'baseline' | 'flex-start' | 'flex-end' | 'unset';
+	crossAlignment?: LiteralUnion<
+		'stretch' | 'center' | 'baseline' | 'normal' | 'flex-start' | 'flex-end',
+		CSSStyleDeclaration['alignItems']
+	>;
 	/** Whether the Container items should wrap or not */
 	wrap?: 'wrap' | 'nowrap' | 'wrap-reverse' | 'unset';
 	/** an object specifying the Container padding */

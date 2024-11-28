@@ -9,7 +9,8 @@ const config: StorybookConfig = {
 		'@storybook/addon-interactions',
 		'@storybook/test',
 		'@storybook/addon-designs',
-		'./addons/darkreader/register'
+		'./addons/darkreader/register',
+		'storybook-addon-playground'
 	],
 	framework: {
 		name: '@storybook/react-webpack5',
@@ -25,9 +26,10 @@ const config: StorybookConfig = {
 				prop.parent ? !/node_modules\/(?!react-datepicker)/.test(prop.parent.fileName) : true,
 		},
 	},
-	webpackFinal: async (config) => {
+	webpackFinal: async (config, { configType }) => {
 		return {
 			...config,
+			devtool: configType === 'DEVELOPMENT' && 'source-map',
 			module: {
 				...(config.module ?? {}),
 				rules: [

@@ -6,7 +6,7 @@
 import React, { useCallback, useState } from 'react';
 
 import { ChipInput, ChipInputProps } from './ChipInput';
-import { Container } from '../../layout/Container';
+import { Container } from '../../layout/container/Container';
 import { Switch, SwitchProps } from '../Switch';
 
 export const ChipInputDisabledWithOptions = (props: ChipInputProps): React.JSX.Element => {

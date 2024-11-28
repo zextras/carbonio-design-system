@@ -9,7 +9,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { AnyColor } from '../../../types/utils';
-import { Container, ContainerProps } from '../../layout/Container';
+import { Container, ContainerProps } from '../../layout/container/Container';
 
 const QuotaBar = styled(Container)`
 	min-width: 4rem;

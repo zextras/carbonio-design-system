@@ -9,7 +9,7 @@ import React from 'react';
 import { screen } from '@testing-library/react';
 
 import { Link } from './Link';
-import { setup } from '../../test-utils';
+import { setup } from '../../../test-utils';
 
 describe('Link', () => {
 	test('Render a Link', () => {

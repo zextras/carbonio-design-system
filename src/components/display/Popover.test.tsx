@@ -12,7 +12,7 @@ import { Popover } from './Popover';
 import { setup } from '../../test-utils';
 import { Button } from '../basic/button/Button';
 import { Input } from '../inputs/input/Input';
-import { Container } from '../layout/Container';
+import { Container } from '../layout/container/Container';
 
 const CustomPopover = (): React.JSX.Element => {
 	const [open, setOpen] = useState(false);

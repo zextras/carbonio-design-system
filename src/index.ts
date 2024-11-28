@@ -12,14 +12,13 @@ export * from './components/basic/Avatar';
 export * from './components/basic/badge/Badge';
 export * from './components/basic/button/Button';
 export { Icon, type IconProps } from './components/basic/icon/Icon';
-export * from './components/basic/Link';
+export * from './components/basic/link/Link';
 export * from './components/basic/LoadMore';
 export * from './components/basic/FormSection';
 export * from './components/basic/text/Text';
-export * from './components/basic/TextWithTooltip';
 export * from './components/basic/Spinner';
 /** Layout components */
-export * from './components/layout/Container';
+export * from './components/layout/container/Container';
 export * from './components/layout/divider/Divider';
 export * from './components/layout/Padding';
 export * from './components/layout/Paragraph';
@@ -41,7 +40,6 @@ export * from './components/inputs/input/Input';
 export * from './components/inputs/PasswordInput';
 export { Radio, type RadioProps } from './components/inputs/Radio';
 export { RadioGroup, type RadioGroupProps } from './components/inputs/RadioGroup';
-export * from './components/inputs/SearchInput';
 export {
 	Select,
 	type SelectProps,
@@ -59,7 +57,7 @@ export {
 	getDefaultLocale,
 	DEFAULT_MODIFIERS
 } from './components/inputs/datetimePicker/DateTimePicker';
-export * from './components/inputs/Slider';
+export * from './components/inputs/slider/Slider';
 export * from './components/inputs/textArea/TextArea';
 
 /** navigation components */

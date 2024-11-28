@@ -8,9 +8,9 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { rgba } from 'polished';
 import styled, { DefaultTheme } from 'styled-components';
 
-import { useCombinedRefs } from '../../hooks/useCombinedRefs';
-import { Tooltip } from '../display/Tooltip';
-import { Container } from '../layout/Container';
+import { useCombinedRefs } from '../../../hooks/useCombinedRefs';
+import { Tooltip } from '../../display/Tooltip';
+import { Container } from '../../layout/container/Container';
 
 const SLIDER_SIZES = {
 	TRACK_HEIGHT: '0.25rem',

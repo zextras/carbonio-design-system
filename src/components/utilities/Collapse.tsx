@@ -10,7 +10,7 @@ import styled, { css } from 'styled-components';
 
 import { Transition } from './Transition';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
-import { Container } from '../layout/Container';
+import { Container } from '../layout/container/Container';
 
 const CollapseEl = styled.div<{
 	$crossSize?: string;

@@ -13,7 +13,7 @@ import { Button } from '../../basic/button/Button';
 import { Icon } from '../../basic/icon/Icon';
 import { Text } from '../../basic/text/Text';
 import { TIMERS } from '../../constants';
-import { Container, ContainerProps } from '../../layout/Container';
+import { Container, ContainerProps } from '../../layout/container/Container';
 import { Row } from '../../layout/Row';
 import { Portal } from '../../utilities/Portal';
 import { Transition } from '../../utilities/Transition';

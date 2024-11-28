@@ -8,8 +8,8 @@ import React from 'react';
 import { fireEvent, screen, within } from '@testing-library/react';
 
 import { Slider } from './Slider';
-import { setup } from '../../test-utils';
-import { TIMERS } from '../constants';
+import { setup } from '../../../test-utils';
+import { TIMERS } from '../../constants';
 
 describe('Slider', () => {
 	test('Render a slider with a datalist', async () => {

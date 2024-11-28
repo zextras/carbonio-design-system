@@ -13,7 +13,7 @@ import { Icon } from '../basic/icon/Icon';
 import { Text } from '../basic/text/Text';
 import { INPUT_BACKGROUND_COLOR, INPUT_DIVIDER_COLOR } from '../constants';
 import { Dropdown, DropdownItem, DropdownProps } from '../display/Dropdown';
-import { Container } from '../layout/Container';
+import { Container } from '../layout/container/Container';
 import { Divider } from '../layout/divider/Divider';
 import { Padding } from '../layout/Padding';
 import { Row } from '../layout/Row';

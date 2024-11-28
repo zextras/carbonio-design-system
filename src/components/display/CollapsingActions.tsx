@@ -14,7 +14,7 @@ import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { useSplitVisibility } from '../../hooks/useSplitVisibility';
 import { AnyColor } from '../../types/utils';
 import { Button, ButtonProps } from '../basic/button/Button';
-import { Container, ContainerProps } from '../layout/Container';
+import { Container, ContainerProps } from '../layout/container/Container';
 
 const RefDiv = styled.div`
 	max-width: 100%;

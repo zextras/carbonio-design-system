@@ -11,7 +11,7 @@ import styled, { DefaultTheme } from 'styled-components';
 import { useCombinedRefs } from '../../../hooks/useCombinedRefs';
 import { useIntersectionObserver } from '../../../hooks/useIntersectionObserver/useIntersectionObserver';
 import { getKeyboardPreset, KeyboardPresetObj, useKeyboard } from '../../../hooks/useKeyboard';
-import { Container, ContainerProps } from '../../layout/Container';
+import { Container, ContainerProps } from '../../layout/container/Container';
 import { ListItemProps } from '../ListItem';
 
 const ExternalContainer = styled(Container)`
