@@ -5,25 +5,20 @@
  */
 /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 
-import React, {
-	useState,
-	useRef,
-	useEffect,
-	useLayoutEffect,
-	useCallback,
-	useMemo,
-	HTMLAttributes
-} from 'react';
+import type { HTMLAttributes } from 'react';
+import React, { useState, useRef, useEffect, useLayoutEffect, useCallback, useMemo } from 'react';
 
-import { flip, limitShift, Placement, shift, VirtualElement } from '@floating-ui/dom';
-import styled, { css, DefaultTheme, useTheme } from 'styled-components';
+import type { Placement, VirtualElement } from '@floating-ui/dom';
+import { flip, limitShift, shift } from '@floating-ui/dom';
+import type { DefaultTheme } from 'styled-components';
+import styled, { css, useTheme } from 'styled-components';
 
 import { Tooltip } from './Tooltip';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
+import type { KeyboardPresetObj } from '../../hooks/useKeyboard';
 import {
 	useKeyboard,
 	getKeyboardPreset,
-	KeyboardPresetObj,
 	focusOnNextNode,
 	focusOnPreviousNode,
 	focusOnFirstNode,

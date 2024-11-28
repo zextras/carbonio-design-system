@@ -3,17 +3,18 @@
  *
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-import React, { ComponentType } from 'react';
+import type { ComponentType } from 'react';
+import React from 'react';
 
-import { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
 import { within, userEvent, screen, expect } from '@storybook/test';
 
 import { Hook } from './stories-helpers';
-import {
+import type {
 	CreateSnackbarFn,
-	CreateSnackbarFnArgs,
-	SnackbarManager
+	CreateSnackbarFnArgs
 } from '../../components/utilities/SnackbarManager';
+import { SnackbarManager } from '../../components/utilities/SnackbarManager';
 import { SELECTORS } from '../../tests/constants';
 
 const meta = {

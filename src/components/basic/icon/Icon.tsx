@@ -4,13 +4,15 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { SVGAttributes, useMemo } from 'react';
+import type { SVGAttributes } from 'react';
+import React, { useMemo } from 'react';
 
-import styled, { css, DefaultTheme, useTheme } from 'styled-components';
+import type { DefaultTheme } from 'styled-components';
+import styled, { css, useTheme } from 'styled-components';
 
-import { IconComponent } from '../../../theme/theme';
+import type { IconComponent } from '../../../theme/theme';
 import { getColor } from '../../../theme/theme-utils';
-import { AnyColor, MakeRequired, With$Prefix } from '../../../types/utils';
+import type { AnyColor, MakeRequired, With$Prefix } from '../../../types/utils';
 
 interface IconComponentProps extends SVGAttributes<SVGSVGElement> {
 	/** Icon to show. It can be a string key for the theme icons or a custom icon component */
@@ -61,4 +63,5 @@ const Icon = React.forwardRef<SVGSVGElement, IconProps>(function IconFn(
 	return <StyledIcon $color={color} $size={size} $disabled={disabled} ref={ref} {...rest} />;
 });
 
-export { Icon, IconProps, IconComponentProps, StyledIconProps };
+export type { IconProps, IconComponentProps, StyledIconProps };
+export { Icon };

@@ -9,8 +9,9 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { act, screen, waitFor } from '@testing-library/react';
 import reduce from 'lodash/reduce';
 
-import { ChipInput, ChipInputProps, ChipItem } from './ChipInput';
-import { KeyboardPresetKey } from '../../../hooks/useKeyboard';
+import type { ChipInputProps, ChipItem } from './ChipInput';
+import { ChipInput } from './ChipInput';
+import type { KeyboardPresetKey } from '../../../hooks/useKeyboard';
 import { ICONS, SELECTORS } from '../../../tests/constants';
 import { setup } from '../../../tests/utils';
 

@@ -8,7 +8,8 @@ import React, { useCallback, useState } from 'react';
 
 import { screen, waitFor } from '@testing-library/react';
 
-import { Modal, ModalProps } from './Modal';
+import type { ModalProps } from './Modal';
+import { Modal } from './Modal';
 import { setup } from '../../tests/utils';
 import { Button } from '../basic/button/Button';
 import { Text } from '../basic/text/Text';

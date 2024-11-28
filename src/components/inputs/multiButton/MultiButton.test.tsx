@@ -5,7 +5,8 @@
  */
 import React from 'react';
 
-import { MultiButton, MultiButtonProps } from './MultiButton';
+import type { MultiButtonProps } from './MultiButton';
+import { MultiButton } from './MultiButton';
 import { ICONS, SELECTORS } from '../../../tests/constants';
 import { screen, setup, within } from '../../../tests/utils';
 

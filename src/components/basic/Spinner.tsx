@@ -3,12 +3,13 @@
  *
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-import React, { HTMLAttributes } from 'react';
+import type { HTMLAttributes } from 'react';
+import React from 'react';
 
 import styled, { keyframes } from 'styled-components';
 
 import { getColor } from '../../theme/theme-utils';
-import { AnyColor } from '../../types/utils';
+import type { AnyColor } from '../../types/utils';
 
 interface SpinnerProps extends HTMLAttributes<HTMLDivElement> {
 	color: AnyColor;
@@ -40,4 +41,5 @@ const Spinner = React.forwardRef<HTMLDivElement, SpinnerProps>(function SpinnerF
 	return <StyledSpinner data-testid="spinner" $color={color} ref={ref} {...rest} />;
 });
 
-export { Spinner, SpinnerProps };
+export type { SpinnerProps };
+export { Spinner };

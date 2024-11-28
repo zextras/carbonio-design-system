@@ -4,7 +4,8 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { useState, useCallback, useEffect } from 'react';
+import type React from 'react';
+import { useState, useCallback, useEffect } from 'react';
 
 import { useCombinedRefs } from '../useCombinedRefs';
 import { useIntersectionObserver } from '../useIntersectionObserver/useIntersectionObserver';

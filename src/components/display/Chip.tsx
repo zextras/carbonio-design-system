@@ -6,17 +6,21 @@
 
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 
-import styled, { css, DefaultTheme, useTheme } from 'styled-components';
+import type { DefaultTheme } from 'styled-components';
+import styled, { css, useTheme } from 'styled-components';
 
 import { Tooltip } from './Tooltip';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { pseudoClasses } from '../../theme/theme-utils';
-import { Avatar, AvatarPropTypes } from '../basic/Avatar';
-import { Button, ButtonProps } from '../basic/button/Button';
+import type { AvatarPropTypes } from '../basic/Avatar';
+import { Avatar } from '../basic/Avatar';
+import type { ButtonProps } from '../basic/button/Button';
+import { Button } from '../basic/button/Button';
 import { Icon } from '../basic/icon/Icon';
 import { Text } from '../basic/text/Text';
 import { Container } from '../layout/container/Container';
-import { Row, RowProps } from '../layout/Row';
+import type { RowProps } from '../layout/Row';
+import { Row } from '../layout/Row';
 
 type ChipAction = {
 	/** Chip action icon color */
@@ -462,4 +466,5 @@ const Chip = React.forwardRef<HTMLDivElement, ChipProps>(function ChipFn(
 	);
 });
 
-export { Chip, ChipProps, ChipAction };
+export type { ChipProps, ChipAction };
+export { Chip };

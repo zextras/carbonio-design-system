@@ -4,12 +4,13 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { HTMLAttributes } from 'react';
+import type { HTMLAttributes } from 'react';
+import React from 'react';
 
 import styled from 'styled-components';
 
 import { getColor } from '../../../theme/theme-utils';
-import { AnyColor, MakeRequired, With$Prefix } from '../../../types/utils';
+import type { AnyColor, MakeRequired, With$Prefix } from '../../../types/utils';
 
 interface DividerProps extends Omit<HTMLAttributes<HTMLDivElement>, 'color'> {
 	/** Divider color */
@@ -32,4 +33,5 @@ const Divider = React.forwardRef<HTMLDivElement, DividerProps>(function DividerF
 	return <DividerEl ref={ref} $color={color} data-testid={'divider'} {...rest} />;
 });
 
-export { Divider, DividerProps };
+export type { DividerProps };
+export { Divider };

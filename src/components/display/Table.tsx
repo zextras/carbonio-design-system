@@ -4,23 +4,17 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, {
-	useEffect,
-	useRef,
-	useReducer,
-	useCallback,
-	useMemo,
-	Reducer,
-	HTMLAttributes
-} from 'react';
+import type { Reducer, HTMLAttributes } from 'react';
+import React, { useEffect, useRef, useReducer, useCallback, useMemo } from 'react';
 
 import styled, { css } from 'styled-components';
 
-import { NonEmptyArray, SingleItemArray } from '../../types/utils';
+import type { NonEmptyArray, SingleItemArray } from '../../types/utils';
 import { Icon } from '../basic/icon/Icon';
 import { Text } from '../basic/text/Text';
 import { Checkbox } from '../inputs/Checkbox';
-import { MultipleSelectionOnChange, Select, SelectProps } from '../inputs/Select';
+import type { MultipleSelectionOnChange, SelectProps } from '../inputs/Select';
+import { Select } from '../inputs/Select';
 import { Container } from '../layout/container/Container';
 import { Row } from '../layout/Row';
 

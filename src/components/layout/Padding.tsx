@@ -4,13 +4,16 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { HTMLAttributes } from 'react';
+import type { HTMLAttributes } from 'react';
+import React from 'react';
 
 import { omit } from 'lodash';
-import styled, { DefaultTheme } from 'styled-components';
+import type { DefaultTheme } from 'styled-components';
+import styled from 'styled-components';
 
-import { getPadding, PaddingObj } from '../../theme/theme-utils';
-import { AllKeys } from '../../types/utils';
+import type { PaddingObj } from '../../theme/theme-utils';
+import { getPadding } from '../../theme/theme-utils';
+import type { AllKeys } from '../../types/utils';
 
 type PaddingComponentProps = {
 	width?: string;
@@ -56,4 +59,5 @@ const Padding = React.forwardRef<HTMLDivElement, PaddingProps>(function PaddingF
 	);
 });
 
-export { Padding, PaddingProps };
+export type { PaddingProps };
+export { Padding };

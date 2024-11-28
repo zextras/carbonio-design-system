@@ -7,9 +7,10 @@
 import React from 'react';
 
 import { screen } from '@testing-library/react';
-import { DefaultTheme } from 'styled-components';
+import type { DefaultTheme } from 'styled-components';
 
-import { Theme, ThemeColorObj } from './theme';
+import type { ThemeColorObj } from './theme';
+import { Theme } from './theme';
 import { ThemeProvider } from './theme-context-provider';
 import { useTheme, generateColorSet, getColor } from './theme-utils';
 import { setup } from '../tests/utils';

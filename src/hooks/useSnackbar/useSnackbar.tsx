@@ -6,10 +6,8 @@
 
 import { useCallback, useContext } from 'react';
 
-import {
-	CreateSnackbarFn,
-	SnackbarManagerContext
-} from '../../components/utilities/SnackbarManager';
+import type { CreateSnackbarFn } from '../../components/utilities/SnackbarManager';
+import { SnackbarManagerContext } from '../../components/utilities/SnackbarManager';
 
 function useSnackbar(): CreateSnackbarFn {
 	const createSnackbar = useContext(SnackbarManagerContext);

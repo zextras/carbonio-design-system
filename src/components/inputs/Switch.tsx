@@ -6,13 +6,15 @@
 
 import React, { useRef } from 'react';
 
-import styled, { css, DefaultTheme } from 'styled-components';
+import type { DefaultTheme } from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { useCheckbox } from '../../hooks/useCheckbox';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { Icon } from '../basic/icon/Icon';
 import { Text } from '../basic/text/Text';
-import { Container, ContainerProps } from '../layout/container/Container';
+import type { ContainerProps } from '../layout/container/Container';
+import { Container } from '../layout/container/Container';
 import { Padding } from '../layout/Padding';
 
 type SwitchSize = 'medium' | 'small';
@@ -138,4 +140,5 @@ const Switch = React.forwardRef<HTMLDivElement, SwitchProps>(function SwitchFn(
 	);
 });
 
-export { Switch, SwitchProps };
+export type { SwitchProps };
+export { Switch };

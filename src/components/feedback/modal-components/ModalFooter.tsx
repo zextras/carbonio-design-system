@@ -5,7 +5,8 @@
  */
 import React, { useMemo } from 'react';
 
-import styled, { css, DefaultTheme } from 'styled-components';
+import type { DefaultTheme } from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { Button } from '../../basic/button/Button';
 import { Tooltip } from '../../display/Tooltip';
@@ -184,4 +185,5 @@ const ModalFooter = ({
 	</Container>
 );
 
-export { ModalFooter, ModalFooterContent, ModalFooterContentProps, ModalFooterProps };
+export type { ModalFooterContentProps, ModalFooterProps };
+export { ModalFooter, ModalFooterContent };

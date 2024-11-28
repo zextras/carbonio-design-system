@@ -8,7 +8,8 @@ import React from 'react';
 
 import { screen } from '@testing-library/react';
 
-import { Snackbar, SnackbarProps } from './Snackbar';
+import type { SnackbarProps } from './Snackbar';
+import { Snackbar } from './Snackbar';
 import { ICONS, SELECTORS } from '../../../tests/constants';
 import { setup, within } from '../../../tests/utils';
 

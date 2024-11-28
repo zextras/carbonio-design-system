@@ -6,21 +6,22 @@
 import React, { useRef } from 'react';
 
 import { act as rtlAct, renderHook } from '@testing-library/react';
+import type * as ReactDOM from 'react-dom';
 
 import { useSnackbar } from './useSnackbar';
 import { Button } from '../../components/basic/button/Button';
 import { TIMERS } from '../../components/constants';
-import {
+import type {
 	CloseSnackbarFn,
 	CreateSnackbarFnArgs,
-	SnackbarManager,
 	SnackbarManagerProps
 } from '../../components/utilities/SnackbarManager';
+import { SnackbarManager } from '../../components/utilities/SnackbarManager';
 import { screen, setup } from '../../tests/utils';
 import { ThemeProvider } from '../../theme/theme-context-provider';
 
-jest.mock<typeof import('react-dom')>('react-dom', () => ({
-	...jest.requireActual<typeof import('react-dom')>('react-dom'),
+jest.mock<typeof ReactDOM>('react-dom', () => ({
+	...jest.requireActual<typeof ReactDOM>('react-dom'),
 	createPortal: (node): React.ReactPortal => node as React.ReactPortal
 }));
 

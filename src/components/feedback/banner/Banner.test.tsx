@@ -7,12 +7,14 @@ import React from 'react';
 
 import { faker } from '@faker-js/faker';
 import { act, screen, waitFor, within } from '@testing-library/react';
-import { DefaultTheme } from 'styled-components';
+import type { DefaultTheme } from 'styled-components';
 import 'jest-styled-components';
 
-import { Banner, BannerProps } from './Banner';
+import type { BannerProps } from './Banner';
+import { Banner } from './Banner';
 import { ICONS, SELECTORS } from '../../../tests/constants';
-import { setup, UserEvent } from '../../../tests/utils';
+import type { UserEvent } from '../../../tests/utils';
+import { setup } from '../../../tests/utils';
 import { Theme } from '../../../theme/theme';
 import { TIMERS } from '../../constants';
 import { ModalManager } from '../../utilities/ModalManager';

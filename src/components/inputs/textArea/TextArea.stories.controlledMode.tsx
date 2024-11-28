@@ -7,7 +7,8 @@ import React, { useCallback, useState } from 'react';
 
 import styled from 'styled-components';
 
-import { TextArea, TextAreaProps } from './TextArea';
+import type { TextAreaProps } from './TextArea';
+import { TextArea } from './TextArea';
 import { Button } from '../../basic/button/Button';
 import { Container } from '../../layout/container/Container';
 

@@ -10,7 +10,8 @@ import { faker } from '@faker-js/faker';
 import { act, screen, within } from '@testing-library/react';
 import 'jest-styled-components';
 
-import { THeader, Table, TRow, StyledCheckbox } from './Table';
+import type { THeader, TRow } from './Table';
+import { Table, StyledCheckbox } from './Table';
 import { ICONS, SELECTORS } from '../../tests/constants';
 import { setup } from '../../tests/utils';
 import { Icon } from '../basic/icon/Icon';

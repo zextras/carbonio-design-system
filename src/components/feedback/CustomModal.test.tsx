@@ -8,7 +8,8 @@ import React, { useState } from 'react';
 
 import { screen, waitFor } from '@testing-library/react';
 
-import { CustomModal, CustomModalProps } from './CustomModal';
+import type { CustomModalProps } from './CustomModal';
+import { CustomModal } from './CustomModal';
 import { setup } from '../../tests/utils';
 import { Button } from '../basic/button/Button';
 import { Text } from '../basic/text/Text';

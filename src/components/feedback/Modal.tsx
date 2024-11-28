@@ -6,14 +6,17 @@
 
 /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 
-import React, { HTMLAttributes, useCallback, useRef } from 'react';
+import type { HTMLAttributes } from 'react';
+import React, { useCallback, useRef } from 'react';
 
 import { noop } from 'lodash';
 import { useTheme } from 'styled-components';
 
-import { CustomModal, CustomModalProps } from './CustomModal';
+import type { CustomModalProps } from './CustomModal';
+import { CustomModal } from './CustomModal';
 import { ModalBody } from './modal-components/ModalBody';
-import { ModalFooter, ModalFooterProps } from './modal-components/ModalFooter';
+import type { ModalFooterProps } from './modal-components/ModalFooter';
+import { ModalFooter } from './modal-components/ModalFooter';
 import { ModalHeader } from './modal-components/ModalHeader';
 import { Divider } from '../layout/divider/Divider';
 
@@ -122,4 +125,5 @@ const Modal = React.forwardRef<HTMLDivElement, ModalProps>(function ModalFn(
 	);
 });
 
-export { Modal, ModalProps };
+export type { ModalProps };
+export { Modal };

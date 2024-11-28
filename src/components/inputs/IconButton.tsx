@@ -6,13 +6,15 @@
 
 import React, { useCallback, useMemo } from 'react';
 
-import styled, { css, DefaultTheme, useTheme } from 'styled-components';
+import type { DefaultTheme } from 'styled-components';
+import styled, { css, useTheme } from 'styled-components';
 
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { useKeyboard, getKeyboardPreset } from '../../hooks/useKeyboard';
 import { getPadding, isThemeSize } from '../../theme/theme-utils';
-import { AnyColor } from '../../types/utils';
-import { Button, ButtonProps } from '../basic/button/Button';
+import type { AnyColor } from '../../types/utils';
+import type { ButtonProps } from '../basic/button/Button';
+import { Button } from '../basic/button/Button';
 
 const StyledIconButton = styled(Button)<{
 	$iconSize?: string;
@@ -142,4 +144,5 @@ const IconButton = React.forwardRef<HTMLDivElement, IconButtonProps>(function Ic
 	);
 });
 
-export { IconButton, IconButtonProps };
+export type { IconButtonProps };
+export { IconButton };

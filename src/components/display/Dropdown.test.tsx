@@ -7,9 +7,11 @@ import React from 'react';
 
 import { act } from '@testing-library/react';
 
-import { Dropdown, DropdownItem } from './Dropdown';
+import type { DropdownItem } from './Dropdown';
+import { Dropdown } from './Dropdown';
 import { SELECTORS } from '../../tests/constants';
-import { setup, within, screen, UserEvent } from '../../tests/utils';
+import type { UserEvent } from '../../tests/utils';
+import { setup, within, screen } from '../../tests/utils';
 import { Button } from '../basic/button/Button';
 import { TIMERS } from '../constants';
 import { Modal } from '../feedback/Modal';

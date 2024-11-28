@@ -8,7 +8,8 @@ import React from 'react';
 import { faker } from '@faker-js/faker';
 import { screen } from '@testing-library/react';
 
-import { Text, TextProps } from './Text';
+import type { TextProps } from './Text';
+import { Text } from './Text';
 import { setup } from '../../../tests/utils';
 import { Theme } from '../../../theme/theme';
 

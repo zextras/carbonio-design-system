@@ -5,7 +5,8 @@
  */
 import React, { useCallback, useRef, useState } from 'react';
 
-import { ChipInput, ChipInputProps, ChipItem } from './ChipInput';
+import type { ChipInputProps, ChipItem } from './ChipInput';
+import { ChipInput } from './ChipInput';
 import { Button } from '../../basic/button/Button';
 import { Container } from '../../layout/container/Container';
 

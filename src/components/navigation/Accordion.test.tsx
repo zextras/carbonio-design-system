@@ -9,7 +9,8 @@ import React from 'react';
 import { faker } from '@faker-js/faker';
 import { waitFor } from '@testing-library/react';
 
-import { Accordion, AccordionItem, AccordionItemType, AccordionProps } from './Accordion';
+import type { AccordionItemType, AccordionProps } from './Accordion';
+import { Accordion, AccordionItem } from './Accordion';
 import { ICONS, SELECTORS } from '../../tests/constants';
 import { setup, screen, within } from '../../tests/utils';
 import { Button } from '../basic/button/Button';

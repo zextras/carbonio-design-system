@@ -4,36 +4,31 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, {
-	InputHTMLAttributes,
-	useCallback,
-	useEffect,
-	useMemo,
-	useReducer,
-	useRef,
-	useState
-} from 'react';
+import type { InputHTMLAttributes } from 'react';
+import React, { useCallback, useEffect, useMemo, useReducer, useRef, useState } from 'react';
 
 import { filter, slice, isEmpty, debounce, trim, uniq } from 'lodash';
-import styled, { css, DefaultTheme } from 'styled-components';
+import type { DefaultTheme } from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { useCombinedRefs } from '../../../hooks/useCombinedRefs';
-import {
-	useKeyboard,
-	getKeyboardPreset,
-	KeyboardPresetKey,
-	KeyboardPresetObj
-} from '../../../hooks/useKeyboard';
+import type { KeyboardPresetKey, KeyboardPresetObj } from '../../../hooks/useKeyboard';
+import { useKeyboard, getKeyboardPreset } from '../../../hooks/useKeyboard';
 import { usePrevious } from '../../../hooks/usePrevious';
 import { getColor } from '../../../theme/theme-utils';
-import { AnyColor, PaletteColor } from '../../../types/utils';
-import { Button, ButtonProps } from '../../basic/button/Button';
+import type { AnyColor, PaletteColor } from '../../../types/utils';
+import type { ButtonProps } from '../../basic/button/Button';
+import { Button } from '../../basic/button/Button';
 import { Icon } from '../../basic/icon/Icon';
 import { INPUT_BACKGROUND_COLOR, INPUT_DIVIDER_COLOR } from '../../constants';
-import { Chip, ChipProps } from '../../display/Chip';
-import { Dropdown, DropdownItem } from '../../display/Dropdown';
-import { Container, ContainerProps } from '../../layout/container/Container';
-import { Divider, DividerProps } from '../../layout/divider/Divider';
+import type { ChipProps } from '../../display/Chip';
+import { Chip } from '../../display/Chip';
+import type { DropdownItem } from '../../display/Dropdown';
+import { Dropdown } from '../../display/Dropdown';
+import type { ContainerProps } from '../../layout/container/Container';
+import { Container } from '../../layout/container/Container';
+import type { DividerProps } from '../../layout/divider/Divider';
+import { Divider } from '../../layout/divider/Divider';
 import { InputContainer } from '../commons/InputContainer';
 import { InputDescription } from '../commons/InputDescription';
 import { InputLabel } from '../commons/InputLabel';

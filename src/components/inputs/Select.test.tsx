@@ -8,7 +8,8 @@ import React from 'react';
 import { screen, within } from '@testing-library/react';
 import { forEach, map, reject, slice } from 'lodash';
 
-import { Select, SelectItem, SingleSelectionOnChange } from './Select';
+import type { SelectItem, SingleSelectionOnChange } from './Select';
+import { Select } from './Select';
 import { SELECTORS } from '../../tests/constants';
 import { setup } from '../../tests/utils';
 

@@ -6,8 +6,9 @@
 
 import { reduce } from 'lodash';
 import { darken, lighten, parseToHsl, setLightness, toColorString } from 'polished';
-import { HslColor } from 'polished/lib/types/color';
-import { css, DefaultTheme, useTheme as useThemeSC } from 'styled-components';
+import type { HslColor } from 'polished/lib/types/color';
+import type { DefaultTheme } from 'styled-components';
+import { css, useTheme as useThemeSC } from 'styled-components';
 
 import type { ThemeColorObj, ThemeSizeObj } from './theme';
 
@@ -289,6 +290,7 @@ function pseudoClasses(
 
 const useTheme = (): DefaultTheme => useThemeSC();
 
+export type { PaddingObj };
 export {
 	generateColorSet,
 	calcHighlight,
@@ -297,6 +299,5 @@ export {
 	getPadding,
 	getPadding as parsePadding,
 	useTheme,
-	PaddingObj,
 	pseudoClasses
 };

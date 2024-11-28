@@ -4,11 +4,13 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { useMemo, forwardRef, HTMLAttributes } from 'react';
+import type { HTMLAttributes } from 'react';
+import React, { useMemo, forwardRef } from 'react';
 
-import styled, { DefaultTheme } from 'styled-components';
+import type { DefaultTheme } from 'styled-components';
+import styled from 'styled-components';
 
-import { AnyColor } from '../../../types/utils';
+import type { AnyColor } from '../../../types/utils';
 import { Tooltip } from '../../display/Tooltip';
 import { Container } from '../../layout/container/Container';
 import { Icon } from '../icon/Icon';
@@ -88,4 +90,5 @@ interface BadgeProps extends Omit<HTMLAttributes<HTMLDivElement>, 'color'> {
 	color?: AnyColor;
 }
 
-export { Badge, BadgeProps };
+export type { BadgeProps };
+export { Badge };

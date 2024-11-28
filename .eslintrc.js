@@ -8,6 +8,16 @@ module.exports = {
 		'./node_modules/@zextras/carbonio-ui-configs/rules/eslint.js',
 		'plugin:storybook/recommended'
 	],
+	settings: {
+		'import/resolver': {
+			node: {
+				extensions: ['.js', '.jsx', '.d.ts', '.ts', '.tsx']
+			}
+		}
+	},
+	parserOptions: {
+		project: ['tsconfig.json']
+	},
 	plugins: ['notice'],
 	rules: {
 		'notice/notice': [
@@ -18,7 +28,9 @@ module.exports = {
 		],
 		'sonarjs/cognitive-complexity': 'warn',
 		'sonarjs/no-duplicate-string': 'off',
-		'import/no-duplicates': ['error', { considerQueryString: true }]
+		'import/no-duplicates': ['error', { considerQueryString: true }],
+		'@typescript-eslint/consistent-type-exports': 'error',
+		'@typescript-eslint/consistent-type-imports': 'error'
 	},
 	overrides: [
 		{

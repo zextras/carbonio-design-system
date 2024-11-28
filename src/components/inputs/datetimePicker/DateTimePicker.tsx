@@ -4,29 +4,20 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, {
-	useCallback,
-	useState,
-	useEffect,
-	useMemo,
-	useRef,
-	InputHTMLAttributes
-} from 'react';
+import type { InputHTMLAttributes } from 'react';
+import React, { useCallback, useState, useEffect, useMemo, useRef } from 'react';
 
 import { flip, limitShift, shift } from '@floating-ui/dom';
-import DatePicker, {
-	getDefaultLocale,
-	DatePickerProps,
-	registerLocale,
-	setDefaultLocale
-} from 'react-datepicker';
+import type { DatePickerProps } from 'react-datepicker';
+import DatePicker, { getDefaultLocale, registerLocale, setDefaultLocale } from 'react-datepicker';
 
 import styles from './DateTimePicker.module.css';
-import { DateTimePickerChipInput, DateTimePickerChipInputProps } from './DateTimePickerChipInput';
+import type { DateTimePickerChipInputProps } from './DateTimePickerChipInput';
+import { DateTimePickerChipInput } from './DateTimePickerChipInput';
 import { DateTimePickerInput } from './DateTimePickerInput';
-import { LiteralUnion, PaletteColor } from '../../../types/utils';
+import type { LiteralUnion, PaletteColor } from '../../../types/utils';
 import { INPUT_BACKGROUND_COLOR } from '../../constants';
-import { ChipProps } from '../../display/Chip';
+import type { ChipProps } from '../../display/Chip';
 import { Container } from '../../layout/container/Container';
 
 import 'react-datepicker/dist/react-datepicker.min.css';

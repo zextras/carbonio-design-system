@@ -5,7 +5,7 @@
  */
 import React from 'react';
 
-import { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
 
 import { Link } from './Link';
 import { colorArgType, sizeArgType, textAlignArgType, weightArgType } from '../../../docs/utils';

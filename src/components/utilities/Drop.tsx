@@ -4,7 +4,8 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { HTMLAttributes, useCallback, useState } from 'react';
+import type { HTMLAttributes } from 'react';
+import React, { useCallback, useState } from 'react';
 
 import styled, { css } from 'styled-components';
 
@@ -161,4 +162,5 @@ const Drop = React.forwardRef<HTMLDivElement, DropProps>(function DropFn(
 	);
 });
 
-export { Drop, DropProps, DragObj };
+export type { DropProps, DragObj };
+export { Drop };
