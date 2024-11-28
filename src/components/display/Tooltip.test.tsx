@@ -9,7 +9,7 @@ import React from 'react';
 import { screen } from '@testing-library/react';
 
 import { Tooltip } from './Tooltip';
-import { setup } from '../../test-utils';
+import { setup } from '../../tests/utils';
 import { Button } from '../basic/button/Button';
 import { TIMERS } from '../constants';
 import { Container } from '../layout/container/Container';

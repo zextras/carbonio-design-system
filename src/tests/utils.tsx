@@ -18,8 +18,8 @@ import {
 import userEvent from '@testing-library/user-event';
 import { defaultKeyMap } from '@testing-library/user-event/dist/cjs/keyboard/keyMap';
 
-import { queriesExtended } from './tests/custom-queries';
-import { ThemeProvider } from './theme/theme-context-provider';
+import { queriesExtended } from './custom-queries';
+import { ThemeProvider } from '../theme/theme-context-provider';
 
 type User = ReturnType<(typeof userEvent)['setup']>;
 interface KeyboardModifiers {

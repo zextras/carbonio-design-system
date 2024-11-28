@@ -10,8 +10,8 @@ import { faker } from '@faker-js/faker';
 import { waitFor } from '@testing-library/react';
 
 import { Accordion, AccordionItem, AccordionItemType, AccordionProps } from './Accordion';
-import { setup, screen, within } from '../../test-utils';
-import { ICONS, SELECTORS } from '../../testUtils/constants';
+import { ICONS, SELECTORS } from '../../tests/constants';
+import { setup, screen, within } from '../../tests/utils';
 import { Button } from '../basic/button/Button';
 import { TIMERS } from '../constants';
 

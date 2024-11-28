@@ -14,7 +14,7 @@ import {
 	CreateSnackbarFnArgs,
 	SnackbarManager
 } from '../../components/utilities/SnackbarManager';
-import { SELECTORS } from '../../testUtils/constants';
+import { SELECTORS } from '../../tests/constants';
 
 const meta = {
 	component: Hook,

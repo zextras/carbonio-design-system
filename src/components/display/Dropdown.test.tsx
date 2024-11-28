@@ -8,8 +8,8 @@ import React from 'react';
 import { act } from '@testing-library/react';
 
 import { Dropdown, DropdownItem } from './Dropdown';
-import { setup, within, screen, UserEvent } from '../../test-utils';
-import { SELECTORS } from '../../testUtils/constants';
+import { SELECTORS } from '../../tests/constants';
+import { setup, within, screen, UserEvent } from '../../tests/utils';
 import { Button } from '../basic/button/Button';
 import { TIMERS } from '../constants';
 import { Modal } from '../feedback/Modal';

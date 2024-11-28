@@ -16,7 +16,7 @@ import {
 	SnackbarManager,
 	SnackbarManagerProps
 } from '../../components/utilities/SnackbarManager';
-import { screen, setup } from '../../test-utils';
+import { screen, setup } from '../../tests/utils';
 import { ThemeProvider } from '../../theme/theme-context-provider';
 
 jest.mock<typeof import('react-dom')>('react-dom', () => ({

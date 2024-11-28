@@ -6,8 +6,8 @@
 import React from 'react';
 
 import { MultiButton, MultiButtonProps } from './MultiButton';
-import { screen, setup, within } from '../../../test-utils';
-import { ICONS, SELECTORS } from '../../../testUtils/constants';
+import { ICONS, SELECTORS } from '../../../tests/constants';
+import { screen, setup, within } from '../../../tests/utils';
 
 describe('MultiButton', () => {
 	it('should not open dropdown when click on primary button', async () => {

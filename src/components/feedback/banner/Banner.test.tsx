@@ -11,8 +11,8 @@ import { DefaultTheme } from 'styled-components';
 import 'jest-styled-components';
 
 import { Banner, BannerProps } from './Banner';
-import { setup, UserEvent } from '../../../test-utils';
-import { ICONS, SELECTORS } from '../../../testUtils/constants';
+import { ICONS, SELECTORS } from '../../../tests/constants';
+import { setup, UserEvent } from '../../../tests/utils';
 import { Theme } from '../../../theme/theme';
 import { TIMERS } from '../../constants';
 import { ModalManager } from '../../utilities/ModalManager';

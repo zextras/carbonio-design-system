@@ -9,7 +9,7 @@ import React, { useRef, useState } from 'react';
 import { screen } from '@testing-library/react';
 
 import { Popover } from './Popover';
-import { setup } from '../../test-utils';
+import { setup } from '../../tests/utils';
 import { Button } from '../basic/button/Button';
 import { Input } from '../inputs/input/Input';
 import { Container } from '../layout/container/Container';

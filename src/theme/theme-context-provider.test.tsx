@@ -12,7 +12,7 @@ import { DefaultTheme } from 'styled-components';
 import { Theme, ThemeColorObj } from './theme';
 import { ThemeProvider } from './theme-context-provider';
 import { useTheme, generateColorSet, getColor } from './theme-utils';
-import { setup } from '../test-utils';
+import { setup } from '../tests/utils';
 
 const CUSTOM_THEME_COLOR = '#FF7514';
 

@@ -10,7 +10,7 @@ import { noop } from 'lodash';
 
 import { Radio } from './Radio';
 import { RadioGroup, RadioGroupProps } from './RadioGroup';
-import { setup } from '../../test-utils';
+import { setup } from '../../tests/utils';
 
 describe('Radio Group', () => {
 	test('Should render a group with the radio', () => {

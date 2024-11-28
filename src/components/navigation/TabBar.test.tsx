@@ -9,7 +9,7 @@ import React from 'react';
 import { screen, within } from '@testing-library/react';
 
 import { DefaultTabBarItem, DefaultTabBarItemProps, TabBar } from './TabBar';
-import { setup } from '../../test-utils';
+import { setup } from '../../tests/utils';
 import { Text } from '../basic/text/Text';
 
 describe('TabBar', () => {

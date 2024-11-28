@@ -9,7 +9,7 @@ import React, { useCallback, useState } from 'react';
 import { screen, waitFor } from '@testing-library/react';
 
 import { Modal, ModalProps } from './Modal';
-import { setup } from '../../test-utils';
+import { setup } from '../../tests/utils';
 import { Button } from '../basic/button/Button';
 import { Text } from '../basic/text/Text';
 

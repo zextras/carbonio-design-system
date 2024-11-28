@@ -11,8 +11,8 @@ import reduce from 'lodash/reduce';
 
 import { ChipInput, ChipInputProps, ChipItem } from './ChipInput';
 import { KeyboardPresetKey } from '../../../hooks/useKeyboard';
-import { setup } from '../../../test-utils';
-import { ICONS, SELECTORS } from '../../../testUtils/constants';
+import { ICONS, SELECTORS } from '../../../tests/constants';
+import { setup } from '../../../tests/utils';
 
 describe('ChipInput', () => {
 	test('render a chip input with a placeholder, two chips, an icon and a description', () => {

@@ -9,7 +9,7 @@ import { faker } from '@faker-js/faker';
 import { screen } from '@testing-library/react';
 
 import { Text, TextProps } from './Text';
-import { setup } from '../../../test-utils';
+import { setup } from '../../../tests/utils';
 import { Theme } from '../../../theme/theme';
 
 describe('Text', () => {
