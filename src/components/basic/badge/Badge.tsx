@@ -10,7 +10,7 @@ import styled, { DefaultTheme } from 'styled-components';
 
 import { AnyColor } from '../../../types/utils';
 import { Tooltip } from '../../display/Tooltip';
-import { Container } from '../../layout/Container';
+import { Container } from '../../layout/container/Container';
 import { Icon } from '../icon/Icon';
 import { Text } from '../text/Text';
 

@@ -8,7 +8,7 @@ import React from 'react';
 
 import styled, { css } from 'styled-components';
 
-import { Container, ContainerProps } from './Container';
+import { Container, ContainerProps } from './container/Container';
 import { With$Prefix } from '../../types/utils';
 
 interface RowProps extends ContainerProps {

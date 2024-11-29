@@ -8,7 +8,7 @@ import React from 'react';
 import { rgba } from 'polished';
 import styled, { css } from 'styled-components';
 
-import { Container } from '../../layout/Container';
+import { Container } from '../../layout/container/Container';
 
 const modalMinWidth = {
 	extrasmall: '20%',

@@ -17,7 +17,7 @@ import { ChipInputSuggestionMode } from './ChipInput.stories.suggestionMode';
 import { Text } from '../../basic/text/Text';
 import { Chip, ChipProps } from '../../display/Chip';
 import { Popover } from '../../display/Popover';
-import { Container } from '../../layout/Container';
+import { Container } from '../../layout/container/Container';
 
 const meta = {
 	component: ChipInput,

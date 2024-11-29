@@ -1,0 +1,24 @@
+import * as SliderStories from './Slider.stories';
+import { Meta, Primary, Title, Controls, Stories } from "@storybook/blocks";
+import { Figma } from "@storybook/addon-designs/blocks";
+
+<Meta of={SliderStories} />
+
+<Title />
+
+<Primary />
+
+Slider allows choosing a value in a range. The slider is configured to have a range between 0 and the number of steps provided (as array of label for the options). The new value is the index (0-based) of the selected step.
+
+For the uncontrolled usage, the value prop can be used to set a default value.
+
+<Figma
+    allowFullscreen={true}
+    height="30%"
+    collapsable
+    url="https://www.figma.com/design/crORWeAU5S8Xugs4OmqPEV/UI-kit?node-id=4780-35665&node-type=section&t=OmI6hxyUlNjIlxJL-0"
+/>
+
+<Controls />
+
+<Stories />

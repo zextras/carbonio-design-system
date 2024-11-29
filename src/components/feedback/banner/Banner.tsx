@@ -14,7 +14,7 @@ import { AnyColor } from '../../../types/utils';
 import { Button, ButtonProps } from '../../basic/button/Button';
 import { Icon } from '../../basic/icon/Icon';
 import { Text } from '../../basic/text/Text';
-import { Container } from '../../layout/Container';
+import { Container } from '../../layout/container/Container';
 
 type ActionButton = Omit<
 	ButtonProps,

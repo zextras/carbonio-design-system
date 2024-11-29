@@ -42,7 +42,7 @@ describe('Collapsing Actions', () => {
 		for (let i = 0; i < 10; i += 1) {
 			actions.push({
 				id: `action${i}`,
-				label: faker.word.noun(),
+				label: `action ${i}`,
 				icon: icons[i],
 				onClick: () => undefined
 			});

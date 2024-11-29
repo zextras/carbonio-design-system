@@ -9,7 +9,7 @@ import styled from 'styled-components';
 
 import { TextArea, TextAreaProps } from './TextArea';
 import { Button } from '../../basic/button/Button';
-import { Container } from '../../layout/Container';
+import { Container } from '../../layout/container/Container';
 
 const StyledParagraph = styled.p`
 	border: 1px solid gray;

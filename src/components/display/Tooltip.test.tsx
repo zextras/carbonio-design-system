@@ -12,7 +12,7 @@ import { Tooltip } from './Tooltip';
 import { setup } from '../../test-utils';
 import { Button } from '../basic/button/Button';
 import { TIMERS } from '../constants';
-import { Container } from '../layout/Container';
+import { Container } from '../layout/container/Container';
 
 describe('Tooltip', () => {
 	test('Render Tooltip', async () => {
