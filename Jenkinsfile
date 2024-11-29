@@ -121,8 +121,8 @@ pipeline {
                     git checkout ${branchName}
                     git add .storybook-images
                     git commit -m "test: update images"
-                    git lfs push origin ${branchName}
-                    git push origin HEAD:refs/heads/${branchName}
+                    # git lfs push origin ${branchName}
+                    git push
                 """)
             }
         }
