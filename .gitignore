@@ -13,3 +13,4 @@ tsTemplate.js
 *.zip
 .tool-versions
 .DS_Store
+.npmrc
