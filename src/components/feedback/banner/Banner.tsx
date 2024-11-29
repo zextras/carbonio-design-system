@@ -333,7 +333,7 @@ const Banner = React.forwardRef<HTMLDivElement, BannerProps>(function BannerFn(
 						icon={'Close'}
 						color={textColor}
 						type={'ghost'}
-						size={'large'}
+						size={'small'}
 					/>
 				</CloseContainer>
 			)}
