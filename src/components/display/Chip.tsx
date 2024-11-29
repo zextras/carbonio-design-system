@@ -304,7 +304,7 @@ const Chip = React.forwardRef<HTMLDivElement, ChipProps>(function ChipFn(
 						>
 							<ActionIconButton
 								icon={action.icon}
-								labelColor={error ? 'error' : action.color /* ?? 'text' */}
+								labelColor={error ? 'error' : (action.color ?? 'text')}
 								shape={shape}
 								backgroundColor={error || !action.background ? 'gray5' : action.background}
 								disabled={!!disabled || action.disabled}
