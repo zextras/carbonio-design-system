@@ -116,10 +116,12 @@ pipeline {
                 executeNpmLogin()
                 nodeCmd('npm run test-storybook:update-images')
                 sh(script: """#!/bin/bash
-                    git fetch origin ${branchName}:refs/remotes/origin/${branchName}
-                    git checkout refs/remotes/origin/${branchName}
+                    git config --add remote.origin.fetch +refs/heads/${branchName}:refs/remotes/origin/${branchName}
+                    git fetch
+                    git checkout ${branchName}
                     git add .storybook-images
                     git commit -m "test: update images"
+                    git lfs push origin ${branchName}
                     git push origin HEAD:refs/heads/${branchName}
                 """)
             }
