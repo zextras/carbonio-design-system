@@ -205,6 +205,13 @@ pipeline {
                                 if (isPullRequest) {
                                     withCredentials([usernamePassword(credentialsId: 'tarsier-bot-pr-token-github', usernameVariable: 'GH_USERNAME', passwordVariable: 'GH_TOKEN')]) {
                                         sh(script: """
+                                            curl -X POST \
+                                              -H "Authorization: Bearer ${GH_TOKEN}" \
+                                              -H "Content-Type: multipart/form-data" \
+                                              -F "file=@.storybook-images/__diff_output__/components-feedback-banner--close-banner-diff.png" \
+                                              https://uploads.github.com/repos/${getRepositoryName()}/issues/${pullRequestId}/comments
+                                        """)
+                                        sh(script: """
                                             curl -L \
                                               -X POST \
                                               -H "Accept: application/vnd.github+json" \
