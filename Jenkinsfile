@@ -194,21 +194,6 @@ pipeline {
                     post {
                         failure {
                             archiveArtifacts artifacts: '.storybook-images/__diff_output__/*'
-                            script {
-                                if (isPullRequest) {
-                                    withCredentials([usernamePassword(credentialsId: 'tarsier-bot-pr-token-github', usernameVariable: 'GH_USERNAME', passwordVariable: 'GH_TOKEN')]) {
-                                        sh(script: """
-                                            curl -L \
-                                              -X POST \
-                                              -H "Accept: application/vnd.github+json" \
-                                              -H "Authorization: Bearer ${GH_TOKEN}" \
-                                              -H "X-GitHub-Api-Version: 2022-11-28" \
-                                              https://api.github.com/repos/${getRepositoryName()}/issues/${pullRequestId}/comments \
-                                              -d '{"body":"Visual tests failed ![component failed](https://ci.dev.zextras.com/job/Github/job/zextras/job/carbonio-design-system/job/PR-430/138/artifact/.storybook-images/__diff_output__/components-feedback-banner--close-banner-diff.png)"}'
-                                        """)
-                                    }
-                                }
-                            }
                         }
                     }
                 }
