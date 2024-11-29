@@ -141,7 +141,9 @@ const Banner = React.forwardRef<HTMLDivElement, BannerProps>(function BannerFn(
 
 	const onBannerResize = useCallback((bannerContentHeight: number) => {
 		if (actionsContainerRef.current) {
-			// actionsContainerRef must be align-self stretch in order to extend its height to the entire banner when inline
+			// actionsContainerRef must be align-self stretch in order to extend its height to the entire banner when inline.
+			// Use getBoundingClientRect to compare the height of the actions with the height of the banner (which is retrieved
+			// with contentRect.height), in order to have decimals on both of them (clientHeight is rounded to an int)
 			setIsMultiline(
 				actionsContainerRef.current.getBoundingClientRect().height < bannerContentHeight
 			);
