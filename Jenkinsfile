@@ -41,10 +41,6 @@ def getCommitVersion() {
     return sh(script: 'git log -1 | grep \'version:\' | sed -n \'s/.*version:\\s*//p\' ', returnStdout: true).trim()
 }
 
-String getLastCommit() {
-    return sh(script: 'git rev-parse HEAD', returnStdout: true)
-}
-
 Boolean lcovIsPresent
 Boolean isReleaseBranch
 Boolean isDevelBranch
@@ -52,7 +48,6 @@ Boolean isPullRequest
 Boolean isSonarQubeEnabled
 Boolean isDeployDocPlaygroundEnabled
 Boolean isUpdateImages
-String pullRequestId
 String branchName
 
 pipeline {
@@ -86,8 +81,6 @@ pipeline {
                     echo "isDeployDocPlaygroundEnabled: ${isDeployDocPlaygroundEnabled}"
                     isUpdateImages = params.UPDATE_IMAGES_TESTS == true
                     echo "isUpdateImages: ${isUpdateImages}"
-                    pullRequestId = env.CHANGE_ID
-                    echo "pullRequestId: ${pullRequestId}"
                     branchName = env.CHANGE_BRANCH
                     echo "branchName: ${branchName}"
                 }
