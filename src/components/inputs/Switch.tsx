@@ -6,11 +6,11 @@
 
 import React, { useRef } from 'react';
 
-import type { DefaultTheme } from 'styled-components';
 import styled, { css } from 'styled-components';
 
 import { useCheckbox } from '../../hooks/useCheckbox';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
+import type { Theme } from '../../theme/theme';
 import { Icon } from '../basic/icon/Icon';
 import { Text } from '../basic/text/Text';
 import type { ContainerProps } from '../layout/container/Container';
@@ -23,7 +23,7 @@ const CustomIcon = styled(Icon)``;
 
 const IconWrapper = styled.div<{
 	$disabled: boolean;
-	$iconColor: keyof DefaultTheme['palette'];
+	$iconColor: keyof Theme['palette'];
 }>`
 	position: relative;
 	display: flex;
@@ -75,7 +75,7 @@ interface SwitchProps extends Omit<ContainerProps, 'onChange' | 'onClick'> {
 	/** available sizes */
 	size?: SwitchSize;
 	/** icon color */
-	iconColor?: keyof DefaultTheme['palette'];
+	iconColor?: keyof Theme['palette'];
 }
 
 const Switch = React.forwardRef<HTMLDivElement, SwitchProps>(function SwitchFn(

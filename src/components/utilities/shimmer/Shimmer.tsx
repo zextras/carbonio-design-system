@@ -6,9 +6,9 @@
 
 import React from 'react';
 
-import type { DefaultTheme } from 'styled-components';
 import styled, { keyframes } from 'styled-components';
 
+import type { Theme } from '../../../theme/theme';
 import type { LiteralUnion, With$Prefix } from '../../../types/utils';
 import type { FormElementProps } from '../../basic/FormSection';
 import { FormSection, FormSubSection } from '../../basic/FormSection';
@@ -21,21 +21,21 @@ const SIZES = {
 	large: 0.9375
 } as const;
 
-const backgroundColorShimmer = (theme: DefaultTheme): string => `linear-gradient(
+const backgroundColorShimmer = (theme: Theme): string => `linear-gradient(
 	to right,
 	${theme.palette.gray4.regular} 20%,
 	${theme.palette.gray5.regular} 40%,
 	${theme.palette.gray4.regular} 100%
 )`;
 
-const backgroundColorShimmerDark = (theme: DefaultTheme): string => `linear-gradient(
+const backgroundColorShimmerDark = (theme: Theme): string => `linear-gradient(
 	to right,
 	${theme.palette.gray3.regular} 20%,
 	${theme.palette.gray4.regular} 40%,
 	${theme.palette.gray3.regular} 100%
 )`;
 
-const backgroundColorShimmerExtraDark = (theme: DefaultTheme): string => `linear-gradient(
+const backgroundColorShimmerExtraDark = (theme: Theme): string => `linear-gradient(
 	to right,
 	${theme.palette.gray2.regular} 20%,
 	${theme.palette.gray3.regular} 40%,
@@ -44,7 +44,7 @@ const backgroundColorShimmerExtraDark = (theme: DefaultTheme): string => `linear
 
 const backgroundFunction = (
 	variant: LiteralUnion<'dark' | 'extraDark', string>,
-	theme: DefaultTheme
+	theme: Theme
 ): string => {
 	switch (variant) {
 		case 'dark':

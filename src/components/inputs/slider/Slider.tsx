@@ -6,10 +6,10 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { rgba } from 'polished';
-import type { DefaultTheme } from 'styled-components';
 import styled from 'styled-components';
 
 import { useCombinedRefs } from '../../../hooks/useCombinedRefs';
+import type { Theme } from '../../../theme/theme';
 import { Tooltip } from '../../display/Tooltip';
 import { Container } from '../../layout/container/Container';
 
@@ -20,10 +20,7 @@ const SLIDER_SIZES = {
 	TICK_WIDTH: '0.0625rem'
 } as const;
 
-const SLIDER_COLORS: Record<
-	'THUMB' | 'TRACK' | 'TICK' | 'THUMB_SHADOW',
-	keyof DefaultTheme['palette']
-> = {
+const SLIDER_COLORS: Record<'THUMB' | 'TRACK' | 'TICK' | 'THUMB_SHADOW', keyof Theme['palette']> = {
 	TRACK: 'gray5',
 	THUMB: 'primary',
 	TICK: 'gray2',

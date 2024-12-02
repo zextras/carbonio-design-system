@@ -121,6 +121,12 @@ export * from './hooks/useModal';
 export * from './hooks/useSplitVisibility';
 export { useIntersectionObserver } from './hooks/useIntersectionObserver/useIntersectionObserver';
 
-export type { ThemeObj as Theme } from './theme/theme';
+export type {
+	Theme,
+	ThemeColorObj,
+	ThemeSizeObj,
+	ThemeSizeObjExtended,
+	Palette
+} from './theme/theme';
 export * from './types/globals';
 export type { AnyColor, PaletteColor } from './types/utils';

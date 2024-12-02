@@ -6,15 +6,15 @@
 
 import React, { useContext } from 'react';
 
-import type { DefaultTheme } from 'styled-components';
 import { StyleSheetManager, ThemeContext } from 'styled-components';
 
+import type { Theme } from './theme';
 import { ThemeProvider } from './theme-context-provider';
 
 interface ZimbraClassicThemeContextProviderProps {
 	styleSheetTarget?: HTMLElement;
 	children: React.ReactElement;
-	extension?: (theme: DefaultTheme) => DefaultTheme;
+	extension?: (theme: Theme) => Theme;
 	loadDefaultFont?: boolean;
 }
 

@@ -6,12 +6,12 @@
 
 import React, { useCallback, useMemo, useState } from 'react';
 
-import type { DefaultTheme } from 'styled-components';
 import styled from 'styled-components';
 
 import { useCombinedRefs } from '../../../hooks/useCombinedRefs';
 import type { KeyboardPresetObj } from '../../../hooks/useKeyboard';
 import { useKeyboard } from '../../../hooks/useKeyboard';
+import type { Theme } from '../../../theme/theme';
 import { getColor } from '../../../theme/theme-utils';
 import type { AnyColor } from '../../../types/utils';
 import { INPUT_BACKGROUND_COLOR, INPUT_DIVIDER_COLOR } from '../../constants';
@@ -66,7 +66,7 @@ interface InputProps extends ContainerProps {
 	/** Input's background color
 	 * @deprecated use background prop instead
 	 * */
-	backgroundColor?: keyof DefaultTheme['palette'];
+	backgroundColor?: keyof Theme['palette'];
 	/** whether to disable the Input or not */
 	disabled?: boolean;
 	/** Input's text color */

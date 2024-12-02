@@ -7,23 +7,22 @@
 import type { SVGAttributes } from 'react';
 import React, { useMemo } from 'react';
 
-import type { DefaultTheme } from 'styled-components';
 import styled, { css, useTheme } from 'styled-components';
 
-import type { IconComponent } from '../../../theme/theme';
+import type { Theme, IconComponent } from '../../../theme/theme';
 import { getColor } from '../../../theme/theme-utils';
 import type { AnyColor, MakeRequired, With$Prefix } from '../../../types/utils';
 
 interface IconComponentProps extends SVGAttributes<SVGSVGElement> {
 	/** Icon to show. It can be a string key for the theme icons or a custom icon component */
-	icon: keyof DefaultTheme['icons'] | IconComponent;
+	icon: keyof Theme['icons'] | IconComponent;
 }
 
 interface StyledIconProps {
 	/** Icon Color */
 	color?: AnyColor;
 	/** Icon size */
-	size?: keyof DefaultTheme['sizes']['icon'];
+	size?: keyof Theme['sizes']['icon'];
 	/** whether the icon is in a disabled element */
 	disabled?: boolean;
 }

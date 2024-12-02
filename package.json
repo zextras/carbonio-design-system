@@ -16,14 +16,14 @@
 	"scripts": {
 		"start": "npm run storybook",
 		"release": "standard-version",
-		"lint": "eslint --ext .js,.jsx,.ts,.tsx --resolve-plugins-relative-to node_modules/@zextras/carbonio-ui-configs src docs .storybook",
+		"lint": "eslint --ext .js,.jsx,.ts,.tsx --resolve-plugins-relative-to node_modules/@zextras/carbonio-ui-configs src docs .storybook scripts",
 		"lint:icons": "eslint --ext .ts,.tsx --resolve-plugins-relative-to node_modules/@zextras/carbonio-ui-configs src/icons --fix",
 		"test": "(is-ci && jest --runInBand) || jest --maxWorkers=50%",
 		"icons:build": "tsc ./src/icons/tsTemplate.ts && npx @svgr/cli svg && npm run lint:icons",
 		"prebuild": "npm run clean",
 		"build": "npm run build:cjs && npm run build:types",
 		"build:cjs": "npx rollup -c rollup.config.mjs",
-		"build:types": "tsc -p tsconfig.types.json && npx @microsoft/api-extractor run --verbose --local",
+		"build:types": "tsc -p tsconfig.types.json && npx @microsoft/api-extractor run --verbose --local && npx tsx scripts/inject-augmentations.ts",
 		"clean": "rm -rf dist/* types/*",
 		"prepack": "npm run build",
 		"packTo": "npm pack --pack-destination $PKG_PATH && cd $PKG_PATH && npm i zextras-carbonio-design-system-$npm_package_version.tgz",
@@ -80,7 +80,7 @@
 		"@types/lodash": "^4.17.7",
 		"@types/react": "^18.3.7",
 		"@types/react-dom": "^18.3.0",
-		"@zextras/carbonio-ui-configs": "^1.0.3",
+		"@zextras/carbonio-ui-configs": "^1.0.4",
 		"babel-jest": "^29.7.0",
 		"babel-loader": "^9.2.1",
 		"babel-plugin-styled-components": "^2.1.4",
@@ -107,7 +107,7 @@
 		"storybook": "8.4.4",
 		"storybook-addon-playground": "^1.9.2",
 		"ts-node": "^10 >=10.9.2",
-		"typescript": "~5.6.3"
+		"typescript": "~5.7.2"
 	},
 	"browserslist": [
 		">1%",

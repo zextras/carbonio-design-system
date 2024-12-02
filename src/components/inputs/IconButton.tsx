@@ -6,11 +6,11 @@
 
 import React, { useCallback, useMemo } from 'react';
 
-import type { DefaultTheme } from 'styled-components';
 import styled, { css, useTheme } from 'styled-components';
 
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { useKeyboard, getKeyboardPreset } from '../../hooks/useKeyboard';
+import type { Theme } from '../../theme/theme';
 import { getPadding, isThemeSize } from '../../theme/theme-utils';
 import type { AnyColor } from '../../types/utils';
 import type { ButtonProps } from '../basic/button/Button';
@@ -49,11 +49,11 @@ type IconButtonProps = Omit<ButtonProps, 'secondaryAction'> & {
 	size?: ButtonProps['size'];
 	/** Custom button size */
 	customSize?: {
-		iconSize: string | keyof DefaultTheme['sizes']['icon'];
-		paddingSize: 0 | string | keyof DefaultTheme['sizes']['padding'];
+		iconSize: string | keyof Theme['sizes']['icon'];
+		paddingSize: 0 | string | keyof Theme['sizes']['padding'];
 	};
 	/** icon name */
-	icon: keyof DefaultTheme['icons'];
+	icon: keyof Theme['icons'];
 	/** IconButton border radius */
 	borderRadius?: 'regular' | 'round';
 	/** Click callback */

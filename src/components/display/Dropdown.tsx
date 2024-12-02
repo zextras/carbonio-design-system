@@ -10,7 +10,6 @@ import React, { useState, useRef, useEffect, useLayoutEffect, useCallback, useMe
 
 import type { Placement, VirtualElement } from '@floating-ui/dom';
 import { flip, limitShift, shift } from '@floating-ui/dom';
-import type { DefaultTheme } from 'styled-components';
 import styled, { css, useTheme } from 'styled-components';
 
 import { Tooltip } from './Tooltip';
@@ -25,6 +24,7 @@ import {
 	focusOnLastNode,
 	clickNodeWithFocus
 } from '../../hooks/useKeyboard';
+import type { Theme } from '../../theme/theme';
 import { pseudoClasses } from '../../theme/theme-utils';
 import { setupFloating } from '../../utils/floating-ui';
 import { Icon } from '../basic/icon/Icon';
@@ -36,7 +36,7 @@ import { Padding } from '../layout/Padding';
 import { Portal } from '../utilities/Portal';
 
 const ContainerEl = styled(Container)<{
-	$selectedBackgroundColor?: keyof DefaultTheme['palette'];
+	$selectedBackgroundColor?: keyof Theme['palette'];
 	$disabled: boolean;
 }>`
 	user-select: none;
@@ -52,7 +52,7 @@ interface ListItemContentProps {
 	disabled?: boolean;
 	itemIconSize: React.ComponentPropsWithRef<typeof Icon>['size'];
 	itemTextSize: React.ComponentProps<typeof Text>['size'];
-	itemPaddingBetween: keyof DefaultTheme['sizes']['padding'];
+	itemPaddingBetween: keyof Theme['sizes']['padding'];
 	tooltipLabel?: string;
 }
 
@@ -95,7 +95,7 @@ function ListItemContent({
 interface PopperListItemProps extends ListItemContentProps, HTMLAttributes<HTMLDivElement> {
 	onClick?: (e: React.SyntheticEvent<HTMLElement> | KeyboardEvent) => void;
 	customComponent?: React.ReactNode;
-	selectedBackgroundColor?: keyof DefaultTheme['palette'];
+	selectedBackgroundColor?: keyof Theme['palette'];
 	keepOpen?: boolean;
 }
 
@@ -442,13 +442,13 @@ interface DropdownProps extends Omit<HTMLAttributes<HTMLDivElement>, 'contextMen
 	/** Whether to preventDefault on Dropdown click */
 	preventDefault?: boolean;
 	/** Customize selected background color */
-	selectedBackgroundColor?: keyof DefaultTheme['palette'];
+	selectedBackgroundColor?: keyof Theme['palette'];
 	/** Item Icon size */
 	itemIconSize?: React.ComponentPropsWithRef<typeof Icon>['size'];
 	/** Item Text size */
 	itemTextSize?: React.ComponentPropsWithRef<typeof Text>['size'];
 	/** Item Padding Between */
-	itemPaddingBetween?: keyof DefaultTheme['sizes']['padding'];
+	itemPaddingBetween?: keyof Theme['sizes']['padding'];
 	/** Ref assign to the dropdown list popper container */
 	dropdownListRef?: React.ForwardedRef<HTMLDivElement> | null;
 }
