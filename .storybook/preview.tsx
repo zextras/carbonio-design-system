@@ -5,6 +5,8 @@ import { ThemeProvider } from '../src';
 import { StoryFn, Preview } from '@storybook/react';
 import { DarkReaderDocsContainer } from "./addons/darkreader/DarkReaderDocsContainer";
 import { jsx, css } from '../src/playground/playground-helper';
+import { generateAutocompletion } from "storybook-addon-playground";
+import docgenOutput from './docgen-output.json'
 
 export const decorators = [
 	(Story: StoryFn) => (
@@ -34,8 +36,9 @@ const preview = {
 		playground: {
 			storyId: "playground",
 			components: {...Utils},
+			autocompletions: generateAutocompletion(docgenOutput),
 			introCode: { jsx, css },
-			share: true
+			share: true,
 		},
 	}
 } satisfies Preview;

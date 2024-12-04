@@ -1,3 +1,6 @@
+npm run docgen
+git add .storybook/docgen-output.json
+
 npm run lint
 npm run type-check
 npm test
