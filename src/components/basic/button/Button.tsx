@@ -12,7 +12,7 @@ import { useCombinedRefs } from '../../../hooks/useCombinedRefs';
 import { getColor, pseudoClasses } from '../../../theme/theme-utils';
 import { AnyColor, With$Prefix, Without$Prefix } from '../../../types/utils';
 import { Icon, IconProps } from '../icon/Icon';
-import { Spinner } from '../Spinner';
+import { Spinner } from '../spinner/Spinner';
 import { Text } from '../text/Text';
 
 type ButtonShape = 'regular' | 'round';

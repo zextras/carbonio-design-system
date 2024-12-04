@@ -7,8 +7,8 @@ import React, { HTMLAttributes } from 'react';
 
 import styled, { keyframes } from 'styled-components';
 
-import { getColor } from '../../theme/theme-utils';
-import { AnyColor } from '../../types/utils';
+import { getColor } from '../../../theme/theme-utils';
+import { AnyColor } from '../../../types/utils';
 
 interface SpinnerProps extends HTMLAttributes<HTMLDivElement> {
 	color: AnyColor;
