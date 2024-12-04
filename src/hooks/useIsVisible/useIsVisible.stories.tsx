@@ -22,7 +22,12 @@ const Hook = (): React.JSX.Element => {
 };
 
 const meta = {
-	component: Hook
+	component: Hook,
+	parameters: {
+		visualTest: {
+			skip: true
+		}
+	}
 } satisfies Meta<typeof Hook>;
 
 export default meta;

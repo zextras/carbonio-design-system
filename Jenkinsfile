@@ -47,6 +47,8 @@ Boolean isDevelBranch
 Boolean isPullRequest
 Boolean isSonarQubeEnabled
 Boolean isDeployDocPlaygroundEnabled
+Boolean isUpdateImages
+String branchName
 
 pipeline {
     agent {
@@ -61,32 +63,66 @@ pipeline {
     parameters {
         booleanParam defaultValue: true, description: 'Enable SonarQube Stage', name: 'RUN_SONARQUBE'
         booleanParam defaultValue: false, description: 'Deploy to dev doc playground', name: 'DEPLOY_DOC_PLAYGROUND'
+        booleanParam defaultValue: false, description: 'Update Images for Visual Tests', name: 'UPDATE_IMAGES_TESTS'
     }
     stages {
         stage("Read settings") {
             steps {
                 script {
-                   isReleaseBranch = "${BRANCH_NAME}" ==~ /release/
-                   echo "isReleaseBranch: ${isReleaseBranch}"
-                   isDevelBranch = "${BRANCH_NAME}" ==~ /devel/
-                   echo "isDevelBranch: ${isDevelBranch}"
-                   isPullRequest = "${BRANCH_NAME}" ==~ /PR-\d+/
-                   echo "isPullRequest: ${isPullRequest}"
-                   isSonarQubeEnabled = params.RUN_SONARQUBE == true && (isPullRequest || isDevelBranch || isReleaseBranch)
-                   echo "isSonarQubeEnabled: ${isSonarQubeEnabled}"
-                   isDeployDocPlaygroundEnabled = params.DEPLOY_DOC_PLAYGROUND == true
-                   echo "isDeployDocPlaygroundEnabled: ${isDeployDocPlaygroundEnabled}"
+                    isReleaseBranch = "${BRANCH_NAME}" ==~ /release/
+                    echo "isReleaseBranch: ${isReleaseBranch}"
+                    isDevelBranch = "${BRANCH_NAME}" ==~ /devel/
+                    echo "isDevelBranch: ${isDevelBranch}"
+                    isPullRequest = "${BRANCH_NAME}" ==~ /PR-\d+/
+                    echo "isPullRequest: ${isPullRequest}"
+                    isSonarQubeEnabled = params.RUN_SONARQUBE == true && (isPullRequest || isDevelBranch || isReleaseBranch)
+                    echo "isSonarQubeEnabled: ${isSonarQubeEnabled}"
+                    isDeployDocPlaygroundEnabled = params.DEPLOY_DOC_PLAYGROUND == true
+                    echo "isDeployDocPlaygroundEnabled: ${isDeployDocPlaygroundEnabled}"
+                    isUpdateImages = params.UPDATE_IMAGES_TESTS == true
+                    echo "isUpdateImages: ${isUpdateImages}"
+                    branchName = env.CHANGE_BRANCH
+                    echo "branchName: ${branchName}"
                 }
+            }
+        }
+        stage('Update Visual Test Images') {
+            when {
+                beforeAgent true
+                allOf {
+                    expression { isUpdateImages == true }
+                }
+            }
+            agent {
+                node {
+                    label 'nodejs-agent-v4'
+                }
+            }
+            steps {
+                executeNpmLogin()
+                nodeCmd('npm run test-storybook:update-images')
+                sh(script: """#!/bin/bash
+                    git config --add remote.origin.fetch +refs/heads/${branchName}:refs/remotes/origin/${branchName}
+                    git fetch
+                    git checkout ${branchName}
+                    git add .storybook-images
+                    git commit -m "test: update images"
+                    git lfs push
+                    git push
+                """)
             }
         }
 
         stage('Tests') {
             when {
                 beforeAgent true
-                anyOf {
-                    expression { isSonarQubeEnabled == true }
-                    expression { isPullRequest == true }
-                    expression { isDevelBranch == true }
+                allOf {
+                    expression { isUpdateImages == false }
+                    anyOf {
+                        expression { isSonarQubeEnabled == true }
+                        expression { isPullRequest == true }
+                        expression { isDevelBranch == true }
+                    }
                 }
             }
             parallel {
@@ -108,10 +144,8 @@ pipeline {
                         }
                     }
                     steps {
-                        script {
-                            executeNpmLogin()
-                            nodeCmd('npm run type-check')
-                        }
+                        executeNpmLogin()
+                        nodeCmd('npm run type-check')
                     }
                 }
                 stage('Unit Tests') {
@@ -140,6 +174,22 @@ pipeline {
                         }
                     }
                 }
+                stage('Visual test') {
+                    agent {
+                        node {
+                            label 'nodejs-agent-v4'
+                        }
+                    }
+                    steps {
+                        executeNpmLogin()
+                        nodeCmd('npm run test-storybook')
+                    }
+                    post {
+                        failure {
+                            archiveArtifacts artifacts: '.storybook-images/__diff_output__/*'
+                        }
+                    }
+                }
             }
         }
 
@@ -150,9 +200,10 @@ pipeline {
                 }
             }
             when {
-                beforeAgent(true)
+                beforeAgent true
                 allOf {
                     expression { isSonarQubeEnabled == true }
+                    expression { isUpdateImages == false }
                 }
             }
             steps {
@@ -171,6 +222,12 @@ pipeline {
         stage('Build') {
             parallel {
                 stage('Build package') {
+                    when {
+                        beforeAgent true
+                        allOf {
+                            expression { isUpdateImages == false }
+                        }
+                    }
                     agent {
                         node {
                             label 'nodejs-agent-v4'
@@ -186,11 +243,14 @@ pipeline {
                 stage('Build documentation') {
                     when {
                         beforeAgent true
-                        anyOf {
-                            expression { isPullRequest == true }
-                            expression { isReleaseBranch == true }
-                            expression { isDevelBranch == true }
-                            expression { isDeployDocPlaygroundEnabled == true }
+                        allOf {
+                            expression { isUpdateImages == false }
+                            anyOf {
+                                expression { isPullRequest == true }
+                                expression { isReleaseBranch == true }
+                                expression { isDevelBranch == true }
+                                expression { isDeployDocPlaygroundEnabled == true }
+                            }
                         }
                     }
                     agent {
@@ -214,6 +274,7 @@ pipeline {
                 beforeAgent true
                 allOf {
                     expression { isPullRequest == false }
+                    expression { isUpdateImages == false }
                 }
             }
             steps {
@@ -232,6 +293,7 @@ pipeline {
                 beforeAgent true
                 allOf {
                     expression { isReleaseBranch == true }
+                    expression { isUpdateImages == false }
                 }
             }
             steps {
@@ -261,10 +323,13 @@ pipeline {
         stage('Deploy documentation') {
             when {
                 beforeAgent true
-                anyOf {
-                    expression { isReleaseBranch == true }
-                    expression { isDevelBranch == true }
-                    expression { isDeployDocPlaygroundEnabled == true }
+                allOf {
+                    expression { isUpdateImages == false }
+                    anyOf {
+                        expression { isReleaseBranch == true }
+                        expression { isDevelBranch == true }
+                        expression { isDeployDocPlaygroundEnabled == true }
+                    }
                 }
             }
             steps {

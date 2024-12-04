@@ -12,6 +12,7 @@ import styled, { css } from 'styled-components';
 
 import { useCombinedRefs } from '../../../hooks/useCombinedRefs';
 import { useModal } from '../../../hooks/useModal';
+import { useTheme } from '../../../theme/theme-utils';
 import type { AnyColor } from '../../../types/utils';
 import type { ButtonProps } from '../../basic/button/Button';
 import { Button } from '../../basic/button/Button';
@@ -71,7 +72,7 @@ const BannerText = styled(Text)`
 
 const WrapAndGrowContainer = styled(Container)`
 	flex-basis: ${({ theme, gap, flexBasis }): ReturnType<typeof css> =>
-		css`calc(${flexBasis} + ${theme.sizes.icon.large} + ${gap})`})
+		css`calc(${flexBasis} + ${theme.sizes.icon.large} + ${gap})`};
 `;
 
 const ActionsContainer = styled(Container)`
@@ -143,8 +144,12 @@ const Banner = React.forwardRef<HTMLDivElement, BannerProps>(function BannerFn(
 
 	const onBannerResize = useCallback((bannerContentHeight: number) => {
 		if (actionsContainerRef.current) {
-			// actionsContainerRef must be align-self stretch in order to extend its height to the entire banner when inline
-			setIsMultiline(actionsContainerRef.current.clientHeight < bannerContentHeight);
+			// actionsContainerRef must be align-self stretch in order to extend its height to the entire banner when inline.
+			// Use getBoundingClientRect to compare the height of the actions with the height of the banner (which is retrieved
+			// with contentRect.height), in order to have decimals on both of them (clientHeight is rounded to an int)
+			setIsMultiline(
+				actionsContainerRef.current.getBoundingClientRect().height < bannerContentHeight
+			);
 		}
 		if (infoContainerRef.current) {
 			setIsTextCropped(
@@ -171,9 +176,17 @@ const Banner = React.forwardRef<HTMLDivElement, BannerProps>(function BannerFn(
 		};
 	}, [bannerRef, onBannerResize]);
 
+	const {
+		sizes: { font }
+	} = useTheme();
+	const descriptionFontSize = 'small';
+
 	const contentFlexBasis = useMemo(() => {
 		const titleLength = title?.length ?? 0;
-		const descriptionLength = description.length * 0.875;
+		// Multiply the description length to the font size since the font size is different from the title one.
+		// This is to approximate the final number of chars,
+		// because 5 chars of the title occupies more space than 5 chars of the description
+		const descriptionLength = description.length * parseFloat(font[descriptionFontSize]);
 		// calculate the number of character which can be seen in a line,
 		// in order to keep all text visible (both title and description - more or less, it is not super precise)
 		const numberOfCharsPerLine = Math.ceil(
@@ -181,7 +194,7 @@ const Banner = React.forwardRef<HTMLDivElement, BannerProps>(function BannerFn(
 		);
 		const extraChars = 4;
 		return `${numberOfCharsPerLine + extraChars}ch`;
-	}, [title, description?.length]);
+	}, [title?.length, description.length, font]);
 
 	const showMoreInfoModal = useCallback(() => {
 		const id = Date.now().toString();
@@ -262,11 +275,22 @@ const Banner = React.forwardRef<HTMLDivElement, BannerProps>(function BannerFn(
 					data-testid={'banner-info-container'}
 				>
 					{title && (
-						<BannerText color={textColor} size={'medium'} weight={'bold'} overflow={'break-word'}>
+						<BannerText
+							color={textColor}
+							size={'medium'}
+							weight={'bold'}
+							overflow={'break-word'}
+							lineHeight={1.2}
+						>
 							{title}
 						</BannerText>
 					)}
-					<BannerText color={textColor} size={'small'} overflow={'break-word'}>
+					<BannerText
+						color={textColor}
+						size={descriptionFontSize}
+						overflow={'break-word'}
+						lineHeight={1.2}
+					>
 						{description}
 					</BannerText>
 				</InfoContainer>
