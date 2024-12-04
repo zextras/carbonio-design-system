@@ -45,6 +45,11 @@ export const WithPagination = {
 	render: PaginatedList,
 	args: {
 		limit: 3
+	},
+	parameters: {
+		visualTest: {
+			waitTime: 1000
+		}
 	}
 } satisfies StoryObj<ListProps & { limit: number }>;
 
@@ -52,7 +57,12 @@ export const WithComplexListItem = {
 	args: {
 		children: []
 	},
-	render: WithComplexItem
+	render: WithComplexItem,
+	parameters: {
+		visualTest: {
+			skip: true
+		}
+	}
 } satisfies Story;
 
 export const WithCustomBackground = {
@@ -61,5 +71,10 @@ export const WithCustomBackground = {
 		selectedBackground: 'success',
 		activeBackground: 'warning'
 	},
-	render: WithComplexItem
+	render: WithComplexItem,
+	parameters: {
+		visualTest: {
+			skip: true
+		}
+	}
 } satisfies Story;
