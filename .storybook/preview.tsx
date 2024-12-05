@@ -38,7 +38,7 @@ const preview = {
 			components: {...Utils},
 			autocompletions: generateAutocompletion(docgenOutput),
 			introCode: { jsx, css },
-			share: true,
+			share: true
 		},
 	}
 } satisfies Preview;
