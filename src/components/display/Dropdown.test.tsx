@@ -5,7 +5,7 @@
  */
 import React from 'react';
 
-import { act } from '@testing-library/react';
+import { act, fireEvent } from '@testing-library/react';
 
 import { Dropdown, DropdownItem } from './Dropdown';
 import { setup, within, screen, UserEvent } from '../../test-utils';
@@ -599,6 +599,47 @@ describe('Dropdown', () => {
 			jest.advanceTimersByTime(TIMERS.DROPDOWN.CLOSE_NESTED);
 		});
 		expect(findDropdownItem('item 5')).toHaveFocus();
+	});
+
+	it('should close dropdown when scrolling outside of the dropdown', async () => {
+		const items = [
+			{ id: '1', label: 'Item 1' },
+			{ id: '2', label: 'Item 2' }
+		] satisfies DropdownItem[];
+		const { user } = setup(
+			<div data-testid="outside-component">
+				<Dropdown items={items} placement="bottom-end">
+					<Button icon="ArrowDown" label="Create" onClick={jest.fn()} />
+				</Dropdown>
+			</div>
+		);
+
+		await user.click(screen.getByRole('button'));
+		expect(screen.getByText(items[0].label)).toBeVisible();
+
+		fireEvent.scroll(screen.getByTestId('outside-component'));
+
+		expect(screen.queryByText(items[0].label)).not.toBeInTheDocument();
+	});
+
+	it('should not close dropdown when scrolling inside the dropdown', async () => {
+		const items = [
+			{ id: '1', label: 'Item 1' },
+			{ id: '2', label: 'Item 2' },
+			{ id: '3', label: 'Item 3' }
+		] satisfies DropdownItem[];
+		const { user } = setup(
+			<Dropdown items={items} placement="bottom-end">
+				<Button icon="ArrowDown" label="Create" onClick={jest.fn()} />
+			</Dropdown>
+		);
+
+		await user.click(screen.getByRole('button'));
+		expect(screen.getByText(items[0].label)).toBeVisible();
+
+		fireEvent.scroll(screen.getByText(items[1].label));
+
+		expect(screen.getByText(items[0].label)).toBeInTheDocument();
 	});
 
 	describe('Keyboard shortcuts', () => {
