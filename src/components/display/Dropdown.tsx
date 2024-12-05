@@ -574,23 +574,23 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 		[disabled, openPopper]
 	);
 
-	const clickOutsidePopper = useCallback(
+	const handleOutsidePopperInteraction = useCallback(
 		(e: Event) => {
-			const clickedOnDropdown =
+			const isInteractingWithDropdown =
 				dropdownRef.current &&
 				(e.target === dropdownRef.current || dropdownRef.current.contains(e.target as Node | null));
-			const clickedOnTrigger =
+			const isInteractingWithTrigger =
 				!contextMenu &&
 				innerTriggerRef.current &&
 				(e.target === innerTriggerRef.current ||
 					innerTriggerRef.current?.contains(e.target as Node | null));
-			const clickedOnNestedItem = nestedDropdownsRef.current?.some((nestedItemRef) =>
+			const isInteractingWithNestedDropdown = nestedDropdownsRef.current?.some((nestedItemRef) =>
 				nestedItemRef.current?.contains(e.target as Node | null)
 			);
 			if (
-				!clickedOnDropdown &&
-				!clickedOnTrigger &&
-				!clickedOnNestedItem &&
+				!isInteractingWithDropdown &&
+				!isInteractingWithTrigger &&
+				!isInteractingWithNestedDropdown &&
 				// check if the attribute is in the event path
 				!e
 					.composedPath?.()
@@ -730,15 +730,18 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 
 	useEffect(() => {
 		if (open) {
-			windowObj.document.addEventListener('click', clickOutsidePopper, true);
-			contextMenu && windowObj.document.addEventListener('contextmenu', clickOutsidePopper, true);
+			windowObj.document.addEventListener('click', handleOutsidePopperInteraction, true);
+			windowObj.document.addEventListener('scroll', handleOutsidePopperInteraction, true);
+			contextMenu &&
+				windowObj.document.addEventListener('contextmenu', handleOutsidePopperInteraction, true);
 		}
 
 		return (): void => {
-			windowObj.document.removeEventListener('click', clickOutsidePopper, true);
-			windowObj.document.removeEventListener('contextmenu', clickOutsidePopper, true);
+			windowObj.document.removeEventListener('click', handleOutsidePopperInteraction, true);
+			windowObj.document.removeEventListener('scroll', handleOutsidePopperInteraction, true);
+			windowObj.document.removeEventListener('contextmenu', handleOutsidePopperInteraction, true);
 		};
-	}, [open, closePopper, clickOutsidePopper, contextMenu, windowObj.document]);
+	}, [open, closePopper, handleOutsidePopperInteraction, contextMenu, windowObj.document]);
 
 	useEffect(() => {
 		const startSentinelRefElement = startSentinelRef.current;
