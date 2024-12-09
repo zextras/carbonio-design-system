@@ -3,8 +3,7 @@
   "include": [
     "src/**/*",
     ".storybook/**/*",
-    "scripts/*",
-    "docs/*"
+    "scripts/*"
   ],
   "exclude": [
     "node_modules",

@@ -64,6 +64,15 @@ export const Info: Story = {
 		label: 'Lorem Ipsum dolor sit amet',
 		severity: 'info',
 		actionLabel: 'Ok'
+	},
+	play: async ({ canvasElement }) => {
+		const canvas = within(canvasElement);
+		const button = canvas.getByRole('button', {
+			name: /click/i
+		});
+		await expect(button).toBeVisible();
+		await userEvent.click(button);
+		await expect(screen.getByText(/Lorem Ipsum dolor sit amet/i)).toBeVisible();
 	}
 };
 
@@ -72,6 +81,15 @@ export const Warning: Story = {
 		label: 'Lorem Ipsum dolor sit amet',
 		severity: 'warning',
 		actionLabel: 'Ok'
+	},
+	play: async ({ canvasElement }) => {
+		const canvas = within(canvasElement);
+		const button = canvas.getByRole('button', {
+			name: /click/i
+		});
+		await expect(button).toBeVisible();
+		await userEvent.click(button);
+		await expect(screen.getByText(/Lorem Ipsum dolor sit amet/i)).toBeVisible();
 	}
 };
 
@@ -81,6 +99,15 @@ export const Error: Story = {
 		severity: 'error',
 		actionLabel: 'Ok',
 		disableAutoHide: true
+	},
+	play: async ({ canvasElement }) => {
+		const canvas = within(canvasElement);
+		const button = canvas.getByRole('button', {
+			name: /click/i
+		});
+		await expect(button).toBeVisible();
+		await userEvent.click(button);
+		await expect(screen.getByText(/Lorem Ipsum dolor sit amet/i)).toBeVisible();
 	}
 };
 
@@ -91,6 +118,15 @@ export const LongTextAction: Story = {
 		severity: 'info',
 		actionLabel: 'Откройте папку корзины',
 		disableAutoHide: true
+	},
+	play: async ({ canvasElement }) => {
+		const canvas = within(canvasElement);
+		const button = canvas.getByRole('button', {
+			name: /click/i
+		});
+		await expect(button).toBeVisible();
+		await userEvent.click(button);
+		await expect(screen.getByText(/Файл был перемещен в корзину/i)).toBeVisible();
 	}
 };
 
@@ -101,6 +137,17 @@ export const ShortTextLongAction: Story = {
 		severity: 'info',
 		actionLabel: 'Very long action on snackbar with superlongwordwithlotofchars',
 		disableAutoHide: true
+	},
+	play: async ({ canvasElement }) => {
+		const canvas = within(canvasElement);
+		const button = canvas.getByRole('button', {
+			name: /click/i
+		});
+		await expect(button).toBeVisible();
+		await userEvent.click(button);
+		await expect(
+			screen.getByText(/Very long action on snackbar with superlongwordwithlotofchars/i)
+		).toBeVisible();
 	}
 };
 
@@ -111,6 +158,17 @@ export const LongTextShortAction: Story = {
 		severity: 'info',
 		actionLabel: 'Text',
 		disableAutoHide: true
+	},
+	play: async ({ canvasElement }) => {
+		const canvas = within(canvasElement);
+		const button = canvas.getByRole('button', {
+			name: /click/i
+		});
+		await expect(button).toBeVisible();
+		await userEvent.click(button);
+		await expect(
+			screen.getByText(/Very long action on snackbar with superlongwordwithlotofchars/i)
+		).toBeVisible();
 	}
 };
 
@@ -121,18 +179,47 @@ export const MediumTextAction: Story = {
 		severity: 'info',
 		actionLabel: 'Go to trash folder',
 		disableAutoHide: true
+	},
+	play: async ({ canvasElement }) => {
+		const canvas = within(canvasElement);
+		const button = canvas.getByRole('button', {
+			name: /click/i
+		});
+		await expect(button).toBeVisible();
+		await userEvent.click(button);
+		await expect(screen.getByText(/Item moved to trash with success/i)).toBeVisible();
 	}
 };
 
 export const WithComponentLabel = {
 	args: {
 		label: <Text>Label is a custom component</Text>
+	},
+	play: async ({ canvasElement }): Promise<void> => {
+		const canvas = within(canvasElement);
+		const button = canvas.getByRole('button', {
+			name: /click/i
+		});
+		await expect(button).toBeVisible();
+		await userEvent.click(button);
+		await expect(screen.getByText(/Label is a custom component/i)).toBeVisible();
 	}
 } satisfies Story;
 
+const longWord =
+	'Dziewięćsetdziewięćdziesiątdziewięćmiliardówdziewięćsetdziewięćdziesiątdziewięćmilionówdziewięćsetdziewięćdziesiątdziewięćtysięcydziewięćsetdziewięćdziesięciodziewięcioletniego';
+
 export const LongWordLabel = {
 	args: {
-		label:
-			'Dziewięćsetdziewięćdziesiątdziewięćmiliardówdziewięćsetdziewięćdziesiątdziewięćmilionówdziewięćsetdziewięćdziesiątdziewięćtysięcydziewięćsetdziewięćdziesięciodziewięcioletniego'
+		label: longWord
+	},
+	play: async ({ canvasElement }): Promise<void> => {
+		const canvas = within(canvasElement);
+		const button = canvas.getByRole('button', {
+			name: /click/i
+		});
+		await expect(button).toBeVisible();
+		await userEvent.click(button);
+		await expect(screen.getByText(longWord)).toBeVisible();
 	}
 } satisfies Story;

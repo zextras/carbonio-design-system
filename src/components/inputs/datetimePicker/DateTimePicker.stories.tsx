@@ -30,28 +30,28 @@ export const WithReactDatePickerProps = {
 		dateFormat: 'dd/MM/yyyy',
 		preventOpenOnFocus: true,
 		timeIntervals: 10,
-		defaultValue: new Date()
+		defaultValue: new Date(2024, 9, 21, 12, 32, 42, 0)
 	}
 } satisfies Story;
 
 export const WithoutTime = {
 	args: {
 		showTimeSelect: false,
-		defaultValue: new Date()
+		defaultValue: new Date(2024, 9, 21, 12, 32, 42, 0)
 	}
 } satisfies Story;
 
 export const WithChips = {
 	args: {
 		enableChips: true,
-		defaultValue: new Date()
+		defaultValue: new Date(2024, 9, 21, 12, 32, 42, 0)
 	}
 } satisfies Story;
 
 export const WithErrorOnInput = {
 	args: {
 		hasError: true,
-		defaultValue: new Date()
+		defaultValue: new Date(2024, 9, 21, 12, 32, 42, 0)
 	}
 } satisfies Story;
 
@@ -60,7 +60,7 @@ export const WithErrorOnChipInput = {
 		hasError: true,
 		enableChips: true,
 		chipProps: { error: 'Error message for the chip' },
-		defaultValue: new Date()
+		defaultValue: new Date(2024, 9, 21, 12, 32, 42, 0)
 	}
 } satisfies Story;
 
