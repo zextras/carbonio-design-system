@@ -8,8 +8,9 @@ import React from 'react';
 
 import styled, { css } from 'styled-components';
 
-import { Container, ContainerProps } from './container/Container';
-import { With$Prefix } from '../../types/utils';
+import type { ContainerProps } from './container/Container';
+import { Container } from './container/Container';
+import type { With$Prefix } from '../../types/utils';
 
 interface RowProps extends ContainerProps {
 	display?: string;
@@ -70,4 +71,5 @@ const Row = React.forwardRef<HTMLDivElement, RowProps>(function RowFn(
 	);
 });
 
-export { Row, RowProps };
+export type { RowProps };
+export { Row };

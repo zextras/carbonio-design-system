@@ -6,8 +6,8 @@
 import React from 'react';
 
 import { Divider } from './Divider';
-import { screen, setup } from '../../../test-utils';
-import { SELECTORS } from '../../../testUtils/constants';
+import { SELECTORS } from '../../../tests/constants';
+import { screen, setup } from '../../../tests/utils';
 import { Theme } from '../../../theme/theme';
 
 describe('Divider', () => {

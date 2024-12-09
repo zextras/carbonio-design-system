@@ -1,15 +1,21 @@
-import React from 'react'
+/*
+ * SPDX-FileCopyrightText: 2024 Zextras <https://www.zextras.com>
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+import React from 'react';
 
-import * as Utils from '../src'
+import type { StoryFn, Preview } from '@storybook/react';
+import { generateAutocompletion } from 'storybook-addon-playground';
+
+import { DarkReaderDocsContainer } from './addons/darkreader/DarkReaderDocsContainer';
+import docgenOutput from './docgen-output.json';
+import * as Utils from '../src';
 import { ThemeProvider } from '../src';
-import { StoryFn, Preview } from '@storybook/react';
-import { DarkReaderDocsContainer } from "./addons/darkreader/DarkReaderDocsContainer";
 import { jsx, css } from '../src/playground/playground-helper';
-import { generateAutocompletion } from "storybook-addon-playground";
-import docgenOutput from './docgen-output.json'
 
 export const decorators = [
-	(Story: StoryFn) => (
+	(Story: StoryFn): React.JSX.Element => (
 		<ThemeProvider>
 			<Story />
 		</ThemeProvider>
@@ -24,8 +30,8 @@ const preview = {
 		actions: { argTypesRegex: '^on.*' },
 		options: {
 			storySort: {
-				order: ['Getting started', 'Theme', 'Components', 'Hooks'],
-			},
+				order: ['Getting started', 'Theme', 'Components', 'Hooks']
+			}
 		},
 		docs: {
 			container: DarkReaderDocsContainer,
@@ -34,12 +40,12 @@ const preview = {
 			}
 		},
 		playground: {
-			storyId: "playground",
-			components: {...Utils},
+			storyId: 'playground',
+			components: { ...Utils },
 			autocompletions: generateAutocompletion(docgenOutput),
 			introCode: { jsx, css },
 			share: true
-		},
+		}
 	}
 } satisfies Preview;
 

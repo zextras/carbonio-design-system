@@ -4,7 +4,8 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { HTMLAttributes } from 'react';
+import type { HTMLAttributes } from 'react';
+import React from 'react';
 
 import { map } from 'lodash';
 import styled from 'styled-components';
@@ -12,9 +13,11 @@ import styled from 'styled-components';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { useSplitVisibility } from '../../hooks/useSplitVisibility';
 import { Text } from '../basic/text/Text';
-import { Dropdown, DropdownItem, DropdownProps } from '../display/Dropdown';
+import type { DropdownItem, DropdownProps } from '../display/Dropdown';
+import { Dropdown } from '../display/Dropdown';
 import { Container } from '../layout/container/Container';
-import { Padding, PaddingProps } from '../layout/Padding';
+import type { PaddingProps } from '../layout/Padding';
+import { Padding } from '../layout/Padding';
 
 const CheckDiv = styled.div`
 	width: 100%;
@@ -96,4 +99,5 @@ const Breadcrumbs = React.forwardRef<HTMLDivElement, BreadcrumbsProps>(function 
 	);
 });
 
-export { Breadcrumbs, BreadcrumbsProps };
+export type { BreadcrumbsProps };
+export { Breadcrumbs };

@@ -7,7 +7,8 @@ import React, { useCallback, useMemo, useState } from 'react';
 
 import { faker } from '@faker-js/faker';
 
-import { List, ListProps } from './List';
+import type { ListProps } from './List';
+import { List } from './List';
 import { Avatar } from '../../basic/Avatar';
 import { Text } from '../../basic/text/Text';
 import { Container } from '../../layout/container/Container';

@@ -3,11 +3,12 @@
  *
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-import React, { HTMLAttributes } from 'react';
+import type { HTMLAttributes } from 'react';
+import React from 'react';
 
 import styled, { css } from 'styled-components';
 
-import { With$Prefix } from '../../../types/utils';
+import type { With$Prefix } from '../../../types/utils';
 
 interface ModalBodyProps extends HTMLAttributes<HTMLDivElement> {
 	/** Max height of the body container */
@@ -55,4 +56,5 @@ const ModalBody = React.forwardRef<HTMLDivElement, ModalBodyProps>(function Moda
 	);
 });
 
-export { ModalBody, ModalBodyProps };
+export type { ModalBodyProps };
+export { ModalBody };

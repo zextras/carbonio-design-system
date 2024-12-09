@@ -4,14 +4,16 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { ButtonHTMLAttributes, useCallback, useMemo } from 'react';
+import type { ButtonHTMLAttributes } from 'react';
+import React, { useCallback, useMemo } from 'react';
 
 import styled, { css } from 'styled-components';
 
 import { useCombinedRefs } from '../../../hooks/useCombinedRefs';
 import { getColor, pseudoClasses } from '../../../theme/theme-utils';
-import { AnyColor, With$Prefix, Without$Prefix } from '../../../types/utils';
-import { Icon, IconProps } from '../icon/Icon';
+import type { AnyColor, With$Prefix, Without$Prefix } from '../../../types/utils';
+import type { IconProps } from '../icon/Icon';
+import { Icon } from '../icon/Icon';
 import { Spinner } from '../spinner/Spinner';
 import { Text } from '../text/Text';
 
@@ -453,4 +455,5 @@ const Button = React.forwardRef<HTMLDivElement, ButtonProps>(function ButtonFn(
 	);
 });
 
-export { Button, ButtonProps, ButtonSecondaryAction };
+export type { ButtonProps, ButtonSecondaryAction };
+export { Button };

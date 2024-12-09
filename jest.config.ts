@@ -40,9 +40,8 @@ const config: Config = {
 	// An array of regexp pattern strings used to skip coverage collection
 	coveragePathIgnorePatterns: [
 		'/node_modules/',
-		'/src/testUtils/',
-		'/src/test-utils.tsx',
-		'/src/types',
+		'/src/tests/',
+		'/src/types/',
 		'/src/icons/tsTemplate.ts'
 	],
 
@@ -147,10 +146,10 @@ const config: Config = {
 	// runner: "jest-runner",
 
 	// The paths to modules that run some code to configure or set up the testing environment before each test
-	setupFiles: ['<rootDir>/src/jest-polyfills.ts'],
+	// setupFiles: ['<rootDir>/src/tests/jest-polyfills.ts'],
 
 	// A list of paths to modules that run some code to configure or set up the testing framework before each test
-	setupFilesAfterEnv: ['<rootDir>/src/jest-env-setup.ts'],
+	setupFilesAfterEnv: ['<rootDir>/src/tests/jest-env-setup.ts'],
 
 	// A list of paths to snapshot serializer modules Jest should use for snapshot testing
 	// snapshotSerializers: [],
@@ -192,7 +191,7 @@ const config: Config = {
 	transform: {
 		'^.+\\.[t|j]sx?$': ['babel-jest', { configFile: './.babelrc' }],
 		'\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$':
-			'<rootDir>/src/testUtils/fileTransformer.js'
+			'<rootDir>/src/tests/fileTransformer.js'
 	}
 
 	// An array of regexp pattern strings that are matched against all source file paths, matched files will skip transformation

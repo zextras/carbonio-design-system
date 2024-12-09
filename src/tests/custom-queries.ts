@@ -3,14 +3,8 @@
  *
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-import {
-	ByRoleMatcher,
-	ByRoleOptions,
-	GetAllBy,
-	queries,
-	queryHelpers,
-	within as rtlWithin
-} from '@testing-library/react';
+import type { ByRoleMatcher, ByRoleOptions, GetAllBy } from '@testing-library/react';
+import { queries, queryHelpers, within as rtlWithin } from '@testing-library/react';
 
 type ByRoleWithIconOptions = ByRoleOptions & {
 	icon: string | RegExp;

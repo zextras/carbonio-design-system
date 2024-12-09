@@ -6,10 +6,12 @@
 
 import React from 'react';
 
-import styled, { DefaultTheme, keyframes } from 'styled-components';
+import type { DefaultTheme } from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
-import { LiteralUnion, With$Prefix } from '../../../types/utils';
-import { FormElementProps, FormSection, FormSubSection } from '../../basic/FormSection';
+import type { LiteralUnion, With$Prefix } from '../../../types/utils';
+import type { FormElementProps } from '../../basic/FormSection';
+import { FormSection, FormSubSection } from '../../basic/FormSection';
 import { Container } from '../../layout/container/Container';
 import { Padding } from '../../layout/Padding';
 
@@ -942,4 +944,5 @@ Shimmer.Stepper.displayName = 'Shimmer.Stepper';
 Shimmer.TableListItem.displayName = 'Shimmer.TableListItem';
 Shimmer.Text.displayName = 'Shimmer.Text';
 
-export { Shimmer, SkeletonProps };
+export type { SkeletonProps };
+export { Shimmer };

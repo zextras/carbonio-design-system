@@ -6,7 +6,8 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { rgba } from 'polished';
-import styled, { DefaultTheme } from 'styled-components';
+import type { DefaultTheme } from 'styled-components';
+import styled from 'styled-components';
 
 import { useCombinedRefs } from '../../../hooks/useCombinedRefs';
 import { Tooltip } from '../../display/Tooltip';
@@ -314,4 +315,5 @@ const Slider: Slider = React.forwardRef<HTMLDivElement, SliderProps>(function Sl
 	);
 });
 
-export { Slider, SliderProps };
+export type { SliderProps };
+export { Slider };

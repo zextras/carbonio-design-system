@@ -6,20 +6,13 @@
 
 import React, { type ReactElement } from 'react';
 
-import {
-	act,
-	render,
-	RenderOptions,
-	RenderResult,
-	Screen,
-	screen as rtlScreen,
-	within as rtlWithin
-} from '@testing-library/react';
+import type { RenderOptions, RenderResult, Screen } from '@testing-library/react';
+import { act, render, screen as rtlScreen, within as rtlWithin } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { defaultKeyMap } from '@testing-library/user-event/dist/cjs/keyboard/keyMap';
 
-import { queriesExtended } from './tests/custom-queries';
-import { ThemeProvider } from './theme/theme-context-provider';
+import { queriesExtended } from './custom-queries';
+import { ThemeProvider } from '../theme/theme-context-provider';
 
 type User = ReturnType<(typeof userEvent)['setup']>;
 interface KeyboardModifiers {

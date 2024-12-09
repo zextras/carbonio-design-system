@@ -4,14 +4,13 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, {
+import type {
 	CSSProperties,
 	ForwardRefExoticComponent,
 	PropsWithoutRef,
-	RefAttributes,
-	useEffect,
-	useMemo
+	RefAttributes
 } from 'react';
+import React, { useEffect, useMemo } from 'react';
 
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 
@@ -262,4 +261,5 @@ Transition.defaultProps = {
 	disabled: false
 };
 
-export { Transition, TransitionProps };
+export type { TransitionProps };
+export { Transition };

@@ -9,7 +9,7 @@ import React from 'react';
 import { screen, act } from '@testing-library/react';
 
 import { Responsive } from './Responsive';
-import { setup } from '../../test-utils';
+import { setup } from '../../tests/utils';
 
 describe('Responsive', () => {
 	let prevWidth: number;

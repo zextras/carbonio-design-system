@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-import React from 'react';
+import type React from 'react';
 
 interface DSWindow {
 	draggedItem?: {
@@ -17,4 +17,4 @@ declare global {
 	interface Window extends DSWindow {}
 }
 
-export { DSWindow };
+export type { DSWindow };

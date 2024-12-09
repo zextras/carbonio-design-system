@@ -6,13 +6,15 @@
 
 import React, { useRef, useCallback, useMemo } from 'react';
 
-import styled, { css, DefaultTheme } from 'styled-components';
+import type { DefaultTheme } from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { useCheckbox } from '../../hooks/useCheckbox';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { Icon } from '../basic/icon/Icon';
 import { Text } from '../basic/text/Text';
-import { Container, ContainerProps } from '../layout/container/Container';
+import type { ContainerProps } from '../layout/container/Container';
+import { Container } from '../layout/container/Container';
 import { Padding } from '../layout/Padding';
 
 const IconWrapper = styled.div<{
@@ -159,4 +161,5 @@ const IconCheckbox = React.forwardRef<HTMLDivElement, IconCheckboxProps>(functio
 	);
 });
 
-export { IconCheckbox, IconCheckboxProps };
+export type { IconCheckboxProps };
+export { IconCheckbox };

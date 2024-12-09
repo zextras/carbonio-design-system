@@ -9,8 +9,8 @@ import React from 'react';
 import { screen, act } from '@testing-library/react';
 
 import { Checkbox } from './Checkbox';
-import { setup } from '../../test-utils';
-import { ICONS } from '../../testUtils/constants';
+import { ICONS } from '../../tests/constants';
+import { setup } from '../../tests/utils';
 
 describe('Checkbox', () => {
 	test('Render a checkbox with a label', () => {

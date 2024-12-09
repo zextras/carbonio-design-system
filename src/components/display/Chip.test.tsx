@@ -11,8 +11,8 @@ import { act, screen, waitFor, within } from '@testing-library/react';
 
 import { Chip } from './Chip';
 import { Text } from '../../index';
-import { setup } from '../../test-utils';
-import { ICONS } from '../../testUtils/constants';
+import { ICONS } from '../../tests/constants';
+import { setup } from '../../tests/utils';
 import { TIMERS } from '../constants';
 
 describe('Chip', () => {

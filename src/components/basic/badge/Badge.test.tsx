@@ -10,7 +10,7 @@ import { faker } from '@faker-js/faker';
 import { screen, within } from '@testing-library/react';
 
 import { Badge } from './Badge';
-import { setup } from '../../../test-utils';
+import { setup } from '../../../tests/utils';
 import { TIMERS } from '../../constants';
 
 describe('Badge', () => {

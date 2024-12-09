@@ -4,7 +4,8 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { HTMLAttributes, useCallback } from 'react';
+import type { HTMLAttributes } from 'react';
+import React, { useCallback } from 'react';
 
 import styled from 'styled-components';
 
@@ -71,4 +72,5 @@ const Drag = React.forwardRef<HTMLDivElement, DragProps>(function DragFn(
 	);
 });
 
-export { Drag, DragProps };
+export type { DragProps };
+export { Drag };

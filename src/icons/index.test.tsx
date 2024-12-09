@@ -3,7 +3,7 @@ import React from 'react';
 import { differenceWith, map } from 'lodash';
 
 import icons from './index';
-import { setup } from '../test-utils';
+import { setup } from '../tests/utils';
 
 describe('Icons', () => {
 	test.each(map(icons, (Component, iconKey) => [iconKey, Component]))(

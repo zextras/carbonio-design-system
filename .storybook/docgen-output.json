@@ -118,6 +118,72 @@
       ]
     }
   ],
+  "src/components/basic/LoadMore.tsx": [
+    {
+      "description": "",
+      "methods": [],
+      "displayName": "LoadMore",
+      "props": {
+        "orientation": {
+          "required": false,
+          "tsType": {
+            "name": "union",
+            "raw": "'vertical' | 'horizontal' | ContainerElProps['orientation']",
+            "elements": [
+              {
+                "name": "literal",
+                "value": "'vertical'"
+              },
+              {
+                "name": "literal",
+                "value": "'horizontal'"
+              },
+              {
+                "name": "ContainerElProps['orientation']",
+                "raw": "ContainerElProps['orientation']"
+              }
+            ]
+          },
+          "description": ""
+        },
+        "children": {
+          "required": false,
+          "tsType": {
+            "name": "union",
+            "raw": "React.ReactNode | React.ReactNode[]",
+            "elements": [
+              {
+                "name": "ReactReactNode",
+                "raw": "React.ReactNode"
+              },
+              {
+                "name": "Array",
+                "elements": [
+                  {
+                    "name": "ReactReactNode",
+                    "raw": "React.ReactNode"
+                  }
+                ],
+                "raw": "React.ReactNode[]"
+              }
+            ]
+          },
+          "description": ""
+        },
+        "label": {
+          "required": false,
+          "tsType": {
+            "name": "TextProps['children']",
+            "raw": "TextProps['children']"
+          },
+          "description": ""
+        }
+      },
+      "composes": [
+        "Omit"
+      ]
+    }
+  ],
   "src/components/basic/FormSection.tsx": [
     {
       "description": "",
@@ -623,72 +689,6 @@
             "raw": "React.ComponentPropsWithoutRef<typeof Tooltip>['placement']"
           },
           "description": "Tooltip placement"
-        }
-      },
-      "composes": [
-        "Omit"
-      ]
-    }
-  ],
-  "src/components/basic/LoadMore.tsx": [
-    {
-      "description": "",
-      "methods": [],
-      "displayName": "LoadMore",
-      "props": {
-        "orientation": {
-          "required": false,
-          "tsType": {
-            "name": "union",
-            "raw": "'vertical' | 'horizontal' | ContainerElProps['orientation']",
-            "elements": [
-              {
-                "name": "literal",
-                "value": "'vertical'"
-              },
-              {
-                "name": "literal",
-                "value": "'horizontal'"
-              },
-              {
-                "name": "ContainerElProps['orientation']",
-                "raw": "ContainerElProps['orientation']"
-              }
-            ]
-          },
-          "description": ""
-        },
-        "children": {
-          "required": false,
-          "tsType": {
-            "name": "union",
-            "raw": "React.ReactNode | React.ReactNode[]",
-            "elements": [
-              {
-                "name": "ReactReactNode",
-                "raw": "React.ReactNode"
-              },
-              {
-                "name": "Array",
-                "elements": [
-                  {
-                    "name": "ReactReactNode",
-                    "raw": "React.ReactNode"
-                  }
-                ],
-                "raw": "React.ReactNode[]"
-              }
-            ]
-          },
-          "description": ""
-        },
-        "label": {
-          "required": false,
-          "tsType": {
-            "name": "TextProps['children']",
-            "raw": "TextProps['children']"
-          },
-          "description": ""
         }
       },
       "composes": [
@@ -1322,130 +1322,6 @@
       ]
     }
   ],
-  "src/components/display/ListItem.tsx": [
-    {
-      "description": "",
-      "methods": [],
-      "displayName": "ListItem",
-      "props": {
-        "background": {
-          "required": false,
-          "tsType": {
-            "name": "union",
-            "raw": "TSub | (TBase & Record<never, never>)",
-            "elements": [
-              {
-                "name": "DefaultTheme['palette']",
-                "raw": "DefaultTheme['palette']"
-              },
-              {
-                "name": "unknown"
-              }
-            ]
-          },
-          "description": "Base background color for the item"
-        },
-        "selectedBackground": {
-          "required": false,
-          "tsType": {
-            "name": "union",
-            "raw": "TSub | (TBase & Record<never, never>)",
-            "elements": [
-              {
-                "name": "DefaultTheme['palette']",
-                "raw": "DefaultTheme['palette']"
-              },
-              {
-                "name": "unknown"
-              }
-            ]
-          },
-          "description": "Background color for the selected status"
-        },
-        "activeBackground": {
-          "required": false,
-          "tsType": {
-            "name": "union",
-            "raw": "TSub | (TBase & Record<never, never>)",
-            "elements": [
-              {
-                "name": "DefaultTheme['palette']",
-                "raw": "DefaultTheme['palette']"
-              },
-              {
-                "name": "unknown"
-              }
-            ]
-          },
-          "description": "Background color for the active status"
-        },
-        "active": {
-          "required": false,
-          "tsType": {
-            "name": "boolean"
-          },
-          "description": "Define if the item is active in order to show the activeBackground"
-        },
-        "selected": {
-          "required": false,
-          "tsType": {
-            "name": "boolean"
-          },
-          "description": "Define if the item is selected in order to show the selectedBackground"
-        },
-        "listRef": {
-          "required": false,
-          "tsType": {
-            "name": "ReactRefObject",
-            "raw": "React.RefObject<HTMLDivElement>",
-            "elements": [
-              {
-                "name": "HTMLDivElement"
-              }
-            ]
-          },
-          "description": "Ref of the list used to set the visibility of the item.\nThe ref is set by the list itself."
-        },
-        "children": {
-          "required": true,
-          "tsType": {
-            "name": "signature",
-            "type": "function",
-            "raw": "(visible: boolean) => React.ReactElement",
-            "signature": {
-              "arguments": [
-                {
-                  "type": {
-                    "name": "boolean"
-                  },
-                  "name": "visible"
-                }
-              ],
-              "return": {
-                "name": "ReactReactElement",
-                "raw": "React.ReactElement"
-              }
-            }
-          },
-          "description": "Content of the item (render prop).\nVisible arg define if the item is visible on the screen or if is in the hidden part of the list.\nThis is useful to avoid rendering components which are not visible (virtual list), replacing\nthem with a placeholder which allow the scrollbar to have the right height."
-        },
-        "key": {
-          "required": true,
-          "tsType": {
-            "name": "NonNullable",
-            "elements": [
-              {
-                "name": "ReactHTMLProps['key']",
-                "raw": "React.HTMLProps<HTMLDivElement>['key']"
-              }
-            ],
-            "raw": "NonNullable<React.HTMLProps<HTMLDivElement>['key']>"
-          },
-          "description": ""
-        }
-      }
-    }
-  ],
   "src/components/display/Dropdown.tsx": [
     {
       "description": "",
@@ -1765,6 +1641,271 @@
       },
       "composes": [
         "Omit"
+      ]
+    }
+  ],
+  "src/components/display/ListItem.tsx": [
+    {
+      "description": "",
+      "methods": [],
+      "displayName": "ListItem",
+      "props": {
+        "background": {
+          "required": false,
+          "tsType": {
+            "name": "union",
+            "raw": "TSub | (TBase & Record<never, never>)",
+            "elements": [
+              {
+                "name": "DefaultTheme['palette']",
+                "raw": "DefaultTheme['palette']"
+              },
+              {
+                "name": "unknown"
+              }
+            ]
+          },
+          "description": "Base background color for the item"
+        },
+        "selectedBackground": {
+          "required": false,
+          "tsType": {
+            "name": "union",
+            "raw": "TSub | (TBase & Record<never, never>)",
+            "elements": [
+              {
+                "name": "DefaultTheme['palette']",
+                "raw": "DefaultTheme['palette']"
+              },
+              {
+                "name": "unknown"
+              }
+            ]
+          },
+          "description": "Background color for the selected status"
+        },
+        "activeBackground": {
+          "required": false,
+          "tsType": {
+            "name": "union",
+            "raw": "TSub | (TBase & Record<never, never>)",
+            "elements": [
+              {
+                "name": "DefaultTheme['palette']",
+                "raw": "DefaultTheme['palette']"
+              },
+              {
+                "name": "unknown"
+              }
+            ]
+          },
+          "description": "Background color for the active status"
+        },
+        "active": {
+          "required": false,
+          "tsType": {
+            "name": "boolean"
+          },
+          "description": "Define if the item is active in order to show the activeBackground"
+        },
+        "selected": {
+          "required": false,
+          "tsType": {
+            "name": "boolean"
+          },
+          "description": "Define if the item is selected in order to show the selectedBackground"
+        },
+        "listRef": {
+          "required": false,
+          "tsType": {
+            "name": "ReactRefObject",
+            "raw": "React.RefObject<HTMLDivElement>",
+            "elements": [
+              {
+                "name": "HTMLDivElement"
+              }
+            ]
+          },
+          "description": "Ref of the list used to set the visibility of the item.\nThe ref is set by the list itself."
+        },
+        "children": {
+          "required": true,
+          "tsType": {
+            "name": "signature",
+            "type": "function",
+            "raw": "(visible: boolean) => React.ReactElement",
+            "signature": {
+              "arguments": [
+                {
+                  "type": {
+                    "name": "boolean"
+                  },
+                  "name": "visible"
+                }
+              ],
+              "return": {
+                "name": "ReactReactElement",
+                "raw": "React.ReactElement"
+              }
+            }
+          },
+          "description": "Content of the item (render prop).\nVisible arg define if the item is visible on the screen or if is in the hidden part of the list.\nThis is useful to avoid rendering components which are not visible (virtual list), replacing\nthem with a placeholder which allow the scrollbar to have the right height."
+        },
+        "key": {
+          "required": true,
+          "tsType": {
+            "name": "NonNullable",
+            "elements": [
+              {
+                "name": "ReactHTMLProps['key']",
+                "raw": "React.HTMLProps<HTMLDivElement>['key']"
+              }
+            ],
+            "raw": "NonNullable<React.HTMLProps<HTMLDivElement>['key']>"
+          },
+          "description": ""
+        }
+      }
+    }
+  ],
+  "src/components/display/Popover.tsx": [
+    {
+      "description": "",
+      "methods": [],
+      "displayName": "Popover",
+      "props": {
+        "open": {
+          "required": false,
+          "tsType": {
+            "name": "boolean"
+          },
+          "description": "Whether the popper is open or not"
+        },
+        "anchorEl": {
+          "required": true,
+          "tsType": {
+            "name": "ReactRefObject",
+            "raw": "React.RefObject<HTMLElement>",
+            "elements": [
+              {
+                "name": "HTMLElement"
+              }
+            ]
+          },
+          "description": "Ref to the DOM element triggering the popper"
+        },
+        "virtualElement": {
+          "required": false,
+          "tsType": {
+            "name": "signature",
+            "type": "object",
+            "raw": "{ x: number; y: number }",
+            "signature": {
+              "properties": [
+                {
+                  "key": "x",
+                  "value": {
+                    "name": "number",
+                    "required": true
+                  }
+                },
+                {
+                  "key": "y",
+                  "value": {
+                    "name": "number",
+                    "required": true
+                  }
+                }
+              ]
+            }
+          },
+          "description": "Optional parameter to anchor the popper to a virtual element, defined by his x, y coordinates (ex. \\{x: 2, y: 2\\})"
+        },
+        "disableRestoreFocus": {
+          "required": false,
+          "tsType": {
+            "name": "boolean"
+          },
+          "description": "Whether to disable the re-focus of Popper trigger"
+        },
+        "placement": {
+          "required": false,
+          "tsType": {
+            "name": "Placement"
+          },
+          "description": "Popper placement relative to the anchorEl"
+        },
+        "onClose": {
+          "required": true,
+          "tsType": {
+            "name": "signature",
+            "type": "function",
+            "raw": "() => void",
+            "signature": {
+              "arguments": [],
+              "return": {
+                "name": "void"
+              }
+            }
+          },
+          "description": "Callback for closed Popper"
+        },
+        "disablePortal": {
+          "required": false,
+          "tsType": {
+            "name": "boolean"
+          },
+          "description": "Flag to disable the Portal implementation"
+        },
+        "children": {
+          "required": true,
+          "tsType": {
+            "name": "union",
+            "raw": "React.ReactNode | React.ReactNode[]",
+            "elements": [
+              {
+                "name": "ReactReactNode",
+                "raw": "React.ReactNode"
+              },
+              {
+                "name": "Array",
+                "elements": [
+                  {
+                    "name": "ReactReactNode",
+                    "raw": "React.ReactNode"
+                  }
+                ],
+                "raw": "React.ReactNode[]"
+              }
+            ]
+          },
+          "description": "Popper content"
+        },
+        "activateOnHover": {
+          "required": false,
+          "tsType": {
+            "name": "boolean"
+          },
+          "description": "Whether to activate the popover on hover of anchorEl. If true, the 'open' prop will be ignored.",
+          "defaultValue": {
+            "value": "false",
+            "computed": false
+          }
+        },
+        "styleAsModal": {
+          "required": false,
+          "tsType": {
+            "name": "boolean"
+          },
+          "description": "Whether to style the popover container as a modal component",
+          "defaultValue": {
+            "value": "false",
+            "computed": false
+          }
+        }
+      },
+      "composes": [
+        "HTMLAttributes"
       ]
     }
   ],
@@ -2809,147 +2950,6 @@
       }
     }
   ],
-  "src/components/display/Popover.tsx": [
-    {
-      "description": "",
-      "methods": [],
-      "displayName": "Popover",
-      "props": {
-        "open": {
-          "required": false,
-          "tsType": {
-            "name": "boolean"
-          },
-          "description": "Whether the popper is open or not"
-        },
-        "anchorEl": {
-          "required": true,
-          "tsType": {
-            "name": "ReactRefObject",
-            "raw": "React.RefObject<HTMLElement>",
-            "elements": [
-              {
-                "name": "HTMLElement"
-              }
-            ]
-          },
-          "description": "Ref to the DOM element triggering the popper"
-        },
-        "virtualElement": {
-          "required": false,
-          "tsType": {
-            "name": "signature",
-            "type": "object",
-            "raw": "{ x: number; y: number }",
-            "signature": {
-              "properties": [
-                {
-                  "key": "x",
-                  "value": {
-                    "name": "number",
-                    "required": true
-                  }
-                },
-                {
-                  "key": "y",
-                  "value": {
-                    "name": "number",
-                    "required": true
-                  }
-                }
-              ]
-            }
-          },
-          "description": "Optional parameter to anchor the popper to a virtual element, defined by his x, y coordinates (ex. \\{x: 2, y: 2\\})"
-        },
-        "disableRestoreFocus": {
-          "required": false,
-          "tsType": {
-            "name": "boolean"
-          },
-          "description": "Whether to disable the re-focus of Popper trigger"
-        },
-        "placement": {
-          "required": false,
-          "tsType": {
-            "name": "Placement"
-          },
-          "description": "Popper placement relative to the anchorEl"
-        },
-        "onClose": {
-          "required": true,
-          "tsType": {
-            "name": "signature",
-            "type": "function",
-            "raw": "() => void",
-            "signature": {
-              "arguments": [],
-              "return": {
-                "name": "void"
-              }
-            }
-          },
-          "description": "Callback for closed Popper"
-        },
-        "disablePortal": {
-          "required": false,
-          "tsType": {
-            "name": "boolean"
-          },
-          "description": "Flag to disable the Portal implementation"
-        },
-        "children": {
-          "required": true,
-          "tsType": {
-            "name": "union",
-            "raw": "React.ReactNode | React.ReactNode[]",
-            "elements": [
-              {
-                "name": "ReactReactNode",
-                "raw": "React.ReactNode"
-              },
-              {
-                "name": "Array",
-                "elements": [
-                  {
-                    "name": "ReactReactNode",
-                    "raw": "React.ReactNode"
-                  }
-                ],
-                "raw": "React.ReactNode[]"
-              }
-            ]
-          },
-          "description": "Popper content"
-        },
-        "activateOnHover": {
-          "required": false,
-          "tsType": {
-            "name": "boolean"
-          },
-          "description": "Whether to activate the popover on hover of anchorEl. If true, the 'open' prop will be ignored.",
-          "defaultValue": {
-            "value": "false",
-            "computed": false
-          }
-        },
-        "styleAsModal": {
-          "required": false,
-          "tsType": {
-            "name": "boolean"
-          },
-          "description": "Whether to style the popover container as a modal component",
-          "defaultValue": {
-            "value": "false",
-            "computed": false
-          }
-        }
-      },
-      "composes": [
-        "HTMLAttributes"
-      ]
-    }
-  ],
   "src/components/feedback/Modal.tsx": [
     {
       "description": "",
@@ -3190,108 +3190,6 @@
       }
     }
   ],
-  "src/components/inputs/FileLoader.tsx": [
-    {
-      "description": "",
-      "methods": [],
-      "displayName": "FileLoader",
-      "props": {
-        "onChange": {
-          "required": false,
-          "tsType": {
-            "name": "signature",
-            "type": "function",
-            "raw": "(event: React.ChangeEvent<HTMLInputElement>, files: FileList | null) => void",
-            "signature": {
-              "arguments": [
-                {
-                  "type": {
-                    "name": "ReactChangeEvent",
-                    "raw": "React.ChangeEvent<HTMLInputElement>",
-                    "elements": [
-                      {
-                        "name": "HTMLInputElement"
-                      }
-                    ]
-                  },
-                  "name": "event"
-                },
-                {
-                  "type": {
-                    "name": "union",
-                    "raw": "FileList | null",
-                    "elements": [
-                      {
-                        "name": "FileList"
-                      },
-                      {
-                        "name": "null"
-                      }
-                    ]
-                  },
-                  "name": "files"
-                }
-              ],
-              "return": {
-                "name": "void"
-              }
-            }
-          },
-          "description": "",
-          "defaultValue": {
-            "value": "(): void => undefined",
-            "computed": false
-          }
-        },
-        "multiple": {
-          "required": false,
-          "tsType": {
-            "name": "boolean"
-          },
-          "description": "accept multiple files",
-          "defaultValue": {
-            "value": "false",
-            "computed": false
-          }
-        },
-        "capture": {
-          "required": false,
-          "tsType": {
-            "name": "string"
-          },
-          "description": "capture mode (see <input type=\"file\"> docs)"
-        },
-        "accept": {
-          "required": false,
-          "tsType": {
-            "name": "string"
-          },
-          "description": "Accept attribute of input element"
-        },
-        "icon": {
-          "defaultValue": {
-            "value": "'Attach'",
-            "computed": false
-          },
-          "required": false
-        },
-        "type": {
-          "defaultValue": {
-            "value": "'ghost'",
-            "computed": false
-          },
-          "required": false
-        },
-        "color": {
-          "defaultValue": {
-            "value": "'text'",
-            "computed": false
-          },
-          "required": false
-        }
-      }
-    }
-  ],
   "src/components/inputs/Checkbox.tsx": [
     {
       "description": "",
@@ -3440,6 +3338,108 @@
       "composes": [
         "Omit"
       ]
+    }
+  ],
+  "src/components/inputs/FileLoader.tsx": [
+    {
+      "description": "",
+      "methods": [],
+      "displayName": "FileLoader",
+      "props": {
+        "onChange": {
+          "required": false,
+          "tsType": {
+            "name": "signature",
+            "type": "function",
+            "raw": "(event: React.ChangeEvent<HTMLInputElement>, files: FileList | null) => void",
+            "signature": {
+              "arguments": [
+                {
+                  "type": {
+                    "name": "ReactChangeEvent",
+                    "raw": "React.ChangeEvent<HTMLInputElement>",
+                    "elements": [
+                      {
+                        "name": "HTMLInputElement"
+                      }
+                    ]
+                  },
+                  "name": "event"
+                },
+                {
+                  "type": {
+                    "name": "union",
+                    "raw": "FileList | null",
+                    "elements": [
+                      {
+                        "name": "FileList"
+                      },
+                      {
+                        "name": "null"
+                      }
+                    ]
+                  },
+                  "name": "files"
+                }
+              ],
+              "return": {
+                "name": "void"
+              }
+            }
+          },
+          "description": "",
+          "defaultValue": {
+            "value": "(): void => undefined",
+            "computed": false
+          }
+        },
+        "multiple": {
+          "required": false,
+          "tsType": {
+            "name": "boolean"
+          },
+          "description": "accept multiple files",
+          "defaultValue": {
+            "value": "false",
+            "computed": false
+          }
+        },
+        "capture": {
+          "required": false,
+          "tsType": {
+            "name": "string"
+          },
+          "description": "capture mode (see <input type=\"file\"> docs)"
+        },
+        "accept": {
+          "required": false,
+          "tsType": {
+            "name": "string"
+          },
+          "description": "Accept attribute of input element"
+        },
+        "icon": {
+          "defaultValue": {
+            "value": "'Attach'",
+            "computed": false
+          },
+          "required": false
+        },
+        "type": {
+          "defaultValue": {
+            "value": "'ghost'",
+            "computed": false
+          },
+          "required": false
+        },
+        "color": {
+          "defaultValue": {
+            "value": "'text'",
+            "computed": false
+          },
+          "required": false
+        }
+      }
     }
   ],
   "src/components/inputs/IconButton.tsx": [
@@ -5749,286 +5749,6 @@
       ]
     }
   ],
-  "src/components/navigation/TabBar.tsx": [
-    {
-      "description": "",
-      "methods": [],
-      "displayName": "TabBar",
-      "props": {
-        "items": {
-          "required": true,
-          "tsType": {
-            "name": "Array",
-            "elements": [
-              {
-                "name": "Item"
-              }
-            ],
-            "raw": "Array<Item>"
-          },
-          "description": "List of elements, can have extra attributes to pass down to the CustomComponent"
-        },
-        "selected": {
-          "required": true,
-          "tsType": {
-            "name": "string"
-          },
-          "description": "id of the selected item"
-        },
-        "onChange": {
-          "required": true,
-          "tsType": {
-            "name": "signature",
-            "type": "function",
-            "raw": "(ev: React.MouseEvent<HTMLDivElement> | KeyboardEvent, selectedId: string) => void",
-            "signature": {
-              "arguments": [
-                {
-                  "type": {
-                    "name": "union",
-                    "raw": "React.MouseEvent<HTMLDivElement> | KeyboardEvent",
-                    "elements": [
-                      {
-                        "name": "ReactMouseEvent",
-                        "raw": "React.MouseEvent<HTMLDivElement>",
-                        "elements": [
-                          {
-                            "name": "HTMLDivElement"
-                          }
-                        ]
-                      },
-                      {
-                        "name": "KeyboardEvent"
-                      }
-                    ]
-                  },
-                  "name": "ev"
-                },
-                {
-                  "type": {
-                    "name": "string"
-                  },
-                  "name": "selectedId"
-                }
-              ],
-              "return": {
-                "name": "void"
-              }
-            }
-          },
-          "description": "change callback, is called with the new selected id"
-        },
-        "background": {
-          "required": true,
-          "tsType": {
-            "name": "union",
-            "raw": "TSub | (TBase & Record<never, never>)",
-            "elements": [
-              {
-                "name": "DefaultTheme['palette']",
-                "raw": "DefaultTheme['palette']"
-              },
-              {
-                "name": "unknown"
-              }
-            ]
-          },
-          "description": "background color of the tabBar"
-        },
-        "underlineColor": {
-          "required": false,
-          "tsType": {
-            "name": "union",
-            "raw": "TSub | (TBase & Record<never, never>)",
-            "elements": [
-              {
-                "name": "DefaultTheme['palette']",
-                "raw": "DefaultTheme['palette']"
-              },
-              {
-                "name": "unknown"
-              }
-            ]
-          },
-          "description": "underline color of the selected tab",
-          "defaultValue": {
-            "value": "'primary'",
-            "computed": false
-          }
-        },
-        "forceWidthEquallyDistributed": {
-          "required": false,
-          "tsType": {
-            "name": "boolean"
-          },
-          "description": "Force tabs to have all the same width",
-          "defaultValue": {
-            "value": "false",
-            "computed": false
-          }
-        }
-      },
-      "composes": [
-        "Omit"
-      ]
-    },
-    {
-      "description": "",
-      "methods": [],
-      "displayName": "DefaultTabBarItem",
-      "props": {
-        "orientation": {
-          "required": false,
-          "tsType": {
-            "name": "union",
-            "raw": "'vertical' | 'horizontal' | ContainerElProps['orientation']",
-            "elements": [
-              {
-                "name": "literal",
-                "value": "'vertical'"
-              },
-              {
-                "name": "literal",
-                "value": "'horizontal'"
-              },
-              {
-                "name": "ContainerElProps['orientation']",
-                "raw": "ContainerElProps['orientation']"
-              }
-            ]
-          },
-          "description": ""
-        },
-        "children": {
-          "required": false,
-          "tsType": {
-            "name": "union",
-            "raw": "React.ReactNode | React.ReactNode[]",
-            "elements": [
-              {
-                "name": "ReactReactNode",
-                "raw": "React.ReactNode"
-              },
-              {
-                "name": "Array",
-                "elements": [
-                  {
-                    "name": "ReactReactNode",
-                    "raw": "React.ReactNode"
-                  }
-                ],
-                "raw": "React.ReactNode[]"
-              }
-            ]
-          },
-          "description": ""
-        },
-        "item": {
-          "required": true,
-          "tsType": {
-            "name": "Item"
-          },
-          "description": ""
-        },
-        "selected": {
-          "required": true,
-          "tsType": {
-            "name": "boolean"
-          },
-          "description": ""
-        },
-        "background": {
-          "required": true,
-          "tsType": {
-            "name": "union",
-            "raw": "TSub | (TBase & Record<never, never>)",
-            "elements": [
-              {
-                "name": "DefaultTheme['palette']",
-                "raw": "DefaultTheme['palette']"
-              },
-              {
-                "name": "unknown"
-              }
-            ]
-          },
-          "description": ""
-        },
-        "onClick": {
-          "required": true,
-          "tsType": {
-            "name": "signature",
-            "type": "function",
-            "raw": "(ev: React.MouseEvent<HTMLDivElement> | KeyboardEvent) => void",
-            "signature": {
-              "arguments": [
-                {
-                  "type": {
-                    "name": "union",
-                    "raw": "React.MouseEvent<HTMLDivElement> | KeyboardEvent",
-                    "elements": [
-                      {
-                        "name": "ReactMouseEvent",
-                        "raw": "React.MouseEvent<HTMLDivElement>",
-                        "elements": [
-                          {
-                            "name": "HTMLDivElement"
-                          }
-                        ]
-                      },
-                      {
-                        "name": "KeyboardEvent"
-                      }
-                    ]
-                  },
-                  "name": "ev"
-                }
-              ],
-              "return": {
-                "name": "void"
-              }
-            }
-          },
-          "description": ""
-        },
-        "underlineColor": {
-          "required": false,
-          "tsType": {
-            "name": "union",
-            "raw": "TSub | (TBase & Record<never, never>)",
-            "elements": [
-              {
-                "name": "DefaultTheme['palette']",
-                "raw": "DefaultTheme['palette']"
-              },
-              {
-                "name": "unknown"
-              }
-            ]
-          },
-          "description": "",
-          "defaultValue": {
-            "value": "'primary'",
-            "computed": false
-          }
-        },
-        "forceWidthEquallyDistributed": {
-          "required": false,
-          "tsType": {
-            "name": "boolean"
-          },
-          "description": "",
-          "defaultValue": {
-            "value": "false",
-            "computed": false
-          }
-        }
-      },
-      "composes": [
-        "Omit"
-      ]
-    }
-  ],
   "src/components/navigation/Breadcrumbs.tsx": [
     {
       "description": "",
@@ -7059,6 +6779,286 @@
       ]
     }
   ],
+  "src/components/navigation/TabBar.tsx": [
+    {
+      "description": "",
+      "methods": [],
+      "displayName": "TabBar",
+      "props": {
+        "items": {
+          "required": true,
+          "tsType": {
+            "name": "Array",
+            "elements": [
+              {
+                "name": "Item"
+              }
+            ],
+            "raw": "Array<Item>"
+          },
+          "description": "List of elements, can have extra attributes to pass down to the CustomComponent"
+        },
+        "selected": {
+          "required": true,
+          "tsType": {
+            "name": "string"
+          },
+          "description": "id of the selected item"
+        },
+        "onChange": {
+          "required": true,
+          "tsType": {
+            "name": "signature",
+            "type": "function",
+            "raw": "(ev: React.MouseEvent<HTMLDivElement> | KeyboardEvent, selectedId: string) => void",
+            "signature": {
+              "arguments": [
+                {
+                  "type": {
+                    "name": "union",
+                    "raw": "React.MouseEvent<HTMLDivElement> | KeyboardEvent",
+                    "elements": [
+                      {
+                        "name": "ReactMouseEvent",
+                        "raw": "React.MouseEvent<HTMLDivElement>",
+                        "elements": [
+                          {
+                            "name": "HTMLDivElement"
+                          }
+                        ]
+                      },
+                      {
+                        "name": "KeyboardEvent"
+                      }
+                    ]
+                  },
+                  "name": "ev"
+                },
+                {
+                  "type": {
+                    "name": "string"
+                  },
+                  "name": "selectedId"
+                }
+              ],
+              "return": {
+                "name": "void"
+              }
+            }
+          },
+          "description": "change callback, is called with the new selected id"
+        },
+        "background": {
+          "required": true,
+          "tsType": {
+            "name": "union",
+            "raw": "TSub | (TBase & Record<never, never>)",
+            "elements": [
+              {
+                "name": "DefaultTheme['palette']",
+                "raw": "DefaultTheme['palette']"
+              },
+              {
+                "name": "unknown"
+              }
+            ]
+          },
+          "description": "background color of the tabBar"
+        },
+        "underlineColor": {
+          "required": false,
+          "tsType": {
+            "name": "union",
+            "raw": "TSub | (TBase & Record<never, never>)",
+            "elements": [
+              {
+                "name": "DefaultTheme['palette']",
+                "raw": "DefaultTheme['palette']"
+              },
+              {
+                "name": "unknown"
+              }
+            ]
+          },
+          "description": "underline color of the selected tab",
+          "defaultValue": {
+            "value": "'primary'",
+            "computed": false
+          }
+        },
+        "forceWidthEquallyDistributed": {
+          "required": false,
+          "tsType": {
+            "name": "boolean"
+          },
+          "description": "Force tabs to have all the same width",
+          "defaultValue": {
+            "value": "false",
+            "computed": false
+          }
+        }
+      },
+      "composes": [
+        "Omit"
+      ]
+    },
+    {
+      "description": "",
+      "methods": [],
+      "displayName": "DefaultTabBarItem",
+      "props": {
+        "orientation": {
+          "required": false,
+          "tsType": {
+            "name": "union",
+            "raw": "'vertical' | 'horizontal' | ContainerElProps['orientation']",
+            "elements": [
+              {
+                "name": "literal",
+                "value": "'vertical'"
+              },
+              {
+                "name": "literal",
+                "value": "'horizontal'"
+              },
+              {
+                "name": "ContainerElProps['orientation']",
+                "raw": "ContainerElProps['orientation']"
+              }
+            ]
+          },
+          "description": ""
+        },
+        "children": {
+          "required": false,
+          "tsType": {
+            "name": "union",
+            "raw": "React.ReactNode | React.ReactNode[]",
+            "elements": [
+              {
+                "name": "ReactReactNode",
+                "raw": "React.ReactNode"
+              },
+              {
+                "name": "Array",
+                "elements": [
+                  {
+                    "name": "ReactReactNode",
+                    "raw": "React.ReactNode"
+                  }
+                ],
+                "raw": "React.ReactNode[]"
+              }
+            ]
+          },
+          "description": ""
+        },
+        "item": {
+          "required": true,
+          "tsType": {
+            "name": "Item"
+          },
+          "description": ""
+        },
+        "selected": {
+          "required": true,
+          "tsType": {
+            "name": "boolean"
+          },
+          "description": ""
+        },
+        "background": {
+          "required": true,
+          "tsType": {
+            "name": "union",
+            "raw": "TSub | (TBase & Record<never, never>)",
+            "elements": [
+              {
+                "name": "DefaultTheme['palette']",
+                "raw": "DefaultTheme['palette']"
+              },
+              {
+                "name": "unknown"
+              }
+            ]
+          },
+          "description": ""
+        },
+        "onClick": {
+          "required": true,
+          "tsType": {
+            "name": "signature",
+            "type": "function",
+            "raw": "(ev: React.MouseEvent<HTMLDivElement> | KeyboardEvent) => void",
+            "signature": {
+              "arguments": [
+                {
+                  "type": {
+                    "name": "union",
+                    "raw": "React.MouseEvent<HTMLDivElement> | KeyboardEvent",
+                    "elements": [
+                      {
+                        "name": "ReactMouseEvent",
+                        "raw": "React.MouseEvent<HTMLDivElement>",
+                        "elements": [
+                          {
+                            "name": "HTMLDivElement"
+                          }
+                        ]
+                      },
+                      {
+                        "name": "KeyboardEvent"
+                      }
+                    ]
+                  },
+                  "name": "ev"
+                }
+              ],
+              "return": {
+                "name": "void"
+              }
+            }
+          },
+          "description": ""
+        },
+        "underlineColor": {
+          "required": false,
+          "tsType": {
+            "name": "union",
+            "raw": "TSub | (TBase & Record<never, never>)",
+            "elements": [
+              {
+                "name": "DefaultTheme['palette']",
+                "raw": "DefaultTheme['palette']"
+              },
+              {
+                "name": "unknown"
+              }
+            ]
+          },
+          "description": "",
+          "defaultValue": {
+            "value": "'primary'",
+            "computed": false
+          }
+        },
+        "forceWidthEquallyDistributed": {
+          "required": false,
+          "tsType": {
+            "name": "boolean"
+          },
+          "description": "",
+          "defaultValue": {
+            "value": "false",
+            "computed": false
+          }
+        }
+      },
+      "composes": [
+        "Omit"
+      ]
+    }
+  ],
   "src/components/utilities/Catcher.tsx": [
     {
       "description": "",
@@ -7198,6 +7198,117 @@
             "raw": "React.ReactEventHandler"
           },
           "description": ""
+        }
+      }
+    }
+  ],
+  "src/components/utilities/Drag.tsx": [
+    {
+      "description": "",
+      "methods": [],
+      "displayName": "Drag",
+      "props": {
+        "onDragStart": {
+          "required": false,
+          "tsType": {
+            "name": "ReactDragEventHandler",
+            "raw": "React.DragEventHandler"
+          },
+          "description": "Callback for on onDragStart",
+          "defaultValue": {
+            "value": "(): void => undefined",
+            "computed": false
+          }
+        },
+        "onDragEnd": {
+          "required": false,
+          "tsType": {
+            "name": "ReactDragEventHandler",
+            "raw": "React.DragEventHandler"
+          },
+          "description": "Callback for on onDragStart",
+          "defaultValue": {
+            "value": "(): void => undefined",
+            "computed": false
+          }
+        },
+        "type": {
+          "required": false,
+          "tsType": {
+            "name": "string"
+          },
+          "description": "type to assign to data",
+          "defaultValue": {
+            "value": "''",
+            "computed": false
+          }
+        },
+        "data": {
+          "required": false,
+          "tsType": {
+            "name": "Record",
+            "elements": [
+              {
+                "name": "string"
+              },
+              {
+                "name": "unknown"
+              }
+            ],
+            "raw": "Record<string, unknown>"
+          },
+          "description": "data assigned to the drag event",
+          "defaultValue": {
+            "value": "{}",
+            "computed": false
+          }
+        },
+        "style": {
+          "required": false,
+          "tsType": {
+            "name": "HTMLAttributes['style']",
+            "raw": "HTMLAttributes<HTMLDivElement>['style']"
+          },
+          "description": "style applied to drag container",
+          "defaultValue": {
+            "value": "{}",
+            "computed": false
+          }
+        },
+        "dragDisabled": {
+          "required": false,
+          "tsType": {
+            "name": "boolean"
+          },
+          "description": "whether element should be draggable or not",
+          "defaultValue": {
+            "value": "false",
+            "computed": false
+          }
+        },
+        "children": {
+          "required": true,
+          "tsType": {
+            "name": "union",
+            "raw": "React.ReactNode | React.ReactNode[]",
+            "elements": [
+              {
+                "name": "ReactReactNode",
+                "raw": "React.ReactNode"
+              },
+              {
+                "name": "Array",
+                "elements": [
+                  {
+                    "name": "ReactReactNode",
+                    "raw": "React.ReactNode"
+                  }
+                ],
+                "raw": "React.ReactNode[]"
+              }
+            ]
+          },
+          "description": "Content to drag"
         }
       }
     }
@@ -7444,117 +7555,6 @@
             ]
           },
           "description": "Content where activate drop"
-        }
-      }
-    }
-  ],
-  "src/components/utilities/Drag.tsx": [
-    {
-      "description": "",
-      "methods": [],
-      "displayName": "Drag",
-      "props": {
-        "onDragStart": {
-          "required": false,
-          "tsType": {
-            "name": "ReactDragEventHandler",
-            "raw": "React.DragEventHandler"
-          },
-          "description": "Callback for on onDragStart",
-          "defaultValue": {
-            "value": "(): void => undefined",
-            "computed": false
-          }
-        },
-        "onDragEnd": {
-          "required": false,
-          "tsType": {
-            "name": "ReactDragEventHandler",
-            "raw": "React.DragEventHandler"
-          },
-          "description": "Callback for on onDragStart",
-          "defaultValue": {
-            "value": "(): void => undefined",
-            "computed": false
-          }
-        },
-        "type": {
-          "required": false,
-          "tsType": {
-            "name": "string"
-          },
-          "description": "type to assign to data",
-          "defaultValue": {
-            "value": "''",
-            "computed": false
-          }
-        },
-        "data": {
-          "required": false,
-          "tsType": {
-            "name": "Record",
-            "elements": [
-              {
-                "name": "string"
-              },
-              {
-                "name": "unknown"
-              }
-            ],
-            "raw": "Record<string, unknown>"
-          },
-          "description": "data assigned to the drag event",
-          "defaultValue": {
-            "value": "{}",
-            "computed": false
-          }
-        },
-        "style": {
-          "required": false,
-          "tsType": {
-            "name": "HTMLAttributes['style']",
-            "raw": "HTMLAttributes<HTMLDivElement>['style']"
-          },
-          "description": "style applied to drag container",
-          "defaultValue": {
-            "value": "{}",
-            "computed": false
-          }
-        },
-        "dragDisabled": {
-          "required": false,
-          "tsType": {
-            "name": "boolean"
-          },
-          "description": "whether element should be draggable or not",
-          "defaultValue": {
-            "value": "false",
-            "computed": false
-          }
-        },
-        "children": {
-          "required": true,
-          "tsType": {
-            "name": "union",
-            "raw": "React.ReactNode | React.ReactNode[]",
-            "elements": [
-              {
-                "name": "ReactReactNode",
-                "raw": "React.ReactNode"
-              },
-              {
-                "name": "Array",
-                "elements": [
-                  {
-                    "name": "ReactReactNode",
-                    "raw": "React.ReactNode"
-                  }
-                ],
-                "raw": "React.ReactNode[]"
-              }
-            ]
-          },
-          "description": "Content to drag"
         }
       }
     }

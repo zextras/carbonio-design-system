@@ -5,7 +5,8 @@
  */
 import React, { useCallback, useState, useRef } from 'react';
 
-import { ChipInput, ChipInputProps } from './ChipInput';
+import type { ChipInputProps } from './ChipInput';
+import { ChipInput } from './ChipInput';
 
 export default {};
 const allOptions = [

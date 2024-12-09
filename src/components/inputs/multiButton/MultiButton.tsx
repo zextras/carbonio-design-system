@@ -6,11 +6,14 @@
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
-import styled, { DefaultTheme } from 'styled-components';
+import type { DefaultTheme } from 'styled-components';
+import styled from 'styled-components';
 
-import { AnyColor } from '../../../types/utils';
-import { Button, ButtonProps } from '../../basic/button/Button';
-import { Dropdown, DropdownProps } from '../../display/Dropdown';
+import type { AnyColor } from '../../../types/utils';
+import type { ButtonProps } from '../../basic/button/Button';
+import { Button } from '../../basic/button/Button';
+import type { DropdownProps } from '../../display/Dropdown';
+import { Dropdown } from '../../display/Dropdown';
 
 const StyledDropdown = styled(Dropdown)<{ $containerWidth: string }>`
 	width: ${({ $containerWidth }): string => $containerWidth};
@@ -150,4 +153,5 @@ const MultiButton = React.forwardRef<HTMLDivElement, MultiButtonProps>(function 
 	);
 });
 
-export { MultiButton, MultiButtonProps };
+export type { MultiButtonProps };
+export { MultiButton };

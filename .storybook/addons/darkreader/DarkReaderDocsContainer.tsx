@@ -1,15 +1,30 @@
-import React from 'react';
-import { DocsContainer } from "@storybook/blocks";
-import { useEffect } from "react";
-import { disable, enable } from "darkreader";
-import { Globals } from '@storybook/csf'
+/*
+ * SPDX-FileCopyrightText: 2024 Zextras <https://www.zextras.com>
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+import React, { useEffect } from 'react';
 
-export const DarkReaderDocsContainer = ({ children, context, ...rest }: React.ComponentProps<typeof DocsContainer> & { context: { store: { userGlobals: { globals: Globals }} } })=> {
-    const isDarkModeEnabled = context.store.userGlobals.globals.isDarkModeEnabled
+import { DocsContainer } from '@storybook/blocks';
+import type { Globals } from '@storybook/csf';
+import { disable, enable } from 'darkreader';
 
-    useEffect(() => {
-        isDarkModeEnabled ? enable({}) : disable()
-    }, [isDarkModeEnabled]);
+export const DarkReaderDocsContainer = ({
+	children,
+	context,
+	...rest
+}: React.ComponentProps<typeof DocsContainer> & {
+	context: { store: { userGlobals: { globals: Globals } } };
+}): React.JSX.Element => {
+	const { isDarkModeEnabled } = context.store.userGlobals.globals;
 
-    return <DocsContainer context={context} {...rest}>{children}</DocsContainer>
+	useEffect(() => {
+		isDarkModeEnabled ? enable({}) : disable();
+	}, [isDarkModeEnabled]);
+
+	return (
+		<DocsContainer context={context} {...rest}>
+			{children}
+		</DocsContainer>
+	);
 };

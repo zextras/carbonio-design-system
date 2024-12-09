@@ -7,7 +7,8 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-import { Text, TextProps } from '../../basic/text/Text';
+import type { TextProps } from '../../basic/text/Text';
+import { Text } from '../../basic/text/Text';
 
 const StyledText = styled(Text)<{ size: NonNullable<TextProps['size']> }>`
 	line-height: 1.5;

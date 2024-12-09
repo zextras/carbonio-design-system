@@ -5,18 +5,8 @@
  */
 import React, { useCallback, useMemo, useState } from 'react';
 
-import {
-	Container,
-	Input,
-	ThemeProvider,
-	Icon,
-	Text,
-	InputProps,
-	Select,
-	SelectItem,
-	SingleSelectionOnChange,
-	PaletteColor
-} from '../../src';
+import type { InputProps, SelectItem, SingleSelectionOnChange, PaletteColor } from '../../src';
+import { Container, Input, ThemeProvider, Icon, Text, Select } from '../../src';
 import { Theme } from '../../src/theme/theme';
 
 const sortedIcons = Object.keys(Theme.icons).toSorted((a, b) => (a <= b ? -1 : 1));

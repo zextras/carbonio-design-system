@@ -9,7 +9,7 @@ import React, { useEffect, useRef } from 'react';
 import { act } from '@testing-library/react';
 
 import { useIntersectionObserver } from './useIntersectionObserver';
-import { screen, setup } from '../../test-utils';
+import { screen, setup } from '../../tests/utils';
 
 const TestComponent = ({
 	onIntersect = (): void => undefined,

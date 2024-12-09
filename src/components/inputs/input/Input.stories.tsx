@@ -4,9 +4,10 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { JSX, useState } from 'react';
+import type { JSX } from 'react';
+import React, { useState } from 'react';
 
-import { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
 
 import { Input } from './Input';
 import { Icon } from '../../basic/icon/Icon';

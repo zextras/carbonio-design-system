@@ -4,13 +4,15 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { HTMLAttributes, useMemo } from 'react';
+import type { HTMLAttributes } from 'react';
+import React, { useMemo } from 'react';
 
 import { map } from 'lodash';
 import styled, { css } from 'styled-components';
 
-import { getColor, getPadding, PaddingObj } from '../../../theme/theme-utils';
-import { AnyColor, LiteralUnion, With$Prefix } from '../../../types/utils';
+import type { PaddingObj } from '../../../theme/theme-utils';
+import { getColor, getPadding } from '../../../theme/theme-utils';
+import type { AnyColor, LiteralUnion, With$Prefix } from '../../../types/utils';
 
 interface ContainerElProps {
 	/** The Container orientation (css flex-direction prop or 'vertical' or 'horizontal') */
@@ -267,4 +269,5 @@ const Container = React.forwardRef<HTMLDivElement, ContainerProps>(function Cont
 	);
 });
 
-export { Container, ContainerProps };
+export type { ContainerProps };
+export { Container };

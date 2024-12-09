@@ -4,15 +4,18 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { HTMLAttributes, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import type { HTMLAttributes } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
-import styled, { css, DefaultTheme } from 'styled-components';
+import type { DefaultTheme } from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { useCombinedRefs } from '../../../hooks/useCombinedRefs';
 import { useModal } from '../../../hooks/useModal';
 import { useTheme } from '../../../theme/theme-utils';
-import { AnyColor } from '../../../types/utils';
-import { Button, ButtonProps } from '../../basic/button/Button';
+import type { AnyColor } from '../../../types/utils';
+import type { ButtonProps } from '../../basic/button/Button';
+import { Button } from '../../basic/button/Button';
 import { Icon } from '../../basic/icon/Icon';
 import { Text } from '../../basic/text/Text';
 import { Container } from '../../layout/container/Container';

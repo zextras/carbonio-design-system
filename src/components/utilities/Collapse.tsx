@@ -4,7 +4,8 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { HTMLAttributes, useMemo } from 'react';
+import type { HTMLAttributes } from 'react';
+import React, { useMemo } from 'react';
 
 import styled, { css } from 'styled-components';
 
@@ -131,4 +132,5 @@ const Collapser = React.forwardRef<HTMLDivElement, CollapserProps>(function Coll
 	);
 });
 
-export { Collapse, CollapseProps, Collapser, CollapserProps };
+export type { CollapseProps, CollapserProps };
+export { Collapse, Collapser };
