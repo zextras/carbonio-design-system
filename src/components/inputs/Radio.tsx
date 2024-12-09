@@ -4,23 +4,18 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, {
-	CSSProperties,
-	InputHTMLAttributes,
-	LabelHTMLAttributes,
-	useCallback,
-	useEffect,
-	useMemo,
-	useRef,
-	useState
-} from 'react';
+import type { CSSProperties, InputHTMLAttributes, LabelHTMLAttributes } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
-import styled, { css, DefaultTheme } from 'styled-components';
+import type { DefaultTheme } from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { getColor, pseudoClasses } from '../../theme/theme-utils';
-import { Text, TextProps } from '../basic/text/Text';
-import { Container, ContainerProps } from '../layout/container/Container';
+import type { TextProps } from '../basic/text/Text';
+import { Text } from '../basic/text/Text';
+import type { ContainerProps } from '../layout/container/Container';
+import { Container } from '../layout/container/Container';
 
 const RADIO_SIZE: Record<
 	'small' | 'medium',
@@ -268,4 +263,5 @@ const RadioComponent = React.forwardRef(function RadioFn<
 
 const Radio = RadioComponent as RadioType;
 
-export { RadioComponent, Radio, RadioProps };
+export type { RadioProps };
+export { RadioComponent, Radio };

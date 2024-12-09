@@ -4,7 +4,8 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { useCallback, HTMLAttributes, useMemo } from 'react';
+import type { HTMLAttributes } from 'react';
+import React, { useCallback, useMemo } from 'react';
 
 import { map } from 'lodash';
 import styled, { css } from 'styled-components';
@@ -12,9 +13,10 @@ import styled, { css } from 'styled-components';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { getKeyboardPreset, useKeyboard } from '../../hooks/useKeyboard';
 import { getColor } from '../../theme/theme-utils';
-import { AnyColor } from '../../types/utils';
+import type { AnyColor } from '../../types/utils';
 import { Text } from '../basic/text/Text';
-import { Container, ContainerProps } from '../layout/container/Container';
+import type { ContainerProps } from '../layout/container/Container';
+import { Container } from '../layout/container/Container';
 
 const CustomText = styled(Text)`
 	line-height: 1.5;
@@ -199,4 +201,5 @@ const TabBar = React.forwardRef<HTMLDivElement, TabBarProps>(function TabBarFn(
 	);
 });
 
-export { TabBar, DefaultTabBarItem, TabBarProps, DefaultTabBarItemProps };
+export type { TabBarProps, DefaultTabBarItemProps };
+export { TabBar, DefaultTabBarItem };

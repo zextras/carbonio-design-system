@@ -5,7 +5,8 @@
  */
 import React, { useCallback, useState } from 'react';
 
-import { MultiButton, MultiButtonProps } from './MultiButton';
+import type { MultiButtonProps } from './MultiButton';
+import { MultiButton } from './MultiButton';
 
 export const MultiButtonCustomIcon = (props: MultiButtonProps): React.JSX.Element => {
 	const [icon, setIcon] = useState('Plus');

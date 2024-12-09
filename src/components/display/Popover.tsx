@@ -6,11 +6,12 @@
 
 import React, { useEffect, useState, useCallback, useMemo } from 'react';
 
-import { VirtualElement } from '@floating-ui/dom';
+import type { VirtualElement } from '@floating-ui/dom';
 import { debounce } from 'lodash';
 import styled, { useTheme } from 'styled-components';
 
-import { Popper, PopperProps } from './Popper';
+import type { PopperProps } from './Popper';
+import { Popper } from './Popper';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 
 const PopoverContainer = styled.div<{ $styleAsModal: boolean }>`
@@ -143,4 +144,5 @@ const Popover = React.forwardRef<HTMLDivElement, PopoverProps>(function PopoverF
 	);
 });
 
-export { Popover, PopoverProps };
+export type { PopoverProps };
+export { Popover };

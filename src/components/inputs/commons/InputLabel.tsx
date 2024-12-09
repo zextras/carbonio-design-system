@@ -4,7 +4,8 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { LabelHTMLAttributes } from 'react';
+import type { LabelHTMLAttributes } from 'react';
+import React from 'react';
 
 import styled from 'styled-components';
 

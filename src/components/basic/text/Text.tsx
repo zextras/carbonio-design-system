@@ -4,12 +4,14 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { HTMLAttributes } from 'react';
+import type { HTMLAttributes } from 'react';
+import React from 'react';
 
-import styled, { css, DefaultTheme } from 'styled-components';
+import type { DefaultTheme } from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { getColor } from '../../../theme/theme-utils';
-import { AnyColor } from '../../../types/utils';
+import type { AnyColor } from '../../../types/utils';
 
 interface TextProps extends Omit<HTMLAttributes<HTMLDivElement>, 'color'> {
 	/** Text color */
@@ -96,4 +98,5 @@ const Text = React.forwardRef<HTMLDivElement, TextProps>(function TextFn(
 	);
 });
 
-export { Text, TextProps };
+export type { TextProps };
+export { Text };

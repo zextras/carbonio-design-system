@@ -6,14 +6,17 @@
 
 import React, { useCallback, useEffect } from 'react';
 
-import styled, { css, DefaultTheme, keyframes } from 'styled-components';
+import type { DefaultTheme } from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 
-import { ScreenMode, useScreenMode } from '../../../hooks/useScreenMode';
+import type { ScreenMode } from '../../../hooks/useScreenMode';
+import { useScreenMode } from '../../../hooks/useScreenMode';
 import { Button } from '../../basic/button/Button';
 import { Icon } from '../../basic/icon/Icon';
 import { Text } from '../../basic/text/Text';
 import { TIMERS } from '../../constants';
-import { Container, ContainerProps } from '../../layout/container/Container';
+import type { ContainerProps } from '../../layout/container/Container';
+import { Container } from '../../layout/container/Container';
 import { Row } from '../../layout/Row';
 import { Portal } from '../../utilities/Portal';
 import { Transition } from '../../utilities/Transition';
@@ -210,4 +213,5 @@ const Snackbar = React.forwardRef<HTMLDivElement, SnackbarProps>(function Snackb
 	);
 });
 
-export { Snackbar, SnackbarProps };
+export type { SnackbarProps };
+export { Snackbar };

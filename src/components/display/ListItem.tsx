@@ -5,11 +5,12 @@
  */
 import React from 'react';
 
-import styled, { css } from 'styled-components';
+import type { css } from 'styled-components';
+import styled from 'styled-components';
 
 import { useIsVisible } from '../../hooks/useIsVisible/useIsVisible';
 import { pseudoClasses } from '../../theme/theme-utils';
-import { AnyColor } from '../../types/utils';
+import type { AnyColor } from '../../types/utils';
 
 const ListItemWrapper = styled.div<{ $backgroundColor?: AnyColor }>`
 	user-select: none;

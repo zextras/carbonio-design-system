@@ -6,13 +6,16 @@
 
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 
-import styled, { DefaultTheme } from 'styled-components';
+import type { DefaultTheme } from 'styled-components';
+import styled from 'styled-components';
 
 import { useCombinedRefs } from '../../../hooks/useCombinedRefs';
 import { useIntersectionObserver } from '../../../hooks/useIntersectionObserver/useIntersectionObserver';
-import { getKeyboardPreset, KeyboardPresetObj, useKeyboard } from '../../../hooks/useKeyboard';
-import { Container, ContainerProps } from '../../layout/container/Container';
-import { ListItemProps } from '../ListItem';
+import type { KeyboardPresetObj } from '../../../hooks/useKeyboard';
+import { getKeyboardPreset, useKeyboard } from '../../../hooks/useKeyboard';
+import type { ContainerProps } from '../../layout/container/Container';
+import { Container } from '../../layout/container/Container';
+import type { ListItemProps } from '../ListItem';
 
 const ExternalContainer = styled(Container)`
 	display: block;

@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 // import module augmentations to make ts use them while generating types definitions
-import './globals';
-import './styled-components';
+import './types/globals';
+import './types/styled-components';
 
 /** Basic components */
 export * from './components/basic/Avatar';
@@ -122,5 +122,5 @@ export * from './hooks/useSplitVisibility';
 export { useIntersectionObserver } from './hooks/useIntersectionObserver/useIntersectionObserver';
 
 export type { ThemeObj as Theme } from './theme/theme';
-export * from './globals';
+export * from './types/globals';
 export type { AnyColor, PaletteColor } from './types/utils';

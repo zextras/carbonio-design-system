@@ -5,7 +5,7 @@
  */
 import React from 'react';
 
-import { DefaultTheme } from 'styled-components';
+import type { DefaultTheme as SCDefaultTheme } from 'styled-components';
 
 import { Text, Container, ThemeProvider, Button, generateColorSet, Row } from '../../src';
 import type { ThemeObj } from '../../src/theme/theme';
@@ -19,7 +19,7 @@ declare module 'styled-components' {
 	}
 }
 
-const editTheme = (theme: ThemeObj): DefaultTheme =>
+const editTheme = (theme: ThemeObj): SCDefaultTheme =>
 	({
 		...theme,
 		palette: {
@@ -29,7 +29,7 @@ const editTheme = (theme: ThemeObj): DefaultTheme =>
 			additional: generateColorSet({ regular: 'slategray' }),
 			green: generateColorSet({ regular: 'green' })
 		}
-	}) satisfies DefaultTheme;
+	}) satisfies SCDefaultTheme;
 
 export const CustomThemeProvider = (): React.JSX.Element => (
 	<ThemeProvider loadDefaultFont extension={editTheme}>

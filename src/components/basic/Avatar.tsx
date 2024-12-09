@@ -4,9 +4,11 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { HTMLAttributes, useMemo } from 'react';
+import type { HTMLAttributes } from 'react';
+import React, { useMemo } from 'react';
 
-import styled, { css, DefaultTheme } from 'styled-components';
+import type { DefaultTheme } from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { Icon } from './icon/Icon';
 import { getColor } from '../../theme/theme-utils';
@@ -201,4 +203,5 @@ const Avatar = React.forwardRef<HTMLDivElement, AvatarPropTypes>(function Avatar
 	);
 });
 
-export { AvatarPropTypes, Avatar };
+export type { AvatarPropTypes };
+export { Avatar };

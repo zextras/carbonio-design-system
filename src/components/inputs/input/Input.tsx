@@ -6,15 +6,19 @@
 
 import React, { useCallback, useMemo, useState } from 'react';
 
-import styled, { DefaultTheme } from 'styled-components';
+import type { DefaultTheme } from 'styled-components';
+import styled from 'styled-components';
 
 import { useCombinedRefs } from '../../../hooks/useCombinedRefs';
-import { KeyboardPresetObj, useKeyboard } from '../../../hooks/useKeyboard';
+import type { KeyboardPresetObj } from '../../../hooks/useKeyboard';
+import { useKeyboard } from '../../../hooks/useKeyboard';
 import { getColor } from '../../../theme/theme-utils';
-import { AnyColor } from '../../../types/utils';
+import type { AnyColor } from '../../../types/utils';
 import { INPUT_BACKGROUND_COLOR, INPUT_DIVIDER_COLOR } from '../../constants';
-import { Container, ContainerProps } from '../../layout/container/Container';
-import { Divider, DividerProps } from '../../layout/divider/Divider';
+import type { ContainerProps } from '../../layout/container/Container';
+import { Container } from '../../layout/container/Container';
+import type { DividerProps } from '../../layout/divider/Divider';
+import { Divider } from '../../layout/divider/Divider';
 import { InputContainer } from '../commons/InputContainer';
 import { InputDescription } from '../commons/InputDescription';
 import { InputLabel } from '../commons/InputLabel';
@@ -243,4 +247,5 @@ const Input: Input = React.forwardRef<HTMLDivElement, InputProps>(function Input
 
 Input._newId = 0;
 
-export { Input, InputProps };
+export type { InputProps };
+export { Input };

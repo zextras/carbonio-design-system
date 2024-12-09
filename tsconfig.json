@@ -1,9 +1,8 @@
 {
   "extends": "@zextras/carbonio-ui-configs/rules/typescript.json",
   "include": [
-    "src/**/*.ts",
-    "src/**/*.tsx",
-    ".storybook/**/*"
+    "src/**/*",
+    ".storybook/**/*",
   ],
   "exclude": [
     "node_modules",

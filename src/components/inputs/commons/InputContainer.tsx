@@ -6,7 +6,8 @@
 import styled, { css } from 'styled-components';
 
 import { getColor, pseudoClasses } from '../../../theme/theme-utils';
-import { Container, ContainerProps } from '../../layout/container/Container';
+import type { ContainerProps } from '../../layout/container/Container';
+import { Container } from '../../layout/container/Container';
 
 export const InputContainer = styled(Container)<{
 	background: NonNullable<ContainerProps['background']>;

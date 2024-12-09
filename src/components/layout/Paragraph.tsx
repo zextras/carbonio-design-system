@@ -8,7 +8,8 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-import { Text, TextProps } from '../basic/text/Text';
+import type { TextProps } from '../basic/text/Text';
+import { Text } from '../basic/text/Text';
 
 const StyledText = styled(Text)`
 	padding-bottom: 0.8em;
@@ -31,4 +32,5 @@ const Paragraph = React.forwardRef<HTMLDivElement, ParagraphProps>(function Para
 	);
 });
 
-export { Paragraph, ParagraphProps };
+export type { ParagraphProps };
+export { Paragraph };

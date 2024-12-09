@@ -3,12 +3,8 @@
  *
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-import {
-	autoUpdate,
-	computePosition,
-	ComputePositionConfig,
-	ReferenceElement
-} from '@floating-ui/dom';
+import type { ComputePositionConfig, ReferenceElement } from '@floating-ui/dom';
+import { autoUpdate, computePosition } from '@floating-ui/dom';
 
 export function setupFloating(
 	reference: ReferenceElement,

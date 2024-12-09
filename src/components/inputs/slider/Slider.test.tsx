@@ -8,7 +8,7 @@ import React from 'react';
 import { fireEvent, screen, within } from '@testing-library/react';
 
 import { Slider } from './Slider';
-import { setup } from '../../../test-utils';
+import { setup } from '../../../tests/utils';
 import { TIMERS } from '../../constants';
 
 describe('Slider', () => {

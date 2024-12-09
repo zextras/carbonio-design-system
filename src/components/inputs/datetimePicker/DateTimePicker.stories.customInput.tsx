@@ -5,7 +5,8 @@
  */
 import React from 'react';
 
-import { DateTimePicker, DateTimePickerProps } from './DateTimePicker';
+import type { DateTimePickerProps } from './DateTimePicker';
+import { DateTimePicker } from './DateTimePicker';
 import { Button } from '../../basic/button/Button';
 
 type CustomInputProps = React.ComponentProps<NonNullable<DateTimePickerProps['CustomComponent']>>;

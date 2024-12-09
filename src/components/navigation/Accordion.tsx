@@ -7,7 +7,8 @@
 import React, { useMemo, useState, useCallback, useEffect } from 'react';
 
 import { map } from 'lodash';
-import styled, { css, DefaultTheme } from 'styled-components';
+import type { DefaultTheme } from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { useKeyboard, getKeyboardPreset } from '../../hooks/useKeyboard';
@@ -15,9 +16,11 @@ import { getColor, pseudoClasses } from '../../theme/theme-utils';
 import { Badge } from '../basic/badge/Badge';
 import { Button } from '../basic/button/Button';
 import { Icon } from '../basic/icon/Icon';
-import { Text, TextProps } from '../basic/text/Text';
+import type { TextProps } from '../basic/text/Text';
+import { Text } from '../basic/text/Text';
 import { Tooltip } from '../display/Tooltip';
-import { Container, ContainerProps } from '../layout/container/Container';
+import type { ContainerProps } from '../layout/container/Container';
+import { Container } from '../layout/container/Container';
 import { Divider } from '../layout/divider/Divider';
 import { Padding } from '../layout/Padding';
 import { Collapse } from '../utilities/Collapse';

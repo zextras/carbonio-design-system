@@ -5,12 +5,14 @@
  */
 import React, { useCallback, useEffect, useState } from 'react';
 
-import { ChipInput, ChipInputProps, ChipItem } from './ChipInput';
+import type { ChipInputProps, ChipItem } from './ChipInput';
+import { ChipInput } from './ChipInput';
 import { Button } from '../../basic/button/Button';
 import { Text } from '../../basic/text/Text';
-import { DropdownItem } from '../../display/Dropdown';
+import type { DropdownItem } from '../../display/Dropdown';
 import { Container } from '../../layout/container/Container';
-import { Input, InputProps } from '../input/Input';
+import type { InputProps } from '../input/Input';
+import { Input } from '../input/Input';
 
 type User = {
 	address?: string;

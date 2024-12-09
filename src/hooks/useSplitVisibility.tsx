@@ -4,7 +4,8 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import type React from 'react';
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 
 import { drop, head, last, slice } from 'lodash';
 

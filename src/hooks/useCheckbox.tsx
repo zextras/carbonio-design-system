@@ -4,7 +4,8 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { useEffect, useState, useMemo, useCallback } from 'react';
+import type React from 'react';
+import { useEffect, useState, useMemo, useCallback } from 'react';
 
 import { getKeyboardPreset, useKeyboard } from './useKeyboard';
 
@@ -66,4 +67,5 @@ function useCheckbox({
 	return checked;
 }
 
-export { useCheckbox, UseCheckboxArgs };
+export type { UseCheckboxArgs };
+export { useCheckbox };

@@ -4,7 +4,8 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { FieldsetHTMLAttributes, useCallback, useEffect, useMemo, useState } from 'react';
+import type { FieldsetHTMLAttributes } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import styled from 'styled-components';
 
@@ -97,4 +98,5 @@ const RadioGroupComponent = React.forwardRef(function RadioGroupFn<
 
 const RadioGroup = RadioGroupComponent as RadioGroupType;
 
-export { RadioGroupComponent, RadioGroup, RadioGroupProps };
+export type { RadioGroupProps };
+export { RadioGroupComponent, RadioGroup };

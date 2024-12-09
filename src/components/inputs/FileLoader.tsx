@@ -8,8 +8,9 @@ import React, { useRef, useCallback, useMemo } from 'react';
 
 import styled from 'styled-components';
 
-import { AnyColor } from '../../types/utils';
-import { Button, ButtonProps } from '../basic/button/Button';
+import type { AnyColor } from '../../types/utils';
+import type { ButtonProps } from '../basic/button/Button';
+import { Button } from '../basic/button/Button';
 
 const FileInput = styled.input`
 	display: none;
@@ -88,4 +89,5 @@ const FileLoader = React.forwardRef<HTMLDivElement, FileLoaderProps>(function Fi
 	);
 });
 
-export { FileLoader, FileLoaderProps };
+export type { FileLoaderProps };
+export { FileLoader };

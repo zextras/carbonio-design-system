@@ -39,4 +39,5 @@ function useScreenMode(target: Window = window): ScreenMode {
 	return screenMode;
 }
 
-export { useScreenMode, ScreenMode };
+export type { ScreenMode };
+export { useScreenMode };

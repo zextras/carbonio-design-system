@@ -3,24 +3,19 @@
  *
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-import React, {
-	TextareaHTMLAttributes,
-	useCallback,
-	useEffect,
-	useMemo,
-	useRef,
-	useState
-} from 'react';
+import type { TextareaHTMLAttributes } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import styled, { css } from 'styled-components';
 
 import { useCombinedRefs } from '../../../hooks/useCombinedRefs';
 import { getColor } from '../../../theme/theme-utils';
-import { AnyColor } from '../../../types/utils';
-import { TextProps } from '../../basic/text/Text';
+import type { AnyColor } from '../../../types/utils';
+import type { TextProps } from '../../basic/text/Text';
 import { INPUT_BACKGROUND_COLOR, INPUT_DIVIDER_COLOR } from '../../constants';
 import { Container } from '../../layout/container/Container';
-import { Divider, DividerProps } from '../../layout/divider/Divider';
+import type { DividerProps } from '../../layout/divider/Divider';
+import { Divider } from '../../layout/divider/Divider';
 import { InputContainer } from '../commons/InputContainer';
 import { InputDescription } from '../commons/InputDescription';
 import { InputLabel } from '../commons/InputLabel';
@@ -320,4 +315,5 @@ const TextArea: TextArea = React.forwardRef<HTMLDivElement, TextAreaProps>(funct
 	);
 });
 
-export { TextArea, TextAreaProps };
+export type { TextAreaProps };
+export { TextArea };

@@ -6,10 +6,12 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import type { DatePickerCustomInputProps } from './DateTimePicker';
-import { SingleItemArray } from '../../../types/utils';
-import { ChipProps } from '../../display/Chip';
-import { Container, ContainerProps } from '../../layout/container/Container';
-import { ChipInput, ChipInputProps, ChipItem } from '../chipInput/ChipInput';
+import type { SingleItemArray } from '../../../types/utils';
+import type { ChipProps } from '../../display/Chip';
+import type { ContainerProps } from '../../layout/container/Container';
+import { Container } from '../../layout/container/Container';
+import type { ChipInputProps, ChipItem } from '../chipInput/ChipInput';
+import { ChipInput } from '../chipInput/ChipInput';
 
 type DateChipItem = ChipItem<Date>;
 

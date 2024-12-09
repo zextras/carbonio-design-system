@@ -6,8 +6,8 @@
 import React from 'react';
 
 import { Quota } from './Quota';
-import { screen, setup } from '../../../test-utils';
-import { SELECTORS } from '../../../testUtils/constants';
+import { SELECTORS } from '../../../tests/constants';
+import { screen, setup } from '../../../tests/utils';
 
 describe('Quota', () => {
 	it('should render correctly', () => {

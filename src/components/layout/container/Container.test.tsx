@@ -9,7 +9,7 @@ import { screen } from '@testing-library/react';
 import 'jest-styled-components';
 
 import { Container } from './Container';
-import { setup } from '../../../test-utils';
+import { setup } from '../../../tests/utils';
 import { Theme } from '../../../theme/theme';
 
 describe('Container', () => {

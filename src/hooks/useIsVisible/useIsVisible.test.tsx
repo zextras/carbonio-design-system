@@ -6,7 +6,7 @@
 import React, { useRef } from 'react';
 
 import { useIsVisible } from './useIsVisible';
-import { makeItemsVisible, screen, setup } from '../../test-utils';
+import { makeItemsVisible, screen, setup } from '../../tests/utils';
 
 type IntersectionObserverMock = jest.Mock<
 	IntersectionObserver,

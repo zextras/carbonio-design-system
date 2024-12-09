@@ -7,7 +7,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { expect, fn, userEvent } from '@storybook/test';
 
-import { MultiButton, MultiButtonProps } from './MultiButton';
+import type { MultiButtonProps } from './MultiButton';
+import { MultiButton } from './MultiButton';
 import { MultiButtonCustomIcon } from './MultiButton.stories.CustomIcon';
 import MultiButtonCustomIconSrc from './MultiButton.stories.CustomIcon?raw';
 import { within } from '../../../../.storybook/test-utils';

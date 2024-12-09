@@ -1,4 +1,10 @@
-import { getStoryContext, TestRunnerConfig, waitForPageReady } from '@storybook/test-runner';
+/*
+ * SPDX-FileCopyrightText: 2024 Zextras <https://www.zextras.com>
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+import type { TestRunnerConfig } from '@storybook/test-runner';
+import { getStoryContext } from '@storybook/test-runner';
 import { toMatchImageSnapshot } from 'jest-image-snapshot';
 
 const config: TestRunnerConfig = {
@@ -10,8 +16,7 @@ const config: TestRunnerConfig = {
 	 * The page argument is the Playwright's page object for the story.
 	 * The context argument is a Storybook object containing the story's id, title, and name.
 	 */
-	async preVisit(page, context) {
-	},
+	// async preVisit(page, context) {},
 	/* Hook to execute after a story is rendered.
 	 * The page argument is the Playwright's page object for the story
 	 * The context argument is a Storybook object containing the story's id, title, and name.
@@ -32,9 +37,9 @@ const config: TestRunnerConfig = {
 		await page.waitForFunction(() => document.fonts.ready);
 
 		if (visualTestParameters.waitTime) {
-			await new Promise((resolve) =>
-				setTimeout(resolve, visualTestParameters.waitTime)
-			);
+			await new Promise((resolve) => {
+				setTimeout(resolve, visualTestParameters.waitTime);
+			});
 		}
 		const image = await page.screenshot({
 			animations: 'disabled'
@@ -42,9 +47,9 @@ const config: TestRunnerConfig = {
 
 		expect(image).toMatchImageSnapshot({
 			customSnapshotsDir: '.storybook-images',
-			customSnapshotIdentifier: context.id,
+			customSnapshotIdentifier: context.id
 		});
-	},
+	}
 };
 
 export default config;

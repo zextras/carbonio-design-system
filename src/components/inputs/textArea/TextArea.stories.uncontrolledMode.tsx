@@ -7,7 +7,8 @@ import React, { useCallback, useRef } from 'react';
 
 import styled from 'styled-components';
 
-import { TextArea, TextAreaProps } from './TextArea';
+import type { TextAreaProps } from './TextArea';
+import { TextArea } from './TextArea';
 import { Container } from '../../layout/container/Container';
 
 const StyledParagraph = styled.p`

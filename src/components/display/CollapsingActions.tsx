@@ -3,18 +3,22 @@
  *
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-import React, { HTMLAttributes, useMemo } from 'react';
+import type { HTMLAttributes } from 'react';
+import React, { useMemo } from 'react';
 
 import { noop } from 'lodash';
 import styled from 'styled-components';
 
-import { Dropdown, DropdownItem } from './Dropdown';
+import type { DropdownItem } from './Dropdown';
+import { Dropdown } from './Dropdown';
 import { Tooltip } from './Tooltip';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { useSplitVisibility } from '../../hooks/useSplitVisibility';
-import { AnyColor } from '../../types/utils';
-import { Button, ButtonProps } from '../basic/button/Button';
-import { Container, ContainerProps } from '../layout/container/Container';
+import type { AnyColor } from '../../types/utils';
+import type { ButtonProps } from '../basic/button/Button';
+import { Button } from '../basic/button/Button';
+import type { ContainerProps } from '../layout/container/Container';
+import { Container } from '../layout/container/Container';
 
 const RefDiv = styled.div`
 	max-width: 100%;
@@ -140,4 +144,5 @@ const CollapsingActions = React.forwardRef<HTMLDivElement, CollapsingActionsProp
 	}
 );
 
-export { CollapsingActions, CollapsingActionsProps, Action };
+export type { CollapsingActionsProps, Action };
+export { CollapsingActions };

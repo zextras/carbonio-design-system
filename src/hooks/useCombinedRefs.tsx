@@ -4,7 +4,8 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { useRef, useEffect } from 'react';
+import type React from 'react';
+import { useRef, useEffect } from 'react';
 
 function useCombinedRefs<T>(...refs: React.ForwardedRef<T>[]): React.MutableRefObject<T | null> {
 	const targetRef = useRef<T>(null);
