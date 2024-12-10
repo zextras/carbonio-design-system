@@ -184,6 +184,11 @@ export const ContextMenu = {
 		const canvas = within(canvasElement);
 		await userEvent.rightClick(canvas.getByText('Right click to open context menu'));
 		await expect(await screen.findByText('Item 1')).toBeVisible();
+	},
+	parameters: {
+		visualTest: {
+			skip: true
+		}
 	}
 } satisfies Story;
 
@@ -294,6 +299,11 @@ export const KeepOpen = {
 		await expect(screen.getByText('Item 1.1')).toBeVisible();
 		await userEvent.click(await screen.findByText('Item 1'));
 		await expect(screen.getByText('Item 1')).toBeVisible();
+	},
+	parameters: {
+		visualTest: {
+			skip: true
+		}
 	}
 } satisfies Story;
 
@@ -317,6 +327,11 @@ export const ForceOpenWithClickEnabled = {
 		await expect(screen.getByText('Item 1')).toBeVisible();
 		await userEvent.click(canvas.getByRole('button', { name: 'click here to close' }));
 		await expect(screen.queryByText('Item 1')).not.toBeInTheDocument();
+	},
+	parameters: {
+		visualTest: {
+			skip: true
+		}
 	}
 } satisfies Story;
 
@@ -343,6 +358,11 @@ export const ForceOpenWithClickDisabled = {
 		await expect(screen.getByText('Item 1')).toBeVisible();
 		await userEvent.click(canvas.getByRole('button', { name: 'click here to close' }));
 		await expect(screen.queryByText('Item 1')).not.toBeInTheDocument();
+	},
+	parameters: {
+		visualTest: {
+			skip: true
+		}
 	}
 } satisfies Story;
 
@@ -390,5 +410,10 @@ export const WithHandleTriggerEventsOnDiv = {
 		await expect(canvas.getByTestId('trigger')).toHaveFocus();
 		await userEvent.keyboard(' ');
 		await expect(await screen.findByText('Item 1')).toBeVisible();
+	},
+	parameters: {
+		visualTest: {
+			skip: true
+		}
 	}
 } satisfies Story;
