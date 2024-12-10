@@ -6,11 +6,11 @@
 
 import React, { useMemo, useRef } from 'react';
 
-import type { DefaultTheme } from 'styled-components';
 import styled, { css } from 'styled-components';
 
 import { useCheckbox } from '../../hooks/useCheckbox';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
+import type { Theme } from '../../theme/theme';
 import { getColor } from '../../theme/theme-utils';
 import type { AnyColor } from '../../types/utils';
 import { Icon } from '../basic/icon/Icon';
@@ -69,7 +69,7 @@ interface CheckboxProps extends Omit<ContainerProps, 'onChange' | 'onClick'> {
 	/** Checkbox size
 	 * @deprecated use size instead
 	 */
-	iconSize?: keyof DefaultTheme['sizes']['icon'];
+	iconSize?: keyof Theme['sizes']['icon'];
 	/** Checkbox color */
 	iconColor?: AnyColor;
 	/** Checkbox text */

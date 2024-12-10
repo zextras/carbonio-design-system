@@ -6,11 +6,11 @@
 
 import React, { useRef, useCallback, useMemo } from 'react';
 
-import type { DefaultTheme } from 'styled-components';
 import styled, { css } from 'styled-components';
 
 import { useCheckbox } from '../../hooks/useCheckbox';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
+import type { Theme } from '../../theme/theme';
 import { Icon } from '../basic/icon/Icon';
 import { Text } from '../basic/text/Text';
 import type { ContainerProps } from '../layout/container/Container';
@@ -85,11 +85,11 @@ interface IconCheckboxProps extends Omit<ContainerProps, 'margin'> {
 	/** whether to disable the IconCheckbox or not */
 	disabled?: boolean;
 	/** IconCheckbox icon */
-	icon: keyof DefaultTheme['icons'];
+	icon: keyof Theme['icons'];
 	/** IconCheckbox size */
 	size?: 'small' | 'regular' | 'large';
 	/** IconCheckbox margin */
-	margin?: keyof DefaultTheme['sizes']['padding'];
+	margin?: keyof Theme['sizes']['padding'];
 	/** IconCheckbox value */
 	value?: boolean;
 	/** change callback */

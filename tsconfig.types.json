@@ -5,7 +5,8 @@
     "src/**/*.test.*",
     "src/tests/utils.tsx",
     "**/tsTemplate.ts",
-    ".storybook"
+    ".storybook",
+    "scripts"
   ],
   "compilerOptions": {
     "declaration": true,

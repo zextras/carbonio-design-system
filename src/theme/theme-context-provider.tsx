@@ -6,15 +6,15 @@
 
 import React, { useCallback } from 'react';
 
-import type { DefaultTheme } from 'styled-components';
 import { ThemeProvider as SCThemeProvider, ThemeContext } from 'styled-components';
 
 import DefaultFontStyles from './roboto-global-styles';
 import { Theme as defaultTheme } from './theme';
+import type { Theme } from './theme';
 import { generateHighlightSet } from './theme-utils';
 
 interface ThemeProviderProps {
-	extension?: (theme: DefaultTheme) => DefaultTheme;
+	extension?: (theme: Theme) => Theme;
 	loadDefaultFont?: boolean;
 }
 
@@ -24,7 +24,7 @@ const ThemeProvider = ({
 	loadDefaultFont
 }: React.PropsWithChildren<ThemeProviderProps>): React.JSX.Element => {
 	const _theme = useCallback(
-		(parentTheme: DefaultTheme = defaultTheme) => {
+		(parentTheme: Theme = defaultTheme) => {
 			const theme = extension ? extension(parentTheme) : parentTheme;
 			theme.palette.highlight = generateHighlightSet(theme.palette.primary);
 			return theme;

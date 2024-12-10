@@ -7,11 +7,11 @@
 import type { HTMLAttributes } from 'react';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
-import type { DefaultTheme } from 'styled-components';
 import styled, { css } from 'styled-components';
 
 import { useCombinedRefs } from '../../../hooks/useCombinedRefs';
 import { useModal } from '../../../hooks/useModal';
+import type { Theme } from '../../../theme/theme';
 import { useTheme } from '../../../theme/theme-utils';
 import type { AnyColor } from '../../../types/utils';
 import type { ButtonProps } from '../../basic/button/Button';
@@ -46,7 +46,7 @@ type BannerProps = HTMLAttributes<HTMLDivElement> & {
 		  }
 	);
 
-const BANNER_ICON: Record<NonNullable<BannerProps['severity']>, keyof DefaultTheme['icons']> = {
+const BANNER_ICON: Record<NonNullable<BannerProps['severity']>, keyof Theme['icons']> = {
 	success: 'CheckmarkCircle2Outline',
 	warning: 'AlertTriangleOutline',
 	info: 'InfoOutline',

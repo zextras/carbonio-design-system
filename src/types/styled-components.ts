@@ -4,10 +4,9 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import type { ThemeObj } from '../theme/theme';
+import type { Theme } from '../theme/theme';
 
 declare module 'styled-components' {
 	// Augment DefaultTheme as suggested inside styled-components module
-	// eslint-disable-next-line @typescript-eslint/no-empty-interface
-	export interface DefaultTheme extends ThemeObj {}
+	interface DefaultTheme extends Theme {}
 }

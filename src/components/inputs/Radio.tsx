@@ -7,10 +7,10 @@
 import type { CSSProperties, InputHTMLAttributes, LabelHTMLAttributes } from 'react';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
-import type { DefaultTheme } from 'styled-components';
 import styled, { css } from 'styled-components';
 
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
+import type { Theme } from '../../theme/theme';
 import { getColor, pseudoClasses } from '../../theme/theme-utils';
 import type { TextProps } from '../basic/text/Text';
 import { Text } from '../basic/text/Text';
@@ -19,7 +19,7 @@ import { Container } from '../layout/container/Container';
 
 const RADIO_SIZE: Record<
 	'small' | 'medium',
-	{ icon: keyof DefaultTheme['sizes']['icon']; label: TextProps['size'] }
+	{ icon: keyof Theme['sizes']['icon']; label: TextProps['size'] }
 > = {
 	medium: {
 		icon: 'large',
@@ -33,7 +33,7 @@ const RADIO_SIZE: Record<
 
 const RadioInput = styled.input<{
 	$color: string;
-	$size: keyof DefaultTheme['sizes']['icon'];
+	$size: keyof Theme['sizes']['icon'];
 }>`
 	&:focus-visible {
 		outline: none;
@@ -132,7 +132,7 @@ interface RadioComponentProps<T extends RadioInputHTMLAttributes['value']> {
 	/** available sizes */
 	size?: keyof typeof RADIO_SIZE;
 	/** icon color */
-	iconColor?: keyof DefaultTheme['palette'] | CSSProperties['color'];
+	iconColor?: keyof Theme['palette'] | CSSProperties['color'];
 	/** Ref for the input element */
 	inputRef?: React.Ref<HTMLInputElement>;
 	/** Value of the radio input */

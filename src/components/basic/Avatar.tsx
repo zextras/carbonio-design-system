@@ -7,18 +7,18 @@
 import type { HTMLAttributes } from 'react';
 import React, { useMemo } from 'react';
 
-import type { DefaultTheme } from 'styled-components';
 import styled, { css } from 'styled-components';
 
 import { Icon } from './icon/Icon';
+import type { Theme } from '../../theme/theme';
 import { getColor } from '../../theme/theme-utils';
 
 type ShapeType = 'round' | 'square';
 
 type AvatarContainerProps = {
-	$size: keyof DefaultTheme['sizes']['avatar'];
+	$size: keyof Theme['sizes']['avatar'];
 	$background?: string;
-	$color: keyof DefaultTheme['avatarColors'];
+	$color: keyof Theme['avatarColors'];
 	$picture?: string;
 	$selecting?: boolean;
 	$selected?: boolean;
@@ -27,13 +27,13 @@ type AvatarContainerProps = {
 };
 
 type CapitalsPropsType = {
-	$size: keyof DefaultTheme['sizes']['avatar'];
+	$size: keyof Theme['sizes']['avatar'];
 	$color?: string;
 };
 
 interface AvatarPropTypes extends Omit<HTMLAttributes<HTMLDivElement>, 'color'> {
 	/** size of the Avatar circle */
-	size?: keyof DefaultTheme['sizes']['avatar'];
+	size?: keyof Theme['sizes']['avatar'];
 	/** url to the profile picture */
 	picture?: string;
 	/** string to be used as capitals, or for its calculation */
@@ -128,7 +128,7 @@ function calcCapitals(label: string): string | null {
 	return label[0] + label[label.length - 1];
 }
 
-function calcColor(label: string): keyof DefaultTheme['avatarColors'] {
+function calcColor(label: string): keyof Theme['avatarColors'] {
 	let sum = 0;
 	for (let i = 0; i < label.length; i += 1) {
 		sum += label.charCodeAt(i);

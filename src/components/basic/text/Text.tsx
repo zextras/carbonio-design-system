@@ -7,9 +7,9 @@
 import type { HTMLAttributes } from 'react';
 import React from 'react';
 
-import type { DefaultTheme } from 'styled-components';
 import styled, { css } from 'styled-components';
 
+import type { Theme } from '../../../theme/theme';
 import { getColor } from '../../../theme/theme-utils';
 import type { AnyColor } from '../../../types/utils';
 
@@ -17,9 +17,9 @@ interface TextProps extends Omit<HTMLAttributes<HTMLDivElement>, 'color'> {
 	/** Text color */
 	color?: AnyColor;
 	/** Text size */
-	size?: keyof DefaultTheme['sizes']['font'];
+	size?: keyof Theme['sizes']['font'];
 	/** Text weight */
-	weight?: keyof DefaultTheme['fonts']['weight'];
+	weight?: keyof Theme['fonts']['weight'];
 	/** Overflow handling */
 	overflow?: 'ellipsis' | 'break-word';
 	/** Disabled status */
@@ -35,8 +35,8 @@ interface TextProps extends Omit<HTMLAttributes<HTMLDivElement>, 'color'> {
 const Comp = styled.div<{
 	$color: AnyColor;
 	$disabled: boolean;
-	$size: keyof DefaultTheme['sizes']['font'];
-	$weight: keyof DefaultTheme['fonts']['weight'];
+	$size: keyof Theme['sizes']['font'];
+	$weight: keyof Theme['fonts']['weight'];
 	$overflow: string;
 	$italic: boolean;
 	$textAlign?: string;

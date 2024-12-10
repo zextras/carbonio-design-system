@@ -6,11 +6,11 @@
 
 import React, { useCallback, useEffect } from 'react';
 
-import type { DefaultTheme } from 'styled-components';
 import styled, { css, keyframes } from 'styled-components';
 
 import type { ScreenMode } from '../../../hooks/useScreenMode';
 import { useScreenMode } from '../../../hooks/useScreenMode';
+import type { Theme } from '../../../theme/theme';
 import { Button } from '../../basic/button/Button';
 import { Icon } from '../../basic/icon/Icon';
 import { Text } from '../../basic/text/Text';
@@ -59,7 +59,7 @@ const icons = {
 	info: 'InfoOutline',
 	warning: 'AlertTriangleOutline',
 	error: 'CloseCircleOutline'
-} satisfies Record<string, keyof DefaultTheme['icons']>;
+} satisfies Record<string, keyof Theme['icons']>;
 
 interface SnackbarProps extends Omit<ContainerProps, 'children'> {
 	/** Whether to show the Snackbar or not */
