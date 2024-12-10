@@ -12,9 +12,8 @@ import type { Placement, VirtualElement } from '@floating-ui/dom';
 import { flip, limitShift, shift } from '@floating-ui/dom';
 import styled, { css, useTheme } from 'styled-components';
 
-import { Tooltip } from './Tooltip';
-import { useCombinedRefs } from '../../hooks/useCombinedRefs';
-import type { KeyboardPresetObj } from '../../hooks/useKeyboard';
+import { useCombinedRefs } from '../../../hooks/useCombinedRefs';
+import type { KeyboardPresetObj } from '../../../hooks/useKeyboard';
 import {
 	useKeyboard,
 	getKeyboardPreset,
@@ -23,17 +22,18 @@ import {
 	focusOnFirstNode,
 	focusOnLastNode,
 	clickNodeWithFocus
-} from '../../hooks/useKeyboard';
-import type { Theme } from '../../theme/theme';
-import { pseudoClasses } from '../../theme/theme-utils';
-import { setupFloating } from '../../utils/floating-ui';
-import { Icon } from '../basic/icon/Icon';
-import { Text } from '../basic/text/Text';
-import { FOCUSABLE_SELECTOR, TIMERS } from '../constants';
-import { Container } from '../layout/container/Container';
-import { Divider } from '../layout/divider/Divider';
-import { Padding } from '../layout/Padding';
-import { Portal } from '../utilities/Portal';
+} from '../../../hooks/useKeyboard';
+import type { Theme } from '../../../theme/theme';
+import { pseudoClasses } from '../../../theme/theme-utils';
+import { setupFloating } from '../../../utils/floating-ui';
+import { Icon } from '../../basic/icon/Icon';
+import { Text } from '../../basic/text/Text';
+import { FOCUSABLE_SELECTOR, TIMERS } from '../../constants';
+import { Container } from '../../layout/container/Container';
+import { Divider } from '../../layout/divider/Divider';
+import { Padding } from '../../layout/Padding';
+import { Portal } from '../../utilities/Portal';
+import { Tooltip } from '../Tooltip';
 
 const ContainerEl = styled(Container)<{
 	$selectedBackgroundColor?: keyof Theme['palette'];
