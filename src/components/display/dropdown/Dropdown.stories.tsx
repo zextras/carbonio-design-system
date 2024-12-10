@@ -183,7 +183,7 @@ export const ContextMenu = {
 	play: async ({ canvasElement }): Promise<void> => {
 		const canvas = within(canvasElement);
 		await userEvent.rightClick(canvas.getByText('Right click to open context menu'));
-		await expect(await screen.findByTestId(SELECTORS.dropdown)).toBeVisible();
+		await expect(await screen.findByText('Item 1')).toBeVisible();
 	}
 } satisfies Story;
 
