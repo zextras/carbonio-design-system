@@ -117,22 +117,54 @@ export const Default = {
 } satisfies Story;
 
 export const Placement = {
-	render: (args): React.JSX.Element => (
-		<Container orientation={'horizontal'} mainAlignment={'flex-start'} gap={'1rem'}>
-			<Dropdown {...args} placement={'bottom-start'}>
-				<Button icon="ArrowDown" onClick={(): void => undefined} />
-			</Dropdown>
-			<Dropdown {...args} placement={'top-end'}>
-				<Button icon="ArrowUp" onClick={(): void => undefined} />
-			</Dropdown>
-			<Dropdown {...args} placement={'left-start'}>
-				<Button icon="ArrowLeft" onClick={(): void => undefined} />
-			</Dropdown>
-			<Dropdown {...args} placement={'right-end'}>
-				<Button icon="ArrowRight" onClick={(): void => undefined} />
-			</Dropdown>
-		</Container>
-	),
+	render: function PlacementComponent(args): React.JSX.Element {
+		const [d1Open, setD1Open] = useState(false);
+		const [d2Open, setD2Open] = useState(false);
+		const [d3Open, setD3Open] = useState(false);
+		const [d4Open, setD4Open] = useState(false);
+
+		return (
+			<Container
+				height={'400px'}
+				orientation={'horizontal'}
+				mainAlignment={'flex-start'}
+				gap={'150px'}
+			>
+				<Dropdown {...args} placement={'bottom-start'} forceOpen={d1Open}>
+					<Button
+						icon="ArrowDown"
+						onClick={(): void => {
+							setD1Open((prevState) => !prevState);
+						}}
+					/>
+				</Dropdown>
+				<Dropdown {...args} placement={'top-end'} forceOpen={d2Open}>
+					<Button
+						icon="ArrowUp"
+						onClick={(): void => {
+							setD2Open((prevState) => !prevState);
+						}}
+					/>
+				</Dropdown>
+				<Dropdown {...args} placement={'left-start'} forceOpen={d3Open}>
+					<Button
+						icon="ArrowLeft"
+						onClick={(): void => {
+							setD3Open((prevState) => !prevState);
+						}}
+					/>
+				</Dropdown>
+				<Dropdown {...args} placement={'right-end'} forceOpen={d4Open}>
+					<Button
+						icon="ArrowRight"
+						onClick={(): void => {
+							setD4Open((prevState) => !prevState);
+						}}
+					/>
+				</Dropdown>
+			</Container>
+		);
+	},
 	play: async ({ canvasElement }): Promise<void> => {
 		const canvas = within(canvasElement);
 		await userEvent.click(canvas.getByRoleWithIcon('button', { icon: 'icon: ArrowDown' }));
@@ -151,7 +183,7 @@ export const ContextMenu = {
 	play: async ({ canvasElement }): Promise<void> => {
 		const canvas = within(canvasElement);
 		await userEvent.rightClick(canvas.getByText('Right click to open context menu'));
-		await expect(screen.getByTestId(SELECTORS.dropdown)).toBeVisible();
+		await expect(await screen.findByTestId(SELECTORS.dropdown)).toBeVisible();
 	}
 } satisfies Story;
 
