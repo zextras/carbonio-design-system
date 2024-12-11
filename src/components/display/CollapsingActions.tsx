@@ -9,8 +9,8 @@ import React, { useMemo } from 'react';
 import { noop } from 'lodash';
 import styled from 'styled-components';
 
-import type { DropdownItem } from './Dropdown';
-import { Dropdown } from './Dropdown';
+import type { DropdownItem } from './dropdown/Dropdown';
+import { Dropdown } from './dropdown/Dropdown';
 import { Tooltip } from './Tooltip';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { useSplitVisibility } from '../../hooks/useSplitVisibility';

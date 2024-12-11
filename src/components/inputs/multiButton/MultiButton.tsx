@@ -12,8 +12,8 @@ import type { Theme } from '../../../theme/theme';
 import type { AnyColor } from '../../../types/utils';
 import type { ButtonProps } from '../../basic/button/Button';
 import { Button } from '../../basic/button/Button';
-import type { DropdownProps } from '../../display/Dropdown';
-import { Dropdown } from '../../display/Dropdown';
+import type { DropdownProps } from '../../display/dropdown/Dropdown';
+import { Dropdown } from '../../display/dropdown/Dropdown';
 
 const StyledDropdown = styled(Dropdown)<{ $containerWidth: string }>`
 	width: ${({ $containerWidth }): string => $containerWidth};

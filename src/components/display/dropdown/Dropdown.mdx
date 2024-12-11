@@ -1,0 +1,94 @@
+import {Meta, Controls, Stories, Title, Primary, Canvas, Markdown} from '@storybook/blocks';
+import * as DropdownStories from './Dropdown.stories';
+import {KeyboardShortcutTable} from "../../../../docs/components/KeyboardShortcutTable";
+
+<Meta of={DropdownStories} />
+
+<Title />
+
+Dropdowns are toggleable, contextual overlays for displaying lists of links and more.
+They’re toggled by clicking.
+
+Dropdown list items can be customized with components and and can be disabled.
+Disabled items has a tooltip which content can be configured with the _tooltipLabel_ prop of the item.
+
+<Primary />
+
+<Controls />
+
+
+## Keep open
+
+The `keepOpen` item property can be used to block the automatic closure of the dropdown on clicking the item.
+This allows a finer control of the dropdown in mixed behavior cases.
+
+<Canvas of={DropdownStories.KeepOpen} />
+
+## Force open
+
+Force open prop can be used to create a controlled dropdown.
+If dropdown should be opened with single click, just value the outside state with the onOpen and onClose callbacks.
+If dropdown should not be opened with single click, but only from outside,
+then the dropdown must be set as disabled, to disable the click callback on the children element.
+
+<Canvas of={DropdownStories.ForceOpenWithClickEnabled} />
+
+<Canvas of={DropdownStories.ForceOpenWithClickDisabled} />
+
+## Keyboard shortcut
+
+### Trigger component
+
+<KeyboardShortcutTable shortcuts={
+  [
+    {
+      keys: ['Enter', 'Space'],
+      action: ['Toggle dropdown open state'],
+      notes: ["Can be enabled with prop `handleTriggerEvents` for elements which don't support it natively"]
+    }
+  ]
+} />
+
+### Dropdown
+
+<KeyboardShortcutTable shortcuts={
+  [
+    {
+      keys: ['Arrow down', 'Tab'],
+      action: ['Focus on next item', 'On last item: focus on first item'],
+      notes: []
+    },
+    {
+      keys: ['Arrow up', 'Shift + Tab'],
+      action: ['Focus on previous item', 'On first item: focus on last item'],
+      notes: []
+    },
+    {
+      keys: ['Enter'],
+      action: ['Select current item'],
+      notes: []
+    },
+    {
+      keys: ['Escape'],
+      action: ['Close dropdown and return focus to trigger component'],
+      notes: [
+        'Use `disableRestoreFocus` to prevent focus to be set on trigger component.',
+        'For nested dropdown, the trigger component is the item of the parent dropdown'
+      ]
+    },
+    {
+      keys: ['Arrow right'],
+      action: ['Open nested dropdown (if present)'],
+      notes: []
+    },
+    {
+      keys: ['Arrow left'],
+      action: ['Close nested dropdown and return focus to the item of the parent dropdown'],
+      notes: []
+    }
+  ]
+} />
+
+<Canvas of={DropdownStories.WithHandleTriggerEventsOnDiv} />
+
+<Stories />

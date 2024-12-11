@@ -9,7 +9,7 @@ import type { ChipInputProps, ChipItem } from './ChipInput';
 import { ChipInput } from './ChipInput';
 import { Button } from '../../basic/button/Button';
 import { Text } from '../../basic/text/Text';
-import type { DropdownItem } from '../../display/Dropdown';
+import type { DropdownItem } from '../../display/dropdown/Dropdown';
 import { Container } from '../../layout/container/Container';
 import type { InputProps } from '../input/Input';
 import { Input } from '../input/Input';
