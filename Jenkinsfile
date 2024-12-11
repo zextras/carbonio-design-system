@@ -105,9 +105,9 @@ pipeline {
                     git config --add remote.origin.fetch +refs/heads/${branchName}:refs/remotes/origin/${branchName}
                     git fetch
                     git checkout ${branchName}
-                    git add .storybook-images
+                    git add -A .storybook-images
                     git commit -m "test: update images"
-                    git lfs push
+                    git lfs push origin ${branchName}
                     git push
                 """)
             }
