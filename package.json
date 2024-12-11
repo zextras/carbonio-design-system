@@ -32,7 +32,8 @@
 		"deploy": "npm pack && rm -rf $PKG_PATH/node_modules/@zextras/carbonio-design-system/* && tar -xf zextras-carbonio-design-system-$npm_package_version.tgz -C $PKG_PATH/node_modules/@zextras/carbonio-design-system/ --strip-components 1",
 		"prepare": "is-ci || husky",
 		"type-check": "tsc --noEmit --noUncheckedSideEffectImports",
-		"storybook": "storybook dev -p 6006"
+		"storybook": "storybook dev -p 6006",
+		"docgen": "npx @react-docgen/cli -o .storybook/docgen-output.json 'src/components/**/*.tsx' -i '**/*.(test|stories|stories.*).tsx' --pretty --resolver find-all-exported-components && npx tsx scripts/order-docgen.ts"
 	},
 	"repository": {
 		"type": "git",
@@ -104,6 +105,7 @@
 		"jsdom": "^25.0.0",
 		"lodash": "^4.17.21",
 		"process": "0.11.10",
+		"react-docgen": "^7.1.0",
 		"react-docgen-typescript": "^2.2.2",
 		"rollup": "^4.21.3",
 		"rollup-plugin-postcss": "^4.0.2",

@@ -6,8 +6,10 @@
 import React from 'react';
 
 import type { StoryFn, Preview } from '@storybook/react';
+import { generateAutocompletion } from 'storybook-addon-playground';
 
 import { DarkReaderDocsContainer } from './addons/darkreader/DarkReaderDocsContainer';
+import docgenOutput from './docgen-output.json';
 import * as Utils from '../src';
 import { ThemeProvider } from '../src';
 import { jsx, css } from '../src/playground/playground-helper';
@@ -40,6 +42,7 @@ const preview = {
 		playground: {
 			storyId: 'playground',
 			components: { ...Utils },
+			autocompletions: generateAutocompletion(docgenOutput),
 			introCode: { jsx, css },
 			share: true
 		}
