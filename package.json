@@ -33,7 +33,7 @@
 		"prepare": "is-ci || husky",
 		"type-check": "tsc --noEmit --noUncheckedSideEffectImports",
 		"storybook": "storybook dev -p 6006",
-		"docgen": "npx @react-docgen/cli -o .storybook/docgen-output.json src/components/**/*.tsx -i **/*.test.tsx --pretty --resolver find-all-exported-components"
+		"docgen": "npx @react-docgen/cli -o .storybook/docgen-output.json 'src/components/**/*.tsx' -i '**/*.(test|stories|stories.*).tsx' --pretty --resolver find-all-exported-components && npx tsx scripts/order-docgen.ts"
 	},
 	"repository": {
 		"type": "git",
