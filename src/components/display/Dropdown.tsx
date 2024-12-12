@@ -26,6 +26,7 @@ import {
 	clickNodeWithFocus
 } from '../../hooks/useKeyboard';
 import { pseudoClasses } from '../../theme/theme-utils';
+import type { AnyColor } from '../../types/utils';
 import { setupFloating } from '../../utils/floating-ui';
 import { Icon } from '../basic/icon/Icon';
 import { Text } from '../basic/text/Text';
@@ -36,7 +37,7 @@ import { Padding } from '../layout/Padding';
 import { Portal } from '../utilities/Portal';
 
 const ContainerEl = styled(Container)<{
-	$selectedBackgroundColor?: keyof DefaultTheme['palette'];
+	$selectedBackgroundColor?: AnyColor;
 	$disabled: boolean;
 }>`
 	user-select: none;
@@ -95,7 +96,7 @@ function ListItemContent({
 interface PopperListItemProps extends ListItemContentProps, HTMLAttributes<HTMLDivElement> {
 	onClick?: (e: React.SyntheticEvent<HTMLElement> | KeyboardEvent) => void;
 	customComponent?: React.ReactNode;
-	selectedBackgroundColor?: keyof DefaultTheme['palette'];
+	selectedBackgroundColor?: AnyColor;
 	keepOpen?: boolean;
 }
 
@@ -335,7 +336,7 @@ function NestListItem({
 	);
 }
 
-const PopperDropdownWrapper = styled.div<{ $display: string }>`
+const PopperDropdownWrapper = styled.div<{ $display: 'block' | 'inline-block' }>`
 	position: relative;
 	display: ${({ $display }): string => $display};
 	width: ${({ $display }): string => ($display === 'block' ? '100%' : 'auto')};
@@ -442,7 +443,7 @@ interface DropdownProps extends Omit<HTMLAttributes<HTMLDivElement>, 'contextMen
 	/** Whether to preventDefault on Dropdown click */
 	preventDefault?: boolean;
 	/** Customize selected background color */
-	selectedBackgroundColor?: keyof DefaultTheme['palette'];
+	selectedBackgroundColor?: AnyColor;
 	/** Item Icon size */
 	itemIconSize?: React.ComponentPropsWithRef<typeof Icon>['size'];
 	/** Item Text size */
