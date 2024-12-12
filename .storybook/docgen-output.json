@@ -63,7 +63,7 @@
                   {
                     "name": "signature",
                     "type": "object",
-                    "raw": "{\n\tid: string;\n\tlabel?: string;\n\titems?: AccordionItemType[];\n\tonClick?: (event: KeyboardEvent | React.SyntheticEvent) => void;\n\ticon?: keyof DefaultTheme['icons'];\n\tCustomComponent?: React.ComponentType<{ item: AccordionItemType }>;\n\ticonColor?: string;\n\tbadgeType?: 'read' | 'unread';\n\tbadgeCounter?: number;\n\topen?: boolean;\n\tbackground?: keyof DefaultTheme['palette'];\n\tdisableHover?: boolean;\n\tactive?: boolean;\n\tlevel?: number;\n\ttextProps?: TextProps;\n\tonOpen?: (e: React.SyntheticEvent | KeyboardEvent) => void;\n\tonClose?: (e: React.SyntheticEvent | KeyboardEvent) => void;\n}",
+                    "raw": "{\n\tid: string;\n\tlabel?: string;\n\titems?: AccordionItemType[];\n\tonClick?: (event: KeyboardEvent | React.SyntheticEvent) => void;\n\ticon?: keyof Theme['icons'];\n\tCustomComponent?: React.ComponentType<{ item: AccordionItemType }>;\n\ticonColor?: string;\n\tbadgeType?: 'read' | 'unread';\n\tbadgeCounter?: number;\n\topen?: boolean;\n\tbackground?: keyof Theme['palette'];\n\tdisableHover?: boolean;\n\tactive?: boolean;\n\tlevel?: number;\n\ttextProps?: TextProps;\n\tonOpen?: (e: React.SyntheticEvent | KeyboardEvent) => void;\n\tonClose?: (e: React.SyntheticEvent | KeyboardEvent) => void;\n}",
                     "signature": {
                       "properties": [
                         {
@@ -458,7 +458,7 @@
           "tsType": {
             "name": "signature",
             "type": "object",
-            "raw": "{\n\tid: string;\n\tlabel?: string;\n\titems?: AccordionItemType[];\n\tonClick?: (event: KeyboardEvent | React.SyntheticEvent) => void;\n\ticon?: keyof DefaultTheme['icons'];\n\tCustomComponent?: React.ComponentType<{ item: AccordionItemType }>;\n\ticonColor?: string;\n\tbadgeType?: 'read' | 'unread';\n\tbadgeCounter?: number;\n\topen?: boolean;\n\tbackground?: keyof DefaultTheme['palette'];\n\tdisableHover?: boolean;\n\tactive?: boolean;\n\tlevel?: number;\n\ttextProps?: TextProps;\n\tonOpen?: (e: React.SyntheticEvent | KeyboardEvent) => void;\n\tonClose?: (e: React.SyntheticEvent | KeyboardEvent) => void;\n}",
+            "raw": "{\n\tid: string;\n\tlabel?: string;\n\titems?: AccordionItemType[];\n\tonClick?: (event: KeyboardEvent | React.SyntheticEvent) => void;\n\ticon?: keyof Theme['icons'];\n\tCustomComponent?: React.ComponentType<{ item: AccordionItemType }>;\n\ticonColor?: string;\n\tbadgeType?: 'read' | 'unread';\n\tbadgeCounter?: number;\n\topen?: boolean;\n\tbackground?: keyof Theme['palette'];\n\tdisableHover?: boolean;\n\tactive?: boolean;\n\tlevel?: number;\n\ttextProps?: TextProps;\n\tonOpen?: (e: React.SyntheticEvent | KeyboardEvent) => void;\n\tonClose?: (e: React.SyntheticEvent | KeyboardEvent) => void;\n}",
             "signature": {
               "properties": [
                 {
@@ -868,8 +868,8 @@
             "raw": "TSub | (TBase & Record<never, never>)",
             "elements": [
               {
-                "name": "DefaultTheme['palette']",
-                "raw": "DefaultTheme['palette']"
+                "name": "Theme['palette']",
+                "raw": "Theme['palette']"
               },
               {
                 "name": "unknown"
@@ -907,8 +907,8 @@
             "raw": "TSub | (TBase & Record<never, never>)",
             "elements": [
               {
-                "name": "DefaultTheme['palette']",
-                "raw": "DefaultTheme['palette']"
+                "name": "Theme['palette']",
+                "raw": "Theme['palette']"
               },
               {
                 "name": "unknown"
@@ -1223,8 +1223,8 @@
                                     "raw": "TSub | (TBase & Record<never, never>)",
                                     "elements": [
                                       {
-                                        "name": "DefaultTheme['palette']",
-                                        "raw": "DefaultTheme['palette']"
+                                        "name": "Theme['palette']",
+                                        "raw": "Theme['palette']"
                                       },
                                       {
                                         "name": "unknown"
@@ -1478,8 +1478,8 @@
                                         "raw": "TSub | (TBase & Record<never, never>)",
                                         "elements": [
                                           {
-                                            "name": "DefaultTheme['palette']",
-                                            "raw": "DefaultTheme['palette']"
+                                            "name": "Theme['palette']",
+                                            "raw": "Theme['palette']"
                                           },
                                           {
                                             "name": "unknown"
@@ -1766,8 +1766,8 @@
                                     "raw": "TSub | (TBase & Record<never, never>)",
                                     "elements": [
                                       {
-                                        "name": "DefaultTheme['palette']",
-                                        "raw": "DefaultTheme['palette']"
+                                        "name": "Theme['palette']",
+                                        "raw": "Theme['palette']"
                                       },
                                       {
                                         "name": "unknown"
@@ -2021,8 +2021,8 @@
                                         "raw": "TSub | (TBase & Record<never, never>)",
                                         "elements": [
                                           {
-                                            "name": "DefaultTheme['palette']",
-                                            "raw": "DefaultTheme['palette']"
+                                            "name": "Theme['palette']",
+                                            "raw": "Theme['palette']"
                                           },
                                           {
                                             "name": "unknown"
@@ -2244,19 +2244,19 @@
                           },
                           {
                             "name": "union",
-                            "raw": "| {\n\t\tvalue: string | keyof DefaultTheme['sizes']['padding'] | 0;\n  }\n| {\n\t\tall: string | keyof DefaultTheme['sizes']['padding'] | 0;\n  }\n| RequireAtLeastOne<{\n\t\tvertical: string | keyof DefaultTheme['sizes']['padding'] | 0;\n\t\thorizontal: string | keyof DefaultTheme['sizes']['padding'] | 0;\n  }>\n| RequireAtLeastOne<{\n\t\ttop: string | keyof DefaultTheme['sizes']['padding'] | 0;\n\t\tright: string | keyof DefaultTheme['sizes']['padding'] | 0;\n\t\tbottom: string | keyof DefaultTheme['sizes']['padding'] | 0;\n\t\tleft: string | keyof DefaultTheme['sizes']['padding'] | 0;\n  }>",
+                            "raw": "| {\n\t\tvalue: string | keyof Theme['sizes']['padding'] | 0;\n  }\n| {\n\t\tall: string | keyof Theme['sizes']['padding'] | 0;\n  }\n| RequireAtLeastOne<{\n\t\tvertical: string | keyof Theme['sizes']['padding'] | 0;\n\t\thorizontal: string | keyof Theme['sizes']['padding'] | 0;\n  }>\n| RequireAtLeastOne<{\n\t\ttop: string | keyof Theme['sizes']['padding'] | 0;\n\t\tright: string | keyof Theme['sizes']['padding'] | 0;\n\t\tbottom: string | keyof Theme['sizes']['padding'] | 0;\n\t\tleft: string | keyof Theme['sizes']['padding'] | 0;\n  }>",
                             "elements": [
                               {
                                 "name": "signature",
                                 "type": "object",
-                                "raw": "{\nvalue: string | keyof DefaultTheme['sizes']['padding'] | 0;\n}",
+                                "raw": "{\nvalue: string | keyof Theme['sizes']['padding'] | 0;\n}",
                                 "signature": {
                                   "properties": [
                                     {
                                       "key": "value",
                                       "value": {
                                         "name": "union",
-                                        "raw": "string | keyof DefaultTheme['sizes']['padding'] | 0",
+                                        "raw": "string | keyof Theme['sizes']['padding'] | 0",
                                         "elements": [
                                           {
                                             "name": "string"
@@ -2278,14 +2278,14 @@
                               {
                                 "name": "signature",
                                 "type": "object",
-                                "raw": "{\nall: string | keyof DefaultTheme['sizes']['padding'] | 0;\n}",
+                                "raw": "{\nall: string | keyof Theme['sizes']['padding'] | 0;\n}",
                                 "signature": {
                                   "properties": [
                                     {
                                       "key": "all",
                                       "value": {
                                         "name": "union",
-                                        "raw": "string | keyof DefaultTheme['sizes']['padding'] | 0",
+                                        "raw": "string | keyof Theme['sizes']['padding'] | 0",
                                         "elements": [
                                           {
                                             "name": "string"
@@ -2314,14 +2314,14 @@
                                       {
                                         "name": "signature",
                                         "type": "object",
-                                        "raw": "{\nvertical: string | keyof DefaultTheme['sizes']['padding'] | 0;\nhorizontal: string | keyof DefaultTheme['sizes']['padding'] | 0;\n}",
+                                        "raw": "{\nvertical: string | keyof Theme['sizes']['padding'] | 0;\nhorizontal: string | keyof Theme['sizes']['padding'] | 0;\n}",
                                         "signature": {
                                           "properties": [
                                             {
                                               "key": "vertical",
                                               "value": {
                                                 "name": "union",
-                                                "raw": "string | keyof DefaultTheme['sizes']['padding'] | 0",
+                                                "raw": "string | keyof Theme['sizes']['padding'] | 0",
                                                 "elements": [
                                                   {
                                                     "name": "string"
@@ -2341,7 +2341,7 @@
                                               "key": "horizontal",
                                               "value": {
                                                 "name": "union",
-                                                "raw": "string | keyof DefaultTheme['sizes']['padding'] | 0",
+                                                "raw": "string | keyof Theme['sizes']['padding'] | 0",
                                                 "elements": [
                                                   {
                                                     "name": "string"
@@ -2366,14 +2366,14 @@
                                           {
                                             "name": "signature",
                                             "type": "object",
-                                            "raw": "{\nvertical: string | keyof DefaultTheme['sizes']['padding'] | 0;\nhorizontal: string | keyof DefaultTheme['sizes']['padding'] | 0;\n}",
+                                            "raw": "{\nvertical: string | keyof Theme['sizes']['padding'] | 0;\nhorizontal: string | keyof Theme['sizes']['padding'] | 0;\n}",
                                             "signature": {
                                               "properties": [
                                                 {
                                                   "key": "vertical",
                                                   "value": {
                                                     "name": "union",
-                                                    "raw": "string | keyof DefaultTheme['sizes']['padding'] | 0",
+                                                    "raw": "string | keyof Theme['sizes']['padding'] | 0",
                                                     "elements": [
                                                       {
                                                         "name": "string"
@@ -2393,7 +2393,7 @@
                                                   "key": "horizontal",
                                                   "value": {
                                                     "name": "union",
-                                                    "raw": "string | keyof DefaultTheme['sizes']['padding'] | 0",
+                                                    "raw": "string | keyof Theme['sizes']['padding'] | 0",
                                                     "elements": [
                                                       {
                                                         "name": "string"
@@ -2415,14 +2415,14 @@
                                           {
                                             "name": "signature",
                                             "type": "object",
-                                            "raw": "{\nvertical: string | keyof DefaultTheme['sizes']['padding'] | 0;\nhorizontal: string | keyof DefaultTheme['sizes']['padding'] | 0;\n}",
+                                            "raw": "{\nvertical: string | keyof Theme['sizes']['padding'] | 0;\nhorizontal: string | keyof Theme['sizes']['padding'] | 0;\n}",
                                             "signature": {
                                               "properties": [
                                                 {
                                                   "key": "vertical",
                                                   "value": {
                                                     "name": "union",
-                                                    "raw": "string | keyof DefaultTheme['sizes']['padding'] | 0",
+                                                    "raw": "string | keyof Theme['sizes']['padding'] | 0",
                                                     "elements": [
                                                       {
                                                         "name": "string"
@@ -2442,7 +2442,7 @@
                                                   "key": "horizontal",
                                                   "value": {
                                                     "name": "union",
-                                                    "raw": "string | keyof DefaultTheme['sizes']['padding'] | 0",
+                                                    "raw": "string | keyof Theme['sizes']['padding'] | 0",
                                                     "elements": [
                                                       {
                                                         "name": "string"
@@ -2482,14 +2482,14 @@
                                       {
                                         "name": "signature",
                                         "type": "object",
-                                        "raw": "{\nvertical: string | keyof DefaultTheme['sizes']['padding'] | 0;\nhorizontal: string | keyof DefaultTheme['sizes']['padding'] | 0;\n}",
+                                        "raw": "{\nvertical: string | keyof Theme['sizes']['padding'] | 0;\nhorizontal: string | keyof Theme['sizes']['padding'] | 0;\n}",
                                         "signature": {
                                           "properties": [
                                             {
                                               "key": "vertical",
                                               "value": {
                                                 "name": "union",
-                                                "raw": "string | keyof DefaultTheme['sizes']['padding'] | 0",
+                                                "raw": "string | keyof Theme['sizes']['padding'] | 0",
                                                 "elements": [
                                                   {
                                                     "name": "string"
@@ -2509,7 +2509,7 @@
                                               "key": "horizontal",
                                               "value": {
                                                 "name": "union",
-                                                "raw": "string | keyof DefaultTheme['sizes']['padding'] | 0",
+                                                "raw": "string | keyof Theme['sizes']['padding'] | 0",
                                                 "elements": [
                                                   {
                                                     "name": "string"
@@ -2534,14 +2534,14 @@
                                           {
                                             "name": "signature",
                                             "type": "object",
-                                            "raw": "{\nvertical: string | keyof DefaultTheme['sizes']['padding'] | 0;\nhorizontal: string | keyof DefaultTheme['sizes']['padding'] | 0;\n}",
+                                            "raw": "{\nvertical: string | keyof Theme['sizes']['padding'] | 0;\nhorizontal: string | keyof Theme['sizes']['padding'] | 0;\n}",
                                             "signature": {
                                               "properties": [
                                                 {
                                                   "key": "vertical",
                                                   "value": {
                                                     "name": "union",
-                                                    "raw": "string | keyof DefaultTheme['sizes']['padding'] | 0",
+                                                    "raw": "string | keyof Theme['sizes']['padding'] | 0",
                                                     "elements": [
                                                       {
                                                         "name": "string"
@@ -2561,7 +2561,7 @@
                                                   "key": "horizontal",
                                                   "value": {
                                                     "name": "union",
-                                                    "raw": "string | keyof DefaultTheme['sizes']['padding'] | 0",
+                                                    "raw": "string | keyof Theme['sizes']['padding'] | 0",
                                                     "elements": [
                                                       {
                                                         "name": "string"
@@ -2583,14 +2583,14 @@
                                           {
                                             "name": "signature",
                                             "type": "object",
-                                            "raw": "{\nvertical: string | keyof DefaultTheme['sizes']['padding'] | 0;\nhorizontal: string | keyof DefaultTheme['sizes']['padding'] | 0;\n}",
+                                            "raw": "{\nvertical: string | keyof Theme['sizes']['padding'] | 0;\nhorizontal: string | keyof Theme['sizes']['padding'] | 0;\n}",
                                             "signature": {
                                               "properties": [
                                                 {
                                                   "key": "vertical",
                                                   "value": {
                                                     "name": "union",
-                                                    "raw": "string | keyof DefaultTheme['sizes']['padding'] | 0",
+                                                    "raw": "string | keyof Theme['sizes']['padding'] | 0",
                                                     "elements": [
                                                       {
                                                         "name": "string"
@@ -2610,7 +2610,7 @@
                                                   "key": "horizontal",
                                                   "value": {
                                                     "name": "union",
-                                                    "raw": "string | keyof DefaultTheme['sizes']['padding'] | 0",
+                                                    "raw": "string | keyof Theme['sizes']['padding'] | 0",
                                                     "elements": [
                                                       {
                                                         "name": "string"
@@ -2709,19 +2709,19 @@
                               },
                               {
                                 "name": "union",
-                                "raw": "| {\n\t\tvalue: string | keyof DefaultTheme['sizes']['padding'] | 0;\n  }\n| {\n\t\tall: string | keyof DefaultTheme['sizes']['padding'] | 0;\n  }\n| RequireAtLeastOne<{\n\t\tvertical: string | keyof DefaultTheme['sizes']['padding'] | 0;\n\t\thorizontal: string | keyof DefaultTheme['sizes']['padding'] | 0;\n  }>\n| RequireAtLeastOne<{\n\t\ttop: string | keyof DefaultTheme['sizes']['padding'] | 0;\n\t\tright: string | keyof DefaultTheme['sizes']['padding'] | 0;\n\t\tbottom: string | keyof DefaultTheme['sizes']['padding'] | 0;\n\t\tleft: string | keyof DefaultTheme['sizes']['padding'] | 0;\n  }>",
+                                "raw": "| {\n\t\tvalue: string | keyof Theme['sizes']['padding'] | 0;\n  }\n| {\n\t\tall: string | keyof Theme['sizes']['padding'] | 0;\n  }\n| RequireAtLeastOne<{\n\t\tvertical: string | keyof Theme['sizes']['padding'] | 0;\n\t\thorizontal: string | keyof Theme['sizes']['padding'] | 0;\n  }>\n| RequireAtLeastOne<{\n\t\ttop: string | keyof Theme['sizes']['padding'] | 0;\n\t\tright: string | keyof Theme['sizes']['padding'] | 0;\n\t\tbottom: string | keyof Theme['sizes']['padding'] | 0;\n\t\tleft: string | keyof Theme['sizes']['padding'] | 0;\n  }>",
                                 "elements": [
                                   {
                                     "name": "signature",
                                     "type": "object",
-                                    "raw": "{\nvalue: string | keyof DefaultTheme['sizes']['padding'] | 0;\n}",
+                                    "raw": "{\nvalue: string | keyof Theme['sizes']['padding'] | 0;\n}",
                                     "signature": {
                                       "properties": [
                                         {
                                           "key": "value",
                                           "value": {
                                             "name": "union",
-                                            "raw": "string | keyof DefaultTheme['sizes']['padding'] | 0",
+                                            "raw": "string | keyof Theme['sizes']['padding'] | 0",
                                             "elements": [
                                               {
                                                 "name": "string"
@@ -2743,14 +2743,14 @@
                                   {
                                     "name": "signature",
                                     "type": "object",
-                                    "raw": "{\nall: string | keyof DefaultTheme['sizes']['padding'] | 0;\n}",
+                                    "raw": "{\nall: string | keyof Theme['sizes']['padding'] | 0;\n}",
                                     "signature": {
                                       "properties": [
                                         {
                                           "key": "all",
                                           "value": {
                                             "name": "union",
-                                            "raw": "string | keyof DefaultTheme['sizes']['padding'] | 0",
+                                            "raw": "string | keyof Theme['sizes']['padding'] | 0",
                                             "elements": [
                                               {
                                                 "name": "string"
@@ -2779,14 +2779,14 @@
                                           {
                                             "name": "signature",
                                             "type": "object",
-                                            "raw": "{\nvertical: string | keyof DefaultTheme['sizes']['padding'] | 0;\nhorizontal: string | keyof DefaultTheme['sizes']['padding'] | 0;\n}",
+                                            "raw": "{\nvertical: string | keyof Theme['sizes']['padding'] | 0;\nhorizontal: string | keyof Theme['sizes']['padding'] | 0;\n}",
                                             "signature": {
                                               "properties": [
                                                 {
                                                   "key": "vertical",
                                                   "value": {
                                                     "name": "union",
-                                                    "raw": "string | keyof DefaultTheme['sizes']['padding'] | 0",
+                                                    "raw": "string | keyof Theme['sizes']['padding'] | 0",
                                                     "elements": [
                                                       {
                                                         "name": "string"
@@ -2806,7 +2806,7 @@
                                                   "key": "horizontal",
                                                   "value": {
                                                     "name": "union",
-                                                    "raw": "string | keyof DefaultTheme['sizes']['padding'] | 0",
+                                                    "raw": "string | keyof Theme['sizes']['padding'] | 0",
                                                     "elements": [
                                                       {
                                                         "name": "string"
@@ -2831,14 +2831,14 @@
                                               {
                                                 "name": "signature",
                                                 "type": "object",
-                                                "raw": "{\nvertical: string | keyof DefaultTheme['sizes']['padding'] | 0;\nhorizontal: string | keyof DefaultTheme['sizes']['padding'] | 0;\n}",
+                                                "raw": "{\nvertical: string | keyof Theme['sizes']['padding'] | 0;\nhorizontal: string | keyof Theme['sizes']['padding'] | 0;\n}",
                                                 "signature": {
                                                   "properties": [
                                                     {
                                                       "key": "vertical",
                                                       "value": {
                                                         "name": "union",
-                                                        "raw": "string | keyof DefaultTheme['sizes']['padding'] | 0",
+                                                        "raw": "string | keyof Theme['sizes']['padding'] | 0",
                                                         "elements": [
                                                           {
                                                             "name": "string"
@@ -2858,7 +2858,7 @@
                                                       "key": "horizontal",
                                                       "value": {
                                                         "name": "union",
-                                                        "raw": "string | keyof DefaultTheme['sizes']['padding'] | 0",
+                                                        "raw": "string | keyof Theme['sizes']['padding'] | 0",
                                                         "elements": [
                                                           {
                                                             "name": "string"
@@ -2880,14 +2880,14 @@
                                               {
                                                 "name": "signature",
                                                 "type": "object",
-                                                "raw": "{\nvertical: string | keyof DefaultTheme['sizes']['padding'] | 0;\nhorizontal: string | keyof DefaultTheme['sizes']['padding'] | 0;\n}",
+                                                "raw": "{\nvertical: string | keyof Theme['sizes']['padding'] | 0;\nhorizontal: string | keyof Theme['sizes']['padding'] | 0;\n}",
                                                 "signature": {
                                                   "properties": [
                                                     {
                                                       "key": "vertical",
                                                       "value": {
                                                         "name": "union",
-                                                        "raw": "string | keyof DefaultTheme['sizes']['padding'] | 0",
+                                                        "raw": "string | keyof Theme['sizes']['padding'] | 0",
                                                         "elements": [
                                                           {
                                                             "name": "string"
@@ -2907,7 +2907,7 @@
                                                       "key": "horizontal",
                                                       "value": {
                                                         "name": "union",
-                                                        "raw": "string | keyof DefaultTheme['sizes']['padding'] | 0",
+                                                        "raw": "string | keyof Theme['sizes']['padding'] | 0",
                                                         "elements": [
                                                           {
                                                             "name": "string"
@@ -2947,14 +2947,14 @@
                                           {
                                             "name": "signature",
                                             "type": "object",
-                                            "raw": "{\nvertical: string | keyof DefaultTheme['sizes']['padding'] | 0;\nhorizontal: string | keyof DefaultTheme['sizes']['padding'] | 0;\n}",
+                                            "raw": "{\nvertical: string | keyof Theme['sizes']['padding'] | 0;\nhorizontal: string | keyof Theme['sizes']['padding'] | 0;\n}",
                                             "signature": {
                                               "properties": [
                                                 {
                                                   "key": "vertical",
                                                   "value": {
                                                     "name": "union",
-                                                    "raw": "string | keyof DefaultTheme['sizes']['padding'] | 0",
+                                                    "raw": "string | keyof Theme['sizes']['padding'] | 0",
                                                     "elements": [
                                                       {
                                                         "name": "string"
@@ -2974,7 +2974,7 @@
                                                   "key": "horizontal",
                                                   "value": {
                                                     "name": "union",
-                                                    "raw": "string | keyof DefaultTheme['sizes']['padding'] | 0",
+                                                    "raw": "string | keyof Theme['sizes']['padding'] | 0",
                                                     "elements": [
                                                       {
                                                         "name": "string"
@@ -2999,14 +2999,14 @@
                                               {
                                                 "name": "signature",
                                                 "type": "object",
-                                                "raw": "{\nvertical: string | keyof DefaultTheme['sizes']['padding'] | 0;\nhorizontal: string | keyof DefaultTheme['sizes']['padding'] | 0;\n}",
+                                                "raw": "{\nvertical: string | keyof Theme['sizes']['padding'] | 0;\nhorizontal: string | keyof Theme['sizes']['padding'] | 0;\n}",
                                                 "signature": {
                                                   "properties": [
                                                     {
                                                       "key": "vertical",
                                                       "value": {
                                                         "name": "union",
-                                                        "raw": "string | keyof DefaultTheme['sizes']['padding'] | 0",
+                                                        "raw": "string | keyof Theme['sizes']['padding'] | 0",
                                                         "elements": [
                                                           {
                                                             "name": "string"
@@ -3026,7 +3026,7 @@
                                                       "key": "horizontal",
                                                       "value": {
                                                         "name": "union",
-                                                        "raw": "string | keyof DefaultTheme['sizes']['padding'] | 0",
+                                                        "raw": "string | keyof Theme['sizes']['padding'] | 0",
                                                         "elements": [
                                                           {
                                                             "name": "string"
@@ -3048,14 +3048,14 @@
                                               {
                                                 "name": "signature",
                                                 "type": "object",
-                                                "raw": "{\nvertical: string | keyof DefaultTheme['sizes']['padding'] | 0;\nhorizontal: string | keyof DefaultTheme['sizes']['padding'] | 0;\n}",
+                                                "raw": "{\nvertical: string | keyof Theme['sizes']['padding'] | 0;\nhorizontal: string | keyof Theme['sizes']['padding'] | 0;\n}",
                                                 "signature": {
                                                   "properties": [
                                                     {
                                                       "key": "vertical",
                                                       "value": {
                                                         "name": "union",
-                                                        "raw": "string | keyof DefaultTheme['sizes']['padding'] | 0",
+                                                        "raw": "string | keyof Theme['sizes']['padding'] | 0",
                                                         "elements": [
                                                           {
                                                             "name": "string"
@@ -3075,7 +3075,7 @@
                                                       "key": "horizontal",
                                                       "value": {
                                                         "name": "union",
-                                                        "raw": "string | keyof DefaultTheme['sizes']['padding'] | 0",
+                                                        "raw": "string | keyof Theme['sizes']['padding'] | 0",
                                                         "elements": [
                                                           {
                                                             "name": "string"
@@ -3448,8 +3448,8 @@
             "raw": "TSub | (TBase & Record<never, never>)",
             "elements": [
               {
-                "name": "DefaultTheme['palette']",
-                "raw": "DefaultTheme['palette']"
+                "name": "Theme['palette']",
+                "raw": "Theme['palette']"
               },
               {
                 "name": "unknown"
@@ -3573,12 +3573,12 @@
             "elements": [
               {
                 "name": "intersection",
-                "raw": "{\n\t/** Chip action icon color */\n\tcolor?: keyof DefaultTheme['palette'];\n\t/** Chip action disabled status */\n\tdisabled?: boolean;\n\t/** Chip action icon */\n\ticon: keyof DefaultTheme['icons'];\n\t/** Chip action id (required for key attribute) */\n\tid: string;\n\t/** Chip action label value. It is shown in a tooltip. To not render the tooltip, just don't value the prop.\n\t * Tooltips of the actions are not shown in case the chip is disabled */\n\tlabel?: string;\n} & (\n\t| {\n\t\t\t/** Chip action type */\n\t\t\ttype: 'button';\n\t\t\t/** Chip action click callback (button type only). NB: onClick event IS propagated. It's up to the dev to eventually stop the propagation */\n\t\t\tonClick: ButtonProps['onClick'];\n\t\t\t/** Chip action background (button type only) */\n\t\t\tbackground?: keyof DefaultTheme['palette'];\n\t  }\n\t| {\n\t\t\t/** Chip action type */\n\t\t\ttype: 'icon';\n\t  }\n)",
+                "raw": "{\n\t/** Chip action icon color */\n\tcolor?: keyof Theme['palette'];\n\t/** Chip action disabled status */\n\tdisabled?: boolean;\n\t/** Chip action icon */\n\ticon: keyof Theme['icons'];\n\t/** Chip action id (required for key attribute) */\n\tid: string;\n\t/** Chip action label value. It is shown in a tooltip. To not render the tooltip, just don't value the prop.\n\t * Tooltips of the actions are not shown in case the chip is disabled */\n\tlabel?: string;\n} & (\n\t| {\n\t\t\t/** Chip action type */\n\t\t\ttype: 'button';\n\t\t\t/** Chip action click callback (button type only). NB: onClick event IS propagated. It's up to the dev to eventually stop the propagation */\n\t\t\tonClick: ButtonProps['onClick'];\n\t\t\t/** Chip action background (button type only) */\n\t\t\tbackground?: keyof Theme['palette'];\n\t  }\n\t| {\n\t\t\t/** Chip action type */\n\t\t\ttype: 'icon';\n\t  }\n)",
                 "elements": [
                   {
                     "name": "signature",
                     "type": "object",
-                    "raw": "{\n\t/** Chip action icon color */\n\tcolor?: keyof DefaultTheme['palette'];\n\t/** Chip action disabled status */\n\tdisabled?: boolean;\n\t/** Chip action icon */\n\ticon: keyof DefaultTheme['icons'];\n\t/** Chip action id (required for key attribute) */\n\tid: string;\n\t/** Chip action label value. It is shown in a tooltip. To not render the tooltip, just don't value the prop.\n\t * Tooltips of the actions are not shown in case the chip is disabled */\n\tlabel?: string;\n}",
+                    "raw": "{\n\t/** Chip action icon color */\n\tcolor?: keyof Theme['palette'];\n\t/** Chip action disabled status */\n\tdisabled?: boolean;\n\t/** Chip action icon */\n\ticon: keyof Theme['icons'];\n\t/** Chip action id (required for key attribute) */\n\tid: string;\n\t/** Chip action label value. It is shown in a tooltip. To not render the tooltip, just don't value the prop.\n\t * Tooltips of the actions are not shown in case the chip is disabled */\n\tlabel?: string;\n}",
                     "signature": {
                       "properties": [
                         {
@@ -4504,8 +4504,8 @@
             "raw": "TSub | (TBase & Record<never, never>)",
             "elements": [
               {
-                "name": "DefaultTheme['palette']",
-                "raw": "DefaultTheme['palette']"
+                "name": "Theme['palette']",
+                "raw": "Theme['palette']"
               },
               {
                 "name": "unknown"
@@ -5105,8 +5105,8 @@
                                         "raw": "TSub | (TBase & Record<never, never>)",
                                         "elements": [
                                           {
-                                            "name": "DefaultTheme['palette']",
-                                            "raw": "DefaultTheme['palette']"
+                                            "name": "Theme['palette']",
+                                            "raw": "Theme['palette']"
                                           },
                                           {
                                             "name": "unknown"
@@ -5360,8 +5360,8 @@
                                             "raw": "TSub | (TBase & Record<never, never>)",
                                             "elements": [
                                               {
-                                                "name": "DefaultTheme['palette']",
-                                                "raw": "DefaultTheme['palette']"
+                                                "name": "Theme['palette']",
+                                                "raw": "Theme['palette']"
                                               },
                                               {
                                                 "name": "unknown"
@@ -5615,8 +5615,8 @@
             "raw": "TSub | (TBase & Record<never, never>)",
             "elements": [
               {
-                "name": "DefaultTheme['palette']",
-                "raw": "DefaultTheme['palette']"
+                "name": "Theme['palette']",
+                "raw": "Theme['palette']"
               },
               {
                 "name": "unknown"
@@ -6271,8 +6271,8 @@
             "raw": "TSub | (TBase & Record<never, never>)",
             "elements": [
               {
-                "name": "DefaultTheme['palette']",
-                "raw": "DefaultTheme['palette']"
+                "name": "Theme['palette']",
+                "raw": "Theme['palette']"
               },
               {
                 "name": "unknown"
@@ -6648,7 +6648,7 @@
       }
     }
   ],
-  "src/components/display/Dropdown.tsx": [
+  "src/components/display/dropdown/Dropdown.tsx": [
     {
       "description": "",
       "methods": [],
@@ -6899,7 +6899,17 @@
         "selectedBackgroundColor": {
           "required": false,
           "tsType": {
-            "name": "unknown"
+            "name": "union",
+            "raw": "TSub | (TBase & Record<never, never>)",
+            "elements": [
+              {
+                "name": "Theme['palette']",
+                "raw": "Theme['palette']"
+              },
+              {
+                "name": "unknown"
+              }
+            ]
           },
           "description": "Customize selected background color"
         },
@@ -7288,7 +7298,7 @@
           "required": true,
           "tsType": {
             "name": "union",
-            "raw": "keyof DefaultTheme['icons'] | IconComponent",
+            "raw": "keyof Theme['icons'] | IconComponent",
             "elements": [
               {
                 "name": "unknown"
@@ -7328,8 +7338,8 @@
             "raw": "TSub | (TBase & Record<never, never>)",
             "elements": [
               {
-                "name": "DefaultTheme['palette']",
-                "raw": "DefaultTheme['palette']"
+                "name": "Theme['palette']",
+                "raw": "Theme['palette']"
               },
               {
                 "name": "unknown"
@@ -7379,8 +7389,8 @@
             "raw": "TSub | (TBase & Record<never, never>)",
             "elements": [
               {
-                "name": "DefaultTheme['palette']",
-                "raw": "DefaultTheme['palette']"
+                "name": "Theme['palette']",
+                "raw": "Theme['palette']"
               },
               {
                 "name": "unknown"
@@ -7400,8 +7410,8 @@
             "raw": "TSub | (TBase & Record<never, never>)",
             "elements": [
               {
-                "name": "DefaultTheme['palette']",
-                "raw": "DefaultTheme['palette']"
+                "name": "Theme['palette']",
+                "raw": "Theme['palette']"
               },
               {
                 "name": "unknown"
@@ -7442,14 +7452,14 @@
           "tsType": {
             "name": "signature",
             "type": "object",
-            "raw": "{\n\ticonSize: string | keyof DefaultTheme['sizes']['icon'];\n\tpaddingSize: 0 | string | keyof DefaultTheme['sizes']['padding'];\n}",
+            "raw": "{\n\ticonSize: string | keyof Theme['sizes']['icon'];\n\tpaddingSize: 0 | string | keyof Theme['sizes']['padding'];\n}",
             "signature": {
               "properties": [
                 {
                   "key": "iconSize",
                   "value": {
                     "name": "union",
-                    "raw": "string | keyof DefaultTheme['sizes']['icon']",
+                    "raw": "string | keyof Theme['sizes']['icon']",
                     "elements": [
                       {
                         "name": "string"
@@ -7465,7 +7475,7 @@
                   "key": "paddingSize",
                   "value": {
                     "name": "union",
-                    "raw": "0 | string | keyof DefaultTheme['sizes']['padding']",
+                    "raw": "0 | string | keyof Theme['sizes']['padding']",
                     "elements": [
                       {
                         "name": "literal",
@@ -7779,8 +7789,8 @@
             "raw": "TSub | (TBase & Record<never, never>)",
             "elements": [
               {
-                "name": "DefaultTheme['palette']",
-                "raw": "DefaultTheme['palette']"
+                "name": "Theme['palette']",
+                "raw": "Theme['palette']"
               },
               {
                 "name": "unknown"
@@ -7800,8 +7810,8 @@
             "raw": "TSub | (TBase & Record<never, never>)",
             "elements": [
               {
-                "name": "DefaultTheme['palette']",
-                "raw": "DefaultTheme['palette']"
+                "name": "Theme['palette']",
+                "raw": "Theme['palette']"
               },
               {
                 "name": "unknown"
@@ -8048,8 +8058,8 @@
             "raw": "TSub | (TBase & Record<never, never>)",
             "elements": [
               {
-                "name": "DefaultTheme['palette']",
-                "raw": "DefaultTheme['palette']"
+                "name": "Theme['palette']",
+                "raw": "Theme['palette']"
               },
               {
                 "name": "unknown"
@@ -8182,8 +8192,8 @@
             "raw": "TSub | (TBase & Record<never, never>)",
             "elements": [
               {
-                "name": "DefaultTheme['palette']",
-                "raw": "DefaultTheme['palette']"
+                "name": "Theme['palette']",
+                "raw": "Theme['palette']"
               },
               {
                 "name": "unknown"
@@ -8391,8 +8401,8 @@
             "raw": "TSub | (TBase & Record<never, never>)",
             "elements": [
               {
-                "name": "DefaultTheme['palette']",
-                "raw": "DefaultTheme['palette']"
+                "name": "Theme['palette']",
+                "raw": "Theme['palette']"
               },
               {
                 "name": "unknown"
@@ -8408,8 +8418,8 @@
             "raw": "TSub | (TBase & Record<never, never>)",
             "elements": [
               {
-                "name": "DefaultTheme['palette']",
-                "raw": "DefaultTheme['palette']"
+                "name": "Theme['palette']",
+                "raw": "Theme['palette']"
               },
               {
                 "name": "unknown"
@@ -8425,8 +8435,8 @@
             "raw": "TSub | (TBase & Record<never, never>)",
             "elements": [
               {
-                "name": "DefaultTheme['palette']",
-                "raw": "DefaultTheme['palette']"
+                "name": "Theme['palette']",
+                "raw": "Theme['palette']"
               },
               {
                 "name": "unknown"
@@ -8581,8 +8591,8 @@
             "raw": "TSub | (TBase & Record<never, never>)",
             "elements": [
               {
-                "name": "DefaultTheme['palette']",
-                "raw": "DefaultTheme['palette']"
+                "name": "Theme['palette']",
+                "raw": "Theme['palette']"
               },
               {
                 "name": "unknown"
@@ -8927,7 +8937,7 @@
           "required": false,
           "tsType": {
             "name": "union",
-            "raw": "string | keyof DefaultTheme['palette']",
+            "raw": "string | keyof Theme['palette']",
             "elements": [
               {
                 "name": "string"
@@ -9234,8 +9244,8 @@
             "raw": "TSub | (TBase & Record<never, never>)",
             "elements": [
               {
-                "name": "DefaultTheme['palette']",
-                "raw": "DefaultTheme['palette']"
+                "name": "Theme['palette']",
+                "raw": "Theme['palette']"
               },
               {
                 "name": "unknown"
@@ -9251,8 +9261,8 @@
             "raw": "TSub | (TBase & Record<never, never>)",
             "elements": [
               {
-                "name": "DefaultTheme['palette']",
-                "raw": "DefaultTheme['palette']"
+                "name": "Theme['palette']",
+                "raw": "Theme['palette']"
               },
               {
                 "name": "unknown"
@@ -9419,8 +9429,8 @@
             "raw": "TSub | (TBase & Record<never, never>)",
             "elements": [
               {
-                "name": "DefaultTheme['palette']",
-                "raw": "DefaultTheme['palette']"
+                "name": "Theme['palette']",
+                "raw": "Theme['palette']"
               },
               {
                 "name": "unknown"
@@ -9573,8 +9583,8 @@
             "raw": "TSub | (TBase & Record<never, never>)",
             "elements": [
               {
-                "name": "DefaultTheme['palette']",
-                "raw": "DefaultTheme['palette']"
+                "name": "Theme['palette']",
+                "raw": "Theme['palette']"
               },
               {
                 "name": "unknown"
@@ -9590,8 +9600,8 @@
             "raw": "TSub | (TBase & Record<never, never>)",
             "elements": [
               {
-                "name": "DefaultTheme['palette']",
-                "raw": "DefaultTheme['palette']"
+                "name": "Theme['palette']",
+                "raw": "Theme['palette']"
               },
               {
                 "name": "unknown"
@@ -10185,8 +10195,8 @@
             "raw": "TSub | (TBase & Record<never, never>)",
             "elements": [
               {
-                "name": "DefaultTheme['palette']",
-                "raw": "DefaultTheme['palette']"
+                "name": "Theme['palette']",
+                "raw": "Theme['palette']"
               },
               {
                 "name": "unknown"
@@ -10364,7 +10374,7 @@
           "required": false,
           "tsType": {
             "name": "union",
-            "raw": "keyof DefaultTheme['palette'] | CSSProperties['color']",
+            "raw": "keyof Theme['palette'] | CSSProperties['color']",
             "elements": [
               {
                 "name": "unknown"
@@ -12445,8 +12455,8 @@
             "raw": "TSub | (TBase & Record<never, never>)",
             "elements": [
               {
-                "name": "DefaultTheme['palette']",
-                "raw": "DefaultTheme['palette']"
+                "name": "Theme['palette']",
+                "raw": "Theme['palette']"
               },
               {
                 "name": "unknown"
@@ -12670,8 +12680,8 @@
             "raw": "TSub | (TBase & Record<never, never>)",
             "elements": [
               {
-                "name": "DefaultTheme['palette']",
-                "raw": "DefaultTheme['palette']"
+                "name": "Theme['palette']",
+                "raw": "Theme['palette']"
               },
               {
                 "name": "unknown"
@@ -12687,8 +12697,8 @@
             "raw": "TSub | (TBase & Record<never, never>)",
             "elements": [
               {
-                "name": "DefaultTheme['palette']",
-                "raw": "DefaultTheme['palette']"
+                "name": "Theme['palette']",
+                "raw": "Theme['palette']"
               },
               {
                 "name": "unknown"
@@ -12789,8 +12799,8 @@
             "raw": "TSub | (TBase & Record<never, never>)",
             "elements": [
               {
-                "name": "DefaultTheme['palette']",
-                "raw": "DefaultTheme['palette']"
+                "name": "Theme['palette']",
+                "raw": "Theme['palette']"
               },
               {
                 "name": "unknown"
@@ -12843,8 +12853,8 @@
             "raw": "TSub | (TBase & Record<never, never>)",
             "elements": [
               {
-                "name": "DefaultTheme['palette']",
-                "raw": "DefaultTheme['palette']"
+                "name": "Theme['palette']",
+                "raw": "Theme['palette']"
               },
               {
                 "name": "unknown"
@@ -13408,8 +13418,8 @@
             "raw": "TSub | (TBase & Record<never, never>)",
             "elements": [
               {
-                "name": "DefaultTheme['palette']",
-                "raw": "DefaultTheme['palette']"
+                "name": "Theme['palette']",
+                "raw": "Theme['palette']"
               },
               {
                 "name": "unknown"
@@ -13569,8 +13579,8 @@
             "raw": "TSub | (TBase & Record<never, never>)",
             "elements": [
               {
-                "name": "DefaultTheme['palette']",
-                "raw": "DefaultTheme['palette']"
+                "name": "Theme['palette']",
+                "raw": "Theme['palette']"
               },
               {
                 "name": "unknown"
@@ -13590,8 +13600,8 @@
             "raw": "TSub | (TBase & Record<never, never>)",
             "elements": [
               {
-                "name": "DefaultTheme['palette']",
-                "raw": "DefaultTheme['palette']"
+                "name": "Theme['palette']",
+                "raw": "Theme['palette']"
               },
               {
                 "name": "unknown"
@@ -13622,8 +13632,8 @@
             "raw": "TSub | (TBase & Record<never, never>)",
             "elements": [
               {
-                "name": "DefaultTheme['palette']",
-                "raw": "DefaultTheme['palette']"
+                "name": "Theme['palette']",
+                "raw": "Theme['palette']"
               },
               {
                 "name": "unknown"
@@ -13655,8 +13665,8 @@
             "raw": "TSub | (TBase & Record<never, never>)",
             "elements": [
               {
-                "name": "DefaultTheme['palette']",
-                "raw": "DefaultTheme['palette']"
+                "name": "Theme['palette']",
+                "raw": "Theme['palette']"
               },
               {
                 "name": "unknown"
