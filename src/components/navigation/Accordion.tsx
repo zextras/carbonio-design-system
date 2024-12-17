@@ -98,11 +98,8 @@ const AccordionItem = React.forwardRef<HTMLDivElement, AccordionItemProps>(funct
 			{item.badgeCounter !== undefined && (
 				<Padding left="small">
 					<Badge
-						backgroundColor={
-							(item.badgeType === 'read' && 'gray2') ||
-							(item.badgeType === 'unread' && 'primary') ||
-							'gray2'
-						}
+						backgroundColor={(item.badgeType === 'unread' && 'primary') || 'gray2'}
+						color={(item.badgeType === 'unread' && 'gray6') || 'gray0'}
 						value={item.badgeCounter}
 					/>
 				</Padding>
