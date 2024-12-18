@@ -7,9 +7,9 @@
 import type { HTMLAttributes } from 'react';
 import React, { useMemo, forwardRef } from 'react';
 
-import type { DefaultTheme } from 'styled-components';
 import styled from 'styled-components';
 
+import type { Theme } from '../../../theme/theme';
 import type { AnyColor } from '../../../types/utils';
 import { Tooltip } from '../../display/Tooltip';
 import { Container } from '../../layout/container/Container';
@@ -75,7 +75,7 @@ interface BadgeProps extends Omit<HTMLAttributes<HTMLDivElement>, 'color'> {
 	/** Badge background color */
 	backgroundColor?: AnyColor;
 	/** Icon */
-	icon?: keyof DefaultTheme['icons'];
+	icon?: keyof Theme['icons'];
 	/** Max value */
 	maxValue?: number;
 	/** Badge or Icon color */

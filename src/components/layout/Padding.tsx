@@ -8,9 +8,9 @@ import type { HTMLAttributes } from 'react';
 import React from 'react';
 
 import { omit } from 'lodash';
-import type { DefaultTheme } from 'styled-components';
 import styled from 'styled-components';
 
+import type { Theme } from '../../theme/theme';
 import type { PaddingObj } from '../../theme/theme-utils';
 import { getPadding } from '../../theme/theme-utils';
 import type { AllKeys } from '../../types/utils';
@@ -27,7 +27,7 @@ type PaddingProps = PaddingComponentProps &
 const Comp = styled.div<{
 	$height?: string;
 	$width?: string;
-	$padding: (args: { theme: DefaultTheme }) => string;
+	$padding: (args: { theme: Theme }) => string;
 }>`
 	height: ${({ $height }): string | undefined => $height};
 	width: ${({ $width }): string | undefined => $width};

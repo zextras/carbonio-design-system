@@ -7,11 +7,11 @@
 import React, { useMemo, useState, useCallback, useEffect } from 'react';
 
 import { map } from 'lodash';
-import type { DefaultTheme } from 'styled-components';
 import styled, { css } from 'styled-components';
 
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { useKeyboard, getKeyboardPreset } from '../../hooks/useKeyboard';
+import type { Theme } from '../../theme/theme';
 import { getColor, pseudoClasses } from '../../theme/theme-utils';
 import { Badge } from '../basic/badge/Badge';
 import { Button } from '../basic/button/Button';
@@ -47,7 +47,7 @@ const StyledText = styled(Text)`
 `;
 
 const StyledButton = styled(Button)<{
-	$iconSize?: keyof DefaultTheme['sizes']['icon'];
+	$iconSize?: keyof Theme['sizes']['icon'];
 	$paddingSize?: string;
 }>`
 	${({ $iconSize, theme }): ReturnType<typeof css> | undefined | string =>
@@ -114,13 +114,13 @@ type AccordionItemType = {
 	label?: string;
 	items?: AccordionItemType[];
 	onClick?: (event: KeyboardEvent | React.SyntheticEvent) => void;
-	icon?: keyof DefaultTheme['icons'];
+	icon?: keyof Theme['icons'];
 	CustomComponent?: React.ComponentType<{ item: AccordionItemType }>;
 	iconColor?: string;
 	badgeType?: 'read' | 'unread';
 	badgeCounter?: number;
 	open?: boolean;
-	background?: keyof DefaultTheme['palette'];
+	background?: keyof Theme['palette'];
 	disableHover?: boolean;
 	active?: boolean;
 	level?: number;
@@ -134,7 +134,7 @@ type AccordionDivider = { divider: true; key?: string };
 interface AccordionRootProps extends ContainerProps {
 	level: number;
 	item: AccordionItemType;
-	background: keyof DefaultTheme['palette'];
+	background: keyof Theme['palette'];
 	activeId?: string;
 	openIds?: string[];
 	disableTransition?: boolean;
@@ -260,7 +260,7 @@ interface AccordionProps extends ContainerProps {
 	/** Items tree object, can be nested (each property is forwarded to the item component as a prop) */
 	items: Array<AccordionItemType | AccordionDivider>;
 	/** Accordion background */
-	background?: keyof DefaultTheme['palette'];
+	background?: keyof Theme['palette'];
 	/** Depth level, internally used for recursion nesting */
 	level?: number;
 	/** id of the currently active item (alternative to the active item flag) */

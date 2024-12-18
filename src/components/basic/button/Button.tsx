@@ -14,7 +14,7 @@ import { getColor, pseudoClasses } from '../../../theme/theme-utils';
 import type { AnyColor, With$Prefix, Without$Prefix } from '../../../types/utils';
 import type { IconProps } from '../icon/Icon';
 import { Icon } from '../icon/Icon';
-import { Spinner } from '../Spinner';
+import { Spinner } from '../spinner/Spinner';
 import { Text } from '../text/Text';
 
 type ButtonShape = 'regular' | 'round';

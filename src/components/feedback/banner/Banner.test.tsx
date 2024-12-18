@@ -7,7 +7,6 @@ import React from 'react';
 
 import { faker } from '@faker-js/faker';
 import { act, screen, waitFor, within } from '@testing-library/react';
-import type { DefaultTheme } from 'styled-components';
 import 'jest-styled-components';
 
 import type { BannerProps } from './Banner';
@@ -82,9 +81,9 @@ describe('Banner', () => {
 		[
 			severity: BannerProps['severity'],
 			type: BannerProps['type'],
-			mainColor: keyof DefaultTheme['palette'],
-			backgroundColor: keyof DefaultTheme['palette'],
-			textColor: keyof DefaultTheme['palette']
+			mainColor: keyof Theme['palette'],
+			backgroundColor: keyof Theme['palette'],
+			textColor: keyof Theme['palette']
 		]
 	>([
 		['success', 'standard', 'success', 'successBanner', 'text'],
@@ -139,7 +138,7 @@ describe('Banner', () => {
 		}
 	);
 
-	test.each<[severity: BannerProps['severity'], icon: keyof DefaultTheme['icons']]>([
+	test.each<[severity: BannerProps['severity'], icon: keyof Theme['icons']]>([
 		['success', 'CheckmarkCircle2Outline'],
 		['warning', 'AlertTriangleOutline'],
 		['info', 'InfoOutline'],

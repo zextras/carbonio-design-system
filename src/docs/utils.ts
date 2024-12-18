@@ -6,12 +6,11 @@
 import type React from 'react';
 
 import type { ArgTypes } from '@storybook/react';
-import type { DefaultTheme } from 'styled-components';
 
 import { Theme } from '../theme/theme';
 
 export const themeColors = Object.keys(Theme.palette).map(
-	(key) => Theme.palette[key as keyof DefaultTheme['palette']].regular
+	(key) => Theme.palette[key as keyof Theme['palette']].regular
 );
 
 export const colorArgType: Partial<ArgTypes>[string] = {

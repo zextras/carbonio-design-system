@@ -16,16 +16,23 @@ The theme customization can be accomplished by providing a modifier function to 
 <Source code={CustomThemeProviderSrc} />
 
 When using typescript and [styled-components](https://styled-components.com/),
-in order to have the theme correctly typed inside a styled component declaration,
-the augmentation of the styled-components module default theme is required.
-To do so, create a declaration file styled-components.d.ts in the root folder of your project and
-re-export the interface DefaultTheme, extending the Design System Theme type (or your theme type if case you have a custom theme)
+the type of the theme inside a styled component is automatically augmented by the design system itself,
+which extends the DefaultTheme of styled component with the Theme of the DS.
+
+If the theme includes some custom properties, the interfaces of the design system should be augmented to reflect these
+custom props.
+To do so, create a declaration file theme.d.ts in a proper place (root folder or @types folder or types folder) and
+declare the module '@zextras/carbonio-design-system', extending the appropriate interfaces.
 
 ```typescript noedit static
-import { Theme } from '@zextras/carbonio-design-system';
-declare module 'styled-components' {
-  export interface DefaultTheme extends Theme {
-		additionalProperty: unknown
+import type { ThemeColorObj } from '@zextras/carbonio-design-system';
+
+declare module '@zextras/carbonio-design-system' {
+  export interface Theme {
+		additionalThemeProperty: unknown; // give the proper type
+  }
+  export interface Palette {
+    additionalColor: ThemeColorObj;
   }
 }
 ```

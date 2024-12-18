@@ -8,13 +8,13 @@ import type { InputHTMLAttributes } from 'react';
 import React, { useCallback, useEffect, useMemo, useReducer, useRef, useState } from 'react';
 
 import { filter, slice, isEmpty, debounce, trim, uniq } from 'lodash';
-import type { DefaultTheme } from 'styled-components';
 import styled, { css } from 'styled-components';
 
 import { useCombinedRefs } from '../../../hooks/useCombinedRefs';
 import type { KeyboardPresetKey, KeyboardPresetObj } from '../../../hooks/useKeyboard';
 import { useKeyboard, getKeyboardPreset } from '../../../hooks/useKeyboard';
 import { usePrevious } from '../../../hooks/usePrevious';
+import type { Theme } from '../../../theme/theme';
 import { getColor } from '../../../theme/theme-utils';
 import type { AnyColor, PaletteColor } from '../../../types/utils';
 import type { ButtonProps } from '../../basic/button/Button';
@@ -23,8 +23,8 @@ import { Icon } from '../../basic/icon/Icon';
 import { INPUT_BACKGROUND_COLOR, INPUT_DIVIDER_COLOR } from '../../constants';
 import type { ChipProps } from '../../display/Chip';
 import { Chip } from '../../display/Chip';
-import type { DropdownItem } from '../../display/Dropdown';
-import { Dropdown } from '../../display/Dropdown';
+import type { DropdownItem } from '../../display/dropdown/Dropdown';
+import { Dropdown } from '../../display/dropdown/Dropdown';
 import type { ContainerProps } from '../../layout/container/Container';
 import { Container } from '../../layout/container/Container';
 import type { DividerProps } from '../../layout/divider/Divider';
@@ -66,7 +66,7 @@ const RelativeContainer = styled(Container)`
 	position: relative;
 `;
 
-const InputEl = styled.input<{ $color: keyof DefaultTheme['palette'] }>`
+const InputEl = styled.input<{ $color: keyof Theme['palette'] }>`
 	border: none !important;
 	height: auto !important;
 	width: 1em;
@@ -124,7 +124,7 @@ const AdjustWidthInputContainer = styled.div`
 const AdjustWidthInput = React.forwardRef<
 	HTMLInputElement,
 	{
-		color: keyof DefaultTheme['palette'];
+		color: keyof Theme['palette'];
 	} & InputHTMLAttributes<HTMLInputElement>
 >(function AdjustWidthInputFn({ color, ...rest }, ref) {
 	const hiddenSpanRef = useRef<HTMLSpanElement | null>(null);
@@ -278,13 +278,13 @@ interface ChipInputProps<TValue = unknown>
 	/** Set the current input text as a Chip when it loses focus */
 	confirmChipOnBlur?: boolean;
 	/** ChipInput backgroundColor */
-	background?: keyof DefaultTheme['palette'];
+	background?: keyof Theme['palette'];
 	/** Chip generation triggers */
 	separators?: KeyboardPresetKey[];
 	/** Show the error  */
 	hasError?: boolean;
 	/** Background color for the error status */
-	errorBackgroundColor?: keyof DefaultTheme['palette'];
+	errorBackgroundColor?: keyof Theme['palette'];
 	/** Set the limit for chip inputs <br />
 	 * <strong>Warning</strong>: be aware that this check is performed only on internal changes on items.
 	 * If you change the value from outside, you are in charge of apply this check on the new value itself.
@@ -298,7 +298,7 @@ interface ChipInputProps<TValue = unknown>
 	 */
 	disableOptions?: boolean;
 	/** Icon on the right of the input */
-	icon?: keyof DefaultTheme['icons'];
+	icon?: keyof Theme['icons'];
 	/** Action on Icon click */
 	iconAction?: ButtonProps['onClick'];
 	/** Disable the icon */

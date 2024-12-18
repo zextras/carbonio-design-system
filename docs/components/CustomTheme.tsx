@@ -5,21 +5,18 @@
  */
 import React from 'react';
 
-import type { DefaultTheme as SCDefaultTheme } from 'styled-components';
-
 import { Text, Container, ThemeProvider, Button, generateColorSet, Row } from '../../src';
-import type { ThemeObj } from '../../src/theme/theme';
+import type { Theme, ThemeColorObj } from '../../src';
 
-declare module 'styled-components' {
-	interface DefaultTheme extends ThemeObj {
-		palette: ThemeObj['palette'] & {
-			additional: ThemeObj['palette'][keyof ThemeObj['palette']];
-			green: ThemeObj['palette'][keyof ThemeObj['palette']];
-		};
+declare module '../../src/index' {
+	// in external projects, the module is @zextras/carbonio-design-system
+	export interface Palette {
+		additional: ThemeColorObj;
+		green: ThemeColorObj;
 	}
 }
 
-const editTheme = (theme: ThemeObj): SCDefaultTheme =>
+const editTheme = (theme: Theme): Theme =>
 	({
 		...theme,
 		palette: {
@@ -29,7 +26,7 @@ const editTheme = (theme: ThemeObj): SCDefaultTheme =>
 			additional: generateColorSet({ regular: 'slategray' }),
 			green: generateColorSet({ regular: 'green' })
 		}
-	}) satisfies SCDefaultTheme;
+	}) satisfies Theme;
 
 export const CustomThemeProvider = (): React.JSX.Element => (
 	<ThemeProvider loadDefaultFont extension={editTheme}>

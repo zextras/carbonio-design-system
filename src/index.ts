@@ -16,7 +16,7 @@ export * from './components/basic/link/Link';
 export * from './components/basic/LoadMore';
 export * from './components/basic/FormSection';
 export * from './components/basic/text/Text';
-export * from './components/basic/Spinner';
+export * from './components/basic/spinner/Spinner';
 /** Layout components */
 export * from './components/layout/container/Container';
 export * from './components/layout/divider/Divider';
@@ -67,7 +67,7 @@ export * from './components/navigation/TabBar';
 
 /** display components */
 export * from './components/display/Chip';
-export * from './components/display/Dropdown';
+export * from './components/display/dropdown/Dropdown';
 export * from './components/display/List/List';
 export * from './components/display/ListItem';
 export * from './components/display/Popover';
@@ -121,6 +121,12 @@ export * from './hooks/useModal';
 export * from './hooks/useSplitVisibility';
 export { useIntersectionObserver } from './hooks/useIntersectionObserver/useIntersectionObserver';
 
-export type { ThemeObj as Theme } from './theme/theme';
+export type {
+	Theme,
+	ThemeColorObj,
+	ThemeSizeObj,
+	ThemeSizeObjExtended,
+	Palette
+} from './theme/theme';
 export * from './types/globals';
 export type { AnyColor, PaletteColor } from './types/utils';

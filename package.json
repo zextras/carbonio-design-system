@@ -15,7 +15,7 @@
 	],
 	"scripts": {
 		"start": "npm run storybook",
-		"lint": "eslint --ext .js,.jsx,.ts,.tsx --resolve-plugins-relative-to node_modules/@zextras/carbonio-ui-configs src docs .storybook",
+		"lint": "eslint --ext .js,.jsx,.ts,.tsx --resolve-plugins-relative-to node_modules/@zextras/carbonio-ui-configs src docs .storybook scripts",
 		"lint:icons": "eslint --ext .ts,.tsx --resolve-plugins-relative-to node_modules/@zextras/carbonio-ui-configs src/icons --fix",
 		"test": "(is-ci && jest --runInBand) || jest --maxWorkers=50%",
 		"test-storybook": "npx playwright install && npm run build:docs -- --test && npx concurrently -k -s first -n \"SB,TEST\" -c \"magenta,blue\" \"npx http-server ./storybook-static --port 6006 --silent\" \"npx wait-on tcp:127.0.0.1:6006 && test-storybook --maxWorkers=2 --index-json\"",
@@ -24,7 +24,7 @@
 		"prebuild": "npm run clean",
 		"build": "npm run build:cjs && npm run build:types",
 		"build:cjs": "npx rollup -c rollup.config.mjs",
-		"build:types": "tsc -p tsconfig.types.json && npx @microsoft/api-extractor run --verbose --local",
+		"build:types": "tsc -p tsconfig.types.json && npx @microsoft/api-extractor run --verbose --local && npx tsx scripts/inject-augmentations.ts",
 		"build:docs": "storybook build",
 		"clean": "rm -rf dist/* types/*",
 		"prepack": "npm run build",
@@ -32,7 +32,8 @@
 		"deploy": "npm pack && rm -rf $PKG_PATH/node_modules/@zextras/carbonio-design-system/* && tar -xf zextras-carbonio-design-system-$npm_package_version.tgz -C $PKG_PATH/node_modules/@zextras/carbonio-design-system/ --strip-components 1",
 		"prepare": "is-ci || husky",
 		"type-check": "tsc --noEmit --noUncheckedSideEffectImports",
-		"storybook": "storybook dev -p 6006"
+		"storybook": "storybook dev -p 6006",
+		"docgen": "npx @react-docgen/cli -o .storybook/docgen-output.json 'src/components/**/*.tsx' -i '**/*.(test|stories|stories.*).tsx' --pretty --resolver find-all-exported-components && npx tsx scripts/order-docgen.ts"
 	},
 	"repository": {
 		"type": "git",
@@ -83,7 +84,7 @@
 		"@types/lodash": "^4.17.7",
 		"@types/react": "^18.3.7",
 		"@types/react-dom": "^18.3.0",
-		"@zextras/carbonio-ui-configs": "^1.0.3",
+		"@zextras/carbonio-ui-configs": "^1.0.4",
 		"babel-jest": "^29.7.0",
 		"babel-loader": "^9.2.1",
 		"babel-plugin-styled-components": "^2.1.4",
@@ -104,6 +105,7 @@
 		"jsdom": "^25.0.0",
 		"lodash": "^4.17.21",
 		"process": "0.11.10",
+		"react-docgen": "^7.1.0",
 		"react-docgen-typescript": "^2.2.2",
 		"rollup": "^4.21.3",
 		"rollup-plugin-postcss": "^4.0.2",
@@ -111,7 +113,7 @@
 		"storybook": "8.4.4",
 		"storybook-addon-playground": "^1.9.2",
 		"ts-node": "^10 >=10.9.2",
-		"typescript": "~5.6.3"
+		"typescript": "~5.7.2"
 	},
 	"browserslist": [
 		">1%",

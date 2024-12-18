@@ -10,12 +10,10 @@ import React, { useState, useRef, useEffect, useLayoutEffect, useCallback, useMe
 
 import type { Placement, VirtualElement } from '@floating-ui/dom';
 import { flip, limitShift, shift } from '@floating-ui/dom';
-import type { DefaultTheme } from 'styled-components';
 import styled, { css, useTheme } from 'styled-components';
 
-import { Tooltip } from './Tooltip';
-import { useCombinedRefs } from '../../hooks/useCombinedRefs';
-import type { KeyboardPresetObj } from '../../hooks/useKeyboard';
+import { useCombinedRefs } from '../../../hooks/useCombinedRefs';
+import type { KeyboardPresetObj } from '../../../hooks/useKeyboard';
 import {
 	useKeyboard,
 	getKeyboardPreset,
@@ -24,19 +22,22 @@ import {
 	focusOnFirstNode,
 	focusOnLastNode,
 	clickNodeWithFocus
-} from '../../hooks/useKeyboard';
-import { pseudoClasses } from '../../theme/theme-utils';
-import { setupFloating } from '../../utils/floating-ui';
-import { Icon } from '../basic/icon/Icon';
-import { Text } from '../basic/text/Text';
-import { FOCUSABLE_SELECTOR, TIMERS } from '../constants';
-import { Container } from '../layout/container/Container';
-import { Divider } from '../layout/divider/Divider';
-import { Padding } from '../layout/Padding';
-import { Portal } from '../utilities/Portal';
+} from '../../../hooks/useKeyboard';
+import type { Theme } from '../../../theme/theme';
+import { pseudoClasses } from '../../../theme/theme-utils';
+import type { AnyColor } from '../../../types/utils';
+import { setupFloating } from '../../../utils/floating-ui';
+import { Icon } from '../../basic/icon/Icon';
+import { Text } from '../../basic/text/Text';
+import { FOCUSABLE_SELECTOR, TIMERS } from '../../constants';
+import { Container } from '../../layout/container/Container';
+import { Divider } from '../../layout/divider/Divider';
+import { Padding } from '../../layout/Padding';
+import { Portal } from '../../utilities/Portal';
+import { Tooltip } from '../Tooltip';
 
 const ContainerEl = styled(Container)<{
-	$selectedBackgroundColor?: keyof DefaultTheme['palette'];
+	$selectedBackgroundColor?: AnyColor;
 	$disabled: boolean;
 }>`
 	user-select: none;
@@ -52,7 +53,7 @@ interface ListItemContentProps {
 	disabled?: boolean;
 	itemIconSize: React.ComponentPropsWithRef<typeof Icon>['size'];
 	itemTextSize: React.ComponentProps<typeof Text>['size'];
-	itemPaddingBetween: keyof DefaultTheme['sizes']['padding'];
+	itemPaddingBetween: keyof Theme['sizes']['padding'];
 	tooltipLabel?: string;
 }
 
@@ -95,7 +96,7 @@ function ListItemContent({
 interface PopperListItemProps extends ListItemContentProps, HTMLAttributes<HTMLDivElement> {
 	onClick?: (e: React.SyntheticEvent<HTMLElement> | KeyboardEvent) => void;
 	customComponent?: React.ReactNode;
-	selectedBackgroundColor?: keyof DefaultTheme['palette'];
+	selectedBackgroundColor?: AnyColor;
 	keepOpen?: boolean;
 }
 
@@ -335,9 +336,9 @@ function NestListItem({
 	);
 }
 
-const PopperDropdownWrapper = styled.div<{ $display: string }>`
+const PopperDropdownWrapper = styled.div<{ $display: 'inline-block' | 'block' }>`
 	position: relative;
-	display: ${({ $display }): string => $display};
+	display: ${({ $display }): 'inline-block' | 'block' => $display};
 	width: ${({ $display }): string => ($display === 'block' ? '100%' : 'auto')};
 `;
 const PopperList = styled.div<{
@@ -442,13 +443,13 @@ interface DropdownProps extends Omit<HTMLAttributes<HTMLDivElement>, 'contextMen
 	/** Whether to preventDefault on Dropdown click */
 	preventDefault?: boolean;
 	/** Customize selected background color */
-	selectedBackgroundColor?: keyof DefaultTheme['palette'];
+	selectedBackgroundColor?: AnyColor;
 	/** Item Icon size */
 	itemIconSize?: React.ComponentPropsWithRef<typeof Icon>['size'];
 	/** Item Text size */
 	itemTextSize?: React.ComponentPropsWithRef<typeof Text>['size'];
 	/** Item Padding Between */
-	itemPaddingBetween?: keyof DefaultTheme['sizes']['padding'];
+	itemPaddingBetween?: keyof Theme['sizes']['padding'];
 	/** Ref assign to the dropdown list popper container */
 	dropdownListRef?: React.ForwardedRef<HTMLDivElement> | null;
 }

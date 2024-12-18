@@ -7,7 +7,6 @@
 import React from 'react';
 
 import { screen } from '@testing-library/react';
-import type { DefaultTheme } from 'styled-components';
 
 import type { ThemeColorObj } from './theme';
 import { Theme } from './theme';
@@ -17,7 +16,7 @@ import { setup } from '../tests/utils';
 
 const CUSTOM_THEME_COLOR = '#FF7514';
 
-function ThemeTester<T extends DefaultTheme = DefaultTheme>({
+function ThemeTester<T extends Theme = Theme>({
 	color
 }: {
 	color: keyof T['palette'] & string;
@@ -55,10 +54,10 @@ describe('ThemeProvider', () => {
 	});
 
 	test('Add a custom theme color', () => {
-		type ThemeExtended = DefaultTheme & {
-			palette: DefaultTheme['palette'] & { extra: ThemeColorObj };
+		type ThemeExtended = Theme & {
+			palette: Theme['palette'] & { extra: ThemeColorObj };
 		};
-		const recipe: (theme: DefaultTheme) => ThemeExtended = jest.fn((draft) => {
+		const recipe: (theme: Theme) => ThemeExtended = jest.fn((draft) => {
 			const themeExtended: ThemeExtended = {
 				...draft,
 				palette: { ...draft.palette, extra: generateColorSet({ regular: CUSTOM_THEME_COLOR }) }
