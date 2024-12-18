@@ -65,11 +65,6 @@ const Badge = forwardRef<HTMLDivElement, BadgeProps>(function BadgeFn(
 });
 
 interface BadgeProps extends Omit<HTMLAttributes<HTMLDivElement>, 'color'> {
-	/**
-	 * Badge type
-	 * @deprecated use backgroundColor and color instead
-	 * */
-	type?: 'read' | 'unread';
 	/** Badge text */
 	value?: string | number;
 	/** Badge background color */
