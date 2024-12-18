@@ -827,24 +827,6 @@
       "methods": [],
       "displayName": "Badge",
       "props": {
-        "type": {
-          "required": false,
-          "tsType": {
-            "name": "union",
-            "raw": "'read' | 'unread'",
-            "elements": [
-              {
-                "name": "literal",
-                "value": "'read'"
-              },
-              {
-                "name": "literal",
-                "value": "'unread'"
-              }
-            ]
-          },
-          "description": "Badge type\n@deprecated use backgroundColor and color instead"
-        },
         "value": {
           "required": false,
           "tsType": {
@@ -878,7 +860,7 @@
           },
           "description": "Badge background color",
           "defaultValue": {
-            "value": "(type === 'read' && 'gray2') || (type === 'unread' && 'primary') || 'gray2'",
+            "value": "'gray2'",
             "computed": false
           }
         },
@@ -917,7 +899,7 @@
           },
           "description": "Badge or Icon color",
           "defaultValue": {
-            "value": "(type === 'read' && 'gray0') || (type === 'unread' && 'gray6') || 'gray0'",
+            "value": "'gray0'",
             "computed": false
           }
         }

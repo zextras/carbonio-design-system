@@ -25,15 +25,7 @@ const Comp = styled(Container)`
 const isNumber = (value?: string | number): value is number => typeof value === 'number';
 
 const Badge = forwardRef<HTMLDivElement, BadgeProps>(function BadgeFn(
-	{
-		type,
-		value,
-		backgroundColor = (type === 'read' && 'gray2') || (type === 'unread' && 'primary') || 'gray2',
-		icon,
-		maxValue = 999,
-		color = (type === 'read' && 'gray0') || (type === 'unread' && 'gray6') || 'gray0',
-		...rest
-	},
+	{ value, backgroundColor = 'gray2', icon, maxValue = 999, color = 'gray0', ...rest },
 	ref
 ) {
 	const badgeText = useMemo(
@@ -73,11 +65,6 @@ const Badge = forwardRef<HTMLDivElement, BadgeProps>(function BadgeFn(
 });
 
 interface BadgeProps extends Omit<HTMLAttributes<HTMLDivElement>, 'color'> {
-	/**
-	 * Badge type
-	 * @deprecated use backgroundColor and color instead
-	 * */
-	type?: 'read' | 'unread';
 	/** Badge text */
 	value?: string | number;
 	/** Badge background color */
