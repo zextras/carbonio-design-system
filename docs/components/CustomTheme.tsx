@@ -10,7 +10,7 @@ import type { Theme, ThemeColorObj } from '../../src';
 
 declare module '../../src/index' {
 	// in external projects, the module is @zextras/carbonio-design-system
-	export interface Palette {
+	interface Palette {
 		additional: ThemeColorObj;
 		green: ThemeColorObj;
 	}

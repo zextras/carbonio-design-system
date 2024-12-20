@@ -28,10 +28,10 @@ declare the module '@zextras/carbonio-design-system', extending the appropriate 
 import type { ThemeColorObj } from '@zextras/carbonio-design-system';
 
 declare module '@zextras/carbonio-design-system' {
-  export interface Theme {
+  interface Theme {
 		additionalThemeProperty: unknown; // give the proper type
   }
-  export interface Palette {
+  interface Palette {
     additionalColor: ThemeColorObj;
   }
 }
