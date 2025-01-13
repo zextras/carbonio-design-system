@@ -3,8 +3,10 @@
   "exclude": [
     "src/**/*.stories.*",
     "src/**/*.test.*",
-    "src/test-utils.tsx",
-    "**/tsTemplate.ts"
+    "src/tests/utils.tsx",
+    "**/tsTemplate.ts",
+    ".storybook",
+    "scripts"
   ],
   "compilerOptions": {
     "declaration": true,

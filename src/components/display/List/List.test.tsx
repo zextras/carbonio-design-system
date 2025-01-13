@@ -8,8 +8,8 @@ import React from 'react';
 import { screen } from '@testing-library/react';
 
 import { List } from './List';
-import { setup } from '../../../test-utils';
-import { Container } from '../../layout/Container';
+import { setup } from '../../../tests/utils';
+import { Container } from '../../layout/container/Container';
 import { ListItem } from '../ListItem';
 
 describe('List', () => {

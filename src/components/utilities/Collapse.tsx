@@ -4,13 +4,14 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { HTMLAttributes, useMemo } from 'react';
+import type { HTMLAttributes } from 'react';
+import React, { useMemo } from 'react';
 
-import styled, { css, SimpleInterpolation } from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { Transition } from './Transition';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
-import { Container } from '../layout/Container';
+import { Container } from '../layout/container/Container';
 
 const CollapseEl = styled.div<{
 	$crossSize?: string;
@@ -18,14 +19,14 @@ const CollapseEl = styled.div<{
 	$disableTransition: boolean;
 	$open: boolean;
 }>`
-	${({ $crossSize, $orientation }): SimpleInterpolation =>
+	${({ $crossSize, $orientation }): string | undefined =>
 		$crossSize && `${$orientation === 'horizontal' ? 'height' : 'width'}: ${$crossSize};`};
 	${({ $orientation }): string => ($orientation === 'horizontal' ? 'width' : 'height')}: 0;
 	visibility: hidden;
 	overflow: hidden;
 	pointer-events: none;
 
-	${({ $disableTransition, $open, $orientation }): SimpleInterpolation =>
+	${({ $disableTransition, $open, $orientation }): ReturnType<typeof css> | false =>
 		$disableTransition &&
 		$open &&
 		css`
@@ -131,4 +132,5 @@ const Collapser = React.forwardRef<HTMLDivElement, CollapserProps>(function Coll
 	);
 });
 
-export { Collapse, CollapseProps, Collapser, CollapserProps };
+export type { CollapseProps, CollapserProps };
+export { Collapse, Collapser };

@@ -6,11 +6,8 @@
 
 import { useCallback, useContext } from 'react';
 
-import {
-	CloseModalFn,
-	CreateModalFn,
-	ModalManagerContext
-} from '../components/utilities/ModalManager';
+import type { CloseModalFn, CreateModalFn } from '../components/utilities/ModalManager';
+import { ModalManagerContext } from '../components/utilities/ModalManager';
 
 function useModal(): { createModal: CreateModalFn; closeModal: CloseModalFn } {
 	const context = useContext(ModalManagerContext);

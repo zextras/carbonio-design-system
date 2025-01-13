@@ -4,13 +4,15 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { useMemo, forwardRef, HTMLAttributes } from 'react';
+import type { HTMLAttributes } from 'react';
+import React, { useMemo, forwardRef } from 'react';
 
-import styled, { DefaultTheme } from 'styled-components';
+import styled from 'styled-components';
 
-import { AnyColor } from '../../../types/utils';
+import type { Theme } from '../../../theme/theme';
+import type { AnyColor } from '../../../types/utils';
 import { Tooltip } from '../../display/Tooltip';
-import { Container } from '../../layout/Container';
+import { Container } from '../../layout/container/Container';
 import { Icon } from '../icon/Icon';
 import { Text } from '../text/Text';
 
@@ -23,15 +25,7 @@ const Comp = styled(Container)`
 const isNumber = (value?: string | number): value is number => typeof value === 'number';
 
 const Badge = forwardRef<HTMLDivElement, BadgeProps>(function BadgeFn(
-	{
-		type,
-		value,
-		backgroundColor = (type === 'read' && 'gray2') || (type === 'unread' && 'primary') || 'gray2',
-		icon,
-		maxValue = 999,
-		color = (type === 'read' && 'gray0') || (type === 'unread' && 'gray6') || 'gray0',
-		...rest
-	},
+	{ value, backgroundColor = 'gray2', icon, maxValue = 999, color = 'gray0', ...rest },
 	ref
 ) {
 	const badgeText = useMemo(
@@ -71,21 +65,17 @@ const Badge = forwardRef<HTMLDivElement, BadgeProps>(function BadgeFn(
 });
 
 interface BadgeProps extends Omit<HTMLAttributes<HTMLDivElement>, 'color'> {
-	/**
-	 * Badge type
-	 * @deprecated use backgroundColor and color instead
-	 * */
-	type?: 'read' | 'unread';
 	/** Badge text */
 	value?: string | number;
 	/** Badge background color */
 	backgroundColor?: AnyColor;
 	/** Icon */
-	icon?: keyof DefaultTheme['icons'];
+	icon?: keyof Theme['icons'];
 	/** Max value */
 	maxValue?: number;
 	/** Badge or Icon color */
 	color?: AnyColor;
 }
 
-export { Badge, BadgeProps };
+export type { BadgeProps };
+export { Badge };

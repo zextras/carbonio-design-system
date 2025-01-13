@@ -8,8 +8,8 @@ import React from 'react';
 import { screen } from '@testing-library/react';
 
 import { ModalFooter } from './ModalFooter';
-import { setup, within } from '../../../test-utils';
-import { SELECTORS } from '../../../testUtils/constants';
+import { SELECTORS } from '../../../tests/constants';
+import { setup, within } from '../../../tests/utils';
 import { TIMERS } from '../../constants';
 
 describe('Modal footer', () => {

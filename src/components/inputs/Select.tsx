@@ -6,14 +6,15 @@
 
 import React, { useState, useMemo, useCallback, useEffect } from 'react';
 
-import styled, { css, SimpleInterpolation } from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { getColor } from '../../theme/theme-utils';
 import { Icon } from '../basic/icon/Icon';
 import { Text } from '../basic/text/Text';
 import { INPUT_BACKGROUND_COLOR, INPUT_DIVIDER_COLOR } from '../constants';
-import { Dropdown, DropdownItem, DropdownProps } from '../display/Dropdown';
-import { Container } from '../layout/Container';
+import type { DropdownItem, DropdownProps } from '../display/dropdown/Dropdown';
+import { Dropdown } from '../display/dropdown/Dropdown';
+import { Container } from '../layout/container/Container';
 import { Divider } from '../layout/divider/Divider';
 import { Padding } from '../layout/Padding';
 import { Row } from '../layout/Row';
@@ -32,7 +33,7 @@ const ContainerEl = styled(Container)<{ $focus: boolean }>`
 	&:hover {
 		background: ${({ theme, background }): string => getColor(`${background}.hover`, theme)};
 	}
-	${({ $focus, theme, background }): SimpleInterpolation =>
+	${({ $focus, theme, background }): ReturnType<typeof css> | false =>
 		$focus &&
 		css`
 			background: ${getColor(`${background}.focus`, theme)};

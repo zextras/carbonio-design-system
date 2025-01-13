@@ -14,13 +14,15 @@ import React, {
 	createRef
 } from 'react';
 
-import { flip, Placement, offset, shift, limitShift } from '@floating-ui/dom';
+import type { Placement } from '@floating-ui/dom';
+import { flip, offset, shift, limitShift } from '@floating-ui/dom';
 import { rgba } from 'polished';
-import styled, { css, SimpleInterpolation } from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { setupFloating } from '../../utils/floating-ui';
-import { Text, TextProps } from '../basic/text/Text';
+import type { TextProps } from '../basic/text/Text';
+import { Text } from '../basic/text/Text';
 import { Portal } from '../utilities/Portal';
 
 interface TooltipWrapperProps extends TextProps {
@@ -55,7 +57,7 @@ const TooltipWrapperWithCss = styled(TooltipWrapper)<{ $maxWidth: string }>`
 	user-select: none;
 	box-shadow: 0 0 0.25rem 0 ${({ theme }): string => rgba(theme.palette.gray0.regular, 0.5)};
 
-	${({ open }): SimpleInterpolation =>
+	${({ open }): ReturnType<typeof css> | false =>
 		open &&
 		css`
 			display: block;
@@ -179,4 +181,5 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(function TooltipF
 	);
 });
 
-export { Tooltip, TooltipProps };
+export type { TooltipProps };
+export { Tooltip };

@@ -4,11 +4,12 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { useEffect, useMemo } from 'react';
+import type React from 'react';
+import { useEffect, useMemo } from 'react';
 
 import { isMatch } from 'lodash';
 
-import { RequireAtLeastOne } from '../types/utils';
+import type { RequireAtLeastOne } from '../types/utils';
 
 type HtmlElementKeyboardEventKey = {
 	[K in keyof HTMLElementEventMap]: HTMLElementEventMap[K] extends KeyboardEvent ? K : never;

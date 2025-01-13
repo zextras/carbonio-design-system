@@ -8,10 +8,10 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-import { Text, TextProps } from '../basic/text/Text';
+import type { TextProps } from '../basic/text/Text';
+import { Text } from '../basic/text/Text';
 
-const P = styled(Text)`
-	line-height: 1.4;
+const StyledText = styled(Text)`
 	padding-bottom: 0.8em;
 
 	&:last-child {
@@ -22,18 +22,15 @@ const P = styled(Text)`
 type ParagraphProps = TextProps;
 
 const Paragraph = React.forwardRef<HTMLDivElement, ParagraphProps>(function ParagraphFn(
-	{ children, ...rest },
+	{ children, overflow = 'break-word', ...rest },
 	ref
 ) {
 	return (
-		<P ref={ref} {...rest}>
+		<StyledText ref={ref} overflow={overflow} lineHeight={1.4} {...rest}>
 			{children}
-		</P>
+		</StyledText>
 	);
 });
 
-Paragraph.defaultProps = {
-	overflow: 'break-word'
-};
-
-export { Paragraph, ParagraphProps };
+export type { ParagraphProps };
+export { Paragraph };

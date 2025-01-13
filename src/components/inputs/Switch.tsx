@@ -6,13 +6,15 @@
 
 import React, { useRef } from 'react';
 
-import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { useCheckbox } from '../../hooks/useCheckbox';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
+import type { Theme } from '../../theme/theme';
 import { Icon } from '../basic/icon/Icon';
 import { Text } from '../basic/text/Text';
-import { Container, ContainerProps } from '../layout/Container';
+import type { ContainerProps } from '../layout/container/Container';
+import { Container } from '../layout/container/Container';
 import { Padding } from '../layout/Padding';
 
 type SwitchSize = 'medium' | 'small';
@@ -21,12 +23,12 @@ const CustomIcon = styled(Icon)``;
 
 const IconWrapper = styled.div<{
 	$disabled: boolean;
-	$iconColor: keyof DefaultTheme['palette'];
+	$iconColor: keyof Theme['palette'];
 }>`
 	position: relative;
 	display: flex;
 	align-items: center;
-	${({ theme, $disabled, $iconColor }): SimpleInterpolation =>
+	${({ theme, $disabled, $iconColor }): ReturnType<typeof css> | false =>
 		!$disabled &&
 		css`
 			&:focus {
@@ -73,7 +75,7 @@ interface SwitchProps extends Omit<ContainerProps, 'onChange' | 'onClick'> {
 	/** available sizes */
 	size?: SwitchSize;
 	/** icon color */
-	iconColor?: keyof DefaultTheme['palette'];
+	iconColor?: keyof Theme['palette'];
 }
 
 const Switch = React.forwardRef<HTMLDivElement, SwitchProps>(function SwitchFn(
@@ -138,4 +140,5 @@ const Switch = React.forwardRef<HTMLDivElement, SwitchProps>(function SwitchFn(
 	);
 });
 
-export { Switch, SwitchProps };
+export type { SwitchProps };
+export { Switch };

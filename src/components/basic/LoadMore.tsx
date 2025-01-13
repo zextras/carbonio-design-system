@@ -9,8 +9,10 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { Icon } from './icon/Icon';
-import { Text, TextProps } from './text/Text';
-import { Container, ContainerProps } from '../layout/Container';
+import type { TextProps } from './text/Text';
+import { Text } from './text/Text';
+import type { ContainerProps } from '../layout/container/Container';
+import { Container } from '../layout/container/Container';
 import { Padding } from '../layout/Padding';
 
 const CustomText = styled(Text)`
@@ -37,4 +39,5 @@ const LoadMore = React.forwardRef<HTMLDivElement, LoadMoreProps>(function LoadMo
 	);
 });
 
-export { LoadMore, LoadMoreProps };
+export type { LoadMoreProps };
+export { LoadMore };

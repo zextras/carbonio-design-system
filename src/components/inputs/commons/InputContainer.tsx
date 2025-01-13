@@ -3,16 +3,17 @@
  *
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-import styled, { css, SimpleInterpolation } from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { getColor, pseudoClasses } from '../../../theme/theme-utils';
-import { Container, ContainerProps } from '../../layout/Container';
+import type { ContainerProps } from '../../layout/container/Container';
+import { Container } from '../../layout/container/Container';
 
 export const InputContainer = styled(Container)<{
 	background: NonNullable<ContainerProps['background']>;
 	$disabled?: boolean;
 }>`
-	${({ $disabled, background, theme }): SimpleInterpolation =>
+	${({ $disabled, background, theme }): ReturnType<typeof css> =>
 		$disabled
 			? css`
 					background: ${getColor(`${background}.disabled`, theme)};

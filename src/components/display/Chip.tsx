@@ -6,26 +6,29 @@
 
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 
-import { map } from 'lodash';
-import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-components';
+import styled, { css, useTheme } from 'styled-components';
 
 import { Tooltip } from './Tooltip';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
-import { useTheme, pseudoClasses } from '../../theme/theme-utils';
-import { Avatar, AvatarPropTypes } from '../basic/Avatar';
-import { Icon, IconProps } from '../basic/icon/Icon';
+import type { Theme } from '../../theme/theme';
+import { pseudoClasses } from '../../theme/theme-utils';
+import type { AvatarPropTypes } from '../basic/Avatar';
+import { Avatar } from '../basic/Avatar';
+import type { ButtonProps } from '../basic/button/Button';
+import { Button } from '../basic/button/Button';
+import { Icon } from '../basic/icon/Icon';
 import { Text } from '../basic/text/Text';
-import { IconButton, IconButtonProps } from '../inputs/IconButton';
-import { Container } from '../layout/Container';
-import { Row, RowProps } from '../layout/Row';
+import { Container } from '../layout/container/Container';
+import type { RowProps } from '../layout/Row';
+import { Row } from '../layout/Row';
 
 type ChipAction = {
 	/** Chip action icon color */
-	color?: keyof DefaultTheme['palette'];
+	color?: keyof Theme['palette'];
 	/** Chip action disabled status */
 	disabled?: boolean;
 	/** Chip action icon */
-	icon: keyof DefaultTheme['icons'];
+	icon: keyof Theme['icons'];
 	/** Chip action id (required for key attribute) */
 	id: string;
 	/** Chip action label value. It is shown in a tooltip. To not render the tooltip, just don't value the prop.
@@ -36,9 +39,9 @@ type ChipAction = {
 			/** Chip action type */
 			type: 'button';
 			/** Chip action click callback (button type only). NB: onClick event IS propagated. It's up to the dev to eventually stop the propagation */
-			onClick: IconButtonProps['onClick'];
+			onClick: ButtonProps['onClick'];
 			/** Chip action background (button type only) */
-			background?: keyof DefaultTheme['palette'];
+			background?: keyof Theme['palette'];
 	  }
 	| {
 			/** Chip action type */
@@ -50,7 +53,7 @@ interface ChipProps extends Omit<RowProps, 'children'> {
 	/** Chip actions (buttons or icons) */
 	actions?: ChipAction[];
 	/** Chip Avatar Icon */
-	avatarIcon?: keyof DefaultTheme['icons'];
+	avatarIcon?: keyof Theme['icons'];
 	/** Chip Avatar Background Color */
 	avatarBackground?: AvatarPropTypes['background'];
 	/** Chip avatar color (icon color or capitals color) */
@@ -62,13 +65,13 @@ interface ChipProps extends Omit<RowProps, 'children'> {
 	/** Chip avatar picture */
 	avatarPicture?: AvatarPropTypes['picture'];
 	/** Chip background color */
-	background?: keyof DefaultTheme['palette'];
+	background?: keyof Theme['palette'];
 	/** Chip shape  */
 	shape?: 'regular' | 'round';
 	/** If an onClose callback is provided, this prop defines if the close action should be active or disabled */
 	closable?: boolean;
 	/** Chip text color */
-	color?: keyof DefaultTheme['palette'];
+	color?: keyof Theme['palette'];
 	/** Chip disabled status. If a string is provided it is shown in a tooltip */
 	disabled?: boolean | string;
 	/** Chip error. If a string is provided it is shown in a tooltip */
@@ -85,7 +88,7 @@ interface ChipProps extends Omit<RowProps, 'children'> {
 	onClick?: React.ReactEventHandler;
 	/** Callback to call when user tries to remove the Chip. If not provided, the close icon is hidden.
 	 * Be aware that the close action can be also provided with the actions prop  */
-	onClose?: IconButtonProps['onClick'];
+	onClose?: ButtonProps['onClick'];
 	/** Chip double-click callback */
 	onDoubleClick?: React.ReactEventHandler;
 	/** Chip size */
@@ -96,12 +99,31 @@ interface ChipProps extends Omit<RowProps, 'children'> {
 
 const ActionIcon = styled(Icon)``;
 
-const ActionIconButton = styled(IconButton)``;
+const ActionIconButton = styled(Button)<{
+	$iconSize?: keyof Theme['sizes']['icon'];
+	$paddingSize?: string;
+}>`
+	${({ $iconSize, theme }): ReturnType<typeof css> | undefined | string =>
+		$iconSize &&
+		css`
+			svg {
+				width: ${theme.sizes.icon[$iconSize]};
+				min-width: ${theme.sizes.icon[$iconSize]};
+				height: ${theme.sizes.icon[$iconSize]};
+				min-height: ${theme.sizes.icon[$iconSize]};
+			}
+		`};
+	${({ $paddingSize }): ReturnType<typeof css> | undefined | string =>
+		$paddingSize &&
+		css`
+			padding: ${$paddingSize};
+		`};
+`;
 
 const ActionContainer = styled.div<{ $spacing: string }>`
 	min-width: fit-content;
 	& > ${ActionIcon} {
-		padding: ${({ $spacing }): SimpleInterpolation => css`calc(${$spacing} / 2)`};
+		padding: ${({ $spacing }): ReturnType<typeof css> => css`calc(${$spacing} / 2)`};
 	}
 `;
 
@@ -109,10 +131,10 @@ const LabelContainer = styled(Container)``;
 
 const ContentContainer = styled(Container)`
 	&:first-child > ${LabelContainer}:first-child {
-		padding-left: ${({ gap }): SimpleInterpolation => css`calc(${gap} * 2)`};
+		padding-left: ${({ gap }): ReturnType<typeof css> => css`calc(${gap} * 2)`};
 	}
 	& > ${LabelContainer}:last-child {
-		padding-right: ${({ gap }): SimpleInterpolation => css`calc(${gap} * 2)`};
+		padding-right: ${({ gap }): ReturnType<typeof css> => css`calc(${gap} * 2)`};
 	}
 `;
 
@@ -122,7 +144,13 @@ const ChipContainer = styled(Container)<{
 	user-select: none;
 	vertical-align: middle;
 	line-height: 1.5;
-	${({ background, $disabled, onClick, onDoubleClick, theme }): SimpleInterpolation =>
+	${({
+		background,
+		$disabled,
+		onClick,
+		onDoubleClick,
+		theme
+	}): ReturnType<typeof css> | false | undefined =>
 		!$disabled && (onClick || onDoubleClick) && background && pseudoClasses(theme, background)};
 	border-radius: ${(props): string => {
 		switch (props.borderRadius) {
@@ -134,7 +162,7 @@ const ChipContainer = styled(Container)<{
 				return '100vh';
 		}
 	}};
-	cursor: ${({ onClick, onDoubleClick, $disabled }): SimpleInterpolation =>
+	cursor: ${({ onClick, onDoubleClick, $disabled }): string =>
 		(onClick || onDoubleClick) && !$disabled ? 'pointer' : 'default'};
 `;
 
@@ -160,9 +188,9 @@ const SIZES = {
 } satisfies Record<
 	NonNullable<ChipProps['size']>,
 	{
-		avatar: keyof DefaultTheme['sizes']['avatar'];
-		font: keyof DefaultTheme['sizes']['font'];
-		icon: NonNullable<IconProps['size']>;
+		avatar: keyof Theme['sizes']['avatar'];
+		font: keyof Theme['sizes']['font'];
+		icon: keyof Theme['sizes']['icon'];
 		spacing: string;
 	}
 >;
@@ -231,13 +259,12 @@ const Chip = React.forwardRef<HTMLDivElement, ChipProps>(function ChipFn(
 
 	const actionItems = useMemo(
 		() =>
-			map(chipActions, (action) => {
-				let item;
+			chipActions.map((action) => {
 				const actionDisabled = !!disabled || !action.label;
 				const showTooltipHandler = (!actionDisabled && showInnerTooltip) || undefined;
 				const hideTooltipHandler = (!actionDisabled && hideInnerTooltip) || undefined;
 				if (action.type === 'icon') {
-					item = (
+					return (
 						<Tooltip
 							key={action.id}
 							label={action.label}
@@ -260,43 +287,38 @@ const Chip = React.forwardRef<HTMLDivElement, ChipProps>(function ChipFn(
 							</ActionContainer>
 						</Tooltip>
 					);
-				} else if (action.type === 'button') {
-					const clickHandler: IconButtonProps['onClick'] = (event) => {
-						event.preventDefault();
-						action.onClick(event);
-					};
-					item = (
-						<Tooltip
-							key={action.id}
-							label={action.label}
-							disabled={actionDisabled}
-							placement={tooltipPlacement}
-						>
-							<ActionContainer
-								onMouseEnter={showTooltipHandler}
-								onMouseLeave={hideTooltipHandler}
-								onFocus={showTooltipHandler}
-								onBlur={hideTooltipHandler}
-								$spacing={SIZES[size].spacing}
-							>
-								<ActionIconButton
-									icon={action.icon}
-									iconColor={error ? 'error' : action.color}
-									borderRadius={shape}
-									backgroundColor={error || !action.background ? 'gray5' : action.background}
-									disabled={!!disabled || action.disabled}
-									onClick={clickHandler}
-									customSize={{
-										iconSize: SIZES[size].icon,
-										paddingSize: `calc(${SIZES[size].spacing} / 2)`
-									}}
-								/>
-							</ActionContainer>
-						</Tooltip>
-					);
 				}
-
-				return item;
+				const clickHandler: ButtonProps['onClick'] = (event) => {
+					event.preventDefault();
+					action.onClick(event);
+				};
+				return (
+					<Tooltip
+						key={action.id}
+						label={action.label}
+						disabled={actionDisabled}
+						placement={tooltipPlacement}
+					>
+						<ActionContainer
+							onMouseEnter={showTooltipHandler}
+							onMouseLeave={hideTooltipHandler}
+							onFocus={showTooltipHandler}
+							onBlur={hideTooltipHandler}
+							$spacing={SIZES[size].spacing}
+						>
+							<ActionIconButton
+								icon={action.icon}
+								labelColor={error ? 'error' : (action.color ?? 'text')}
+								shape={shape}
+								backgroundColor={error || !action.background ? 'gray5' : action.background}
+								disabled={!!disabled || action.disabled}
+								onClick={clickHandler}
+								$iconSize={SIZES[size].icon}
+								$paddingSize={`calc(${SIZES[size].spacing} / 2)`}
+							/>
+						</ActionContainer>
+					</Tooltip>
+				);
 			}),
 		[
 			chipActions,
@@ -444,4 +466,5 @@ const Chip = React.forwardRef<HTMLDivElement, ChipProps>(function ChipFn(
 	);
 });
 
-export { Chip, ChipProps, ChipAction };
+export type { ChipProps, ChipAction };
+export { Chip };

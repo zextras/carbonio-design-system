@@ -6,8 +6,10 @@
 
 import React from 'react';
 
-import { Text, TextProps } from './text/Text';
-import { Container, ContainerProps } from '../layout/Container';
+import type { TextProps } from './text/Text';
+import { Text } from './text/Text';
+import type { ContainerProps } from '../layout/container/Container';
+import { Container } from '../layout/container/Container';
 import { Divider } from '../layout/divider/Divider';
 import { Padding } from '../layout/Padding';
 
@@ -113,4 +115,5 @@ const FormRow = React.forwardRef<HTMLDivElement, FormElementProps>(function Form
 	);
 });
 
-export { FormSection, FormSubSection, FormRow, FormElementProps };
+export type { FormElementProps };
+export { FormSection, FormSubSection, FormRow };

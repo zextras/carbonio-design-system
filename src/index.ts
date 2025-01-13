@@ -4,22 +4,21 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 // import module augmentations to make ts use them while generating types definitions
-import './globals';
-import './styled-components';
+import './types/globals';
+import './types/styled-components';
 
 /** Basic components */
 export * from './components/basic/Avatar';
 export * from './components/basic/badge/Badge';
 export * from './components/basic/button/Button';
 export { Icon, type IconProps } from './components/basic/icon/Icon';
-export * from './components/basic/Link';
+export * from './components/basic/link/Link';
 export * from './components/basic/LoadMore';
 export * from './components/basic/FormSection';
 export * from './components/basic/text/Text';
-export * from './components/basic/TextWithTooltip';
-export * from './components/basic/Spinner';
+export * from './components/basic/spinner/Spinner';
 /** Layout components */
-export * from './components/layout/Container';
+export * from './components/layout/container/Container';
 export * from './components/layout/divider/Divider';
 export * from './components/layout/Padding';
 export * from './components/layout/Paragraph';
@@ -37,11 +36,10 @@ export * from './components/inputs/FileLoader';
 export * from './components/inputs/IconButton';
 export * from './components/inputs/IconCheckbox';
 export * from './components/inputs/multiButton/MultiButton';
-export * from './components/inputs/Input';
+export * from './components/inputs/input/Input';
 export * from './components/inputs/PasswordInput';
 export { Radio, type RadioProps } from './components/inputs/Radio';
 export { RadioGroup, type RadioGroupProps } from './components/inputs/RadioGroup';
-export * from './components/inputs/SearchInput';
 export {
 	Select,
 	type SelectProps,
@@ -51,9 +49,16 @@ export {
 	type LabelFactoryProps
 } from './components/inputs/Select';
 export * from './components/inputs/Switch';
-export * from './components/inputs/DateTimePicker';
-export * from './components/inputs/Slider';
-export * from './components/inputs/TextArea';
+export {
+	DateTimePicker,
+	type DateTimePickerProps,
+	registerLocale,
+	setDefaultLocale,
+	getDefaultLocale,
+	DEFAULT_MODIFIERS
+} from './components/inputs/datetimePicker/DateTimePicker';
+export * from './components/inputs/slider/Slider';
+export * from './components/inputs/textArea/TextArea';
 
 /** navigation components */
 export * from './components/navigation/Accordion';
@@ -62,7 +67,7 @@ export * from './components/navigation/TabBar';
 
 /** display components */
 export * from './components/display/Chip';
-export * from './components/display/Dropdown';
+export * from './components/display/dropdown/Dropdown';
 export * from './components/display/List/List';
 export * from './components/display/ListItem';
 export * from './components/display/Popover';
@@ -100,7 +105,7 @@ export * from './components/utilities/ModalManager';
 export * from './components/utilities/Transition';
 export * from './components/utilities/Drag';
 export * from './components/utilities/Drop';
-export * from './components/utilities/Shimmer';
+export * from './components/utilities/shimmer/Shimmer';
 
 export * from './theme/theme-utils';
 export * from './theme/theme-context-provider';
@@ -116,6 +121,12 @@ export * from './hooks/useModal';
 export * from './hooks/useSplitVisibility';
 export { useIntersectionObserver } from './hooks/useIntersectionObserver/useIntersectionObserver';
 
-export type { ThemeObj as Theme } from './theme/theme';
-export * from './globals';
+export type {
+	Theme,
+	ThemeColorObj,
+	ThemeSizeObj,
+	ThemeSizeObjExtended,
+	Palette
+} from './theme/theme';
+export * from './types/globals';
 export type { AnyColor, PaletteColor } from './types/utils';

@@ -4,19 +4,26 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { HTMLAttributes, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import type { HTMLAttributes } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
-import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { useCombinedRefs } from '../../../hooks/useCombinedRefs';
 import { useModal } from '../../../hooks/useModal';
-import { Button, ButtonProps } from '../../basic/button/Button';
+import type { Theme } from '../../../theme/theme';
+import { useTheme } from '../../../theme/theme-utils';
+import type { AnyColor } from '../../../types/utils';
+import type { ButtonProps } from '../../basic/button/Button';
+import { Button } from '../../basic/button/Button';
 import { Icon } from '../../basic/icon/Icon';
 import { Text } from '../../basic/text/Text';
-import { IconButton, IconButtonProps } from '../../inputs/IconButton';
-import { Container } from '../../layout/Container';
+import { Container } from '../../layout/container/Container';
 
-type ActionButton = ButtonProps & { type?: never; color?: never; backgroundColor?: never };
+type ActionButton = Omit<
+	ButtonProps,
+	'type' | 'color' | 'backgroundColor' | 'labelColor' | 'secondaryAction'
+>;
 
 type BannerProps = HTMLAttributes<HTMLDivElement> & {
 	severity?: 'success' | 'warning' | 'info' | 'error';
@@ -31,7 +38,7 @@ type BannerProps = HTMLAttributes<HTMLDivElement> & {
 } & (
 		| {
 				showClose: true;
-				onClose: IconButtonProps['onClick'];
+				onClose: ButtonProps['onClick'];
 		  }
 		| {
 				showClose?: false;
@@ -39,7 +46,7 @@ type BannerProps = HTMLAttributes<HTMLDivElement> & {
 		  }
 	);
 
-const BANNER_ICON: Record<NonNullable<BannerProps['severity']>, keyof DefaultTheme['icons']> = {
+const BANNER_ICON: Record<NonNullable<BannerProps['severity']>, keyof Theme['icons']> = {
 	success: 'CheckmarkCircle2Outline',
 	warning: 'AlertTriangleOutline',
 	info: 'InfoOutline',
@@ -63,23 +70,24 @@ const BannerText = styled(Text)`
 	overflow: visible;
 `;
 
-const WrapAndGrowContainer = styled(Container).attrs(({ theme, gap, flexBasis }) => ({
-	flexBasis: css`calc(${flexBasis} + ${theme.sizes.icon.large} + ${gap})`
-}))``;
+const WrapAndGrowContainer = styled(Container)`
+	flex-basis: ${({ theme, gap, flexBasis }): ReturnType<typeof css> =>
+		css`calc(${flexBasis} + ${theme.sizes.icon.large} + ${gap})`};
+`;
 
 const ActionsContainer = styled(Container)`
 	align-self: stretch;
 `;
 
 const CloseContainer = styled(Container)<{ $alignSelf?: string }>`
-	align-self: ${({ $alignSelf }): SimpleInterpolation => $alignSelf};
+	align-self: ${({ $alignSelf }): string | undefined => $alignSelf};
 `;
 
 const BannerContainer = styled(Container)<{ $isMultiline: boolean }>`
 	${WrapAndGrowContainer} {
 		order: 1;
 	}
-	${({ $isMultiline }): SimpleInterpolation =>
+	${({ $isMultiline }): ReturnType<typeof css> =>
 		$isMultiline
 			? css`
 					${CloseContainer} {
@@ -120,9 +128,12 @@ const Banner = React.forwardRef<HTMLDivElement, BannerProps>(function BannerFn(
 	const actionsContainerRef = useRef<HTMLDivElement>(null);
 	const closeContainerRef = useRef<HTMLDivElement>(null);
 
-	const mainColor = useMemo(() => (type === 'fill' ? 'gray6' : severity), [type, severity]);
-	const textColor = useMemo(() => (type === 'fill' ? 'gray6' : 'text'), [type]);
-	const backgroundColor = useMemo(
+	const mainColor = useMemo<AnyColor>(
+		() => (type === 'fill' ? 'gray6' : severity),
+		[type, severity]
+	);
+	const textColor = useMemo<AnyColor>(() => (type === 'fill' ? 'gray6' : 'text'), [type]);
+	const backgroundColor = useMemo<AnyColor>(
 		() => (type === 'outline' && 'gray6') || (type === 'fill' && severity) || `${severity}Banner`,
 		[type, severity]
 	);
@@ -133,8 +144,12 @@ const Banner = React.forwardRef<HTMLDivElement, BannerProps>(function BannerFn(
 
 	const onBannerResize = useCallback((bannerContentHeight: number) => {
 		if (actionsContainerRef.current) {
-			// actionsContainerRef must be align-self stretch in order to extend its height to the entire banner when inline
-			setIsMultiline(actionsContainerRef.current.clientHeight < bannerContentHeight);
+			// actionsContainerRef must be align-self stretch in order to extend its height to the entire banner when inline.
+			// Use getBoundingClientRect to compare the height of the actions with the height of the banner (which is retrieved
+			// with contentRect.height), in order to have decimals on both of them (clientHeight is rounded to an int)
+			setIsMultiline(
+				actionsContainerRef.current.getBoundingClientRect().height < bannerContentHeight
+			);
 		}
 		if (infoContainerRef.current) {
 			setIsTextCropped(
@@ -161,9 +176,17 @@ const Banner = React.forwardRef<HTMLDivElement, BannerProps>(function BannerFn(
 		};
 	}, [bannerRef, onBannerResize]);
 
+	const {
+		sizes: { font }
+	} = useTheme();
+	const descriptionFontSize = 'small';
+
 	const contentFlexBasis = useMemo(() => {
 		const titleLength = title?.length ?? 0;
-		const descriptionLength = description.length * 0.875;
+		// Multiply the description length to the font size since the font size is different from the title one.
+		// This is to approximate the final number of chars,
+		// because 5 chars of the title occupies more space than 5 chars of the description
+		const descriptionLength = description.length * parseFloat(font[descriptionFontSize]);
 		// calculate the number of character which can be seen in a line,
 		// in order to keep all text visible (both title and description - more or less, it is not super precise)
 		const numberOfCharsPerLine = Math.ceil(
@@ -171,7 +194,7 @@ const Banner = React.forwardRef<HTMLDivElement, BannerProps>(function BannerFn(
 		);
 		const extraChars = 4;
 		return `${numberOfCharsPerLine + extraChars}ch`;
-	}, [title, description?.length]);
+	}, [title?.length, description.length, font]);
 
 	const showMoreInfoModal = useCallback(() => {
 		const id = Date.now().toString();
@@ -218,14 +241,15 @@ const Banner = React.forwardRef<HTMLDivElement, BannerProps>(function BannerFn(
 			mainAlignment={'flex-start'}
 			wrap={'wrap'}
 			$isMultiline={isMultiline}
+			data-testid={'banner'}
 			{...rest}
 		>
 			<WrapAndGrowContainer
 				width={'auto'}
 				maxWidth={
-					showClose &&
-					closeContainerRef.current &&
-					`calc(${BANNER_WIDTH} - ${BANNER_GAP} - ${closeContainerRef.current.clientWidth}px)`
+					showClose && closeContainerRef.current
+						? `calc(${BANNER_WIDTH} - ${BANNER_GAP} - ${closeContainerRef.current.clientWidth}px)`
+						: undefined
 				}
 				minWidth={0}
 				flexGrow={1}
@@ -248,13 +272,25 @@ const Banner = React.forwardRef<HTMLDivElement, BannerProps>(function BannerFn(
 					minWidth={0}
 					flexGrow={1}
 					ref={infoContainerRef}
+					data-testid={'banner-info-container'}
 				>
 					{title && (
-						<BannerText color={textColor} size={'medium'} weight={'bold'} overflow={'break-word'}>
+						<BannerText
+							color={textColor}
+							size={'medium'}
+							weight={'bold'}
+							overflow={'break-word'}
+							lineHeight={1.2}
+						>
 							{title}
 						</BannerText>
 					)}
-					<BannerText color={textColor} size={'small'} overflow={'break-word'}>
+					<BannerText
+						color={textColor}
+						size={descriptionFontSize}
+						overflow={'break-word'}
+						lineHeight={1.2}
+					>
 						{description}
 					</BannerText>
 				</InfoContainer>
@@ -274,14 +310,14 @@ const Banner = React.forwardRef<HTMLDivElement, BannerProps>(function BannerFn(
 						{...primaryAction}
 						type={'outlined'}
 						backgroundColor={'transparent'}
-						color={mainColor}
+						labelColor={mainColor}
 					/>
 				)}
 				{isTextCropped && (
 					<Button
 						type={'outlined'}
 						backgroundColor={'transparent'}
-						color={mainColor}
+						labelColor={mainColor}
 						label={moreInfoLabel}
 						onClick={showMoreInfoModal}
 					/>
@@ -295,7 +331,7 @@ const Banner = React.forwardRef<HTMLDivElement, BannerProps>(function BannerFn(
 					minHeight={'fit'}
 					ref={closeContainerRef}
 				>
-					<IconButton
+					<Button
 						onClick={onClose}
 						icon={'Close'}
 						color={textColor}

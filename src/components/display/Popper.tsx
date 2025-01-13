@@ -5,28 +5,23 @@
  */
 
 /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
-import React, {
-	useLayoutEffect,
-	useEffect,
-	useRef,
-	useCallback,
-	useMemo,
-	useContext,
-	HTMLAttributes
-} from 'react';
+import type { HTMLAttributes } from 'react';
+import React, { useLayoutEffect, useEffect, useRef, useCallback, useMemo } from 'react';
 
-import { flip, Placement, VirtualElement, offset, shift, limitShift } from '@floating-ui/dom';
-import styled, { css, SimpleInterpolation, ThemeContext } from 'styled-components';
+import type { Placement, VirtualElement } from '@floating-ui/dom';
+import { flip, offset, shift, limitShift } from '@floating-ui/dom';
+import styled, { css, useTheme } from 'styled-components';
 
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
-import { KeyboardPresetObj, useKeyboard } from '../../hooks/useKeyboard';
+import type { KeyboardPresetObj } from '../../hooks/useKeyboard';
+import { useKeyboard } from '../../hooks/useKeyboard';
 import { setupFloating } from '../../utils/floating-ui';
 import { Portal } from '../utilities/Portal';
 
 const PopperContainer = styled.div<{ $open: boolean }>`
 	display: none;
 	position: absolute;
-	${({ $open }): SimpleInterpolation =>
+	${({ $open }): ReturnType<typeof css> | false =>
 		$open &&
 		css`
 			display: block;
@@ -71,7 +66,7 @@ const Popper = React.forwardRef<HTMLDivElement, PopperProps>(function PopperFn(
 	},
 	ref
 ) {
-	const { windowObj } = useContext(ThemeContext);
+	const { windowObj } = useTheme();
 	const popperRef = useCombinedRefs<HTMLDivElement>(ref);
 	const wrapperRef = useRef<HTMLDivElement>(null);
 
@@ -192,4 +187,5 @@ const Popper = React.forwardRef<HTMLDivElement, PopperProps>(function PopperFn(
 	);
 });
 
-export { Popper, PopperProps };
+export type { PopperProps };
+export { Popper };

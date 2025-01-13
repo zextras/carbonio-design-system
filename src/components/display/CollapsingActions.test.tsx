@@ -8,9 +8,10 @@ import React from 'react';
 import { faker } from '@faker-js/faker';
 import { screen, act } from '@testing-library/react';
 
-import { Action, CollapsingActions } from './CollapsingActions';
-import { setup } from '../../test-utils';
-import { ICONS } from '../../testUtils/constants';
+import type { Action } from './CollapsingActions';
+import { CollapsingActions } from './CollapsingActions';
+import { ICONS } from '../../tests/constants';
+import { setup } from '../../tests/utils';
 import { Theme } from '../../theme/theme';
 
 describe('Collapsing Actions', () => {
@@ -42,7 +43,7 @@ describe('Collapsing Actions', () => {
 		for (let i = 0; i < 10; i += 1) {
 			actions.push({
 				id: `action${i}`,
-				label: faker.word.noun(),
+				label: `action ${i}`,
 				icon: icons[i],
 				onClick: () => undefined
 			});

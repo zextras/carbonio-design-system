@@ -4,27 +4,22 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, {
-	CSSProperties,
-	InputHTMLAttributes,
-	LabelHTMLAttributes,
-	useCallback,
-	useEffect,
-	useMemo,
-	useRef,
-	useState
-} from 'react';
+import type { CSSProperties, InputHTMLAttributes, LabelHTMLAttributes } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
-import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
+import type { Theme } from '../../theme/theme';
 import { getColor, pseudoClasses } from '../../theme/theme-utils';
-import { Text, TextProps } from '../basic/text/Text';
-import { Container, ContainerProps } from '../layout/Container';
+import type { TextProps } from '../basic/text/Text';
+import { Text } from '../basic/text/Text';
+import type { ContainerProps } from '../layout/container/Container';
+import { Container } from '../layout/container/Container';
 
 const RADIO_SIZE: Record<
 	'small' | 'medium',
-	{ icon: keyof DefaultTheme['sizes']['icon']; label: TextProps['size'] }
+	{ icon: keyof Theme['sizes']['icon']; label: TextProps['size'] }
 > = {
 	medium: {
 		icon: 'large',
@@ -38,17 +33,17 @@ const RADIO_SIZE: Record<
 
 const RadioInput = styled.input<{
 	$color: string;
-	$size: keyof DefaultTheme['sizes']['icon'];
+	$size: keyof Theme['sizes']['icon'];
 }>`
 	&:focus-visible {
 		outline: none;
 	}
-	${({ disabled }): SimpleInterpolation =>
+	${({ disabled }): ReturnType<typeof css> | false =>
 		!disabled &&
 		css`
 			cursor: pointer;
 		`};
-	${({ $size, theme }): SimpleInterpolation => css`
+	${({ $size, theme }): ReturnType<typeof css> => css`
 		/* calc internal sizes following the proportion on base 24 */
 		--radio-outer-diameter: calc(${theme.sizes.icon[$size]} * (20 / 24));
 		--radio-inner-diameter: calc(${theme.sizes.icon[$size]} * (10 / 24));
@@ -72,9 +67,9 @@ const RadioInput = styled.input<{
 	padding: var(--radio-padding);
 	/* background is the inner circle */
 	background-clip: content-box;
-	${({ $color, theme }): SimpleInterpolation =>
+	${({ $color, theme }): ReturnType<typeof css> =>
 		pseudoClasses(theme, $color, 'background-color', { transition: false, outline: false })};
-	${({ $color, theme }): SimpleInterpolation =>
+	${({ $color, theme }): ReturnType<typeof css> =>
 		pseudoClasses(theme, $color, 'border-color', { transition: false, outline: false })};
 	/* box shadow cover the background when the radio is not checked, simulating the empty content */
 	box-shadow: inset 0 0 0 var(--radio-inner-diameter) var(--radio-bg-color);
@@ -93,7 +88,7 @@ const RadioInput = styled.input<{
 
 const Label = styled(Text).attrs({ forwardedAs: 'label' })<LabelHTMLAttributes<HTMLLabelElement>>`
 	line-height: 1.5;
-	${({ disabled }): SimpleInterpolation =>
+	${({ disabled }): ReturnType<typeof css> | false =>
 		!disabled &&
 		css`
 			cursor: pointer;
@@ -105,7 +100,7 @@ const RadioContainer = styled(Container)<{
 	$disabled: boolean;
 }>`
 	outline: none;
-	${({ theme, $disabled, $iconColor }): SimpleInterpolation =>
+	${({ theme, $disabled, $iconColor }): ReturnType<typeof css> | false =>
 		!$disabled &&
 		css`
 			&:hover {
@@ -137,7 +132,7 @@ interface RadioComponentProps<T extends RadioInputHTMLAttributes['value']> {
 	/** available sizes */
 	size?: keyof typeof RADIO_SIZE;
 	/** icon color */
-	iconColor?: keyof DefaultTheme['palette'] | CSSProperties['color'];
+	iconColor?: keyof Theme['palette'] | CSSProperties['color'];
 	/** Ref for the input element */
 	inputRef?: React.Ref<HTMLInputElement>;
 	/** Value of the radio input */
@@ -268,4 +263,5 @@ const RadioComponent = React.forwardRef(function RadioFn<
 
 const Radio = RadioComponent as RadioType;
 
-export { RadioComponent, Radio, RadioProps };
+export type { RadioProps };
+export { RadioComponent, Radio };

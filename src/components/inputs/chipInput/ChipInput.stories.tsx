@@ -5,19 +5,21 @@
  */
 import React, { useCallback, useRef, useState } from 'react';
 
-import { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
 import { times } from 'lodash';
 
-import { ChipInput, ChipItem, DefaultOnAdd } from './ChipInput';
+import type { ChipItem } from './ChipInput';
+import { ChipInput, DefaultOnAdd } from './ChipInput';
 import { ChipInputControlledCleanInput } from './ChipInput.stories.cleanInput';
 import { ControlledChipInput } from './ChipInput.stories.controlledMode';
 import { ChipInputDisabledWithOptions } from './ChipInput.stories.disabledWithOptions';
 import { ChipInputSuggestionMode } from './ChipInput.stories.suggestionMode';
 import { Text } from '../../basic/text/Text';
-import { Chip, ChipProps } from '../../display/Chip';
+import type { ChipProps } from '../../display/Chip';
+import { Chip } from '../../display/Chip';
 import { Popover } from '../../display/Popover';
-import { Container } from '../../layout/Container';
+import { Container } from '../../layout/container/Container';
 
 const meta = {
 	component: ChipInput,

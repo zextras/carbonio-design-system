@@ -4,11 +4,12 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { HTMLAttributes, useCallback, useState } from 'react';
+import type { HTMLAttributes } from 'react';
+import React, { useCallback, useState } from 'react';
 
-import styled, { SimpleInterpolation, css } from 'styled-components';
+import styled, { css } from 'styled-components';
 
-import { Container } from '../layout/Container';
+import { Container } from '../layout/container/Container';
 
 const DropEl = styled(Container)`
 	display: inline;
@@ -26,7 +27,7 @@ const OverlayEl = styled(Container)`
 
 const CoverEl = styled(Container)<{ $dragging: boolean }>`
 	display: inline;
-	${({ $dragging }): SimpleInterpolation =>
+	${({ $dragging }): ReturnType<typeof css> | false =>
 		$dragging &&
 		css`
 			pointer-events: none;
@@ -161,4 +162,5 @@ const Drop = React.forwardRef<HTMLDivElement, DropProps>(function DropFn(
 	);
 });
 
-export { Drop, DropProps, DragObj };
+export type { DropProps, DragObj };
+export { Drop };

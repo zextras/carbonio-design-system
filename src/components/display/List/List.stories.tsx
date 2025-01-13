@@ -5,12 +5,13 @@
  */
 import React from 'react';
 
-import { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
 
-import { List, ListProps } from './List';
+import type { ListProps } from './List';
+import { List } from './List';
 import { PaginatedList } from './List.stories.paginated';
 import { WithComplexItem } from './List.stories.withComplexItem';
-import { Container } from '../../layout/Container';
+import { Container } from '../../layout/container/Container';
 import { ListItem } from '../ListItem';
 
 const meta = {
@@ -45,6 +46,11 @@ export const WithPagination = {
 	render: PaginatedList,
 	args: {
 		limit: 3
+	},
+	parameters: {
+		visualTest: {
+			waitTime: 1000
+		}
 	}
 } satisfies StoryObj<ListProps & { limit: number }>;
 
@@ -52,7 +58,12 @@ export const WithComplexListItem = {
 	args: {
 		children: []
 	},
-	render: WithComplexItem
+	render: WithComplexItem,
+	parameters: {
+		visualTest: {
+			skip: true
+		}
+	}
 } satisfies Story;
 
 export const WithCustomBackground = {
@@ -61,5 +72,10 @@ export const WithCustomBackground = {
 		selectedBackground: 'success',
 		activeBackground: 'warning'
 	},
-	render: WithComplexItem
+	render: WithComplexItem,
+	parameters: {
+		visualTest: {
+			skip: true
+		}
+	}
 } satisfies Story;

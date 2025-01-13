@@ -7,13 +7,13 @@ import React from 'react';
 
 import { faker } from '@faker-js/faker';
 import { act, screen, waitFor, within } from '@testing-library/react';
-import { DefaultTheme } from 'styled-components';
 import 'jest-styled-components';
-import { find as findStyled } from 'styled-components/test-utils';
 
-import { Banner, BannerProps, InfoContainer } from './Banner';
-import { setup, UserEvent } from '../../../test-utils';
-import { ICONS } from '../../../testUtils/constants';
+import type { BannerProps } from './Banner';
+import { Banner } from './Banner';
+import { ICONS, SELECTORS } from '../../../tests/constants';
+import type { UserEvent } from '../../../tests/utils';
+import { setup } from '../../../tests/utils';
 import { Theme } from '../../../theme/theme';
 import { TIMERS } from '../../constants';
 import { ModalManager } from '../../utilities/ModalManager';
@@ -81,9 +81,9 @@ describe('Banner', () => {
 		[
 			severity: BannerProps['severity'],
 			type: BannerProps['type'],
-			mainColor: keyof DefaultTheme['palette'],
-			backgroundColor: keyof DefaultTheme['palette'],
-			textColor: keyof DefaultTheme['palette']
+			mainColor: keyof Theme['palette'],
+			backgroundColor: keyof Theme['palette'],
+			textColor: keyof Theme['palette']
 		]
 	>([
 		['success', 'standard', 'success', 'successBanner', 'text'],
@@ -105,7 +105,6 @@ describe('Banner', () => {
 				<Banner
 					severity={severity}
 					type={type}
-					data-testid={'banner'}
 					title={'Title'}
 					description={'Description'}
 					primaryAction={{ label: 'Primary action', onClick: jest.fn() }}
@@ -114,7 +113,7 @@ describe('Banner', () => {
 					onClose={jest.fn()}
 				/>
 			);
-			expect(screen.getByTestId('banner')).toHaveStyleRule(
+			expect(screen.getByTestId(SELECTORS.banner)).toHaveStyleRule(
 				'background',
 				Theme.palette[backgroundColor].regular
 			);
@@ -139,7 +138,7 @@ describe('Banner', () => {
 		}
 	);
 
-	test.each<[severity: BannerProps['severity'], icon: keyof DefaultTheme['icons']]>([
+	test.each<[severity: BannerProps['severity'], icon: keyof Theme['icons']]>([
 		['success', 'CheckmarkCircle2Outline'],
 		['warning', 'AlertTriangleOutline'],
 		['info', 'InfoOutline'],
@@ -164,9 +163,8 @@ describe('Banner', () => {
 		const longDescription = faker.lorem.sentences(4);
 		const longTitle = faker.lorem.sentences(2);
 		const resizeObserver = jest.spyOn(window, 'ResizeObserver');
-		setup(<Banner description={longDescription} title={longTitle} data-testid={'banner'} />);
-		const infoContainer = findStyled(screen.getByTestId('banner'), InfoContainer);
-		expect(infoContainer).not.toBeNull();
+		setup(<Banner description={longDescription} title={longTitle} />);
+		const infoContainer = screen.getByTestId(SELECTORS.bannerInfoContainer);
 		makeTextCropped(resizeObserver, infoContainer as HTMLElement);
 		expect(screen.getByRole('button', { name: /more info/i })).toBeVisible();
 	});
@@ -175,9 +173,8 @@ describe('Banner', () => {
 		const longDescription = faker.lorem.sentences(4);
 		const longTitle = faker.lorem.sentences(2);
 		const resizeObserver = jest.spyOn(window, 'ResizeObserver');
-		setup(<Banner description={longDescription} title={longTitle} data-testid={'banner'} />);
-		const infoContainer = findStyled(screen.getByTestId('banner'), InfoContainer);
-		expect(infoContainer).not.toBeNull();
+		setup(<Banner description={longDescription} title={longTitle} />);
+		const infoContainer = screen.getByTestId(SELECTORS.bannerInfoContainer);
 		makeTextFullyVisible(resizeObserver, infoContainer as HTMLElement);
 		expect(screen.queryByRole('button', { name: /more info/i })).not.toBeInTheDocument();
 	});
@@ -263,14 +260,12 @@ describe('Banner', () => {
 				<Banner
 					description={longDescription}
 					title={longTitle}
-					data-testid={'banner'}
 					primaryAction={{ label: 'primary action', onClick: primaryActionFn }}
 					secondaryAction={{ label: 'secondary action', onClick: secondaryActionFn }}
 				/>
 			</ModalManager>
 		);
-		const infoContainer = findStyled(screen.getByTestId('banner'), InfoContainer);
-		expect(infoContainer).not.toBeNull();
+		const infoContainer = screen.getByTestId(SELECTORS.bannerInfoContainer);
 		makeTextCropped(resizeObserver, infoContainer as HTMLElement);
 		const modal = await openMoreInfoModal(user);
 		expect(within(modal).getByText(longDescription)).toBeVisible();
@@ -296,14 +291,12 @@ describe('Banner', () => {
 				<Banner
 					description={longDescription}
 					title={longTitle}
-					data-testid={'banner'}
 					primaryAction={{ label: 'primary action', onClick: jest.fn() }}
 					secondaryAction={{ label: 'secondary action', onClick: jest.fn() }}
 				/>
 			</ModalManager>
 		);
-		const infoContainer = findStyled(screen.getByTestId('banner'), InfoContainer);
-		expect(infoContainer).not.toBeNull();
+		const infoContainer = screen.getByTestId(SELECTORS.bannerInfoContainer);
 		makeTextCropped(resizeObserver, infoContainer as HTMLElement);
 		const modal = await openMoreInfoModal(user);
 		const closeAction = getByRoleWithIcon('button', { icon: ICONS.close });

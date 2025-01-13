@@ -6,7 +6,8 @@
 
 import React from 'react';
 
-import { ScreenMode, useScreenMode } from '../../hooks/useScreenMode';
+import type { ScreenMode } from '../../hooks/useScreenMode';
+import { useScreenMode } from '../../hooks/useScreenMode';
 
 interface ResponsiveProps {
 	/** Whether the component's children should be displayed on mobile or desktop mode */
@@ -22,4 +23,5 @@ function Responsive({ children, mode, target }: ResponsiveProps): React.JSX.Elem
 	return <>{screenMode === mode && children}</>;
 }
 
-export { Responsive, ResponsiveProps };
+export type { ResponsiveProps };
+export { Responsive };

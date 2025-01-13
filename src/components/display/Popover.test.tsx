@@ -9,10 +9,10 @@ import React, { useRef, useState } from 'react';
 import { screen } from '@testing-library/react';
 
 import { Popover } from './Popover';
-import { setup } from '../../test-utils';
+import { setup } from '../../tests/utils';
 import { Button } from '../basic/button/Button';
-import { Input } from '../inputs/Input';
-import { Container } from '../layout/Container';
+import { Input } from '../inputs/input/Input';
+import { Container } from '../layout/container/Container';
 
 const CustomPopover = (): React.JSX.Element => {
 	const [open, setOpen] = useState(false);

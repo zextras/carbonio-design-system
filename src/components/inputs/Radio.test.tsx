@@ -8,7 +8,7 @@ import React from 'react';
 import { screen } from '@testing-library/react';
 
 import { Radio } from './Radio';
-import { setup } from '../../test-utils';
+import { setup } from '../../tests/utils';
 import { Text } from '../basic/text/Text';
 
 describe('Radio', () => {

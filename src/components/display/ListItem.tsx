@@ -5,32 +5,17 @@
  */
 import React from 'react';
 
-import styled, { SimpleInterpolation } from 'styled-components';
+import type { css } from 'styled-components';
+import styled from 'styled-components';
 
 import { useIsVisible } from '../../hooks/useIsVisible/useIsVisible';
 import { pseudoClasses } from '../../theme/theme-utils';
-import { AnyColor } from '../../types/utils';
-
-/**
- * @deprecated Use ListItemProps instead
- */
-interface ListItemWrapperProps {
-	/** Base background color for the item */
-	background?: AnyColor;
-	/** Background color for the selected status */
-	selectedBackground?: AnyColor;
-	/** Background color for the active status */
-	activeBackground?: AnyColor;
-	/** Define if the item is active in order to show the activeBackground */
-	active?: boolean;
-	/** Define if the item is selected in order to show the selectedBackground */
-	selected?: boolean;
-}
+import type { AnyColor } from '../../types/utils';
 
 const ListItemWrapper = styled.div<{ $backgroundColor?: AnyColor }>`
 	user-select: none;
 	outline: none;
-	${({ theme, $backgroundColor }): SimpleInterpolation =>
+	${({ theme, $backgroundColor }): ReturnType<typeof css> | undefined =>
 		$backgroundColor && pseudoClasses(theme, $backgroundColor)};
 `;
 
@@ -91,4 +76,4 @@ function ListItemFn(
 
 const ListItem = React.forwardRef(ListItemFn);
 
-export { ListItem, ListItemProps, ListItemWrapperProps };
+export { ListItem, type ListItemProps };

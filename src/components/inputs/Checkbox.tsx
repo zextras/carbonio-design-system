@@ -6,15 +6,17 @@
 
 import React, { useMemo, useRef } from 'react';
 
-import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { useCheckbox } from '../../hooks/useCheckbox';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
+import type { Theme } from '../../theme/theme';
 import { getColor } from '../../theme/theme-utils';
-import { AnyColor } from '../../types/utils';
+import type { AnyColor } from '../../types/utils';
 import { Icon } from '../basic/icon/Icon';
 import { Text } from '../basic/text/Text';
-import { Container, ContainerProps } from '../layout/Container';
+import type { ContainerProps } from '../layout/container/Container';
+import { Container } from '../layout/container/Container';
 import { Padding } from '../layout/Padding';
 
 type CheckboxSize = 'medium' | 'small';
@@ -26,10 +28,11 @@ const IconWrapper = styled.div<{
 	$iconColor: AnyColor;
 	$size: CheckboxSize;
 }>`
-	height: ${({ theme, $size }): SimpleInterpolation => css`calc(${theme.sizes.font[$size]} * 1.5)`};
+	height: ${({ theme, $size }): ReturnType<typeof css> =>
+		css`calc(${theme.sizes.font[$size]} * 1.5)`};
 	display: flex;
 	align-items: center;
-	${({ theme, $disabled, $iconColor }): SimpleInterpolation =>
+	${({ theme, $disabled, $iconColor }): ReturnType<typeof css> | false | undefined =>
 		!$disabled &&
 		css`
 			&:focus {
@@ -66,7 +69,7 @@ interface CheckboxProps extends Omit<ContainerProps, 'onChange' | 'onClick'> {
 	/** Checkbox size
 	 * @deprecated use size instead
 	 */
-	iconSize?: keyof DefaultTheme['sizes']['icon'];
+	iconSize?: keyof Theme['sizes']['icon'];
 	/** Checkbox color */
 	iconColor?: AnyColor;
 	/** Checkbox text */
@@ -159,4 +162,5 @@ const Checkbox = React.forwardRef<HTMLDivElement, CheckboxProps>(function Checkb
 	);
 });
 
-export { Checkbox, CheckboxProps };
+export type { CheckboxProps };
+export { Checkbox };

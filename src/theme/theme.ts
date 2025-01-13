@@ -4,7 +4,8 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { SVGProps } from 'react';
+import type { SVGProps } from 'react';
+import type React from 'react';
 
 import IconData from '../icons';
 
@@ -29,8 +30,35 @@ export interface ThemeColorObj {
 
 export type IconComponent = (props: SVGProps<SVGSVGElement>) => React.JSX.Element;
 
+type PaletteColorKey =
+	| 'currentColor'
+	| 'transparent'
+	| 'primary'
+	| 'secondary'
+	| 'header'
+	| 'highlight'
+	| 'gray0'
+	| 'gray1'
+	| 'gray2'
+	| 'gray3'
+	| 'gray4'
+	| 'gray5'
+	| 'gray6'
+	| 'warning'
+	| 'error'
+	| 'success'
+	| 'info'
+	| 'text'
+	| 'successBanner'
+	| 'warningBanner'
+	| 'infoBanner'
+	| 'errorBanner'
+	| 'black'
+	| 'white';
+export interface Palette extends Record<PaletteColorKey, ThemeColorObj> {}
+
 // augment this interface to extend theme type
-export interface ThemeObj {
+export interface Theme {
 	windowObj: Window;
 	breakpoints: {
 		width: number;
@@ -53,38 +81,12 @@ export interface ThemeObj {
 		svg: IconComponent;
 		size: ThemeSizeObj;
 	};
-	palette: Record<
-		| 'currentColor'
-		| 'transparent'
-		| 'primary'
-		| 'secondary'
-		| 'header'
-		| 'highlight'
-		| 'gray0'
-		| 'gray1'
-		| 'gray2'
-		| 'gray3'
-		| 'gray4'
-		| 'gray5'
-		| 'gray6'
-		| 'warning'
-		| 'error'
-		| 'success'
-		| 'info'
-		| 'text'
-		| 'successBanner'
-		| 'warningBanner'
-		| 'infoBanner'
-		| 'errorBanner'
-		| 'black'
-		| 'white',
-		ThemeColorObj
-	>;
+	palette: Palette;
 	avatarColors: Record<`avatar_${number}`, string>;
 	shadows: Record<string, string>;
 }
 
-export const Theme: ThemeObj = {
+export const Theme: Theme = {
 	windowObj: window,
 	breakpoints: {
 		width: 960,

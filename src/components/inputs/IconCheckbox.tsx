@@ -6,13 +6,15 @@
 
 import React, { useRef, useCallback, useMemo } from 'react';
 
-import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { useCheckbox } from '../../hooks/useCheckbox';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
+import type { Theme } from '../../theme/theme';
 import { Icon } from '../basic/icon/Icon';
 import { Text } from '../basic/text/Text';
-import { Container, ContainerProps } from '../layout/Container';
+import type { ContainerProps } from '../layout/container/Container';
+import { Container } from '../layout/container/Container';
 import { Padding } from '../layout/Padding';
 
 const IconWrapper = styled.div<{
@@ -26,7 +28,7 @@ const IconWrapper = styled.div<{
 		$isActive ? theme.palette.primary.regular : 'transparent'};
 	transition: 0.2s ease-out;
 
-	${({ $disabled, $isActive, theme }): SimpleInterpolation =>
+	${({ $disabled, $isActive, theme }): ReturnType<typeof css> | false =>
 		$disabled &&
 		css`
 			background: ${theme.palette[$isActive ? 'primary' : 'transparent'].disabled};
@@ -36,7 +38,7 @@ const IconWrapper = styled.div<{
 		fill: ${({ theme, $isActive }): string =>
 			$isActive ? theme.palette.gray6.regular : 'currentColor'};
 	}
-	${({ theme, $disabled, $isActive }): SimpleInterpolation =>
+	${({ theme, $disabled, $isActive }): ReturnType<typeof css> | false =>
 		!$disabled &&
 		css`
 			transition: background 0.2s ease-out;
@@ -83,11 +85,11 @@ interface IconCheckboxProps extends Omit<ContainerProps, 'margin'> {
 	/** whether to disable the IconCheckbox or not */
 	disabled?: boolean;
 	/** IconCheckbox icon */
-	icon: keyof DefaultTheme['icons'];
+	icon: keyof Theme['icons'];
 	/** IconCheckbox size */
 	size?: 'small' | 'regular' | 'large';
 	/** IconCheckbox margin */
-	margin?: keyof DefaultTheme['sizes']['padding'];
+	margin?: keyof Theme['sizes']['padding'];
 	/** IconCheckbox value */
 	value?: boolean;
 	/** change callback */
@@ -159,4 +161,5 @@ const IconCheckbox = React.forwardRef<HTMLDivElement, IconCheckboxProps>(functio
 	);
 });
 
-export { IconCheckbox, IconCheckboxProps };
+export type { IconCheckboxProps };
+export { IconCheckbox };

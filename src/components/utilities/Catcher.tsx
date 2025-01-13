@@ -4,10 +4,11 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { ErrorInfo } from 'react';
+import type { ErrorInfo } from 'react';
+import React from 'react';
 
 import { Text } from '../basic/text/Text';
-import { Container } from '../layout/Container';
+import { Container } from '../layout/container/Container';
 
 interface CatcherProps {
 	/** error callback, use this to perform operations when an error is caught */
@@ -60,4 +61,5 @@ class Catcher extends React.Component<CatcherProps, CatcherState> {
 	}
 }
 
-export { Catcher, CatcherProps };
+export type { CatcherProps };
+export { Catcher };

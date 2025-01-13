@@ -9,8 +9,9 @@ import { screen } from '@testing-library/react';
 import { noop } from 'lodash';
 
 import { Radio } from './Radio';
-import { RadioGroup, RadioGroupProps } from './RadioGroup';
-import { setup } from '../../test-utils';
+import type { RadioGroupProps } from './RadioGroup';
+import { RadioGroup } from './RadioGroup';
+import { setup } from '../../tests/utils';
 
 describe('Radio Group', () => {
 	test('Should render a group with the radio', () => {

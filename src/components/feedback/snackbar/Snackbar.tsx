@@ -6,14 +6,17 @@
 
 import React, { useCallback, useEffect } from 'react';
 
-import styled, { css, DefaultTheme, keyframes, SimpleInterpolation } from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 
-import { ScreenMode, useScreenMode } from '../../../hooks/useScreenMode';
+import type { ScreenMode } from '../../../hooks/useScreenMode';
+import { useScreenMode } from '../../../hooks/useScreenMode';
+import type { Theme } from '../../../theme/theme';
 import { Button } from '../../basic/button/Button';
 import { Icon } from '../../basic/icon/Icon';
 import { Text } from '../../basic/text/Text';
 import { TIMERS } from '../../constants';
-import { Container, ContainerProps } from '../../layout/Container';
+import type { ContainerProps } from '../../layout/container/Container';
+import { Container } from '../../layout/container/Container';
 import { Row } from '../../layout/Row';
 import { Portal } from '../../utilities/Portal';
 import { Transition } from '../../utilities/Transition';
@@ -25,7 +28,7 @@ const SnackContainer = styled(Container)<{ $zIndex: number; $screenMode: ScreenM
 	z-index: ${({ $zIndex }): number => $zIndex};
 	right: 0;
 	bottom: 5vh;
-	${({ $screenMode }): SimpleInterpolation =>
+	${({ $screenMode }): ReturnType<typeof css> | false =>
 		$screenMode === 'mobile' &&
 		css`
 			right: 50%;
@@ -56,7 +59,7 @@ const icons = {
 	info: 'InfoOutline',
 	warning: 'AlertTriangleOutline',
 	error: 'CloseCircleOutline'
-} satisfies Record<string, keyof DefaultTheme['icons']>;
+} satisfies Record<string, keyof Theme['icons']>;
 
 interface SnackbarProps extends Omit<ContainerProps, 'children'> {
 	/** Whether to show the Snackbar or not */
@@ -210,4 +213,5 @@ const Snackbar = React.forwardRef<HTMLDivElement, SnackbarProps>(function Snackb
 	);
 });
 
-export { Snackbar, SnackbarProps };
+export type { SnackbarProps };
+export { Snackbar };

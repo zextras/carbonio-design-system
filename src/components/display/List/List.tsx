@@ -6,13 +6,16 @@
 
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 
-import styled, { DefaultTheme } from 'styled-components';
+import styled from 'styled-components';
 
 import { useCombinedRefs } from '../../../hooks/useCombinedRefs';
 import { useIntersectionObserver } from '../../../hooks/useIntersectionObserver/useIntersectionObserver';
-import { getKeyboardPreset, KeyboardPresetObj, useKeyboard } from '../../../hooks/useKeyboard';
-import { Container, ContainerProps } from '../../layout/Container';
-import { ListItemProps } from '../ListItem';
+import type { KeyboardPresetObj } from '../../../hooks/useKeyboard';
+import { getKeyboardPreset, useKeyboard } from '../../../hooks/useKeyboard';
+import type { Theme } from '../../../theme/theme';
+import type { ContainerProps } from '../../layout/container/Container';
+import { Container } from '../../layout/container/Container';
+import type { ListItemProps } from '../ListItem';
 
 const ExternalContainer = styled(Container)`
 	display: block;
@@ -42,11 +45,11 @@ interface ListProps extends ContainerProps {
 	/** callback to be executed when the bottom element is rendered */
 	onListBottom?: () => void;
 	/** List background color */
-	background?: keyof DefaultTheme['palette'];
+	background?: keyof Theme['palette'];
 	/** Selected list item background color */
-	selectedBackground?: keyof DefaultTheme['palette'];
+	selectedBackground?: keyof Theme['palette'];
 	/** Active List item background color */
-	activeBackground?: keyof DefaultTheme['palette'];
+	activeBackground?: keyof Theme['palette'];
 	/** Disable keyboard shortcuts */
 	keyboardShortcutsIsDisabled?: boolean;
 	/** List items */

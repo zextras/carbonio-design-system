@@ -5,17 +5,10 @@
  */
 
 /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
-import React, {
-	useEffect,
-	useMemo,
-	useCallback,
-	useRef,
-	useContext,
-	HTMLAttributes,
-	useState
-} from 'react';
+import type { HTMLAttributes } from 'react';
+import React, { useEffect, useMemo, useCallback, useRef, useState } from 'react';
 
-import { ThemeContext } from 'styled-components';
+import { useTheme } from 'styled-components';
 
 import {
 	getScrollbarSize,
@@ -25,8 +18,9 @@ import {
 	ModalWrapper
 } from './modal-components/ModalComponents';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
-import { KeyboardPresetObj, useKeyboard } from '../../hooks/useKeyboard';
-import { AnyColor } from '../../types/utils';
+import type { KeyboardPresetObj } from '../../hooks/useKeyboard';
+import { useKeyboard } from '../../hooks/useKeyboard';
+import type { AnyColor } from '../../types/utils';
 import { TIMERS } from '../constants';
 import { Portal } from '../utilities/Portal';
 import { Transition } from '../utilities/Transition';
@@ -78,7 +72,7 @@ const CustomModal = React.forwardRef<HTMLDivElement, CustomModalProps>(function 
 	ref
 ) {
 	const [delayedOpen, setDelayedOpen] = useState(false);
-	const { windowObj: themeWindowObj } = useContext(ThemeContext);
+	const { windowObj: themeWindowObj } = useTheme();
 	const windowObj = containerWindow ?? themeWindowObj;
 
 	const modalRef = useCombinedRefs<HTMLDivElement>(ref);
@@ -205,4 +199,5 @@ const CustomModal = React.forwardRef<HTMLDivElement, CustomModalProps>(function 
 	);
 });
 
-export { CustomModal, CustomModalProps };
+export type { CustomModalProps };
+export { CustomModal };

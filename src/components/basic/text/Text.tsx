@@ -4,24 +4,24 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { HTMLAttributes } from 'react';
+import type { HTMLAttributes } from 'react';
+import React from 'react';
 
-import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-components';
+import styled, { css } from 'styled-components';
 
+import type { Theme } from '../../../theme/theme';
 import { getColor } from '../../../theme/theme-utils';
-import { AnyColor } from '../../../types/utils';
-
-type TextOverflow = 'ellipsis' | 'break-word';
+import type { AnyColor } from '../../../types/utils';
 
 interface TextProps extends Omit<HTMLAttributes<HTMLDivElement>, 'color'> {
 	/** Text color */
 	color?: AnyColor;
 	/** Text size */
-	size?: keyof DefaultTheme['sizes']['font'];
+	size?: keyof Theme['sizes']['font'];
 	/** Text weight */
-	weight?: keyof DefaultTheme['fonts']['weight'];
+	weight?: keyof Theme['fonts']['weight'];
 	/** Overflow handling */
-	overflow?: TextOverflow;
+	overflow?: 'ellipsis' | 'break-word';
 	/** Disabled status */
 	disabled?: boolean;
 	/** Italic Font style of the text */
@@ -35,8 +35,8 @@ interface TextProps extends Omit<HTMLAttributes<HTMLDivElement>, 'color'> {
 const Comp = styled.div<{
 	$color: AnyColor;
 	$disabled: boolean;
-	$size: keyof DefaultTheme['sizes']['font'];
-	$weight: keyof DefaultTheme['fonts']['weight'];
+	$size: keyof Theme['sizes']['font'];
+	$weight: keyof Theme['fonts']['weight'];
 	$overflow: string;
 	$italic: boolean;
 	$textAlign?: string;
@@ -47,10 +47,10 @@ const Comp = styled.div<{
 	font-family: ${({ theme }): string => theme.fonts.default};
 	font-size: ${({ theme, $size }): string => theme.sizes.font[$size]};
 	font-weight: ${({ theme, $weight }): number => theme.fonts.weight[$weight]};
-	font-style: ${({ $italic }): SimpleInterpolation => $italic && 'italic'};
+	font-style: ${({ $italic }): string | false => $italic && 'italic'};
 	margin: 0;
 	max-width: 100%;
-	${({ $overflow }): SimpleInterpolation =>
+	${({ $overflow }): ReturnType<typeof css> =>
 		$overflow === 'ellipsis'
 			? css`
 					white-space: nowrap;
@@ -60,10 +60,9 @@ const Comp = styled.div<{
 			: css`
 					overflow-wrap: break-word;
 					word-wrap: break-word;
-					ms-word-break: break-all;
 				`};
-	text-align: ${({ $textAlign }): SimpleInterpolation => $textAlign};
-	line-height: ${({ $lineHeight }): SimpleInterpolation => $lineHeight};
+	text-align: ${({ $textAlign }): string | undefined => $textAlign};
+	line-height: ${({ $lineHeight }): number | undefined => $lineHeight};
 `;
 
 const Text = React.forwardRef<HTMLDivElement, TextProps>(function TextFn(
@@ -99,4 +98,5 @@ const Text = React.forwardRef<HTMLDivElement, TextProps>(function TextFn(
 	);
 });
 
-export { Text, TextProps };
+export type { TextProps };
+export { Text };

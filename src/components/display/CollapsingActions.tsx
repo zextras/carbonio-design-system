@@ -3,40 +3,50 @@
  *
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-import React, { HTMLAttributes, useMemo } from 'react';
+import type { HTMLAttributes } from 'react';
+import React, { useMemo } from 'react';
 
-import { map, noop } from 'lodash';
+import { noop } from 'lodash';
 import styled from 'styled-components';
 
-import { Dropdown, DropdownItem } from './Dropdown';
+import type { DropdownItem } from './dropdown/Dropdown';
+import { Dropdown } from './dropdown/Dropdown';
 import { Tooltip } from './Tooltip';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { useSplitVisibility } from '../../hooks/useSplitVisibility';
-import { IconButton, IconButtonProps } from '../inputs/IconButton';
-import { Container, ContainerProps } from '../layout/Container';
+import type { AnyColor } from '../../types/utils';
+import type { ButtonProps } from '../basic/button/Button';
+import { Button } from '../basic/button/Button';
+import type { ContainerProps } from '../layout/container/Container';
+import { Container } from '../layout/container/Container';
 
 const RefDiv = styled.div`
 	max-width: 100%;
 	width: 100%;
 `;
 
-type Action = { type?: never; iconType?: IconButtonProps['type'] } & IconButtonProps & DropdownItem;
+type Action = {
+	type?: never;
+	iconType?: ButtonProps['type'];
+	secondaryAction?: never;
+} & ButtonProps &
+	DropdownItem;
 
 interface CollapsingActionsProps extends HTMLAttributes<HTMLDivElement> {
 	/**
 	 * Actions to show
 	 *
-	 * `type Action = { type?: never; iconType?: IconButtonProps['type'] } & IconButtonProps & DropdownItem;`
+	 * `type Action = { type?: never; iconType?: ButtonProps['type'] } & ButtonProps & DropdownItem;`
 	 */
 	actions: Action[];
 	/** Size for the collapser and default size for the icons (can be overwritten with the single action prop) */
-	size?: IconButtonProps['size'];
+	size?: ButtonProps['size'];
 	/** Max number of actions to show when there is plenty of space */
 	maxVisible?: number;
 	/** Alignment of the actions inside the container */
 	alignment?: 'start' | 'end';
 	/** Color for the collapser and default color for the icons (can be overwritten with the single action prop) */
-	color?: IconButtonProps['color'];
+	color?: ButtonProps['color'];
 	/** Gap for the visible items */
 	gap?: ContainerProps['gap'];
 }
@@ -48,7 +58,7 @@ const CollapsingActions = React.forwardRef<HTMLDivElement, CollapsingActionsProp
 			maxVisible,
 			size: globalIconSize,
 			alignment = 'end',
-			color: globalIconColor,
+			color: globalIconColor = 'text',
 			gap,
 			...rest
 		},
@@ -62,19 +72,44 @@ const CollapsingActions = React.forwardRef<HTMLDivElement, CollapsingActionsProp
 
 		const visibleActions = useMemo(
 			() =>
-				map(
-					visibleItems,
+				visibleItems.map(
 					({
 						iconType = 'ghost',
 						color = globalIconColor,
 						size = globalIconSize,
 						label,
+						labelColor,
+						backgroundColor,
 						...itemRest
-					}) => (
-						<Tooltip label={label} disabled={!label} key={itemRest.id}>
-							<IconButton {...itemRest} type={iconType} color={color} size={size} />
-						</Tooltip>
-					)
+					}) => {
+						const colorsAndType = ():
+							| { type: 'default' | 'outlined'; labelColor?: AnyColor; backgroundColor?: AnyColor }
+							| { type: 'ghost'; color: AnyColor } => {
+							if (iconType === 'ghost') {
+								return {
+									type: iconType,
+									color: color ?? labelColor
+								};
+							}
+							if (iconType === 'outlined') {
+								return {
+									type: iconType,
+									labelColor: color ?? labelColor,
+									backgroundColor
+								};
+							}
+							return {
+								type: iconType,
+								labelColor,
+								backgroundColor: color ?? backgroundColor
+							};
+						};
+						return (
+							<Tooltip label={label} disabled={!label} key={itemRest.id}>
+								<Button {...colorsAndType()} size={size} {...itemRest} />
+							</Tooltip>
+						);
+					}
 				),
 			[globalIconColor, globalIconSize, visibleItems]
 		);
@@ -94,10 +129,11 @@ const CollapsingActions = React.forwardRef<HTMLDivElement, CollapsingActionsProp
 					{visibleActions}
 					{hiddenItems.length > 0 && (
 						<Dropdown items={hiddenItems} placement="bottom-end">
-							<IconButton
+							<Button
+								type={'ghost'}
 								icon="MoreVertical"
 								size={globalIconSize}
-								iconColor={globalIconColor}
+								color={globalIconColor}
 								onClick={noop}
 							/>
 						</Dropdown>
@@ -108,4 +144,5 @@ const CollapsingActions = React.forwardRef<HTMLDivElement, CollapsingActionsProp
 	}
 );
 
-export { CollapsingActions, CollapsingActionsProps, Action };
+export type { CollapsingActionsProps, Action };
+export { CollapsingActions };

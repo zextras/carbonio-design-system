@@ -6,10 +6,10 @@
 
 import React, { useRef } from 'react';
 
-import { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
 
 import { useIsVisible } from './useIsVisible';
-import { Container } from '../../components/layout/Container';
+import { Container } from '../../components/layout/container/Container';
 
 const Hook = (): React.JSX.Element => {
 	const containerRef = useRef<HTMLDivElement>(null);
@@ -22,7 +22,12 @@ const Hook = (): React.JSX.Element => {
 };
 
 const meta = {
-	component: Hook
+	component: Hook,
+	parameters: {
+		visualTest: {
+			skip: true
+		}
+	}
 } satisfies Meta<typeof Hook>;
 
 export default meta;

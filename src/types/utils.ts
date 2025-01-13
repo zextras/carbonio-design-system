@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-import { DefaultTheme } from 'styled-components';
+import type { Theme } from '../theme/theme';
 
 export type NonEmptyArray<T> = [T, ...T[]];
 
@@ -16,7 +16,7 @@ export type RequireAtLeastOne<T, Keys extends keyof T = keyof T> = Pick<T, Exclu
 
 export type LiteralUnion<TSub, TBase> = TSub | (TBase & Record<never, never>);
 
-export type PaletteColor = keyof DefaultTheme['palette'];
+export type PaletteColor = keyof Theme['palette'];
 
 export type AnyColor = LiteralUnion<PaletteColor, string>;
 

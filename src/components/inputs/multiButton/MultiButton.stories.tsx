@@ -5,29 +5,34 @@
  */
 
 import type { Meta, StoryObj } from '@storybook/react';
-import { fn } from '@storybook/test';
+import { expect, fn, userEvent } from '@storybook/test';
 
+import type { MultiButtonProps } from './MultiButton';
 import { MultiButton } from './MultiButton';
+import { MultiButtonCustomIcon } from './MultiButton.stories.CustomIcon';
+import MultiButtonCustomIconSrc from './MultiButton.stories.CustomIcon?raw';
+import { within } from '../../../../.storybook/test-utils';
 import { colorArgType } from '../../../docs/utils';
 
+const baseItems: MultiButtonProps['items'] = [
+	{
+		id: 'activity-1',
+		icon: 'Activity',
+		label: 'Some Item'
+	},
+	{
+		id: 'activity-2',
+		icon: 'Plus',
+		label: 'Some Other Item',
+		disabled: true
+	}
+];
 const meta = {
 	component: MultiButton,
 	args: {
 		onClick: fn(),
 		label: 'click',
-		items: [
-			{
-				id: 'activity-1',
-				icon: 'Activity',
-				label: 'Some Item'
-			},
-			{
-				id: 'activity-2',
-				icon: 'Plus',
-				label: 'Some Other Item',
-				disabled: true
-			}
-		]
+		items: baseItems
 	},
 	argTypes: {
 		color: colorArgType,
@@ -85,5 +90,33 @@ export const Icon = {
 export const Loading = {
 	args: {
 		loading: true
+	}
+} satisfies Story;
+
+export const ToggleCustomIcon = {
+	render: MultiButtonCustomIcon,
+	parameters: {
+		docs: {
+			source: {
+				code: MultiButtonCustomIconSrc
+			}
+		}
+	},
+	play: async ({ canvasElement }): Promise<void> => {
+		const canvas = within(canvasElement);
+		const toggleOpen = canvas.getByRoleWithIcon('button', {
+			icon: 'icon: Plus'
+		});
+		await userEvent.click(toggleOpen);
+		const toggleClose = await canvas.findByRoleWithIcon('button', {
+			icon: 'icon: Close'
+		});
+		await expect(toggleClose).toBeVisible();
+		await userEvent.click(toggleClose);
+		await expect(
+			await canvas.findByRoleWithIcon('button', {
+				icon: 'icon: Plus'
+			})
+		).toBeVisible();
 	}
 } satisfies Story;

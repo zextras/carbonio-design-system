@@ -7,17 +7,20 @@
 import React, { useMemo, useState, useCallback, useEffect } from 'react';
 
 import { map } from 'lodash';
-import styled, { css, DefaultTheme, SimpleInterpolation } from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { useKeyboard, getKeyboardPreset } from '../../hooks/useKeyboard';
+import type { Theme } from '../../theme/theme';
 import { getColor, pseudoClasses } from '../../theme/theme-utils';
 import { Badge } from '../basic/badge/Badge';
+import { Button } from '../basic/button/Button';
 import { Icon } from '../basic/icon/Icon';
-import { Text, TextProps } from '../basic/text/Text';
+import type { TextProps } from '../basic/text/Text';
+import { Text } from '../basic/text/Text';
 import { Tooltip } from '../display/Tooltip';
-import { IconButton } from '../inputs/IconButton';
-import { Container, ContainerProps } from '../layout/Container';
+import type { ContainerProps } from '../layout/container/Container';
+import { Container } from '../layout/container/Container';
 import { Divider } from '../layout/divider/Divider';
 import { Padding } from '../layout/Padding';
 import { Collapse } from '../utilities/Collapse';
@@ -28,12 +31,12 @@ const AccordionContainerEl = styled(Container)<{
 	$disableHover?: boolean;
 }>`
 	cursor: pointer;
-	padding-left: ${({ theme, $level }): SimpleInterpolation =>
+	padding-left: ${({ theme, $level }): ReturnType<typeof css> =>
 		css`calc(${Math.min($level + 1, 5)} * ${theme.sizes.padding.small})`};
 	padding-right: ${({ theme }): string => theme.sizes.padding.small};
-	background-color: ${({ theme, background, $active }): SimpleInterpolation =>
+	background-color: ${({ theme, background, $active }): string | undefined =>
 		background && getColor(`${[$active ? 'highlight' : background]}.regular`, theme)};
-	${({ theme, background, $disableHover, $active }): SimpleInterpolation =>
+	${({ theme, background, $disableHover, $active }): ReturnType<typeof css> | false | undefined =>
 		!$disableHover && background && pseudoClasses(theme, $active ? 'highlight' : background)};
 `;
 
@@ -41,6 +44,27 @@ const StyledText = styled(Text)`
 	min-width: 0;
 	flex-basis: 0;
 	flex-grow: 1;
+`;
+
+const StyledButton = styled(Button)<{
+	$iconSize?: keyof Theme['sizes']['icon'];
+	$paddingSize?: string;
+}>`
+	${({ $iconSize, theme }): ReturnType<typeof css> | undefined | string =>
+		$iconSize &&
+		css`
+			svg {
+				width: ${theme.sizes.icon[$iconSize]};
+				min-width: ${theme.sizes.icon[$iconSize]};
+				height: ${theme.sizes.icon[$iconSize]};
+				min-height: ${theme.sizes.icon[$iconSize]};
+			}
+		`};
+	${({ $paddingSize }): ReturnType<typeof css> | undefined | string =>
+		$paddingSize &&
+		css`
+			padding: ${$paddingSize};
+		`};
 `;
 
 interface AccordionItemProps extends ContainerProps {
@@ -73,7 +97,11 @@ const AccordionItem = React.forwardRef<HTMLDivElement, AccordionItemProps>(funct
 			)}
 			{item.badgeCounter !== undefined && (
 				<Padding left="small">
-					<Badge type={item.badgeType} value={item.badgeCounter} />
+					<Badge
+						backgroundColor={(item.badgeType === 'unread' && 'primary') || 'gray2'}
+						color={(item.badgeType === 'unread' && 'gray6') || 'gray0'}
+						value={item.badgeCounter}
+					/>
 				</Padding>
 			)}
 			{children}
@@ -86,13 +114,13 @@ type AccordionItemType = {
 	label?: string;
 	items?: AccordionItemType[];
 	onClick?: (event: KeyboardEvent | React.SyntheticEvent) => void;
-	icon?: keyof DefaultTheme['icons'];
+	icon?: keyof Theme['icons'];
 	CustomComponent?: React.ComponentType<{ item: AccordionItemType }>;
 	iconColor?: string;
 	badgeType?: 'read' | 'unread';
 	badgeCounter?: number;
 	open?: boolean;
-	background?: keyof DefaultTheme['palette'];
+	background?: keyof Theme['palette'];
 	disableHover?: boolean;
 	active?: boolean;
 	level?: number;
@@ -106,7 +134,7 @@ type AccordionDivider = { divider: true; key?: string };
 interface AccordionRootProps extends ContainerProps {
 	level: number;
 	item: AccordionItemType;
-	background: keyof DefaultTheme['palette'];
+	background: keyof Theme['palette'];
 	activeId?: string;
 	openIds?: string[];
 	disableTransition?: boolean;
@@ -194,10 +222,13 @@ const AccordionRoot = React.forwardRef<HTMLDivElement, AccordionRootProps>(funct
 				{item.items && item.items.length > 0 && (
 					<Padding right="small">
 						<Tooltip label={tooltipLabel} disabled={!tooltipLabel} placement={'top'}>
-							<IconButton
-								customSize={{ iconSize: 'large', paddingSize: 0 }}
+							<StyledButton
+								$iconSize={'large'}
+								$paddingSize={'0'}
 								onClick={toggleOpen}
 								icon={open ? 'ChevronUp' : 'ChevronDown'}
+								type={'ghost'}
+								color={'text'}
 							/>
 						</Tooltip>
 					</Padding>
@@ -229,7 +260,7 @@ interface AccordionProps extends ContainerProps {
 	/** Items tree object, can be nested (each property is forwarded to the item component as a prop) */
 	items: Array<AccordionItemType | AccordionDivider>;
 	/** Accordion background */
-	background?: keyof DefaultTheme['palette'];
+	background?: keyof Theme['palette'];
 	/** Depth level, internally used for recursion nesting */
 	level?: number;
 	/** id of the currently active item (alternative to the active item flag) */
