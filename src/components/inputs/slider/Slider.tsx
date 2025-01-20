@@ -10,7 +10,7 @@ import styled from 'styled-components';
 
 import { useCombinedRefs } from '../../../hooks/useCombinedRefs';
 import type { Theme } from '../../../theme/theme';
-import { Tooltip } from '../../display/Tooltip';
+import { Tooltip } from '../../display/tooltip/Tooltip';
 import { Container } from '../../layout/container/Container';
 
 const SLIDER_SIZES = {

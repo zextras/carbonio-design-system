@@ -18,7 +18,7 @@ import { Button } from '../basic/button/Button';
 import { Icon } from '../basic/icon/Icon';
 import type { TextProps } from '../basic/text/Text';
 import { Text } from '../basic/text/Text';
-import { Tooltip } from '../display/Tooltip';
+import { Tooltip } from '../display/tooltip/Tooltip';
 import type { ContainerProps } from '../layout/container/Container';
 import { Container } from '../layout/container/Container';
 import { Divider } from '../layout/divider/Divider';

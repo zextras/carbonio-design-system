@@ -12,7 +12,7 @@ import { act, screen } from '@testing-library/react';
 import { Button } from './Button';
 import { setup } from '../../../tests/utils';
 import { TIMERS } from '../../constants';
-import { Tooltip } from '../../display/Tooltip';
+import { Tooltip } from '../../display/tooltip/Tooltip';
 
 describe('Button', () => {
 	test('The label must be Upper Case', () => {
