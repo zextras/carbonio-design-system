@@ -9,7 +9,7 @@ import styled, { css } from 'styled-components';
 
 import { Button } from '../../basic/button/Button';
 import { Text } from '../../basic/text/Text';
-import { Tooltip } from '../../display/Tooltip';
+import { Tooltip } from '../../display/tooltip/Tooltip';
 import { Row } from '../../layout/Row';
 
 interface ModalHeaderProps {

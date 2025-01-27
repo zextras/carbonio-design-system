@@ -8,7 +8,7 @@ import React, { useCallback, useMemo, useRef, useState } from 'react';
 
 import styled, { css, useTheme } from 'styled-components';
 
-import { Tooltip } from './Tooltip';
+import { Tooltip } from './tooltip/Tooltip';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import type { Theme } from '../../theme/theme';
 import { pseudoClasses } from '../../theme/theme-utils';

@@ -19,11 +19,11 @@ import { flip, offset, shift, limitShift } from '@floating-ui/dom';
 import { rgba } from 'polished';
 import styled, { css } from 'styled-components';
 
-import { useCombinedRefs } from '../../hooks/useCombinedRefs';
-import { setupFloating } from '../../utils/floating-ui';
-import type { TextProps } from '../basic/text/Text';
-import { Text } from '../basic/text/Text';
-import { Portal } from '../utilities/Portal';
+import { useCombinedRefs } from '../../../hooks/useCombinedRefs';
+import { setupFloating } from '../../../utils/floating-ui';
+import type { TextProps } from '../../basic/text/Text';
+import { Text } from '../../basic/text/Text';
+import { Portal } from '../../utilities/Portal';
 
 interface TooltipWrapperProps extends TextProps {
 	open: boolean;
@@ -71,7 +71,7 @@ interface TooltipProps extends TextProps {
 	placement?: Placement;
 	/** Fallback placements to use when tooltip cannot fit in the primary placement */
 	fallbackPlacements?: Placement[];
-	/** Tooltip max-width css property */
+	/** Tooltip max-width CSS property */
 	maxWidth?: string;
 	/** Whether to disable the tooltip and render only the child component */
 	disabled?: boolean;

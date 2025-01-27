@@ -8255,7 +8255,7 @@
       ]
     }
   ],
-  "src/components/display/List/List.tsx": [
+  "src/components/display/list/List.tsx": [
     {
       "description": "",
       "methods": [],
@@ -13634,7 +13634,7 @@
       ]
     }
   ],
-  "src/components/display/Tooltip.tsx": [
+  "src/components/display/tooltip/Tooltip.tsx": [
     {
       "description": "",
       "methods": [],
@@ -13779,7 +13779,7 @@
           "tsType": {
             "name": "string"
           },
-          "description": "Tooltip max-width css property",
+          "description": "Tooltip max-width CSS property",
           "defaultValue": {
             "value": "'17.75rem'",
             "computed": false

@@ -9,7 +9,7 @@ import styled, { css } from 'styled-components';
 
 import type { Theme } from '../../../theme/theme';
 import { Button } from '../../basic/button/Button';
-import { Tooltip } from '../../display/Tooltip';
+import { Tooltip } from '../../display/tooltip/Tooltip';
 import { Container } from '../../layout/container/Container';
 import { Padding } from '../../layout/Padding';
 
