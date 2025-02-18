@@ -17,7 +17,7 @@ export const NestedTooltip = (): React.JSX.Element => (
 			<Text>This container has no tooltip</Text>
 		</Padding>
 		<Tooltip label={'This has a tooltip'}>
-			<Container width={'1000px'} background={'gray2'}>
+			<Container background={'gray2'}>
 				<Tooltip label={'Also this button has a tooltip'}>
 					<Button onClick={() => undefined} label={'Button'} />
 				</Tooltip>
