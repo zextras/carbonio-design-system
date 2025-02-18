@@ -11,7 +11,8 @@ import React, {
 	useCallback,
 	useRef,
 	cloneElement,
-	createRef
+	createRef,
+	useMemo
 } from 'react';
 
 import type { Placement } from '@floating-ui/dom';
@@ -107,12 +108,19 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(function TooltipF
 	const combinedTriggerRef = useCombinedRefs<HTMLElement>(triggerRef);
 	const tooltipRef = useCombinedRefs<HTMLDivElement>(ref);
 	const timeoutRef = useRef<null | ReturnType<typeof setTimeout>>(null);
+	const tooltipTargetId = useMemo(() => new Date().getTime().toString(), []);
 
-	const showTooltip = useCallback((event: FocusEvent) => {
-		const targetEl = (event.target as Element);
-		const closestTooltipEl = targetEl?.closest(".tooltipTarget");
-		const triggerElement = combinedTriggerRef.current;
-			if (triggerElement && closestTooltipEl && closestTooltipEl.isEqualNode(triggerElement)) {
+	const showTooltip = useCallback(
+		(event: FocusEvent) => {
+			const targetEl = event.target as Element;
+			const triggerElement = combinedTriggerRef.current;
+
+			const closestTooltipEl = targetEl?.closest('[data-tooltip-target]');
+			const attributesArray = [...(closestTooltipEl?.attributes ?? [])];
+			const tooltipTarget = attributesArray.find((el) => el.name === 'data-tooltip-target');
+			const closestHasTooltipTargetId = tooltipTarget?.value === tooltipTargetId;
+
+			if (triggerElement && closestTooltipEl && closestHasTooltipTargetId) {
 				const textIsCropped =
 					(triggerElement.className.slice(0, 4) === 'Text' &&
 						triggerElement.clientWidth < triggerElement.scrollWidth) ||
@@ -124,20 +132,27 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(function TooltipF
 					}, triggerDelay);
 				}
 			}
-	}, [overflowTooltip, triggerDelay]);
+		},
+		[combinedTriggerRef, overflowTooltip, tooltipTargetId, triggerDelay]
+	);
 
-	const hideTooltip = useCallback((event: FocusEvent) => {
-		const relatedStartElement = (event.relatedTarget as Element);
+	const hideTooltip = useCallback(
+		(event: FocusEvent) => {
+			const relatedStartElement = event.relatedTarget as Element;
 
-		const tooltip = combinedTriggerRef.current;
+			const closestTooltipEl = relatedStartElement?.closest('[data-tooltip-target]');
 
-		const isClosestTooltip = relatedStartElement?.closest('.tooltipTarget')?.isEqualNode(tooltip) ?? false;
+			const attributesArray = [...(closestTooltipEl?.attributes ?? [])];
+			const tooltipTarget = attributesArray.find((el) => el.name === 'data-tooltip-target');
+			const closestHasTooltipTargetId = tooltipTarget?.value === tooltipTargetId;
 
-		if (!isClosestTooltip) {
-			setOpen(false);
-			timeoutRef.current && clearTimeout(timeoutRef.current);
-		}
-	}, []);
+			if (!closestHasTooltipTargetId) {
+				setOpen(false);
+				timeoutRef.current && clearTimeout(timeoutRef.current);
+			}
+		},
+		[tooltipTargetId]
+	);
 
 	useLayoutEffect(() => {
 		let cleanup: ReturnType<typeof setupFloating>;
@@ -181,7 +196,10 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(function TooltipF
 
 	return (
 		<>
-			{cloneElement(children, { ref: combinedTriggerRef, className: 'tooltipTarget' })}
+			{cloneElement(children, {
+				ref: combinedTriggerRef,
+				'data-tooltip-target': tooltipTargetId
+			})}
 			<Portal show={open && !disabled} disablePortal={disablePortal}>
 				<TooltipWrapperWithCss ref={tooltipRef} open={open} $maxWidth={maxWidth} {...rest}>
 					{label}
