@@ -69,7 +69,7 @@ export const TooltipDisabled = {
 export const OverflowTooltip = {
 	render: TextWithTooltip,
 	args: {
-		label: 'This child wont dismiss the tooltip',
+		label: 'The tooltip appears only if children is not fully visible!',
 		overflow: 'break-word',
 		overflowTooltip: true
 	}
