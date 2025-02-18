@@ -64,4 +64,27 @@ describe('Tooltip', () => {
 		expect(triggerRef.current).not.toBeNull();
 		expect(screen.getByText('Trigger tooltip')).toBe(triggerRef.current);
 	});
+
+	test('If tooltips are nested only the closest will render', async () => {
+		const messageText = 'tooltip 1 text';
+		const message2Text = 'tooltip 2 text';
+		const clickFn = jest.fn();
+		const { user } = setup(
+			<Container orientation="horizontal" mainAlignment="flex-start">
+				<Tooltip placement="right" label={messageText}>
+					<Tooltip placement="right" label={message2Text}>
+						<Button label="Name Lastname" onClick={clickFn} />
+					</Tooltip>
+				</Tooltip>
+			</Container>
+		);
+		const button = screen.getByText(/Name Lastname/i);
+		// wait so tooltip can register the listeners
+		jest.advanceTimersByTime(TIMERS.TOOLTIP.REGISTER_LISTENER);
+		await user.hover(button);
+		await screen.findByText(message2Text);
+
+		expect(screen.getByText(message2Text)).toBeVisible();
+		expect(screen.queryByText(messageText)).not.toBeInTheDocument();
+	});
 });
