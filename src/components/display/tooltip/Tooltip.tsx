@@ -88,6 +88,13 @@ interface TooltipProps extends TextProps {
 	triggerRef?: React.Ref<HTMLElement>;
 }
 
+const isClosestTooltipTarget = (tooltipTargetId: string, element: Element | undefined): boolean => {
+	const closestTooltipEl = element?.closest('[data-tooltip-target]');
+	const attributesArray = [...(closestTooltipEl?.attributes ?? [])];
+	const tooltipTarget = attributesArray.find((el) => el.name === 'data-tooltip-target');
+	return tooltipTarget?.value === tooltipTargetId;
+};
+
 const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(function TooltipFn(
 	{
 		label = '',
@@ -108,19 +115,16 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(function TooltipF
 	const combinedTriggerRef = useCombinedRefs<HTMLElement>(triggerRef);
 	const tooltipRef = useCombinedRefs<HTMLDivElement>(ref);
 	const timeoutRef = useRef<null | ReturnType<typeof setTimeout>>(null);
-	const tooltipTargetId = useMemo(() => new Date().getTime().toString(), []);
+	const tooltipTargetId = useMemo(() => crypto.randomUUID(), []);
 
 	const showTooltip = useCallback(
 		(event: FocusEvent) => {
 			const targetEl = event.target as Element;
 			const triggerElement = combinedTriggerRef.current;
 
-			const closestTooltipEl = targetEl?.closest('[data-tooltip-target]');
-			const attributesArray = [...(closestTooltipEl?.attributes ?? [])];
-			const tooltipTarget = attributesArray.find((el) => el.name === 'data-tooltip-target');
-			const closestHasTooltipTargetId = tooltipTarget?.value === tooltipTargetId;
+			const isClosestTargetTooltipId = isClosestTooltipTarget(tooltipTargetId, targetEl);
 
-			if (triggerElement && closestTooltipEl && closestHasTooltipTargetId) {
+			if (triggerElement && isClosestTargetTooltipId) {
 				const textIsCropped =
 					(triggerElement.className.slice(0, 4) === 'Text' &&
 						triggerElement.clientWidth < triggerElement.scrollWidth) ||
@@ -140,13 +144,9 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(function TooltipF
 		(event: FocusEvent) => {
 			const relatedStartElement = event.relatedTarget as Element;
 
-			const closestTooltipEl = relatedStartElement?.closest('[data-tooltip-target]');
+			const isClosestTargetTooltipId = isClosestTooltipTarget(tooltipTargetId, relatedStartElement);
 
-			const attributesArray = [...(closestTooltipEl?.attributes ?? [])];
-			const tooltipTarget = attributesArray.find((el) => el.name === 'data-tooltip-target');
-			const closestHasTooltipTargetId = tooltipTarget?.value === tooltipTargetId;
-
-			if (!closestHasTooltipTargetId) {
+			if (!isClosestTargetTooltipId) {
 				setOpen(false);
 				timeoutRef.current && clearTimeout(timeoutRef.current);
 			}
