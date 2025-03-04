@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 Zextras <https://www.zextras.com>
+ * SPDX-FileCopyrightText: 2025 Zextras <https://www.zextras.com>
  *
  * SPDX-License-Identifier: AGPL-3.0-only
  */
@@ -189,6 +189,7 @@ export { default as Google } from './Google';
 export { default as Grid } from './Grid';
 export { default as GroupCalendar } from './GroupCalendar';
 export { default as Group } from './Group';
+export { default as Hand } from './Hand';
 export { default as Hangup } from './Hangup';
 export { default as HardDrive } from './HardDrive';
 export { default as Hash } from './Hash';
