@@ -49,7 +49,7 @@ beforeAll(() => {
 			getRandomValues: jest.fn(() => {
 				throw new Error('getRandomValues mock is not implemented!');
 			}),
-			randomUUID: () => `1-1-1-1-1`
+			randomUUID: jest.fn(() => Math.random().toString())
 		}
 	});
 });
