@@ -88,7 +88,10 @@ interface TooltipProps extends TextProps {
 	triggerRef?: React.Ref<HTMLElement>;
 }
 
-const isClosestTooltipTarget = (tooltipTargetId: string, element: Element | undefined): boolean => {
+const isClosestTooltipTarget = (
+	tooltipTargetId: string | undefined,
+	element: Element | undefined
+): boolean => {
 	const closestTooltipEl = element?.closest('[data-tooltip-target]');
 	const attributesArray = [...(closestTooltipEl?.attributes ?? [])];
 	const tooltipTarget = attributesArray.find((el) => el.name === 'data-tooltip-target');
@@ -115,7 +118,7 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(function TooltipF
 	const combinedTriggerRef = useCombinedRefs<HTMLElement>(triggerRef);
 	const tooltipRef = useCombinedRefs<HTMLDivElement>(ref);
 	const timeoutRef = useRef<null | ReturnType<typeof setTimeout>>(null);
-	const tooltipTargetId = useMemo(() => crypto.randomUUID(), []);
+	const tooltipTargetId = useMemo(() => (disabled ? undefined : crypto.randomUUID()), [disabled]);
 
 	const showTooltip = useCallback(
 		(event: FocusEvent) => {
