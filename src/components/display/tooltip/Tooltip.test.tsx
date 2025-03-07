@@ -65,18 +65,16 @@ describe('Tooltip', () => {
 		expect(screen.getByText('Trigger tooltip')).toBe(triggerRef.current);
 	});
 
-	test('If tooltips are nested only the closest will render', async () => {
+	test('If two or more tooltips wrap the same component only the closest will render', async () => {
 		const messageText = 'tooltip 1 text';
 		const message2Text = 'tooltip 2 text';
 		const clickFn = jest.fn();
 		const { user } = setup(
-			<Container orientation="horizontal" mainAlignment="flex-start">
-				<Tooltip placement="right" label={messageText}>
-					<Tooltip placement="right" label={message2Text}>
-						<Button label="Name Lastname" onClick={clickFn} />
-					</Tooltip>
+			<Tooltip placement="right" label={messageText}>
+				<Tooltip placement="right" label={message2Text}>
+					<Button label="Name Lastname" onClick={clickFn} />
 				</Tooltip>
-			</Container>
+			</Tooltip>
 		);
 		const button = screen.getByText(/Name Lastname/i);
 		// wait so tooltip can register the listeners
@@ -86,5 +84,51 @@ describe('Tooltip', () => {
 
 		expect(screen.getByText(message2Text)).toBeVisible();
 		expect(screen.queryByText(messageText)).not.toBeInTheDocument();
+	});
+
+	test('If tooltips are nested only the closest will render', async () => {
+		const messageText = 'tooltip 1 text';
+		const message2Text = 'tooltip 2 text';
+		const clickFn = jest.fn();
+		const { user } = setup(
+			<Tooltip placement="right" label={messageText}>
+				<Container orientation="horizontal" mainAlignment="flex-start">
+					<Tooltip placement="right" label={message2Text}>
+						<Button label="Name Lastname" onClick={clickFn} />
+					</Tooltip>
+				</Container>
+			</Tooltip>
+		);
+		const button = screen.getByText(/Name Lastname/i);
+		// wait so tooltip can register the listeners
+		jest.advanceTimersByTime(TIMERS.TOOLTIP.REGISTER_LISTENER);
+		await user.hover(button);
+		await screen.findByText(message2Text);
+
+		expect(screen.getByText(message2Text)).toBeVisible();
+		expect(screen.queryByText(messageText)).not.toBeInTheDocument();
+	});
+
+	test('If tooltips are nested and the closest is disabled only the next one will render', async () => {
+		const messageText = 'tooltip 1 text';
+		const message2Text = 'tooltip 2 text';
+		const clickFn = jest.fn();
+		const { user } = setup(
+			<Tooltip placement="right" label={messageText}>
+				<Container orientation="horizontal" mainAlignment="flex-start">
+					<Tooltip placement="right" label={message2Text} disabled>
+						<Button label="Name Lastname" onClick={clickFn} />
+					</Tooltip>
+				</Container>
+			</Tooltip>
+		);
+		const button = screen.getByText(/Name Lastname/i);
+		// wait so tooltip can register the listeners
+		jest.advanceTimersByTime(TIMERS.TOOLTIP.REGISTER_LISTENER);
+		await user.hover(button);
+		await screen.findByText(messageText);
+
+		expect(screen.queryByText(message2Text)).not.toBeInTheDocument();
+		expect(screen.getByText(messageText)).toBeVisible();
 	});
 });
