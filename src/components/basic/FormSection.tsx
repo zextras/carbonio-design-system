@@ -13,107 +13,61 @@ import { Container } from '../layout/container/Container';
 import { Divider } from '../layout/divider/Divider';
 import { Padding } from '../layout/Padding';
 
-interface FormElementProps extends ContainerProps {
-	label?: TextProps['children'];
-	children?: React.ReactNode | React.ReactNode[];
+interface FormSectionProps extends ContainerProps {
+	label: TextProps['children'];
 }
 
-const FormSection = React.forwardRef<HTMLDivElement, FormElementProps>(function FormSectionFn(
-	{ label = '', children, ...rest },
+interface FormSubSectionProps extends ContainerProps {
+	label?: TextProps['children'];
+}
+
+const FormSection = React.forwardRef<HTMLDivElement, FormSectionProps>(function FormSectionFn(
+	{ label, children, ...rest },
 	ref
 ) {
 	return (
 		<Container
 			ref={ref}
-			padding={{ all: 'small' }}
-			orientation="vertical"
+			padding={{ all: 'large' }}
 			height="fit"
 			crossAlignment="flex-start"
-			width="fill"
+			background="gray6"
 			{...rest}
 		>
-			<Padding all="small">
-				<Text weight="bold" size="large">
+			<Padding top="small" bottom="small">
+				<Text weight="bold" size="extralarge">
 					{label}
 				</Text>
 			</Padding>
-			<Container
-				padding={{ all: 'small' }}
-				orientation="vertical"
-				crossAlignment="flex-start"
-				width="fill"
-				height="fit"
-			>
+			<Divider />
+			<Container padding={{ all: 'large' }} crossAlignment="flex-start" gap="1rem" height="fit">
 				{children}
 			</Container>
 		</Container>
 	);
 });
 
-const FormSubSection = React.forwardRef<HTMLDivElement, FormElementProps>(function FormSubSectionFn(
-	{ label = '', children, ...rest },
-	ref
-) {
-	return (
-		<Padding bottom="small" style={{ width: '100%' }}>
+const FormSubSection = React.forwardRef<HTMLDivElement, FormSubSectionProps>(
+	function FormSubSectionFn({ label, children, ...rest }, ref) {
+		return (
 			<Container
 				background="gray6"
 				ref={ref}
-				orientation="vertical"
 				height="fit"
 				crossAlignment="flex-start"
-				width="fill"
+				gap="1rem"
 				{...rest}
 			>
-				<Padding all="small" left="medium">
+				{label && (
 					<Text weight="bold" size="large">
 						{label}
 					</Text>
-				</Padding>
-				<Divider />
-				<Container
-					padding={{ all: 'small' }}
-					orientation="vertical"
-					crossAlignment="flex-start"
-					width="fill"
-					height="fit"
-				>
-					{children}
-				</Container>
-			</Container>
-		</Padding>
-	);
-});
-
-const FormRow = React.forwardRef<HTMLDivElement, FormElementProps>(function FormRowFn(
-	{ label = '', children, ...rest },
-	ref
-) {
-	return (
-		<Container
-			background="gray6"
-			ref={ref}
-			orientation="horizontal"
-			height="fit"
-			width="fill"
-			crossAlignment="baseline"
-			{...rest}
-		>
-			<Container
-				padding={{ all: 'extrasmall', right: 'small' }}
-				crossAlignment="flex-end"
-				width="30%"
-			>
-				<Text weight="bold" size="large">
-					{label}
-				</Text>
-			</Container>
-			<Container orientation="vertical" crossAlignment="flex-start" width="70%" height="fit">
+				)}
 				{children}
 			</Container>
-		</Container>
-	);
-});
+		);
+	}
+);
 
-export type { FormElementProps };
-export { FormSection, FormSubSection, FormRow };
+export type { FormSectionProps, FormSubSectionProps };
+export { FormSection, FormSubSection };

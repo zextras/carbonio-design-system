@@ -7117,16 +7117,12 @@
           "description": ""
         },
         "label": {
-          "required": false,
+          "required": true,
           "tsType": {
             "name": "TextProps['children']",
             "raw": "TextProps['children']"
           },
-          "description": "",
-          "defaultValue": {
-            "value": "''",
-            "computed": false
-          }
+          "description": ""
         }
       },
       "composes": [
@@ -7190,79 +7186,7 @@
             "name": "TextProps['children']",
             "raw": "TextProps['children']"
           },
-          "description": "",
-          "defaultValue": {
-            "value": "''",
-            "computed": false
-          }
-        }
-      },
-      "composes": [
-        "Omit"
-      ]
-    },
-    {
-      "description": "",
-      "methods": [],
-      "displayName": "FormRow",
-      "props": {
-        "orientation": {
-          "required": false,
-          "tsType": {
-            "name": "union",
-            "raw": "'vertical' | 'horizontal' | ContainerElProps['orientation']",
-            "elements": [
-              {
-                "name": "literal",
-                "value": "'vertical'"
-              },
-              {
-                "name": "literal",
-                "value": "'horizontal'"
-              },
-              {
-                "name": "ContainerElProps['orientation']",
-                "raw": "ContainerElProps['orientation']"
-              }
-            ]
-          },
           "description": ""
-        },
-        "children": {
-          "required": false,
-          "tsType": {
-            "name": "union",
-            "raw": "React.ReactNode | React.ReactNode[]",
-            "elements": [
-              {
-                "name": "ReactReactNode",
-                "raw": "React.ReactNode"
-              },
-              {
-                "name": "Array",
-                "elements": [
-                  {
-                    "name": "ReactReactNode",
-                    "raw": "React.ReactNode"
-                  }
-                ],
-                "raw": "React.ReactNode[]"
-              }
-            ]
-          },
-          "description": ""
-        },
-        "label": {
-          "required": false,
-          "tsType": {
-            "name": "TextProps['children']",
-            "raw": "TextProps['children']"
-          },
-          "description": "",
-          "defaultValue": {
-            "value": "''",
-            "computed": false
-          }
         }
       },
       "composes": [
@@ -11382,11 +11306,11 @@
           ],
           "params": [
             {
-              "name": "{\n\tvariant,\n\t...rest\n}: FormSectionSkeletonProps & FormElementProps",
+              "name": "{\n\tvariant,\n\t...rest\n}: FormSectionSkeletonProps & ShimmerFormSectionProps",
               "optional": false,
               "type": {
                 "name": "intersection",
-                "raw": "FormSectionSkeletonProps & FormElementProps",
+                "raw": "FormSectionSkeletonProps & ShimmerFormSectionProps",
                 "elements": [
                   {
                     "name": "signature",
@@ -11405,7 +11329,17 @@
                     }
                   },
                   {
-                    "name": "FormElementProps"
+                    "name": "Omit",
+                    "elements": [
+                      {
+                        "name": "FormSectionProps"
+                      },
+                      {
+                        "name": "literal",
+                        "value": "'label'"
+                      }
+                    ],
+                    "raw": "Omit<FormSectionProps, 'label'>"
                   }
                 ]
               }
@@ -11425,11 +11359,11 @@
           ],
           "params": [
             {
-              "name": "{\n\tvariant,\n\t...rest\n}: FormSectionSkeletonProps & FormElementProps",
+              "name": "{\n\tvariant,\n\t...rest\n}: FormSectionSkeletonProps & ShimmerFormSectionProps",
               "optional": false,
               "type": {
                 "name": "intersection",
-                "raw": "FormSectionSkeletonProps & FormElementProps",
+                "raw": "FormSectionSkeletonProps & ShimmerFormSectionProps",
                 "elements": [
                   {
                     "name": "signature",
@@ -11448,7 +11382,17 @@
                     }
                   },
                   {
-                    "name": "FormElementProps"
+                    "name": "Omit",
+                    "elements": [
+                      {
+                        "name": "FormSectionProps"
+                      },
+                      {
+                        "name": "literal",
+                        "value": "'label'"
+                      }
+                    ],
+                    "raw": "Omit<FormSectionProps, 'label'>"
                   }
                 ]
               }
