@@ -7,14 +7,12 @@ SPDX-License-Identifier: AGPL-3.0-only
 FormSection and FormSubSection are used to display parts of complex forms.
 
 ```jsx
-import { Container, Padding, Text, FormSubSection, FormRow, Button } from '@zextras/carbonio-design-system';
+import { Container, Padding, Text, FormSubSection, Button } from '@zextras/carbonio-design-system';
 
 <Container orientation="vertical" mainAlignment="space-around" background="gray5" width="60%">
     <FormSection label="Settings A">
         <FormSubSection label="SubSettings A">
-            <FormRow label="Something">
-                <Button label="Hello"/>
-            </FormRow>
+            <Button label="Hello"/>
         </FormSubSection>
         <FormSubSection label="SubSettings B">
             <Button label="Hello"/>
