@@ -9,6 +9,7 @@ import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { Tooltip } from './Tooltip';
+import { NestedTooltip } from './Tooltip.stories.nestedTooltip';
 import { TooltipPlacement } from './Tooltip.stories.placement';
 import TooltipPlacementSrc from './Tooltip.stories.placement?raw';
 import { TextWithTooltip } from './Tooltip.stories.textWithTooltip';
@@ -72,6 +73,10 @@ export const OverflowTooltip = {
 		overflow: 'break-word',
 		overflowTooltip: true
 	}
+} satisfies Story;
+
+export const MultipleNestedTooltip = {
+	render: NestedTooltip
 } satisfies Story;
 
 export const TriggerDelay = {
