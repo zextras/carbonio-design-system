@@ -24,7 +24,7 @@ const ExternalContainer = styled(Container)`
 const StyledList = styled(Container)`
 	overflow-y: auto;
 	overflow-y: overlay;
-
+	border: 2px solid red;
 	&::-webkit-scrollbar {
 		width: 0.5rem;
 	}

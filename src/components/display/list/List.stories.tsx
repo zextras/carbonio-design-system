@@ -9,7 +9,11 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import type { ListProps } from './List';
 import { List } from './List';
+import { InsideCustomModal } from './List.stories.insideCustomModal';
+import { InsideModal } from './List.stories.insideModal';
+import { OnlyListInsideModal } from './List.stories.onlyListInsideModal';
 import { PaginatedList } from './List.stories.paginated';
+import { SomethingElseInsideModal } from './List.stories.somethingElseInsideModal';
 import { WithComplexItem } from './List.stories.withComplexItem';
 import { Container } from '../../layout/container/Container';
 import { ListItem } from '../ListItem';
@@ -79,3 +83,62 @@ export const WithCustomBackground = {
 		}
 	}
 } satisfies Story;
+
+export const OnlyListInsideModalStory = {
+	name: 'Only List Inside Modal',
+	args: {
+		children: [],
+		selectedBackground: 'success',
+		activeBackground: 'warning'
+	},
+	render: OnlyListInsideModal,
+	parameters: {
+		visualTest: {
+			skip: true
+		}
+	}
+} satisfies Story;
+
+export const ListInsideModal = {
+	name: 'List And Something Else Inside Modal',
+	args: {
+		children: [],
+		selectedBackground: 'success',
+		activeBackground: 'warning'
+	},
+	render: InsideModal,
+	parameters: {
+		visualTest: {
+			skip: true
+		}
+	}
+} satisfies Story;
+
+export const ListInsideCustomModal = {
+	args: {
+		children: [],
+		selectedBackground: 'success',
+		activeBackground: 'warning'
+	},
+	render: InsideCustomModal,
+	parameters: {
+		visualTest: {
+			skip: true
+		}
+	}
+} satisfies Story;
+
+export const SomethingInsideModal = {
+	name: 'Something else inside modal',
+	args: {
+		children: [],
+		selectedBackground: 'success',
+		activeBackground: 'warning'
+	},
+	render: SomethingElseInsideModal,
+	parameters: {
+		visualTest: {
+			skip: true
+		}
+	}
+};
