@@ -9,6 +9,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import type { ListProps } from './List';
 import { List } from './List';
+import { ListInsideModal } from './List.stories.insideModal';
 import { PaginatedList } from './List.stories.paginated';
 import { WithComplexItem } from './List.stories.withComplexItem';
 import { Container } from '../../layout/container/Container';
@@ -73,6 +74,20 @@ export const WithCustomBackground = {
 		activeBackground: 'warning'
 	},
 	render: WithComplexItem,
+	parameters: {
+		visualTest: {
+			skip: true
+		}
+	}
+} satisfies Story;
+
+export const InsideModal = {
+	args: {
+		children: [],
+		selectedBackground: 'success',
+		activeBackground: 'warning'
+	},
+	render: ListInsideModal,
 	parameters: {
 		visualTest: {
 			skip: true

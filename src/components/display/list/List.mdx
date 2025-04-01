@@ -1,5 +1,9 @@
-import { Meta, Controls, Title, Primary, Stories } from '@storybook/blocks';
+import { Meta, Controls, Title, Primary, Canvas, Story } from '@storybook/blocks';
 import * as ListStories from './List.stories';
+import ListInsideModalStorySrc from './List.stories.insideModal?raw'
+import ListWithPaginationStorySrc from './List.stories.paginated?raw'
+import ListWithComplexListItemStorySrc from './List.stories.withComplexItem?raw'
+import ListWithCustomBackgroundStorySrc from './List.stories.withComplexItem?raw'
 
 <Meta of={ListStories} />
 
@@ -12,8 +16,28 @@ The props **background**, **activeBackground** and **selectedBackground** are av
 with their default, but be aware that they are just passed to the children.
 In other words, they represent a short way to define the background on the ListItems.
 
+**Note**: if you want to set a List inside a Modal, you have to wrap the List with a Container with the height prop defined to make list virtualization work (see **List inside Modal** story).
+
 <Primary />
 
 <Controls />
 
-<Stories />
+### Basic
+
+<Canvas of={ListStories.Basic} />
+
+### With Pagination
+
+<Canvas of={ListStories.WithPagination} source={{ code: ListWithPaginationStorySrc  }} />
+
+### With Complex Item
+
+<Canvas of={ListStories.WithComplexListItem} source={{ code: ListWithComplexListItemStorySrc  }} />
+
+### With Custom Background
+
+<Canvas of={ListStories.WithCustomBackground} source={{ code: ListWithCustomBackgroundStorySrc  }} />
+
+### List Inside a Modal
+
+<Canvas of={ListStories.InsideModal} source={{ code: ListInsideModalStorySrc  }} />
