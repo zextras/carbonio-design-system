@@ -5,10 +5,10 @@
  */
 import React from 'react';
 
+import { useInView } from 'react-intersection-observer';
 import type { css } from 'styled-components';
 import styled from 'styled-components';
 
-import { useIsVisible } from '../../hooks/useIsVisible/useIsVisible';
 import { pseudoClasses } from '../../theme/theme-utils';
 import type { AnyColor } from '../../types/utils';
 
@@ -58,8 +58,7 @@ function ListItemFn(
 	}: ListItemProps,
 	ref: React.ForwardedRef<HTMLDivElement>
 ): React.JSX.Element {
-	const [inView, itemRef] = useIsVisible<HTMLDivElement>(listRef, ref);
-
+	const { ref: itemRef, inView } = useInView({ threshold: 0 });
 	return (
 		<ListItemWrapper
 			tabIndex={0}
