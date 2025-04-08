@@ -58,7 +58,7 @@
 		"@commitlint/cli": "^19.8.0",
 		"@commitlint/config-conventional": "^19.8.0",
 		"@faker-js/faker": "^9.0.1",
-		"@microsoft/api-extractor": "^7.47.9",
+		"@microsoft/api-extractor": "^7.52.3",
 		"@rollup/plugin-babel": "^6.0.4",
 		"@rollup/plugin-commonjs": "^28.0.3",
 		"@rollup/plugin-node-resolve": "^16.0.1",
