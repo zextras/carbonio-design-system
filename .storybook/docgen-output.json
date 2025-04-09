@@ -11359,11 +11359,11 @@
           ],
           "params": [
             {
-              "name": "{\n\tvariant,\n\t...rest\n}: FormSectionSkeletonProps & ShimmerFormSectionProps",
+              "name": "{\n\tvariant,\n\t...rest\n}: FormSectionSkeletonProps & ShimmerFormSubSectionProps",
               "optional": false,
               "type": {
                 "name": "intersection",
-                "raw": "FormSectionSkeletonProps & ShimmerFormSectionProps",
+                "raw": "FormSectionSkeletonProps & ShimmerFormSubSectionProps",
                 "elements": [
                   {
                     "name": "signature",
@@ -11385,14 +11385,14 @@
                     "name": "Omit",
                     "elements": [
                       {
-                        "name": "FormSectionProps"
+                        "name": "FormSubSectionProps"
                       },
                       {
                         "name": "literal",
                         "value": "'label'"
                       }
                     ],
-                    "raw": "Omit<FormSectionProps, 'label'>"
+                    "raw": "Omit<FormSubSectionProps, 'label'>"
                   }
                 ]
               }

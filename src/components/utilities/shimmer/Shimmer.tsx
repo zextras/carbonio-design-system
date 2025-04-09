@@ -10,7 +10,7 @@ import styled, { keyframes } from 'styled-components';
 
 import type { Theme } from '../../../theme/theme';
 import type { LiteralUnion, With$Prefix } from '../../../types/utils';
-import type { FormSectionProps } from '../../basic/FormSection';
+import type { FormSectionProps, FormSubSectionProps } from '../../basic/FormSection';
 import { FormSection, FormSubSection } from '../../basic/FormSection';
 import { Container } from '../../layout/container/Container';
 import { Padding } from '../../layout/Padding';
@@ -129,6 +129,7 @@ type FormSectionSkeletonProps = {
 };
 
 type ShimmerFormSectionProps = Omit<FormSectionProps, 'label'>;
+type ShimmerFormSubSectionProps = Omit<FormSubSectionProps, 'label'>;
 
 const FormSectionSkeletonComponent = styled(
 	FormSection as unknown as React.FC<ShimmerFormSectionProps>
@@ -143,7 +144,7 @@ type FormSubSectionSkeletonProps = {
 };
 
 const FormSubSectionSkeletonComponent = styled(
-	FormSubSection as unknown as React.FC<ShimmerFormSectionProps>
+	FormSubSection as unknown as React.FC<ShimmerFormSubSectionProps>
 )<With$Prefix<FormSubSectionSkeletonProps>>`
 	animation: ${shimmerEffect} 1.5s linear infinite;
 	background: ${({ $variant, theme }): string => backgroundFunction($variant, theme)};
@@ -377,7 +378,7 @@ const ShimmerObject = {
 	FormSubSection: ({
 		variant,
 		...rest
-	}: FormSectionSkeletonProps & ShimmerFormSectionProps): React.JSX.Element => (
+	}: FormSectionSkeletonProps & ShimmerFormSubSectionProps): React.JSX.Element => (
 		<FormSubSectionSkeletonComponent $variant={variant} {...rest} />
 	),
 	Icon: ({ size = 'medium', variant, width, ...rest }: IconSkeletonProps): React.JSX.Element => (
