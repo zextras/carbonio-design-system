@@ -6,38 +6,36 @@ SPDX-License-Identifier: AGPL-3.0-only
 
 FormSection and FormSubSection are used to display parts of complex forms.
 
+***Nb***. FormSubSection component has to be wrapped by FormSection one.
+
+A ***common use*** of the FormSubSection is
+to set a Container wrapper inside it with a gap of 0.5rem which is the default designed value,
+but it is a developer responsibility to respect the design because in some cases it will be necessary to use a different gap (for this reason it is useless to define it on the DS side).
+
 ```jsx
-import { Container, Padding, Text, FormSubSection, FormRow, Button } from '@zextras/carbonio-design-system';
+import { Container, Padding, Text, FormSubSection, Button, Input } from '@zextras/carbonio-design-system';
 
 <Container orientation="vertical" mainAlignment="space-around" background="gray5" width="60%">
-    <FormSection label="Settings A">
-        <FormSubSection label="SubSettings A">
-            <FormRow label="Something">
+    <FormSection label="FormSection title">
+        <FormSubSection>
+           <Container gap="0.5rem">
+               <Input label="Label 1" />
+               <Input label="Label 2" />
+               <Input label="Label 3" />
+           </Container>
+        </FormSubSection>
+        <FormSubSection label="FormSubSection with title">
+            <Container gap="0.5rem">
                 <Button label="Hello"/>
-            </FormRow>
+                <Button label="World"/>
+            </Container>
         </FormSubSection>
-        <FormSubSection label="SubSettings B">
-            <Button label="Hello"/>
-        </FormSubSection>
-        <FormSubSection label="SubSettings C">
-            <Button label="Hello"/>
-        </FormSubSection>
-        <FormSubSection label="SubSettings D">
-            <Button label="Hello"/>
-        </FormSubSection>
-    </FormSection>
-    <FormSection label="Settings B">
-        <FormSubSection label="SubSettings A">
-            <Button label="Hello"/>
-        </FormSubSection>
-        <FormSubSection label="SubSettings B">
-            <Button label="Hello"/>
-        </FormSubSection>
-        <FormSubSection label="SubSettings C">
-            <Button label="Hello"/>
-        </FormSubSection>
-        <FormSubSection label="SubSettings D">
-            <Button label="Hello"/>
+        <FormSubSection label="FormSubSection with custom gap">
+            <Container gap="2rem">
+                <Input label="Label 1" />
+                <Input label="Label 2" />
+                <Input label="Label 3" />
+            </Container>
         </FormSubSection>
     </FormSection>
 </Container>
