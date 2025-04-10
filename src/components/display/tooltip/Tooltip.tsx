@@ -11,7 +11,8 @@ import React, {
 	useCallback,
 	useRef,
 	cloneElement,
-	createRef
+	createRef,
+	useMemo
 } from 'react';
 
 import type { Placement } from '@floating-ui/dom';
@@ -19,11 +20,11 @@ import { flip, offset, shift, limitShift } from '@floating-ui/dom';
 import { rgba } from 'polished';
 import styled, { css } from 'styled-components';
 
-import { useCombinedRefs } from '../../hooks/useCombinedRefs';
-import { setupFloating } from '../../utils/floating-ui';
-import type { TextProps } from '../basic/text/Text';
-import { Text } from '../basic/text/Text';
-import { Portal } from '../utilities/Portal';
+import { useCombinedRefs } from '../../../hooks/useCombinedRefs';
+import { setupFloating } from '../../../utils/floating-ui';
+import type { TextProps } from '../../basic/text/Text';
+import { Text } from '../../basic/text/Text';
+import { Portal } from '../../utilities/Portal';
 
 interface TooltipWrapperProps extends TextProps {
 	open: boolean;
@@ -71,7 +72,7 @@ interface TooltipProps extends TextProps {
 	placement?: Placement;
 	/** Fallback placements to use when tooltip cannot fit in the primary placement */
 	fallbackPlacements?: Placement[];
-	/** Tooltip max-width css property */
+	/** Tooltip max-width CSS property */
 	maxWidth?: string;
 	/** Whether to disable the tooltip and render only the child component */
 	disabled?: boolean;
@@ -86,6 +87,16 @@ interface TooltipProps extends TextProps {
 	/** trigger ref that can be used instead of lost children ref caused by cloneElement */
 	triggerRef?: React.Ref<HTMLElement>;
 }
+
+const isClosestTooltipTarget = (
+	tooltipTargetId: string | undefined,
+	element: Element | undefined
+): boolean => {
+	const closestTooltipEl = element?.closest('[data-tooltip-target]');
+	const attributesArray = [...(closestTooltipEl?.attributes ?? [])];
+	const tooltipTarget = attributesArray.find((el) => el.name === 'data-tooltip-target');
+	return tooltipTarget?.value === tooltipTargetId;
+};
 
 const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(function TooltipFn(
 	{
@@ -107,27 +118,44 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(function TooltipF
 	const combinedTriggerRef = useCombinedRefs<HTMLElement>(triggerRef);
 	const tooltipRef = useCombinedRefs<HTMLDivElement>(ref);
 	const timeoutRef = useRef<null | ReturnType<typeof setTimeout>>(null);
+	const tooltipTargetId = useMemo(() => (disabled ? undefined : crypto.randomUUID()), [disabled]);
 
-	const showTooltip = useCallback(() => {
-		const triggerElement = combinedTriggerRef.current;
-		if (triggerElement) {
-			const textIsCropped =
-				(triggerElement.className.slice(0, 4) === 'Text' &&
-					triggerElement.clientWidth < triggerElement.scrollWidth) ||
-				triggerElement.clientHeight < triggerElement.scrollHeight;
-			if ((textIsCropped && overflowTooltip) || !overflowTooltip) {
-				clearTimeout(timeoutRef.current as ReturnType<typeof setTimeout>);
-				timeoutRef.current = setTimeout(() => {
-					setOpen(true);
-				}, triggerDelay);
+	const showTooltip = useCallback(
+		(event: FocusEvent) => {
+			const targetEl = event.target as Element;
+			const triggerElement = combinedTriggerRef.current;
+
+			const isClosestTargetTooltipId = isClosestTooltipTarget(tooltipTargetId, targetEl);
+
+			if (triggerElement && isClosestTargetTooltipId) {
+				const textIsCropped =
+					(triggerElement.className.slice(0, 4) === 'Text' &&
+						triggerElement.clientWidth < triggerElement.scrollWidth) ||
+					triggerElement.clientHeight < triggerElement.scrollHeight;
+				if ((textIsCropped && overflowTooltip) || !overflowTooltip) {
+					clearTimeout(timeoutRef.current as ReturnType<typeof setTimeout>);
+					timeoutRef.current = setTimeout(() => {
+						setOpen(true);
+					}, triggerDelay);
+				}
 			}
-		}
-	}, [overflowTooltip, combinedTriggerRef, triggerDelay]);
+		},
+		[combinedTriggerRef, overflowTooltip, tooltipTargetId, triggerDelay]
+	);
 
-	const hideTooltip = useCallback(() => {
-		setOpen(false);
-		timeoutRef.current && clearTimeout(timeoutRef.current);
-	}, []);
+	const hideTooltip = useCallback(
+		(event: FocusEvent) => {
+			const relatedStartElement = event.relatedTarget as Element;
+
+			const isClosestTargetTooltipId = isClosestTooltipTarget(tooltipTargetId, relatedStartElement);
+
+			if (!isClosestTargetTooltipId) {
+				setOpen(false);
+				timeoutRef.current && clearTimeout(timeoutRef.current);
+			}
+		},
+		[tooltipTargetId]
+	);
 
 	useLayoutEffect(() => {
 		let cleanup: ReturnType<typeof setupFloating>;
@@ -146,16 +174,16 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(function TooltipF
 		if (combinedTriggerRef.current && !disabled) {
 			combinedTriggerRef.current.addEventListener('focus', showTooltip);
 			combinedTriggerRef.current.addEventListener('blur', hideTooltip);
-			combinedTriggerRef.current.addEventListener('mouseenter', showTooltip);
-			combinedTriggerRef.current.addEventListener('mouseleave', hideTooltip);
+			combinedTriggerRef.current.addEventListener('mouseover', showTooltip);
+			combinedTriggerRef.current.addEventListener('mouseout', hideTooltip);
 		}
 		const refSave = combinedTriggerRef.current;
 		return (): void => {
 			if (refSave) {
 				refSave.removeEventListener('focus', showTooltip);
 				refSave.removeEventListener('blur', hideTooltip);
-				refSave.removeEventListener('mouseenter', showTooltip);
-				refSave.removeEventListener('mouseleave', hideTooltip);
+				refSave.removeEventListener('mouseover', showTooltip);
+				refSave.removeEventListener('mouseout', hideTooltip);
 			}
 		};
 	}, [combinedTriggerRef, showTooltip, hideTooltip, disabled]);
@@ -171,7 +199,10 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(function TooltipF
 
 	return (
 		<>
-			{cloneElement(children, { ref: combinedTriggerRef })}
+			{cloneElement(children, {
+				ref: combinedTriggerRef,
+				'data-tooltip-target': tooltipTargetId
+			})}
 			<Portal show={open && !disabled} disablePortal={disablePortal}>
 				<TooltipWrapperWithCss ref={tooltipRef} open={open} $maxWidth={maxWidth} {...rest}>
 					{label}

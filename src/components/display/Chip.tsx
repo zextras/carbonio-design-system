@@ -4,11 +4,11 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useMemo, useRef } from 'react';
 
 import styled, { css, useTheme } from 'styled-components';
 
-import { Tooltip } from './Tooltip';
+import { Tooltip } from './tooltip/Tooltip';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import type { Theme } from '../../theme/theme';
 import { pseudoClasses } from '../../theme/theme-utils';
@@ -225,7 +225,6 @@ const Chip = React.forwardRef<HTMLDivElement, ChipProps>(function ChipFn(
 	const innerRef = useRef<HTMLDivElement | null>(null);
 	const chipRef = useCombinedRefs<HTMLDivElement>(ref, innerRef);
 	const theme = useTheme();
-	const [tooltipVisible, setTooltipVisible] = useState(false);
 
 	const chipActions = useMemo(() => {
 		const $actions = [...actions];
@@ -241,28 +240,10 @@ const Chip = React.forwardRef<HTMLDivElement, ChipProps>(function ChipFn(
 		return $actions;
 	}, [actions, closable, onClose]);
 
-	const showInnerTooltip = useCallback(() => {
-		setTooltipVisible(true);
-	}, []);
-
-	const hideInnerTooltip = useCallback(() => {
-		setTooltipVisible(false);
-	}, []);
-
-	const showLabelTooltip = useCallback(() => {
-		maxWidth && typeof label === 'string' && showInnerTooltip();
-	}, [label, maxWidth, showInnerTooltip]);
-
-	const hideLabelTooltip = useCallback(() => {
-		maxWidth && typeof label === 'string' && hideInnerTooltip();
-	}, [hideInnerTooltip, label, maxWidth]);
-
 	const actionItems = useMemo(
 		() =>
 			chipActions.map((action) => {
 				const actionDisabled = !!disabled || !action.label;
-				const showTooltipHandler = (!actionDisabled && showInnerTooltip) || undefined;
-				const hideTooltipHandler = (!actionDisabled && hideInnerTooltip) || undefined;
 				if (action.type === 'icon') {
 					return (
 						<Tooltip
@@ -271,13 +252,7 @@ const Chip = React.forwardRef<HTMLDivElement, ChipProps>(function ChipFn(
 							disabled={actionDisabled}
 							placement={tooltipPlacement}
 						>
-							<ActionContainer
-								onMouseEnter={showTooltipHandler}
-								onMouseLeave={hideTooltipHandler}
-								onFocus={showTooltipHandler}
-								onBlur={hideTooltipHandler}
-								$spacing={SIZES[size].spacing}
-							>
+							<ActionContainer $spacing={SIZES[size].spacing}>
 								<ActionIcon
 									icon={action.icon}
 									color={error ? 'gray6' : action.color}
@@ -299,13 +274,7 @@ const Chip = React.forwardRef<HTMLDivElement, ChipProps>(function ChipFn(
 						disabled={actionDisabled}
 						placement={tooltipPlacement}
 					>
-						<ActionContainer
-							onMouseEnter={showTooltipHandler}
-							onMouseLeave={hideTooltipHandler}
-							onFocus={showTooltipHandler}
-							onBlur={hideTooltipHandler}
-							$spacing={SIZES[size].spacing}
-						>
+						<ActionContainer $spacing={SIZES[size].spacing}>
 							<ActionIconButton
 								icon={action.icon}
 								labelColor={error ? 'error' : (action.color ?? 'text')}
@@ -320,16 +289,7 @@ const Chip = React.forwardRef<HTMLDivElement, ChipProps>(function ChipFn(
 					</Tooltip>
 				);
 			}),
-		[
-			chipActions,
-			disabled,
-			showInnerTooltip,
-			hideInnerTooltip,
-			tooltipPlacement,
-			size,
-			error,
-			shape
-		]
+		[chipActions, disabled, tooltipPlacement, size, error, shape]
 	);
 
 	const clickHandler = useCallback<React.ReactEventHandler>(
@@ -348,17 +308,20 @@ const Chip = React.forwardRef<HTMLDivElement, ChipProps>(function ChipFn(
 		[onDoubleClick]
 	);
 
+	const tooltipDisabled = useMemo(
+		() => (typeof error !== 'string' || !error) && (typeof disabled !== 'string' || !disabled),
+		[disabled, error]
+	);
+	const tooltipLabel = useMemo(
+		() => (typeof error === 'string' && error) || (typeof disabled === 'string' && disabled) || '',
+		[disabled, error]
+	);
+	const innerTooltipDisabled = useMemo(
+		() => !maxWidth || typeof label !== 'string' || !tooltipDisabled,
+		[label, maxWidth, tooltipDisabled]
+	);
 	return (
-		<Tooltip
-			disabled={
-				((typeof error !== 'string' || !error) && (typeof disabled !== 'string' || !disabled)) ||
-				tooltipVisible
-			}
-			label={
-				(typeof error === 'string' && error) || (typeof disabled === 'string' && disabled) || ''
-			}
-			placement={tooltipPlacement}
-		>
+		<Tooltip disabled={tooltipDisabled} label={tooltipLabel} placement={tooltipPlacement}>
 			<ChipContainer
 				data-testid={'chip'}
 				wrap="nowrap"
@@ -422,19 +385,11 @@ const Chip = React.forwardRef<HTMLDivElement, ChipProps>(function ChipFn(
 						</LabelContainer>
 					)}
 					{label && (
-						<LabelContainer
-							width="fit"
-							onMouseEnter={showLabelTooltip}
-							onMouseLeave={hideLabelTooltip}
-							onFocus={showLabelTooltip}
-							onBlur={hideLabelTooltip}
-							flexShrink={maxWidth ? 1 : 0}
-							minWidth="0"
-						>
+						<LabelContainer width="fit" flexShrink={maxWidth ? 1 : 0} minWidth="0">
 							<Tooltip
 								label={(typeof label === 'string' && label) || ''}
 								maxWidth="100%"
-								disabled={!maxWidth || typeof label !== 'string'}
+								disabled={innerTooltipDisabled}
 								overflowTooltip
 								placement={tooltipPlacement}
 							>

@@ -14,7 +14,7 @@ export * from './components/basic/button/Button';
 export { Icon, type IconProps } from './components/basic/icon/Icon';
 export * from './components/basic/link/Link';
 export * from './components/basic/LoadMore';
-export * from './components/basic/FormSection';
+export * from './components/basic/formSection/FormSection';
 export * from './components/basic/text/Text';
 export * from './components/basic/spinner/Spinner';
 /** Layout components */
@@ -68,11 +68,11 @@ export * from './components/navigation/TabBar';
 /** display components */
 export * from './components/display/Chip';
 export * from './components/display/dropdown/Dropdown';
-export * from './components/display/List/List';
+export * from './components/display/list/List';
 export * from './components/display/ListItem';
 export * from './components/display/Popover';
 export * from './components/display/Popper';
-export * from './components/display/Tooltip';
+export * from './components/display/tooltip/Tooltip';
 export {
 	Table,
 	type TableProps,

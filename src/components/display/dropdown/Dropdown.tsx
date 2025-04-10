@@ -34,7 +34,7 @@ import { Container } from '../../layout/container/Container';
 import { Divider } from '../../layout/divider/Divider';
 import { Padding } from '../../layout/Padding';
 import { Portal } from '../../utilities/Portal';
-import { Tooltip } from '../Tooltip';
+import { Tooltip } from '../tooltip/Tooltip';
 
 const ContainerEl = styled(Container)<{
 	$selectedBackgroundColor?: AnyColor;

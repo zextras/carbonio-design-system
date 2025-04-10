@@ -5,6 +5,7 @@
  */
 import type React from 'react';
 
+import type { Placement } from '@floating-ui/dom';
 import type { ArgTypes } from '@storybook/react';
 
 import { Theme } from '../theme/theme';
@@ -55,4 +56,26 @@ export const textAlignArgType: ArgTypes[string] = {
 		type: 'select'
 	},
 	options: textAlignValues
+};
+
+const placementValues: Placement[] = [
+	'top',
+	'right',
+	'bottom',
+	'left',
+	'bottom-end',
+	'bottom-start',
+	'left-end',
+	'left-start',
+	'right-end',
+	'right-start',
+	'top-end',
+	'top-start'
+];
+
+export const placementArgType: ArgTypes[string] = {
+	control: {
+		type: 'select'
+	},
+	options: placementValues
 };
