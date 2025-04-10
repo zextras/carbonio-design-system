@@ -10,8 +10,8 @@ import styled, { keyframes } from 'styled-components';
 
 import type { Theme } from '../../../theme/theme';
 import type { LiteralUnion, With$Prefix } from '../../../types/utils';
-import type { FormSectionProps, FormSubSectionProps } from '../../basic/FormSection';
-import { FormSection, FormSubSection } from '../../basic/FormSection';
+import type { FormSectionProps, FormSubSectionProps } from '../../basic/formSection/FormSection';
+import { FormSection, FormSubSection } from '../../basic/formSection/FormSection';
 import { Container } from '../../layout/container/Container';
 import { Padding } from '../../layout/Padding';
 

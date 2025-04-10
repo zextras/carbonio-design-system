@@ -7064,7 +7064,7 @@
       }
     }
   ],
-  "src/components/basic/FormSection.tsx": [
+  "src/components/basic/formSection/FormSection.tsx": [
     {
       "description": "",
       "methods": [],
