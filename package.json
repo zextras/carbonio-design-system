@@ -94,7 +94,7 @@
 		"create-index": "2.6.0",
 		"del": "^7.1.0",
 		"eslint-plugin-notice": "^1.0.0",
-		"eslint-plugin-storybook": "^0.11.1",
+		"eslint-plugin-storybook": "^0.12.0",
 		"husky": "^9.1.6",
 		"identity-obj-proxy": "^3.0.0",
 		"is-ci": "^3.0.1",
