@@ -6,12 +6,12 @@
 
 import React from 'react';
 
-import type { TextProps } from './text/Text';
-import { Text } from './text/Text';
-import type { ContainerProps } from '../layout/container/Container';
-import { Container } from '../layout/container/Container';
-import { Divider } from '../layout/divider/Divider';
-import { Padding } from '../layout/Padding';
+import type { ContainerProps } from '../../layout/container/Container';
+import { Container } from '../../layout/container/Container';
+import { Divider } from '../../layout/divider/Divider';
+import { Padding } from '../../layout/Padding';
+import { Text } from '../text/Text';
+import type { TextProps } from '../text/Text';
 
 interface FormSectionProps extends ContainerProps {
 	label: TextProps['children'];

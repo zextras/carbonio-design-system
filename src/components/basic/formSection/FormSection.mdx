@@ -1,0 +1,20 @@
+import { Meta, Controls, Stories, Title, Primary } from '@storybook/blocks';
+import * as FormSectionStories from './FormSection.stories';
+
+<Meta of={FormSectionStories} />
+
+<Title />
+
+FormSection and FormSubSection are used to display parts of complex forms.
+
+***Nb***. FormSubSection component has to be wrapped by FormSection one.
+
+A ***common use*** of the FormSubSection is
+to set a Container wrapper inside it with a gap of 0.5rem which is the default designed value,
+but it is a developer responsibility to respect the design because in some cases it will be necessary to use a different gap (for this reason it is useless to define it on the DS side).
+
+<Primary />
+
+<Controls />
+
+<Stories />
