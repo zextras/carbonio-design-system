@@ -165,6 +165,7 @@ export { default as FileVcard } from './FileVcard';
 export { default as FileVideo } from './FileVideo';
 export { default as FileZip } from './FileZip';
 export { default as File } from './File';
+export { default as FilesNotifications } from './FilesNotifications';
 export { default as Film } from './Film';
 export { default as Flag } from './Flag';
 export { default as Flake } from './Flake';
