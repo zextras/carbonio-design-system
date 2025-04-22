@@ -173,6 +173,7 @@ export { default as FileUnknownOutline } from './FileUnknownOutline';
 export { default as FileVcardOutline } from './FileVcardOutline';
 export { default as FileVideoOutline } from './FileVideoOutline';
 export { default as FileZipOutline } from './FileZipOutline';
+export { default as FilesNotificationsOutline } from './FilesNotificationsOutline';
 export { default as FilmOutline } from './FilmOutline';
 export { default as FingerPrintOutline } from './FingerPrintOutline';
 export { default as FlagOutline } from './FlagOutline';
