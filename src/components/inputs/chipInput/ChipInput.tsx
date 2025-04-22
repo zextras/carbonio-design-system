@@ -776,6 +776,7 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 							wrap={wrap}
 							maxHeight={maxHeight}
 							$hasLabel={!!placeholder}
+							borderRadius={'none'}
 						>
 							{items.map((item, index) => (
 								<ChipComp
