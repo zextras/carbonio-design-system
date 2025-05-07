@@ -5,12 +5,12 @@
  */
 import React from 'react';
 
-import { format, addMonths, startOfMonth } from 'date-fns';
+import { addMonths, format, startOfMonth } from 'date-fns';
 
 import type { DateTimePickerProps } from './DateTimePicker';
 import { DateTimePicker } from './DateTimePicker';
 import { ICONS, SELECTORS } from '../../../tests/constants';
-import { setup, screen, within } from '../../../tests/utils';
+import { screen, setup, within } from '../../../tests/utils';
 import { Button } from '../../basic/button/Button';
 
 const DEFAULT_DATE_FORMAT = 'MMMM d, yyyy h:mm aa';
@@ -44,6 +44,20 @@ describe('DateTimePicker', () => {
 			await user.type(inputElement, dateString);
 			await user.keyboard('[Enter]');
 			expect(onChangeFn).toHaveBeenCalledTimes(1);
+		});
+
+		it('should update when defaultValue changes', async () => {
+			const onChangeFn = jest.fn();
+			const firstDate = new Date(2010, 0, 1);
+			const { user, rerender } = setup(
+				<DateTimePicker label={'label'} defaultValue={firstDate} onChange={onChangeFn} />
+			);
+			expect(screen.getByRole('textbox')).toHaveValue('January 1, 2010 12:00 AM');
+
+			const secondDate = new Date(2025, 0, 1);
+			rerender(<DateTimePicker label={'label'} defaultValue={secondDate} onChange={onChangeFn} />);
+
+			expect(screen.getByRole('textbox')).toHaveValue('January 1, 2025 12:00 AM');
 		});
 
 		test('Click on the input opens the picker', async () => {
