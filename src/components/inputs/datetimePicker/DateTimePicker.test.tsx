@@ -34,27 +34,35 @@ describe('DateTimePicker', () => {
 			expect(onChangeFn).not.toHaveBeenCalled();
 		});
 
-		it.each([
-			{
-				label: 'label',
-				defaultValue: null
-			},
-			{
-				label: 'label',
-				defaultValue: new Date(2011, 5, 2)
-			},
-			{
-				label: 'label',
-				defaultValue: new Date(2011, 5, 2),
-				selected: null
-			},
-			{
-				label: 'label',
-				defaultValue: new Date(2011, 5, 2),
-				selected: new Date(2012, 5, 2)
-			}
+		test.each([
+			[
+				{
+					label: 'label',
+					defaultValue: null
+				}
+			],
+			[
+				{
+					label: 'label',
+					defaultValue: new Date(2011, 5, 2)
+				}
+			],
+			[
+				{
+					label: 'label',
+					defaultValue: new Date(2011, 5, 2),
+					selected: null
+				}
+			],
+			[
+				{
+					label: 'label',
+					defaultValue: new Date(2011, 5, 2),
+					selected: new Date(2012, 5, 2)
+				}
+			]
 		])(
-			'With props (add props) - When a new value is set, onChange prop is called once',
+			'With props %p - When a new value is set, onChange prop is called once',
 			async (props: DateTimePickerProps) => {
 				const onChangeFn = jest.fn();
 				const propsToUse: DateTimePickerProps = {
