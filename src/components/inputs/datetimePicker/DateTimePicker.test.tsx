@@ -28,6 +28,24 @@ describe('DateTimePicker', () => {
 			).toBeVisible();
 		});
 
+		it('should render the component without invoking onChange', async () => {
+			const onChangeFn = jest.fn();
+			const { user } = setup(<DateTimePicker label={'label'} onChange={onChangeFn} />);
+			expect(onChangeFn).not.toHaveBeenCalled();
+		});
+
+		it('When a new value is set, onChange prop is called once', async () => {
+			const onChangeFn = jest.fn();
+			const { user } = setup(<DateTimePicker label={'label'} onChange={onChangeFn} />);
+			const inputElement = screen.getByRole('textbox');
+			const now = new Date();
+			const dateString = format(now, 'MM/dd/yyyy HH:mm');
+			const parsedDateString = new Date(Date.parse(dateString));
+			await user.type(inputElement, dateString);
+			await user.keyboard('[Enter]');
+			expect(onChangeFn).toHaveBeenCalledTimes(1);
+		});
+
 		test('Click on the input opens the picker', async () => {
 			const { user } = setup(<DateTimePicker label={'The label'} />);
 			await user.click(screen.getByRole('textbox'));
