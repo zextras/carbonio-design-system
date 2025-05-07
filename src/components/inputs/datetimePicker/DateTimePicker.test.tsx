@@ -34,17 +34,43 @@ describe('DateTimePicker', () => {
 			expect(onChangeFn).not.toHaveBeenCalled();
 		});
 
-		it('When a new value is set, onChange prop is called once', async () => {
-			const onChangeFn = jest.fn();
-			const { user } = setup(<DateTimePicker label={'label'} onChange={onChangeFn} />);
-			const inputElement = screen.getByRole('textbox');
-			const now = new Date();
-			const dateString = format(now, 'MM/dd/yyyy HH:mm');
-			const parsedDateString = new Date(Date.parse(dateString));
-			await user.type(inputElement, dateString);
-			await user.keyboard('[Enter]');
-			expect(onChangeFn).toHaveBeenCalledTimes(1);
-		});
+		it.each([
+			{
+				label: 'label',
+				defaultValue: null
+			},
+			{
+				label: 'label',
+				defaultValue: new Date(2011, 5, 2)
+			},
+			{
+				label: 'label',
+				defaultValue: new Date(2011, 5, 2),
+				selected: null
+			},
+			{
+				label: 'label',
+				defaultValue: new Date(2011, 5, 2),
+				selected: new Date(2012, 5, 2)
+			}
+		])(
+			'With props (add props) - When a new value is set, onChange prop is called once',
+			async (props: DateTimePickerProps) => {
+				const onChangeFn = jest.fn();
+				const propsToUse: DateTimePickerProps = {
+					...props,
+					onChange: onChangeFn
+				};
+				const { user } = setup(<DateTimePicker {...propsToUse} />);
+				const inputElement = screen.getByRole('textbox');
+				const now = new Date();
+				const dateString = format(now, 'MM/dd/yyyy HH:mm');
+				const parsedDateString = new Date(Date.parse(dateString));
+				await user.type(inputElement, dateString);
+				await user.keyboard('[Enter]');
+				expect(onChangeFn).toHaveBeenCalledTimes(1);
+			}
+		);
 
 		it('should update when defaultValue changes', async () => {
 			const onChangeFn = jest.fn();
