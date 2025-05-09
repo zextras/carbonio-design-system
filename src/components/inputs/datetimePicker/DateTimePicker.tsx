@@ -121,7 +121,7 @@ const DateTimePicker = React.forwardRef<DatePicker, DateTimePickerProps>(functio
 	const updateDateTimeState = useCallback<
 		(
 			action:
-				| { type: 'SAVE' | 'SAVE_AND_UPDATE' | 'DEFAULT_VALUE_CHANGED'; value: Date | null }
+				| { type: 'SAVE' | 'SAVE_AND_UPDATE'; value: Date | null }
 				| { type: 'UPDATE'; value?: never }
 		) => void
 	>(
@@ -134,10 +134,6 @@ const DateTimePicker = React.forwardRef<DatePicker, DateTimePickerProps>(functio
 				case 'UPDATE':
 					setDateTime(currentValue);
 					onChange?.(currentValue);
-					break;
-				case 'DEFAULT_VALUE_CHANGED':
-					dateTimeRef.current = newValue;
-					setDateTime(newValue);
 					break;
 				case 'SAVE_AND_UPDATE':
 					dateTimeRef.current = newValue;
@@ -152,8 +148,9 @@ const DateTimePicker = React.forwardRef<DatePicker, DateTimePickerProps>(functio
 	);
 
 	useEffect(() => {
-		updateDateTimeState({ type: 'DEFAULT_VALUE_CHANGED', value: defaultValue });
-	}, [defaultValue, updateDateTimeState]);
+		dateTimeRef.current = defaultValue;
+		setDateTime(defaultValue);
+	}, [defaultValue]);
 
 	const onClear = useCallback(() => {
 		updateDateTimeState({ type: 'SAVE_AND_UPDATE', value: null });
