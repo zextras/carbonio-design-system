@@ -148,8 +148,9 @@ const DateTimePicker = React.forwardRef<DatePicker, DateTimePickerProps>(functio
 	);
 
 	useEffect(() => {
-		updateDateTimeState({ type: 'SAVE_AND_UPDATE', value: defaultValue });
-	}, [defaultValue, updateDateTimeState]);
+		dateTimeRef.current = defaultValue;
+		setDateTime(defaultValue);
+	}, [defaultValue]);
 
 	const onClear = useCallback(() => {
 		updateDateTimeState({ type: 'SAVE_AND_UPDATE', value: null });
