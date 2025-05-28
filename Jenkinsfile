@@ -99,7 +99,7 @@ pipeline {
                 }
             }
             steps {
-                container('nodejs-' + nodeVersion) {
+                container('playwright') {
                     executeNpmLogin()
                     sh 'npm run test-storybook:update-images'
                     sh(script: """
@@ -157,9 +157,9 @@ pipeline {
                         }
                     }
                 }
-                stage('Visual test') {
+                stage('Visual Test') {
                     steps {
-                        container('nodejs-' + nodeVersion) {
+                        container('playwright') {
                             executeNpmLogin()
                             sh 'npm run test-storybook'
                         }
