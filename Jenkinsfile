@@ -5,22 +5,18 @@
  */
 @Library('zextras-library@0.7.3') _
 
-def nodeCmd(String cmd) {
-    sh '. load_nvm && nvm install && nvm use && npm ci && ' + cmd
-}
-
 def getPackageName() {
     return sh(script: 'grep \'"name":\' package.json | sed -n --regexp-extended \'s/.*"name": "([^"]+).*/\\1/p\' ', returnStdout: true).trim()
 }
 
 def getRepositoryName() {
-    return sh(script: '''#!/bin/bash
+    return sh(script: '''
         git remote -v | head -n1 | cut -d$'\t' -f2 | cut -d' ' -f1 | sed -e 's!https://github.com/!!g' -e 's!git@github.com:!!g' -e 's!.git!!g'
     ''', returnStdout: true).trim()
 }
 
 def getLastTag() {
-    return sh(script: '''#!/bin/bash
+    return sh(script: '''
         git describe --tags --abbrev=0
     ''', returnStdout: true).trim()
 }
@@ -37,11 +33,13 @@ def executeNpmLogin() {
     }
 }
 
-def getCommitVersion() {
-    return sh(script: 'git log -1 | grep \'version:\' | sed -n \'s/.*version:\\s*//p\' ', returnStdout: true).trim()
+def getNodeVersion() {
+    return sh(
+        script: 'sed "s/^[vV]//" .nvmrc | cut -d. -f1',
+        returnStdout: true
+    ).trim()
 }
 
-Boolean lcovIsPresent
 Boolean isReleaseBranch
 Boolean isDevelBranch
 Boolean isPullRequest
@@ -49,11 +47,12 @@ Boolean isSonarQubeEnabled
 Boolean isDeployDocPlaygroundEnabled
 Boolean isUpdateImages
 String branchName
+String nodeVersion
 
 pipeline {
     agent {
         node {
-            label 'nodejs-agent-v4'
+            label 'nodejs-v1'
         }
     }
     options {
@@ -68,54 +67,62 @@ pipeline {
     stages {
         stage("Read settings") {
             steps {
-                script {
-                    isReleaseBranch = "${BRANCH_NAME}" ==~ /release/
-                    echo "isReleaseBranch: ${isReleaseBranch}"
-                    isDevelBranch = "${BRANCH_NAME}" ==~ /devel/
-                    echo "isDevelBranch: ${isDevelBranch}"
-                    isPullRequest = "${BRANCH_NAME}" ==~ /PR-\d+/
-                    echo "isPullRequest: ${isPullRequest}"
-                    isSonarQubeEnabled = params.RUN_SONARQUBE == true && (isPullRequest || isDevelBranch || isReleaseBranch)
-                    echo "isSonarQubeEnabled: ${isSonarQubeEnabled}"
-                    isDeployDocPlaygroundEnabled = params.DEPLOY_DOC_PLAYGROUND == true
-                    echo "isDeployDocPlaygroundEnabled: ${isDeployDocPlaygroundEnabled}"
-                    isUpdateImages = params.UPDATE_IMAGES_TESTS == true
-                    echo "isUpdateImages: ${isUpdateImages}"
-                    branchName = env.CHANGE_BRANCH
-                    echo "branchName: ${branchName}"
+                container('base') {
+                    script {
+                        isReleaseBranch = "${BRANCH_NAME}" ==~ /release/
+                        echo "isReleaseBranch: ${isReleaseBranch}"
+                        isDevelBranch = "${BRANCH_NAME}" ==~ /devel/
+                        echo "isDevelBranch: ${isDevelBranch}"
+                        isPullRequest = "${BRANCH_NAME}" ==~ /PR-\d+/
+                        echo "isPullRequest: ${isPullRequest}"
+                        isSonarQubeEnabled = params.RUN_SONARQUBE == true && (isPullRequest || isDevelBranch || isReleaseBranch)
+                        echo "isSonarQubeEnabled: ${isSonarQubeEnabled}"
+                        isDeployDocPlaygroundEnabled = params.DEPLOY_DOC_PLAYGROUND == true
+                        echo "isDeployDocPlaygroundEnabled: ${isDeployDocPlaygroundEnabled}"
+                        isUpdateImages = params.UPDATE_IMAGES_TESTS == true
+                        echo "isUpdateImages: ${isUpdateImages}"
+                        branchName = env.CHANGE_BRANCH
+                        echo "branchName: ${branchName}"
+                        nodeVersion = getNodeVersion()
+                        echo "NodeJS Major Version: $nodeVersion"
+                    }
+                }
+            }
+        }
+        stage('Install dependencies') {
+            steps {
+                container('nodejs-' + nodeVersion) {
+                    script {
+                        sh 'npm ci'
+                    }
                 }
             }
         }
         stage('Update Visual Test Images') {
             when {
-                beforeAgent true
                 allOf {
                     expression { isUpdateImages == true }
                 }
             }
-            agent {
-                node {
-                    label 'nodejs-agent-v4'
-                }
-            }
             steps {
-                executeNpmLogin()
-                nodeCmd('npm run test-storybook:update-images')
-                sh(script: """#!/bin/bash
-                    git config --add remote.origin.fetch +refs/heads/${branchName}:refs/remotes/origin/${branchName}
-                    git fetch
-                    git checkout ${branchName}
-                    git add -A .storybook-images
-                    git commit -m "test: update images"
-                    git lfs push origin ${branchName}
-                    git push
-                """)
+                container('playwright') {
+                    executeNpmLogin()
+                    sh 'npm run test-storybook:update-images'
+                    sh(script: """
+                        git config --add remote.origin.fetch +refs/heads/${branchName}:refs/remotes/origin/${branchName}
+                        git fetch
+                        git checkout ${branchName}
+                        git add -A .storybook-images
+                        git commit -m "test: update images"
+                        git lfs push origin ${branchName}
+                        git push
+                    """)
+                }
             }
         }
 
         stage('Tests') {
             when {
-                beforeAgent true
                 allOf {
                     expression { isUpdateImages == false }
                     anyOf {
@@ -127,44 +134,26 @@ pipeline {
             }
             parallel {
                 stage('Linting') {
-                    agent {
-                        node {
-                            label 'nodejs-agent-v4'
-                        }
-                    }
                     steps {
-                        executeNpmLogin()
-                        nodeCmd('npm run lint')
+                        container('nodejs-' + nodeVersion) {
+                            executeNpmLogin()
+                            sh 'npm run lint'
+                        }
                     }
                 }
                 stage('TypeCheck') {
-                    agent {
-                        node {
-                            label "nodejs-agent-v4"
-                        }
-                    }
                     steps {
-                        executeNpmLogin()
-                        nodeCmd('npm run type-check')
+                        container('nodejs-' + nodeVersion) {
+                            executeNpmLogin()
+                            sh 'npm run type-check'
+                        }
                     }
                 }
                 stage('Unit Tests') {
-                    agent {
-                        node {
-                            label 'nodejs-agent-v4'
-                        }
-                    }
                     steps {
-                        executeNpmLogin()
-                        nodeCmd('npm run test')
-                        script {
-                            if (fileExists('coverage/lcov.info')) {
-                                lcovIsPresent = true
-                                stash(
-                                    includes: 'coverage/lcov.info',
-                                    name: 'lcov.info'
-                                )
-                            }
+                        container('nodejs-' + nodeVersion) {
+                            executeNpmLogin()
+                            sh 'npm run test'
                         }
                     }
                     post {
@@ -174,15 +163,12 @@ pipeline {
                         }
                     }
                 }
-                stage('Visual test') {
-                    agent {
-                        node {
-                            label 'nodejs-agent-v4'
-                        }
-                    }
+                stage('Visual Test') {
                     steps {
-                        executeNpmLogin()
-                        nodeCmd('npm run test-storybook')
+                        container('playwright') {
+                            executeNpmLogin()
+                            sh 'npm run test-storybook'
+                        }
                     }
                     post {
                         failure {
@@ -194,27 +180,20 @@ pipeline {
         }
 
         stage('SonarQube analysis') {
-            agent {
-                node {
-                    label 'nodejs-agent-v4'
-                }
-            }
             when {
-                beforeAgent true
                 allOf {
                     expression { isSonarQubeEnabled == true }
                     expression { isUpdateImages == false }
                 }
             }
             steps {
-                script {
-                    if (lcovIsPresent) {
-                        unstash(name: 'lcov.info')
+                container('nodejs-' + nodeVersion) {
+                    script {
+                        sh 'npm i -D sonarqube-scanner'
                     }
-                    nodeCmd('npm i -D sonarqube-scanner')
-                }
-                withSonarQubeEnv(credentialsId: 'sonarqube-user-token', installationName: 'SonarQube instance') {
-                    nodeCmd("npx sonar-scanner -Dsonar.projectKey=${getPackageName().replaceAll("@zextras/", "")} -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info")
+                    withSonarQubeEnv(credentialsId: 'sonarqube-user-token', installationName: 'SonarQube instance') {
+                        sh "npx sonar-scanner -Dsonar.projectKey=${getPackageName().replaceAll("@zextras/", "")} -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info"
+                    }
                 }
             }
         }
@@ -223,26 +202,21 @@ pipeline {
             parallel {
                 stage('Build package') {
                     when {
-                        beforeAgent true
                         allOf {
                             expression { isUpdateImages == false }
                         }
                     }
-                    agent {
-                        node {
-                            label 'nodejs-agent-v4'
-                        }
-                    }
                     steps {
-                        script {
-                            executeNpmLogin()
-                            nodeCmd('npm run build')
+                        container('nodejs-' + nodeVersion) {
+                            script {
+                                executeNpmLogin()
+                                sh 'npm run build'
+                            }
                         }
                     }
                 }
                 stage('Build documentation') {
                     when {
-                        beforeAgent true
                         allOf {
                             expression { isUpdateImages == false }
                             anyOf {
@@ -253,16 +227,12 @@ pipeline {
                             }
                         }
                     }
-                    agent {
-                        node {
-                            label 'nodejs-agent-v4'
-                        }
-                    }
                     steps {
-                        script {
-                            executeNpmLogin()
-                            nodeCmd('npm run build:docs')
-                            stash includes: 'storybook-static/', name: 'storybook-doc'
+                        container('nodejs-' + nodeVersion) {
+                            script {
+                                executeNpmLogin()
+                                sh 'npm run build:docs'
+                            }
                         }
                     }
                 }
@@ -271,17 +241,18 @@ pipeline {
 
         stage('Release') {
             when {
-                beforeAgent true
                 allOf {
                     expression { isPullRequest == false }
                     expression { isUpdateImages == false }
                 }
             }
             steps {
-                script {
-                    withCredentials([usernamePassword(credentialsId: 'npm-zextras-bot-auth-token', usernameVariable: 'AUTH_USERNAME', passwordVariable: 'NPM_TOKEN')]) {
-                        withCredentials([usernamePassword(credentialsId: 'tarsier-bot-pr-token-github', usernameVariable: 'GH_USERNAME', passwordVariable: 'GH_TOKEN')]) {
-                            nodeCmd("npx semantic-release")
+                container('nodejs-' + nodeVersion) {
+                    script {
+                        withCredentials([usernamePassword(credentialsId: 'npm-zextras-bot-auth-token', usernameVariable: 'AUTH_USERNAME', passwordVariable: 'NPM_TOKEN')]) {
+                            withCredentials([usernamePassword(credentialsId: 'tarsier-bot-pr-token-github', usernameVariable: 'GH_USERNAME', passwordVariable: 'GH_TOKEN')]) {
+                                sh 'npx semantic-release'
+                            }
                         }
                     }
                 }
@@ -290,7 +261,6 @@ pipeline {
 
         stage('Open release to devel pull request') {
             when {
-                beforeAgent true
                 allOf {
                     expression { isReleaseBranch == true }
                     expression { isUpdateImages == false }
@@ -298,23 +268,25 @@ pipeline {
             }
             steps {
                 script {
-                    String versionBumperBranchName = "version-bumper/${getLastTag()}"
-                    sh(script: """#!/bin/bash
-                        git push origin HEAD:refs/heads/${versionBumperBranchName}
-                    """)
-                    withCredentials([usernamePassword(credentialsId: 'tarsier-bot-pr-token-github', usernameVariable: 'GH_USERNAME', passwordVariable: 'GH_TOKEN')]) {
+                    container('nodejs-' + nodeVersion) {
+                        String versionBumperBranchName = "version-bumper/${getLastTag()}"
                         sh(script: """
-                            curl https://api.github.com/repos/${getRepositoryName()}/pulls \
-                            -X POST \
-                            -H 'Accept: application/vnd.github.v3+json' \
-                            -H 'Authorization: token ${GH_TOKEN}' \
-                            -d '{
-                                \"title\": \"chore(release): ${getLastTag()}\",
-                                \"head\": \"${versionBumperBranchName}\",
-                                \"base\": \"devel\",
-                                \"maintainer_can_modify\": true
-                            }'
+                            git push origin HEAD:refs/heads/${versionBumperBranchName}
                         """)
+                        withCredentials([usernamePassword(credentialsId: 'tarsier-bot-pr-token-github', usernameVariable: 'GH_USERNAME', passwordVariable: 'GH_TOKEN')]) {
+                            sh(script: """
+                                curl https://api.github.com/repos/${getRepositoryName()}/pulls \
+                                -X POST \
+                                -H 'Accept: application/vnd.github.v3+json' \
+                                -H 'Authorization: token ${GH_TOKEN}' \
+                                -d '{
+                                    \"title\": \"chore(release): ${getLastTag()}\",
+                                    \"head\": \"${versionBumperBranchName}\",
+                                    \"base\": \"devel\",
+                                    \"maintainer_can_modify\": true
+                                }'
+                            """)
+                        }
                     }
                 }
             }
@@ -322,7 +294,6 @@ pipeline {
 
         stage('Deploy documentation') {
             when {
-                beforeAgent true
                 allOf {
                     expression { isUpdateImages == false }
                     anyOf {
@@ -334,10 +305,12 @@ pipeline {
             }
             steps {
                 script {
-                    unstash 'storybook-doc'
-                    def outDir = isDeployDocPlaygroundEnabled == true ? "playground" : BRANCH_NAME
-                    doc.rm file: "iris/zapp-ui/${outDir}/storybook-static"
-                    doc.upload file: 'storybook-static', destination: "iris/zapp-ui/${outDir}"
+                    container('nodejs-' + nodeVersion) {
+                        sh 'apt update && apt install -y openssh-client'
+                        def outDir = isDeployDocPlaygroundEnabled == true ? "playground" : BRANCH_NAME
+                        doc.rm file: "iris/zapp-ui/${outDir}/storybook-static"
+                        doc.upload file: 'storybook-static', destination: "iris/zapp-ui/${outDir}"
+                    }
                 }
             }
         }
