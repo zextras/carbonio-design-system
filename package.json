@@ -89,7 +89,6 @@
 		"@zextras/carbonio-ui-configs": "^1.0.4",
 		"babel-jest": "^29.7.0",
 		"babel-loader": "^10.0.0",
-		"babel-plugin-styled-components": "^2.1.4",
 		"conventional-changelog-conventionalcommits": "^8.0.0",
 		"create-index": "2.6.0",
 		"del": "^7.1.0",
@@ -103,7 +102,6 @@
 		"jest-fail-on-console": "^3.3.0",
 		"jest-image-snapshot": "^6.4.0",
 		"jest-junit": "^16.0.0",
-		"jest-styled-components": "^7.2.0",
 		"jsdom": "^25.0.0",
 		"lodash": "^4.17.21",
 		"playwright": "^1.49.0",
@@ -128,8 +126,7 @@
 		"date-fns": "^4.1.0",
 		"lodash": "^4.17.21",
 		"react": "^18.3.1",
-		"react-dom": "^18.3.1",
-		"styled-components": "^6.1.13"
+		"react-dom": "^18.3.1"
 	},
 	"dependencies": {
 		"@floating-ui/dom": "^1.6.11",
