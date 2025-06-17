@@ -36,7 +36,7 @@ const plugins = [
 	})
 ];
 
-const external = ['react', 'react-dom', 'styled-components', 'lodash'];
+const external = ['react', 'react-dom', 'lodash'];
 
 export default [
 	{
