@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import { createGlobalStyle } from 'styled-components';
+import { css } from '@emotion/react';
 
 import roboto300Eot from '../fonts/roboto/roboto-v20-latin-300.eot';
 import roboto300Svg from '../fonts/roboto/roboto-v20-latin-300.svg';
@@ -47,7 +47,7 @@ import roboto400Ttf from '../fonts/roboto/roboto-v20-latin-regular.ttf';
 import roboto400Woff from '../fonts/roboto/roboto-v20-latin-regular.woff';
 import roboto400Woff2 from '../fonts/roboto/roboto-v20-latin-regular.woff2';
 
-const DefaultFontStyles = createGlobalStyle<Record<string, unknown>>`
+const DefaultFontStyles = css`
 	/* roboto-300 - latin */
 	@font-face {
 		font-family: 'Roboto';

@@ -6,7 +6,8 @@
 
 import React, { useCallback, useEffect } from 'react';
 
-import styled, { css, keyframes } from 'styled-components';
+import styled from '@emotion/styled';
+import { css, keyframes } from '@emotion/react';
 
 import type { ScreenMode } from '../../../hooks/useScreenMode';
 import { useScreenMode } from '../../../hooks/useScreenMode';

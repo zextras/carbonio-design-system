@@ -6,7 +6,7 @@
 
 import React, { useRef, useCallback, useMemo } from 'react';
 
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 
 import type { AnyColor } from '../../types/utils';
 import type { ButtonProps } from '../basic/button/Button';

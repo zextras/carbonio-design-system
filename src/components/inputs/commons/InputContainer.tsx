@@ -3,7 +3,8 @@
  *
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-import styled, { css } from 'styled-components';
+import styled from '@emotion/styled';
+import { css } from '@emotion/react';
 
 import { getColor, pseudoClasses } from '../../../theme/theme-utils';
 import type { ContainerProps } from '../../layout/container/Container';

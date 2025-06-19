@@ -6,7 +6,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { rgba } from 'polished';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 
 import { useCombinedRefs } from '../../../hooks/useCombinedRefs';
 import type { Theme } from '../../../theme/theme';

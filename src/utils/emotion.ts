@@ -5,13 +5,13 @@
  */
 export const withAttrs = <T extends object>(
   Component: React.ComponentType<T>,
-  defaultProps: Partial<T> | ((props: Partial<T>) => Partial<T>)
+  defaultProps: T | ((props: T) => Partial<T>)
 ) => {
   if (typeof defaultProps === 'function') {
     const originalRender = Component.prototype?.render;
     Component.defaultProps = {
       ...Component.defaultProps,
-      ...(defaultProps({} as Partial<T>)),
+      ...(defaultProps({} as T)),
     };
   } else {
     Component.defaultProps = {
@@ -21,3 +21,15 @@ export const withAttrs = <T extends object>(
   }
   return Component;
 };
+
+// export const withAttrs = <T extends object>(
+//   Component: React.ComponentType<T>,
+//   defaultProps: T) => {
+
+//     Component.defaultProps = {
+//       ...Component.defaultProps,
+//       ...defaultProps,
+//     };
+
+//   return Component;
+// };

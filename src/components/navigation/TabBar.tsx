@@ -8,7 +8,8 @@ import type { HTMLAttributes } from 'react';
 import React, { useCallback, useMemo } from 'react';
 
 import { map } from 'lodash';
-import styled, { css } from 'styled-components';
+import styled from '@emotion/styled';
+import { css } from '@emotion/react';
 
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { getKeyboardPreset, useKeyboard } from '../../hooks/useKeyboard';

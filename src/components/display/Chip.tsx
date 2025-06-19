@@ -6,7 +6,8 @@
 
 import React, { useCallback, useMemo, useRef } from 'react';
 
-import styled, { css, useTheme } from 'styled-components';
+import styled from '@emotion/styled';
+import { css, useTheme } from '@emotion/react';
 
 import { Tooltip } from './tooltip/Tooltip';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';

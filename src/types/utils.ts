@@ -5,7 +5,6 @@
  */
 import type { Theme } from '../theme/theme';
 
-
 export type NonEmptyArray<T> = [T, ...T[]];
 
 export type SingleItemArray<T> = [T] | [];

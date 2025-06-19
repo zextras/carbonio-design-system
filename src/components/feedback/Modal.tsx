@@ -10,7 +10,7 @@ import type { HTMLAttributes } from 'react';
 import React, { useCallback, useRef } from 'react';
 
 import { noop } from 'lodash';
-import { useTheme } from 'styled-components';
+import { useTheme } from '@emotion/react';
 
 import type { CustomModalProps } from './CustomModal';
 import { CustomModal } from './CustomModal';

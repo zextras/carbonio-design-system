@@ -5,8 +5,7 @@
  */
 import React from 'react';
 
-import type { css } from 'styled-components';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 
 import { useIsVisible } from '../../hooks/useIsVisible/useIsVisible';
 import { pseudoClasses } from '../../theme/theme-utils';
@@ -15,8 +14,7 @@ import type { AnyColor } from '../../types/utils';
 const ListItemWrapper = styled.div<{ $backgroundColor?: AnyColor }>`
 	user-select: none;
 	outline: none;
-	${({ theme, $backgroundColor }): ReturnType<typeof css> | undefined =>
-		$backgroundColor && pseudoClasses(theme, $backgroundColor)};
+	${({ theme, $backgroundColor }) => $backgroundColor && pseudoClasses(theme, $backgroundColor)};
 `;
 
 interface ListItemProps {

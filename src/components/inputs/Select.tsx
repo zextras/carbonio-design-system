@@ -6,7 +6,8 @@
 
 import React, { useState, useMemo, useCallback, useEffect } from 'react';
 
-import styled, { css } from 'styled-components';
+import styled from '@emotion/styled';
+import { css } from '@emotion/react';
 
 import { getColor } from '../../theme/theme-utils';
 import { Icon } from '../basic/icon/Icon';

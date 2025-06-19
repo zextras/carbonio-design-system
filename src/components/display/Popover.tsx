@@ -8,7 +8,8 @@ import React, { useEffect, useState, useCallback, useMemo } from 'react';
 
 import type { VirtualElement } from '@floating-ui/dom';
 import { debounce } from 'lodash';
-import styled, { useTheme } from 'styled-components';
+import styled from '@emotion/styled';
+import { useTheme } from '@emotion/react';
 
 import type { PopperProps } from './Popper';
 import { Popper } from './Popper';

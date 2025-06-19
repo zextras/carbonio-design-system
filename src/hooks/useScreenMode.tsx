@@ -6,7 +6,7 @@
 
 import { useLayoutEffect, useState, useCallback } from 'react';
 
-import { useTheme } from 'styled-components';
+import { useTheme } from '@emotion/react';
 
 type ScreenMode = 'mobile' | 'desktop';
 

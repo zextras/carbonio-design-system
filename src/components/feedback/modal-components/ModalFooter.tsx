@@ -5,7 +5,8 @@
  */
 import React, { useMemo } from 'react';
 
-import styled, { css } from 'styled-components';
+import styled from '@emotion/styled';
+import { css } from '@emotion/react';
 
 import type { Theme } from '../../../theme/theme';
 import { Button } from '../../basic/button/Button';

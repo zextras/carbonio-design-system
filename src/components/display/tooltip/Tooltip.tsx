@@ -18,7 +18,8 @@ import React, {
 import type { Placement } from '@floating-ui/dom';
 import { flip, offset, shift, limitShift } from '@floating-ui/dom';
 import { rgba } from 'polished';
-import styled, { css } from 'styled-components';
+import styled from '@emotion/styled';
+import { css } from '@emotion/react';
 
 import { useCombinedRefs } from '../../../hooks/useCombinedRefs';
 import { setupFloating } from '../../../utils/floating-ui';
@@ -117,7 +118,7 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(function TooltipF
 	const [open, setOpen] = useState(false);
 	const combinedTriggerRef = useCombinedRefs<HTMLElement>(triggerRef);
 	const tooltipRef = useCombinedRefs<HTMLDivElement>(ref);
-	const timeoutRef = useRef<null | ReturnType<typeof setTimeout>>(null);
+		const timeoutRef = useRef<null | ReturnType<typeof setTimeout>>(null);
 	const tooltipTargetId = useMemo(() => (disabled ? undefined : crypto.randomUUID()), [disabled]);
 
 	const showTooltip = useCallback(

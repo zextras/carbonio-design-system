@@ -6,7 +6,7 @@
 
 import React, { useCallback } from 'react';
 
-import { ThemeProvider as SCThemeProvider, ThemeContext } from '@emotion/react';
+import { ThemeProvider as EmotionThemeProvider, Global, ThemeContext } from '@emotion/react';
 
 import DefaultFontStyles from './roboto-global-styles';
 import { Theme as defaultTheme } from './theme';
@@ -33,10 +33,10 @@ const ThemeProvider = ({
 	);
 
 	return (
-		<SCThemeProvider theme={_theme}>
-			{loadDefaultFont && <DefaultFontStyles />}
+		<EmotionThemeProvider theme={_theme}>
+			{loadDefaultFont && <Global styles={DefaultFontStyles} />}
 			{children}
-		</SCThemeProvider>
+		</EmotionThemeProvider>
 	);
 };
 

@@ -7,7 +7,8 @@
 import type { SVGAttributes } from 'react';
 import React, { useMemo } from 'react';
 
-import styled, { css, useTheme } from 'styled-components';
+import styled from '@emotion/styled';
+import { css, useTheme } from '@emotion/react'
 
 import type { Theme, IconComponent } from '../../../theme/theme';
 import { getColor } from '../../../theme/theme-utils';

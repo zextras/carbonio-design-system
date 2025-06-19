@@ -7,7 +7,7 @@ import type { HTMLAttributes } from 'react';
 import React, { useMemo } from 'react';
 
 import { noop } from 'lodash';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 
 import type { DropdownItem } from './dropdown/Dropdown';
 import { Dropdown } from './dropdown/Dropdown';

@@ -7,7 +7,8 @@
 import type { HTMLAttributes } from 'react';
 import React, { useMemo } from 'react';
 
-import styled, { css } from 'styled-components';
+import styled from '@emotion/styled';
+import { css } from '@emotion/react';
 
 import { Transition } from './Transition';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';

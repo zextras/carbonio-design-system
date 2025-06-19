@@ -6,7 +6,8 @@
 import type React from 'react';
 
 import { rgba } from 'polished';
-import styled, { css } from 'styled-components';
+import styled from '@emotion/styled';
+import { css } from '@emotion/react';
 
 import { Container } from '../../layout/container/Container';
 

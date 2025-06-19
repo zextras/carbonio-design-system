@@ -8,7 +8,6 @@ import React from 'react';
 
 import { faker } from '@faker-js/faker';
 import { act, screen, within } from '@testing-library/react';
-import 'jest-styled-components';
 
 import type { THeader, TRow } from './Table';
 import { Table, StyledCheckbox } from './Table';
@@ -114,7 +113,7 @@ describe('Table', () => {
 			/>
 		);
 		const row1 = getRowByColumnLabel('row1col1');
-		expect(row1).toHaveStyleRule('display', 'block', { modifier: `:focus ${StyledCheckbox}` });
+		expect(row1).toHaveStyleRule('display', 'block', { target: `:focus ${StyledCheckbox}` });
 	});
 
 	test('checkbox of the row should have display property set to block on hover', () => {
@@ -132,7 +131,7 @@ describe('Table', () => {
 			/>
 		);
 		const row1 = getRowByColumnLabel('row1col1');
-		expect(row1).toHaveStyleRule('display', 'block', { modifier: `:hover ${StyledCheckbox}` });
+		expect(row1).toHaveStyleRule('display', 'block', { target: `:hover ${StyledCheckbox}` });
 	});
 
 	test('If multi selection is disabled, checkbox to select all is not shown inside header', () => {
