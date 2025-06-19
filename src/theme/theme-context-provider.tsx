@@ -6,7 +6,7 @@
 
 import React, { useCallback } from 'react';
 
-import { ThemeProvider as SCThemeProvider, ThemeContext } from 'styled-components';
+import { ThemeProvider as SCThemeProvider, ThemeContext } from '@emotion/react';
 
 import DefaultFontStyles from './roboto-global-styles';
 import { Theme as defaultTheme } from './theme';

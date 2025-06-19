@@ -4,9 +4,12 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import type { Theme } from '../theme/theme';
+import type { Theme as DSTheme } from '../theme/theme';
 
 declare module '@emotion/react' {
-	// Augment DefaultTheme as suggested inside styled-components module
-	interface DefaultTheme extends Theme {}
+	/**
+	 * Augment Theme as suggested inside Emotion module
+	 * @see https://emotion.sh/docs/typescript#define-a-theme
+	 */
+	interface Theme extends DSTheme {}
 }

@@ -7,7 +7,7 @@
 import { reduce } from 'lodash';
 import { darken, lighten, parseToHsl, setLightness, toColorString } from 'polished';
 import type { HslColor } from 'polished/lib/types/color';
-import { css, useTheme as useThemeSC } from 'styled-components';
+import { css, useTheme as useEmotionTheme } from '@emotion/react';
 
 import type { Theme, ThemeColorObj, ThemeSizeObj } from './theme';
 
@@ -284,7 +284,7 @@ function pseudoClasses(
 	`;
 }
 
-const useTheme = (): Theme => useThemeSC();
+const useTheme = (): Theme => useEmotionTheme();
 
 export type { PaddingObj };
 export {
