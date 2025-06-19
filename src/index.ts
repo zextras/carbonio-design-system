@@ -5,7 +5,7 @@
  */
 // import module augmentations to make ts use them while generating types definitions
 import './types/globals';
-import './types/styled-components';
+import './types/emotion';
 
 /** Basic components */
 export * from './components/basic/Avatar';

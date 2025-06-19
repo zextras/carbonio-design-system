@@ -12,7 +12,7 @@ import * as fs from 'fs/promises';
 import * as path from 'node:path';
 import ts from 'typescript';
 
-const from = '../src/types/styled-components.ts';
+const from = '../src/types/emotion.ts';
 const to = '../dist/zapp-ui.bundle.d.ts';
 
 async function extractModuleDeclarations(source: string): Promise<string> {

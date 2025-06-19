@@ -7,7 +7,8 @@
 import type { ButtonHTMLAttributes } from 'react';
 import React, { useCallback, useMemo } from 'react';
 
-import styled, { css } from 'styled-components';
+import styled from '@emotion/styled';
+import { css } from '@emotion/react';
 
 import { useCombinedRefs } from '../../../hooks/useCombinedRefs';
 import { getColor, pseudoClasses } from '../../../theme/theme-utils';
@@ -16,6 +17,7 @@ import type { IconProps } from '../icon/Icon';
 import { Icon } from '../icon/Icon';
 import { Spinner } from '../spinner/Spinner';
 import { Text } from '../text/Text';
+import { withAttrs } from '../../../utils/emotion';
 
 type ButtonShape = 'regular' | 'round';
 type ButtonSize = 'extrasmall' | 'small' | 'medium' | 'large' | 'extralarge';
@@ -151,10 +153,7 @@ const StyledLoadingContainer = styled.div`
 	align-items: center;
 `;
 
-const StyledButton = styled.button.attrs<StyledButtonProps>(({ disabled, $minWidth }) => ({
-	tabIndex: disabled ? -1 : 0,
-	$minWidth: $minWidth ?? '0'
-}))<StyledButtonProps>`
+const StyledButton = styled.button<StyledButtonProps>`
 	/* set line-height to normal so that the browser can calculate it based on the font, and the accents are not cut off */
 	line-height: normal;
 	display: flex;
@@ -204,7 +203,12 @@ const StyledButton = styled.button.attrs<StyledButtonProps>(({ disabled, $minWid
 	}
 `;
 
-const StyledSecondaryAction = styled(StyledButton)<{ $loading: boolean }>`
+const StyledButtonWithAttrs = withAttrs(StyledButton, ({ disabled, $minWidth }) => ({
+	tabIndex: disabled ? -1 : 0,
+	$minWidth: $minWidth ?? '0'
+}));
+
+const StyledSecondaryAction = styled(StyledButtonWithAttrs)<{ $loading: boolean }>`
 	flex-shrink: 0;
 	min-width: fit-content;
 	${({ $loading }): ReturnType<typeof css> | false | undefined =>
@@ -232,7 +236,7 @@ const StyledGrid = styled.div<{ $width: 'fill' | 'fit'; $padding: string; $minWi
 	align-content: center;
 	justify-content: stretch;
 
-	${StyledButton} {
+	${StyledButtonWithAttrs} {
 		grid-row: 1;
 		grid-column: 1;
 	}
@@ -383,7 +387,7 @@ const Button = React.forwardRef<HTMLDivElement, ButtonProps>(function ButtonFn(
 
 	return (
 		<StyledGrid $width={width} $minWidth={minWidth} $padding={SIZES[size].padding} ref={ref}>
-			<StyledButton
+			<StyledButtonWithAttrs
 				{...rest}
 				$backgroundColor={colors.backgroundColor}
 				$color={colors.color}
@@ -428,7 +432,7 @@ const Button = React.forwardRef<HTMLDivElement, ButtonProps>(function ButtonFn(
 						<Spinner color="currentColor" />
 					</StyledLoadingContainer>
 				)}
-			</StyledButton>
+			</StyledButtonWithAttrs>
 			{secondaryAction && size !== 'extrasmall' && size !== 'small' && (
 				<StyledSecondaryAction
 					$backgroundColor={colors.backgroundColor}
