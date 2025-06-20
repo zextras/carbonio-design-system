@@ -12,6 +12,7 @@ import DefaultFontStyles from './roboto-global-styles';
 import { Theme as defaultTheme } from './theme';
 import type { Theme } from './theme';
 import { generateHighlightSet } from './theme-utils';
+import { isEmpty } from 'lodash';
 
 interface ThemeProviderProps {
 	extension?: (theme: Theme) => Theme;
@@ -24,8 +25,9 @@ const ThemeProvider = ({
 	loadDefaultFont
 }: React.PropsWithChildren<ThemeProviderProps>): React.JSX.Element => {
 	const _theme = useCallback(
-		(parentTheme: Theme = defaultTheme) => {
-			const theme = extension ? extension(parentTheme) : parentTheme;
+		(parentTheme: Theme) => {
+			const pippoTheme = isEmpty(parentTheme) ?  defaultTheme : parentTheme;
+			const theme = extension ? extension(pippoTheme) : pippoTheme;
 			theme.palette.highlight = generateHighlightSet(theme.palette.primary);
 			return theme;
 		},
