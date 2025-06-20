@@ -109,7 +109,6 @@ export * from './components/utilities/shimmer/Shimmer';
 
 export * from './theme/theme-utils';
 export * from './theme/theme-context-provider';
-export * from './theme/zimbra-classic-theme-context-provider';
 export * from './hooks/useIsVisible/useIsVisible';
 export * from './hooks/useCheckbox';
 export * from './hooks/useCombinedRefs';
