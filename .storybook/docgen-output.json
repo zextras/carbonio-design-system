@@ -8750,6 +8750,118 @@
       ]
     }
   ],
+  "src/components/feedback/modal-components/ModalComponents.tsx": [
+    {
+      "description": "",
+      "methods": [],
+      "displayName": "ModalContent",
+      "props": {
+        "orientation": {
+          "required": false,
+          "tsType": {
+            "name": "union",
+            "raw": "'vertical' | 'horizontal' | ContainerElProps['orientation']",
+            "elements": [
+              {
+                "name": "literal",
+                "value": "'vertical'"
+              },
+              {
+                "name": "literal",
+                "value": "'horizontal'"
+              },
+              {
+                "name": "ContainerElProps['orientation']",
+                "raw": "ContainerElProps['orientation']"
+              }
+            ]
+          },
+          "description": ""
+        },
+        "children": {
+          "required": false,
+          "tsType": {
+            "name": "union",
+            "raw": "React.ReactNode | React.ReactNode[]",
+            "elements": [
+              {
+                "name": "ReactReactNode",
+                "raw": "React.ReactNode"
+              },
+              {
+                "name": "Array",
+                "elements": [
+                  {
+                    "name": "ReactReactNode",
+                    "raw": "React.ReactNode"
+                  }
+                ],
+                "raw": "React.ReactNode[]"
+              }
+            ]
+          },
+          "description": ""
+        },
+        "$size": {
+          "required": true,
+          "tsType": {
+            "name": "intersection",
+            "raw": "keyof typeof modalMinWidth & keyof typeof modalWidth",
+            "elements": [
+              {
+                "name": "union",
+                "raw": "keyof typeof modalMinWidth",
+                "elements": [
+                  {
+                    "name": "literal",
+                    "value": "extrasmall"
+                  },
+                  {
+                    "name": "literal",
+                    "value": "small"
+                  },
+                  {
+                    "name": "literal",
+                    "value": "medium"
+                  },
+                  {
+                    "name": "literal",
+                    "value": "large"
+                  }
+                ]
+              },
+              {
+                "name": "union",
+                "raw": "keyof typeof modalWidth",
+                "elements": [
+                  {
+                    "name": "literal",
+                    "value": "extrasmall"
+                  },
+                  {
+                    "name": "literal",
+                    "value": "small"
+                  },
+                  {
+                    "name": "literal",
+                    "value": "medium"
+                  },
+                  {
+                    "name": "literal",
+                    "value": "large"
+                  }
+                ]
+              }
+            ]
+          },
+          "description": ""
+        }
+      },
+      "composes": [
+        "Omit"
+      ]
+    }
+  ],
   "src/components/feedback/modal-components/ModalFooter.tsx": [
     {
       "description": "",
