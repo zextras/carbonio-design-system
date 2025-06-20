@@ -152,10 +152,7 @@ const StyledLoadingContainer = styled.div`
 	align-items: center;
 `;
 
-const StyledButton = styled.button.attrs<StyledButtonProps>(({ disabled, $minWidth }) => ({
-	tabIndex: disabled ? -1 : 0,
-	$minWidth: $minWidth ?? '0'
-}))<StyledButtonProps>`
+const StyledButton = styled.button<StyledButtonProps>`
 	/* set line-height to normal so that the browser can calculate it based on the font, and the accents are not cut off */
 	line-height: normal;
 	display: flex;
@@ -189,14 +186,14 @@ const StyledButton = styled.button.attrs<StyledButtonProps>(({ disabled, $minWid
 	${({ $color, $backgroundColor, theme, $forceActive }): ReturnType<typeof css> =>
 		$forceActive
 			? css`
-					color: ${getColor(`${$color}.active`, theme)};
-					background-color: ${getColor(`${$backgroundColor}.active`, theme)};
-				`
+				color: ${getColor(`${$color}.active`, theme)};
+				background-color: ${getColor(`${$backgroundColor}.active`, theme)};
+			`
 			: css`
-					${pseudoClasses(theme, $color, 'color')};
-					${pseudoClasses(theme, $backgroundColor, 'background-color')};
-					${pseudoClasses(theme, $color, 'border-color')};
-				`};
+				${pseudoClasses(theme, $color, 'color')};
+				${pseudoClasses(theme, $backgroundColor, 'background-color')};
+				${pseudoClasses(theme, $color, 'border-color')};
+			`};
 
 	/* cursor */
 	cursor: pointer;
@@ -382,8 +379,11 @@ const Button = React.forwardRef<HTMLDivElement, ButtonProps>(function ButtonFn(
 		[type, backgroundColor, color, labelColor]
 	);
 
+	const minWidthProp = minWidth ?? '0';
+	const tabIndexProp = disabled ? -1 : 0;
+
 	return (
-		<StyledGrid $width={width} $minWidth={minWidth} $padding={SIZES[size].padding} ref={ref}>
+		<StyledGrid $width={width} $minWidth={minWidthProp} $padding={SIZES[size].padding} ref={ref}>
 			<StyledButton
 				{...rest}
 				$backgroundColor={colors.backgroundColor}
@@ -395,10 +395,11 @@ const Button = React.forwardRef<HTMLDivElement, ButtonProps>(function ButtonFn(
 				$gap={SIZES[size].gap}
 				$iconPlacement={iconPlacement}
 				$width={width}
-				$minWidth={minWidth}
+				$minWidth={minWidthProp}
 				disabled={disabled}
 				onClick={clickHandler}
 				ref={innerButtonRef}
+				tabIndex={tabIndexProp}
 			>
 				{icon && (
 					<StyledIcon
