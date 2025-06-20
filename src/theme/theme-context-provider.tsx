@@ -26,9 +26,9 @@ const ThemeProvider = ({
 }: React.PropsWithChildren<ThemeProviderProps>): React.JSX.Element => {
 	const _theme = useCallback(
 		(parentTheme: Theme) => {
-			const pippoTheme = isEmpty(parentTheme) ?  defaultTheme : parentTheme;
-			const theme = extension ? extension(pippoTheme) : pippoTheme;
-			theme.palette.highlight = generateHighlightSet(theme.palette.primary);
+			const theme = isEmpty(parentTheme) ?  defaultTheme : parentTheme;
+			const customizedTheme = extension ? extension(theme) : theme;
+			theme.palette.highlight = generateHighlightSet(customizedTheme.palette.primary);
 			return theme;
 		},
 		[extension]
