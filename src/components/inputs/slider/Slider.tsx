@@ -27,9 +27,7 @@ const SLIDER_COLORS: Record<'THUMB' | 'TRACK' | 'TICK' | 'THUMB_SHADOW', keyof T
 	THUMB_SHADOW: 'white'
 } as const;
 
-const SliderInput = styled.input.attrs({
-	type: 'range'
-})`
+const SliderInput = styled.input`
 	--thumb-radius: calc(${SLIDER_SIZES.THUMB_DIAMETER} / 2);
 	--track-half-height: calc(${SLIDER_SIZES.TRACK_HEIGHT} / 2);
 	--color-thumb-regular: ${({ theme }): string => theme.palette[SLIDER_COLORS.THUMB].regular};
@@ -295,6 +293,7 @@ const Slider: Slider = React.forwardRef<HTMLDivElement, SliderProps>(function Sl
 			crossAlignment={'flex-start'}
 		>
 			<SliderInput
+				type="range"
 				min={0}
 				max={options.length - 1}
 				step={0.01}
