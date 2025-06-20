@@ -14,10 +14,9 @@ import { getColor } from '../../../theme/theme-utils';
 import type { TextProps } from '../text/Text';
 import { Text } from '../text/Text';
 
-const StyledLink = styled(Text).attrs(() => ({
-	forwardedAs: 'a'
-}))<{
+const StyledLink = styled(Text)<{
 	$underlined: boolean;
+	as: React.ElementType;
 }>`
 	cursor: pointer;
 	text-decoration: ${({ $underlined }): string => (!$underlined ? 'none' : 'underline')};
@@ -47,7 +46,7 @@ const Link = React.forwardRef<HTMLDivElement, LinkProps>(function LinkFn(
 	useKeyboard(linkRef, keyEvents);
 
 	return (
-		<StyledLink ref={linkRef} $underlined={underlined} color={color} tabIndex={0} {...rest}>
+		<StyledLink ref={linkRef} as="a" $underlined={underlined} color={color} tabIndex={0} {...rest}>
 			{children}
 		</StyledLink>
 	);
