@@ -28,8 +28,8 @@ const ThemeProvider = ({
 		(parentTheme: Theme) => {
 			const theme = isEmpty(parentTheme) ?  defaultTheme : parentTheme;
 			const customizedTheme = extension ? extension(theme) : theme;
-			theme.palette.highlight = generateHighlightSet(customizedTheme.palette.primary);
-			return theme;
+			customizedTheme.palette.highlight = generateHighlightSet(customizedTheme.palette.primary);
+			return customizedTheme;
 		},
 		[extension]
 	);
