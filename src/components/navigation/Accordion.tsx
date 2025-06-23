@@ -25,8 +25,9 @@ import { Container } from '../layout/container/Container';
 import { Divider } from '../layout/divider/Divider';
 import { Padding } from '../layout/Padding';
 import { Collapse } from '../utilities/Collapse';
+import { transientOptions } from '../../utils/emotion';
 
-const AccordionContainerEl = styled(Container)<{
+const AccordionContainerEl = styled(Container, transientOptions)<{
 	$level: number;
 	$active?: boolean;
 	$disableHover?: boolean;
@@ -47,7 +48,7 @@ const StyledText = styled(Text)`
 	flex-grow: 1;
 `;
 
-const StyledButton = styled(Button)<{
+const StyledButton = styled(Button, transientOptions)<{
 	$iconSize?: keyof Theme['sizes']['icon'];
 	$paddingSize?: string;
 }>`
