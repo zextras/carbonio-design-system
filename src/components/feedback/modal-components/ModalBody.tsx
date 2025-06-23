@@ -10,6 +10,7 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import type { With$Prefix } from '../../../types/utils';
+import { transientOptions } from '../../../utils/emotion';
 
 interface ModalBodyProps extends HTMLAttributes<HTMLDivElement> {
 	/** Max height of the body container */
@@ -18,7 +19,7 @@ interface ModalBodyProps extends HTMLAttributes<HTMLDivElement> {
 	centered?: boolean;
 }
 
-const ModalBodyComponent = styled.div<With$Prefix<ModalBodyProps>>`
+const ModalBodyComponent = styled('div', transientOptions)<With$Prefix<ModalBodyProps>>`
 	overflow-y: auto;
 	max-height: ${({ $maxHeight }): string | undefined => $maxHeight};
 	max-width: 100%;

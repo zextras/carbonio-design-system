@@ -13,14 +13,15 @@ import { Button } from '../../basic/button/Button';
 import { Tooltip } from '../../display/tooltip/Tooltip';
 import { Container } from '../../layout/container/Container';
 import { Padding } from '../../layout/Padding';
+import { transientOptions } from '../../../utils/emotion';
 
-const OptionalFooterContainer = styled(Container)`
+const OptionalFooterContainer = styled(Container, transientOptions)`
 	min-width: 0.0625rem;
 	flex-basis: auto;
 	flex-grow: 1;
 `;
 
-const ButtonContainer = styled(Container)<{ $pushLeftFirstChild?: boolean }>`
+const ButtonContainer = styled(Container, transientOptions)<{ $pushLeftFirstChild?: boolean }>`
 	min-width: 0.0625rem;
 	flex-basis: auto;
 	flex-grow: 1;
@@ -34,14 +35,14 @@ const ButtonContainer = styled(Container)<{ $pushLeftFirstChild?: boolean }>`
 			}
 		`}
 `;
-const DismissButton = styled(Button)`
+const DismissButton = styled(Button, transientOptions)`
 	margin-right: ${(props): string => props.theme.sizes.padding.large};
 	flex-basis: auto;
 	min-width: 6.25rem;
 	flex-shrink: 1;
 `;
 
-const ConfirmButton = styled(Button)`
+const ConfirmButton = styled(Button, transientOptions)`
 	flex-basis: auto;
 	min-width: 6.25rem;
 	flex-shrink: 1;

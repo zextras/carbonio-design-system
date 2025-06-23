@@ -12,6 +12,7 @@ import { Button } from '../../basic/button/Button';
 import { Text } from '../../basic/text/Text';
 import { Tooltip } from '../../display/tooltip/Tooltip';
 import { Row } from '../../layout/Row';
+import { transientOptions } from '../../../utils/emotion';
 
 interface ModalHeaderProps {
 	centered?: boolean;
@@ -22,7 +23,7 @@ interface ModalHeaderProps {
 	closeIconTooltip?: string;
 }
 
-const ModalTitle = styled(Text)<{ $centered: boolean }>`
+const ModalTitle = styled(Text, transientOptions)<{ $centered: boolean }>`
 	box-sizing: border-box;
 	width: 100%;
 	flex-grow: 1;

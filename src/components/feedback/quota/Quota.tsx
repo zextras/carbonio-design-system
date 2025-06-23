@@ -11,8 +11,9 @@ import styled from '@emotion/styled';
 import type { AnyColor } from '../../../types/utils';
 import type { ContainerProps } from '../../layout/container/Container';
 import { Container } from '../../layout/container/Container';
+import { transientOptions } from '../../../utils/emotion';
 
-const QuotaBar = styled(Container)`
+const QuotaBar = styled(Container, transientOptions)`
 	min-width: 4rem;
 `;
 
