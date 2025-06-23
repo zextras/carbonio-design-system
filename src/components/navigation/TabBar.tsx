@@ -18,12 +18,13 @@ import type { AnyColor } from '../../types/utils';
 import { Text } from '../basic/text/Text';
 import type { ContainerProps } from '../layout/container/Container';
 import { Container } from '../layout/container/Container';
+import { transientOptions } from '../../utils/emotion';
 
 const CustomText = styled(Text)`
 	line-height: 1.5;
 `;
 
-const DefaultTabBarItemContainer = styled(Container)<{
+const DefaultTabBarItemContainer = styled(Container, transientOptions)<{
 	$forceWidthEquallyDistributed: boolean;
 	$selected: boolean;
 	$underlineColor: AnyColor;
