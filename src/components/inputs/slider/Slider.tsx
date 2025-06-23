@@ -12,6 +12,7 @@ import { useCombinedRefs } from '../../../hooks/useCombinedRefs';
 import type { Theme } from '../../../theme/theme';
 import { Tooltip } from '../../display/tooltip/Tooltip';
 import { Container } from '../../layout/container/Container';
+import { transientOptions } from '../../../utils/emotion';
 
 const SLIDER_SIZES = {
 	TRACK_HEIGHT: '0.25rem',
@@ -27,7 +28,7 @@ const SLIDER_COLORS: Record<'THUMB' | 'TRACK' | 'TICK' | 'THUMB_SHADOW', keyof T
 	THUMB_SHADOW: 'white'
 } as const;
 
-const SliderInput = styled.input`
+const SliderInput = styled('input', transientOptions)`
 	--thumb-radius: calc(${SLIDER_SIZES.THUMB_DIAMETER} / 2);
 	--track-half-height: calc(${SLIDER_SIZES.TRACK_HEIGHT} / 2);
 	--color-thumb-regular: ${({ theme }): string => theme.palette[SLIDER_COLORS.THUMB].regular};
@@ -134,11 +135,11 @@ const SliderInput = styled.input`
 	}
 `;
 
-const SliderContainer = styled(Container)`
+const SliderContainer = styled(Container, transientOptions)`
 	position: relative;
 `;
 
-const SliderDataList = styled.datalist`
+const SliderDataList = styled('datalist', transientOptions)`
 	--thumb-radius: calc(${SLIDER_SIZES.THUMB_DIAMETER} / 2);
 	--track-half-height: calc(${SLIDER_SIZES.TRACK_HEIGHT} / 2);
 	--tick-padding: var(--thumb-radius);

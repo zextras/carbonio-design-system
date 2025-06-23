@@ -9,8 +9,9 @@ import styled from '@emotion/styled';
 
 import type { TextProps } from '../../basic/text/Text';
 import { Text } from '../../basic/text/Text';
+import { transientOptions } from '../../../utils/emotion';
 
-const StyledText = styled(Text)<{ size: NonNullable<TextProps['size']> }>`
+const StyledText = styled(Text, transientOptions)<{ size: NonNullable<TextProps['size']> }>`
 	line-height: 1.5;
 	padding-top: 0.25rem;
 	min-height: calc(${({ theme, size }): string => theme.sizes.font[size]} * 1.5);

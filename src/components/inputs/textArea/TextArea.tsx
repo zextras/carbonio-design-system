@@ -20,6 +20,7 @@ import { Divider } from '../../layout/divider/Divider';
 import { InputContainer } from '../commons/InputContainer';
 import { InputDescription } from '../commons/InputDescription';
 import { InputLabel } from '../commons/InputLabel';
+import { transientOptions } from '../../../utils/emotion';
 
 type HTMLTextAreaProps = TextareaHTMLAttributes<HTMLTextAreaElement>;
 
@@ -52,7 +53,7 @@ type TextArea = ReturnType<typeof React.forwardRef<HTMLDivElement, TextAreaProps
 	_newId?: number;
 };
 
-const StyledTextArea = styled.textarea<{ $color: string }>`
+const StyledTextArea = styled('textarea', transientOptions)<{ $color: string }>`
 	resize: none;
 	width: 100%;
 	max-height: 100%;
@@ -79,7 +80,7 @@ const StyledTextArea = styled.textarea<{ $color: string }>`
 	}
 `;
 
-const GrowContainer = styled.div<{ $hasLabel: boolean; $maxHeight?: string }>`
+const GrowContainer = styled('div', transientOptions)<{ $hasLabel: boolean; $maxHeight?: string }>`
 	width: 100%;
 	height: auto;
 	margin-top: ${({ $hasLabel, theme }): ReturnType<typeof css> | string =>
@@ -164,7 +165,7 @@ const AdjustHeightTextArea = React.forwardRef<HTMLTextAreaElement, AdjustHeightT
 	}
 );
 
-const Label = styled(InputLabel)<{ $textAreaHasValue: boolean }>`
+const Label = styled(InputLabel, transientOptions)<{ $textAreaHasValue: boolean }>`
 	${InputContainer}:focus-within & {
 		top: 0.0625rem;
 		transform: translateY(0);
@@ -179,7 +180,7 @@ const Label = styled(InputLabel)<{ $textAreaHasValue: boolean }>`
 		`};
 `;
 
-const RelativeContainer = styled(Container)`
+const RelativeContainer = styled(Container, transientOptions)`
 	position: relative;
 `;
 

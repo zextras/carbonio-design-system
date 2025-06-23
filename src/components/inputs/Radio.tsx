@@ -17,6 +17,7 @@ import type { TextProps } from '../basic/text/Text';
 import { Text } from '../basic/text/Text';
 import type { ContainerProps } from '../layout/container/Container';
 import { Container } from '../layout/container/Container';
+import { transientOptions } from '../../utils/emotion';
 
 const RADIO_SIZE: Record<
 	'small' | 'medium',
@@ -32,7 +33,7 @@ const RADIO_SIZE: Record<
 	}
 };
 
-const RadioInput = styled.input<{
+const RadioInput = styled('input', transientOptions)<{
 	$color: string;
 	$size: keyof Theme['sizes']['icon'];
 }>`
@@ -87,7 +88,7 @@ const RadioInput = styled.input<{
 	transition-timing-function: ease-out;
 `;
 
-const Label = styled(Text)<LabelHTMLAttributes<HTMLLabelElement> & { as: React.ElementType; }>`
+const Label = styled(Text, transientOptions)<LabelHTMLAttributes<HTMLLabelElement> & { as: React.ElementType; }>`
 	line-height: 1.5;
 	${({ disabled }): ReturnType<typeof css> | false =>
 		!disabled &&
@@ -96,7 +97,7 @@ const Label = styled(Text)<LabelHTMLAttributes<HTMLLabelElement> & { as: React.E
 		`}
 `;
 
-const RadioContainer = styled(Container)<{
+const RadioContainer = styled(Container, transientOptions)<{
 	$iconColor: string;
 	$disabled: boolean;
 }>`

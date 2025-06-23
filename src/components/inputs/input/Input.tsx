@@ -22,8 +22,9 @@ import { Divider } from '../../layout/divider/Divider';
 import { InputContainer } from '../commons/InputContainer';
 import { InputDescription } from '../commons/InputDescription';
 import { InputLabel } from '../commons/InputLabel';
+import { transientOptions } from '../../../utils/emotion';
 
-const InputEl = styled.input<{ $color: AnyColor }>`
+const InputEl = styled('input', transientOptions)<{ $color: AnyColor }>`
 	border: none !important;
 	height: auto !important;
 	width: 100%;
@@ -49,7 +50,7 @@ const InputEl = styled.input<{ $color: AnyColor }>`
 	}
 `;
 
-const Label = styled(InputLabel)`
+const Label = styled(InputLabel, transientOptions)`
 	${InputEl}:focus + &,
   ${InputEl}:not(:placeholder-shown) + & {
 		top: 0;
@@ -58,7 +59,7 @@ const Label = styled(InputLabel)`
 	}
 `;
 
-const RelativeContainer = styled(Container)`
+const RelativeContainer = styled(Container, transientOptions)`
 	position: relative;
 `;
 

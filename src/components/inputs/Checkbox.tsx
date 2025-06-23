@@ -19,12 +19,13 @@ import { Text } from '../basic/text/Text';
 import type { ContainerProps } from '../layout/container/Container';
 import { Container } from '../layout/container/Container';
 import { Padding } from '../layout/Padding';
+import { transientOptions } from '../../utils/emotion';
 
 type CheckboxSize = 'medium' | 'small';
 
-const CustomIcon = styled(Icon)``;
+const CustomIcon = styled(Icon, transientOptions)``;
 
-const IconWrapper = styled.div<{
+const IconWrapper = styled('div', transientOptions)<{
 	$disabled: boolean;
 	$iconColor: AnyColor;
 	$size: CheckboxSize;
@@ -57,7 +58,7 @@ const IconWrapper = styled.div<{
 		`};
 `;
 
-const CustomText = styled(Text)`
+const CustomText = styled(Text, transientOptions)`
 	user-select: none;
 	line-height: 1.5;
 `;

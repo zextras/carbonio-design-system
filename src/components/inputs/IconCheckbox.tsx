@@ -17,8 +17,9 @@ import { Text } from '../basic/text/Text';
 import type { ContainerProps } from '../layout/container/Container';
 import { Container } from '../layout/container/Container';
 import { Padding } from '../layout/Padding';
+import { transientOptions } from '../../utils/emotion';
 
-const IconWrapper = styled.div<{
+const IconWrapper = styled('div', transientOptions)<{
 	$borderRadius: 'regular' | 'round';
 	$isActive: boolean;
 	$disabled: boolean;
@@ -64,7 +65,7 @@ const IconWrapper = styled.div<{
 		`};
 `;
 
-const CustomText = styled(Text)`
+const CustomText = styled(Text, transientOptions)`
 	white-space: normal;
 	padding-left: ${({ theme }): string => theme.sizes.padding.small};
 	user-select: none;

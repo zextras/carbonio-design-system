@@ -33,8 +33,9 @@ import { Divider } from '../../layout/divider/Divider';
 import { InputContainer } from '../commons/InputContainer';
 import { InputDescription } from '../commons/InputDescription';
 import { InputLabel } from '../commons/InputLabel';
+import { transientOptions } from '../../../utils/emotion';
 
-const ContainerEl = styled(InputContainer)<{
+const ContainerEl = styled(InputContainer, transientOptions)<{
 	background: PaletteColor;
 	$inputDisabled: boolean;
 	$dropdownDisabled: boolean;
@@ -50,7 +51,7 @@ const ContainerEl = styled(InputContainer)<{
 	}};
 `;
 
-const ScrollContainer = styled(Container)<{ $hasLabel: boolean }>`
+const ScrollContainer = styled(Container, transientOptions)<{ $hasLabel: boolean }>`
 	overflow: auto;
 	scrollbar-width: ${({ wrap }): string | false => wrap !== 'wrap' && 'none'};
 	&::-webkit-scrollbar {
@@ -63,11 +64,11 @@ const ScrollContainer = styled(Container)<{ $hasLabel: boolean }>`
 		`}
 `;
 
-const RelativeContainer = styled(Container)`
+const RelativeContainer = styled(Container, transientOptions)`
 	position: relative;
 `;
 
-const InputEl = styled.input<{ $color: keyof Theme['palette'] }>`
+const InputEl = styled('input', transientOptions)<{ $color: keyof Theme['palette'] }>`
 	border: none !important;
 	height: auto !important;
 	width: 1em;
@@ -97,14 +98,14 @@ const InputEl = styled.input<{ $color: keyof Theme['palette'] }>`
 	}
 `;
 
-const HiddenSpan = styled.span`
+const HiddenSpan = styled('span', transientOptions)`
 	position: absolute;
 	height: 0;
 	overflow: hidden;
 	white-space: pre;
 `;
 
-const AdjustWidthInputContainer = styled.div`
+const AdjustWidthInputContainer = styled('div', transientOptions)`
 	position: relative;
 	flex: 1 1 auto;
 	overflow-wrap: break-word;
@@ -163,7 +164,7 @@ const AdjustWidthInput = React.forwardRef<
 	);
 });
 
-const Label = styled(InputLabel)<{
+const Label = styled(InputLabel, transientOptions)<{
 	$hasItems: boolean;
 }>`
 	${AdjustWidthInputContainer}:focus-within + & {
@@ -181,18 +182,18 @@ const Label = styled(InputLabel)<{
 		`};
 `;
 
-const CustomInputDescription = styled(InputDescription)<{
+const CustomInputDescription = styled(InputDescription, transientOptions)<{
 	$backgroundColor?: string;
 }>`
 	background-color: ${({ $backgroundColor, theme }): string | undefined =>
 		$backgroundColor && getColor($backgroundColor, theme)};
 `;
 
-const CustomIconButton = styled(Button)`
+const CustomIconButton = styled(Button, transientOptions)`
 	padding: 0.125rem;
 `;
 
-const CustomIcon = styled(Icon)`
+const CustomIcon = styled(Icon, transientOptions)`
 	padding: 0.125rem;
 	width: 1.25rem;
 	height: 1.25rem;

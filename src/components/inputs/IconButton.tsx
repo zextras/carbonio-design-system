@@ -16,8 +16,9 @@ import { getPadding, isThemeSize } from '../../theme/theme-utils';
 import type { AnyColor } from '../../types/utils';
 import type { ButtonProps } from '../basic/button/Button';
 import { Button } from '../basic/button/Button';
+import { transientOptions } from '../../utils/emotion';
 
-const StyledIconButton = styled(Button)<{
+const StyledIconButton = styled(Button, transientOptions)<{
 	$iconSize?: string;
 	$paddingSize?: string;
 }>`

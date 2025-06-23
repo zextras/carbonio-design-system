@@ -11,8 +11,9 @@ import styled from '@emotion/styled';
 import type { AnyColor } from '../../types/utils';
 import type { ButtonProps } from '../basic/button/Button';
 import { Button } from '../basic/button/Button';
+import { transientOptions } from '../../utils/emotion';
 
-const FileInput = styled.input`
+const FileInput = styled('input', transientOptions)`
 	display: none;
 `;
 

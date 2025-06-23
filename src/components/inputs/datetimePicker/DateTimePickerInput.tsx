@@ -15,13 +15,14 @@ import { Container } from '../../layout/container/Container';
 import type { IconButtonProps } from '../IconButton';
 import type { InputProps } from '../input/Input';
 import { Input } from '../input/Input';
+import { transientOptions } from '../../../utils/emotion';
 
-const InputIconsContainer = styled.div`
+const InputIconsContainer = styled('div', transientOptions)`
 	display: flex;
 	gap: 0.5rem;
 	width: fit-content;
 `;
-const CustomIconButton = styled(Button)`
+const CustomIconButton = styled(Button, transientOptions)`
 	padding: 0.125rem;
 `;
 

@@ -19,8 +19,9 @@ import { Container } from '../layout/container/Container';
 import { Divider } from '../layout/divider/Divider';
 import { Padding } from '../layout/Padding';
 import { Row } from '../layout/Row';
+import { transientOptions } from '../../utils/emotion';
 
-const Label = styled(Text)<{ $selected: boolean }>`
+const Label = styled(Text, transientOptions)<{ $selected: boolean }>`
 	position: absolute;
 	top: ${({ $selected, theme }): string =>
 		$selected ? `calc(${theme.sizes.padding.small} - 0.0625rem)` : '50%'};
@@ -29,7 +30,7 @@ const Label = styled(Text)<{ $selected: boolean }>`
 	transition: 150ms ease-out;
 `;
 
-const ContainerEl = styled(Container)<{ $focus: boolean }>`
+const ContainerEl = styled(Container, transientOptions)<{ $focus: boolean }>`
 	transition: background 0.2s ease-out;
 	&:hover {
 		background: ${({ theme, background }): string => getColor(`${background}.hover`, theme)};
@@ -41,11 +42,11 @@ const ContainerEl = styled(Container)<{ $focus: boolean }>`
 		`};
 `;
 
-const CustomText = styled(Text)`
+const CustomText = styled(Text, transientOptions)`
 	min-height: 1.167em;
 `;
 
-const CustomIcon = styled(Icon)`
+const CustomIcon = styled(Icon, transientOptions)`
 	align-self: center;
 	pointer-events: none;
 `;
@@ -113,7 +114,7 @@ const DefaultLabelFactory = <T,>({
 	);
 };
 
-const TabContainer = styled(Container)`
+const TabContainer = styled(Container, transientOptions)`
 	position: relative;
 	cursor: pointer;
 

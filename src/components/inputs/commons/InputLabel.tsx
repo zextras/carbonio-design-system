@@ -10,6 +10,7 @@ import React from 'react';
 import styled from '@emotion/styled';
 
 import { getColor } from '../../../theme/theme-utils';
+import { transientOptions } from '../../../utils/emotion';
 
 interface InputLabelProps extends LabelHTMLAttributes<HTMLLabelElement> {
 	hasError?: boolean;
@@ -17,7 +18,7 @@ interface InputLabelProps extends LabelHTMLAttributes<HTMLLabelElement> {
 	disabled?: boolean;
 }
 
-const StyledInputLabel = styled.label<{ $textColor: string }>`
+const StyledInputLabel = styled('label', transientOptions)<{ $textColor: string }>`
 	position: absolute;
 	top: 50%;
 	transform: translateY(-50%);
