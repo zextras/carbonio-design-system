@@ -178,25 +178,11 @@ const ContainerEl = styled('div', transientOptions)<With$Prefix<ContainerElProps
 					border: 0.0625rem solid ${getColor($borderColor, theme)};
 				`;
 			}
-
 			
-			// STYLED-COMPONENTS
-			// export type Styles<Props extends object> = TemplateStringsArray | StyledObject<Props> | StyleFunction<Props>;
-			// import { Interpolation, NoInfer, RuleSet, Styles } from '../types';
-			// declare function css(styles: Styles<object>, ...interpolations: Interpolation<object>[]): RuleSet<object>;
-			// declare function css<Props extends object>(styles: Styles<NoInfer<Props>>, ...interpolations: Interpolation<NoInfer<Props>>[]): RuleSet<NoInfer<Props>>;
-			// export default css;
-
-			// EMOTION
-			// declare function css(template: TemplateStringsArray, ...args: CSSInterpolation[]): SerializedStyles;
-			// declare function css(...args: CSSInterpolation[]): SerializedStyles;
-			// export default css;
-			
-			// TODO FARE MAPPA DI TUTTI GLI STILE BORDER E SOLO DOPO FARE UN UNIC CSS
-			return map(
+			return css(map(
 				$borderColor,
 				(color, key) => color && css`border-${key}: 0.0625rem solid ${getColor(color, theme)};`
-			);
+			));
 		}
 		return false;
 	}};
