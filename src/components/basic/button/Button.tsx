@@ -17,6 +17,7 @@ import type { IconProps } from '../icon/Icon';
 import { Icon } from '../icon/Icon';
 import { Spinner } from '../spinner/Spinner';
 import { Text } from '../text/Text';
+import { transientOptions } from '../../../utils/emotion';
 
 type ButtonShape = 'regular' | 'round';
 type ButtonSize = 'extrasmall' | 'small' | 'medium' | 'large' | 'extralarge';
@@ -117,7 +118,7 @@ type StyledButtonProps = With$Prefix<{
 	minWidth?: string;
 }>;
 
-const StyledIcon = styled(Icon)<{ $loading?: boolean; $size: string }>`
+const StyledIcon = styled(Icon, transientOptions)<{ $loading?: boolean; $size: string }>`
 	${({ $loading = false }): ReturnType<typeof css> | false =>
 		$loading &&
 		css`
@@ -130,7 +131,7 @@ const StyledIcon = styled(Icon)<{ $loading?: boolean; $size: string }>`
 	flex-shrink: 0;
 `;
 
-const StyledText = styled(Text)<{ $loading: boolean; $size: string }>`
+const StyledText = styled(Text, transientOptions)<{ $loading: boolean; $size: string }>`
 	user-select: none;
 	text-transform: uppercase;
 	font-size: ${({ $size }): string => $size};
@@ -141,7 +142,7 @@ const StyledText = styled(Text)<{ $loading: boolean; $size: string }>`
 		`};
 `;
 
-const StyledLoadingContainer = styled.div`
+const StyledLoadingContainer = styled('div', transientOptions)`
 	position: absolute;
 	width: 100%;
 	height: 100%;
@@ -152,7 +153,7 @@ const StyledLoadingContainer = styled.div`
 	align-items: center;
 `;
 
-const StyledButton = styled.button<StyledButtonProps>`
+const StyledButton = styled('button', transientOptions)<StyledButtonProps>`
 	/* set line-height to normal so that the browser can calculate it based on the font, and the accents are not cut off */
 	line-height: normal;
 	display: flex;
@@ -202,7 +203,7 @@ const StyledButton = styled.button<StyledButtonProps>`
 	}
 `;
 
-const StyledSecondaryAction = styled(StyledButton)<{ $loading: boolean }>`
+const StyledSecondaryAction = styled(StyledButton, transientOptions)<{ $loading: boolean }>`
 	flex-shrink: 0;
 	min-width: fit-content;
 	${({ $loading }): ReturnType<typeof css> | false | undefined =>
@@ -212,14 +213,14 @@ const StyledSecondaryAction = styled(StyledButton)<{ $loading: boolean }>`
 		`};
 `;
 
-const StyledSecondaryActionPlaceholder = styled.span<{ $padding: string }>`
+const StyledSecondaryActionPlaceholder = styled('span', transientOptions)<{ $padding: string }>`
 	/* padding */
 	padding: ${({ $padding }): string => $padding};
 	order: 3;
 	visibility: hidden;
 `;
 
-const StyledGrid = styled.div<{ $width: 'fill' | 'fit'; $padding: string; $minWidth?: string }>`
+const StyledGrid = styled('div', transientOptions)<{ $width: 'fill' | 'fit'; $padding: string; $minWidth?: string }>`
 	width: ${({ $width }): false | string =>
 		($width === 'fill' && '100%') || ($width === 'fit' && 'fit-content')};
 	max-width: 100%;

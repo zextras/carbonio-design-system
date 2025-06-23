@@ -12,6 +12,7 @@ import styled from '@emotion/styled';
 
 import { getColor } from '../../../theme/theme-utils';
 import type { AnyColor } from '../../../types/utils';
+import { transientOptions } from '../../../utils/emotion';
 
 interface SpinnerProps extends HTMLAttributes<HTMLDivElement> {
 	color: AnyColor;
@@ -26,7 +27,7 @@ const rotateKeyframes = keyframes`
 	}
 `;
 
-const StyledSpinner = styled.div<{ $color: AnyColor }>`
+const StyledSpinner = styled('div', transientOptions)<{ $color: AnyColor }>`
 	width: 0.75rem;
 	height: 0.75rem;
 	color: ${({ theme, $color }): string => getColor($color, theme)};

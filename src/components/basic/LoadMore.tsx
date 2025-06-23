@@ -14,8 +14,9 @@ import { Text } from './text/Text';
 import type { ContainerProps } from '../layout/container/Container';
 import { Container } from '../layout/container/Container';
 import { Padding } from '../layout/Padding';
+import { transientOptions } from '../../utils/emotion';
 
-const CustomText = styled(Text)`
+const CustomText = styled(Text, transientOptions)`
 	user-select: none;
 `;
 

@@ -3,33 +3,8 @@
  *
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-export const withAttrs = <T extends object>(
-  Component: React.ComponentType<T>,
-  defaultProps: T | ((props: T) => Partial<T>)
-) => {
-  if (typeof defaultProps === 'function') {
-    const originalRender = Component.prototype?.render;
-    Component.defaultProps = {
-      ...Component.defaultProps,
-      ...(defaultProps({} as T)),
-    };
-  } else {
-    Component.defaultProps = {
-      ...Component.defaultProps,
-      ...defaultProps,
-    };
-  }
-  return Component;
+import { CreateStyled } from "@emotion/styled";
+
+export const transientOptions: Parameters<CreateStyled>[1] = {
+  shouldForwardProp: (propName: string) => !propName.startsWith('$'),
 };
-
-// export const withAttrs = <T extends object>(
-//   Component: React.ComponentType<T>,
-//   defaultProps: T) => {
-
-//     Component.defaultProps = {
-//       ...Component.defaultProps,
-//       ...defaultProps,
-//     };
-
-//   return Component;
-// };

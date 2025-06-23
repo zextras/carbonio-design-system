@@ -13,8 +13,9 @@ import { useKeyboard, getKeyboardPreset } from '../../../hooks/useKeyboard';
 import { getColor } from '../../../theme/theme-utils';
 import type { TextProps } from '../text/Text';
 import { Text } from '../text/Text';
+import { transientOptions } from '../../../utils/emotion';
 
-const StyledLink = styled(Text)<{
+const StyledLink = styled(Text, transientOptions)<{
 	$underlined: boolean;
 	as: React.ElementType;
 }>`

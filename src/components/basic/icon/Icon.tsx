@@ -13,6 +13,7 @@ import { css, useTheme } from '@emotion/react'
 import type { Theme, IconComponent } from '../../../theme/theme';
 import { getColor } from '../../../theme/theme-utils';
 import type { AnyColor, MakeRequired, With$Prefix } from '../../../types/utils';
+import { transientOptions } from '../../../utils/emotion';
 
 interface IconComponentProps extends SVGAttributes<SVGSVGElement> {
 	/** Icon to show. It can be a string key for the theme icons or a custom icon component */
@@ -45,7 +46,7 @@ const IconBase = React.forwardRef<SVGSVGElement, IconComponentProps>(function Ic
 	return <IconComp data-testid={`icon: ${icon}`} ref={ref} viewBox="0 0 24 24" {...rest} />;
 });
 
-const StyledIcon = styled(IconBase)<With$Prefix<MakeRequired<StyledIconProps, 'color' | 'size'>>>`
+const StyledIcon = styled(IconBase, transientOptions)<With$Prefix<MakeRequired<StyledIconProps, 'color' | 'size'>>>`
 	display: block;
 	fill: currentColor;
 	color: ${({ $color, $disabled, theme }): string =>

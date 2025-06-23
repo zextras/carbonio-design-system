@@ -9,12 +9,12 @@ import styled from '@emotion/styled';
 
 import { Text, Container, Row, ThemeProvider, useTheme } from '../../src';
 
-const PaletteEl = styled(Container)`
+const PaletteEl = styled(Container, transientOptions)`
 	height: 6.25rem;
 	border-radius: 0.5rem;
 	box-shadow: 0.375rem 0.25rem 0.625rem 0 rgba(136, 136, 136, 0.5);
 `;
-const TextFrame = styled(Row)`
+const TextFrame = styled(Row, transientOptions)`
 	border-radius: 0.5rem 0.5rem 0 0;
 `;
 const ScrollFrame = styled.div`

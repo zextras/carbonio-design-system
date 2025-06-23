@@ -15,8 +15,9 @@ import { Tooltip } from '../../display/tooltip/Tooltip';
 import { Container } from '../../layout/container/Container';
 import { Icon } from '../icon/Icon';
 import { Text } from '../text/Text';
+import { transientOptions } from '../../../utils/emotion';
 
-const Comp = styled(Container)`
+const Comp = styled(Container, transientOptions)`
 	vertical-align: middle;
 	display: inline-flex;
 	border-radius: 3.125rem;

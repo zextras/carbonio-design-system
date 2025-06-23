@@ -14,6 +14,7 @@ import { css } from '@emotion/react';
 import { Icon } from './icon/Icon';
 import type { Theme } from '../../theme/theme';
 import { getColor } from '../../theme/theme-utils';
+import { transientOptions } from '../../utils/emotion';
 
 type ShapeType = 'round' | 'square';
 
@@ -60,7 +61,7 @@ interface AvatarPropTypes extends Omit<HTMLAttributes<HTMLDivElement>, 'color'> 
 	disabled?: boolean;
 }
 
-const AvatarContainer = styled.div<AvatarContainerProps>`
+const AvatarContainer = styled('div', transientOptions)<AvatarContainerProps>`
 	box-sizing: border-box;
 	display: flex;
 	justify-content: center;
@@ -86,7 +87,7 @@ const AvatarContainer = styled.div<AvatarContainerProps>`
 		$selecting ? `0.125rem solid ${getColor('primary', theme)}` : 'none'};
 `;
 
-const Capitals = styled.p<CapitalsPropsType>`
+const Capitals = styled('p', transientOptions)<CapitalsPropsType>`
 	font-size: ${({ theme, $size }): string => theme.sizes.avatar[$size].font};
 	color: ${({ theme, $color }): string => getColor($color ?? 'gray6', theme)};
 	font-family: ${({ theme }): string => theme.fonts.default};
@@ -94,7 +95,7 @@ const Capitals = styled.p<CapitalsPropsType>`
 	user-select: none;
 `;
 
-const AvatarIcon = styled(Icon)<CapitalsPropsType>`
+const AvatarIcon = styled(Icon, transientOptions)<CapitalsPropsType>`
 	width: calc(${({ theme, $size }): string => theme.sizes.avatar[$size].diameter} * 0.75);
 	min-width: calc(${({ theme, $size }): string => theme.sizes.avatar[$size].diameter} * 0.75);
 	height: calc(${({ theme, $size }): string => theme.sizes.avatar[$size].diameter} * 0.75);
