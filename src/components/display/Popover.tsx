@@ -14,8 +14,9 @@ import { useTheme } from '@emotion/react';
 import type { PopperProps } from './Popper';
 import { Popper } from './Popper';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
+import { transientOptions } from '../../utils/emotion';
 
-const PopoverContainer = styled.div<{ $styleAsModal: boolean }>`
+const PopoverContainer = styled('div', transientOptions)<{ $styleAsModal: boolean }>`
 	padding: ${({ theme }): string => theme.sizes.padding.small};
 	border-radius: ${({ $styleAsModal, theme }): string =>
 		$styleAsModal ? '1rem' : theme.borderRadius};

@@ -26,6 +26,7 @@ import { setupFloating } from '../../../utils/floating-ui';
 import type { TextProps } from '../../basic/text/Text';
 import { Text } from '../../basic/text/Text';
 import { Portal } from '../../utilities/Portal';
+import { transientOptions } from '../../../utils/emotion';
 
 interface TooltipWrapperProps extends TextProps {
 	open: boolean;
@@ -45,7 +46,7 @@ const TooltipWrapper = React.forwardRef<HTMLDivElement, TooltipWrapperProps>(
 		);
 	}
 );
-const TooltipWrapperWithCss = styled(TooltipWrapper)<{ $maxWidth: string }>`
+const TooltipWrapperWithCss = styled(TooltipWrapper, transientOptions)<{ $maxWidth: string }>`
 	display: none;
 	position: absolute;
 	top: -1000px;

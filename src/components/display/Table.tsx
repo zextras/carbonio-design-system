@@ -18,8 +18,9 @@ import type { MultipleSelectionOnChange, SelectProps } from '../inputs/Select';
 import { Select } from '../inputs/Select';
 import { Container } from '../layout/container/Container';
 import { Row } from '../layout/Row';
+import { transientOptions } from '../../utils/emotion';
 
-const StyledCheckbox = styled(Checkbox)<{
+const StyledCheckbox = styled(Checkbox, transientOptions)<{
 	$show: boolean;
 }>`
 	display: ${({ $show }): string => ($show ? 'block' : 'none')};
@@ -36,7 +37,7 @@ const StyledTr = styled.tr`
 	}
 `;
 
-const TableRow = styled.tr<{
+const TableRow = styled('tr', transientOptions)<{
 	$selected: boolean;
 	$highlight?: boolean;
 	$showCheckbox?: boolean;
