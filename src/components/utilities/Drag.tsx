@@ -8,8 +8,9 @@ import type { HTMLAttributes } from 'react';
 import React, { useCallback } from 'react';
 
 import styled from '@emotion/styled';
+import { transientOptions } from '../../utils/emotion';
 
-const DragEl = styled.div`
+const DragEl = styled('div', transientOptions)`
 	display: inline-block;
 	position: relative;
 `;
