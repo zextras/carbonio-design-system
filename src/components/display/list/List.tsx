@@ -16,12 +16,13 @@ import type { Theme } from '../../../theme/theme';
 import type { ContainerProps } from '../../layout/container/Container';
 import { Container } from '../../layout/container/Container';
 import type { ListItemProps } from '../ListItem';
+import { transientOptions } from '../../../utils/emotion';
 
-const ExternalContainer = styled(Container)`
+const ExternalContainer = styled(Container, transientOptions)`
 	display: block;
 `;
 
-const StyledList = styled(Container)`
+const StyledList = styled(Container, transientOptions)`
 	overflow-y: auto;
 	overflow-y: overlay;
 

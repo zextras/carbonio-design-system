@@ -22,6 +22,7 @@ import { Text } from '../basic/text/Text';
 import { Container } from '../layout/container/Container';
 import type { RowProps } from '../layout/Row';
 import { Row } from '../layout/Row';
+import { transientOptions } from '../../utils/emotion';
 
 type ChipAction = {
 	/** Chip action icon color */
@@ -100,7 +101,7 @@ interface ChipProps extends Omit<RowProps, 'children'> {
 
 const ActionIcon = styled(Icon)``;
 
-const ActionIconButton = styled(Button)<{
+const ActionIconButton = styled(Button, transientOptions)<{
 	$iconSize?: keyof Theme['sizes']['icon'];
 	$paddingSize?: string;
 }>`
@@ -121,7 +122,7 @@ const ActionIconButton = styled(Button)<{
 		`};
 `;
 
-const ActionContainer = styled.div<{ $spacing: string }>`
+const ActionContainer = styled('div', transientOptions)<{ $spacing: string }>`
 	min-width: fit-content;
 	& > ${ActionIcon} {
 		padding: ${({ $spacing }): ReturnType<typeof css> => css`calc(${$spacing} / 2)`};
@@ -139,7 +140,7 @@ const ContentContainer = styled(Container)`
 	}
 `;
 
-const ChipContainer = styled(Container)<{
+const ChipContainer = styled(Container, transientOptions)<{
 	$disabled: boolean;
 }>`
 	user-select: none;

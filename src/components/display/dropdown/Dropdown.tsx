@@ -36,8 +36,9 @@ import { Divider } from '../../layout/divider/Divider';
 import { Padding } from '../../layout/Padding';
 import { Portal } from '../../utilities/Portal';
 import { Tooltip } from '../tooltip/Tooltip';
+import { transientOptions } from '../../../utils/emotion';
 
-const ContainerEl = styled(Container)<{
+const ContainerEl = styled(Container, transientOptions)<{
 	$selectedBackgroundColor?: AnyColor;
 	$disabled: boolean;
 }>`
@@ -337,12 +338,12 @@ function NestListItem({
 	);
 }
 
-const PopperDropdownWrapper = styled.div<{ $display: 'inline-block' | 'block' }>`
+const PopperDropdownWrapper = styled('div', transientOptions)<{ $display: 'inline-block' | 'block' }>`
 	position: relative;
 	display: ${({ $display }): 'inline-block' | 'block' => $display};
 	width: ${({ $display }): string => ($display === 'block' ? '100%' : 'auto')};
 `;
-const PopperList = styled.div<{
+const PopperList = styled('div', transientOptions)<{
 	$width: string;
 	$maxWidth: string;
 	$maxHeight: string;

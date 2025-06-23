@@ -18,8 +18,9 @@ import type { KeyboardPresetObj } from '../../hooks/useKeyboard';
 import { useKeyboard } from '../../hooks/useKeyboard';
 import { setupFloating } from '../../utils/floating-ui';
 import { Portal } from '../utilities/Portal';
+import { transientOptions } from '../../utils/emotion';
 
-const PopperContainer = styled.div<{ $open: boolean }>`
+const PopperContainer = styled('div', transientOptions)<{ $open: boolean }>`
 	display: none;
 	position: absolute;
 	${({ $open }): ReturnType<typeof css> | false =>
