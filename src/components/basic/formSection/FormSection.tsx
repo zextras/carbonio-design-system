@@ -15,14 +15,16 @@ import type { TextProps } from '../text/Text';
 
 interface FormSectionProps extends ContainerProps {
 	label: TextProps['children'];
+	disabled?: boolean;
 }
 
 interface FormSubSectionProps extends ContainerProps {
 	label?: TextProps['children'];
+	disabled?: boolean;
 }
 
 const FormSection = React.forwardRef<HTMLDivElement, FormSectionProps>(function FormSectionFn(
-	{ label, children, ...rest },
+	{ label, children, disabled, ...rest },
 	ref
 ) {
 	return (
@@ -35,7 +37,7 @@ const FormSection = React.forwardRef<HTMLDivElement, FormSectionProps>(function 
 			{...rest}
 		>
 			<Padding top="small" bottom="small">
-				<Text weight="bold" size="extralarge">
+				<Text weight="bold" size="extralarge" disabled={disabled}>
 					{label}
 				</Text>
 			</Padding>
@@ -48,7 +50,7 @@ const FormSection = React.forwardRef<HTMLDivElement, FormSectionProps>(function 
 });
 
 const FormSubSection = React.forwardRef<HTMLDivElement, FormSubSectionProps>(
-	function FormSubSectionFn({ label, children, ...rest }, ref) {
+	function FormSubSectionFn({ label, children, disabled, ...rest }, ref) {
 		return (
 			<Container
 				background="gray6"
@@ -59,7 +61,7 @@ const FormSubSection = React.forwardRef<HTMLDivElement, FormSubSectionProps>(
 				{...rest}
 			>
 				{label && (
-					<Text weight="bold" size="large">
+					<Text weight="bold" size="large" disabled={disabled}>
 						{label}
 					</Text>
 				)}
