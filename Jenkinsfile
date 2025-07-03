@@ -269,6 +269,7 @@ pipeline {
             steps {
                 script {
                     container('nodejs-' + nodeVersion) {
+                        sh 'apt update && apt install -y openssh-client'
                         String versionBumperBranchName = "version-bumper/${getLastTag()}"
                         sh(script: """
                             git push origin HEAD:refs/heads/${versionBumperBranchName}
