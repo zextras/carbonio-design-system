@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+export { default as FilesNotifications } from './FilesNotifications';
 export { default as AcceptanceMeeting } from './AcceptanceMeeting';
 export { default as Activity } from './Activity';
 export { default as AddressBookMailedTo } from './AddressBookMailedTo';
@@ -165,7 +166,6 @@ export { default as FileVcard } from './FileVcard';
 export { default as FileVideo } from './FileVideo';
 export { default as FileZip } from './FileZip';
 export { default as File } from './File';
-export { default as FilesNotifications } from './FilesNotifications';
 export { default as Film } from './Film';
 export { default as Flag } from './Flag';
 export { default as Flake } from './Flake';
@@ -310,6 +310,7 @@ export { default as Settings2 } from './Settings2';
 export { default as SettingsMod } from './SettingsMod';
 export { default as Settings } from './Settings';
 export { default as Shake } from './Shake';
+export { default as ShareOff } from './ShareOff';
 export { default as Share } from './Share';
 export { default as SharedAccount } from './SharedAccount';
 export { default as SharedAddressBook } from './SharedAddressBook';
