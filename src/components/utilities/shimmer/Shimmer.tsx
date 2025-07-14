@@ -6,16 +6,16 @@
 
 import React from 'react';
 
-import styled from '@emotion/styled';
 import { keyframes } from '@emotion/react';
+import styled from '@emotion/styled';
 
 import type { Theme } from '../../../theme/theme';
 import type { LiteralUnion, With$Prefix } from '../../../types/utils';
+import { transientOptions } from '../../../utils/emotion';
 import type { FormSectionProps, FormSubSectionProps } from '../../basic/formSection/FormSection';
 import { FormSection, FormSubSection } from '../../basic/formSection/FormSection';
 import { Container } from '../../layout/container/Container';
 import { Padding } from '../../layout/Padding';
-import { transientOptions } from '../../../utils/emotion';
 
 const SIZES = {
 	small: 0.3125,
@@ -76,7 +76,9 @@ type AvatarSkeletonComponentProps = {
 	width?: string;
 };
 
-const AvatarSkeletonComponent = styled('div', transientOptions)<With$Prefix<AvatarSkeletonComponentProps>>`
+const AvatarSkeletonComponent = styled('div', transientOptions)<
+	With$Prefix<AvatarSkeletonComponentProps>
+>`
 	animation: ${shimmerEffect} 1.5s linear infinite;
 	background: ${({ $variant, theme }): string => backgroundFunction($variant ?? '', theme)};
 	background-size: ${backgroundSize};
@@ -134,7 +136,7 @@ type ShimmerFormSectionProps = Omit<FormSectionProps, 'label'>;
 type ShimmerFormSubSectionProps = Omit<FormSubSectionProps, 'label'>;
 
 const FormSectionSkeletonComponent = styled(
-	FormSection as unknown as React.FC<ShimmerFormSectionProps>, 
+	FormSection as unknown as React.FC<ShimmerFormSectionProps>,
 	transientOptions
 )<With$Prefix<FormSectionSkeletonProps>>`
 	animation: ${shimmerEffect} 1.5s linear infinite;

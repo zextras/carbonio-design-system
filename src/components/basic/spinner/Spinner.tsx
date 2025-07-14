@@ -9,7 +9,6 @@ import React from 'react';
 import { keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
 
-
 import { getColor } from '../../../theme/theme-utils';
 import type { AnyColor } from '../../../types/utils';
 import { transientOptions } from '../../../utils/emotion';

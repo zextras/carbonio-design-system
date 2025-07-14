@@ -7,8 +7,8 @@
 import type { HTMLAttributes } from 'react';
 import React from 'react';
 
-import { omit } from 'lodash';
 import styled from '@emotion/styled';
+import { omit } from 'lodash';
 
 import type { Theme } from '../../theme/theme';
 import type { PaddingObj } from '../../theme/theme-utils';

@@ -6,18 +6,18 @@
 
 import React, { useRef, useCallback, useMemo } from 'react';
 
-import styled from '@emotion/styled';
 import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 
 import { useCheckbox } from '../../hooks/useCheckbox';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import type { Theme } from '../../theme/theme';
+import { transientOptions } from '../../utils/emotion';
 import { Icon } from '../basic/icon/Icon';
 import { Text } from '../basic/text/Text';
 import type { ContainerProps } from '../layout/container/Container';
 import { Container } from '../layout/container/Container';
 import { Padding } from '../layout/Padding';
-import { transientOptions } from '../../utils/emotion';
 
 const IconWrapper = styled('div', transientOptions)<{
 	$borderRadius: 'regular' | 'round';

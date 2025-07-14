@@ -7,9 +7,9 @@ import React from 'react';
 
 import styled from '@emotion/styled';
 
+import { transientOptions } from '../../../utils/emotion';
 import type { TextProps } from '../../basic/text/Text';
 import { Text } from '../../basic/text/Text';
-import { transientOptions } from '../../../utils/emotion';
 
 const StyledText = styled(Text, transientOptions)<{ size: NonNullable<TextProps['size']> }>`
 	line-height: 1.5;

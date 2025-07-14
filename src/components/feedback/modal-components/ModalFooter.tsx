@@ -5,15 +5,15 @@
  */
 import React, { useMemo } from 'react';
 
-import styled from '@emotion/styled';
 import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 
 import type { Theme } from '../../../theme/theme';
+import { transientOptions } from '../../../utils/emotion';
 import { Button } from '../../basic/button/Button';
 import { Tooltip } from '../../display/tooltip/Tooltip';
 import { Container } from '../../layout/container/Container';
 import { Padding } from '../../layout/Padding';
-import { transientOptions } from '../../../utils/emotion';
 
 const OptionalFooterContainer = styled(Container, transientOptions)`
 	min-width: 0.0625rem;

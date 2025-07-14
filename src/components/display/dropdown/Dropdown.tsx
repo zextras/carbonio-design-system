@@ -8,10 +8,10 @@
 import type { HTMLAttributes } from 'react';
 import React, { useState, useRef, useEffect, useLayoutEffect, useCallback, useMemo } from 'react';
 
+import { css, useTheme } from '@emotion/react';
+import styled from '@emotion/styled';
 import type { Placement, VirtualElement } from '@floating-ui/dom';
 import { flip, limitShift, shift } from '@floating-ui/dom';
-import styled from '@emotion/styled';
-import { css, useTheme } from '@emotion/react';
 
 import { useCombinedRefs } from '../../../hooks/useCombinedRefs';
 import type { KeyboardPresetObj } from '../../../hooks/useKeyboard';
@@ -27,6 +27,7 @@ import {
 import type { Theme } from '../../../theme/theme';
 import { pseudoClasses } from '../../../theme/theme-utils';
 import type { AnyColor } from '../../../types/utils';
+import { transientOptions } from '../../../utils/emotion';
 import { setupFloating } from '../../../utils/floating-ui';
 import { Icon } from '../../basic/icon/Icon';
 import { Text } from '../../basic/text/Text';
@@ -36,7 +37,6 @@ import { Divider } from '../../layout/divider/Divider';
 import { Padding } from '../../layout/Padding';
 import { Portal } from '../../utilities/Portal';
 import { Tooltip } from '../tooltip/Tooltip';
-import { transientOptions } from '../../../utils/emotion';
 
 const ContainerEl = styled(Container, transientOptions)<{
 	$selectedBackgroundColor?: AnyColor;
@@ -338,7 +338,9 @@ function NestListItem({
 	);
 }
 
-const PopperDropdownWrapper = styled('div', transientOptions)<{ $display: 'inline-block' | 'block' }>`
+const PopperDropdownWrapper = styled('div', transientOptions)<{
+	$display: 'inline-block' | 'block';
+}>`
 	position: relative;
 	display: ${({ $display }): 'inline-block' | 'block' => $display};
 	width: ${({ $display }): string => ($display === 'block' ? '100%' : 'auto')};

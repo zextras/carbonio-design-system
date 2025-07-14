@@ -7,13 +7,13 @@
 import type { HTMLAttributes } from 'react';
 import React, { useMemo } from 'react';
 
-import styled from '@emotion/styled';
 import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 
 import { Transition } from './Transition';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
-import { Container } from '../layout/container/Container';
 import { transientOptions } from '../../utils/emotion';
+import { Container } from '../layout/container/Container';
 
 const CollapseEl = styled('div', transientOptions)<{
 	$crossSize?: string;

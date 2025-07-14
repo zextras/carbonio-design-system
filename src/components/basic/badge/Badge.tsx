@@ -11,11 +11,11 @@ import styled from '@emotion/styled';
 
 import type { Theme } from '../../../theme/theme';
 import type { AnyColor } from '../../../types/utils';
+import { transientOptions } from '../../../utils/emotion';
 import { Tooltip } from '../../display/tooltip/Tooltip';
 import { Container } from '../../layout/container/Container';
 import { Icon } from '../icon/Icon';
 import { Text } from '../text/Text';
-import { transientOptions } from '../../../utils/emotion';
 
 const Comp = styled(Container, transientOptions)`
 	vertical-align: middle;

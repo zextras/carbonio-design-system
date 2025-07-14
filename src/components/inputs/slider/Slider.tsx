@@ -5,14 +5,14 @@
  */
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { rgba } from 'polished';
 import styled from '@emotion/styled';
+import { rgba } from 'polished';
 
 import { useCombinedRefs } from '../../../hooks/useCombinedRefs';
 import type { Theme } from '../../../theme/theme';
+import { transientOptions } from '../../../utils/emotion';
 import { Tooltip } from '../../display/tooltip/Tooltip';
 import { Container } from '../../layout/container/Container';
-import { transientOptions } from '../../../utils/emotion';
 
 const SLIDER_SIZES = {
 	TRACK_HEIGHT: '0.25rem',

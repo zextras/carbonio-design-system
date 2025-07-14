@@ -7,8 +7,8 @@
 import type { HTMLAttributes } from 'react';
 import React from 'react';
 
-import styled from '@emotion/styled';
 import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 
 import type { Theme } from '../../../theme/theme';
 import { getColor } from '../../../theme/theme-utils';

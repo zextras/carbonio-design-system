@@ -3,14 +3,15 @@
  *
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-import React, { HTMLAttributes } from 'react';
+import React from 'react';
 
-import { rgba } from 'polished';
-import styled from '@emotion/styled';
 import { css } from '@emotion/react';
+import styled from '@emotion/styled';
+import { rgba } from 'polished';
 
-import { Container, ContainerProps } from '../../layout/container/Container';
 import { transientOptions } from '../../../utils/emotion';
+import type { ContainerProps } from '../../layout/container/Container';
+import { Container } from '../../layout/container/Container';
 
 const modalMinWidth = {
 	extrasmall: '20%',
@@ -51,7 +52,11 @@ function getScrollbarSize(windowObj: Window): number {
 	return 0;
 }
 
-const ModalContainer = styled('div', transientOptions)<{ $mounted: boolean; $open: boolean; $zIndex: number }>`
+const ModalContainer = styled('div', transientOptions)<{
+	$mounted: boolean;
+	$open: boolean;
+	$zIndex: number;
+}>`
 	display: flex;
 	position: fixed;
 	top: 0;
@@ -104,29 +109,32 @@ interface ModalContentProps extends ContainerProps {
 	$size: keyof typeof modalMinWidth & keyof typeof modalWidth;
 }
 
-const ModalContent = React.forwardRef<HTMLDivElement, ModalContentProps>(function ModalContentFn ({
-	maxWidth,
-	minWidth,
-	width,
-	padding,
-	mainAlignment,
-	crossAlignment,
-	height,
-	tabIndex,
-	$size,
-	...rest
-}: ModalContentProps, ref) {
+const ModalContent = React.forwardRef<HTMLDivElement, ModalContentProps>(function ModalContentFn(
+	{
+		maxWidth,
+		minWidth,
+		width,
+		padding,
+		mainAlignment,
+		crossAlignment,
+		height,
+		tabIndex,
+		$size,
+		...rest
+	}: ModalContentProps,
+	ref
+) {
 	return (
 		<StyledModalContent
 			{...rest}
 			ref={ref}
-			maxWidth='100%'
+			maxWidth="100%"
 			minWidth={modalMinWidth[$size]}
 			width={modalWidth[$size]}
-			padding='2rem'
-			mainAlignment='flex-start'
-			crossAlignment='flex-start'
-			height='auto'
+			padding="2rem"
+			mainAlignment="flex-start"
+			crossAlignment="flex-start"
+			height="auto"
 			tabIndex={-1}
 		/>
 	);

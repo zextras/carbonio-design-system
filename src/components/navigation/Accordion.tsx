@@ -6,14 +6,15 @@
 
 import React, { useMemo, useState, useCallback, useEffect } from 'react';
 
-import { map } from 'lodash';
-import styled from '@emotion/styled';
 import { css } from '@emotion/react';
+import styled from '@emotion/styled';
+import { map } from 'lodash';
 
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { useKeyboard, getKeyboardPreset } from '../../hooks/useKeyboard';
 import type { Theme } from '../../theme/theme';
 import { getColor, pseudoClasses } from '../../theme/theme-utils';
+import { transientOptions } from '../../utils/emotion';
 import { Badge } from '../basic/badge/Badge';
 import { Button } from '../basic/button/Button';
 import { Icon } from '../basic/icon/Icon';
@@ -25,7 +26,6 @@ import { Container } from '../layout/container/Container';
 import { Divider } from '../layout/divider/Divider';
 import { Padding } from '../layout/Padding';
 import { Collapse } from '../utilities/Collapse';
-import { transientOptions } from '../../utils/emotion';
 
 const AccordionContainerEl = styled(Container, transientOptions)<{
 	$level: number;

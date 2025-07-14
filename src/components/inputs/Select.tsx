@@ -6,10 +6,11 @@
 
 import React, { useState, useMemo, useCallback, useEffect } from 'react';
 
-import styled from '@emotion/styled';
 import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 
 import { getColor } from '../../theme/theme-utils';
+import { transientOptions } from '../../utils/emotion';
 import { Icon } from '../basic/icon/Icon';
 import { Text } from '../basic/text/Text';
 import { INPUT_BACKGROUND_COLOR, INPUT_DIVIDER_COLOR } from '../constants';
@@ -19,7 +20,6 @@ import { Container } from '../layout/container/Container';
 import { Divider } from '../layout/divider/Divider';
 import { Padding } from '../layout/Padding';
 import { Row } from '../layout/Row';
-import { transientOptions } from '../../utils/emotion';
 
 const Label = styled(Text, transientOptions)<{ $selected: boolean }>`
 	position: absolute;

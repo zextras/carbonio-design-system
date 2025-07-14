@@ -3,13 +3,13 @@
  *
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-import styled from '@emotion/styled';
 import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 
 import { getColor, pseudoClasses } from '../../../theme/theme-utils';
+import { transientOptions } from '../../../utils/emotion';
 import type { ContainerProps } from '../../layout/container/Container';
 import { Container } from '../../layout/container/Container';
-import { transientOptions } from '../../../utils/emotion';
 
 export const InputContainer = styled(Container, transientOptions)<{
 	background: NonNullable<ContainerProps['background']>;

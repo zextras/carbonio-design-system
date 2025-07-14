@@ -3,8 +3,8 @@
  *
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-import { CreateStyled } from "@emotion/styled";
+import type { CreateStyled } from '@emotion/styled';
 
 export const transientOptions: Parameters<CreateStyled>[1] = {
-  shouldForwardProp: (propName: string) => !propName.startsWith('$') && propName !== 'as',
+	shouldForwardProp: (propName: string) => !propName.startsWith('$') && propName !== 'as'
 };

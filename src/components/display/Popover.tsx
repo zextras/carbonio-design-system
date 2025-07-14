@@ -6,10 +6,10 @@
 
 import React, { useEffect, useState, useCallback, useMemo } from 'react';
 
+import { useTheme } from '@emotion/react';
+import styled from '@emotion/styled';
 import type { VirtualElement } from '@floating-ui/dom';
 import { debounce } from 'lodash';
-import styled from '@emotion/styled';
-import { useTheme } from '@emotion/react';
 
 import type { PopperProps } from './Popper';
 import { Popper } from './Popper';

@@ -7,17 +7,17 @@
 import type { CSSProperties, InputHTMLAttributes, LabelHTMLAttributes } from 'react';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
-import styled from '@emotion/styled';
 import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import type { Theme } from '../../theme/theme';
 import { getColor, pseudoClasses } from '../../theme/theme-utils';
+import { transientOptions } from '../../utils/emotion';
 import type { TextProps } from '../basic/text/Text';
 import { Text } from '../basic/text/Text';
 import type { ContainerProps } from '../layout/container/Container';
 import { Container } from '../layout/container/Container';
-import { transientOptions } from '../../utils/emotion';
 
 const RADIO_SIZE: Record<
 	'small' | 'medium',
@@ -88,7 +88,9 @@ const RadioInput = styled('input', transientOptions)<{
 	transition-timing-function: ease-out;
 `;
 
-const Label = styled(Text, transientOptions)<LabelHTMLAttributes<HTMLLabelElement> & { as: React.ElementType; }>`
+const Label = styled(Text, transientOptions)<
+	LabelHTMLAttributes<HTMLLabelElement> & { as: React.ElementType }
+>`
 	line-height: 1.5;
 	${({ disabled }): ReturnType<typeof css> | false =>
 		!disabled &&
@@ -216,7 +218,13 @@ const RadioComponent = React.forwardRef(function RadioFn<
 	const labelWithClick = useMemo(
 		() =>
 			(typeof label === 'string' && (
-				<Label disabled={disabled} as="label" size={RADIO_SIZE[size].label} htmlFor={id} ref={labelRef}>
+				<Label
+					disabled={disabled}
+					as="label"
+					size={RADIO_SIZE[size].label}
+					htmlFor={id}
+					ref={labelRef}
+				>
 					{label}
 				</Label>
 			)) ||

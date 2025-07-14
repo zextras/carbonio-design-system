@@ -7,9 +7,9 @@
 import type { InputHTMLAttributes } from 'react';
 import React, { useCallback, useEffect, useMemo, useReducer, useRef, useState } from 'react';
 
-import { filter, slice, isEmpty, debounce, trim, uniq } from 'lodash';
-import styled from '@emotion/styled';
 import { css } from '@emotion/react';
+import styled from '@emotion/styled';
+import { filter, slice, isEmpty, debounce, trim, uniq } from 'lodash';
 
 import { useCombinedRefs } from '../../../hooks/useCombinedRefs';
 import type { KeyboardPresetKey, KeyboardPresetObj } from '../../../hooks/useKeyboard';
@@ -18,6 +18,7 @@ import { usePrevious } from '../../../hooks/usePrevious';
 import type { Theme } from '../../../theme/theme';
 import { getColor } from '../../../theme/theme-utils';
 import type { AnyColor, PaletteColor } from '../../../types/utils';
+import { transientOptions } from '../../../utils/emotion';
 import type { ButtonProps } from '../../basic/button/Button';
 import { Button } from '../../basic/button/Button';
 import { Icon } from '../../basic/icon/Icon';
@@ -33,7 +34,6 @@ import { Divider } from '../../layout/divider/Divider';
 import { InputContainer } from '../commons/InputContainer';
 import { InputDescription } from '../commons/InputDescription';
 import { InputLabel } from '../commons/InputLabel';
-import { transientOptions } from '../../../utils/emotion';
 
 const ContainerEl = styled(InputContainer, transientOptions)<{
 	background: PaletteColor;

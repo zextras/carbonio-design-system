@@ -7,9 +7,8 @@
 import type { HTMLAttributes } from 'react';
 import React, { useMemo } from 'react';
 
-import styled from '@emotion/styled';
 import { css } from '@emotion/react';
-
+import styled from '@emotion/styled';
 
 import { Icon } from './icon/Icon';
 import type { Theme } from '../../theme/theme';

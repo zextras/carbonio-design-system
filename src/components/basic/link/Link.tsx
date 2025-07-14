@@ -11,9 +11,9 @@ import styled from '@emotion/styled';
 import { useCombinedRefs } from '../../../hooks/useCombinedRefs';
 import { useKeyboard, getKeyboardPreset } from '../../../hooks/useKeyboard';
 import { getColor } from '../../../theme/theme-utils';
+import { transientOptions } from '../../../utils/emotion';
 import type { TextProps } from '../text/Text';
 import { Text } from '../text/Text';
-import { transientOptions } from '../../../utils/emotion';
 
 const StyledLink = styled(Text, transientOptions)<{
 	$underlined: boolean;

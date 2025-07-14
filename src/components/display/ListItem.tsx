@@ -5,6 +5,7 @@
  */
 import React from 'react';
 
+import type { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import { useIsVisible } from '../../hooks/useIsVisible/useIsVisible';
@@ -15,7 +16,8 @@ import { transientOptions } from '../../utils/emotion';
 const ListItemWrapper = styled('div', transientOptions)<{ $backgroundColor?: AnyColor }>`
 	user-select: none;
 	outline: none;
-	${({ theme, $backgroundColor }) => $backgroundColor && pseudoClasses(theme, $backgroundColor)};
+	${({ theme, $backgroundColor }): ReturnType<typeof css> | undefined =>
+		$backgroundColor && pseudoClasses(theme, $backgroundColor)};
 `;
 
 interface ListItemProps {

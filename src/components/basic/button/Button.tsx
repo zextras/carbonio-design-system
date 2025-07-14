@@ -7,17 +7,17 @@
 import type { ButtonHTMLAttributes } from 'react';
 import React, { useCallback, useMemo } from 'react';
 
-import styled from '@emotion/styled';
 import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 
 import { useCombinedRefs } from '../../../hooks/useCombinedRefs';
 import { getColor, pseudoClasses } from '../../../theme/theme-utils';
 import type { AnyColor, With$Prefix, Without$Prefix } from '../../../types/utils';
+import { transientOptions } from '../../../utils/emotion';
 import type { IconProps } from '../icon/Icon';
 import { Icon } from '../icon/Icon';
 import { Spinner } from '../spinner/Spinner';
 import { Text } from '../text/Text';
-import { transientOptions } from '../../../utils/emotion';
 
 type ButtonShape = 'regular' | 'round';
 type ButtonSize = 'extrasmall' | 'small' | 'medium' | 'large' | 'extralarge';
@@ -187,14 +187,14 @@ const StyledButton = styled('button', transientOptions)<StyledButtonProps>`
 	${({ $color, $backgroundColor, theme, $forceActive }): ReturnType<typeof css> =>
 		$forceActive
 			? css`
-				color: ${getColor(`${$color}.active`, theme)};
-				background-color: ${getColor(`${$backgroundColor}.active`, theme)};
-			`
+					color: ${getColor(`${$color}.active`, theme)};
+					background-color: ${getColor(`${$backgroundColor}.active`, theme)};
+				`
 			: css`
-				${pseudoClasses(theme, $color, 'color')};
-				${pseudoClasses(theme, $backgroundColor, 'background-color')};
-				${pseudoClasses(theme, $color, 'border-color')};
-			`};
+					${pseudoClasses(theme, $color, 'color')};
+					${pseudoClasses(theme, $backgroundColor, 'background-color')};
+					${pseudoClasses(theme, $color, 'border-color')};
+				`};
 
 	/* cursor */
 	cursor: pointer;
@@ -220,7 +220,11 @@ const StyledSecondaryActionPlaceholder = styled('span', transientOptions)<{ $pad
 	visibility: hidden;
 `;
 
-const StyledGrid = styled('div', transientOptions)<{ $width: 'fill' | 'fit'; $padding: string; $minWidth?: string }>`
+const StyledGrid = styled('div', transientOptions)<{
+	$width: 'fill' | 'fit';
+	$padding: string;
+	$minWidth?: string;
+}>`
 	width: ${({ $width }): false | string =>
 		($width === 'fill' && '100%') || ($width === 'fit' && 'fit-content')};
 	max-width: 100%;

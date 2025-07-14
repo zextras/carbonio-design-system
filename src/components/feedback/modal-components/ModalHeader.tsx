@@ -5,14 +5,14 @@
  */
 import React from 'react';
 
-import styled from '@emotion/styled';
 import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 
+import { transientOptions } from '../../../utils/emotion';
 import { Button } from '../../basic/button/Button';
 import { Text } from '../../basic/text/Text';
 import { Tooltip } from '../../display/tooltip/Tooltip';
 import { Row } from '../../layout/Row';
-import { transientOptions } from '../../../utils/emotion';
 
 interface ModalHeaderProps {
 	centered?: boolean;
