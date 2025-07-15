@@ -7123,6 +7123,13 @@
             "raw": "TextProps['children']"
           },
           "description": ""
+        },
+        "disabled": {
+          "required": false,
+          "tsType": {
+            "name": "boolean"
+          },
+          "description": ""
         }
       },
       "composes": [
@@ -7185,6 +7192,13 @@
           "tsType": {
             "name": "TextProps['children']",
             "raw": "TextProps['children']"
+          },
+          "description": ""
+        },
+        "disabled": {
+          "required": false,
+          "tsType": {
+            "name": "boolean"
           },
           "description": ""
         }
