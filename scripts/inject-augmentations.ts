@@ -22,6 +22,11 @@ async function extractModuleDeclarations(source: string): Promise<string> {
 	const moduleDeclarations: string[] = [];
 
 	function visitNode(node: ts.Node): void {
+		// Extract type alias declarations that match 'DSTheme'.
+		if (ts.isTypeAliasDeclaration(node) && node.name.text === 'DSTheme') {
+			moduleDeclarations.push(node.getText(sourceFile));
+		}
+
 		if (ts.isModuleDeclaration(node)) {
 			moduleDeclarations.push(node.getText(sourceFile));
 		}
