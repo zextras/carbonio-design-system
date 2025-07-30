@@ -32,8 +32,8 @@ const AccordionContainerEl = styled(Container)<{
 	$disableHover?: boolean;
 }>`
 	cursor: pointer;
-	padding-left: ${({ theme, $level }): ReturnType<typeof css> =>
-		css`calc(${Math.min($level + 1, 5)} * ${theme.sizes.padding.small})`};
+	padding-left: ${({ theme, $level }): string =>
+		`calc(${Math.min($level + 1, 5)} * ${theme.sizes.padding.small})`};
 	padding-right: ${({ theme }): string => theme.sizes.padding.small};
 	background-color: ${({ theme, background, $active }): string | undefined =>
 		background && getColor(`${[$active ? 'highlight' : background]}.regular`, theme)};
