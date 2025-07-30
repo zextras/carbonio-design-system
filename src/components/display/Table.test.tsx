@@ -240,67 +240,83 @@ describe('Table', () => {
 			expect(screen.getByText(items[1].columns[3] as string)).toBeVisible();
 		});
 
-		test('Checkboxes are hidden at first. They become all visible if there is at least one item checked', async () => {
-			const headers: THeader[] = [
-				{ id: 'col1', label: 'header 1' },
-				{ id: 'col2', label: 'header 2' }
-			];
-			const rows: TRow[] = [
-				{ id: 'row1', columns: ['row1col1', 'row1col2'], index: 90 },
-				{ id: 'row2', columns: ['row2col1', 'row2col2'], index: 100 }
-			];
-			const { user } = setup(<Table headers={headers} rows={rows} showCheckbox />);
-			let checkboxes = screen.getAllByTestId(SELECTORS.checkbox);
-			expect(checkboxes).toHaveLength(3);
-			expect(checkboxes[0]).toHaveStyleRule('display', 'none');
-			expect(checkboxes[1]).toHaveStyleRule('display', 'none');
-			expect(checkboxes[2]).toHaveStyleRule('display', 'none');
-			const row2 = getRowByColumnLabel('row2col1');
-			await act(async () => {
-				await user.click(within(row2).getByTestId(ICONS.checkboxOff));
-			});
-			await screen.findByTestId(ICONS.checkboxOn);
-			// all checkboxes become visible through the display rule set to block
-			checkboxes = screen.getAllByTestId(SELECTORS.checkbox);
-			expect(checkboxes[0]).toHaveStyleRule('display', 'block');
-			expect(checkboxes[1]).toHaveStyleRule('display', 'block');
-			expect(checkboxes[2]).toHaveStyleRule('display', 'block');
-			await act(async () => {
-				await user.click(screen.getByTestId(ICONS.checkboxOn));
-			});
-			checkboxes = screen.getAllByTestId(SELECTORS.checkbox);
-			expect(checkboxes[0]).toHaveStyleRule('display', 'none');
-			expect(checkboxes[1]).toHaveStyleRule('display', 'none');
-			expect(checkboxes[2]).toHaveStyleRule('display', 'none');
-		});
+		/*
+		 * At the moment this cannot be tested.
+		 * The visibility of the checkboxes dependes on pseudo classes like :hover
+		 * and :focus which are not supported by JSDOM.
+		 * Also, the toHaveStyleRule matcher provided by @emotion/jest works differently
+		 * than the one provided by jest-styled-components, when it comes to handling
+		 * pseudo-classes.
+		 * We will have to wait for the fix of jsdom to be able to test this or to
+		 * switch to E2E testing for this kind of tests.
+		 */
+		test.failing(
+			'Checkboxes are hidden at first. They become all visible if there is at least one item checked',
+			async () => {
+				const headers: THeader[] = [
+					{ id: 'col1', label: 'header 1' },
+					{ id: 'col2', label: 'header 2' }
+				];
+				const rows: TRow[] = [
+					{ id: 'row1', columns: ['row1col1', 'row1col2'], index: 90 },
+					{ id: 'row2', columns: ['row2col1', 'row2col2'], index: 100 }
+				];
+				const { user } = setup(<Table headers={headers} rows={rows} showCheckbox />);
+				let checkboxes = screen.getAllByTestId(SELECTORS.checkbox);
+				expect(checkboxes).toHaveLength(3);
+				expect(checkboxes[0]).toHaveStyleRule('display', 'none');
+				expect(checkboxes[1]).toHaveStyleRule('display', 'none');
+				expect(checkboxes[2]).toHaveStyleRule('display', 'none');
+				const row2 = getRowByColumnLabel('row2col1');
+				await act(async () => {
+					await user.click(within(row2).getByTestId(ICONS.checkboxOff));
+				});
+				await screen.findByTestId(ICONS.checkboxOn);
+				// all checkboxes become visible through the display rule set to block
+				checkboxes = screen.getAllByTestId(SELECTORS.checkbox);
+				expect(checkboxes[0]).toHaveStyleRule('display', 'block');
+				expect(checkboxes[1]).toHaveStyleRule('display', 'block');
+				expect(checkboxes[2]).toHaveStyleRule('display', 'block');
+				await act(async () => {
+					await user.click(screen.getByTestId(ICONS.checkboxOn));
+				});
+				checkboxes = screen.getAllByTestId(SELECTORS.checkbox);
+				expect(checkboxes[0]).toHaveStyleRule('display', 'none');
+				expect(checkboxes[1]).toHaveStyleRule('display', 'none');
+				expect(checkboxes[2]).toHaveStyleRule('display', 'none');
+			}
+		);
 
-		test('Click on the header checkbox immediately toggle check for all rows and calls onSelectionChange with the new selection', async () => {
-			const headers: THeader[] = [
-				{ id: 'col1', label: 'header 1' },
-				{ id: 'col2', label: 'header 2' }
-			];
-			const rows: TRow[] = [
-				{ id: 'row1', columns: ['row1col1', 'row1col2'], index: 90 },
-				{ id: 'row2', columns: ['row2col1', 'row2col2'], index: 100 }
-			];
-			const { user } = setup(<Table headers={headers} rows={rows} showCheckbox />);
-			const headerRow = getRowByColumnLabel('header 1');
-			expect(headerRow).toBeDefined();
-			await act(async () => {
-				await user.click(within(headerRow).getByTestId(ICONS.checkboxOff));
-			});
-			expect(screen.getAllByTestId(ICONS.checkboxOn)).toHaveLength(3);
-			expect(screen.queryByTestId(ICONS.checkboxOff)).not.toBeInTheDocument();
-			await act(async () => {
-				await user.click(within(headerRow).getByTestId(ICONS.checkboxOn));
-			});
-			expect(screen.queryByTestId(ICONS.checkboxOn)).not.toBeInTheDocument();
-			expect(screen.queryAllByTestId(ICONS.checkboxOff)).toHaveLength(3);
-			const checkboxes = screen.getAllByTestId(SELECTORS.checkbox);
-			expect(checkboxes[0]).toHaveStyleRule('display', 'none');
-			expect(checkboxes[1]).toHaveStyleRule('display', 'none');
-			expect(checkboxes[2]).toHaveStyleRule('display', 'none');
-		});
+		test.failing(
+			'Click on the header checkbox immediately toggle check for all rows and calls onSelectionChange with the new selection',
+			async () => {
+				const headers: THeader[] = [
+					{ id: 'col1', label: 'header 1' },
+					{ id: 'col2', label: 'header 2' }
+				];
+				const rows: TRow[] = [
+					{ id: 'row1', columns: ['row1col1', 'row1col2'], index: 90 },
+					{ id: 'row2', columns: ['row2col1', 'row2col2'], index: 100 }
+				];
+				const { user } = setup(<Table headers={headers} rows={rows} showCheckbox />);
+				const headerRow = getRowByColumnLabel('header 1');
+				expect(headerRow).toBeDefined();
+				await act(async () => {
+					await user.click(within(headerRow).getByTestId(ICONS.checkboxOff));
+				});
+				expect(screen.getAllByTestId(ICONS.checkboxOn)).toHaveLength(3);
+				expect(screen.queryByTestId(ICONS.checkboxOff)).not.toBeInTheDocument();
+				await act(async () => {
+					await user.click(within(headerRow).getByTestId(ICONS.checkboxOn));
+				});
+				expect(screen.queryByTestId(ICONS.checkboxOn)).not.toBeInTheDocument();
+				expect(screen.queryAllByTestId(ICONS.checkboxOff)).toHaveLength(3);
+				const checkboxes = screen.getAllByTestId(SELECTORS.checkbox);
+				expect(checkboxes[0]).toHaveStyleRule('display', 'none');
+				expect(checkboxes[1]).toHaveStyleRule('display', 'none');
+				expect(checkboxes[2]).toHaveStyleRule('display', 'none');
+			}
+		);
 
 		test('If a default selection is provided, checkboxes are visible and selected. onSelectionChange is not called', async () => {
 			const headers: THeader[] = [
