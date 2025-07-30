@@ -46,7 +46,9 @@ const IconBase = React.forwardRef<SVGSVGElement, IconComponentProps>(function Ic
 	return <IconComp data-testid={`icon: ${icon}`} ref={ref} viewBox="0 0 24 24" {...rest} />;
 });
 
-const StyledIcon = styled(IconBase, transientOptions)<With$Prefix<MakeRequired<StyledIconProps, 'color' | 'size'>>>`
+const StyledIcon = styled(IconBase, transientOptions)<
+	With$Prefix<MakeRequired<StyledIconProps, 'color' | 'size'>>
+>`
 	display: block;
 	fill: currentColor;
 	color: ${({ $color, $disabled, theme }): string =>
