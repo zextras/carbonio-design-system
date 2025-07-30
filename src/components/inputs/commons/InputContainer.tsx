@@ -7,11 +7,10 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import { getColor, pseudoClasses } from '../../../theme/theme-utils';
-import { transientOptions } from '../../../utils/emotion';
 import type { ContainerProps } from '../../layout/container/Container';
 import { Container } from '../../layout/container/Container';
 
-export const InputContainer = styled(Container, transientOptions)<{
+export const InputContainer = styled(Container)<{
 	background: NonNullable<ContainerProps['background']>;
 	$disabled?: boolean;
 }>`

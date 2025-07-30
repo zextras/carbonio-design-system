@@ -14,7 +14,6 @@ import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { useKeyboard, getKeyboardPreset } from '../../hooks/useKeyboard';
 import type { Theme } from '../../theme/theme';
 import { getColor, pseudoClasses } from '../../theme/theme-utils';
-import { transientOptions } from '../../utils/emotion';
 import { Badge } from '../basic/badge/Badge';
 import { Button } from '../basic/button/Button';
 import { Icon } from '../basic/icon/Icon';
@@ -27,7 +26,7 @@ import { Divider } from '../layout/divider/Divider';
 import { Padding } from '../layout/Padding';
 import { Collapse } from '../utilities/Collapse';
 
-const AccordionContainerEl = styled(Container, transientOptions)<{
+const AccordionContainerEl = styled(Container)<{
 	$level: number;
 	$active?: boolean;
 	$disableHover?: boolean;
@@ -48,7 +47,7 @@ const StyledText = styled(Text)`
 	flex-grow: 1;
 `;
 
-const StyledButton = styled(Button, transientOptions)<{
+const StyledButton = styled(Button)<{
 	$iconSize?: keyof Theme['sizes']['icon'];
 	$paddingSize?: string;
 }>`

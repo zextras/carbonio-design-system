@@ -12,7 +12,6 @@ import styled from '@emotion/styled';
 import type { ContainerProps } from './container/Container';
 import { Container } from './container/Container';
 import type { With$Prefix } from '../../types/utils';
-import { transientOptions } from '../../utils/emotion';
 
 interface RowProps extends ContainerProps {
 	display?: string;
@@ -20,7 +19,7 @@ interface RowProps extends ContainerProps {
 	takeAvailableSpace?: boolean;
 }
 
-const ContainerEl = styled(Container, transientOptions)<With$Prefix<RowProps>>`
+const ContainerEl = styled(Container)<With$Prefix<RowProps>>`
 	display: ${({ $display }): string | undefined => $display};
 	order: ${({ $order }): number | string | undefined => $order};
 	${({ $takeAvailableSpace }): ReturnType<typeof css> | false | undefined =>

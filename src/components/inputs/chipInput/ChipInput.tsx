@@ -35,7 +35,7 @@ import { InputContainer } from '../commons/InputContainer';
 import { InputDescription } from '../commons/InputDescription';
 import { InputLabel } from '../commons/InputLabel';
 
-const ContainerEl = styled(InputContainer, transientOptions)<{
+const ContainerEl = styled(InputContainer)<{
 	background: PaletteColor;
 	$inputDisabled: boolean;
 	$dropdownDisabled: boolean;
@@ -51,7 +51,7 @@ const ContainerEl = styled(InputContainer, transientOptions)<{
 	}};
 `;
 
-const ScrollContainer = styled(Container, transientOptions)<{ $hasLabel: boolean }>`
+const ScrollContainer = styled(Container)<{ $hasLabel: boolean }>`
 	overflow: auto;
 	scrollbar-width: ${({ wrap }): string | false => wrap !== 'wrap' && 'none'};
 	&::-webkit-scrollbar {
@@ -64,7 +64,7 @@ const ScrollContainer = styled(Container, transientOptions)<{ $hasLabel: boolean
 		`}
 `;
 
-const RelativeContainer = styled(Container, transientOptions)`
+const RelativeContainer = styled(Container)`
 	position: relative;
 `;
 
@@ -164,7 +164,7 @@ const AdjustWidthInput = React.forwardRef<
 	);
 });
 
-const Label = styled(InputLabel, transientOptions)<{
+const Label = styled(InputLabel)<{
 	$hasItems: boolean;
 }>`
 	${AdjustWidthInputContainer}:focus-within + & {
@@ -182,18 +182,18 @@ const Label = styled(InputLabel, transientOptions)<{
 		`};
 `;
 
-const CustomInputDescription = styled(InputDescription, transientOptions)<{
+const CustomInputDescription = styled(InputDescription)<{
 	$backgroundColor?: string;
 }>`
 	background-color: ${({ $backgroundColor, theme }): string | undefined =>
 		$backgroundColor && getColor($backgroundColor, theme)};
 `;
 
-const CustomIconButton = styled(Button, transientOptions)`
+const CustomIconButton = styled(Button)`
 	padding: 0.125rem;
 `;
 
-const CustomIcon = styled(Icon, transientOptions)`
+const CustomIcon = styled(Icon)`
 	padding: 0.125rem;
 	width: 1.25rem;
 	height: 1.25rem;

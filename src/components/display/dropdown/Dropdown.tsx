@@ -38,7 +38,7 @@ import { Padding } from '../../layout/Padding';
 import { Portal } from '../../utilities/Portal';
 import { Tooltip } from '../tooltip/Tooltip';
 
-const ContainerEl = styled(Container, transientOptions)<{
+const ContainerEl = styled(Container)<{
 	$selectedBackgroundColor?: AnyColor;
 	$disabled: boolean;
 }>`

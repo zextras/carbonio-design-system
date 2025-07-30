@@ -20,7 +20,7 @@ import { Select } from '../inputs/Select';
 import { Container } from '../layout/container/Container';
 import { Row } from '../layout/Row';
 
-const StyledCheckbox = styled(Checkbox, transientOptions)<{
+const StyledCheckbox = styled(Checkbox)<{
 	$show: boolean;
 }>`
 	display: ${({ $show }): string => ($show ? 'block' : 'none')};

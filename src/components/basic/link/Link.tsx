@@ -11,11 +11,10 @@ import styled from '@emotion/styled';
 import { useCombinedRefs } from '../../../hooks/useCombinedRefs';
 import { useKeyboard, getKeyboardPreset } from '../../../hooks/useKeyboard';
 import { getColor } from '../../../theme/theme-utils';
-import { transientOptions } from '../../../utils/emotion';
 import type { TextProps } from '../text/Text';
 import { Text } from '../text/Text';
 
-const StyledLink = styled(Text, transientOptions)<{
+const StyledLink = styled(Text)<{
 	$underlined: boolean;
 	as: React.ElementType;
 }>`

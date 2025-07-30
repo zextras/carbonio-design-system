@@ -65,7 +65,7 @@ const IconWrapper = styled('div', transientOptions)<{
 		`};
 `;
 
-const CustomText = styled(Text, transientOptions)`
+const CustomText = styled(Text)`
 	white-space: normal;
 	padding-left: ${({ theme }): string => theme.sizes.padding.small};
 	user-select: none;

@@ -12,7 +12,6 @@ import styled from '@emotion/styled';
 import type { ScreenMode } from '../../../hooks/useScreenMode';
 import { useScreenMode } from '../../../hooks/useScreenMode';
 import type { Theme } from '../../../theme/theme';
-import { transientOptions } from '../../../utils/emotion';
 import { Button } from '../../basic/button/Button';
 import { Icon } from '../../basic/icon/Icon';
 import { Text } from '../../basic/text/Text';
@@ -23,7 +22,7 @@ import { Row } from '../../layout/Row';
 import { Portal } from '../../utilities/Portal';
 import { Transition } from '../../utilities/Transition';
 
-const SnackContainer = styled(Container, transientOptions)<{
+const SnackContainer = styled(Container)<{
 	$zIndex: number;
 	$screenMode: ScreenMode;
 }>`
@@ -50,7 +49,7 @@ const shrink = keyframes`
   }
 `;
 
-const ProgressBarContent = styled(Container, transientOptions)<{ $timeout: number }>`
+const ProgressBarContent = styled(Container)<{ $timeout: number }>`
 	animation-name: ${shrink};
 	animation-duration: ${({ $timeout }): string => `${$timeout}ms`};
 	animation-timing-function: linear;

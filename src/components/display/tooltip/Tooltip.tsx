@@ -22,7 +22,6 @@ import { flip, offset, shift, limitShift } from '@floating-ui/dom';
 import { rgba } from 'polished';
 
 import { useCombinedRefs } from '../../../hooks/useCombinedRefs';
-import { transientOptions } from '../../../utils/emotion';
 import { setupFloating } from '../../../utils/floating-ui';
 import type { TextProps } from '../../basic/text/Text';
 import { Text } from '../../basic/text/Text';
@@ -46,7 +45,7 @@ const TooltipWrapper = React.forwardRef<HTMLDivElement, TooltipWrapperProps>(
 		);
 	}
 );
-const TooltipWrapperWithCss = styled(TooltipWrapper, transientOptions)<{ $maxWidth: string }>`
+const TooltipWrapperWithCss = styled(TooltipWrapper)<{ $maxWidth: string }>`
 	display: none;
 	position: absolute;
 	top: -1000px;

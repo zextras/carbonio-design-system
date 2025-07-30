@@ -15,7 +15,6 @@ import { useModal } from '../../../hooks/useModal';
 import type { Theme } from '../../../theme/theme';
 import { useTheme } from '../../../theme/theme-utils';
 import type { AnyColor } from '../../../types/utils';
-import { transientOptions } from '../../../utils/emotion';
 import type { ButtonProps } from '../../basic/button/Button';
 import { Button } from '../../basic/button/Button';
 import { Icon } from '../../basic/icon/Icon';
@@ -58,7 +57,7 @@ const BANNER_ICON: Record<NonNullable<BannerProps['severity']>, keyof Theme['ico
 const BANNER_GAP = '1rem';
 const BANNER_WIDTH = '100%';
 
-const InfoContainer = styled(Container, transientOptions)`
+const InfoContainer = styled(Container)`
 	overflow: hidden;
 	display: -webkit-box;
 	-webkit-line-clamp: 3;
@@ -72,20 +71,20 @@ const BannerText = styled(Text)`
 	overflow: visible;
 `;
 
-const WrapAndGrowContainer = styled(Container, transientOptions)`
+const WrapAndGrowContainer = styled(Container)`
 	flex-basis: ${({ theme, gap, flexBasis }): ReturnType<typeof css> =>
 		css`calc(${flexBasis} + ${theme.sizes.icon.large} + ${gap})`};
 `;
 
-const ActionsContainer = styled(Container, transientOptions)`
+const ActionsContainer = styled(Container)`
 	align-self: stretch;
 `;
 
-const CloseContainer = styled(Container, transientOptions)<{ $alignSelf?: string }>`
+const CloseContainer = styled(Container)<{ $alignSelf?: string }>`
 	align-self: ${({ $alignSelf }): string | undefined => $alignSelf};
 `;
 
-const BannerContainer = styled(Container, transientOptions)<{ $isMultiline: boolean }>`
+const BannerContainer = styled(Container)<{ $isMultiline: boolean }>`
 	${WrapAndGrowContainer} {
 		order: 1;
 	}

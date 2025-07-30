@@ -14,11 +14,10 @@ import { useKeyboard, getKeyboardPreset } from '../../hooks/useKeyboard';
 import type { Theme } from '../../theme/theme';
 import { getPadding, isThemeSize } from '../../theme/theme-utils';
 import type { AnyColor } from '../../types/utils';
-import { transientOptions } from '../../utils/emotion';
 import type { ButtonProps } from '../basic/button/Button';
 import { Button } from '../basic/button/Button';
 
-const StyledIconButton = styled(Button, transientOptions)<{
+const StyledIconButton = styled(Button)<{
 	$iconSize?: string;
 	$paddingSize?: string;
 }>`

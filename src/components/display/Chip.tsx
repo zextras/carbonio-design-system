@@ -101,7 +101,7 @@ interface ChipProps extends Omit<RowProps, 'children'> {
 
 const ActionIcon = styled(Icon)``;
 
-const ActionIconButton = styled(Button, transientOptions)<{
+const ActionIconButton = styled(Button)<{
 	$iconSize?: keyof Theme['sizes']['icon'];
 	$paddingSize?: string;
 }>`
@@ -140,7 +140,7 @@ const ContentContainer = styled(Container)`
 	}
 `;
 
-const ChipContainer = styled(Container, transientOptions)<{
+const ChipContainer = styled(Container)<{
 	$disabled: boolean;
 }>`
 	user-select: none;

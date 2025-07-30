@@ -165,7 +165,7 @@ const AdjustHeightTextArea = React.forwardRef<HTMLTextAreaElement, AdjustHeightT
 	}
 );
 
-const Label = styled(InputLabel, transientOptions)<{ $textAreaHasValue: boolean }>`
+const Label = styled(InputLabel)<{ $textAreaHasValue: boolean }>`
 	${InputContainer}:focus-within & {
 		top: 0.0625rem;
 		transform: translateY(0);
@@ -180,7 +180,7 @@ const Label = styled(InputLabel, transientOptions)<{ $textAreaHasValue: boolean 
 		`};
 `;
 
-const RelativeContainer = styled(Container, transientOptions)`
+const RelativeContainer = styled(Container)`
 	position: relative;
 `;
 

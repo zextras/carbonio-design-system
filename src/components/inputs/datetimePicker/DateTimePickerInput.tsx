@@ -22,7 +22,7 @@ const InputIconsContainer = styled('div', transientOptions)`
 	gap: 0.5rem;
 	width: fit-content;
 `;
-const CustomIconButton = styled(Button, transientOptions)`
+const CustomIconButton = styled(Button)`
 	padding: 0.125rem;
 `;
 

@@ -15,7 +15,6 @@ import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { getKeyboardPreset, useKeyboard } from '../../hooks/useKeyboard';
 import { getColor } from '../../theme/theme-utils';
 import type { AnyColor } from '../../types/utils';
-import { transientOptions } from '../../utils/emotion';
 import { Text } from '../basic/text/Text';
 import type { ContainerProps } from '../layout/container/Container';
 import { Container } from '../layout/container/Container';
@@ -24,7 +23,7 @@ const CustomText = styled(Text)`
 	line-height: 1.5;
 `;
 
-const DefaultTabBarItemContainer = styled(Container, transientOptions)<{
+const DefaultTabBarItemContainer = styled(Container)<{
 	$forceWidthEquallyDistributed: boolean;
 	$selected: boolean;
 	$underlineColor: AnyColor;

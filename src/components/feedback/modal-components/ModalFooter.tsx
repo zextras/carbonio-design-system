@@ -9,19 +9,18 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import type { Theme } from '../../../theme/theme';
-import { transientOptions } from '../../../utils/emotion';
 import { Button } from '../../basic/button/Button';
 import { Tooltip } from '../../display/tooltip/Tooltip';
 import { Container } from '../../layout/container/Container';
 import { Padding } from '../../layout/Padding';
 
-const OptionalFooterContainer = styled(Container, transientOptions)`
+const OptionalFooterContainer = styled(Container)`
 	min-width: 0.0625rem;
 	flex-basis: auto;
 	flex-grow: 1;
 `;
 
-const ButtonContainer = styled(Container, transientOptions)<{ $pushLeftFirstChild?: boolean }>`
+const ButtonContainer = styled(Container)<{ $pushLeftFirstChild?: boolean }>`
 	min-width: 0.0625rem;
 	flex-basis: auto;
 	flex-grow: 1;
@@ -35,14 +34,14 @@ const ButtonContainer = styled(Container, transientOptions)<{ $pushLeftFirstChil
 			}
 		`}
 `;
-const DismissButton = styled(Button, transientOptions)`
+const DismissButton = styled(Button)`
 	margin-right: ${(props): string => props.theme.sizes.padding.large};
 	flex-basis: auto;
 	min-width: 6.25rem;
 	flex-shrink: 1;
 `;
 
-const ConfirmButton = styled(Button, transientOptions)`
+const ConfirmButton = styled(Button)`
 	flex-basis: auto;
 	min-width: 6.25rem;
 	flex-shrink: 1;

@@ -21,7 +21,7 @@ import { Padding } from '../layout/Padding';
 
 type SwitchSize = 'medium' | 'small';
 
-const CustomIcon = styled(Icon, transientOptions)``;
+const CustomIcon = styled(Icon)``;
 
 const IconWrapper = styled('div', transientOptions)<{
 	$disabled: boolean;
@@ -54,7 +54,7 @@ const IconWrapper = styled('div', transientOptions)<{
 		`};
 `;
 
-const CustomText = styled(Text, transientOptions)`
+const CustomText = styled(Text)`
 	user-select: none;
 	line-height: 1.5;
 `;

@@ -88,9 +88,7 @@ const RadioInput = styled('input', transientOptions)<{
 	transition-timing-function: ease-out;
 `;
 
-const Label = styled(Text, transientOptions)<
-	LabelHTMLAttributes<HTMLLabelElement> & { as: React.ElementType }
->`
+const Label = styled(Text)<LabelHTMLAttributes<HTMLLabelElement> & { as: React.ElementType }>`
 	line-height: 1.5;
 	${({ disabled }): ReturnType<typeof css> | false =>
 		!disabled &&
@@ -99,7 +97,7 @@ const Label = styled(Text, transientOptions)<
 		`}
 `;
 
-const RadioContainer = styled(Container, transientOptions)<{
+const RadioContainer = styled(Container)<{
 	$iconColor: string;
 	$disabled: boolean;
 }>`

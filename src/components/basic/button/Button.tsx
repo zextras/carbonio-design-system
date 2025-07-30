@@ -118,7 +118,7 @@ type StyledButtonProps = With$Prefix<{
 	minWidth?: string;
 }>;
 
-const StyledIcon = styled(Icon, transientOptions)<{ $loading?: boolean; $size: string }>`
+const StyledIcon = styled(Icon)<{ $loading?: boolean; $size: string }>`
 	${({ $loading = false }): ReturnType<typeof css> | false =>
 		$loading &&
 		css`
@@ -131,7 +131,7 @@ const StyledIcon = styled(Icon, transientOptions)<{ $loading?: boolean; $size: s
 	flex-shrink: 0;
 `;
 
-const StyledText = styled(Text, transientOptions)<{ $loading: boolean; $size: string }>`
+const StyledText = styled(Text)<{ $loading: boolean; $size: string }>`
 	user-select: none;
 	text-transform: uppercase;
 	font-size: ${({ $size }): string => $size};
@@ -203,7 +203,7 @@ const StyledButton = styled('button', transientOptions)<StyledButtonProps>`
 	}
 `;
 
-const StyledSecondaryAction = styled(StyledButton, transientOptions)<{ $loading: boolean }>`
+const StyledSecondaryAction = styled(StyledButton)<{ $loading: boolean }>`
 	flex-shrink: 0;
 	min-width: fit-content;
 	${({ $loading }): ReturnType<typeof css> | false | undefined =>

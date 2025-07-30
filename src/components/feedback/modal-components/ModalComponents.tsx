@@ -96,7 +96,7 @@ const ModalWrapper = styled('div', transientOptions)`
 	pointer-events: none;
 `;
 
-const StyledModalContent = styled(Container, transientOptions)`
+const StyledModalContent = styled(Container)`
 	position: relative;
 	margin: 0 auto ${({ theme }): string => theme.sizes.padding.medium};
 	border-radius: 1rem;

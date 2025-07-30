@@ -135,7 +135,7 @@ const SliderInput = styled('input', transientOptions)`
 	}
 `;
 
-const SliderContainer = styled(Container, transientOptions)`
+const SliderContainer = styled(Container)`
 	position: relative;
 `;
 

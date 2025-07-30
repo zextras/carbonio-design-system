@@ -10,7 +10,6 @@ import React, { useCallback, useState } from 'react';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { transientOptions } from '../../utils/emotion';
 import { Container } from '../layout/container/Container';
 
 const DropEl = styled(Container)`
@@ -27,7 +26,7 @@ const OverlayEl = styled(Container)`
 	height: 100%;
 `;
 
-const CoverEl = styled(Container, transientOptions)<{ $dragging: boolean }>`
+const CoverEl = styled(Container)<{ $dragging: boolean }>`
 	display: inline;
 	${({ $dragging }): ReturnType<typeof css> | false =>
 		$dragging &&

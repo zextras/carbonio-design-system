@@ -94,7 +94,7 @@ const Capitals = styled('p', transientOptions)<CapitalsPropsType>`
 	user-select: none;
 `;
 
-const AvatarIcon = styled(Icon, transientOptions)<CapitalsPropsType>`
+const AvatarIcon = styled(Icon)<CapitalsPropsType>`
 	width: calc(${({ theme, $size }): string => theme.sizes.avatar[$size].diameter} * 0.75);
 	min-width: calc(${({ theme, $size }): string => theme.sizes.avatar[$size].diameter} * 0.75);
 	height: calc(${({ theme, $size }): string => theme.sizes.avatar[$size].diameter} * 0.75);

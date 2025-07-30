@@ -8,7 +8,6 @@ import React from 'react';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { transientOptions } from '../../../utils/emotion';
 import { Button } from '../../basic/button/Button';
 import { Text } from '../../basic/text/Text';
 import { Tooltip } from '../../display/tooltip/Tooltip';
@@ -23,7 +22,7 @@ interface ModalHeaderProps {
 	closeIconTooltip?: string;
 }
 
-const ModalTitle = styled(Text, transientOptions)<{ $centered: boolean }>`
+const ModalTitle = styled(Text)<{ $centered: boolean }>`
 	box-sizing: border-box;
 	width: 100%;
 	flex-grow: 1;

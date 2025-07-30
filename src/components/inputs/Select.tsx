@@ -10,7 +10,6 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import { getColor } from '../../theme/theme-utils';
-import { transientOptions } from '../../utils/emotion';
 import { Icon } from '../basic/icon/Icon';
 import { Text } from '../basic/text/Text';
 import { INPUT_BACKGROUND_COLOR, INPUT_DIVIDER_COLOR } from '../constants';
@@ -21,7 +20,7 @@ import { Divider } from '../layout/divider/Divider';
 import { Padding } from '../layout/Padding';
 import { Row } from '../layout/Row';
 
-const Label = styled(Text, transientOptions)<{ $selected: boolean }>`
+const Label = styled(Text)<{ $selected: boolean }>`
 	position: absolute;
 	top: ${({ $selected, theme }): string =>
 		$selected ? `calc(${theme.sizes.padding.small} - 0.0625rem)` : '50%'};
@@ -30,7 +29,7 @@ const Label = styled(Text, transientOptions)<{ $selected: boolean }>`
 	transition: 150ms ease-out;
 `;
 
-const ContainerEl = styled(Container, transientOptions)<{ $focus: boolean }>`
+const ContainerEl = styled(Container)<{ $focus: boolean }>`
 	transition: background 0.2s ease-out;
 	&:hover {
 		background: ${({ theme, background }): string => getColor(`${background}.hover`, theme)};
@@ -42,11 +41,11 @@ const ContainerEl = styled(Container, transientOptions)<{ $focus: boolean }>`
 		`};
 `;
 
-const CustomText = styled(Text, transientOptions)`
+const CustomText = styled(Text)`
 	min-height: 1.167em;
 `;
 
-const CustomIcon = styled(Icon, transientOptions)`
+const CustomIcon = styled(Icon)`
 	align-self: center;
 	pointer-events: none;
 `;
@@ -114,7 +113,7 @@ const DefaultLabelFactory = <T,>({
 	);
 };
 
-const TabContainer = styled(Container, transientOptions)`
+const TabContainer = styled(Container)`
 	position: relative;
 	cursor: pointer;
 

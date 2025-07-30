@@ -11,12 +11,11 @@ import styled from '@emotion/styled';
 import { Icon } from './icon/Icon';
 import type { TextProps } from './text/Text';
 import { Text } from './text/Text';
-import { transientOptions } from '../../utils/emotion';
 import type { ContainerProps } from '../layout/container/Container';
 import { Container } from '../layout/container/Container';
 import { Padding } from '../layout/Padding';
 
-const CustomText = styled(Text, transientOptions)`
+const CustomText = styled(Text)`
 	user-select: none;
 `;
 

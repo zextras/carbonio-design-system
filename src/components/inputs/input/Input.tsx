@@ -50,7 +50,7 @@ const InputEl = styled('input', transientOptions)<{ $color: AnyColor }>`
 	}
 `;
 
-const Label = styled(InputLabel, transientOptions)`
+const Label = styled(InputLabel)`
 	${InputEl}:focus + &,
   ${InputEl}:not(:placeholder-shown) + & {
 		top: 0;
@@ -59,7 +59,7 @@ const Label = styled(InputLabel, transientOptions)`
 	}
 `;
 
-const RelativeContainer = styled(Container, transientOptions)`
+const RelativeContainer = styled(Container)`
 	position: relative;
 `;
 

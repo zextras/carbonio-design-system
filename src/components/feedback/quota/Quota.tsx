@@ -9,11 +9,10 @@ import React from 'react';
 import styled from '@emotion/styled';
 
 import type { AnyColor } from '../../../types/utils';
-import { transientOptions } from '../../../utils/emotion';
 import type { ContainerProps } from '../../layout/container/Container';
 import { Container } from '../../layout/container/Container';
 
-const QuotaBar = styled(Container, transientOptions)`
+const QuotaBar = styled(Container)`
 	min-width: 4rem;
 `;
 
