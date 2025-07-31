@@ -8,7 +8,7 @@
 import type { HTMLAttributes } from 'react';
 import React, { useEffect, useMemo, useCallback, useRef, useState } from 'react';
 
-import { useTheme } from 'styled-components';
+import { useTheme } from '@emotion/react';
 
 import {
 	getScrollbarSize,

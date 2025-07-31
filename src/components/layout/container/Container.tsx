@@ -7,12 +7,14 @@
 import type { HTMLAttributes } from 'react';
 import React, { useMemo } from 'react';
 
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 import { map } from 'lodash';
-import styled, { css } from 'styled-components';
 
 import type { PaddingObj } from '../../../theme/theme-utils';
 import { getColor, getPadding } from '../../../theme/theme-utils';
 import type { AnyColor, LiteralUnion, With$Prefix } from '../../../types/utils';
+import { transientOptions } from '../../../utils/emotion';
 
 interface ContainerElProps {
 	/** The Container orientation (css flex-direction prop or 'vertical' or 'horizontal') */
@@ -97,7 +99,7 @@ interface ContainerElProps {
 	margin?: { left?: string; right?: string };
 }
 
-const ContainerEl = styled.div<With$Prefix<ContainerElProps>>`
+const ContainerEl = styled('div', transientOptions)<With$Prefix<ContainerElProps>>`
 	display: flex;
 	flex-direction: ${({ $orientation }): string | undefined => $orientation};
 	align-items: ${({ $crossAlignment }): string | undefined => $crossAlignment};
@@ -176,9 +178,12 @@ const ContainerEl = styled.div<With$Prefix<ContainerElProps>>`
 					border: 0.0625rem solid ${getColor($borderColor, theme)};
 				`;
 			}
-			return map(
-				$borderColor,
-				(color, key) => color && css`border-${key}: 0.0625rem solid ${getColor(color, theme)};`
+
+			return css(
+				map(
+					$borderColor,
+					(color, key) => color && css`border-${key}: 0.0625rem solid ${getColor(color, theme)};`
+				)
 			);
 		}
 		return false;

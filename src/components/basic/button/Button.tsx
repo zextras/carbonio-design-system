@@ -7,11 +7,13 @@
 import type { ButtonHTMLAttributes } from 'react';
 import React, { useCallback, useMemo } from 'react';
 
-import styled, { css } from 'styled-components';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 
 import { useCombinedRefs } from '../../../hooks/useCombinedRefs';
 import { getColor, pseudoClasses } from '../../../theme/theme-utils';
 import type { AnyColor, With$Prefix, Without$Prefix } from '../../../types/utils';
+import { transientOptions } from '../../../utils/emotion';
 import type { IconProps } from '../icon/Icon';
 import { Icon } from '../icon/Icon';
 import { Spinner } from '../spinner/Spinner';
@@ -140,7 +142,7 @@ const StyledText = styled(Text)<{ $loading: boolean; $size: string }>`
 		`};
 `;
 
-const StyledLoadingContainer = styled.div`
+const StyledLoadingContainer = styled('div', transientOptions)`
 	position: absolute;
 	width: 100%;
 	height: 100%;
@@ -151,10 +153,7 @@ const StyledLoadingContainer = styled.div`
 	align-items: center;
 `;
 
-const StyledButton = styled.button.attrs<StyledButtonProps>(({ disabled, $minWidth }) => ({
-	tabIndex: disabled ? -1 : 0,
-	$minWidth: $minWidth ?? '0'
-}))<StyledButtonProps>`
+const StyledButton = styled('button', transientOptions)<StyledButtonProps>`
 	/* set line-height to normal so that the browser can calculate it based on the font, and the accents are not cut off */
 	line-height: normal;
 	display: flex;
@@ -214,14 +213,18 @@ const StyledSecondaryAction = styled(StyledButton)<{ $loading: boolean }>`
 		`};
 `;
 
-const StyledSecondaryActionPlaceholder = styled.span<{ $padding: string }>`
+const StyledSecondaryActionPlaceholder = styled('span', transientOptions)<{ $padding: string }>`
 	/* padding */
 	padding: ${({ $padding }): string => $padding};
 	order: 3;
 	visibility: hidden;
 `;
 
-const StyledGrid = styled.div<{ $width: 'fill' | 'fit'; $padding: string; $minWidth?: string }>`
+const StyledGrid = styled('div', transientOptions)<{
+	$width: 'fill' | 'fit';
+	$padding: string;
+	$minWidth?: string;
+}>`
 	width: ${({ $width }): false | string =>
 		($width === 'fill' && '100%') || ($width === 'fit' && 'fit-content')};
 	max-width: 100%;
@@ -381,8 +384,11 @@ const Button = React.forwardRef<HTMLDivElement, ButtonProps>(function ButtonFn(
 		[type, backgroundColor, color, labelColor]
 	);
 
+	const minWidthProp = minWidth ?? '0';
+	const tabIndexProp = disabled ? -1 : 0;
+
 	return (
-		<StyledGrid $width={width} $minWidth={minWidth} $padding={SIZES[size].padding} ref={ref}>
+		<StyledGrid $width={width} $minWidth={minWidthProp} $padding={SIZES[size].padding} ref={ref}>
 			<StyledButton
 				{...rest}
 				$backgroundColor={colors.backgroundColor}
@@ -394,10 +400,11 @@ const Button = React.forwardRef<HTMLDivElement, ButtonProps>(function ButtonFn(
 				$gap={SIZES[size].gap}
 				$iconPlacement={iconPlacement}
 				$width={width}
-				$minWidth={minWidth}
+				$minWidth={minWidthProp}
 				disabled={disabled}
 				onClick={clickHandler}
 				ref={innerButtonRef}
+				tabIndex={tabIndexProp}
 			>
 				{icon && (
 					<StyledIcon

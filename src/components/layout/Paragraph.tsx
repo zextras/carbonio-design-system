@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 
 import type { TextProps } from '../basic/text/Text';
 import { Text } from '../basic/text/Text';

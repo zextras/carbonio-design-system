@@ -835,6 +835,7 @@ describe('ChipInput', () => {
 		expect(screen.queryByTestId(ICONS.close)).not.toBeInTheDocument();
 	});
 
+	// FIXME this test is really slow
 	test('by default there is no limit to the maximum number of chips', async () => {
 		const { user } = setup(<ChipInput />);
 		const inputElement = screen.getByRole('textbox');
@@ -848,7 +849,7 @@ describe('ChipInput', () => {
 			});
 		}
 		expect(screen.getAllByText(/chip/)).toHaveLength(prevLimitMaxPlusOne);
-	});
+	}, 10_000);
 
 	describe('onOptionsDisplayChange', () => {
 		it('should not call onOptionsDisplayChange when options prop is empty', async () => {

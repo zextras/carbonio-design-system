@@ -6,12 +6,14 @@
 
 import React, { useCallback, useMemo, useRef } from 'react';
 
-import styled, { css, useTheme } from 'styled-components';
+import { css, useTheme } from '@emotion/react';
+import styled from '@emotion/styled';
 
 import { Tooltip } from './tooltip/Tooltip';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import type { Theme } from '../../theme/theme';
 import { pseudoClasses } from '../../theme/theme-utils';
+import { transientOptions } from '../../utils/emotion';
 import type { AvatarPropTypes } from '../basic/Avatar';
 import { Avatar } from '../basic/Avatar';
 import type { ButtonProps } from '../basic/button/Button';
@@ -120,7 +122,7 @@ const ActionIconButton = styled(Button)<{
 		`};
 `;
 
-const ActionContainer = styled.div<{ $spacing: string }>`
+const ActionContainer = styled('div', transientOptions)<{ $spacing: string }>`
 	min-width: fit-content;
 	& > ${ActionIcon} {
 		padding: ${({ $spacing }): ReturnType<typeof css> => css`calc(${$spacing} / 2)`};

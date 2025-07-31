@@ -8,17 +8,19 @@
 import type { HTMLAttributes } from 'react';
 import React, { useLayoutEffect, useEffect, useRef, useCallback, useMemo } from 'react';
 
+import { css, useTheme } from '@emotion/react';
+import styled from '@emotion/styled';
 import type { Placement, VirtualElement } from '@floating-ui/dom';
 import { flip, offset, shift, limitShift } from '@floating-ui/dom';
-import styled, { css, useTheme } from 'styled-components';
 
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import type { KeyboardPresetObj } from '../../hooks/useKeyboard';
 import { useKeyboard } from '../../hooks/useKeyboard';
+import { transientOptions } from '../../utils/emotion';
 import { setupFloating } from '../../utils/floating-ui';
 import { Portal } from '../utilities/Portal';
 
-const PopperContainer = styled.div<{ $open: boolean }>`
+const PopperContainer = styled('div', transientOptions)<{ $open: boolean }>`
 	display: none;
 	position: absolute;
 	${({ $open }): ReturnType<typeof css> | false =>

@@ -6,8 +6,9 @@
 
 import React, { useMemo, useState, useCallback, useEffect } from 'react';
 
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 import { map } from 'lodash';
-import styled, { css } from 'styled-components';
 
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { useKeyboard, getKeyboardPreset } from '../../hooks/useKeyboard';
@@ -31,8 +32,8 @@ const AccordionContainerEl = styled(Container)<{
 	$disableHover?: boolean;
 }>`
 	cursor: pointer;
-	padding-left: ${({ theme, $level }): ReturnType<typeof css> =>
-		css`calc(${Math.min($level + 1, 5)} * ${theme.sizes.padding.small})`};
+	padding-left: ${({ theme, $level }): string =>
+		`calc(${Math.min($level + 1, 5)} * ${theme.sizes.padding.small})`};
 	padding-right: ${({ theme }): string => theme.sizes.padding.small};
 	background-color: ${({ theme, background, $active }): string | undefined =>
 		background && getColor(`${[$active ? 'highlight' : background]}.regular`, theme)};

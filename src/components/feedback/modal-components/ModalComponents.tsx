@@ -3,11 +3,14 @@
  *
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-import type React from 'react';
+import React from 'react';
 
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 import { rgba } from 'polished';
-import styled, { css } from 'styled-components';
 
+import { transientOptions } from '../../../utils/emotion';
+import type { ContainerProps } from '../../layout/container/Container';
 import { Container } from '../../layout/container/Container';
 
 const modalMinWidth = {
@@ -49,7 +52,11 @@ function getScrollbarSize(windowObj: Window): number {
 	return 0;
 }
 
-const ModalContainer = styled.div<{ $mounted: boolean; $open: boolean; $zIndex: number }>`
+const ModalContainer = styled('div', transientOptions)<{
+	$mounted: boolean;
+	$open: boolean;
+	$zIndex: number;
+}>`
 	display: flex;
 	position: fixed;
 	top: 0;
@@ -81,7 +88,7 @@ const ModalContainer = styled.div<{ $mounted: boolean; $open: boolean; $zIndex: 
 		`};
 `;
 
-const ModalWrapper = styled.div`
+const ModalWrapper = styled('div', transientOptions)`
 	max-width: 100%;
 	width: 100%;
 	margin: auto;
@@ -89,20 +96,7 @@ const ModalWrapper = styled.div`
 	pointer-events: none;
 `;
 
-const ModalContent = styled(Container).attrs<{
-	$size: keyof typeof modalMinWidth & keyof typeof modalWidth;
-}>(({ $size }) => ({
-	maxWidth: '100%',
-	minWidth: modalMinWidth[$size],
-	width: modalWidth[$size],
-	padding: '2rem',
-	mainAlignment: 'flex-start',
-	crossAlignment: 'flex-start',
-	height: 'auto',
-	tabIndex: -1
-}))<{
-	$size: keyof typeof modalMinWidth & keyof typeof modalWidth;
-}>`
+const StyledModalContent = styled(Container)`
 	position: relative;
 	margin: 0 auto ${({ theme }): string => theme.sizes.padding.medium};
 	border-radius: 1rem;
@@ -110,5 +104,40 @@ const ModalContent = styled(Container).attrs<{
 	outline: none;
 	pointer-events: auto;
 `;
+
+interface ModalContentProps extends ContainerProps {
+	$size: keyof typeof modalMinWidth & keyof typeof modalWidth;
+}
+
+const ModalContent = React.forwardRef<HTMLDivElement, ModalContentProps>(function ModalContentFn(
+	{
+		maxWidth,
+		minWidth,
+		width,
+		padding,
+		mainAlignment,
+		crossAlignment,
+		height,
+		tabIndex,
+		$size,
+		...rest
+	}: ModalContentProps,
+	ref
+) {
+	return (
+		<StyledModalContent
+			{...rest}
+			ref={ref}
+			maxWidth="100%"
+			minWidth={modalMinWidth[$size]}
+			width={modalWidth[$size]}
+			padding="2rem"
+			mainAlignment="flex-start"
+			crossAlignment="flex-start"
+			height="auto"
+			tabIndex={-1}
+		/>
+	);
+});
 
 export { ModalContent, ModalWrapper, ModalContainer, getScrollbarSize, isBodyOverflowing };

@@ -7,17 +7,18 @@
 import type { HTMLAttributes } from 'react';
 import React from 'react';
 
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 
 import { getColor } from '../../../theme/theme-utils';
 import type { AnyColor, MakeRequired, With$Prefix } from '../../../types/utils';
+import { transientOptions } from '../../../utils/emotion';
 
 interface DividerProps extends Omit<HTMLAttributes<HTMLDivElement>, 'color'> {
 	/** Divider color */
 	color?: AnyColor;
 }
 
-const DividerEl = styled.div<With$Prefix<MakeRequired<DividerProps, 'color'>>>`
+const DividerEl = styled('div', transientOptions)<With$Prefix<MakeRequired<DividerProps, 'color'>>>`
 	box-sizing: border-box;
 	background-color: ${({ theme, $color }): string => getColor($color, theme)};
 	height: 0.0625rem;

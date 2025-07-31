@@ -6,10 +6,12 @@
 
 import React from 'react';
 
-import styled, { keyframes } from 'styled-components';
+import { keyframes } from '@emotion/react';
+import styled from '@emotion/styled';
 
 import type { Theme } from '../../../theme/theme';
 import type { LiteralUnion, With$Prefix } from '../../../types/utils';
+import { transientOptions } from '../../../utils/emotion';
 import type { FormSectionProps, FormSubSectionProps } from '../../basic/formSection/FormSection';
 import { FormSection, FormSubSection } from '../../basic/formSection/FormSection';
 import { Container } from '../../layout/container/Container';
@@ -74,7 +76,9 @@ type AvatarSkeletonComponentProps = {
 	width?: string;
 };
 
-const AvatarSkeletonComponent = styled.div<With$Prefix<AvatarSkeletonComponentProps>>`
+const AvatarSkeletonComponent = styled('div', transientOptions)<
+	With$Prefix<AvatarSkeletonComponentProps>
+>`
 	animation: ${shimmerEffect} 1.5s linear infinite;
 	background: ${({ $variant, theme }): string => backgroundFunction($variant ?? '', theme)};
 	background-size: ${backgroundSize};
@@ -93,7 +97,7 @@ type BadgeSkeletonProps = {
 	backgroundSize?: string;
 };
 
-const BadgeSkeletonComponent = styled.div<With$Prefix<BadgeSkeletonProps>>`
+const BadgeSkeletonComponent = styled('div', transientOptions)<With$Prefix<BadgeSkeletonProps>>`
 	animation: ${shimmerEffect} 1.5s linear infinite;
 	background: ${({ $variant, theme }): string => backgroundFunction($variant ?? '', theme)};
 	background-size: ${backgroundSize};
@@ -113,7 +117,7 @@ type ButtonSkeletonProps = {
 	height?: string;
 };
 
-const ButtonSkeletonComponent = styled.div<With$Prefix<ButtonSkeletonProps>>`
+const ButtonSkeletonComponent = styled('div', transientOptions)<With$Prefix<ButtonSkeletonProps>>`
 	animation: ${shimmerEffect} 1.5s linear infinite;
 	background: ${({ $variant, theme }): string => backgroundFunction($variant ?? '', theme)};
 	background-size: ${backgroundSize};
@@ -132,7 +136,8 @@ type ShimmerFormSectionProps = Omit<FormSectionProps, 'label'>;
 type ShimmerFormSubSectionProps = Omit<FormSubSectionProps, 'label'>;
 
 const FormSectionSkeletonComponent = styled(
-	FormSection as unknown as React.FC<ShimmerFormSectionProps>
+	FormSection as unknown as React.FC<ShimmerFormSectionProps>,
+	transientOptions
 )<With$Prefix<FormSectionSkeletonProps>>`
 	animation: ${shimmerEffect} 1.5s linear infinite;
 	background: ${({ $variant, theme }): string => backgroundFunction($variant, theme)};
@@ -144,7 +149,8 @@ type FormSubSectionSkeletonProps = {
 };
 
 const FormSubSectionSkeletonComponent = styled(
-	FormSubSection as unknown as React.FC<ShimmerFormSubSectionProps>
+	FormSubSection as unknown as React.FC<ShimmerFormSubSectionProps>,
+	transientOptions
 )<With$Prefix<FormSubSectionSkeletonProps>>`
 	animation: ${shimmerEffect} 1.5s linear infinite;
 	background: ${({ $variant, theme }): string => backgroundFunction($variant, theme)};
@@ -157,7 +163,7 @@ type IconSkeletonProps = {
 	width?: string;
 };
 
-const IconSkeletonComponent = styled.div<With$Prefix<IconSkeletonProps>>`
+const IconSkeletonComponent = styled('div', transientOptions)<With$Prefix<IconSkeletonProps>>`
 	animation: ${shimmerEffect} 1.5s linear infinite;
 	background: ${({ $variant, theme }): string => backgroundFunction($variant ?? '', theme)};
 	background-size: ${backgroundSize};
@@ -175,7 +181,7 @@ type LogoSkeletonProps = {
 	height?: string;
 };
 
-const LogoSkeletonComponent = styled.div<With$Prefix<LogoSkeletonProps>>`
+const LogoSkeletonComponent = styled('div', transientOptions)<With$Prefix<LogoSkeletonProps>>`
 	animation: ${shimmerEffect} 1.5s linear infinite;
 	background: ${({ $variant, theme }): string => backgroundFunction($variant ?? '', theme)};
 	border-radius: ${({ $radius }): string => $radius ?? '0.625rem'};
@@ -193,7 +199,7 @@ type SkeletonProps = {
 	width?: string;
 	height?: string;
 };
-const SkeletonComponent = styled.div<With$Prefix<SkeletonProps>>`
+const SkeletonComponent = styled('div', transientOptions)<With$Prefix<SkeletonProps>>`
 	animation: ${shimmerEffect} 1.5s linear infinite;
 	background: ${({ $variant, theme }): string => backgroundFunction($variant ?? '', theme)};
 	background-size: ${backgroundSize};

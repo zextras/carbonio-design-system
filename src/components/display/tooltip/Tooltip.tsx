@@ -15,10 +15,11 @@ import React, {
 	useMemo
 } from 'react';
 
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 import type { Placement } from '@floating-ui/dom';
 import { flip, offset, shift, limitShift } from '@floating-ui/dom';
 import { rgba } from 'polished';
-import styled, { css } from 'styled-components';
 
 import { useCombinedRefs } from '../../../hooks/useCombinedRefs';
 import { setupFloating } from '../../../utils/floating-ui';

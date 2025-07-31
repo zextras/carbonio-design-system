@@ -5,10 +5,11 @@
  */
 import React, { useMemo } from 'react';
 
+import styled from '@emotion/styled';
 import type { DatePickerProps } from 'react-datepicker';
-import styled from 'styled-components';
 
 import type { DatePickerCustomInputProps } from './DateTimePicker';
+import { transientOptions } from '../../../utils/emotion';
 import { Button } from '../../basic/button/Button';
 import type { ContainerProps } from '../../layout/container/Container';
 import { Container } from '../../layout/container/Container';
@@ -16,7 +17,7 @@ import type { IconButtonProps } from '../IconButton';
 import type { InputProps } from '../input/Input';
 import { Input } from '../input/Input';
 
-const InputIconsContainer = styled.div`
+const InputIconsContainer = styled('div', transientOptions)`
 	display: flex;
 	gap: 0.5rem;
 	width: fit-content;

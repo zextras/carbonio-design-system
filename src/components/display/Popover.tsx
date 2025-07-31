@@ -6,15 +6,17 @@
 
 import React, { useEffect, useState, useCallback, useMemo } from 'react';
 
+import { useTheme } from '@emotion/react';
+import styled from '@emotion/styled';
 import type { VirtualElement } from '@floating-ui/dom';
 import { debounce } from 'lodash';
-import styled, { useTheme } from 'styled-components';
 
 import type { PopperProps } from './Popper';
 import { Popper } from './Popper';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
+import { transientOptions } from '../../utils/emotion';
 
-const PopoverContainer = styled.div<{ $styleAsModal: boolean }>`
+const PopoverContainer = styled('div', transientOptions)<{ $styleAsModal: boolean }>`
 	padding: ${({ theme }): string => theme.sizes.padding.small};
 	border-radius: ${({ $styleAsModal, theme }): string =>
 		$styleAsModal ? '1rem' : theme.borderRadius};

@@ -7,8 +7,9 @@
 import type { InputHTMLAttributes } from 'react';
 import React, { useCallback, useEffect, useMemo, useReducer, useRef, useState } from 'react';
 
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 import { filter, slice, isEmpty, debounce, trim, uniq } from 'lodash';
-import styled, { css } from 'styled-components';
 
 import { useCombinedRefs } from '../../../hooks/useCombinedRefs';
 import type { KeyboardPresetKey, KeyboardPresetObj } from '../../../hooks/useKeyboard';
@@ -17,6 +18,7 @@ import { usePrevious } from '../../../hooks/usePrevious';
 import type { Theme } from '../../../theme/theme';
 import { getColor } from '../../../theme/theme-utils';
 import type { AnyColor, PaletteColor } from '../../../types/utils';
+import { transientOptions } from '../../../utils/emotion';
 import type { ButtonProps } from '../../basic/button/Button';
 import { Button } from '../../basic/button/Button';
 import { Icon } from '../../basic/icon/Icon';
@@ -66,7 +68,7 @@ const RelativeContainer = styled(Container)`
 	position: relative;
 `;
 
-const InputEl = styled.input<{ $color: keyof Theme['palette'] }>`
+const InputEl = styled('input', transientOptions)<{ $color: keyof Theme['palette'] }>`
 	border: none !important;
 	height: auto !important;
 	width: 1em;
@@ -96,14 +98,14 @@ const InputEl = styled.input<{ $color: keyof Theme['palette'] }>`
 	}
 `;
 
-const HiddenSpan = styled.span`
+const HiddenSpan = styled('span', transientOptions)`
 	position: absolute;
 	height: 0;
 	overflow: hidden;
 	white-space: pre;
 `;
 
-const AdjustWidthInputContainer = styled.div`
+const AdjustWidthInputContainer = styled('div', transientOptions)`
 	position: relative;
 	flex: 1 1 auto;
 	overflow-wrap: break-word;

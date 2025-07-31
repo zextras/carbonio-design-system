@@ -7,8 +7,9 @@
 import type { HTMLAttributes } from 'react';
 import React, { useCallback, useMemo } from 'react';
 
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 import { map } from 'lodash';
-import styled, { css } from 'styled-components';
 
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { getKeyboardPreset, useKeyboard } from '../../hooks/useKeyboard';

@@ -7,13 +7,14 @@
 import type { HTMLAttributes } from 'react';
 import React from 'react';
 
+import styled from '@emotion/styled';
 import { omit } from 'lodash';
-import styled from 'styled-components';
 
 import type { Theme } from '../../theme/theme';
 import type { PaddingObj } from '../../theme/theme-utils';
 import { getPadding } from '../../theme/theme-utils';
 import type { AllKeys } from '../../types/utils';
+import { transientOptions } from '../../utils/emotion';
 
 type PaddingComponentProps = {
 	width?: string;
@@ -24,7 +25,7 @@ type PaddingComponentProps = {
 type PaddingProps = PaddingComponentProps &
 	Omit<HTMLAttributes<HTMLDivElement>, keyof PaddingComponentProps>;
 
-const Comp = styled.div<{
+const Comp = styled('div', transientOptions)<{
 	$height?: string;
 	$width?: string;
 	$padding: (args: { theme: Theme }) => string;

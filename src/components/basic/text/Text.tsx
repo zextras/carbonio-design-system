@@ -7,11 +7,13 @@
 import type { HTMLAttributes } from 'react';
 import React from 'react';
 
-import styled, { css } from 'styled-components';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 
 import type { Theme } from '../../../theme/theme';
 import { getColor } from '../../../theme/theme-utils';
 import type { AnyColor } from '../../../types/utils';
+import { transientOptions } from '../../../utils/emotion';
 
 interface TextProps extends Omit<HTMLAttributes<HTMLDivElement>, 'color'> {
 	/** Text color */
@@ -32,7 +34,7 @@ interface TextProps extends Omit<HTMLAttributes<HTMLDivElement>, 'color'> {
 	lineHeight?: number;
 }
 
-const Comp = styled.div<{
+const Comp = styled('div', transientOptions)<{
 	$color: AnyColor;
 	$disabled: boolean;
 	$size: keyof Theme['sizes']['font'];

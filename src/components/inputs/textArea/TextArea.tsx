@@ -6,11 +6,13 @@
 import type { TextareaHTMLAttributes } from 'react';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
-import styled, { css } from 'styled-components';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 
 import { useCombinedRefs } from '../../../hooks/useCombinedRefs';
 import { getColor } from '../../../theme/theme-utils';
 import type { AnyColor } from '../../../types/utils';
+import { transientOptions } from '../../../utils/emotion';
 import type { TextProps } from '../../basic/text/Text';
 import { INPUT_BACKGROUND_COLOR, INPUT_DIVIDER_COLOR } from '../../constants';
 import { Container } from '../../layout/container/Container';
@@ -51,7 +53,7 @@ type TextArea = ReturnType<typeof React.forwardRef<HTMLDivElement, TextAreaProps
 	_newId?: number;
 };
 
-const StyledTextArea = styled.textarea<{ $color: string }>`
+const StyledTextArea = styled('textarea', transientOptions)<{ $color: string }>`
 	resize: none;
 	width: 100%;
 	max-height: 100%;
@@ -78,7 +80,7 @@ const StyledTextArea = styled.textarea<{ $color: string }>`
 	}
 `;
 
-const GrowContainer = styled.div<{ $hasLabel: boolean; $maxHeight?: string }>`
+const GrowContainer = styled('div', transientOptions)<{ $hasLabel: boolean; $maxHeight?: string }>`
 	width: 100%;
 	height: auto;
 	margin-top: ${({ $hasLabel, theme }): ReturnType<typeof css> | string =>
