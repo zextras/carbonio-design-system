@@ -11,14 +11,17 @@ import { generateAutocompletion } from 'storybook-addon-playground';
 import { DarkReaderDocsContainer } from './addons/darkreader/DarkReaderDocsContainer';
 import docgenOutput from './docgen-output.json';
 import * as Utils from '../src';
-import { ThemeProvider } from '../src';
+import { ThemeProvider, ModalManager } from '../src';
 import { jsx, css } from '../src/playground/playground-helper';
 
 export const decorators = [
 	(Story: StoryFn): React.JSX.Element => (
-		<ThemeProvider>
-			<Story />
-		</ThemeProvider>
+			<ThemeProvider>
+				<ModalManager>
+					<Story />
+				</ModalManager>
+			</ThemeProvider>
+
 	)
 ];
 

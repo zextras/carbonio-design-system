@@ -84,7 +84,13 @@ const Modal = React.forwardRef<HTMLDivElement, ModalProps>(function ModalFn(
 	);
 
 	return (
-		<CustomModal onClose={onClose} ref={ref} {...rest}>
+		<CustomModal
+			onClose={onClose}
+			onConfirm={onConfirm}
+			confirmDisabled={confirmDisabled}
+			ref={ref}
+			{...rest}
+		>
 			<ModalHeader
 				centered={centered}
 				type={type}

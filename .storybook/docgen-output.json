@@ -5744,6 +5744,50 @@
           },
           "description": "Callback to close the Modal"
         },
+        "onConfirm": {
+          "required": false,
+          "tsType": {
+            "name": "signature",
+            "type": "function",
+            "raw": "(event: React.MouseEvent<HTMLButtonElement> | KeyboardEvent) => void",
+            "signature": {
+              "arguments": [
+                {
+                  "type": {
+                    "name": "union",
+                    "raw": "React.MouseEvent<HTMLButtonElement> | KeyboardEvent",
+                    "elements": [
+                      {
+                        "name": "ReactMouseEvent",
+                        "raw": "React.MouseEvent<HTMLButtonElement>",
+                        "elements": [
+                          {
+                            "name": "HTMLButtonElement"
+                          }
+                        ]
+                      },
+                      {
+                        "name": "KeyboardEvent"
+                      }
+                    ]
+                  },
+                  "name": "event"
+                }
+              ],
+              "return": {
+                "name": "void"
+              }
+            }
+          },
+          "description": "Callback for main action"
+        },
+        "confirmDisabled": {
+          "required": false,
+          "tsType": {
+            "name": "boolean"
+          },
+          "description": "Disabled status for main action Button"
+        },
         "containerWindow": {
           "required": false,
           "tsType": {
@@ -8641,6 +8685,50 @@
             "value": "noop",
             "computed": true
           }
+        },
+        "onConfirm": {
+          "required": false,
+          "tsType": {
+            "name": "signature",
+            "type": "function",
+            "raw": "(event: React.MouseEvent<HTMLButtonElement> | KeyboardEvent) => void",
+            "signature": {
+              "arguments": [
+                {
+                  "type": {
+                    "name": "union",
+                    "raw": "React.MouseEvent<HTMLButtonElement> | KeyboardEvent",
+                    "elements": [
+                      {
+                        "name": "ReactMouseEvent",
+                        "raw": "React.MouseEvent<HTMLButtonElement>",
+                        "elements": [
+                          {
+                            "name": "HTMLButtonElement"
+                          }
+                        ]
+                      },
+                      {
+                        "name": "KeyboardEvent"
+                      }
+                    ]
+                  },
+                  "name": "event"
+                }
+              ],
+              "return": {
+                "name": "void"
+              }
+            }
+          },
+          "description": "Callback for main action"
+        },
+        "confirmDisabled": {
+          "required": false,
+          "tsType": {
+            "name": "boolean"
+          },
+          "description": "Disabled status for main action Button"
         },
         "containerWindow": {
           "required": false,
