@@ -6,7 +6,7 @@
 
 /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 import type { HTMLAttributes } from 'react';
-import React, { useMemo, useEffect, useCallback, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useCallback, useRef, useState } from 'react';
 
 import { useTheme } from 'styled-components';
 
