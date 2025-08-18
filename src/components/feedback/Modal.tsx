@@ -91,10 +91,10 @@ const Modal = React.forwardRef<HTMLDivElement, ModalProps>(function ModalFn(
 		() =>
 			(onConfirm &&
 				!confirmDisabled && [
-					{ type: 'keydown', callback: onClose, keys: [{ key: 'Escape', ctrlKey: false }] }
+					{ type: 'keydown', callback: onConfirm, keys: [{ key: 'Enter', ctrlKey: false }] }
 				]) ||
 			[],
-		[confirmDisabled, onClose, onConfirm]
+		[confirmDisabled, onConfirm]
 	);
 	useKeyboard(modalRef, escapeEvent);
 
