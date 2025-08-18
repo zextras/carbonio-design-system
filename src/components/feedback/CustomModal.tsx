@@ -44,10 +44,6 @@ type BareModalProps = {
 	children?: React.ReactNode | React.ReactNode[];
 	/** Callback to close the Modal */
 	onClose?: (event: React.MouseEvent | KeyboardEvent) => void;
-	/** Callback for main action */
-	onConfirm?: (event: React.MouseEvent<HTMLButtonElement> | KeyboardEvent) => void;
-	/** Disabled status for main action Button */
-	confirmDisabled?: boolean;
 	/**
 	 * The window where to insert the Portal's children.
 	 * The default value is 'windowObj' obtained from the ThemContext.
@@ -64,8 +60,6 @@ const CustomModal = React.forwardRef<HTMLDivElement, CustomModalProps>(function 
 		size = 'small',
 		open = false,
 		onClose,
-		onConfirm,
-		confirmDisabled,
 		children,
 		disablePortal = false,
 		minHeight,
@@ -118,29 +112,15 @@ const CustomModal = React.forwardRef<HTMLDivElement, CustomModalProps>(function 
 		}
 	}, []);
 
-	const keyboardEvents = useMemo<KeyboardPresetObj[]>(() => {
-		const events: KeyboardPresetObj[] = [];
-
-		if (onClose) {
-			events.push({
-				type: 'keydown',
-				callback: onClose,
-				keys: [{ key: 'Escape', ctrlKey: false }]
-			});
-		}
-
-		if (onConfirm && !confirmDisabled) {
-			events.push({
-				type: 'keydown',
-				callback: onConfirm,
-				keys: [{ key: 'Enter', ctrlKey: false }]
-			});
-		}
-
-		return events;
-	}, [onClose, onConfirm, confirmDisabled]);
-
-	useKeyboard(modalRef, keyboardEvents);
+	const escapeEvent = useMemo<KeyboardPresetObj[]>(
+		() =>
+			(onClose && [
+				{ type: 'keydown', callback: onClose, keys: [{ key: 'Escape', ctrlKey: false }] }
+			]) ||
+			[],
+		[onClose]
+	);
+	useKeyboard(modalRef, escapeEvent);
 
 	useEffect(() => {
 		if (open) {

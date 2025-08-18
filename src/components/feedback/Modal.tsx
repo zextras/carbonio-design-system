@@ -7,7 +7,7 @@
 /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 
 import type { HTMLAttributes } from 'react';
-import React, { useCallback, useRef } from 'react';
+import React, { useMemo, useCallback, useRef } from 'react';
 
 import { noop } from 'lodash';
 import { useTheme } from 'styled-components';
@@ -18,6 +18,9 @@ import { ModalBody } from './modal-components/ModalBody';
 import type { ModalFooterProps } from './modal-components/ModalFooter';
 import { ModalFooter } from './modal-components/ModalFooter';
 import { ModalHeader } from './modal-components/ModalHeader';
+import { useCombinedRefs } from '../../hooks/useCombinedRefs';
+import type { KeyboardPresetObj } from '../../hooks/useKeyboard';
+import { useKeyboard } from '../../hooks/useKeyboard';
 import { Divider } from '../layout/divider/Divider';
 
 function copyToClipboard(node: HTMLDivElement | null, windowObj: Window): void {
@@ -73,6 +76,7 @@ const Modal = React.forwardRef<HTMLDivElement, ModalProps>(function ModalFn(
 	},
 	ref
 ) {
+	const modalRef = useCombinedRefs<HTMLDivElement>(ref);
 	const { windowObj: themeWindowObj } = useTheme();
 	const windowObj = containerWindow ?? themeWindowObj;
 
@@ -83,14 +87,19 @@ const Modal = React.forwardRef<HTMLDivElement, ModalProps>(function ModalFn(
 		[windowObj]
 	);
 
+	const escapeEvent = useMemo<KeyboardPresetObj[]>(
+		() =>
+			(onConfirm &&
+				!confirmDisabled && [
+					{ type: 'keydown', callback: onClose, keys: [{ key: 'Escape', ctrlKey: false }] }
+				]) ||
+			[],
+		[confirmDisabled, onClose, onConfirm]
+	);
+	useKeyboard(modalRef, escapeEvent);
+
 	return (
-		<CustomModal
-			onClose={onClose}
-			onConfirm={onConfirm}
-			confirmDisabled={confirmDisabled}
-			ref={ref}
-			{...rest}
-		>
+		<CustomModal onClose={onClose} ref={modalRef} {...rest}>
 			<ModalHeader
 				centered={centered}
 				type={type}
