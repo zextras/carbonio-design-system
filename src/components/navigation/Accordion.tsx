@@ -157,6 +157,7 @@ const AccordionRoot = React.forwardRef<HTMLDivElement, AccordionRootProps>(funct
 	ref
 ) {
 	const [open, setOpen] = useState(!!item.open);
+	const [visuallyOpen, setVisuallyOpen] = useState(open);
 	const accordionRef = useCombinedRefs<HTMLDivElement>(ref);
 
 	useEffect(() => {
@@ -172,9 +173,23 @@ const AccordionRoot = React.forwardRef<HTMLDivElement, AccordionRootProps>(funct
 		[item]
 	);
 
+	/*
+	 * Toggle the open state of the accordion, calls the onOpen and
+	 * onClose callbacks, and, if transitions disabled, sync the
+	 * visual state with the open state
+	 */
 	const toggleOpen = useCallback(
 		(e: KeyboardEvent | React.SyntheticEvent) => {
 			e.stopPropagation();
+
+			/*
+			 * If the transition is disabled or the accordion is not open,
+			 * we immediately sync the visuallyOpen state with the next value
+			 */
+			if (disableTransition || !open) {
+				setVisuallyOpen(!open);
+			}
+
 			setOpen((op) => {
 				op ? item.onClose && item.onClose(e) : item.onOpen && item.onOpen(e);
 				return !op;
@@ -182,6 +197,31 @@ const AccordionRoot = React.forwardRef<HTMLDivElement, AccordionRootProps>(funct
 		},
 		[item]
 	);
+
+	/*
+	 * At the end of the collapse transition, we want to sync the visuallyOpen state
+	 * with the open state
+	 */
+	const onCollapseTransitionEnd = useCallback(() => {
+		setVisuallyOpen(() => open);
+	}, [disableTransition, open]);
+
+	const hasItems = useMemo(() => {
+		return item.items && item.items.length > 0;
+	}, [item.items]);
+
+	/*
+	 * The items should be rendered when:
+	 * - the accordion has items
+	 * - the accordion is visually open
+	 */
+	const shouldRenderItems = useMemo(() => {
+		if (!hasItems) {
+			return false;
+		}
+
+		return visuallyOpen;
+	}, [disableTransition, open, visuallyOpen]);
 
 	const keyEvents = useMemo(() => getKeyboardPreset('button', handleClick), [handleClick]);
 	useKeyboard(accordionRef, keyEvents);
@@ -219,7 +259,7 @@ const AccordionRoot = React.forwardRef<HTMLDivElement, AccordionRootProps>(funct
 				) : (
 					<AccordionItem item={item} />
 				)}
-				{item.items && item.items.length > 0 && (
+				{hasItems && (
 					<Padding right="small">
 						<Tooltip label={tooltipLabel} disabled={!tooltipLabel} placement={'top'}>
 							<StyledButton
@@ -234,18 +274,20 @@ const AccordionRoot = React.forwardRef<HTMLDivElement, AccordionRootProps>(funct
 					</Padding>
 				)}
 			</AccordionContainerEl>
-			{item.items && item.items.length > 0 && (
+			{shouldRenderItems && (
 				<Collapse
 					crossSize="100%"
 					orientation="vertical"
 					open={open}
 					disableTransition={disableTransition}
+					onTransitionEnd={onCollapseTransitionEnd}
 				>
 					{/* eslint-disable-next-line @typescript-eslint/no-use-before-define */}
 					<Accordion
 						activeId={activeId}
 						openIds={openIds}
-						items={item.items}
+						// The non-null assertion is used because the shouldRenderItems check guarantees that items is not null
+						items={item.items!}
 						level={item.level ?? level + 1}
 						background={background}
 						disableTransition={disableTransition}
