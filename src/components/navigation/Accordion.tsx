@@ -6,7 +6,7 @@
 
 import React, { useMemo, useState, useCallback, useEffect } from 'react';
 
-import { map } from 'lodash';
+import { map, set } from 'lodash';
 import styled, { css } from 'styled-components';
 
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
@@ -160,8 +160,11 @@ const AccordionRoot = React.forwardRef<HTMLDivElement, AccordionRootProps>(funct
 	const [visuallyOpen, setVisuallyOpen] = useState(open);
 	const accordionRef = useCombinedRefs<HTMLDivElement>(ref);
 
+	// Set the initial open state
 	useEffect(() => {
-		setOpen(() => !!item.open || !!openIds?.includes(item.id));
+		const shouldBeOpen = !!item.open || !!openIds?.includes(item.id);
+		setOpen(() => shouldBeOpen);
+		setVisuallyOpen(() => shouldBeOpen);
 	}, [item.id, item.open, openIds]);
 
 	const handleClick = useCallback(
