@@ -6,7 +6,7 @@
 
 import React, { useMemo, useState, useCallback, useEffect } from 'react';
 
-import { map, set } from 'lodash';
+import { map } from 'lodash';
 import styled, { css } from 'styled-components';
 
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
@@ -198,7 +198,7 @@ const AccordionRoot = React.forwardRef<HTMLDivElement, AccordionRootProps>(funct
 				return !op;
 			});
 		},
-		[item]
+		[item, disableTransition, open]
 	);
 
 	/*
@@ -207,11 +207,9 @@ const AccordionRoot = React.forwardRef<HTMLDivElement, AccordionRootProps>(funct
 	 */
 	const onCollapseTransitionEnd = useCallback(() => {
 		setVisuallyOpen(() => open);
-	}, [disableTransition, open]);
+	}, [open]);
 
-	const hasItems = useMemo(() => {
-		return item.items && item.items.length > 0;
-	}, [item.items]);
+	const hasItems = useMemo(() => item.items && item.items.length > 0, [item.items]);
 
 	/*
 	 * The items should be rendered when:
@@ -224,7 +222,7 @@ const AccordionRoot = React.forwardRef<HTMLDivElement, AccordionRootProps>(funct
 		}
 
 		return visuallyOpen;
-	}, [disableTransition, open, visuallyOpen]);
+	}, [hasItems, visuallyOpen]);
 
 	const keyEvents = useMemo(() => getKeyboardPreset('button', handleClick), [handleClick]);
 	useKeyboard(accordionRef, keyEvents);

@@ -136,11 +136,11 @@ describe('Accordion', () => {
 		);
 
 		expect(screen.getByText(/first/i)).toBeVisible();
-		expect(screen.getByText(/second/i)).not.toBeVisible();
+		expect(screen.queryByText(/second/i)).not.toBeInTheDocument();
 		// click on label does not expand the accordion
 		await user.click(screen.getByText('First'));
 		expect(onClick).toHaveBeenCalledTimes(1);
-		expect(screen.getByText(/second/i)).not.toBeVisible();
+		expect(screen.queryByText(/second/i)).not.toBeInTheDocument();
 		// click on chevron icon expand the accordion item
 		await user.click(screen.getByTestId(ICONS.accordionItemOpenAction));
 		await waitFor(() => expect(screen.getByText(/second/i)).toBeVisible());
