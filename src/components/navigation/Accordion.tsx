@@ -157,14 +157,14 @@ const AccordionRoot = React.forwardRef<HTMLDivElement, AccordionRootProps>(funct
 	ref
 ) {
 	const [open, setOpen] = useState(!!item.open);
-	const [visuallyOpen, setVisuallyOpen] = useState(open);
+	const [areItemsVisible, setAreItemsVisible] = useState(open);
 	const accordionRef = useCombinedRefs<HTMLDivElement>(ref);
 
 	// Set the initial open state
 	useEffect(() => {
 		const shouldBeOpen = !!item.open || !!openIds?.includes(item.id);
 		setOpen(() => shouldBeOpen);
-		setVisuallyOpen(() => shouldBeOpen);
+		setAreItemsVisible(() => shouldBeOpen);
 	}, [item.id, item.open, openIds]);
 
 	const handleClick = useCallback(
@@ -187,10 +187,10 @@ const AccordionRoot = React.forwardRef<HTMLDivElement, AccordionRootProps>(funct
 
 			/*
 			 * If the transition is disabled or the accordion is not open,
-			 * we immediately sync the visuallyOpen state with the next value
+			 * we immediately sync the areItemsVisible state with the next value
 			 */
 			if (disableTransition || !open) {
-				setVisuallyOpen(!open);
+				setAreItemsVisible(!open);
 			}
 
 			setOpen((op) => {
@@ -202,11 +202,11 @@ const AccordionRoot = React.forwardRef<HTMLDivElement, AccordionRootProps>(funct
 	);
 
 	/*
-	 * At the end of the collapse transition, we want to sync the visuallyOpen state
+	 * At the end of the collapse transition, we want to sync the areItemsVisible state
 	 * with the open state
 	 */
 	const onCollapseTransitionEnd = useCallback(() => {
-		setVisuallyOpen(() => open);
+		setAreItemsVisible(() => open);
 	}, [open]);
 
 	const hasItems = useMemo(() => item.items && item.items.length > 0, [item.items]);
@@ -221,8 +221,8 @@ const AccordionRoot = React.forwardRef<HTMLDivElement, AccordionRootProps>(funct
 			return false;
 		}
 
-		return visuallyOpen;
-	}, [hasItems, visuallyOpen]);
+		return areItemsVisible;
+	}, [hasItems, areItemsVisible]);
 
 	const keyEvents = useMemo(() => getKeyboardPreset('button', handleClick), [handleClick]);
 	useKeyboard(accordionRef, keyEvents);
