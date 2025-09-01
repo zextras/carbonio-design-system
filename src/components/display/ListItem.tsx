@@ -11,9 +11,8 @@ import styled from '@emotion/styled';
 import { useIsVisible } from '../../hooks/useIsVisible/useIsVisible';
 import { pseudoClasses } from '../../theme/theme-utils';
 import type { AnyColor } from '../../types/utils';
-import { transientOptions } from '../../utils/emotion';
 
-const ListItemWrapper = styled('div', transientOptions)<{ $backgroundColor?: AnyColor }>`
+const ListItemWrapper = styled.div<{ $backgroundColor?: AnyColor }>`
 	user-select: none;
 	outline: none;
 	${({ theme, $backgroundColor }): ReturnType<typeof css> | undefined =>

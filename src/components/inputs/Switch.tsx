@@ -12,7 +12,6 @@ import styled from '@emotion/styled';
 import { useCheckbox } from '../../hooks/useCheckbox';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import type { Theme } from '../../theme/theme';
-import { transientOptions } from '../../utils/emotion';
 import { Icon } from '../basic/icon/Icon';
 import { Text } from '../basic/text/Text';
 import type { ContainerProps } from '../layout/container/Container';
@@ -23,7 +22,7 @@ type SwitchSize = 'medium' | 'small';
 
 const CustomIcon = styled(Icon)``;
 
-const IconWrapper = styled('div', transientOptions)<{
+const IconWrapper = styled.div<{
 	$disabled: boolean;
 	$iconColor: keyof Theme['palette'];
 }>`

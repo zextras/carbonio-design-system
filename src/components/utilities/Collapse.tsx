@@ -12,10 +12,9 @@ import styled from '@emotion/styled';
 
 import { Transition } from './Transition';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
-import { transientOptions } from '../../utils/emotion';
 import { Container } from '../layout/container/Container';
 
-const CollapseEl = styled('div', transientOptions)<{
+const CollapseEl = styled.div<{
 	$crossSize?: string;
 	$orientation: 'horizontal' | 'vertical';
 	$disableTransition: boolean;
@@ -105,7 +104,7 @@ const Collapse = React.forwardRef<HTMLElement, CollapseProps>(function CollapseF
 	);
 });
 
-const CollapserNotch = styled('div', transientOptions)`
+const CollapserNotch = styled.div`
 	width: 0.25rem;
 	height: 1.5rem;
 	background: ${({ theme }): string => theme.palette.gray1.regular};

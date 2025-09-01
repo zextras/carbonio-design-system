@@ -14,7 +14,6 @@ import { useKeyboard } from '../../../hooks/useKeyboard';
 import type { Theme } from '../../../theme/theme';
 import { getColor } from '../../../theme/theme-utils';
 import type { AnyColor } from '../../../types/utils';
-import { transientOptions } from '../../../utils/emotion';
 import { INPUT_BACKGROUND_COLOR, INPUT_DIVIDER_COLOR } from '../../constants';
 import type { ContainerProps } from '../../layout/container/Container';
 import { Container } from '../../layout/container/Container';
@@ -24,7 +23,7 @@ import { InputContainer } from '../commons/InputContainer';
 import { InputDescription } from '../commons/InputDescription';
 import { InputLabel } from '../commons/InputLabel';
 
-const InputEl = styled('input', transientOptions)<{ $color: AnyColor }>`
+const InputEl = styled.input<{ $color: AnyColor }>`
 	border: none !important;
 	height: auto !important;
 	width: 100%;

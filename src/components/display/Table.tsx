@@ -11,7 +11,6 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import type { NonEmptyArray, SingleItemArray } from '../../types/utils';
-import { transientOptions } from '../../utils/emotion';
 import { Icon } from '../basic/icon/Icon';
 import { Text } from '../basic/text/Text';
 import { Checkbox } from '../inputs/Checkbox';
@@ -37,7 +36,7 @@ const StyledTr = styled.tr`
 	}
 `;
 
-const TableRow = styled('tr', transientOptions)<{
+const TableRow = styled.tr<{
 	$selected: boolean;
 	$highlight?: boolean;
 	$showCheckbox?: boolean;

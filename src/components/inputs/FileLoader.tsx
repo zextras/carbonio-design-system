@@ -9,11 +9,10 @@ import React, { useRef, useCallback, useMemo } from 'react';
 import styled from '@emotion/styled';
 
 import type { AnyColor } from '../../types/utils';
-import { transientOptions } from '../../utils/emotion';
 import type { ButtonProps } from '../basic/button/Button';
 import { Button } from '../basic/button/Button';
 
-const FileInput = styled('input', transientOptions)`
+const FileInput = styled.input`
 	display: none;
 `;
 

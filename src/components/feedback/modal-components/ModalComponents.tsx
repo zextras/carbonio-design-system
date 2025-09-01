@@ -9,7 +9,6 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { rgba } from 'polished';
 
-import { transientOptions } from '../../../utils/emotion';
 import type { ContainerProps } from '../../layout/container/Container';
 import { Container } from '../../layout/container/Container';
 
@@ -52,7 +51,7 @@ function getScrollbarSize(windowObj: Window): number {
 	return 0;
 }
 
-const ModalContainer = styled('div', transientOptions)<{
+const ModalContainer = styled.div<{
 	$mounted: boolean;
 	$open: boolean;
 	$zIndex: number;
@@ -88,7 +87,7 @@ const ModalContainer = styled('div', transientOptions)<{
 		`};
 `;
 
-const ModalWrapper = styled('div', transientOptions)`
+const ModalWrapper = styled.div`
 	max-width: 100%;
 	width: 100%;
 	margin: auto;

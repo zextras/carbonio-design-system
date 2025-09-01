@@ -13,7 +13,6 @@ import styled from '@emotion/styled';
 import { Icon } from './icon/Icon';
 import type { Theme } from '../../theme/theme';
 import { getColor } from '../../theme/theme-utils';
-import { transientOptions } from '../../utils/emotion';
 
 type ShapeType = 'round' | 'square';
 
@@ -60,7 +59,7 @@ interface AvatarPropTypes extends Omit<HTMLAttributes<HTMLDivElement>, 'color'> 
 	disabled?: boolean;
 }
 
-const AvatarContainer = styled('div', transientOptions)<AvatarContainerProps>`
+const AvatarContainer = styled.div<AvatarContainerProps>`
 	box-sizing: border-box;
 	display: flex;
 	justify-content: center;
@@ -86,7 +85,7 @@ const AvatarContainer = styled('div', transientOptions)<AvatarContainerProps>`
 		$selecting ? `0.125rem solid ${getColor('primary', theme)}` : 'none'};
 `;
 
-const Capitals = styled('p', transientOptions)<CapitalsPropsType>`
+const Capitals = styled.p<CapitalsPropsType>`
 	font-size: ${({ theme, $size }): string => theme.sizes.avatar[$size].font};
 	color: ${({ theme, $color }): string => getColor($color ?? 'gray6', theme)};
 	font-family: ${({ theme }): string => theme.fonts.default};

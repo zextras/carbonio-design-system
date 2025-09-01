@@ -13,7 +13,6 @@ import styled from '@emotion/styled';
 import { useCombinedRefs } from '../../../hooks/useCombinedRefs';
 import { getColor, pseudoClasses } from '../../../theme/theme-utils';
 import type { AnyColor, With$Prefix, Without$Prefix } from '../../../types/utils';
-import { transientOptions } from '../../../utils/emotion';
 import type { IconProps } from '../icon/Icon';
 import { Icon } from '../icon/Icon';
 import { Spinner } from '../spinner/Spinner';
@@ -142,7 +141,7 @@ const StyledText = styled(Text)<{ $loading: boolean; $size: string }>`
 		`};
 `;
 
-const StyledLoadingContainer = styled('div', transientOptions)`
+const StyledLoadingContainer = styled.div`
 	position: absolute;
 	width: 100%;
 	height: 100%;
@@ -153,7 +152,7 @@ const StyledLoadingContainer = styled('div', transientOptions)`
 	align-items: center;
 `;
 
-const StyledButton = styled('button', transientOptions)<StyledButtonProps>`
+const StyledButton = styled.button<StyledButtonProps>`
 	/* set line-height to normal so that the browser can calculate it based on the font, and the accents are not cut off */
 	line-height: normal;
 	display: flex;
@@ -213,14 +212,14 @@ const StyledSecondaryAction = styled(StyledButton)<{ $loading: boolean }>`
 		`};
 `;
 
-const StyledSecondaryActionPlaceholder = styled('span', transientOptions)<{ $padding: string }>`
+const StyledSecondaryActionPlaceholder = styled.span<{ $padding: string }>`
 	/* padding */
 	padding: ${({ $padding }): string => $padding};
 	order: 3;
 	visibility: hidden;
 `;
 
-const StyledGrid = styled('div', transientOptions)<{
+const StyledGrid = styled.div<{
 	$width: 'fill' | 'fit';
 	$padding: string;
 	$minWidth?: string;

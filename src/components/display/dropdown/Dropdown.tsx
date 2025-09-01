@@ -27,7 +27,6 @@ import {
 import type { Theme } from '../../../theme/theme';
 import { pseudoClasses } from '../../../theme/theme-utils';
 import type { AnyColor } from '../../../types/utils';
-import { transientOptions } from '../../../utils/emotion';
 import { setupFloating } from '../../../utils/floating-ui';
 import { Icon } from '../../basic/icon/Icon';
 import { Text } from '../../basic/text/Text';
@@ -338,14 +337,14 @@ function NestListItem({
 	);
 }
 
-const PopperDropdownWrapper = styled('div', transientOptions)<{
+const PopperDropdownWrapper = styled.div<{
 	$display: 'inline-block' | 'block';
 }>`
 	position: relative;
 	display: ${({ $display }): 'inline-block' | 'block' => $display};
 	width: ${({ $display }): string => ($display === 'block' ? '100%' : 'auto')};
 `;
-const PopperList = styled('div', transientOptions)<{
+const PopperList = styled.div<{
 	$width: string;
 	$maxWidth: string;
 	$maxHeight: string;

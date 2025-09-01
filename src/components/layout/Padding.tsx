@@ -14,7 +14,6 @@ import type { Theme } from '../../theme/theme';
 import type { PaddingObj } from '../../theme/theme-utils';
 import { getPadding } from '../../theme/theme-utils';
 import type { AllKeys } from '../../types/utils';
-import { transientOptions } from '../../utils/emotion';
 
 type PaddingComponentProps = {
 	width?: string;
@@ -25,7 +24,7 @@ type PaddingComponentProps = {
 type PaddingProps = PaddingComponentProps &
 	Omit<HTMLAttributes<HTMLDivElement>, keyof PaddingComponentProps>;
 
-const Comp = styled('div', transientOptions)<{
+const Comp = styled.div<{
 	$height?: string;
 	$width?: string;
 	$padding: (args: { theme: Theme }) => string;

@@ -12,14 +12,13 @@ import styled from '@emotion/styled';
 import { useCheckbox } from '../../hooks/useCheckbox';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import type { Theme } from '../../theme/theme';
-import { transientOptions } from '../../utils/emotion';
 import { Icon } from '../basic/icon/Icon';
 import { Text } from '../basic/text/Text';
 import type { ContainerProps } from '../layout/container/Container';
 import { Container } from '../layout/container/Container';
 import { Padding } from '../layout/Padding';
 
-const IconWrapper = styled('div', transientOptions)<{
+const IconWrapper = styled.div<{
 	$borderRadius: 'regular' | 'round';
 	$isActive: boolean;
 	$disabled: boolean;

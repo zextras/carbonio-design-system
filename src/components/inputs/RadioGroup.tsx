@@ -10,7 +10,6 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import styled from '@emotion/styled';
 
 import { type RadioProps } from './Radio';
-import { transientOptions } from '../../utils/emotion';
 
 type RadioValue<T extends RadioProps['value']> = RadioProps<T>['value'];
 
@@ -30,7 +29,7 @@ type RadioGroupType = <T extends RadioProps['value'] = string>(
 	p: RadioGroupProps<T> & React.RefAttributes<HTMLFieldSetElement>
 ) => React.ReactElement | null;
 
-const Fieldset = styled('fieldset', transientOptions)`
+const Fieldset = styled.fieldset`
 	margin-inline: 0;
 	padding-block: 0;
 	padding-inline: 0;

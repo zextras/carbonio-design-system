@@ -13,7 +13,6 @@ import styled from '@emotion/styled';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import type { Theme } from '../../theme/theme';
 import { getColor, pseudoClasses } from '../../theme/theme-utils';
-import { transientOptions } from '../../utils/emotion';
 import type { TextProps } from '../basic/text/Text';
 import { Text } from '../basic/text/Text';
 import type { ContainerProps } from '../layout/container/Container';
@@ -33,7 +32,7 @@ const RADIO_SIZE: Record<
 	}
 };
 
-const RadioInput = styled('input', transientOptions)<{
+const RadioInput = styled.input<{
 	$color: string;
 	$size: keyof Theme['sizes']['icon'];
 }>`

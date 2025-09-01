@@ -18,7 +18,6 @@ import { usePrevious } from '../../../hooks/usePrevious';
 import type { Theme } from '../../../theme/theme';
 import { getColor } from '../../../theme/theme-utils';
 import type { AnyColor, PaletteColor } from '../../../types/utils';
-import { transientOptions } from '../../../utils/emotion';
 import type { ButtonProps } from '../../basic/button/Button';
 import { Button } from '../../basic/button/Button';
 import { Icon } from '../../basic/icon/Icon';
@@ -68,7 +67,7 @@ const RelativeContainer = styled(Container)`
 	position: relative;
 `;
 
-const InputEl = styled('input', transientOptions)<{ $color: keyof Theme['palette'] }>`
+const InputEl = styled.input<{ $color: keyof Theme['palette'] }>`
 	border: none !important;
 	height: auto !important;
 	width: 1em;
@@ -98,14 +97,14 @@ const InputEl = styled('input', transientOptions)<{ $color: keyof Theme['palette
 	}
 `;
 
-const HiddenSpan = styled('span', transientOptions)`
+const HiddenSpan = styled.span`
 	position: absolute;
 	height: 0;
 	overflow: hidden;
 	white-space: pre;
 `;
 
-const AdjustWidthInputContainer = styled('div', transientOptions)`
+const AdjustWidthInputContainer = styled.div`
 	position: relative;
 	flex: 1 1 auto;
 	overflow-wrap: break-word;

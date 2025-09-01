@@ -14,7 +14,6 @@ import { map } from 'lodash';
 import type { PaddingObj } from '../../../theme/theme-utils';
 import { getColor, getPadding } from '../../../theme/theme-utils';
 import type { AnyColor, LiteralUnion, With$Prefix } from '../../../types/utils';
-import { transientOptions } from '../../../utils/emotion';
 
 interface ContainerElProps {
 	/** The Container orientation (css flex-direction prop or 'vertical' or 'horizontal') */
@@ -99,7 +98,7 @@ interface ContainerElProps {
 	margin?: { left?: string; right?: string };
 }
 
-const ContainerEl = styled('div', transientOptions)<With$Prefix<ContainerElProps>>`
+const ContainerEl = styled.div<With$Prefix<ContainerElProps>>`
 	display: flex;
 	flex-direction: ${({ $orientation }): string | undefined => $orientation};
 	align-items: ${({ $crossAlignment }): string | undefined => $crossAlignment};
