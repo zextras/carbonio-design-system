@@ -178,12 +178,12 @@ const ContainerEl = styled.div<With$Prefix<ContainerElProps>>`
 				`;
 			}
 
-			return css(
-				map(
+			return css`
+				${map(
 					$borderColor,
-					(color, key) => color && css`border-${key}: 0.0625rem solid ${getColor(color, theme)};`
-				)
-			);
+					(color, key) => color && `border-${key}: 0.0625rem solid ${getColor(color, theme)};`
+				)}
+			`;
 		}
 		return false;
 	}};

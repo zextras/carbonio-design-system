@@ -168,7 +168,7 @@ const StyledButton = styled.button<StyledButtonProps>`
 	width: ${({ $width }): string | false | undefined =>
 		($width === 'fill' && '100%') || ($width === 'fit' && 'auto')};
 	max-width: 100%;
-	min-width: 0;
+	min-width: ${({ $minWidth }): string | undefined => $minWidth};
 	/* order of elements */
 	${StyledIcon} {
 		order: ${({ $iconPlacement = 'left' }): number | false =>
@@ -383,11 +383,8 @@ const Button = React.forwardRef<HTMLDivElement, ButtonProps>(function ButtonFn(
 		[type, backgroundColor, color, labelColor]
 	);
 
-	const minWidthProp = minWidth ?? '0';
-	const tabIndexProp = disabled ? -1 : 0;
-
 	return (
-		<StyledGrid $width={width} $minWidth={minWidthProp} $padding={SIZES[size].padding} ref={ref}>
+		<StyledGrid $width={width} $minWidth={minWidth} $padding={SIZES[size].padding} ref={ref}>
 			<StyledButton
 				{...rest}
 				$backgroundColor={colors.backgroundColor}
@@ -399,11 +396,11 @@ const Button = React.forwardRef<HTMLDivElement, ButtonProps>(function ButtonFn(
 				$gap={SIZES[size].gap}
 				$iconPlacement={iconPlacement}
 				$width={width}
-				$minWidth={minWidthProp}
+				$minWidth={minWidth ?? '0'}
 				disabled={disabled}
 				onClick={clickHandler}
 				ref={innerButtonRef}
-				tabIndex={tabIndexProp}
+				tabIndex={disabled ? -1 : 0}
 			>
 				{icon && (
 					<StyledIcon

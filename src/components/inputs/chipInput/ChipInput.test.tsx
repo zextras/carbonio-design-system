@@ -835,21 +835,22 @@ describe('ChipInput', () => {
 		expect(screen.queryByTestId(ICONS.close)).not.toBeInTheDocument();
 	});
 
-	// FIXME this test is really slow
 	test('by default there is no limit to the maximum number of chips', async () => {
-		const { user } = setup(<ChipInput />);
+		const onChange = jest.fn();
+
+		// Start with 19 existing chips
+		const existingChips = Array.from({ length: 19 }, (_, i) => ({ label: `chip${i}` }));
+		const { user } = setup(<ChipInput onChange={onChange} defaultValue={existingChips} />);
 		const inputElement = screen.getByRole('textbox');
-		const prevLimitMaxPlusOne = 21;
-		for (let i = 0; i < prevLimitMaxPlusOne; i += 1) {
-			// eslint-disable-next-line no-await-in-loop
-			await user.type(inputElement, `chip${i}`);
-			// eslint-disable-next-line no-await-in-loop
-			await act(async () => {
-				await user.keyboard('[Space]');
-			});
-		}
-		expect(screen.getAllByText(/chip/)).toHaveLength(prevLimitMaxPlusOne);
-	}, 10_000);
+
+		// Add 2 more chips to reach 21 total
+		await user.type(inputElement, 'chip19 chip20 ');
+
+		const expectedChips = [...existingChips, { label: 'chip19' }, { label: 'chip20' }];
+		expect(onChange).toHaveBeenLastCalledWith(expectedChips);
+		expect(inputElement).not.toBeDisabled();
+		expect(screen.getAllByText(/chip/)).toHaveLength(21);
+	});
 
 	describe('onOptionsDisplayChange', () => {
 		it('should not call onOptionsDisplayChange when options prop is empty', async () => {

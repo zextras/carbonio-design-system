@@ -182,6 +182,7 @@ const CustomModal = React.forwardRef<HTMLDivElement, CustomModalProps>(function 
 				<Transition type="scale-in" apply={delayedOpen}>
 					<ModalWrapper>
 						<ModalContent
+							tabIndex={-1}
 							ref={modalContentRef}
 							background={background}
 							$size={size}
