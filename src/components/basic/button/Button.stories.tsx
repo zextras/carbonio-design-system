@@ -66,13 +66,6 @@ export const Width = {
 	}
 } satisfies Story;
 
-export const MinWidth = {
-	args: {
-		width: 'fit',
-		minWidth: '25rem'
-	}
-} satisfies Story;
-
 export const Shape = {
 	args: {
 		shape: 'round'
