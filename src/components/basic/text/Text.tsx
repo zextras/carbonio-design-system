@@ -92,6 +92,7 @@ const Text = React.forwardRef<HTMLDivElement, TextProps>(function TextFn(
 			$italic={italic}
 			$textAlign={textAlign}
 			$lineHeight={lineHeight}
+			data-component="Text"
 			{...rest}
 		>
 			{children}
