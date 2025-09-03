@@ -6,6 +6,7 @@
 
 import React, { type ReactElement } from 'react';
 
+import { matchers } from '@emotion/jest';
 import type { RenderOptions, RenderResult, Screen } from '@testing-library/react';
 import { act, render, screen as rtlScreen, within as rtlWithin } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -33,6 +34,8 @@ export type UserEvent = User & {
 interface WrapperProps {
 	children?: React.ReactNode;
 }
+
+expect.extend(matchers);
 
 export function within(
 	element: Parameters<typeof rtlWithin<typeof queriesExtended>>[0]

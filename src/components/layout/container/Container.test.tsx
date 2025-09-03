@@ -6,7 +6,6 @@
 import React from 'react';
 
 import { screen } from '@testing-library/react';
-import 'jest-styled-components';
 
 import { Container } from './Container';
 import { setup } from '../../../tests/utils';
@@ -20,10 +19,10 @@ describe('Container', () => {
 			'border',
 			expect.stringContaining(Theme.palette.black.regular)
 		);
-		expect(containerEl).not.toHaveStyleRule('border-top');
-		expect(containerEl).not.toHaveStyleRule('border-right');
-		expect(containerEl).not.toHaveStyleRule('border-bottom');
-		expect(containerEl).not.toHaveStyleRule('border-left');
+		expect(containerEl).not.toHaveStyleRule('border-top', undefined);
+		expect(containerEl).not.toHaveStyleRule('border-right', undefined);
+		expect(containerEl).not.toHaveStyleRule('border-bottom', undefined);
+		expect(containerEl).not.toHaveStyleRule('border-left', undefined);
 	});
 
 	test('Set only provided borders if an object is passed as prop', () => {
@@ -37,8 +36,8 @@ describe('Container', () => {
 			'border-right',
 			expect.stringContaining(Theme.palette.black.regular)
 		);
-		expect(containerEl).not.toHaveStyleRule('border-bottom');
-		expect(containerEl).not.toHaveStyleRule('border-left');
-		expect(containerEl).not.toHaveStyleRule('border');
+		expect(containerEl).not.toHaveStyleRule('border-bottom', undefined);
+		expect(containerEl).not.toHaveStyleRule('border-left', undefined);
+		expect(containerEl).not.toHaveStyleRule('border', undefined);
 	});
 });

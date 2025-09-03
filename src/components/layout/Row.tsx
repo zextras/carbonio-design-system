@@ -6,7 +6,8 @@
 
 import React from 'react';
 
-import styled, { css } from 'styled-components';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 
 import type { ContainerProps } from './container/Container';
 import { Container } from './container/Container';

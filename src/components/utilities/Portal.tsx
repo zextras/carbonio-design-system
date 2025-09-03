@@ -6,8 +6,8 @@
 
 import React from 'react';
 
+import { useTheme } from '@emotion/react';
 import ReactDOM from 'react-dom';
-import { useTheme } from 'styled-components';
 
 interface PortalProps {
 	/** The children to render into the `container` */

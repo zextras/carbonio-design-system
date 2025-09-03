@@ -7,7 +7,8 @@
 import type { SVGAttributes } from 'react';
 import React, { useMemo } from 'react';
 
-import styled, { css, useTheme } from 'styled-components';
+import { css, useTheme } from '@emotion/react';
+import styled from '@emotion/styled';
 
 import type { Theme, IconComponent } from '../../../theme/theme';
 import { getColor } from '../../../theme/theme-utils';
@@ -44,7 +45,9 @@ const IconBase = React.forwardRef<SVGSVGElement, IconComponentProps>(function Ic
 	return <IconComp data-testid={`icon: ${icon}`} ref={ref} viewBox="0 0 24 24" {...rest} />;
 });
 
-const StyledIcon = styled(IconBase)<With$Prefix<MakeRequired<StyledIconProps, 'color' | 'size'>>>`
+const StyledIcon = styled(IconBase, { shouldForwardProp: (prop) => !prop.startsWith('$') })<
+	With$Prefix<MakeRequired<StyledIconProps, 'color' | 'size'>>
+>`
 	display: block;
 	fill: currentColor;
 	color: ${({ $color, $disabled, theme }): string =>

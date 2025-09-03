@@ -7,7 +7,7 @@
 import type { LabelHTMLAttributes } from 'react';
 import React from 'react';
 
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 
 import { getColor } from '../../../theme/theme-utils';
 
@@ -48,7 +48,9 @@ export const InputLabel = React.forwardRef<HTMLLabelElement, InputLabelProps>(fu
 		<StyledInputLabel
 			{...rest}
 			ref={ref}
-			$textColor={`${(hasError && 'error') || (hasFocus && 'primary') || 'secondary'}${disabled ? '.disabled' : ''}`}
+			$textColor={`${(hasError && 'error') || (hasFocus && 'primary') || 'secondary'}${
+				disabled ? '.disabled' : ''
+			}`}
 		/>
 	);
 });

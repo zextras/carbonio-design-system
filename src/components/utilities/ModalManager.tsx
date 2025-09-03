@@ -7,7 +7,7 @@
 import type { Reducer } from 'react';
 import React, { useCallback, createContext, useReducer, useMemo } from 'react';
 
-import { useTheme } from 'styled-components';
+import { useTheme } from '@emotion/react';
 
 import type { CustomModalProps } from '../feedback/CustomModal';
 import { CustomModal } from '../feedback/CustomModal';

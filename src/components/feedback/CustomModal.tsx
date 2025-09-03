@@ -8,7 +8,7 @@
 import type { HTMLAttributes } from 'react';
 import React, { useEffect, useMemo, useCallback, useRef, useState } from 'react';
 
-import { useTheme } from 'styled-components';
+import { useTheme } from '@emotion/react';
 
 import {
 	getScrollbarSize,
@@ -182,6 +182,7 @@ const CustomModal = React.forwardRef<HTMLDivElement, CustomModalProps>(function 
 				<Transition type="scale-in" apply={delayedOpen}>
 					<ModalWrapper>
 						<ModalContent
+							tabIndex={-1}
 							ref={modalContentRef}
 							background={background}
 							$size={size}
