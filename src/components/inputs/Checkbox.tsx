@@ -29,8 +29,7 @@ const IconWrapper = styled.div<{
 	$iconColor: AnyColor;
 	$size: CheckboxSize;
 }>`
-	height: ${({ theme, $size }): ReturnType<typeof css> =>
-		css`calc(${theme.sizes.font[$size]} * 1.5)`};
+	height: ${({ theme, $size }): string => `calc(${theme.sizes.font[$size]} * 1.5)`};
 	display: flex;
 	align-items: center;
 	${({ theme, $disabled, $iconColor }): ReturnType<typeof css> | false | undefined =>

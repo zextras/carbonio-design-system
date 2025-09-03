@@ -124,7 +124,7 @@ const ActionIconButton = styled(Button)<{
 const ActionContainer = styled.div<{ $spacing: string }>`
 	min-width: fit-content;
 	& > ${ActionIcon} {
-		padding: ${({ $spacing }): ReturnType<typeof css> => css`calc(${$spacing} / 2)`};
+		padding: ${({ $spacing }): string => `calc(${$spacing} / 2)`};
 	}
 `;
 
@@ -132,10 +132,10 @@ const LabelContainer = styled(Container)``;
 
 const ContentContainer = styled(Container)`
 	&:first-child > ${LabelContainer}:first-child {
-		padding-left: ${({ gap }): ReturnType<typeof css> => css`calc(${gap} * 2)`};
+		padding-left: ${({ gap }): string => `calc(${gap} * 2)`};
 	}
 	& > ${LabelContainer}:last-child {
-		padding-right: ${({ gap }): ReturnType<typeof css> => css`calc(${gap} * 2)`};
+		padding-right: ${({ gap }): string => `calc(${gap} * 2)`};
 	}
 `;
 

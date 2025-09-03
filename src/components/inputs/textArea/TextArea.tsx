@@ -82,8 +82,8 @@ const StyledTextArea = styled.textarea<{ $color: string }>`
 const GrowContainer = styled.div<{ $hasLabel: boolean; $maxHeight?: string }>`
 	width: 100%;
 	height: auto;
-	margin-top: ${({ $hasLabel, theme }): ReturnType<typeof css> | string =>
-		$hasLabel ? css`calc(${theme.sizes.font.extrasmall} * 1.5)` : '0px'};
+	margin-top: ${({ $hasLabel, theme }): string =>
+		$hasLabel ? `calc(${theme.sizes.font.extrasmall} * 1.5)` : '0px'};
 	max-height: ${({ $maxHeight }): string | undefined => $maxHeight};
 	overflow-y: auto;
 	font-size: ${({ theme }): string => theme.sizes.font.medium};

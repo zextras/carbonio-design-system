@@ -72,8 +72,8 @@ const BannerText = styled(Text)`
 `;
 
 const WrapAndGrowContainer = styled(Container)`
-	flex-basis: ${({ theme, gap, flexBasis }): ReturnType<typeof css> =>
-		css`calc(${flexBasis} + ${theme.sizes.icon.large} + ${gap})`};
+	flex-basis: ${({ theme, gap, flexBasis }): string =>
+		`calc(${flexBasis} + ${theme.sizes.icon.large} + ${gap})`};
 `;
 
 const ActionsContainer = styled(Container)`
