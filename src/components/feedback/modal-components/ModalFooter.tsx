@@ -3,6 +3,8 @@
  *
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
+/* eslint-disable jsx-a11y/no-autofocus */
 import React, { useMemo } from 'react';
 
 import { css } from '@emotion/react';
@@ -161,6 +163,7 @@ const ModalFooterContent = ({
 				{(onConfirm || onClose) && (
 					<Tooltip label={confirmTooltip} disabled={!confirmTooltip}>
 						<ConfirmButton
+							autoFocus
 							color={confirmColor}
 							onClick={(onConfirm || onClose) as NonNullable<typeof onClose | typeof onConfirm>}
 							label={confirmLabel}
