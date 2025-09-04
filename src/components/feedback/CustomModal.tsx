@@ -146,6 +146,7 @@ const CustomModal = React.forwardRef<HTMLDivElement, CustomModalProps>(function 
 
 		if (open) {
 			modalContentRef.current && modalContentRef.current.focus();
+			console.log('focus modal content');
 			startSentinelRefSave && startSentinelRefSave.addEventListener('focus', onStartSentinelFocus);
 			endSentinelRefSave && endSentinelRefSave.addEventListener('focus', onEndSentinelFocus);
 		}
