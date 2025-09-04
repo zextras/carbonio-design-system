@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+/* eslint-disable jsx-a11y/no-autofocus */
 
 import type { ButtonHTMLAttributes } from 'react';
 import React, { useCallback, useMemo } from 'react';
@@ -85,6 +86,8 @@ type ButtonPropsInternal = {
 	minWidth?: string;
 	/** Ref for the button element */
 	buttonRef?: React.Ref<HTMLButtonElement> | null;
+	/** Auto focus status */
+	autoFocus?: boolean;
 } & (
 	| {
 			/** Size variant of the button */
@@ -353,6 +356,7 @@ const Button = React.forwardRef<HTMLDivElement, ButtonProps>(function ButtonFn(
 		color,
 		labelColor,
 		backgroundColor,
+		autoFocus = false,
 		...rest
 	},
 	ref
@@ -387,6 +391,7 @@ const Button = React.forwardRef<HTMLDivElement, ButtonProps>(function ButtonFn(
 		<StyledGrid $width={width} $minWidth={minWidth} $padding={SIZES[size].padding} ref={ref}>
 			<StyledButton
 				{...rest}
+				autoFocus={autoFocus}
 				$backgroundColor={colors.backgroundColor}
 				$color={colors.color}
 				$forceActive={!disabled && forceActive}
