@@ -15,10 +15,11 @@ import React, {
 	useMemo
 } from 'react';
 
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 import type { Placement } from '@floating-ui/dom';
 import { flip, offset, shift, limitShift } from '@floating-ui/dom';
 import { rgba } from 'polished';
-import styled, { css } from 'styled-components';
 
 import { useCombinedRefs } from '../../../hooks/useCombinedRefs';
 import { setupFloating } from '../../../utils/floating-ui';
@@ -129,7 +130,7 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(function TooltipF
 
 			if (triggerElement && isClosestTargetTooltipId) {
 				const textIsCropped =
-					(triggerElement.className.slice(0, 4) === 'Text' &&
+					(triggerElement.dataset.component === 'Text' &&
 						triggerElement.clientWidth < triggerElement.scrollWidth) ||
 					triggerElement.clientHeight < triggerElement.scrollHeight;
 				if ((textIsCropped && overflowTooltip) || !overflowTooltip) {

@@ -5,8 +5,9 @@
  */
 import type React from 'react';
 
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 import { rgba } from 'polished';
-import styled, { css } from 'styled-components';
 
 import { Container } from '../../layout/container/Container';
 
@@ -89,20 +90,16 @@ const ModalWrapper = styled.div`
 	pointer-events: none;
 `;
 
-const ModalContent = styled(Container).attrs<{
-	$size: keyof typeof modalMinWidth & keyof typeof modalWidth;
-}>(({ $size }) => ({
-	maxWidth: '100%',
-	minWidth: modalMinWidth[$size],
-	width: modalWidth[$size],
-	padding: '2rem',
-	mainAlignment: 'flex-start',
-	crossAlignment: 'flex-start',
-	height: 'auto',
-	tabIndex: -1
-}))<{
+const ModalContent = styled(Container)<{
 	$size: keyof typeof modalMinWidth & keyof typeof modalWidth;
 }>`
+	max-width: 100%;
+	min-width: ${({ $size }): string => modalMinWidth[$size]};
+	width: ${({ $size }): string => modalWidth[$size]};
+	justify-content: flex-start;
+	align-items: flex-start;
+	height: auto;
+	padding: 2rem;
 	position: relative;
 	margin: 0 auto ${({ theme }): string => theme.sizes.padding.medium};
 	border-radius: 1rem;

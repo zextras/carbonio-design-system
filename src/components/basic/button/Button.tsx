@@ -7,7 +7,8 @@
 import type { ButtonHTMLAttributes } from 'react';
 import React, { useCallback, useMemo } from 'react';
 
-import styled, { css } from 'styled-components';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 
 import { useCombinedRefs } from '../../../hooks/useCombinedRefs';
 import { getColor, pseudoClasses } from '../../../theme/theme-utils';
@@ -151,10 +152,7 @@ const StyledLoadingContainer = styled.div`
 	align-items: center;
 `;
 
-const StyledButton = styled.button.attrs<StyledButtonProps>(({ disabled, $minWidth }) => ({
-	tabIndex: disabled ? -1 : 0,
-	$minWidth: $minWidth ?? '0'
-}))<StyledButtonProps>`
+const StyledButton = styled.button<StyledButtonProps>`
 	/* set line-height to normal so that the browser can calculate it based on the font, and the accents are not cut off */
 	line-height: normal;
 	display: flex;
@@ -170,7 +168,7 @@ const StyledButton = styled.button.attrs<StyledButtonProps>(({ disabled, $minWid
 	width: ${({ $width }): string | false | undefined =>
 		($width === 'fill' && '100%') || ($width === 'fit' && 'auto')};
 	max-width: 100%;
-	min-width: 0;
+	min-width: ${({ $minWidth }): string | undefined => $minWidth};
 	/* order of elements */
 	${StyledIcon} {
 		order: ${({ $iconPlacement = 'left' }): number | false =>
@@ -221,7 +219,11 @@ const StyledSecondaryActionPlaceholder = styled.span<{ $padding: string }>`
 	visibility: hidden;
 `;
 
-const StyledGrid = styled.div<{ $width: 'fill' | 'fit'; $padding: string; $minWidth?: string }>`
+const StyledGrid = styled.div<{
+	$width: 'fill' | 'fit';
+	$padding: string;
+	$minWidth?: string;
+}>`
 	width: ${({ $width }): false | string =>
 		($width === 'fill' && '100%') || ($width === 'fit' && 'fit-content')};
 	max-width: 100%;
@@ -394,10 +396,11 @@ const Button = React.forwardRef<HTMLDivElement, ButtonProps>(function ButtonFn(
 				$gap={SIZES[size].gap}
 				$iconPlacement={iconPlacement}
 				$width={width}
-				$minWidth={minWidth}
+				$minWidth={minWidth ?? '0'}
 				disabled={disabled}
 				onClick={clickHandler}
 				ref={innerButtonRef}
+				tabIndex={disabled ? -1 : 0}
 			>
 				{icon && (
 					<StyledIcon

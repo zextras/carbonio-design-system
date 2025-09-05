@@ -7,7 +7,8 @@
 import type { CSSProperties, InputHTMLAttributes, LabelHTMLAttributes } from 'react';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
-import styled, { css } from 'styled-components';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import type { Theme } from '../../theme/theme';
@@ -86,7 +87,7 @@ const RadioInput = styled.input<{
 	transition-timing-function: ease-out;
 `;
 
-const Label = styled(Text).attrs({ forwardedAs: 'label' })<LabelHTMLAttributes<HTMLLabelElement>>`
+const Label = styled(Text)<LabelHTMLAttributes<HTMLLabelElement> & { as: React.ElementType }>`
 	line-height: 1.5;
 	${({ disabled }): ReturnType<typeof css> | false =>
 		!disabled &&
@@ -214,7 +215,13 @@ const RadioComponent = React.forwardRef(function RadioFn<
 	const labelWithClick = useMemo(
 		() =>
 			(typeof label === 'string' && (
-				<Label disabled={disabled} size={RADIO_SIZE[size].label} htmlFor={id} ref={labelRef}>
+				<Label
+					disabled={disabled}
+					as="label"
+					size={RADIO_SIZE[size].label}
+					htmlFor={id}
+					ref={labelRef}
+				>
 					{label}
 				</Label>
 			)) ||

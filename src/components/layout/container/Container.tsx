@@ -7,8 +7,9 @@
 import type { HTMLAttributes } from 'react';
 import React, { useMemo } from 'react';
 
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 import { map } from 'lodash';
-import styled, { css } from 'styled-components';
 
 import type { PaddingObj } from '../../../theme/theme-utils';
 import { getColor, getPadding } from '../../../theme/theme-utils';
@@ -176,10 +177,13 @@ const ContainerEl = styled.div<With$Prefix<ContainerElProps>>`
 					border: 0.0625rem solid ${getColor($borderColor, theme)};
 				`;
 			}
-			return map(
-				$borderColor,
-				(color, key) => color && css`border-${key}: 0.0625rem solid ${getColor(color, theme)};`
-			);
+
+			return css`
+				${map(
+					$borderColor,
+					(color, key) => color && `border-${key}: 0.0625rem solid ${getColor(color, theme)};`
+				)}
+			`;
 		}
 		return false;
 	}};
