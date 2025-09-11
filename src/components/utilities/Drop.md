@@ -47,7 +47,7 @@ const dragEnterHandler = (data: DragData): { success: boolean } | undefined => {
 
 
 ```jsx
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import { Drag, Container, Button, Drop, Padding, Icon, Text, Badge } from '@zextras/carbonio-design-system';
 
 const BackDropLayout = styled(Container)`

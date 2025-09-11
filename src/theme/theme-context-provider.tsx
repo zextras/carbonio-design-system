@@ -6,7 +6,8 @@
 
 import React, { useCallback } from 'react';
 
-import { ThemeProvider as SCThemeProvider, ThemeContext } from 'styled-components';
+import { ThemeProvider as EmotionThemeProvider, Global, ThemeContext } from '@emotion/react';
+import { isEmpty } from 'lodash';
 
 import DefaultFontStyles from './roboto-global-styles';
 import { Theme as defaultTheme } from './theme';
@@ -24,19 +25,20 @@ const ThemeProvider = ({
 	loadDefaultFont
 }: React.PropsWithChildren<ThemeProviderProps>): React.JSX.Element => {
 	const _theme = useCallback(
-		(parentTheme: Theme = defaultTheme) => {
-			const theme = extension ? extension(parentTheme) : parentTheme;
-			theme.palette.highlight = generateHighlightSet(theme.palette.primary);
-			return theme;
+		(parentTheme: Theme) => {
+			const theme = isEmpty(parentTheme) ? defaultTheme : parentTheme;
+			const customizedTheme = extension ? extension(theme) : theme;
+			customizedTheme.palette.highlight = generateHighlightSet(customizedTheme.palette.primary);
+			return customizedTheme;
 		},
 		[extension]
 	);
 
 	return (
-		<SCThemeProvider theme={_theme}>
-			{loadDefaultFont && <DefaultFontStyles />}
+		<EmotionThemeProvider theme={_theme}>
+			{loadDefaultFont && <Global styles={DefaultFontStyles} />}
 			{children}
-		</SCThemeProvider>
+		</EmotionThemeProvider>
 	);
 };
 

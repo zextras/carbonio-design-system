@@ -7,7 +7,8 @@
 import type { HTMLAttributes } from 'react';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
-import styled, { css } from 'styled-components';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 
 import { useCombinedRefs } from '../../../hooks/useCombinedRefs';
 import { useModal } from '../../../hooks/useModal';
@@ -71,8 +72,8 @@ const BannerText = styled(Text)`
 `;
 
 const WrapAndGrowContainer = styled(Container)`
-	flex-basis: ${({ theme, gap, flexBasis }): ReturnType<typeof css> =>
-		css`calc(${flexBasis} + ${theme.sizes.icon.large} + ${gap})`};
+	flex-basis: ${({ theme, gap, flexBasis }): string =>
+		`calc(${flexBasis} + ${theme.sizes.icon.large} + ${gap})`};
 `;
 
 const ActionsContainer = styled(Container)`

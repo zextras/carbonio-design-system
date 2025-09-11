@@ -6,7 +6,8 @@
 
 import React, { useCallback, useMemo } from 'react';
 
-import styled, { css, useTheme } from 'styled-components';
+import { css, useTheme } from '@emotion/react';
+import styled from '@emotion/styled';
 
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { useKeyboard, getKeyboardPreset } from '../../hooks/useKeyboard';

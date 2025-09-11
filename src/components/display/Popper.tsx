@@ -8,9 +8,10 @@
 import type { HTMLAttributes } from 'react';
 import React, { useLayoutEffect, useEffect, useRef, useCallback, useMemo } from 'react';
 
+import { css, useTheme } from '@emotion/react';
+import styled from '@emotion/styled';
 import type { Placement, VirtualElement } from '@floating-ui/dom';
 import { flip, offset, shift, limitShift } from '@floating-ui/dom';
-import styled, { css, useTheme } from 'styled-components';
 
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import type { KeyboardPresetObj } from '../../hooks/useKeyboard';

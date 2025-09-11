@@ -7,7 +7,6 @@ import React from 'react';
 
 import { faker } from '@faker-js/faker';
 import { act, screen, waitFor, within } from '@testing-library/react';
-import 'jest-styled-components';
 
 import type { BannerProps } from './Banner';
 import { Banner } from './Banner';

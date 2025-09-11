@@ -5,7 +5,7 @@
  */
 import React, { useCallback, useRef } from 'react';
 
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 
 import type { TextAreaProps } from './TextArea';
 import { TextArea } from './TextArea';

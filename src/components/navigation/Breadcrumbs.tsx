@@ -7,8 +7,8 @@
 import type { HTMLAttributes } from 'react';
 import React from 'react';
 
+import styled from '@emotion/styled';
 import { map } from 'lodash';
-import styled from 'styled-components';
 
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { useSplitVisibility } from '../../hooks/useSplitVisibility';

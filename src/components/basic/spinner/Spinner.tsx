@@ -6,7 +6,8 @@
 import type { HTMLAttributes } from 'react';
 import React from 'react';
 
-import styled, { keyframes } from 'styled-components';
+import { keyframes } from '@emotion/react';
+import styled from '@emotion/styled';
 
 import { getColor } from '../../../theme/theme-utils';
 import type { AnyColor } from '../../../types/utils';

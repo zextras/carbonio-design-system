@@ -5,8 +5,8 @@
  */
 import React from 'react';
 
-import type { css } from 'styled-components';
-import styled from 'styled-components';
+import type { css } from '@emotion/react';
+import styled from '@emotion/styled';
 
 import { useIsVisible } from '../../hooks/useIsVisible/useIsVisible';
 import { pseudoClasses } from '../../theme/theme-utils';

@@ -12,7 +12,7 @@ import * as fs from 'fs/promises';
 import * as path from 'node:path';
 import ts from 'typescript';
 
-const from = '../src/types/styled-components.ts';
+const from = '../src/types/emotion.ts';
 const to = '../dist/zapp-ui.bundle.d.ts';
 
 async function extractModuleDeclarations(source: string): Promise<string> {
@@ -22,6 +22,11 @@ async function extractModuleDeclarations(source: string): Promise<string> {
 	const moduleDeclarations: string[] = [];
 
 	function visitNode(node: ts.Node): void {
+		// Extract type alias declarations that match 'DSTheme'.
+		if (ts.isTypeAliasDeclaration(node) && node.name.text === 'DSTheme') {
+			moduleDeclarations.push(node.getText(sourceFile));
+		}
+
 		if (ts.isModuleDeclaration(node)) {
 			moduleDeclarations.push(node.getText(sourceFile));
 		}

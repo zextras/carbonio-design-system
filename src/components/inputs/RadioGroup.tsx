@@ -7,7 +7,7 @@
 import type { FieldsetHTMLAttributes } from 'react';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 
 import { type RadioProps } from './Radio';
 
