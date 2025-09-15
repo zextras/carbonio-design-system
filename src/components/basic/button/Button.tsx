@@ -363,12 +363,6 @@ const Button = React.forwardRef<HTMLDivElement, ButtonProps>(function ButtonFn(
 ) {
 	const innerButtonRef = useCombinedRefs<HTMLButtonElement>(buttonRef);
 
-	// useEffect(() => {
-	// 	if (autoFocus && !disabled && innerButtonRef.current) {
-	// 		innerButtonRef.current.focus();
-	// 	}
-	// }, [autoFocus, disabled, innerButtonRef]);
-
 	const clickHandler = useCallback(
 		(e: KeyboardEvent | React.MouseEvent<HTMLButtonElement>) => {
 			if (!disabled && onClick && !e.defaultPrevented) {
