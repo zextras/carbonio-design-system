@@ -366,7 +366,6 @@ const Button = React.forwardRef<HTMLDivElement, ButtonProps>(function ButtonFn(
 	useEffect(() => {
 		if (autoFocus && !disabled && innerButtonRef.current) {
 			innerButtonRef.current.focus();
-			console.log('focus button');
 		}
 	}, [autoFocus, disabled, innerButtonRef]);
 
@@ -412,6 +411,7 @@ const Button = React.forwardRef<HTMLDivElement, ButtonProps>(function ButtonFn(
 				onClick={clickHandler}
 				ref={innerButtonRef}
 				tabIndex={disabled ? -1 : 0}
+				autoFocus={autoFocus}
 			>
 				{icon && (
 					<StyledIcon
