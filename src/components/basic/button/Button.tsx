@@ -6,7 +6,7 @@
 /* eslint-disable jsx-a11y/no-autofocus */
 
 import type { ButtonHTMLAttributes } from 'react';
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
@@ -363,11 +363,11 @@ const Button = React.forwardRef<HTMLDivElement, ButtonProps>(function ButtonFn(
 ) {
 	const innerButtonRef = useCombinedRefs<HTMLButtonElement>(buttonRef);
 
-	useEffect(() => {
-		if (autoFocus && !disabled && innerButtonRef.current) {
-			innerButtonRef.current.focus();
-		}
-	}, [autoFocus, disabled, innerButtonRef]);
+	// useEffect(() => {
+	// 	if (autoFocus && !disabled && innerButtonRef.current) {
+	// 		innerButtonRef.current.focus();
+	// 	}
+	// }, [autoFocus, disabled, innerButtonRef]);
 
 	const clickHandler = useCallback(
 		(e: KeyboardEvent | React.MouseEvent<HTMLButtonElement>) => {
@@ -411,7 +411,7 @@ const Button = React.forwardRef<HTMLDivElement, ButtonProps>(function ButtonFn(
 				onClick={clickHandler}
 				ref={innerButtonRef}
 				tabIndex={disabled ? -1 : 0}
-				autoFocus={autoFocus}
+				autoFocus={autoFocus && !disabled}
 			>
 				{icon && (
 					<StyledIcon

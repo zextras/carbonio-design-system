@@ -5809,6 +5809,17 @@
             "name": "Window"
           },
           "description": "The window where to insert the Portal's children.\nThe default value is 'windowObj' obtained from the ThemContext."
+        },
+        "focusModalContent": {
+          "required": false,
+          "tsType": {
+            "name": "boolean"
+          },
+          "description": "",
+          "defaultValue": {
+            "value": "true",
+            "computed": false
+          }
         }
       }
     }
@@ -8707,6 +8718,17 @@
             "name": "Window"
           },
           "description": "The window where to insert the Portal's children.\nThe default value is 'windowObj' obtained from the ThemContext."
+        },
+        "focusModalContent": {
+          "required": false,
+          "tsType": {
+            "name": "boolean"
+          },
+          "description": "",
+          "defaultValue": {
+            "value": "false",
+            "computed": false
+          }
         },
         "title": {
           "required": false,

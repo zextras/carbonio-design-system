@@ -69,6 +69,7 @@ const Modal = React.forwardRef<HTMLDivElement, ModalProps>(function ModalFn(
 		children,
 		containerWindow,
 		closeIconTooltip,
+		focusModalContent = false,
 		...rest
 	},
 	ref
@@ -84,7 +85,7 @@ const Modal = React.forwardRef<HTMLDivElement, ModalProps>(function ModalFn(
 	);
 
 	return (
-		<CustomModal onClose={onClose} ref={ref} {...rest}>
+		<CustomModal onClose={onClose} ref={ref} focusModalContent={focusModalContent} {...rest}>
 			<ModalHeader
 				centered={centered}
 				type={type}
