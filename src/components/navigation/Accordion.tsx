@@ -164,8 +164,8 @@ const AccordionRoot = React.forwardRef<HTMLDivElement, AccordionRootProps>(funct
 	// Set the initial open state
 	useEffect(() => {
 		const shouldBeOpen = !!item.open || !!openIds?.includes(item.id);
-		setOpen(() => shouldBeOpen);
-		setAreItemsVisible(() => shouldBeOpen);
+		setOpen(shouldBeOpen);
+		setAreItemsVisible(shouldBeOpen);
 	}, [item.id, item.open, openIds]);
 
 	const handleClick = useCallback(
