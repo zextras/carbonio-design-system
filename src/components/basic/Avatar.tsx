@@ -71,7 +71,7 @@ const AvatarContainer = styled.div<AvatarContainerProps>`
 		($selecting && getColor($selected ? 'primary' : 'gray6', theme)) ||
 		($background && getColor(`${$background}.${$disabled ? 'disabled' : 'regular'}`, theme)) ||
 		theme.avatarColors[$color]};
-	${({ $picture, $selecting }): false | undefined | string =>
+	background-image: ${({ $picture, $selecting }): false | undefined | string =>
 		$picture && !$selecting && `url(${$picture})`};
 	background-position: center;
 	background-repeat: no-repeat;
