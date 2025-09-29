@@ -89,7 +89,7 @@
 		"@types/react": "^18.3.7",
 		"@types/react-dom": "^18.3.0",
 		"@zextras/carbonio-ui-configs": "^1.0.4",
-		"babel-jest": "^29.7.0",
+		"babel-jest": "^30.2.0",
 		"babel-loader": "^10.0.0",
 		"conventional-changelog-conventionalcommits": "^8.0.0",
 		"create-index": "2.6.0",
