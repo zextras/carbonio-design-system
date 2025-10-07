@@ -30,7 +30,7 @@ const ButtonContainer = styled(Container)<{ $pushLeftFirstChild?: boolean }>`
 		$pushLeftFirstChild &&
 		css`
 			> * {
-				&:first-child {
+				&:first-of-type {
 					margin-right: auto;
 				}
 			}
