@@ -62,7 +62,7 @@ const InfoContainer = styled(Container)`
 	display: -webkit-box;
 	-webkit-line-clamp: 3;
 	-webkit-box-orient: vertical;
-	& > *:not(:is(:first-of-type)) {
+	& > * + * {
 		padding-top: 0.25rem;
 	}
 `;
