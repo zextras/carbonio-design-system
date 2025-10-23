@@ -8028,6 +8028,13 @@
             "name": "string"
           },
           "description": "Description of the input"
+        },
+        "readOnly": {
+          "required": false,
+          "tsType": {
+            "name": "boolean"
+          },
+          "description": "Whether the input is read only"
         }
       },
       "composes": [
@@ -9801,6 +9808,13 @@
             "name": "string"
           },
           "description": "Description of the input"
+        },
+        "readOnly": {
+          "required": false,
+          "tsType": {
+            "name": "boolean"
+          },
+          "description": "Whether the input is read only"
         }
       },
       "composes": [

@@ -103,6 +103,8 @@ interface InputProps extends ContainerProps {
 	onEnter?: (e: KeyboardEvent) => void;
 	/** Description of the input */
 	description?: string;
+	/** Whether the input is read only */
+	readOnly?: boolean;
 }
 
 type Input = React.ForwardRefExoticComponent<InputProps & React.RefAttributes<HTMLDivElement>> & {
@@ -129,6 +131,7 @@ const Input: Input = React.forwardRef<HTMLDivElement, InputProps>(function Input
 		hideBorder = false,
 		onEnter,
 		description,
+		readOnly,
 		...rest
 	},
 	ref
@@ -219,6 +222,7 @@ const Input: Input = React.forwardRef<HTMLDivElement, InputProps>(function Input
 						onChange={onChange}
 						disabled={disabled}
 						placeholder={label}
+						readOnly={readOnly}
 					/>
 					{label && (
 						<Label htmlFor={id} hasFocus={hasFocus} hasError={hasError} disabled={disabled}>
