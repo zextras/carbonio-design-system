@@ -109,6 +109,7 @@ pipeline {
                     executeNpmLogin()
                     sh 'npm run test-storybook:update-images'
                     sh(script: """
+                        apt update && apt install -y git-lfs
                         git config --add remote.origin.fetch +refs/heads/${branchName}:refs/remotes/origin/${branchName}
                         git fetch
                         git checkout ${branchName}
