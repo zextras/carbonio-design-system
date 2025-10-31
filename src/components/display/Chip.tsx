@@ -131,7 +131,7 @@ const ActionContainer = styled.div<{ $spacing: string }>`
 const LabelContainer = styled(Container)``;
 
 const ContentContainer = styled(Container)`
-	&:first-child > ${LabelContainer}:first-child {
+	&:first-of-type > ${LabelContainer}:first-of-type {
 		padding-left: ${({ gap }): string => `calc(${gap} * 2)`};
 	}
 	& > ${LabelContainer}:last-child {
