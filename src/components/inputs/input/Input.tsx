@@ -136,7 +136,7 @@ const Input: Input = React.forwardRef<HTMLDivElement, InputProps>(function Input
 	},
 	ref
 ) {
-	const [hasFocus, setHasFocus] = useState(false);
+	const [hasFocus, setHasFocus] = useState(autoFocus);
 	const innerRef = useCombinedRefs<HTMLInputElement>(inputRef);
 	const [id] = useState(() => {
 		if (!Input._newId) {
