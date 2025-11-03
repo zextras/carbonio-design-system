@@ -62,7 +62,7 @@
 		"@faker-js/faker": "^9.7.0",
 		"@microsoft/api-extractor": "^7.52.5",
 		"@rollup/plugin-babel": "^6.0.4",
-		"@rollup/plugin-commonjs": "^28.0.6",
+		"@rollup/plugin-commonjs": "^29.0.0",
 		"@rollup/plugin-node-resolve": "^16.0.2",
 		"@rollup/plugin-typescript": "^12.1.4",
 		"@rollup/plugin-url": "^8.0.2",
