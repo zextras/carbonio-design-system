@@ -12,6 +12,7 @@ import styled from '@emotion/styled';
 
 import { Transition } from './Transition';
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
+import { isTestEnvironment } from '../../tests/test-environment';
 import { Container } from '../layout/container/Container';
 
 const CollapseEl = styled.div<{
@@ -55,6 +56,11 @@ const Collapse = React.forwardRef<HTMLElement, CollapseProps>(function CollapseF
 	{ children, open, orientation = 'horizontal', crossSize, disableTransition = false, ...rest },
 	ref
 ) {
+	const isTransitionDisabled = useMemo(
+		() => disableTransition || isTestEnvironment(),
+		[disableTransition]
+	);
+
 	const collapseRef = useCombinedRefs<HTMLElement>(ref);
 
 	const propToTransition = useMemo<'width' | 'height'>(
@@ -89,13 +95,13 @@ const Collapse = React.forwardRef<HTMLElement, CollapseProps>(function CollapseF
 				visibility: 'visible',
 				pointerEvents: 'auto'
 			}}
-			disabled={disableTransition}
+			disabled={isTransitionDisabled}
 		>
 			<CollapseEl
 				$crossSize={crossSize}
 				$open={open}
 				$orientation={orientation}
-				$disableTransition={disableTransition}
+				$disableTransition={isTransitionDisabled}
 				{...rest}
 			>
 				{children}

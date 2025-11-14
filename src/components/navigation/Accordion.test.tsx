@@ -151,7 +151,7 @@ describe('Accordion', () => {
 		expect(screen.queryByTestId(ICONS.accordionItemOpenAction)).not.toBeInTheDocument();
 		// click on chevron icon of opened accordion close the accordion and does not call onClick callback
 		await user.click(screen.getByTestId(ICONS.accordionItemCloseAction));
-		await waitFor(() => expect(screen.getByText(/second/i)).not.toBeVisible());
+		await waitFor(() => expect(screen.queryByText(/second/i)).not.toBeInTheDocument());
 		expect(onClick).toHaveBeenCalledTimes(1);
 		expect(screen.getByTestId(ICONS.accordionItemOpenAction)).toBeVisible();
 		expect(screen.queryByTestId(ICONS.accordionItemCloseAction)).not.toBeInTheDocument();

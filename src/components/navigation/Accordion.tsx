@@ -5,6 +5,7 @@
  */
 
 import React, { useMemo, useState, useCallback, useEffect } from 'react';
+import type { SyntheticEvent } from 'react';
 
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
@@ -12,6 +13,7 @@ import { map } from 'lodash';
 
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
 import { useKeyboard, getKeyboardPreset } from '../../hooks/useKeyboard';
+import { isTestEnvironment } from '../../tests/test-environment';
 import type { Theme } from '../../theme/theme';
 import { getColor, pseudoClasses } from '../../theme/theme-utils';
 import { Badge } from '../basic/badge/Badge';
@@ -158,8 +160,13 @@ const AccordionRoot = React.forwardRef<HTMLDivElement, AccordionRootProps>(funct
 	ref
 ) {
 	const [open, setOpen] = useState(!!item.open);
-	const [areItemsVisible, setAreItemsVisible] = useState(open);
+	const [areItemsVisible, setAreItemsVisible] = useState(!!item.open);
 	const accordionRef = useCombinedRefs<HTMLDivElement>(ref);
+
+	const isTransitionDisabled = useMemo(
+		() => disableTransition || isTestEnvironment(),
+		[disableTransition]
+	);
 
 	// Set the initial open state
 	useEffect(() => {
@@ -185,30 +192,30 @@ const AccordionRoot = React.forwardRef<HTMLDivElement, AccordionRootProps>(funct
 	const toggleOpen = useCallback(
 		(e: KeyboardEvent | React.SyntheticEvent) => {
 			e.stopPropagation();
-
 			/*
 			 * If the transition is disabled or the accordion is not open,
 			 * we immediately sync the areItemsVisible state with the next value
 			 */
-			if (disableTransition || !open) {
+			if (isTransitionDisabled || !open) {
 				setAreItemsVisible(!open);
+				open ? item.onClose && item.onClose(e) : item.onOpen && item.onOpen(e);
 			}
-
-			setOpen((op) => {
-				op ? item.onClose && item.onClose(e) : item.onOpen && item.onOpen(e);
-				return !op;
-			});
+			setOpen((op) => !op);
 		},
-		[item, disableTransition, open]
+		[item, isTransitionDisabled, open]
 	);
 
 	/*
 	 * At the end of the collapse transition, we want to sync the areItemsVisible state
 	 * with the open state
 	 */
-	const onCollapseTransitionEnd = useCallback(() => {
-		setAreItemsVisible(() => open);
-	}, [open]);
+	const onCollapseTransitionEnd = useCallback(
+		(event: SyntheticEvent) => {
+			setAreItemsVisible(() => open);
+			open ? item.onOpen && item.onOpen(event) : item.onClose && item.onClose(event);
+		},
+		[open, item]
+	);
 
 	const hasItems = useMemo(() => item.items && item.items.length > 0, [item.items]);
 
@@ -281,7 +288,7 @@ const AccordionRoot = React.forwardRef<HTMLDivElement, AccordionRootProps>(funct
 					crossSize="100%"
 					orientation="vertical"
 					open={open}
-					disableTransition={disableTransition}
+					disableTransition={isTransitionDisabled}
 					onTransitionEnd={onCollapseTransitionEnd}
 				>
 					{/* eslint-disable-next-line @typescript-eslint/no-use-before-define */}
@@ -292,7 +299,7 @@ const AccordionRoot = React.forwardRef<HTMLDivElement, AccordionRootProps>(funct
 						items={item.items!}
 						level={item.level ?? level + 1}
 						background={background}
-						disableTransition={disableTransition}
+						disableTransition={isTransitionDisabled}
 					/>
 				</Collapse>
 			)}
@@ -337,6 +344,10 @@ const Accordion = React.forwardRef<HTMLDivElement, AccordionProps>(function Acco
 	},
 	ref
 ) {
+	const isTransitionDisabled = useMemo(
+		() => disableTransition || isTestEnvironment(),
+		[disableTransition]
+	);
 	return (
 		<Container
 			orientation="vertical"
@@ -359,7 +370,7 @@ const Accordion = React.forwardRef<HTMLDivElement, AccordionProps>(function Acco
 						background={background}
 						activeId={activeId}
 						openIds={openIds}
-						disableTransition={disableTransition}
+						disableTransition={isTransitionDisabled}
 						expandLabel={expandLabel}
 						collapseLabel={collapseLabel}
 					/>

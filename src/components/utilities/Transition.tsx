@@ -13,6 +13,7 @@ import type {
 import React, { useEffect, useMemo } from 'react';
 
 import { useCombinedRefs } from '../../hooks/useCombinedRefs';
+import { isTestEnvironment } from '../../tests/test-environment';
 
 type CSSObject = {
 	[K in keyof CSSProperties]: CSSProperties[K] | (() => NonNullable<CSSProperties[K]>);
@@ -241,7 +242,11 @@ const Transition: ForwardRefExoticComponent<
 	PropsWithoutRef<TransitionProps> & RefAttributes<HTMLElement>
 > & { types?: Array<keyof typeof STYLES> } = React.forwardRef<HTMLElement, TransitionProps>(
 	function TransitionFn({ disabled, children, ...rest }, ref) {
-		if (disabled) return React.cloneElement(children, { ref });
+		const isTransitionDisabled = useMemo(() => disabled || isTestEnvironment(), [disabled]);
+
+		if (isTransitionDisabled) {
+			return React.cloneElement(children, { ref });
+		}
 
 		return (
 			<TransitionOn ref={ref} {...rest}>
