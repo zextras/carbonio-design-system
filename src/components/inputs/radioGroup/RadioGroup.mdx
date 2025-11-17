@@ -1,0 +1,67 @@
+import { Meta, Controls, Stories, Title, Subtitle, Primary, Canvas } from '@storybook/blocks';
+import * as RadioGroupStories from './RadioGroup.stories';
+import ControlledModeCode from './RadioGroup.stories.controlledMode?raw';
+import UncontrolledModeCode from './RadioGroup.stories.uncontrolledMode?raw';
+import DisabledCode from './RadioGroup.stories.disabled?raw';
+
+<Meta of={RadioGroupStories} />
+
+<Title />
+
+<Subtitle>
+    RadioGroup can be used to select one option out of a list of many.
+</Subtitle>
+
+<Primary />
+
+The RadioGroup component works in both controlled and uncontrolled modes, similar to standard HTML form elements.
+
+<Controls />
+
+## Stories
+
+### Controlled Mode
+
+<Canvas of={RadioGroupStories.ControlledMode} source={{ code: ControlledModeCode }} />
+
+### Uncontrolled Mode
+
+<Canvas of={RadioGroupStories.UncontrolledMode} source={{ code: UncontrolledModeCode }} />
+
+### Disabled Group
+
+You can quickly disable all the radios by disabling the entire group
+
+<Canvas of={RadioGroupStories.DisabledGroup} source={{ code: DisabledCode }} />
+
+## Type Safety
+
+With the introduction of the generics, the onChange callback assumes the newValue is of the same type of the one inferred from the value.
+
+In order to have a full type-check also on the children, it is possible to set the type of the value in the jsx radio element, as follows
+
+```tsx
+import { useCallback, useState } from "react";
+import { RadioGroup, RadioGroupProps } from "./RadioGroup";
+import { Radio } from "./Radio";
+type ValueType = 'a' | 'b' | 'c';
+
+const [selectedValue, setSelectedValue] = useState<ValueType>('a');
+
+const changeSelectedValue = useCallback<NonNullable<RadioGroupProps<ValueType>['onChange']>>(
+  (newValue) => {
+    if (newValue !== undefined) {
+      setSelectedValue(newValue);
+    }
+  },
+  []
+);
+
+<RadioGroup value={selectedValue} onChange={changeSelectedValue}>
+  <Radio<ValueType> value={'a'} label={'option a'} />
+  <Radio<ValueType> value={'b'} label={'option b'} />
+  <Radio<ValueType> value={'c'} label={'option c'} />
+</RadioGroup>
+```
+
+<Stories />
