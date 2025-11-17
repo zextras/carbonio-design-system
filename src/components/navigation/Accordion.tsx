@@ -193,11 +193,13 @@ const AccordionRoot = React.forwardRef<HTMLDivElement, AccordionRootProps>(funct
 			if (disableTransition || !open) {
 				setAreItemsVisible(!open);
 			}
-
-			setOpen((op) => {
-				op ? item.onClose && item.onClose(e) : item.onOpen && item.onOpen(e);
-				return !op;
-			});
+			const wasOpen = open;
+			setOpen(!open);
+			if (wasOpen) {
+				item.onClose?.(e);
+			} else {
+				item.onOpen?.(e);
+			}
 		},
 		[item, disableTransition, open]
 	);
