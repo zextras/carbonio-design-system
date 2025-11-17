@@ -10244,7 +10244,7 @@
       ]
     }
   ],
-  "src/components/inputs/Radio.tsx": [
+  "src/components/inputs/radio/Radio.tsx": [
     {
       "description": "",
       "methods": [],
@@ -10433,7 +10433,7 @@
       }
     }
   ],
-  "src/components/inputs/RadioGroup.tsx": [
+  "src/components/inputs/radioGroup/RadioGroup.tsx": [
     {
       "description": "",
       "methods": [],

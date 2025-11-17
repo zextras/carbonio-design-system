@@ -38,8 +38,8 @@ export * from './components/inputs/IconCheckbox';
 export * from './components/inputs/multiButton/MultiButton';
 export * from './components/inputs/input/Input';
 export * from './components/inputs/PasswordInput';
-export { Radio, type RadioProps } from './components/inputs/Radio';
-export { RadioGroup, type RadioGroupProps } from './components/inputs/RadioGroup';
+export { Radio, type RadioProps } from './components/inputs/radio/Radio';
+export { RadioGroup, type RadioGroupProps } from './components/inputs/radioGroup/RadioGroup';
 export {
 	Select,
 	type SelectProps,

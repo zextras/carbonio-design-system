@@ -1,0 +1,69 @@
+import { Meta, Canvas, Controls, Stories, Primary, Title, Subtitle } from '@storybook/blocks';
+
+import * as RadioStories from './Radio.stories';
+import PropsCombinatorStorySrc from './Radio.stories.propsCombinator?raw';
+import CustomLabelStorySrc from './Radio.stories.customLabel?raw';
+import ComplexLabelStorySrc from './Radio.stories.complexLabel?raw';
+
+<Meta of={RadioStories} />
+
+<Title />
+
+<Subtitle>
+    Radio buttons can be used to select one option out of a list of many.
+</Subtitle>
+
+## Overview
+
+The Radio component provides a customizable radio button with support for labels, different sizes, colors, and states.
+It can be used in both controlled and uncontrolled modes.
+
+Radio should be used in combination with the RadioGroup component as demonstrated in [these examples](?path=/docs/components-inputs-radiogroup--docs).
+
+<Primary />
+
+## Props
+
+<Controls />
+
+## Props Combinator
+
+<Canvas of={RadioStories.PropsCombinator} source={{ code: PropsCombinatorStorySrc }} />
+
+### Tips
+By default, click on the label (even custom ones) toggle the value of the radio input.
+In order to prevent this behavior, you need to prevent the default on the click event of the label itself.
+
+<Canvas of={RadioStories.CustomLabel} source={{ code: CustomLabelStorySrc }} />
+
+## Usage Examples
+
+### Basic States
+
+<Canvas of={RadioStories.Checked} />
+<Canvas of={RadioStories.Unchecked} />
+
+### Disabled State
+
+<Canvas of={RadioStories.Disabled} />
+<Canvas of={RadioStories.DisabledChecked} />
+
+### Sizes
+
+<Canvas of={RadioStories.Sizes} />
+
+### Custom Color
+
+<Canvas of={RadioStories.WithCustomColor} />
+
+## Controlled Mode
+
+<Canvas of={RadioStories.ComplexLabel} source={{ code: ComplexLabelStorySrc }} />
+
+## Uncontrolled Mode
+
+<Canvas of={RadioStories.UncontrolledMode} />
+
+## All Stories
+
+<Stories />
