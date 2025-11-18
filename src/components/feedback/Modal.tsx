@@ -9,8 +9,8 @@
 import type { HTMLAttributes } from 'react';
 import React, { useCallback, useRef } from 'react';
 
+import { useTheme } from '@emotion/react';
 import { noop } from 'lodash';
-import { useTheme } from 'styled-components';
 
 import type { CustomModalProps } from './CustomModal';
 import { CustomModal } from './CustomModal';
@@ -69,6 +69,7 @@ const Modal = React.forwardRef<HTMLDivElement, ModalProps>(function ModalFn(
 		children,
 		containerWindow,
 		closeIconTooltip,
+		focusModalContent = false,
 		...rest
 	},
 	ref
@@ -84,7 +85,12 @@ const Modal = React.forwardRef<HTMLDivElement, ModalProps>(function ModalFn(
 	);
 
 	return (
-		<CustomModal onClose={onClose} ref={ref} {...rest}>
+		<CustomModal
+			onClose={onClose}
+			ref={ref}
+			focusModalContent={confirmDisabled || focusModalContent}
+			{...rest}
+		>
 			<ModalHeader
 				centered={centered}
 				type={type}

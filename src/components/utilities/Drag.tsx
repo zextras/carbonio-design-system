@@ -7,7 +7,7 @@
 import type { HTMLAttributes } from 'react';
 import React, { useCallback } from 'react';
 
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 
 const DragEl = styled.div`
 	display: inline-block;

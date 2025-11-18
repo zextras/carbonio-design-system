@@ -6,7 +6,8 @@
 
 import React, { useCallback, useEffect } from 'react';
 
-import styled, { css, keyframes } from 'styled-components';
+import { css, keyframes } from '@emotion/react';
+import styled from '@emotion/styled';
 
 import type { ScreenMode } from '../../../hooks/useScreenMode';
 import { useScreenMode } from '../../../hooks/useScreenMode';
@@ -21,7 +22,10 @@ import { Row } from '../../layout/Row';
 import { Portal } from '../../utilities/Portal';
 import { Transition } from '../../utilities/Transition';
 
-const SnackContainer = styled(Container)<{ $zIndex: number; $screenMode: ScreenMode }>`
+const SnackContainer = styled(Container)<{
+	$zIndex: number;
+	$screenMode: ScreenMode;
+}>`
 	position: fixed;
 	box-shadow: ${({ theme }): string => theme.shadows.snackbar};
 	user-select: none;

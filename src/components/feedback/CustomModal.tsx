@@ -8,7 +8,7 @@
 import type { HTMLAttributes } from 'react';
 import React, { useEffect, useMemo, useCallback, useRef, useState } from 'react';
 
-import { useTheme } from 'styled-components';
+import { useTheme } from '@emotion/react';
 
 import {
 	getScrollbarSize,
@@ -49,6 +49,7 @@ type BareModalProps = {
 	 * The default value is 'windowObj' obtained from the ThemContext.
 	 * */
 	containerWindow?: Window;
+	focusModalContent?: boolean;
 };
 
 type CustomModalProps = BareModalProps &
@@ -67,6 +68,7 @@ const CustomModal = React.forwardRef<HTMLDivElement, CustomModalProps>(function 
 		zIndex = 999,
 		onClick,
 		containerWindow,
+		focusModalContent = true,
 		...rest
 	},
 	ref
@@ -145,7 +147,9 @@ const CustomModal = React.forwardRef<HTMLDivElement, CustomModalProps>(function 
 		const endSentinelRefSave = endSentinelRef.current;
 
 		if (open) {
-			modalContentRef.current && modalContentRef.current.focus();
+			if (focusModalContent) {
+				modalContentRef.current && modalContentRef.current.focus();
+			}
 			startSentinelRefSave && startSentinelRefSave.addEventListener('focus', onStartSentinelFocus);
 			endSentinelRefSave && endSentinelRefSave.addEventListener('focus', onEndSentinelFocus);
 		}
@@ -156,7 +160,7 @@ const CustomModal = React.forwardRef<HTMLDivElement, CustomModalProps>(function 
 			endSentinelRefSave && endSentinelRefSave.removeEventListener('focus', onEndSentinelFocus);
 			open && focusedElement && focusedElement.focus();
 		};
-	}, [open, onStartSentinelFocus, onEndSentinelFocus, windowObj]);
+	}, [open, onStartSentinelFocus, onEndSentinelFocus, windowObj, focusModalContent]);
 
 	useEffect(() => {
 		// delay the open of the modal after the show of the portal
@@ -182,6 +186,7 @@ const CustomModal = React.forwardRef<HTMLDivElement, CustomModalProps>(function 
 				<Transition type="scale-in" apply={delayedOpen}>
 					<ModalWrapper>
 						<ModalContent
+							tabIndex={-1}
 							ref={modalContentRef}
 							background={background}
 							$size={size}

@@ -7,7 +7,7 @@
 import type { HTMLAttributes } from 'react';
 import React from 'react';
 
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 
 import { getColor } from '../../../theme/theme-utils';
 import type { AnyColor, MakeRequired, With$Prefix } from '../../../types/utils';

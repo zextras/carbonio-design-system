@@ -6,7 +6,7 @@
 
 import React, { useCallback, useMemo, useState } from 'react';
 
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 
 import { useCombinedRefs } from '../../../hooks/useCombinedRefs';
 import type { KeyboardPresetObj } from '../../../hooks/useKeyboard';
@@ -103,6 +103,8 @@ interface InputProps extends ContainerProps {
 	onEnter?: (e: KeyboardEvent) => void;
 	/** Description of the input */
 	description?: string;
+	/** Whether the input is read only */
+	readOnly?: boolean;
 }
 
 type Input = React.ForwardRefExoticComponent<InputProps & React.RefAttributes<HTMLDivElement>> & {
@@ -129,11 +131,12 @@ const Input: Input = React.forwardRef<HTMLDivElement, InputProps>(function Input
 		hideBorder = false,
 		onEnter,
 		description,
+		readOnly,
 		...rest
 	},
 	ref
 ) {
-	const [hasFocus, setHasFocus] = useState(false);
+	const [hasFocus, setHasFocus] = useState(autoFocus);
 	const innerRef = useCombinedRefs<HTMLInputElement>(inputRef);
 	const [id] = useState(() => {
 		if (!Input._newId) {
@@ -219,6 +222,7 @@ const Input: Input = React.forwardRef<HTMLDivElement, InputProps>(function Input
 						onChange={onChange}
 						disabled={disabled}
 						placeholder={label}
+						readOnly={readOnly}
 					/>
 					{label && (
 						<Label htmlFor={id} hasFocus={hasFocus} hasError={hasError} disabled={disabled}>

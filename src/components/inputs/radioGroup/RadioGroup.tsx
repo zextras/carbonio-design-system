@@ -7,9 +7,9 @@
 import type { FieldsetHTMLAttributes } from 'react';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 
-import { type RadioProps } from './Radio';
+import { type RadioProps } from '../radio/Radio';
 
 type RadioValue<T extends RadioProps['value']> = RadioProps<T>['value'];
 

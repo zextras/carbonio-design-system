@@ -7,7 +7,7 @@
 import type { HTMLAttributes } from 'react';
 import React, { useMemo, forwardRef } from 'react';
 
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 
 import type { Theme } from '../../../theme/theme';
 import type { AnyColor } from '../../../types/utils';

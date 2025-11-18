@@ -3,9 +3,12 @@
  *
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
+/* eslint-disable jsx-a11y/no-autofocus */
 import React, { useMemo } from 'react';
 
-import styled, { css } from 'styled-components';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 
 import type { Theme } from '../../../theme/theme';
 import { Button } from '../../basic/button/Button';
@@ -27,7 +30,7 @@ const ButtonContainer = styled(Container)<{ $pushLeftFirstChild?: boolean }>`
 		$pushLeftFirstChild &&
 		css`
 			> * {
-				&:first-child {
+				&:first-of-type {
 					margin-right: auto;
 				}
 			}
@@ -160,6 +163,7 @@ const ModalFooterContent = ({
 				{(onConfirm || onClose) && (
 					<Tooltip label={confirmTooltip} disabled={!confirmTooltip}>
 						<ConfirmButton
+							autoFocus
 							color={confirmColor}
 							onClick={(onConfirm || onClose) as NonNullable<typeof onClose | typeof onConfirm>}
 							label={confirmLabel}

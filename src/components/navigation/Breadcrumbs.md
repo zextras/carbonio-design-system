@@ -254,7 +254,7 @@ const crumbs = [
 Another example of how the spread props can be used to customize the breadcrumb
 
 ```jsx
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import { getColor } from '@zextras/carbonio-design-system';
 
 const crumbs = Array.from({ length: 5 }, (_, i) => ({

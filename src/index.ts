@@ -5,7 +5,7 @@
  */
 // import module augmentations to make ts use them while generating types definitions
 import './types/globals';
-import './types/styled-components';
+import './types/emotion';
 
 /** Basic components */
 export * from './components/basic/Avatar';
@@ -38,8 +38,8 @@ export * from './components/inputs/IconCheckbox';
 export * from './components/inputs/multiButton/MultiButton';
 export * from './components/inputs/input/Input';
 export * from './components/inputs/PasswordInput';
-export { Radio, type RadioProps } from './components/inputs/Radio';
-export { RadioGroup, type RadioGroupProps } from './components/inputs/RadioGroup';
+export { Radio, type RadioProps } from './components/inputs/radio/Radio';
+export { RadioGroup, type RadioGroupProps } from './components/inputs/radioGroup/RadioGroup';
 export {
 	Select,
 	type SelectProps,
@@ -109,7 +109,6 @@ export * from './components/utilities/shimmer/Shimmer';
 
 export * from './theme/theme-utils';
 export * from './theme/theme-context-provider';
-export * from './theme/zimbra-classic-theme-context-provider';
 export * from './hooks/useIsVisible/useIsVisible';
 export * from './hooks/useCheckbox';
 export * from './hooks/useCombinedRefs';

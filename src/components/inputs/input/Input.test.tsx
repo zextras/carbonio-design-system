@@ -64,4 +64,21 @@ describe('Input', () => {
 		expect(inputElement).toHaveValue('a');
 		expect(inputElement).toHaveFocus();
 	});
+
+	it('should warn when value is set without onChange or readOnly', () => {
+		const spy = jest.spyOn(console, 'error').mockImplementation(() => {});
+		setup(<Input value={'test'} />);
+		expect(spy.mock.calls[0][0]).toEqual(
+			expect.stringContaining(
+				'You provided a `value` prop to a form field without an `onChange` handler'
+			)
+		);
+		spy.mockRestore();
+	});
+
+	it('should not warn when value is set with readOnly', () => {
+		const spy = jest.spyOn(console, 'error');
+		setup(<Input value={'test'} readOnly />);
+		expect(spy).not.toHaveBeenCalled();
+	});
 });

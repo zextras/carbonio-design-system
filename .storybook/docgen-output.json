@@ -996,12 +996,12 @@
                 "elements": [
                   {
                     "name": "intersection",
-                    "raw": "{\n\t/** Force active status */\n\tforceActive?: boolean;\n\t/** Disabled status */\n\tdisabled?: boolean;\n\t/** Icon to display beside the label */\n\ticon?: IconProps['icon'];\n\t/** Icon position relative to the label  */\n\ticonPlacement?: ButtonIconPlacement;\n\t/** Text content of the button */\n\tlabel?: string;\n\t/** Whether to show the loading icon */\n\tloading?: boolean;\n\t/** Main action callback */\n\tonClick: (e: React.MouseEvent<HTMLButtonElement> | KeyboardEvent) => void;\n\t/** Shape of the button */\n\tshape?: ButtonShape;\n\t/** Width of the button */\n\twidth?: ButtonWidth;\n\t/** min width of the button */\n\tminWidth?: string;\n\t/** Ref for the button element */\n\tbuttonRef?: React.Ref<HTMLButtonElement> | null;\n} & (\n\t| {\n\t\t\t/** Size variant of the button */\n\t\t\tsize?: 'medium' | 'large' | 'extralarge';\n\t\t\t/** Secondary action object (available only for medium and large buttons) */\n\t\t\tsecondaryAction?: ButtonSecondaryAction;\n\t  }\n\t| {\n\t\t\t/** Size variant of the button */\n\t\t\tsize?: ButtonSize;\n\t\t\tsecondaryAction?: never;\n\t  }\n) &\n\tButtonColorsByType",
+                    "raw": "{\n\t/** Force active status */\n\tforceActive?: boolean;\n\t/** Disabled status */\n\tdisabled?: boolean;\n\t/** Icon to display beside the label */\n\ticon?: IconProps['icon'];\n\t/** Icon position relative to the label  */\n\ticonPlacement?: ButtonIconPlacement;\n\t/** Text content of the button */\n\tlabel?: string;\n\t/** Whether to show the loading icon */\n\tloading?: boolean;\n\t/** Main action callback */\n\tonClick: (e: React.MouseEvent<HTMLButtonElement> | KeyboardEvent) => void;\n\t/** Shape of the button */\n\tshape?: ButtonShape;\n\t/** Width of the button */\n\twidth?: ButtonWidth;\n\t/** min width of the button */\n\tminWidth?: string;\n\t/** Ref for the button element */\n\tbuttonRef?: React.Ref<HTMLButtonElement> | null;\n\t/** Auto focus status */\n\tautoFocus?: boolean;\n} & (\n\t| {\n\t\t\t/** Size variant of the button */\n\t\t\tsize?: 'medium' | 'large' | 'extralarge';\n\t\t\t/** Secondary action object (available only for medium and large buttons) */\n\t\t\tsecondaryAction?: ButtonSecondaryAction;\n\t  }\n\t| {\n\t\t\t/** Size variant of the button */\n\t\t\tsize?: ButtonSize;\n\t\t\tsecondaryAction?: never;\n\t  }\n) &\n\tButtonColorsByType",
                     "elements": [
                       {
                         "name": "signature",
                         "type": "object",
-                        "raw": "{\n\t/** Force active status */\n\tforceActive?: boolean;\n\t/** Disabled status */\n\tdisabled?: boolean;\n\t/** Icon to display beside the label */\n\ticon?: IconProps['icon'];\n\t/** Icon position relative to the label  */\n\ticonPlacement?: ButtonIconPlacement;\n\t/** Text content of the button */\n\tlabel?: string;\n\t/** Whether to show the loading icon */\n\tloading?: boolean;\n\t/** Main action callback */\n\tonClick: (e: React.MouseEvent<HTMLButtonElement> | KeyboardEvent) => void;\n\t/** Shape of the button */\n\tshape?: ButtonShape;\n\t/** Width of the button */\n\twidth?: ButtonWidth;\n\t/** min width of the button */\n\tminWidth?: string;\n\t/** Ref for the button element */\n\tbuttonRef?: React.Ref<HTMLButtonElement> | null;\n}",
+                        "raw": "{\n\t/** Force active status */\n\tforceActive?: boolean;\n\t/** Disabled status */\n\tdisabled?: boolean;\n\t/** Icon to display beside the label */\n\ticon?: IconProps['icon'];\n\t/** Icon position relative to the label  */\n\ticonPlacement?: ButtonIconPlacement;\n\t/** Text content of the button */\n\tlabel?: string;\n\t/** Whether to show the loading icon */\n\tloading?: boolean;\n\t/** Main action callback */\n\tonClick: (e: React.MouseEvent<HTMLButtonElement> | KeyboardEvent) => void;\n\t/** Shape of the button */\n\tshape?: ButtonShape;\n\t/** Width of the button */\n\twidth?: ButtonWidth;\n\t/** min width of the button */\n\tminWidth?: string;\n\t/** Ref for the button element */\n\tbuttonRef?: React.Ref<HTMLButtonElement> | null;\n\t/** Auto focus status */\n\tautoFocus?: boolean;\n}",
                         "signature": {
                           "properties": [
                             {
@@ -1170,6 +1170,14 @@
                                 "required": false
                               },
                               "description": "Ref for the button element"
+                            },
+                            {
+                              "key": "autoFocus",
+                              "value": {
+                                "name": "boolean",
+                                "required": false
+                              },
+                              "description": "Auto focus status"
                             }
                           ]
                         }
@@ -1251,12 +1259,12 @@
                       },
                       {
                         "name": "intersection",
-                        "raw": "{\n\t/** Force active status */\n\tforceActive?: boolean;\n\t/** Disabled status */\n\tdisabled?: boolean;\n\t/** Icon to display beside the label */\n\ticon?: IconProps['icon'];\n\t/** Icon position relative to the label  */\n\ticonPlacement?: ButtonIconPlacement;\n\t/** Text content of the button */\n\tlabel?: string;\n\t/** Whether to show the loading icon */\n\tloading?: boolean;\n\t/** Main action callback */\n\tonClick: (e: React.MouseEvent<HTMLButtonElement> | KeyboardEvent) => void;\n\t/** Shape of the button */\n\tshape?: ButtonShape;\n\t/** Width of the button */\n\twidth?: ButtonWidth;\n\t/** min width of the button */\n\tminWidth?: string;\n\t/** Ref for the button element */\n\tbuttonRef?: React.Ref<HTMLButtonElement> | null;\n} & (\n\t| {\n\t\t\t/** Size variant of the button */\n\t\t\tsize?: 'medium' | 'large' | 'extralarge';\n\t\t\t/** Secondary action object (available only for medium and large buttons) */\n\t\t\tsecondaryAction?: ButtonSecondaryAction;\n\t  }\n\t| {\n\t\t\t/** Size variant of the button */\n\t\t\tsize?: ButtonSize;\n\t\t\tsecondaryAction?: never;\n\t  }\n) &\n\tButtonColorsByType",
+                        "raw": "{\n\t/** Force active status */\n\tforceActive?: boolean;\n\t/** Disabled status */\n\tdisabled?: boolean;\n\t/** Icon to display beside the label */\n\ticon?: IconProps['icon'];\n\t/** Icon position relative to the label  */\n\ticonPlacement?: ButtonIconPlacement;\n\t/** Text content of the button */\n\tlabel?: string;\n\t/** Whether to show the loading icon */\n\tloading?: boolean;\n\t/** Main action callback */\n\tonClick: (e: React.MouseEvent<HTMLButtonElement> | KeyboardEvent) => void;\n\t/** Shape of the button */\n\tshape?: ButtonShape;\n\t/** Width of the button */\n\twidth?: ButtonWidth;\n\t/** min width of the button */\n\tminWidth?: string;\n\t/** Ref for the button element */\n\tbuttonRef?: React.Ref<HTMLButtonElement> | null;\n\t/** Auto focus status */\n\tautoFocus?: boolean;\n} & (\n\t| {\n\t\t\t/** Size variant of the button */\n\t\t\tsize?: 'medium' | 'large' | 'extralarge';\n\t\t\t/** Secondary action object (available only for medium and large buttons) */\n\t\t\tsecondaryAction?: ButtonSecondaryAction;\n\t  }\n\t| {\n\t\t\t/** Size variant of the button */\n\t\t\tsize?: ButtonSize;\n\t\t\tsecondaryAction?: never;\n\t  }\n) &\n\tButtonColorsByType",
                         "elements": [
                           {
                             "name": "signature",
                             "type": "object",
-                            "raw": "{\n\t/** Force active status */\n\tforceActive?: boolean;\n\t/** Disabled status */\n\tdisabled?: boolean;\n\t/** Icon to display beside the label */\n\ticon?: IconProps['icon'];\n\t/** Icon position relative to the label  */\n\ticonPlacement?: ButtonIconPlacement;\n\t/** Text content of the button */\n\tlabel?: string;\n\t/** Whether to show the loading icon */\n\tloading?: boolean;\n\t/** Main action callback */\n\tonClick: (e: React.MouseEvent<HTMLButtonElement> | KeyboardEvent) => void;\n\t/** Shape of the button */\n\tshape?: ButtonShape;\n\t/** Width of the button */\n\twidth?: ButtonWidth;\n\t/** min width of the button */\n\tminWidth?: string;\n\t/** Ref for the button element */\n\tbuttonRef?: React.Ref<HTMLButtonElement> | null;\n}",
+                            "raw": "{\n\t/** Force active status */\n\tforceActive?: boolean;\n\t/** Disabled status */\n\tdisabled?: boolean;\n\t/** Icon to display beside the label */\n\ticon?: IconProps['icon'];\n\t/** Icon position relative to the label  */\n\ticonPlacement?: ButtonIconPlacement;\n\t/** Text content of the button */\n\tlabel?: string;\n\t/** Whether to show the loading icon */\n\tloading?: boolean;\n\t/** Main action callback */\n\tonClick: (e: React.MouseEvent<HTMLButtonElement> | KeyboardEvent) => void;\n\t/** Shape of the button */\n\tshape?: ButtonShape;\n\t/** Width of the button */\n\twidth?: ButtonWidth;\n\t/** min width of the button */\n\tminWidth?: string;\n\t/** Ref for the button element */\n\tbuttonRef?: React.Ref<HTMLButtonElement> | null;\n\t/** Auto focus status */\n\tautoFocus?: boolean;\n}",
                             "signature": {
                               "properties": [
                                 {
@@ -1425,6 +1433,14 @@
                                     "required": false
                                   },
                                   "description": "Ref for the button element"
+                                },
+                                {
+                                  "key": "autoFocus",
+                                  "value": {
+                                    "name": "boolean",
+                                    "required": false
+                                  },
+                                  "description": "Auto focus status"
                                 }
                               ]
                             }
@@ -1539,12 +1555,12 @@
                 "elements": [
                   {
                     "name": "intersection",
-                    "raw": "{\n\t/** Force active status */\n\tforceActive?: boolean;\n\t/** Disabled status */\n\tdisabled?: boolean;\n\t/** Icon to display beside the label */\n\ticon?: IconProps['icon'];\n\t/** Icon position relative to the label  */\n\ticonPlacement?: ButtonIconPlacement;\n\t/** Text content of the button */\n\tlabel?: string;\n\t/** Whether to show the loading icon */\n\tloading?: boolean;\n\t/** Main action callback */\n\tonClick: (e: React.MouseEvent<HTMLButtonElement> | KeyboardEvent) => void;\n\t/** Shape of the button */\n\tshape?: ButtonShape;\n\t/** Width of the button */\n\twidth?: ButtonWidth;\n\t/** min width of the button */\n\tminWidth?: string;\n\t/** Ref for the button element */\n\tbuttonRef?: React.Ref<HTMLButtonElement> | null;\n} & (\n\t| {\n\t\t\t/** Size variant of the button */\n\t\t\tsize?: 'medium' | 'large' | 'extralarge';\n\t\t\t/** Secondary action object (available only for medium and large buttons) */\n\t\t\tsecondaryAction?: ButtonSecondaryAction;\n\t  }\n\t| {\n\t\t\t/** Size variant of the button */\n\t\t\tsize?: ButtonSize;\n\t\t\tsecondaryAction?: never;\n\t  }\n) &\n\tButtonColorsByType",
+                    "raw": "{\n\t/** Force active status */\n\tforceActive?: boolean;\n\t/** Disabled status */\n\tdisabled?: boolean;\n\t/** Icon to display beside the label */\n\ticon?: IconProps['icon'];\n\t/** Icon position relative to the label  */\n\ticonPlacement?: ButtonIconPlacement;\n\t/** Text content of the button */\n\tlabel?: string;\n\t/** Whether to show the loading icon */\n\tloading?: boolean;\n\t/** Main action callback */\n\tonClick: (e: React.MouseEvent<HTMLButtonElement> | KeyboardEvent) => void;\n\t/** Shape of the button */\n\tshape?: ButtonShape;\n\t/** Width of the button */\n\twidth?: ButtonWidth;\n\t/** min width of the button */\n\tminWidth?: string;\n\t/** Ref for the button element */\n\tbuttonRef?: React.Ref<HTMLButtonElement> | null;\n\t/** Auto focus status */\n\tautoFocus?: boolean;\n} & (\n\t| {\n\t\t\t/** Size variant of the button */\n\t\t\tsize?: 'medium' | 'large' | 'extralarge';\n\t\t\t/** Secondary action object (available only for medium and large buttons) */\n\t\t\tsecondaryAction?: ButtonSecondaryAction;\n\t  }\n\t| {\n\t\t\t/** Size variant of the button */\n\t\t\tsize?: ButtonSize;\n\t\t\tsecondaryAction?: never;\n\t  }\n) &\n\tButtonColorsByType",
                     "elements": [
                       {
                         "name": "signature",
                         "type": "object",
-                        "raw": "{\n\t/** Force active status */\n\tforceActive?: boolean;\n\t/** Disabled status */\n\tdisabled?: boolean;\n\t/** Icon to display beside the label */\n\ticon?: IconProps['icon'];\n\t/** Icon position relative to the label  */\n\ticonPlacement?: ButtonIconPlacement;\n\t/** Text content of the button */\n\tlabel?: string;\n\t/** Whether to show the loading icon */\n\tloading?: boolean;\n\t/** Main action callback */\n\tonClick: (e: React.MouseEvent<HTMLButtonElement> | KeyboardEvent) => void;\n\t/** Shape of the button */\n\tshape?: ButtonShape;\n\t/** Width of the button */\n\twidth?: ButtonWidth;\n\t/** min width of the button */\n\tminWidth?: string;\n\t/** Ref for the button element */\n\tbuttonRef?: React.Ref<HTMLButtonElement> | null;\n}",
+                        "raw": "{\n\t/** Force active status */\n\tforceActive?: boolean;\n\t/** Disabled status */\n\tdisabled?: boolean;\n\t/** Icon to display beside the label */\n\ticon?: IconProps['icon'];\n\t/** Icon position relative to the label  */\n\ticonPlacement?: ButtonIconPlacement;\n\t/** Text content of the button */\n\tlabel?: string;\n\t/** Whether to show the loading icon */\n\tloading?: boolean;\n\t/** Main action callback */\n\tonClick: (e: React.MouseEvent<HTMLButtonElement> | KeyboardEvent) => void;\n\t/** Shape of the button */\n\tshape?: ButtonShape;\n\t/** Width of the button */\n\twidth?: ButtonWidth;\n\t/** min width of the button */\n\tminWidth?: string;\n\t/** Ref for the button element */\n\tbuttonRef?: React.Ref<HTMLButtonElement> | null;\n\t/** Auto focus status */\n\tautoFocus?: boolean;\n}",
                         "signature": {
                           "properties": [
                             {
@@ -1713,6 +1729,14 @@
                                 "required": false
                               },
                               "description": "Ref for the button element"
+                            },
+                            {
+                              "key": "autoFocus",
+                              "value": {
+                                "name": "boolean",
+                                "required": false
+                              },
+                              "description": "Auto focus status"
                             }
                           ]
                         }
@@ -1794,12 +1818,12 @@
                       },
                       {
                         "name": "intersection",
-                        "raw": "{\n\t/** Force active status */\n\tforceActive?: boolean;\n\t/** Disabled status */\n\tdisabled?: boolean;\n\t/** Icon to display beside the label */\n\ticon?: IconProps['icon'];\n\t/** Icon position relative to the label  */\n\ticonPlacement?: ButtonIconPlacement;\n\t/** Text content of the button */\n\tlabel?: string;\n\t/** Whether to show the loading icon */\n\tloading?: boolean;\n\t/** Main action callback */\n\tonClick: (e: React.MouseEvent<HTMLButtonElement> | KeyboardEvent) => void;\n\t/** Shape of the button */\n\tshape?: ButtonShape;\n\t/** Width of the button */\n\twidth?: ButtonWidth;\n\t/** min width of the button */\n\tminWidth?: string;\n\t/** Ref for the button element */\n\tbuttonRef?: React.Ref<HTMLButtonElement> | null;\n} & (\n\t| {\n\t\t\t/** Size variant of the button */\n\t\t\tsize?: 'medium' | 'large' | 'extralarge';\n\t\t\t/** Secondary action object (available only for medium and large buttons) */\n\t\t\tsecondaryAction?: ButtonSecondaryAction;\n\t  }\n\t| {\n\t\t\t/** Size variant of the button */\n\t\t\tsize?: ButtonSize;\n\t\t\tsecondaryAction?: never;\n\t  }\n) &\n\tButtonColorsByType",
+                        "raw": "{\n\t/** Force active status */\n\tforceActive?: boolean;\n\t/** Disabled status */\n\tdisabled?: boolean;\n\t/** Icon to display beside the label */\n\ticon?: IconProps['icon'];\n\t/** Icon position relative to the label  */\n\ticonPlacement?: ButtonIconPlacement;\n\t/** Text content of the button */\n\tlabel?: string;\n\t/** Whether to show the loading icon */\n\tloading?: boolean;\n\t/** Main action callback */\n\tonClick: (e: React.MouseEvent<HTMLButtonElement> | KeyboardEvent) => void;\n\t/** Shape of the button */\n\tshape?: ButtonShape;\n\t/** Width of the button */\n\twidth?: ButtonWidth;\n\t/** min width of the button */\n\tminWidth?: string;\n\t/** Ref for the button element */\n\tbuttonRef?: React.Ref<HTMLButtonElement> | null;\n\t/** Auto focus status */\n\tautoFocus?: boolean;\n} & (\n\t| {\n\t\t\t/** Size variant of the button */\n\t\t\tsize?: 'medium' | 'large' | 'extralarge';\n\t\t\t/** Secondary action object (available only for medium and large buttons) */\n\t\t\tsecondaryAction?: ButtonSecondaryAction;\n\t  }\n\t| {\n\t\t\t/** Size variant of the button */\n\t\t\tsize?: ButtonSize;\n\t\t\tsecondaryAction?: never;\n\t  }\n) &\n\tButtonColorsByType",
                         "elements": [
                           {
                             "name": "signature",
                             "type": "object",
-                            "raw": "{\n\t/** Force active status */\n\tforceActive?: boolean;\n\t/** Disabled status */\n\tdisabled?: boolean;\n\t/** Icon to display beside the label */\n\ticon?: IconProps['icon'];\n\t/** Icon position relative to the label  */\n\ticonPlacement?: ButtonIconPlacement;\n\t/** Text content of the button */\n\tlabel?: string;\n\t/** Whether to show the loading icon */\n\tloading?: boolean;\n\t/** Main action callback */\n\tonClick: (e: React.MouseEvent<HTMLButtonElement> | KeyboardEvent) => void;\n\t/** Shape of the button */\n\tshape?: ButtonShape;\n\t/** Width of the button */\n\twidth?: ButtonWidth;\n\t/** min width of the button */\n\tminWidth?: string;\n\t/** Ref for the button element */\n\tbuttonRef?: React.Ref<HTMLButtonElement> | null;\n}",
+                            "raw": "{\n\t/** Force active status */\n\tforceActive?: boolean;\n\t/** Disabled status */\n\tdisabled?: boolean;\n\t/** Icon to display beside the label */\n\ticon?: IconProps['icon'];\n\t/** Icon position relative to the label  */\n\ticonPlacement?: ButtonIconPlacement;\n\t/** Text content of the button */\n\tlabel?: string;\n\t/** Whether to show the loading icon */\n\tloading?: boolean;\n\t/** Main action callback */\n\tonClick: (e: React.MouseEvent<HTMLButtonElement> | KeyboardEvent) => void;\n\t/** Shape of the button */\n\tshape?: ButtonShape;\n\t/** Width of the button */\n\twidth?: ButtonWidth;\n\t/** min width of the button */\n\tminWidth?: string;\n\t/** Ref for the button element */\n\tbuttonRef?: React.Ref<HTMLButtonElement> | null;\n\t/** Auto focus status */\n\tautoFocus?: boolean;\n}",
                             "signature": {
                               "properties": [
                                 {
@@ -1968,6 +1992,14 @@
                                     "required": false
                                   },
                                   "description": "Ref for the button element"
+                                },
+                                {
+                                  "key": "autoFocus",
+                                  "value": {
+                                    "name": "boolean",
+                                    "required": false
+                                  },
+                                  "description": "Auto focus status"
                                 }
                               ]
                             }
@@ -3327,6 +3359,17 @@
           "description": "Ref for the button element",
           "defaultValue": {
             "value": "null",
+            "computed": false
+          }
+        },
+        "autoFocus": {
+          "required": false,
+          "tsType": {
+            "name": "boolean"
+          },
+          "description": "Auto focus status",
+          "defaultValue": {
+            "value": "false",
             "computed": false
           }
         },
@@ -4878,12 +4921,12 @@
                     "elements": [
                       {
                         "name": "intersection",
-                        "raw": "{\n\t/** Force active status */\n\tforceActive?: boolean;\n\t/** Disabled status */\n\tdisabled?: boolean;\n\t/** Icon to display beside the label */\n\ticon?: IconProps['icon'];\n\t/** Icon position relative to the label  */\n\ticonPlacement?: ButtonIconPlacement;\n\t/** Text content of the button */\n\tlabel?: string;\n\t/** Whether to show the loading icon */\n\tloading?: boolean;\n\t/** Main action callback */\n\tonClick: (e: React.MouseEvent<HTMLButtonElement> | KeyboardEvent) => void;\n\t/** Shape of the button */\n\tshape?: ButtonShape;\n\t/** Width of the button */\n\twidth?: ButtonWidth;\n\t/** min width of the button */\n\tminWidth?: string;\n\t/** Ref for the button element */\n\tbuttonRef?: React.Ref<HTMLButtonElement> | null;\n} & (\n\t| {\n\t\t\t/** Size variant of the button */\n\t\t\tsize?: 'medium' | 'large' | 'extralarge';\n\t\t\t/** Secondary action object (available only for medium and large buttons) */\n\t\t\tsecondaryAction?: ButtonSecondaryAction;\n\t  }\n\t| {\n\t\t\t/** Size variant of the button */\n\t\t\tsize?: ButtonSize;\n\t\t\tsecondaryAction?: never;\n\t  }\n) &\n\tButtonColorsByType",
+                        "raw": "{\n\t/** Force active status */\n\tforceActive?: boolean;\n\t/** Disabled status */\n\tdisabled?: boolean;\n\t/** Icon to display beside the label */\n\ticon?: IconProps['icon'];\n\t/** Icon position relative to the label  */\n\ticonPlacement?: ButtonIconPlacement;\n\t/** Text content of the button */\n\tlabel?: string;\n\t/** Whether to show the loading icon */\n\tloading?: boolean;\n\t/** Main action callback */\n\tonClick: (e: React.MouseEvent<HTMLButtonElement> | KeyboardEvent) => void;\n\t/** Shape of the button */\n\tshape?: ButtonShape;\n\t/** Width of the button */\n\twidth?: ButtonWidth;\n\t/** min width of the button */\n\tminWidth?: string;\n\t/** Ref for the button element */\n\tbuttonRef?: React.Ref<HTMLButtonElement> | null;\n\t/** Auto focus status */\n\tautoFocus?: boolean;\n} & (\n\t| {\n\t\t\t/** Size variant of the button */\n\t\t\tsize?: 'medium' | 'large' | 'extralarge';\n\t\t\t/** Secondary action object (available only for medium and large buttons) */\n\t\t\tsecondaryAction?: ButtonSecondaryAction;\n\t  }\n\t| {\n\t\t\t/** Size variant of the button */\n\t\t\tsize?: ButtonSize;\n\t\t\tsecondaryAction?: never;\n\t  }\n) &\n\tButtonColorsByType",
                         "elements": [
                           {
                             "name": "signature",
                             "type": "object",
-                            "raw": "{\n\t/** Force active status */\n\tforceActive?: boolean;\n\t/** Disabled status */\n\tdisabled?: boolean;\n\t/** Icon to display beside the label */\n\ticon?: IconProps['icon'];\n\t/** Icon position relative to the label  */\n\ticonPlacement?: ButtonIconPlacement;\n\t/** Text content of the button */\n\tlabel?: string;\n\t/** Whether to show the loading icon */\n\tloading?: boolean;\n\t/** Main action callback */\n\tonClick: (e: React.MouseEvent<HTMLButtonElement> | KeyboardEvent) => void;\n\t/** Shape of the button */\n\tshape?: ButtonShape;\n\t/** Width of the button */\n\twidth?: ButtonWidth;\n\t/** min width of the button */\n\tminWidth?: string;\n\t/** Ref for the button element */\n\tbuttonRef?: React.Ref<HTMLButtonElement> | null;\n}",
+                            "raw": "{\n\t/** Force active status */\n\tforceActive?: boolean;\n\t/** Disabled status */\n\tdisabled?: boolean;\n\t/** Icon to display beside the label */\n\ticon?: IconProps['icon'];\n\t/** Icon position relative to the label  */\n\ticonPlacement?: ButtonIconPlacement;\n\t/** Text content of the button */\n\tlabel?: string;\n\t/** Whether to show the loading icon */\n\tloading?: boolean;\n\t/** Main action callback */\n\tonClick: (e: React.MouseEvent<HTMLButtonElement> | KeyboardEvent) => void;\n\t/** Shape of the button */\n\tshape?: ButtonShape;\n\t/** Width of the button */\n\twidth?: ButtonWidth;\n\t/** min width of the button */\n\tminWidth?: string;\n\t/** Ref for the button element */\n\tbuttonRef?: React.Ref<HTMLButtonElement> | null;\n\t/** Auto focus status */\n\tautoFocus?: boolean;\n}",
                             "signature": {
                               "properties": [
                                 {
@@ -5052,6 +5095,14 @@
                                     "required": false
                                   },
                                   "description": "Ref for the button element"
+                                },
+                                {
+                                  "key": "autoFocus",
+                                  "value": {
+                                    "name": "boolean",
+                                    "required": false
+                                  },
+                                  "description": "Auto focus status"
                                 }
                               ]
                             }
@@ -5133,12 +5184,12 @@
                           },
                           {
                             "name": "intersection",
-                            "raw": "{\n\t/** Force active status */\n\tforceActive?: boolean;\n\t/** Disabled status */\n\tdisabled?: boolean;\n\t/** Icon to display beside the label */\n\ticon?: IconProps['icon'];\n\t/** Icon position relative to the label  */\n\ticonPlacement?: ButtonIconPlacement;\n\t/** Text content of the button */\n\tlabel?: string;\n\t/** Whether to show the loading icon */\n\tloading?: boolean;\n\t/** Main action callback */\n\tonClick: (e: React.MouseEvent<HTMLButtonElement> | KeyboardEvent) => void;\n\t/** Shape of the button */\n\tshape?: ButtonShape;\n\t/** Width of the button */\n\twidth?: ButtonWidth;\n\t/** min width of the button */\n\tminWidth?: string;\n\t/** Ref for the button element */\n\tbuttonRef?: React.Ref<HTMLButtonElement> | null;\n} & (\n\t| {\n\t\t\t/** Size variant of the button */\n\t\t\tsize?: 'medium' | 'large' | 'extralarge';\n\t\t\t/** Secondary action object (available only for medium and large buttons) */\n\t\t\tsecondaryAction?: ButtonSecondaryAction;\n\t  }\n\t| {\n\t\t\t/** Size variant of the button */\n\t\t\tsize?: ButtonSize;\n\t\t\tsecondaryAction?: never;\n\t  }\n) &\n\tButtonColorsByType",
+                            "raw": "{\n\t/** Force active status */\n\tforceActive?: boolean;\n\t/** Disabled status */\n\tdisabled?: boolean;\n\t/** Icon to display beside the label */\n\ticon?: IconProps['icon'];\n\t/** Icon position relative to the label  */\n\ticonPlacement?: ButtonIconPlacement;\n\t/** Text content of the button */\n\tlabel?: string;\n\t/** Whether to show the loading icon */\n\tloading?: boolean;\n\t/** Main action callback */\n\tonClick: (e: React.MouseEvent<HTMLButtonElement> | KeyboardEvent) => void;\n\t/** Shape of the button */\n\tshape?: ButtonShape;\n\t/** Width of the button */\n\twidth?: ButtonWidth;\n\t/** min width of the button */\n\tminWidth?: string;\n\t/** Ref for the button element */\n\tbuttonRef?: React.Ref<HTMLButtonElement> | null;\n\t/** Auto focus status */\n\tautoFocus?: boolean;\n} & (\n\t| {\n\t\t\t/** Size variant of the button */\n\t\t\tsize?: 'medium' | 'large' | 'extralarge';\n\t\t\t/** Secondary action object (available only for medium and large buttons) */\n\t\t\tsecondaryAction?: ButtonSecondaryAction;\n\t  }\n\t| {\n\t\t\t/** Size variant of the button */\n\t\t\tsize?: ButtonSize;\n\t\t\tsecondaryAction?: never;\n\t  }\n) &\n\tButtonColorsByType",
                             "elements": [
                               {
                                 "name": "signature",
                                 "type": "object",
-                                "raw": "{\n\t/** Force active status */\n\tforceActive?: boolean;\n\t/** Disabled status */\n\tdisabled?: boolean;\n\t/** Icon to display beside the label */\n\ticon?: IconProps['icon'];\n\t/** Icon position relative to the label  */\n\ticonPlacement?: ButtonIconPlacement;\n\t/** Text content of the button */\n\tlabel?: string;\n\t/** Whether to show the loading icon */\n\tloading?: boolean;\n\t/** Main action callback */\n\tonClick: (e: React.MouseEvent<HTMLButtonElement> | KeyboardEvent) => void;\n\t/** Shape of the button */\n\tshape?: ButtonShape;\n\t/** Width of the button */\n\twidth?: ButtonWidth;\n\t/** min width of the button */\n\tminWidth?: string;\n\t/** Ref for the button element */\n\tbuttonRef?: React.Ref<HTMLButtonElement> | null;\n}",
+                                "raw": "{\n\t/** Force active status */\n\tforceActive?: boolean;\n\t/** Disabled status */\n\tdisabled?: boolean;\n\t/** Icon to display beside the label */\n\ticon?: IconProps['icon'];\n\t/** Icon position relative to the label  */\n\ticonPlacement?: ButtonIconPlacement;\n\t/** Text content of the button */\n\tlabel?: string;\n\t/** Whether to show the loading icon */\n\tloading?: boolean;\n\t/** Main action callback */\n\tonClick: (e: React.MouseEvent<HTMLButtonElement> | KeyboardEvent) => void;\n\t/** Shape of the button */\n\tshape?: ButtonShape;\n\t/** Width of the button */\n\twidth?: ButtonWidth;\n\t/** min width of the button */\n\tminWidth?: string;\n\t/** Ref for the button element */\n\tbuttonRef?: React.Ref<HTMLButtonElement> | null;\n\t/** Auto focus status */\n\tautoFocus?: boolean;\n}",
                                 "signature": {
                                   "properties": [
                                     {
@@ -5307,6 +5358,14 @@
                                         "required": false
                                       },
                                       "description": "Ref for the button element"
+                                    },
+                                    {
+                                      "key": "autoFocus",
+                                      "value": {
+                                        "name": "boolean",
+                                        "required": false
+                                      },
+                                      "description": "Auto focus status"
                                     }
                                   ]
                                 }
@@ -5750,6 +5809,17 @@
             "name": "Window"
           },
           "description": "The window where to insert the Portal's children.\nThe default value is 'windowObj' obtained from the ThemContext."
+        },
+        "focusModalContent": {
+          "required": false,
+          "tsType": {
+            "name": "boolean"
+          },
+          "description": "",
+          "defaultValue": {
+            "value": "true",
+            "computed": false
+          }
         }
       }
     }
@@ -7958,6 +8028,13 @@
             "name": "string"
           },
           "description": "Description of the input"
+        },
+        "readOnly": {
+          "required": false,
+          "tsType": {
+            "name": "boolean"
+          },
+          "description": "Whether the input is read only"
         }
       },
       "composes": [
@@ -8648,6 +8725,17 @@
             "name": "Window"
           },
           "description": "The window where to insert the Portal's children.\nThe default value is 'windowObj' obtained from the ThemContext."
+        },
+        "focusModalContent": {
+          "required": false,
+          "tsType": {
+            "name": "boolean"
+          },
+          "description": "",
+          "defaultValue": {
+            "value": "false",
+            "computed": false
+          }
         },
         "title": {
           "required": false,
@@ -9720,6 +9808,13 @@
             "name": "string"
           },
           "description": "Description of the input"
+        },
+        "readOnly": {
+          "required": false,
+          "tsType": {
+            "name": "boolean"
+          },
+          "description": "Whether the input is read only"
         }
       },
       "composes": [
@@ -10149,7 +10244,7 @@
       ]
     }
   ],
-  "src/components/inputs/Radio.tsx": [
+  "src/components/inputs/radio/Radio.tsx": [
     {
       "description": "",
       "methods": [],
@@ -10338,7 +10433,7 @@
       }
     }
   ],
-  "src/components/inputs/RadioGroup.tsx": [
+  "src/components/inputs/radioGroup/RadioGroup.tsx": [
     {
       "description": "",
       "methods": [],

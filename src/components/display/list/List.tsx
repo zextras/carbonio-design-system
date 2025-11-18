@@ -6,7 +6,7 @@
 
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 
 import { useCombinedRefs } from '../../../hooks/useCombinedRefs';
 import { useIntersectionObserver } from '../../../hooks/useIntersectionObserver/useIntersectionObserver';

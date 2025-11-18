@@ -8,9 +8,10 @@
 import type { HTMLAttributes } from 'react';
 import React, { useState, useRef, useEffect, useLayoutEffect, useCallback, useMemo } from 'react';
 
+import { css, useTheme } from '@emotion/react';
+import styled from '@emotion/styled';
 import type { Placement, VirtualElement } from '@floating-ui/dom';
 import { flip, limitShift, shift } from '@floating-ui/dom';
-import styled, { css, useTheme } from 'styled-components';
 
 import { useCombinedRefs } from '../../../hooks/useCombinedRefs';
 import type { KeyboardPresetObj } from '../../../hooks/useKeyboard';
@@ -336,7 +337,9 @@ function NestListItem({
 	);
 }
 
-const PopperDropdownWrapper = styled.div<{ $display: 'inline-block' | 'block' }>`
+const PopperDropdownWrapper = styled.div<{
+	$display: 'inline-block' | 'block';
+}>`
 	position: relative;
 	display: ${({ $display }): 'inline-block' | 'block' => $display};
 	width: ${({ $display }): string => ($display === 'block' ? '100%' : 'auto')};

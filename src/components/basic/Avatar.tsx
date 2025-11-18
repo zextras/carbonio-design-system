@@ -7,7 +7,7 @@
 import type { HTMLAttributes } from 'react';
 import React, { useMemo } from 'react';
 
-import styled, { css } from 'styled-components';
+import styled from '@emotion/styled';
 
 import { Icon } from './icon/Icon';
 import type { Theme } from '../../theme/theme';
@@ -71,11 +71,8 @@ const AvatarContainer = styled.div<AvatarContainerProps>`
 		($selecting && getColor($selected ? 'primary' : 'gray6', theme)) ||
 		($background && getColor(`${$background}.${$disabled ? 'disabled' : 'regular'}`, theme)) ||
 		theme.avatarColors[$color]};
-	background-image: ${({
-		$picture,
-		$selecting
-	}): ReturnType<typeof css> | false | undefined | string =>
-		$picture && !$selecting && css`url(${$picture})`};
+	background-image: ${({ $picture, $selecting }): false | undefined | string =>
+		$picture && !$selecting && `url(${$picture})`};
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;

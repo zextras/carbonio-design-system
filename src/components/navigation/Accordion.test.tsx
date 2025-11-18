@@ -34,7 +34,7 @@ describe('Accordion', () => {
 		expect(screen.getByText('Fourth')).toBeVisible();
 	});
 
-	it('should render but not show nested level item if parents are closed', () => {
+	it('should not render nested level item if parents are closed', () => {
 		const items = [
 			{
 				id: 'first',
@@ -48,8 +48,7 @@ describe('Accordion', () => {
 			}
 		];
 		setup(<Accordion items={items} />);
-		expect(screen.getByText('second')).toBeInTheDocument();
-		expect(screen.getByText('second')).not.toBeVisible();
+		expect(screen.queryByText('second')).not.toBeInTheDocument();
 	});
 
 	it('should show nested level item when parent is expanded', async () => {
@@ -137,11 +136,11 @@ describe('Accordion', () => {
 		);
 
 		expect(screen.getByText(/first/i)).toBeVisible();
-		expect(screen.getByText(/second/i)).not.toBeVisible();
+		expect(screen.queryByText(/second/i)).not.toBeInTheDocument();
 		// click on label does not expand the accordion
 		await user.click(screen.getByText('First'));
 		expect(onClick).toHaveBeenCalledTimes(1);
-		expect(screen.getByText(/second/i)).not.toBeVisible();
+		expect(screen.queryByText(/second/i)).not.toBeInTheDocument();
 		// click on chevron icon expand the accordion item
 		await user.click(screen.getByTestId(ICONS.accordionItemOpenAction));
 		await waitFor(() => expect(screen.getByText(/second/i)).toBeVisible());

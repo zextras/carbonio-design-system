@@ -5,8 +5,8 @@
  */
 import React, { useMemo } from 'react';
 
+import styled from '@emotion/styled';
 import type { DatePickerProps } from 'react-datepicker';
-import styled from 'styled-components';
 
 import type { DatePickerCustomInputProps } from './DateTimePicker';
 import { Button } from '../../basic/button/Button';

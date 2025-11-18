@@ -7,7 +7,8 @@
 import type { HTMLAttributes } from 'react';
 import React from 'react';
 
-import styled, { css } from 'styled-components';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 
 import type { Theme } from '../../../theme/theme';
 import { getColor } from '../../../theme/theme-utils';
@@ -91,6 +92,7 @@ const Text = React.forwardRef<HTMLDivElement, TextProps>(function TextFn(
 			$italic={italic}
 			$textAlign={textAlign}
 			$lineHeight={lineHeight}
+			data-component="Text"
 			{...rest}
 		>
 			{children}
