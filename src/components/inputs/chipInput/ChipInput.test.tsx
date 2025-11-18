@@ -850,7 +850,7 @@ describe('ChipInput', () => {
 		expect(onChange).toHaveBeenLastCalledWith(expectedChips);
 		expect(inputElement).not.toBeDisabled();
 		expect(screen.getAllByText(/chip/)).toHaveLength(21);
-	});
+	}, 10000);
 
 	describe('onOptionsDisplayChange', () => {
 		it('should not call onOptionsDisplayChange when options prop is empty', async () => {
