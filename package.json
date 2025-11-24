@@ -86,7 +86,7 @@
 		"@types/jest": "^29.5.13",
 		"@types/jest-image-snapshot": "^6.4.0",
 		"@types/lodash": "^4.17.16",
-		"@types/react": "^18.3.7",
+		"@types/react": "^19.2.7",
 		"@types/react-dom": "^18.3.0",
 		"@zextras/carbonio-ui-configs": "^1.0.4",
 		"babel-loader": "^10.0.0",
