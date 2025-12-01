@@ -89,13 +89,6 @@ export const WithCustomColor = {
 	}
 } satisfies Story;
 
-export const WithValue = {
-	args: {
-		label: 'Radio with value',
-		value: 'option1'
-	}
-} satisfies Story;
-
 export const WithCustomPadding = {
 	args: {
 		label: 'Custom Padding',
