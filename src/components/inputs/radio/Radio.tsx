@@ -238,6 +238,7 @@ const RadioComponent = React.forwardRef(function RadioFn<
 			mainAlignment="flex-start"
 			crossAlignment="center"
 			orientation="horizontal"
+			padding={padding}
 			$disabled={disabled}
 			$iconColor={iconColor}
 			gap={'0.5rem'}
