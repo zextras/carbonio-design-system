@@ -5,7 +5,7 @@
  */
 
 import type { CSSProperties, InputHTMLAttributes, LabelHTMLAttributes } from 'react';
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useCallback, useMemo, useRef, useState } from 'react';
 
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
@@ -124,10 +124,8 @@ interface RadioComponentProps<T extends RadioInputHTMLAttributes['value']> {
 	label?: string | React.ReactElement;
 	/** whether to disable the radio or not */
 	disabled?: boolean;
-	/** click callback */
-	onClick?: (e: React.MouseEvent<HTMLInputElement> | KeyboardEvent) => void;
 	/** change callback */
-	onChange?: (checked: boolean) => void;
+	onChange?: (value: T) => void;
 	/** radio padding */
 	padding?: ContainerProps['padding'];
 	/** available sizes */
@@ -137,7 +135,7 @@ interface RadioComponentProps<T extends RadioInputHTMLAttributes['value']> {
 	/** Ref for the input element */
 	inputRef?: React.Ref<HTMLInputElement>;
 	/** Value of the radio input */
-	value?: T;
+	value: T;
 }
 
 type RadioProps<T extends RadioInputHTMLAttributes['value'] = string> = RadioComponentProps<T> &
@@ -156,13 +154,13 @@ const RadioComponent = React.forwardRef(function RadioFn<
 		defaultChecked,
 		checked,
 		label,
-		onClick,
 		onChange,
 		disabled = false,
 		padding = { bottom: 'small' },
 		size = 'medium',
 		iconColor = 'gray0',
 		inputRef = null,
+		value,
 		...rest
 	}: RadioProps<T>,
 	ref: React.ForwardedRef<HTMLDivElement>
@@ -183,34 +181,28 @@ const RadioComponent = React.forwardRef(function RadioFn<
 
 	const uncontrolledMode = useMemo(() => typeof checked === 'undefined', [checked]);
 
-	const onClickHandler = useCallback<React.MouseEventHandler<HTMLInputElement>>(
+	const onChangeHandler = useCallback<React.ChangeEventHandler<HTMLInputElement>>(
 		(e) => {
 			if (!disabled) {
-				if (uncontrolledMode && !e.defaultPrevented) {
-					setIsChecked((prevState) => !prevState);
+				const newCheckedState = e.target.checked;
+
+				if (uncontrolledMode) {
+					setIsChecked(newCheckedState);
 				}
-				onClick?.(e);
+
+				if (newCheckedState) {
+					onChange?.(value);
+				}
 			}
 		},
-		[disabled, onClick, uncontrolledMode]
+		[disabled, onChange, uncontrolledMode, value]
 	);
 
-	const onChangeHandler = useCallback<React.ChangeEventHandler<HTMLInputElement>>(() => {
-		// do nothing
-		// TODO: CDS-174: update state here and not in the click. In controlled mode, do not update the internal state,
-		// 	just call the external onChange
-	}, []);
-
 	useEffect(() => {
-		// TODO: CDS-174: remove this effect, call onChange only from the handler
-		onChange?.(isChecked);
-	}, [onChange, isChecked]);
-
-	useEffect(() => {
-		if (checked !== undefined) {
+		if (!uncontrolledMode && checked !== undefined) {
 			setIsChecked(checked);
 		}
-	}, [checked]);
+	}, [checked, uncontrolledMode]);
 
 	const labelWithClick = useMemo(
 		() =>
@@ -257,7 +249,6 @@ const RadioComponent = React.forwardRef(function RadioFn<
 				id={id}
 				ref={radioInputRef}
 				checked={isChecked}
-				onClick={onClickHandler}
 				onChange={onChangeHandler}
 				disabled={disabled}
 				$color={iconColor}

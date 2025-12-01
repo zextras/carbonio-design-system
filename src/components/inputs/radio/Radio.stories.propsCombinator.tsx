@@ -73,6 +73,7 @@ export const RadioPropsCombinator = (): React.JSX.Element => {
 				</Row>
 			</Container>
 			<Radio
+				value={'value1'}
 				iconColor={selectedIconColor}
 				size={selectedSize}
 				checked={checked}
@@ -80,6 +81,7 @@ export const RadioPropsCombinator = (): React.JSX.Element => {
 				label={`size ${selectedSize}, not disabled, iconColor ${selectedIconColor}, checked ${checked}`}
 			/>
 			<Radio
+				value={'value2'}
 				disabled
 				iconColor={selectedIconColor}
 				size={selectedSize}

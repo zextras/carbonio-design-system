@@ -74,8 +74,8 @@ export const DisabledChecked = {
 export const Sizes = {
 	render: (): React.JSX.Element => (
 		<div>
-			<Radio label="Small Radio" size="small" />
-			<Radio label="Medium Radio" size="medium" />
+			<Radio label="Small Radio" size="small" value={'small'} />
+			<Radio label="Medium Radio" size="medium" value={'medium'} />
 		</div>
 	)
 } satisfies Story;
