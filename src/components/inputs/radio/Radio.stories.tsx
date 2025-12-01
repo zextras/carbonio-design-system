@@ -21,7 +21,8 @@ const meta = {
 	component: Radio,
 	args: {
 		onChange: fn(),
-		onClick: fn()
+		onClick: fn(),
+		value: 'value'
 	},
 	parameters: {
 		docs: {
@@ -78,12 +79,6 @@ export const Sizes = {
 			<Radio label="Medium Radio" size="medium" value={'medium'} />
 		</div>
 	)
-} satisfies Story;
-
-export const WithoutLabel = {
-	args: {
-		checked: true
-	}
 } satisfies Story;
 
 export const WithCustomColor = {
