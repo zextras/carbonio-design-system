@@ -21,8 +21,47 @@ const meta = {
 	component: Radio,
 	args: {
 		onChange: fn(),
-		onClick: fn(),
 		value: 'value'
+	},
+	argTypes: {
+		label: {
+			control: 'text',
+			description: 'Radio text'
+		},
+		value: {
+			control: 'text',
+			description: 'Value of the radio input'
+		},
+		checked: {
+			control: 'boolean',
+			description: 'Radio checked'
+		},
+		defaultChecked: {
+			control: 'boolean',
+			description: 'Status of the Radio'
+		},
+		disabled: {
+			control: 'boolean',
+			description: 'Whether to disable the radio or not'
+		},
+		onChange: {
+			description: 'Change callback'
+		},
+		size: {
+			control: 'select',
+			options: ['small', 'medium'],
+			description: 'Available sizes'
+		},
+		iconColor: {
+			control: 'text',
+			description: 'Icon color'
+		},
+		padding: {
+			description: 'Radio padding'
+		},
+		inputRef: {
+			description: 'Ref for the input element'
+		}
 	},
 	parameters: {
 		docs: {
