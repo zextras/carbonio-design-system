@@ -121,7 +121,7 @@ interface RadioComponentProps<T extends RadioInputHTMLAttributes['value']> {
 	/** Radio checked */
 	checked?: boolean;
 	/** Radio text */
-	label?: string | React.ReactElement;
+	label: string | React.ReactElement;
 	/** whether to disable the radio or not */
 	disabled?: boolean;
 	/** change callback */

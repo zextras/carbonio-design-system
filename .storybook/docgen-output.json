@@ -10265,7 +10265,7 @@
           "description": "Radio checked"
         },
         "label": {
-          "required": false,
+          "required": true,
           "tsType": {
             "name": "union",
             "raw": "string | React.ReactElement",
