@@ -238,7 +238,6 @@ const RadioComponent = React.forwardRef(function RadioFn<
 			mainAlignment="flex-start"
 			crossAlignment="center"
 			orientation="horizontal"
-			padding={padding}
 			$disabled={disabled}
 			$iconColor={iconColor}
 			gap={'0.5rem'}
@@ -262,4 +261,4 @@ const RadioComponent = React.forwardRef(function RadioFn<
 const Radio = RadioComponent as RadioType;
 
 export type { RadioProps };
-export { RadioComponent, Radio };
+export { Radio };
