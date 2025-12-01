@@ -17,21 +17,21 @@ export const MultipleRadios = (): React.JSX.Element => {
 				name="radio-group"
 				value="option1"
 				checked={selected === 'option1'}
-				onClick={() => setSelected('option1')}
+				onChange={(value) => setSelected(value)}
 			/>
 			<Radio
 				label="Option 2"
 				name="radio-group"
 				value="option2"
 				checked={selected === 'option2'}
-				onClick={() => setSelected('option2')}
+				onChange={(value) => setSelected(value)}
 			/>
 			<Radio
 				label="Option 3"
 				name="radio-group"
 				value="option3"
 				checked={selected === 'option3'}
-				onClick={() => setSelected('option3')}
+				onChange={(value) => setSelected(value)}
 			/>
 			<Radio label="Disabled Option" name="radio-group" value="option4" disabled />
 		</div>
