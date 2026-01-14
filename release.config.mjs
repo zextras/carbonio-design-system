@@ -11,17 +11,17 @@ export default {
 		{
 			name: 'devel',
 			prerelease: true
-		},
-		{
-			name: 'next/+([0-9]).+([0-9]).+([0-9])',
-			prerelease: '${name.replace(/[\\/\\.]/g, "-")}'
 		}
 	],
 	plugins: [
 		[
 			'@semantic-release/commit-analyzer',
 			{
-				preset: 'conventionalcommits'
+				preset: 'conventionalcommits',
+				releaseRules: [
+					{ type: 'refactor', release: 'patch' },
+					{ type: 'build', release: 'patch' }
+				]
 			}
 		],
 		[
