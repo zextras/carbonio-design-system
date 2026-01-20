@@ -10265,7 +10265,7 @@
           "description": "Radio checked"
         },
         "label": {
-          "required": false,
+          "required": true,
           "tsType": {
             "name": "union",
             "raw": "string | React.ReactElement",
@@ -10292,56 +10292,19 @@
             "computed": false
           }
         },
-        "onClick": {
-          "required": false,
-          "tsType": {
-            "name": "signature",
-            "type": "function",
-            "raw": "(e: React.MouseEvent<HTMLInputElement> | KeyboardEvent) => void",
-            "signature": {
-              "arguments": [
-                {
-                  "type": {
-                    "name": "union",
-                    "raw": "React.MouseEvent<HTMLInputElement> | KeyboardEvent",
-                    "elements": [
-                      {
-                        "name": "ReactMouseEvent",
-                        "raw": "React.MouseEvent<HTMLInputElement>",
-                        "elements": [
-                          {
-                            "name": "HTMLInputElement"
-                          }
-                        ]
-                      },
-                      {
-                        "name": "KeyboardEvent"
-                      }
-                    ]
-                  },
-                  "name": "e"
-                }
-              ],
-              "return": {
-                "name": "void"
-              }
-            }
-          },
-          "description": "click callback"
-        },
         "onChange": {
           "required": false,
           "tsType": {
             "name": "signature",
             "type": "function",
-            "raw": "(checked: boolean) => void",
+            "raw": "(value: T) => void",
             "signature": {
               "arguments": [
                 {
                   "type": {
-                    "name": "boolean"
+                    "name": "T"
                   },
-                  "name": "checked"
+                  "name": "value"
                 }
               ],
               "return": {
@@ -10424,7 +10387,7 @@
           }
         },
         "value": {
-          "required": false,
+          "required": true,
           "tsType": {
             "name": "T"
           },

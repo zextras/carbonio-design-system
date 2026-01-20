@@ -4,8 +4,6 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React from 'react';
-
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { RadioGroup } from './RadioGroup';
@@ -28,16 +26,6 @@ export default meta;
 
 type Story = StoryObj<typeof RadioGroup>;
 
-export const Default = {
-	render: (): React.JSX.Element => (
-		<div>
-			<Radio key="chicken" label="Chicken" value="chicken" />
-			<Radio key="salad" label="Salad" value="salad" />
-			<Radio key="tomato" label="Tomato" value="tomato" />
-		</div>
-	)
-} satisfies Story;
-
 export const ControlledMode = {
 	render: ControlledRadioGroup,
 	parameters: {
@@ -47,7 +35,7 @@ export const ControlledMode = {
 			}
 		}
 	}
-} satisfies StoryObj<typeof ControlledRadioGroup>;
+} satisfies Story;
 
 export const UncontrolledMode = {
 	render: UncontrolledRadioGroup,
@@ -58,7 +46,7 @@ export const UncontrolledMode = {
 			}
 		}
 	}
-} satisfies StoryObj<typeof UncontrolledRadioGroup>;
+} satisfies Story;
 
 export const DisabledGroup = {
 	render: DisabledRadioGroup,
@@ -69,4 +57,4 @@ export const DisabledGroup = {
 			}
 		}
 	}
-} satisfies StoryObj<typeof DisabledRadioGroup>;
+} satisfies Story;

@@ -15,11 +15,11 @@ import type { SelectItem } from '../Select';
 import { Select } from '../Select';
 
 export const RadioPropsCombinator = (): React.JSX.Element => {
-	const [checked, setChecked] = useState(false);
+	const [valueSeleted, setValueSelected] = useState('value1');
 	const [selectedSize, setSelectedSize] = useState<'small' | 'medium'>('medium');
 	const [selectedIconColor, setSelectedIconColor] = useState('gray0');
 
-	const onClick = useCallback(() => setChecked((c) => !c), []);
+	const onChange = useCallback((v: string) => setValueSelected(v), []);
 
 	const theme = useTheme();
 
@@ -73,19 +73,21 @@ export const RadioPropsCombinator = (): React.JSX.Element => {
 				</Row>
 			</Container>
 			<Radio
+				value={'value1'}
 				iconColor={selectedIconColor}
 				size={selectedSize}
-				checked={checked}
-				onClick={onClick}
-				label={`size ${selectedSize}, not disabled, iconColor ${selectedIconColor}, checked ${checked}`}
+				checked={valueSeleted === 'value1'}
+				onChange={onChange}
+				label={`size ${selectedSize}, not disabled, iconColor ${selectedIconColor}`}
 			/>
 			<Radio
+				value={'value2'}
 				disabled
 				iconColor={selectedIconColor}
 				size={selectedSize}
-				checked={checked}
-				onClick={onClick}
-				label={`size ${selectedSize}, disabled, iconColor ${selectedIconColor}, checked ${checked}`}
+				checked={valueSeleted === 'value2'}
+				onChange={onChange}
+				label={`size ${selectedSize}, disabled, iconColor ${selectedIconColor}`}
 			/>
 		</Container>
 	);

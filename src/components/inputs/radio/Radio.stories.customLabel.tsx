@@ -13,6 +13,7 @@ import { Select } from '../Select';
 
 export const RadioCustomLabel = (): React.JSX.Element => (
 	<Radio
+		value={'value1'}
 		label={
 			<Row
 				onClick={(ev) => {
