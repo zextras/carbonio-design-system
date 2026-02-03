@@ -1,0 +1,62 @@
+import { Meta, Controls, Title, Primary, Canvas } from '@storybook/blocks';
+
+import * as SelectStories from './Select.stories';
+import ControlledModeCode from './Select.stories.controlledMode?raw';
+import MultipleSelectionCode from './Select.stories.multipleSelection?raw';
+
+<Meta of={SelectStories} />
+
+<Title />
+
+<Primary />
+
+Select element maintains the same behavior of the [standard select element](https://www.w3.org/TR/2011/WD-html5-author-20110809/the-select-element.html).
+The dropdown menu and the items are rendered like the Dropdown component.
+
+The component supports both **controlled** and **uncontrolled** modes, as well as **single** and **multiple** selection.
+
+<Controls />
+
+## Stories
+
+### With Default Selection
+
+A Select with a pre-selected value using the `defaultSelection` prop (uncontrolled mode).
+
+<Canvas of={SelectStories.WithDefaultSelection} />
+
+### Disabled
+
+A disabled Select that prevents user interaction.
+
+<Canvas of={SelectStories.Disabled} />
+
+### Hide Checkbox
+
+Hide the checkboxes in the dropdown items using `showCheckbox={false}`.
+
+<Canvas of={SelectStories.HideCheckbox} />
+
+### Controlled Mode
+
+In controlled mode, the selection is managed externally via the `selection` prop.
+
+<Canvas of={SelectStories.ControlledMode} source={{ code: ControlledModeCode }} />
+
+### Multiple Selection
+
+Enable multiple selection with the `multiple` prop. In this mode, users can select multiple items and the onChange callback receives an array of selected items.
+
+<Canvas of={SelectStories.MultipleSelection} source={{ code: MultipleSelectionCode }} />
+
+### Custom Trigger
+
+Customize the trigger appearance using the `LabelFactory` prop.
+
+<Canvas of={SelectStories.CustomTrigger} />
+
+### Dropdown Sizing
+
+Control the dropdown dimensions using `dropdownWidth`, `dropdownMaxWidth`, and `dropdownMaxHeight` props.
+
+<Canvas of={SelectStories.DropdownSizing} />

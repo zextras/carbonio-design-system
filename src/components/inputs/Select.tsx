@@ -360,7 +360,6 @@ const SelectComponent = React.forwardRef(function SelectFn<T = string>(
 const Select = SelectComponent as SelectType;
 
 export {
-	SelectComponent,
 	Select,
 	type SelectProps,
 	type SelectItem,

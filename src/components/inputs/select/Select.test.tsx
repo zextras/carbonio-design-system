@@ -8,10 +8,10 @@ import React from 'react';
 import { screen, within } from '@testing-library/react';
 import { forEach, map, reject, slice } from 'lodash';
 
-import type { SelectItem, SingleSelectionOnChange } from './Select';
-import { Select } from './Select';
-import { SELECTORS } from '../../tests/constants';
-import { setup } from '../../tests/utils';
+import { SELECTORS } from '../../../tests/constants';
+import { setup } from '../../../tests/utils';
+import type { SelectItem, SingleSelectionOnChange } from '../Select';
+import { Select } from '../Select';
 
 const items: SelectItem<`${number}`>[] = [
 	{
