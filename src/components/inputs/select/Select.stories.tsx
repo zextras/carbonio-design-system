@@ -16,7 +16,7 @@ import { Icon } from '../../basic/icon/Icon';
 import { Text } from '../../basic/text/Text';
 import { Container } from '../../layout/container/Container';
 import { Row } from '../../layout/Row';
-import { Select, type SelectItem, type SelectProps } from '../Select';
+import { Select, type SelectItem, type SelectProps } from './Select';
 
 const defaultItems: SelectItem[] = [
 	{ label: 'Hi', value: '1' },

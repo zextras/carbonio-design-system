@@ -14,8 +14,8 @@ import type { NonEmptyArray, SingleItemArray } from '../../types/utils';
 import { Icon } from '../basic/icon/Icon';
 import { Text } from '../basic/text/Text';
 import { Checkbox } from '../inputs/Checkbox';
-import type { MultipleSelectionOnChange, SelectProps } from '../inputs/Select';
-import { Select } from '../inputs/Select';
+import type { MultipleSelectionOnChange, SelectProps } from '../inputs/select/Select';
+import { Select } from '../inputs/select/Select';
 import { Container } from '../layout/container/Container';
 import { Row } from '../layout/Row';
 

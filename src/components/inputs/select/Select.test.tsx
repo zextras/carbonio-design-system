@@ -10,8 +10,8 @@ import { forEach, map, reject, slice } from 'lodash';
 
 import { SELECTORS } from '../../../tests/constants';
 import { setup } from '../../../tests/utils';
-import type { SelectItem, SingleSelectionOnChange } from '../Select';
-import { Select } from '../Select';
+import type { SelectItem, SingleSelectionOnChange } from './Select';
+import { Select } from './Select';
 
 const items: SelectItem<`${number}`>[] = [
 	{

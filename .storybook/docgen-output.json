@@ -10762,7 +10762,7 @@
       ]
     }
   ],
-  "src/components/inputs/Select.tsx": [
+  "src/components/inputs/select/Select.tsx": [
     {
       "description": "",
       "methods": [],
