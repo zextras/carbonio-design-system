@@ -9,6 +9,7 @@ import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
 
+import { Select, type SelectItem, type SelectProps } from './Select';
 import { SelectControlledMode } from './Select.stories.controlledMode';
 import { SelectMultipleSelection } from './Select.stories.multipleSelection';
 import { colorArgType } from '../../../docs/utils';
@@ -16,7 +17,6 @@ import { Icon } from '../../basic/icon/Icon';
 import { Text } from '../../basic/text/Text';
 import { Container } from '../../layout/container/Container';
 import { Row } from '../../layout/Row';
-import { Select, type SelectItem, type SelectProps } from './Select';
 
 const defaultItems: SelectItem[] = [
 	{ label: 'Hi', value: '1' },

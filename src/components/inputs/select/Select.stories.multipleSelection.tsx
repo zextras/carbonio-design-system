@@ -6,9 +6,9 @@
 
 import React, { useState, useCallback } from 'react';
 
+import { Select, type SelectItem } from './Select';
 import { Text } from '../../basic/text/Text';
 import { Container } from '../../layout/container/Container';
-import { Select, type SelectItem } from './Select';
 
 const items: SelectItem[] = [
 	{ label: 'Hi', value: '1' },
