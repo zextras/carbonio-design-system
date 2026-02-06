@@ -11,8 +11,8 @@ import { Radio } from './Radio';
 import { useTheme } from '../../../theme/theme-utils';
 import { Container } from '../../layout/container/Container';
 import { Row } from '../../layout/Row';
-import type { SelectItem } from '../Select';
-import { Select } from '../Select';
+import type { SelectItem } from '../select/Select';
+import { Select } from '../select/Select';
 
 export const RadioPropsCombinator = (): React.JSX.Element => {
 	const [valueSeleted, setValueSelected] = useState('value1');

@@ -47,7 +47,7 @@ export {
 	type MultipleSelectionOnChange,
 	type SelectItem,
 	type LabelFactoryProps
-} from './components/inputs/Select';
+} from './components/inputs/select/Select';
 export * from './components/inputs/Switch';
 export {
 	DateTimePicker,

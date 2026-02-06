@@ -16,37 +16,37 @@ import { useState, useMemo } from 'react';
 import { Input, Text, Container, Icon } from '@zextras/carbonio-design-system';
 import { find } from 'lodash';
 const items = [
-	{
-		label: 'hi',
-		value: '1'
-	},
-	{
-		label: 'hello',
-		value: '2'
-	},
-	{
-		label: 'good day',
-		value: '3'
-	},
-	{
-		label: 'goodnight',
-		value: '4'
-	},
-	{
-		label: 'nothing',
-		value: '5',
-		disabled: true
-	},
-	{
-		label: 'custom',
-		value: '6',
-		customComponent: (
-			<Container width="fit" mainAlignment="flex-start" orientation="horizontal">
-				<Icon icon="People" color="primary" />
-				<Text weight="bold">Special Greeting</Text>
-			</Container>
-		)
-	}
+ {
+  label: 'hi',
+  value: '1'
+ },
+ {
+  label: 'hello',
+  value: '2'
+ },
+ {
+  label: 'good day',
+  value: '3'
+ },
+ {
+  label: 'goodnight',
+  value: '4'
+ },
+ {
+  label: 'nothing',
+  value: '5',
+  disabled: true
+ },
+ {
+  label: 'custom',
+  value: '6',
+  customComponent: (
+   <Container width="fit" mainAlignment="flex-start" orientation="horizontal">
+    <Icon icon="People" color="primary" />
+    <Text weight="bold">Special Greeting</Text>
+   </Container>
+  )
+ }
 ];
 const [selected, setSelected] = useState();
 const onChange = (newValue) => {
@@ -58,11 +58,11 @@ const selectedLabel = useMemo(() => {
     return item ? item.label : 'no selection';
 }, [selected]);
 <>
-	<Select
-		items={items}
-		label="Select an item"
-		onChange={onChange}
-	/>
+<Select
+    items={items}
+    label="Select an item"
+    onChange={onChange}
+/>
     <Text>Currently selected: {selectedLabel}</Text>
 </>;
 ```
@@ -75,37 +75,37 @@ import { Input, Text, Container, Icon } from '@zextras/carbonio-design-system';
 import { find } from 'lodash';
 
 const items = [
-	{
-		label: 'hi',
-		value: '1'
-	},
-	{
-		label: 'hello',
-		value: '2'
-	},
-	{
-		label: 'good day',
-		value: '3'
-	},
-	{
-		label: 'goodnight',
-		value: '4'
-	},
-	{
-		label: 'nothing',
-		value: '5',
-		disabled: true
-	},
-	{
-		label: 'custom',
-		value: '6',
-		customComponent: (
-			<Container width="fit" mainAlignment="flex-start" orientation="horizontal">
-				<Icon icon="People" color="primary" />
-				<Text weight="bold">Special Greeting</Text>
-			</Container>
-		)
-	}
+ {
+  label: 'hi',
+  value: '1'
+ },
+ {
+  label: 'hello',
+  value: '2'
+ },
+ {
+  label: 'good day',
+  value: '3'
+ },
+ {
+  label: 'goodnight',
+  value: '4'
+ },
+ {
+  label: 'nothing',
+  value: '5',
+  disabled: true
+ },
+ {
+  label: 'custom',
+  value: '6',
+  customComponent: (
+   <Container width="fit" mainAlignment="flex-start" orientation="horizontal">
+    <Icon icon="People" color="primary" />
+    <Text weight="bold">Special Greeting</Text>
+   </Container>
+  )
+ }
 ];
 const [selected, setSelected] = useState('4');
 const onChange = (newValue) => {
@@ -117,12 +117,12 @@ const selection = useMemo(() => {
 }, [selected, items]);
 const selectedLabel = useMemo(() => selection ? selection.label : 'no selection', [selection]);
 <>
-	<Select
-		items={items}
-		label="Select an item"
-		onChange={onChange}
+ <Select
+  items={items}
+  label="Select an item"
+  onChange={onChange}
         defaultSelection={selection}
-	/>
+ />
     <Text>Currently selected: {selectedLabel}</Text>
 </>;
 ```
@@ -135,37 +135,37 @@ import { Input, Text, Container, Icon } from '@zextras/carbonio-design-system';
 import { find } from 'lodash';
 
 const items = [
-	{
-		label: 'hi',
-		value: '1'
-	},
-	{
-		label: 'hello',
-		value: '2'
-	},
-	{
-		label: 'good day',
-		value: '3'
-	},
-	{
-		label: 'goodnight',
-		value: '4'
-	},
-	{
-		label: 'nothing',
-		value: '5',
-		disabled: true
-	},
-	{
-		label: 'custom',
-		value: '6',
-		customComponent: (
-			<Container width="fit" mainAlignment="flex-start" orientation="horizontal">
-				<Icon icon="People" color="primary" />
-				<Text weight="bold">Special Greeting</Text>
-			</Container>
-		)
-	}
+ {
+  label: 'hi',
+  value: '1'
+ },
+ {
+  label: 'hello',
+  value: '2'
+ },
+ {
+  label: 'good day',
+  value: '3'
+ },
+ {
+  label: 'goodnight',
+  value: '4'
+ },
+ {
+  label: 'nothing',
+  value: '5',
+  disabled: true
+ },
+ {
+  label: 'custom',
+  value: '6',
+  customComponent: (
+   <Container width="fit" mainAlignment="flex-start" orientation="horizontal">
+    <Icon icon="People" color="primary" />
+    <Text weight="bold">Special Greeting</Text>
+   </Container>
+  )
+ }
 ];
 const [selected, setSelected] = useState('4');
 const onChange = (newValue) => {
@@ -177,12 +177,12 @@ const selection = useMemo(() => {
 }, [selected]);
 const selectedLabel = useMemo(() => selection ? selection.label : 'no selection', [selection]);
 <>
-	<Select
-		items={items}
-		label="Select an item"
-		onChange={onChange}
+ <Select
+  items={items}
+  label="Select an item"
+  onChange={onChange}
         selection={selection}
-	/>
+ />
     <Text>Currently selected: {selectedLabel}</Text>
 </>;
 ```
@@ -390,58 +390,58 @@ const onC = (v) => {
 ```jsx
 import { Container, Text, Row, Icon } from '@zextras/carbonio-design-system';
 const LabelFactory = ({ selected, label, open, focus }) => {
-	return (
-		<Container
-			orientation="horizontal"
-			width="fill"
-			crossAlignment="center"
-			mainAlignment="space-between"
-			borderRadius="half"
-			padding={{
-				vertical: 'small'
-			}}
-		>
-			<Row takeAvailableSpace={true} mainAlignment="unset">
-				<Text size="medium" color={open || focus ? 'primary' : 'secondary'}>
-					{label}
-				</Text>
-			</Row>
-			<Icon
-				size="large"
-				icon={open ? 'ChevronUpOutline' : 'ChevronDownOutline'}
-				color={open || focus ? 'primary' : 'secondary'}
-				style={{ alignSelf: 'center' }}
-			/>
-		</Container>
-	);
+ return (
+  <Container
+   orientation="horizontal"
+   width="fill"
+   crossAlignment="center"
+   mainAlignment="space-between"
+   borderRadius="half"
+   padding={{
+    vertical: 'small'
+   }}
+  >
+   <Row takeAvailableSpace={true} mainAlignment="unset">
+    <Text size="medium" color={open || focus ? 'primary' : 'secondary'}>
+     {label}
+    </Text>
+   </Row>
+   <Icon
+    size="large"
+    icon={open ? 'ChevronUpOutline' : 'ChevronDownOutline'}
+    color={open || focus ? 'primary' : 'secondary'}
+    style={{ alignSelf: 'center' }}
+   />
+  </Container>
+ );
 };
 
 const items = [
-	{
-		label: 'hi',
-		value: '1'
-	},
-	{
-		label: 'hello',
-		value: '2'
-	},
-	{
-		label: 'good day',
-		value: '3'
-	},
-	{
-		label: 'goodnight',
-		value: '4'
-	}
+ {
+  label: 'hi',
+  value: '1'
+ },
+ {
+  label: 'hello',
+  value: '2'
+ },
+ {
+  label: 'good day',
+  value: '3'
+ },
+ {
+  label: 'goodnight',
+  value: '4'
+ }
 ];
 <>
-	<Select
-		items={items}
-		multiple={true}
-		label="Type"
-		onChange={console.log}
-		LabelFactory={LabelFactory}
-	/>
+ <Select
+  items={items}
+  multiple={true}
+  label="Type"
+  onChange={console.log}
+  LabelFactory={LabelFactory}
+ />
 </>;
 ```
 
@@ -451,36 +451,36 @@ const items = [
 import { useState } from 'react';
 import { Input, Text, Container, Icon } from '@zextras/carbonio-design-system';
 const items = [
-	{
-		label: 'hi',
-		value: '1'
-	},
-	{
-		label: 'hello',
-		value: '2'
-	},
-	{
-		label: 'good day',
-		value: '3'
-	},
-	{
-		label: 'goodnight',
-		value: '4'
-	},
-	{
-		label: 'nothing',
-		value: '5'
-	}
+ {
+  label: 'hi',
+  value: '1'
+ },
+ {
+  label: 'hello',
+  value: '2'
+ },
+ {
+  label: 'good day',
+  value: '3'
+ },
+ {
+  label: 'goodnight',
+  value: '4'
+ },
+ {
+  label: 'nothing',
+  value: '5'
+ }
 ];
 const [selected, setSelected] = useState(4);
 <>
-	<Select
-		items={items}
-		label="Select an item"
-		onChange={setSelected}
-		defaultSelection={{ value: '4', label: 'goodnight' }}
-		showCheckbox={false}
-	/>
+ <Select
+  items={items}
+  label="Select an item"
+  onChange={setSelected}
+  defaultSelection={{ value: '4', label: 'goodnight' }}
+  showCheckbox={false}
+ />
 </>;
 ```
 
@@ -494,91 +494,91 @@ import { type SingleSelectionOnChange } from './Select';
 type ValueType = Record<`key${number}`, string>;
 
 const onChangeFn = useCallback<SingleSelectionOnChange<ValueType>>((value) => {
-	console.log("value is the object (or null), and it's fully typed!");
+ console.log("value is the object (or null), and it's fully typed!");
 }, []);
 
 const itemsForSelect: SelectItem<ValueType>[] = [
-	{
-		label: 'item1',
-		value: {
-			key1: 'item1-value1',
-			key2: 'item1-value2'
-		}
-	},
-	{
-		label: 'item2',
-		value: {
-			key1: 'item1-value1',
-			key2: 'item1-value2'
-		}
-	}
+ {
+  label: 'item1',
+  value: {
+   key1: 'item1-value1',
+   key2: 'item1-value2'
+  }
+ },
+ {
+  label: 'item2',
+  value: {
+   key1: 'item1-value1',
+   key2: 'item1-value2'
+  }
+ }
 ];
 
 
 <Select
-	label={'Label'}
-	onChange={onChangeFn}
-	items={itemsForSelect}
-	defaultSelection={itemsForSelect[0]}
+ label={'Label'}
+ onChange={onChangeFn}
+ items={itemsForSelect}
+ defaultSelection={itemsForSelect[0]}
 />;
 ```
 
-### Development status:
+### Development status
 
 ```jsx noEditor
 import { Container, Icon } from '@zextras/carbonio-design-system';
 import StatusTable from 'status-table';
 const items = [
-	{
-		feature: 'Graphics',
-		status: 1,
-		notes: ''
-	},
-	{
-		feature: 'Documentation',
-		status: 1,
-		notes: ''
-	},
-	{
-		feature: 'Examples',
-		status: 1,
-		notes: ''
-	},
-	{
-		feature: 'Controlled/Uncontrolled mode',
-		status: 1,
-		notes: ''
-	},
-	{
-		feature: 'I18n Compatibility',
-		status: 1,
-		notes: ''
-	},
-	{
-		feature: 'Theme Compatibility',
-		status: 1,
-		notes: ''
-	},
-	{
-		feature: 'Dark Mode',
-		status: 1,
-		notes: ''
-	},
-	{
-		feature: 'Prop Types',
-		status: 1,
-		notes: ''
-	},
-	{
-		feature: 'Index Export',
-		status: 1,
-		notes: ''
-	},
-	{
-		feature: 'Customizability',
-		status: 1,
-		notes: ''
-	}
+ {
+  feature: 'Graphics',
+  status: 1,
+  notes: ''
+ },
+ {
+  feature: 'Documentation',
+  status: 1,
+  notes: ''
+ },
+ {
+  feature: 'Examples',
+  status: 1,
+  notes: ''
+ },
+ {
+  feature: 'Controlled/Uncontrolled mode',
+  status: 1,
+  notes: ''
+ },
+ {
+  feature: 'I18n Compatibility',
+  status: 1,
+  notes: ''
+ },
+ {
+  feature: 'Theme Compatibility',
+  status: 1,
+  notes: ''
+ },
+ {
+  feature: 'Dark Mode',
+  status: 1,
+  notes: ''
+ },
+ {
+  feature: 'Prop Types',
+  status: 1,
+  notes: ''
+ },
+ {
+  feature: 'Index Export',
+  status: 1,
+  notes: ''
+ },
+ {
+  feature: 'Customizability',
+  status: 1,
+  notes: ''
+ }
 ];
 
 <StatusTable items={items} />;

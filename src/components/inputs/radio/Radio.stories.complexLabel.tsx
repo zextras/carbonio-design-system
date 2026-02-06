@@ -9,7 +9,7 @@ import { Radio } from './Radio';
 import { Text } from '../../basic/text/Text';
 import { Row } from '../../layout/Row';
 import { Input } from '../input/Input';
-import { Select } from '../Select';
+import { Select } from '../select/Select';
 
 export const RadioComplexLabel = (): React.JSX.Element => {
 	const [activeValue, setActiveValue] = useState('salad');

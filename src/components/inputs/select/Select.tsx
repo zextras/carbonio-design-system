@@ -9,16 +9,16 @@ import React, { useState, useMemo, useCallback, useEffect } from 'react';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { getColor } from '../../theme/theme-utils';
-import { Icon } from '../basic/icon/Icon';
-import { Text } from '../basic/text/Text';
-import { INPUT_BACKGROUND_COLOR, INPUT_DIVIDER_COLOR } from '../constants';
-import type { DropdownItem, DropdownProps } from '../display/dropdown/Dropdown';
-import { Dropdown } from '../display/dropdown/Dropdown';
-import { Container } from '../layout/container/Container';
-import { Divider } from '../layout/divider/Divider';
-import { Padding } from '../layout/Padding';
-import { Row } from '../layout/Row';
+import { getColor } from '../../../theme/theme-utils';
+import { Icon } from '../../basic/icon/Icon';
+import { Text } from '../../basic/text/Text';
+import { INPUT_BACKGROUND_COLOR, INPUT_DIVIDER_COLOR } from '../../constants';
+import type { DropdownItem, DropdownProps } from '../../display/dropdown/Dropdown';
+import { Dropdown } from '../../display/dropdown/Dropdown';
+import { Container } from '../../layout/container/Container';
+import { Divider } from '../../layout/divider/Divider';
+import { Padding } from '../../layout/Padding';
+import { Row } from '../../layout/Row';
 
 const Label = styled(Text)<{ $selected: boolean }>`
 	position: absolute;
@@ -29,13 +29,15 @@ const Label = styled(Text)<{ $selected: boolean }>`
 	transition: 150ms ease-out;
 `;
 
-const ContainerEl = styled(Container)<{ $focus: boolean }>`
+const ContainerEl = styled(Container)<{ $focus: boolean; $disabled: boolean }>`
 	transition: background 0.2s ease-out;
 	&:hover {
-		background: ${({ theme, background }): string => getColor(`${background}.hover`, theme)};
+		background: ${({ theme, background = '', $disabled }): string =>
+			$disabled ? getColor(background, theme) : getColor(`${background}.hover`, theme)};
 	}
-	${({ $focus, theme, background }): ReturnType<typeof css> | false =>
+	${({ $focus, $disabled, theme, background }): ReturnType<typeof css> | false =>
 		$focus &&
+		!$disabled &&
 		css`
 			background: ${getColor(`${background}.focus`, theme)};
 		`};
@@ -87,6 +89,7 @@ const DefaultLabelFactory = <T,>({
 				}}
 				background={background}
 				$focus={focus}
+				$disabled={disabled}
 			>
 				<Row takeAvailableSpace mainAlignment="unset">
 					<Padding top="medium" width="100%">
@@ -108,14 +111,14 @@ const DefaultLabelFactory = <T,>({
 					color={(disabled && 'gray2') || ((open || focus) && 'primary') || 'secondary'}
 				/>
 			</ContainerEl>
-			<Divider color={open || focus ? 'primary' : INPUT_DIVIDER_COLOR} />
+			<Divider color={!disabled && (open || focus) ? 'primary' : INPUT_DIVIDER_COLOR} />
 		</>
 	);
 };
 
-const TabContainer = styled(Container)`
+const TabContainer = styled(Container)<{ $disabled: boolean }>`
 	position: relative;
-	cursor: pointer;
+	cursor: ${({ $disabled }): string => ($disabled ? 'default' : 'pointer')};
 
 	&:focus {
 		outline: none;
@@ -342,7 +345,7 @@ const SelectComponent = React.forwardRef(function SelectFn<T = string>(
 			disablePortal={disablePortal}
 			{...rest}
 		>
-			<TabContainer ref={ref} onFocus={onFocus} onBlur={onBlur} tabIndex={0}>
+			<TabContainer ref={ref} onFocus={onFocus} onBlur={onBlur} tabIndex={0} $disabled={disabled}>
 				<LabelFactory
 					label={label}
 					open={open}
@@ -360,7 +363,6 @@ const SelectComponent = React.forwardRef(function SelectFn<T = string>(
 const Select = SelectComponent as SelectType;
 
 export {
-	SelectComponent,
 	Select,
 	type SelectProps,
 	type SelectItem,
