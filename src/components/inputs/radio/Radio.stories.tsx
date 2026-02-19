@@ -21,7 +21,47 @@ const meta = {
 	component: Radio,
 	args: {
 		onChange: fn(),
-		onClick: fn()
+		value: 'value'
+	},
+	argTypes: {
+		label: {
+			control: 'text',
+			description: 'Radio text'
+		},
+		value: {
+			control: 'text',
+			description: 'Value of the radio input'
+		},
+		checked: {
+			control: 'boolean',
+			description: 'Radio checked'
+		},
+		defaultChecked: {
+			control: 'boolean',
+			description: 'Status of the Radio'
+		},
+		disabled: {
+			control: 'boolean',
+			description: 'Whether to disable the radio or not'
+		},
+		onChange: {
+			description: 'Change callback'
+		},
+		size: {
+			control: 'select',
+			options: ['small', 'medium'],
+			description: 'Available sizes'
+		},
+		iconColor: {
+			control: 'text',
+			description: 'Icon color'
+		},
+		padding: {
+			description: 'Radio padding'
+		},
+		inputRef: {
+			description: 'Ref for the input element'
+		}
 	},
 	parameters: {
 		docs: {
@@ -74,16 +114,10 @@ export const DisabledChecked = {
 export const Sizes = {
 	render: (): React.JSX.Element => (
 		<div>
-			<Radio label="Small Radio" size="small" />
-			<Radio label="Medium Radio" size="medium" />
+			<Radio label="Small Radio" size="small" value={'small'} />
+			<Radio label="Medium Radio" size="medium" value={'medium'} />
 		</div>
 	)
-} satisfies Story;
-
-export const WithoutLabel = {
-	args: {
-		checked: true
-	}
 } satisfies Story;
 
 export const WithCustomColor = {
@@ -91,13 +125,6 @@ export const WithCustomColor = {
 		label: 'Custom Color Radio',
 		checked: true,
 		iconColor: 'primary'
-	}
-} satisfies Story;
-
-export const WithValue = {
-	args: {
-		label: 'Radio with value',
-		value: 'option1'
 	}
 } satisfies Story;
 

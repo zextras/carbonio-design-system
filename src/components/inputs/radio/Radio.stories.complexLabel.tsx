@@ -9,7 +9,7 @@ import { Radio } from './Radio';
 import { Text } from '../../basic/text/Text';
 import { Row } from '../../layout/Row';
 import { Input } from '../input/Input';
-import { Select } from '../Select';
+import { Select } from '../select/Select';
 
 export const RadioComplexLabel = (): React.JSX.Element => {
 	const [activeValue, setActiveValue] = useState('salad');
@@ -26,19 +26,19 @@ export const RadioComplexLabel = (): React.JSX.Element => {
 			<Radio
 				label="Chicken"
 				value="chicken"
-				onClick={updateActiveValue('chicken')}
+				onChange={updateActiveValue('chicken')}
 				checked={activeValue === 'chicken'}
 			/>
 			<Radio
 				label="Salad"
 				value="salad"
-				onClick={updateActiveValue('salad')}
+				onChange={updateActiveValue('salad')}
 				checked={activeValue === 'salad'}
 			/>
 			<Radio
 				label="Tomato"
 				value="tomato"
-				onClick={updateActiveValue('tomato')}
+				onChange={updateActiveValue('tomato')}
 				checked={activeValue === 'tomato'}
 			/>
 			<Radio
@@ -51,7 +51,7 @@ export const RadioComplexLabel = (): React.JSX.Element => {
 					</Row>
 				}
 				value="complex-1"
-				onClick={updateActiveValue('complex-1')}
+				onChange={updateActiveValue('complex-1')}
 				checked={activeValue === 'complex-1'}
 			/>
 			<Radio
@@ -92,14 +92,14 @@ export const RadioComplexLabel = (): React.JSX.Element => {
 					</Row>
 				}
 				value="complex-2"
-				onClick={updateActiveValue('complex-2')}
+				onChange={updateActiveValue('complex-2')}
 				checked={activeValue === 'complex-2'}
 			/>
 			<Radio
 				label="Mayo"
 				value="mayo"
 				disabled
-				onClick={updateActiveValue('mayo')}
+				onChange={updateActiveValue('mayo')}
 				checked={activeValue === 'mayo'}
 			/>
 		</div>

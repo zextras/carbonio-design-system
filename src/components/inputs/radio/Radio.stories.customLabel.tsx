@@ -9,10 +9,11 @@ import { Radio } from './Radio';
 import { Text } from '../../basic/text/Text';
 import { Padding } from '../../layout/Padding';
 import { Row } from '../../layout/Row';
-import { Select } from '../Select';
+import { Select } from '../select/Select';
 
 export const RadioCustomLabel = (): React.JSX.Element => (
 	<Radio
+		value={'value1'}
 		label={
 			<Row
 				onClick={(ev) => {

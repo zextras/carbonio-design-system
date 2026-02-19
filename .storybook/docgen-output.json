@@ -10265,7 +10265,7 @@
           "description": "Radio checked"
         },
         "label": {
-          "required": false,
+          "required": true,
           "tsType": {
             "name": "union",
             "raw": "string | React.ReactElement",
@@ -10292,56 +10292,19 @@
             "computed": false
           }
         },
-        "onClick": {
-          "required": false,
-          "tsType": {
-            "name": "signature",
-            "type": "function",
-            "raw": "(e: React.MouseEvent<HTMLInputElement> | KeyboardEvent) => void",
-            "signature": {
-              "arguments": [
-                {
-                  "type": {
-                    "name": "union",
-                    "raw": "React.MouseEvent<HTMLInputElement> | KeyboardEvent",
-                    "elements": [
-                      {
-                        "name": "ReactMouseEvent",
-                        "raw": "React.MouseEvent<HTMLInputElement>",
-                        "elements": [
-                          {
-                            "name": "HTMLInputElement"
-                          }
-                        ]
-                      },
-                      {
-                        "name": "KeyboardEvent"
-                      }
-                    ]
-                  },
-                  "name": "e"
-                }
-              ],
-              "return": {
-                "name": "void"
-              }
-            }
-          },
-          "description": "click callback"
-        },
         "onChange": {
           "required": false,
           "tsType": {
             "name": "signature",
             "type": "function",
-            "raw": "(checked: boolean) => void",
+            "raw": "(value: T) => void",
             "signature": {
               "arguments": [
                 {
                   "type": {
-                    "name": "boolean"
+                    "name": "T"
                   },
-                  "name": "checked"
+                  "name": "value"
                 }
               ],
               "return": {
@@ -10424,7 +10387,7 @@
           }
         },
         "value": {
-          "required": false,
+          "required": true,
           "tsType": {
             "name": "T"
           },
@@ -10799,7 +10762,7 @@
       ]
     }
   ],
-  "src/components/inputs/Select.tsx": [
+  "src/components/inputs/select/Select.tsx": [
     {
       "description": "",
       "methods": [],
@@ -10948,7 +10911,7 @@
           },
           "description": "",
           "defaultValue": {
-            "value": "<T,>({\n\tselected,\n\tlabel,\n\topen,\n\tfocus,\n\tbackground,\n\tdisabled\n}: LabelFactoryProps<T>): React.JSX.Element => {\n\tconst selectedLabels = useMemo(\n\t\t() => selected.reduce<string[]>((arr, obj) => [...arr, obj.label], []).join(', '),\n\t\t[selected]\n\t);\n\n\treturn (\n\t\t<>\n\t\t\t<ContainerEl\n\t\t\t\torientation=\"horizontal\"\n\t\t\t\twidth=\"fill\"\n\t\t\t\tcrossAlignment=\"flex-end\"\n\t\t\t\tmainAlignment=\"space-between\"\n\t\t\t\tborderRadius=\"half\"\n\t\t\t\tpadding={{\n\t\t\t\t\thorizontal: 'large',\n\t\t\t\t\tvertical: 'small'\n\t\t\t\t}}\n\t\t\t\tbackground={background}\n\t\t\t\t$focus={focus}\n\t\t\t>\n\t\t\t\t<Row takeAvailableSpace mainAlignment=\"unset\">\n\t\t\t\t\t<Padding top=\"medium\" width=\"100%\">\n\t\t\t\t\t\t<CustomText size=\"medium\" color={disabled ? 'secondary' : 'text'}>\n\t\t\t\t\t\t\t{selectedLabels}\n\t\t\t\t\t\t</CustomText>\n\t\t\t\t\t</Padding>\n\t\t\t\t\t<Label\n\t\t\t\t\t\t$selected={selected.length > 0}\n\t\t\t\t\t\tsize={selected.length > 0 ? 'small' : 'medium'}\n\t\t\t\t\t\tcolor={(disabled && 'gray2') || ((open || focus) && 'primary') || 'secondary'}\n\t\t\t\t\t>\n\t\t\t\t\t\t{label}\n\t\t\t\t\t</Label>\n\t\t\t\t</Row>\n\t\t\t\t<CustomIcon\n\t\t\t\t\tsize=\"medium\"\n\t\t\t\t\ticon={open ? 'ArrowUp' : 'ArrowDown'}\n\t\t\t\t\tcolor={(disabled && 'gray2') || ((open || focus) && 'primary') || 'secondary'}\n\t\t\t\t/>\n\t\t\t</ContainerEl>\n\t\t\t<Divider color={open || focus ? 'primary' : INPUT_DIVIDER_COLOR} />\n\t\t</>\n\t);\n}",
+            "value": "<T,>({\n\tselected,\n\tlabel,\n\topen,\n\tfocus,\n\tbackground,\n\tdisabled\n}: LabelFactoryProps<T>): React.JSX.Element => {\n\tconst selectedLabels = useMemo(\n\t\t() => selected.reduce<string[]>((arr, obj) => [...arr, obj.label], []).join(', '),\n\t\t[selected]\n\t);\n\n\treturn (\n\t\t<>\n\t\t\t<ContainerEl\n\t\t\t\torientation=\"horizontal\"\n\t\t\t\twidth=\"fill\"\n\t\t\t\tcrossAlignment=\"flex-end\"\n\t\t\t\tmainAlignment=\"space-between\"\n\t\t\t\tborderRadius=\"half\"\n\t\t\t\tpadding={{\n\t\t\t\t\thorizontal: 'large',\n\t\t\t\t\tvertical: 'small'\n\t\t\t\t}}\n\t\t\t\tbackground={background}\n\t\t\t\t$focus={focus}\n\t\t\t\t$disabled={disabled}\n\t\t\t>\n\t\t\t\t<Row takeAvailableSpace mainAlignment=\"unset\">\n\t\t\t\t\t<Padding top=\"medium\" width=\"100%\">\n\t\t\t\t\t\t<CustomText size=\"medium\" color={disabled ? 'secondary' : 'text'}>\n\t\t\t\t\t\t\t{selectedLabels}\n\t\t\t\t\t\t</CustomText>\n\t\t\t\t\t</Padding>\n\t\t\t\t\t<Label\n\t\t\t\t\t\t$selected={selected.length > 0}\n\t\t\t\t\t\tsize={selected.length > 0 ? 'small' : 'medium'}\n\t\t\t\t\t\tcolor={(disabled && 'gray2') || ((open || focus) && 'primary') || 'secondary'}\n\t\t\t\t\t>\n\t\t\t\t\t\t{label}\n\t\t\t\t\t</Label>\n\t\t\t\t</Row>\n\t\t\t\t<CustomIcon\n\t\t\t\t\tsize=\"medium\"\n\t\t\t\t\ticon={open ? 'ArrowUp' : 'ArrowDown'}\n\t\t\t\t\tcolor={(disabled && 'gray2') || ((open || focus) && 'primary') || 'secondary'}\n\t\t\t\t/>\n\t\t\t</ContainerEl>\n\t\t\t<Divider color={!disabled && (open || focus) ? 'primary' : INPUT_DIVIDER_COLOR} />\n\t\t</>\n\t);\n}",
             "computed": false
           }
         },

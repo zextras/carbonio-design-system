@@ -13,7 +13,7 @@ import { Padding } from '../../layout/Padding';
 import { Row } from '../../layout/Row';
 import { Input } from '../input/Input';
 import { Radio } from '../radio/Radio';
-import { Select } from '../Select';
+import { Select } from '../select/Select';
 
 export const ControlledRadioGroup = (): React.JSX.Element => {
 	const [activeValue, setActiveValue] = useState<string | undefined>('salad');
