@@ -9,7 +9,7 @@ import { faker } from '@faker-js/faker';
 import { screen } from '@testing-library/react';
 
 import { Avatar } from './Avatar';
-import { setup } from '../../tests/utils';
+import { setup } from '../../../tests/utils';
 
 describe('Avatar', () => {
 	test('Render an avatar with first name and last name', () => {
