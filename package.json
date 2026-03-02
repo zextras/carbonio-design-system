@@ -111,7 +111,7 @@
 		"rollup": "^4.52.4",
 		"rollup-plugin-postcss": "^4.0.2",
 		"semantic-release": "^24.2.9",
-		"storybook": "8.6.12",
+		"storybook": "8.6.15",
 		"storybook-addon-playground": "^1.9.2",
 		"ts-node": "^10 >=10.9.2",
 		"typescript": "~5.8.3"
