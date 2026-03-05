@@ -3435,7 +3435,7 @@
       }
     }
   ],
-  "src/components/inputs/Checkbox.tsx": [
+  "src/components/inputs/checkbox/Checkbox.tsx": [
     {
       "description": "",
       "methods": [],
@@ -3583,6 +3583,27 @@
       "composes": [
         "Omit"
       ]
+    }
+  ],
+  "src/components/inputs/checkbox/Checkbox.controlled.tsx": [
+    {
+      "description": "",
+      "methods": [],
+      "displayName": "CheckboxControlled"
+    }
+  ],
+  "src/components/inputs/checkbox/Checkbox.propsCombinator.tsx": [
+    {
+      "description": "",
+      "methods": [],
+      "displayName": "CheckboxPropsCombinator"
+    }
+  ],
+  "src/components/inputs/checkbox/Checkbox.uncontrolled.tsx": [
+    {
+      "description": "",
+      "methods": [],
+      "displayName": "CheckboxUncontrolled"
     }
   ],
   "src/components/display/Chip.tsx": [

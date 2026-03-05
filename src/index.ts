@@ -25,7 +25,7 @@ export * from './components/layout/Paragraph';
 export * from './components/layout/Row';
 
 /** Inputs components */
-export * from './components/inputs/Checkbox';
+export * from './components/inputs/checkbox/Checkbox';
 export {
 	ChipInput,
 	type ChipInputType,

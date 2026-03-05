@@ -9,16 +9,16 @@ import React, { useMemo, useRef } from 'react';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { useCheckbox } from '../../hooks/useCheckbox';
-import { useCombinedRefs } from '../../hooks/useCombinedRefs';
-import type { Theme } from '../../theme/theme';
-import { getColor } from '../../theme/theme-utils';
-import type { AnyColor } from '../../types/utils';
-import { Icon } from '../basic/icon/Icon';
-import { Text } from '../basic/text/Text';
-import type { ContainerProps } from '../layout/container/Container';
-import { Container } from '../layout/container/Container';
-import { Padding } from '../layout/Padding';
+import { useCheckbox } from '../../../hooks/useCheckbox';
+import { useCombinedRefs } from '../../../hooks/useCombinedRefs';
+import type { Theme } from '../../../theme/theme';
+import { getColor } from '../../../theme/theme-utils';
+import type { AnyColor } from '../../../types/utils';
+import { Icon } from '../../basic/icon/Icon';
+import { Text } from '../../basic/text/Text';
+import type { ContainerProps } from '../../layout/container/Container';
+import { Container } from '../../layout/container/Container';
+import { Padding } from '../../layout/Padding';
 
 type CheckboxSize = 'medium' | 'small';
 

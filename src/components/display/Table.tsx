@@ -13,7 +13,7 @@ import styled from '@emotion/styled';
 import type { NonEmptyArray, SingleItemArray } from '../../types/utils';
 import { Icon } from '../basic/icon/Icon';
 import { Text } from '../basic/text/Text';
-import { Checkbox } from '../inputs/Checkbox';
+import { Checkbox } from '../inputs/checkbox/Checkbox';
 import type { MultipleSelectionOnChange, SelectProps } from '../inputs/select/Select';
 import { Select } from '../inputs/select/Select';
 import { Container } from '../layout/container/Container';
