@@ -8,12 +8,12 @@ import React from 'react';
 
 import styled from '@emotion/styled';
 
-import { Icon } from './icon/Icon';
-import type { TextProps } from './text/Text';
-import { Text } from './text/Text';
-import type { ContainerProps } from '../layout/container/Container';
-import { Container } from '../layout/container/Container';
-import { Padding } from '../layout/Padding';
+import { Container } from '../../layout/container/Container';
+import type { ContainerProps } from '../../layout/container/Container';
+import { Padding } from '../../layout/Padding';
+import { Icon } from '../icon/Icon';
+import type { TextProps } from '../text/Text';
+import { Text } from '../text/Text';
 
 const CustomText = styled(Text)`
 	user-select: none;

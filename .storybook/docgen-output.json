@@ -8509,7 +8509,7 @@
       }
     }
   ],
-  "src/components/basic/LoadMore.tsx": [
+  "src/components/basic/loadMore/LoadMore.tsx": [
     {
       "description": "",
       "methods": [],

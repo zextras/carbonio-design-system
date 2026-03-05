@@ -13,7 +13,7 @@ export * from './components/basic/badge/Badge';
 export * from './components/basic/button/Button';
 export { Icon, type IconProps } from './components/basic/icon/Icon';
 export * from './components/basic/link/Link';
-export * from './components/basic/LoadMore';
+export * from './components/basic/loadMore/LoadMore';
 export * from './components/basic/formSection/FormSection';
 export * from './components/basic/text/Text';
 export * from './components/basic/spinner/Spinner';
