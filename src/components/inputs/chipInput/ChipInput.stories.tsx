@@ -5,9 +5,9 @@
  */
 import React, { useCallback, useRef, useState } from 'react';
 
-import type { Meta, StoryObj } from '@storybook/react';
-import { fn } from '@storybook/test';
+import type { Meta, StoryObj } from '@storybook/react-webpack5';
 import { times } from 'lodash';
+import { fn } from 'storybook/test';
 
 import type { ChipItem } from './ChipInput';
 import { ChipInput, DefaultOnAdd } from './ChipInput';

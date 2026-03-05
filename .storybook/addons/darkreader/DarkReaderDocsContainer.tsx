@@ -5,9 +5,9 @@
  */
 import React, { useEffect } from 'react';
 
-import { DocsContainer } from '@storybook/blocks';
-import type { Globals } from '@storybook/csf';
+import { DocsContainer } from '@storybook/addon-docs/blocks';
 import { disable, enable } from 'darkreader';
+import type { Globals } from 'storybook/internal/csf';
 
 export const DarkReaderDocsContainer = ({
 	children,
