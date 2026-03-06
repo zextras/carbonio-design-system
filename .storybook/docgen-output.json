@@ -3606,7 +3606,7 @@
       "displayName": "CheckboxUncontrolled"
     }
   ],
-  "src/components/display/Chip.tsx": [
+  "src/components/display/chip/Chip.tsx": [
     {
       "description": "",
       "methods": [],

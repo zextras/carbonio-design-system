@@ -9,19 +9,19 @@ import React, { useCallback, useMemo, useRef } from 'react';
 import { css, useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { Tooltip } from './tooltip/Tooltip';
-import { useCombinedRefs } from '../../hooks/useCombinedRefs';
-import type { Theme } from '../../theme/theme';
-import { pseudoClasses } from '../../theme/theme-utils';
-import type { AvatarPropTypes } from '../basic/Avatar';
-import { Avatar } from '../basic/Avatar';
-import type { ButtonProps } from '../basic/button/Button';
-import { Button } from '../basic/button/Button';
-import { Icon } from '../basic/icon/Icon';
-import { Text } from '../basic/text/Text';
-import { Container } from '../layout/container/Container';
-import type { RowProps } from '../layout/Row';
-import { Row } from '../layout/Row';
+import { useCombinedRefs } from '../../../hooks/useCombinedRefs';
+import type { Theme } from '../../../theme/theme';
+import { pseudoClasses } from '../../../theme/theme-utils';
+import type { AvatarPropTypes } from '../../basic/Avatar';
+import { Avatar } from '../../basic/Avatar';
+import type { ButtonProps } from '../../basic/button/Button';
+import { Button } from '../../basic/button/Button';
+import { Icon } from '../../basic/icon/Icon';
+import { Text } from '../../basic/text/Text';
+import { Container } from '../../layout/container/Container';
+import type { RowProps } from '../../layout/Row';
+import { Row } from '../../layout/Row';
+import { Tooltip } from '../tooltip/Tooltip';
 
 type ChipAction = {
 	/** Chip action icon color */

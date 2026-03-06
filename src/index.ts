@@ -66,7 +66,7 @@ export * from './components/navigation/Breadcrumbs';
 export * from './components/navigation/TabBar';
 
 /** display components */
-export * from './components/display/Chip';
+export * from './components/display/chip/Chip';
 export * from './components/display/dropdown/Dropdown';
 export * from './components/display/list/List';
 export * from './components/display/ListItem';

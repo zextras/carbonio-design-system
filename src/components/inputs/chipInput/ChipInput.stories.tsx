@@ -16,8 +16,8 @@ import { ControlledChipInput } from './ChipInput.stories.controlledMode';
 import { ChipInputDisabledWithOptions } from './ChipInput.stories.disabledWithOptions';
 import { ChipInputSuggestionMode } from './ChipInput.stories.suggestionMode';
 import { Text } from '../../basic/text/Text';
-import type { ChipProps } from '../../display/Chip';
-import { Chip } from '../../display/Chip';
+import type { ChipProps } from '../../display/chip/Chip';
+import { Chip } from '../../display/chip/Chip';
 import { Popover } from '../../display/Popover';
 import { Container } from '../../layout/container/Container';
 

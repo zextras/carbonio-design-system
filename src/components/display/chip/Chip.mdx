@@ -1,0 +1,37 @@
+import { Meta, Controls, Stories, Title, Primary } from '@storybook/addon-docs/blocks';
+import * as ChipStories from './Chip.stories';
+
+<Meta of={ChipStories} />
+
+<Title />
+
+<Primary />
+
+<Controls />
+
+A Chip element is composed by an avatar, a label and some actions. All elements are optional.
+Chips can have different variants, based on contents and colors, and two shapes, rounded or regular.
+
+#### Content:
+
+- The avatar can show the capitals, a picture or an icon. Icon, background and color are customizable.
+- The label can be a simple text, a pair in the "key value" form, or any custom component. 
+  The chip can have a max width which causes the “value” text to be cropped if needed. 
+  If a max width is set, a tooltip will show all the text content while hovering on the chip. 
+  If no max width is set, then the chip will expand its width to show the entire content without a tooltip.
+- The actions can be icons or buttons. Actions and icons can be mixed together. 
+  The close action can be quickly set through the onClose prop.
+
+#### Colors:
+
+The chip has a default palette (light version), but can be customized with the props related to colors and backgrounds.
+The given colors are used with their set for the pseudo statuses 
+(if a set is not provided within the theme, a runtime set will be generated. See ```theme-utils.ts: colorSet```)
+
+The chip has two special statuses: disabled and error.
+- When a chip is disabled, all elements within are disabled. 
+  **In the disabled status the click and double click callbacks remain active.**
+  It's up to the dev the definition of what these two functions should do when the chip is disabled.
+- When a chip is in error, the elements remain enabled, but they take the error status too.
+
+<Stories />
