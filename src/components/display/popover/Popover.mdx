@@ -1,0 +1,23 @@
+import { Canvas,Meta, Controls, Stories, Title, Primary } from '@storybook/addon-docs/blocks';
+import * as PopoverStories from './Popover.stories';
+import PopoverOnClickStorySrc from './Popover.onClick?raw';
+import PopoverOnHoverStorySrc from './Popover.onHover?raw';
+
+<Meta of={PopoverStories} />
+
+<Title />
+
+<Primary />
+
+<Controls />
+
+**Has all the props of the Popper component.**
+
+A Popover can be used to display some content on top of another.
+
+When rendered with activateOnHover=true, it ignores the open prop and the onClose callback.
+In this case, it has a fixed 300ms of delay in activation.
+
+<Canvas of={PopoverStories.OnClick} source={{ code: PopoverOnClickStorySrc }} />
+
+<Canvas of={PopoverStories.OnHover} source={{ code: PopoverOnHoverStorySrc }} />

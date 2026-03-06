@@ -18,7 +18,7 @@ import { ChipInputSuggestionMode } from './ChipInput.stories.suggestionMode';
 import { Text } from '../../basic/text/Text';
 import type { ChipProps } from '../../display/chip/Chip';
 import { Chip } from '../../display/chip/Chip';
-import { Popover } from '../../display/Popover';
+import { Popover } from '../../display/popover/Popover';
 import { Container } from '../../layout/container/Container';
 
 const meta = {

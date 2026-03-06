@@ -9878,7 +9878,7 @@
       ]
     }
   ],
-  "src/components/display/Popover.tsx": [
+  "src/components/display/popover/Popover.tsx": [
     {
       "description": "",
       "methods": [],
@@ -10017,6 +10017,20 @@
       "composes": [
         "HTMLAttributes"
       ]
+    }
+  ],
+  "src/components/display/popover/Popover.onClick.tsx": [
+    {
+      "description": "",
+      "methods": [],
+      "displayName": "PopoverOnClick"
+    }
+  ],
+  "src/components/display/popover/Popover.onHover.tsx": [
+    {
+      "description": "",
+      "methods": [],
+      "displayName": "PopoverOnHover"
     }
   ],
   "src/components/display/Popper.tsx": [
