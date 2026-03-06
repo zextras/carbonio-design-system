@@ -10,9 +10,9 @@ import { screen, act } from '@testing-library/react';
 
 import type { Action } from './CollapsingActions';
 import { CollapsingActions } from './CollapsingActions';
-import { ICONS } from '../../tests/constants';
-import { setup } from '../../tests/utils';
-import { Theme } from '../../theme/theme';
+import { ICONS } from '../../../tests/constants';
+import { setup } from '../../../tests/utils';
+import { Theme } from '../../../theme/theme';
 
 describe('Collapsing Actions', () => {
 	test('Render a collapsing actions component', () => {

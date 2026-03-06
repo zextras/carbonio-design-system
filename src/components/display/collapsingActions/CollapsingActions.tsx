@@ -9,16 +9,16 @@ import React, { useMemo } from 'react';
 import styled from '@emotion/styled';
 import { noop } from 'lodash';
 
-import type { DropdownItem } from './dropdown/Dropdown';
-import { Dropdown } from './dropdown/Dropdown';
-import { Tooltip } from './tooltip/Tooltip';
-import { useCombinedRefs } from '../../hooks/useCombinedRefs';
-import { useSplitVisibility } from '../../hooks/useSplitVisibility';
-import type { AnyColor } from '../../types/utils';
-import type { ButtonProps } from '../basic/button/Button';
-import { Button } from '../basic/button/Button';
-import type { ContainerProps } from '../layout/container/Container';
-import { Container } from '../layout/container/Container';
+import { useCombinedRefs } from '../../../hooks/useCombinedRefs';
+import { useSplitVisibility } from '../../../hooks/useSplitVisibility';
+import type { AnyColor } from '../../../types/utils';
+import type { ButtonProps } from '../../basic/button/Button';
+import { Button } from '../../basic/button/Button';
+import type { ContainerProps } from '../../layout/container/Container';
+import { Container } from '../../layout/container/Container';
+import { Dropdown } from '../dropdown/Dropdown';
+import type { DropdownItem } from '../dropdown/Dropdown';
+import { Tooltip } from '../tooltip/Tooltip';
 
 const RefDiv = styled.div`
 	max-width: 100%;

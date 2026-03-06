@@ -83,7 +83,7 @@ export {
 	DefaultRowFactory,
 	DefaultHeaderFactory
 } from './components/display/Table';
-export * from './components/display/CollapsingActions';
+export * from './components/display/collapsingActions/CollapsingActions';
 
 /** Feedback components */
 export { Banner, type BannerProps } from './components/feedback/banner/Banner';

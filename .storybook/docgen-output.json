@@ -4890,7 +4890,7 @@
       }
     }
   ],
-  "src/components/display/CollapsingActions.tsx": [
+  "src/components/display/collapsingActions/CollapsingActions.tsx": [
     {
       "description": "",
       "methods": [],
@@ -5530,6 +5530,41 @@
       "composes": [
         "HTMLAttributes"
       ]
+    }
+  ],
+  "src/components/display/collapsingActions/CollapsingActions.alignment.tsx": [
+    {
+      "description": "",
+      "methods": [],
+      "displayName": "CollapsingActionsAlignment"
+    }
+  ],
+  "src/components/display/collapsingActions/CollapsingActions.color.tsx": [
+    {
+      "description": "",
+      "methods": [],
+      "displayName": "CollapsingActionsColor"
+    }
+  ],
+  "src/components/display/collapsingActions/CollapsingActions.gap.tsx": [
+    {
+      "description": "",
+      "methods": [],
+      "displayName": "CollapsingActionsGap"
+    }
+  ],
+  "src/components/display/collapsingActions/CollapsingActions.maxVisible.tsx": [
+    {
+      "description": "",
+      "methods": [],
+      "displayName": "CollapsingActionsMaxVisible"
+    }
+  ],
+  "src/components/display/collapsingActions/CollapsingActions.size.tsx": [
+    {
+      "description": "",
+      "methods": [],
+      "displayName": "CollapsingActionsSize"
     }
   ],
   "src/components/layout/container/Container.tsx": [
