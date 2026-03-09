@@ -7032,7 +7032,7 @@
       ]
     }
   ],
-  "src/components/inputs/FileLoader.tsx": [
+  "src/components/inputs/fileLoader/FileLoader.tsx": [
     {
       "description": "",
       "methods": [],

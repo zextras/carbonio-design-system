@@ -7,10 +7,8 @@
 import React, { useRef, useCallback, useMemo } from 'react';
 
 import styled from '@emotion/styled';
-
-import type { AnyColor } from '../../types/utils';
-import type { ButtonProps } from '../basic/button/Button';
-import { Button } from '../basic/button/Button';
+import { Button, ButtonProps } from '../../basic/button/Button';
+import { AnyColor } from '../../../types/utils';
 
 const FileInput = styled.input`
 	display: none;
