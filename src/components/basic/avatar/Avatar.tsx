@@ -9,9 +9,9 @@ import React, { useMemo } from 'react';
 
 import styled from '@emotion/styled';
 
-import { Icon } from './icon/Icon';
-import type { Theme } from '../../theme/theme';
-import { getColor } from '../../theme/theme-utils';
+import type { Theme } from '../../../theme/theme';
+import { getColor } from '../../../theme/theme-utils';
+import { Icon } from '../icon/Icon';
 
 type ShapeType = 'round' | 'square';
 
@@ -174,7 +174,7 @@ const Avatar = React.forwardRef<HTMLDivElement, AvatarPropTypes>(function Avatar
 		}
 		if (capitals !== null) {
 			return (
-				<Capitals $size={size} color={color}>
+				<Capitals $size={size} $color={color}>
 					{capitals}
 				</Capitals>
 			);
