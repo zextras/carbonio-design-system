@@ -9,12 +9,12 @@ import React from 'react';
 import { faker } from '@faker-js/faker';
 import { act, screen, within } from '@testing-library/react';
 
-import type { THeader, TRow } from './Table';
 import { Table, StyledCheckbox } from './Table';
-import { ICONS, SELECTORS } from '../../tests/constants';
-import { setup } from '../../tests/utils';
-import { Icon } from '../basic/icon/Icon';
-import { Container } from '../layout/container/Container';
+import type { THeader, TRow } from './Table';
+import { ICONS, SELECTORS } from '../../../tests/constants';
+import { setup } from '../../../tests/utils';
+import { Icon } from '../../basic/icon/Icon';
+import { Container } from '../../layout/container/Container';
 
 describe('Table', () => {
 	function getRowByColumnLabel(label: string): HTMLElement {
