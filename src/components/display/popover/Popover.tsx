@@ -12,8 +12,8 @@ import type { VirtualElement } from '@floating-ui/dom';
 import { debounce } from 'lodash';
 
 import { useCombinedRefs } from '../../../hooks/useCombinedRefs';
-import type { PopperProps } from '../Popper';
-import { Popper } from '../Popper';
+import type { PopperProps } from '../popper/Popper';
+import { Popper } from '../popper/Popper';
 
 const PopoverContainer = styled.div<{ $styleAsModal: boolean }>`
 	padding: ${({ theme }): string => theme.sizes.padding.small};

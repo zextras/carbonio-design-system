@@ -10033,7 +10033,7 @@
       "displayName": "PopoverOnHover"
     }
   ],
-  "src/components/display/Popper.tsx": [
+  "src/components/display/popper/Popper.tsx": [
     {
       "description": "",
       "methods": [],

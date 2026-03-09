@@ -71,7 +71,7 @@ export * from './components/display/dropdown/Dropdown';
 export * from './components/display/list/List';
 export * from './components/display/listItem/ListItem';
 export * from './components/display/popover/Popover';
-export * from './components/display/Popper';
+export * from './components/display/popper/Popper';
 export * from './components/display/tooltip/Tooltip';
 export {
 	Table,
