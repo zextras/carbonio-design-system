@@ -1,6 +1,12 @@
+/*
+ * SPDX-FileCopyrightText: 2026 Zextras <https://www.zextras.com>
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
 import React, { useRef, useState } from 'react';
-import { Button } from '../../basic/button/Button';
+
 import { Popper } from './Popper';
+import { Button } from '../../basic/button/Button';
 import { Text } from '../../basic/text/Text';
 import { Container } from '../../layout/container/Container';
 

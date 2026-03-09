@@ -3585,27 +3585,6 @@
       ]
     }
   ],
-  "src/components/inputs/checkbox/Checkbox.controlled.tsx": [
-    {
-      "description": "",
-      "methods": [],
-      "displayName": "CheckboxControlled"
-    }
-  ],
-  "src/components/inputs/checkbox/Checkbox.propsCombinator.tsx": [
-    {
-      "description": "",
-      "methods": [],
-      "displayName": "CheckboxPropsCombinator"
-    }
-  ],
-  "src/components/inputs/checkbox/Checkbox.uncontrolled.tsx": [
-    {
-      "description": "",
-      "methods": [],
-      "displayName": "CheckboxUncontrolled"
-    }
-  ],
   "src/components/display/chip/Chip.tsx": [
     {
       "description": "",
@@ -5530,41 +5509,6 @@
       "composes": [
         "HTMLAttributes"
       ]
-    }
-  ],
-  "src/components/display/collapsingActions/CollapsingActions.alignment.tsx": [
-    {
-      "description": "",
-      "methods": [],
-      "displayName": "CollapsingActionsAlignment"
-    }
-  ],
-  "src/components/display/collapsingActions/CollapsingActions.color.tsx": [
-    {
-      "description": "",
-      "methods": [],
-      "displayName": "CollapsingActionsColor"
-    }
-  ],
-  "src/components/display/collapsingActions/CollapsingActions.gap.tsx": [
-    {
-      "description": "",
-      "methods": [],
-      "displayName": "CollapsingActionsGap"
-    }
-  ],
-  "src/components/display/collapsingActions/CollapsingActions.maxVisible.tsx": [
-    {
-      "description": "",
-      "methods": [],
-      "displayName": "CollapsingActionsMaxVisible"
-    }
-  ],
-  "src/components/display/collapsingActions/CollapsingActions.size.tsx": [
-    {
-      "description": "",
-      "methods": [],
-      "displayName": "CollapsingActionsSize"
     }
   ],
   "src/components/layout/container/Container.tsx": [
@@ -10017,20 +9961,6 @@
       "composes": [
         "HTMLAttributes"
       ]
-    }
-  ],
-  "src/components/display/popover/Popover.onClick.tsx": [
-    {
-      "description": "",
-      "methods": [],
-      "displayName": "PopoverOnClick"
-    }
-  ],
-  "src/components/display/popover/Popover.onHover.tsx": [
-    {
-      "description": "",
-      "methods": [],
-      "displayName": "PopoverOnHover"
     }
   ],
   "src/components/display/popper/Popper.tsx": [

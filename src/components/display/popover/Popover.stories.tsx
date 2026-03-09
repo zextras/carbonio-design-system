@@ -8,10 +8,10 @@ import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-webpack5';
 
 import { Popover } from './Popover';
-import { PopoverOnClick } from './Popover.onClick';
-import PopoverOnClickStorySrc from './Popover.onClick?raw';
-import { PopoverOnHover } from './Popover.onHover';
-import PopoverOnHoverStorySrc from './Popover.onHover?raw';
+import { PopoverOnClick } from './Popover.stories.onClick';
+import PopoverOnClickStorySrc from './Popover.stories.onClick?raw';
+import { PopoverOnHover } from './Popover.stories.onHover';
+import PopoverOnHoverStorySrc from './Popover.stories.onHover?raw';
 import { Button } from '../../basic/button/Button';
 
 const meta = {

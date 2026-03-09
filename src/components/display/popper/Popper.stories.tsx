@@ -6,12 +6,13 @@
 import React from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react-webpack5';
+
 import { Popper } from './Popper';
-import { Button } from '../../basic/button/Button';
-import PopperOnClickStorySrc from './Popper.stories.onClick?raw';
-import PopperOnHoverStorySrc from './Popper.stories.onHover?raw';
 import { PopperOnClick } from './Popper.stories.onClick';
+import PopperOnClickStorySrc from './Popper.stories.onClick?raw';
 import { PopperOnHover } from './Popper.stories.onHover';
+import PopperOnHoverStorySrc from './Popper.stories.onHover?raw';
+import { Button } from '../../basic/button/Button';
 
 const meta = {
 	component: Popper,

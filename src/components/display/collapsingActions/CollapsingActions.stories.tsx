@@ -7,16 +7,16 @@ import type { Meta, StoryObj } from '@storybook/react-webpack5';
 import { fn } from 'storybook/test';
 
 import { CollapsingActions } from './CollapsingActions';
-import { CollapsingActionsAlignment } from './CollapsingActions.alignment';
-import CollapsingActionsAlignmentSrc from './CollapsingActions.alignment?raw';
-import { CollapsingActionsColor } from './CollapsingActions.color';
-import CollapsingActionsColorSrc from './CollapsingActions.color?raw';
-import { CollapsingActionsGap } from './CollapsingActions.gap';
-import CollapsingActionsGapSrc from './CollapsingActions.gap?raw';
-import { CollapsingActionsMaxVisible } from './CollapsingActions.maxVisible';
-import CollapsingActionsMaxVisibleSrc from './CollapsingActions.maxVisible?raw';
-import { CollapsingActionsSize } from './CollapsingActions.size';
-import CollapsingActionsSizeSrc from './CollapsingActions.size?raw';
+import { CollapsingActionsAlignment } from './CollapsingActions.stories.alignment';
+import CollapsingActionsAlignmentSrc from './CollapsingActions.stories.alignment?raw';
+import { CollapsingActionsColor } from './CollapsingActions.stories.color';
+import CollapsingActionsColorSrc from './CollapsingActions.stories.color?raw';
+import { CollapsingActionsGap } from './CollapsingActions.stories.gap';
+import CollapsingActionsGapSrc from './CollapsingActions.stories.gap?raw';
+import { CollapsingActionsMaxVisible } from './CollapsingActions.stories.maxVisible';
+import CollapsingActionsMaxVisibleSrc from './CollapsingActions.stories.maxVisible?raw';
+import { CollapsingActionsSize } from './CollapsingActions.stories.size';
+import CollapsingActionsSizeSrc from './CollapsingActions.stories.size?raw';
 import { colorArgType } from '../../../docs/utils';
 
 const meta = {

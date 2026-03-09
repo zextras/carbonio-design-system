@@ -10,9 +10,9 @@ import type { Meta, StoryObj } from '@storybook/react-webpack5';
 import { fn } from 'storybook/test';
 
 import { Checkbox } from './Checkbox';
-import { CheckboxControlled } from './Checkbox.controlled';
-import { CheckboxPropsCombinator } from './Checkbox.propsCombinator';
-import { CheckboxUncontrolled } from './Checkbox.uncontrolled';
+import { CheckboxControlled } from './Checkbox.stories.controlled';
+import { CheckboxPropsCombinator } from './Checkbox.stories.propsCombinator';
+import { CheckboxUncontrolled } from './Checkbox.stories.uncontrolled';
 import { Container } from '../../layout/container/Container';
 
 const meta = {
