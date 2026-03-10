@@ -5,7 +5,7 @@
  */
 
 import type { HTMLAttributes } from 'react';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
@@ -41,6 +41,8 @@ type DragObj = {
 };
 
 type StyleObj = HTMLAttributes<HTMLDivElement>['style'];
+
+const activeDropResetRef: { current: (() => void) | null } = { current: null };
 
 interface DropProps {
 	/** Callback for on drop */
@@ -78,14 +80,23 @@ const Drop = React.forwardRef<HTMLDivElement, DropProps>(function DropFn(
 	const [overlayAccept, setOverlayAccept] = useState<React.ReactNode>(null);
 	const [overlayDeny, setOverlayDeny] = useState<React.ReactNode>(null);
 	const [dragging, setDragging] = useState<boolean>(false);
+	const resetDropStateRef = useRef<() => void>(() => undefined);
+
+	const resetDropState = useCallback((): void => {
+		setStyleObject({});
+		setOverlayAccept(null);
+		setOverlayDeny(null);
+		setDragging(false);
+		if (activeDropResetRef.current === resetDropStateRef.current) {
+			activeDropResetRef.current = null;
+		}
+	}, []);
 
 	const dropEvent = useCallback<React.DragEventHandler>(
 		(e) => {
 			e.preventDefault();
 			e.stopPropagation();
-			setStyleObject({});
-			setOverlayAccept(null);
-			setOverlayDeny(null);
+			resetDropState();
 			if (window.draggedItem && acceptType.includes(window.draggedItem.type)) {
 				onDrop({
 					event: e,
@@ -93,16 +104,18 @@ const Drop = React.forwardRef<HTMLDivElement, DropProps>(function DropFn(
 					data: window.draggedItem.data
 				});
 			}
-			setDragging(false);
 			window.draggedItem = undefined;
 		},
-		[acceptType, onDrop]
+		[acceptType, onDrop, resetDropState]
 	);
 
-	// TODO: distinguish dragEnter from dragOver and throttle dragOver
 	const dragEnterEvent = useCallback<React.DragEventHandler>(
 		(e) => {
 			e.preventDefault();
+			if (activeDropResetRef.current && activeDropResetRef.current !== resetDropStateRef.current) {
+				activeDropResetRef.current();
+			}
+			activeDropResetRef.current = resetDropStateRef.current;
 			setDragging(true);
 			const dragEnterResponse = onDragEnter({
 				event: e,
@@ -133,16 +146,26 @@ const Drop = React.forwardRef<HTMLDivElement, DropProps>(function DropFn(
 		]
 	);
 
-	const dragLeaveEvent = useCallback<React.DragEventHandler>((e): void => {
-		const isLeavingDropzone =
-			!(e.relatedTarget instanceof Node) || !e.currentTarget.contains(e.relatedTarget);
-		if (isLeavingDropzone) {
-			setStyleObject({});
-			setOverlayAccept(null);
-			setOverlayDeny(null);
-			setDragging(false);
-		}
-	}, []);
+	const dragLeaveEvent = useCallback<React.DragEventHandler>(
+		(e): void => {
+			const isLeavingDropzone =
+				!(e.relatedTarget instanceof Node) || !e.currentTarget.contains(e.relatedTarget);
+			if (isLeavingDropzone) {
+				resetDropState();
+			}
+		},
+		[resetDropState]
+	);
+
+	useEffect(() => {
+		resetDropStateRef.current = resetDropState;
+
+		return (): void => {
+			if (activeDropResetRef.current === resetDropStateRef.current) {
+				activeDropResetRef.current = null;
+			}
+		};
+	}, [resetDropState]);
 
 	return (
 		<DropEl
