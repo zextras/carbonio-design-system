@@ -1,0 +1,74 @@
+import { Meta, Controls, Title, Primary, Canvas } from '@storybook/addon-docs/blocks';
+import * as AvatarStories from './Avatar.stories';
+
+<Meta of={AvatarStories} />
+
+<Title />
+
+The Avatar component is a representation of another user.
+
+It is a container that can either contain a user's profile picture or its capitals, and it can have three sizes.
+Default shape is round, but it can be changed with the `shape` prop.
+
+<Primary />
+
+<Controls />
+
+## With Capitals
+
+### Letters
+
+The capital letters are calculated as follows:
+
+1. The special characters are removed.
+2. If the label is only one or two characters long, it's directly used as capitals.
+3. If the label is a single word the result is `first letter + last letter`.
+4. Otherwise, the result is `first letter of the first word + first letter of the last word`.
+5. The remaining corner cases are handled by displaying a fallback icon.
+
+<Canvas of={AvatarStories.Label} />
+
+### Background
+
+The background color is calculated by getting the remainder of the integer division between the sum of the charCodes of the label string and the amount of colors available in the avatar color palette.
+This value is then used as an index for the said palette.
+
+It can also be forced to a theme palette value by using the `background` prop.
+
+<Canvas of={AvatarStories.Background} />
+
+### Color label
+
+<Canvas of={AvatarStories.Color} />
+
+## Size prop
+
+<Canvas of={AvatarStories.Size} />
+
+## Picture prop
+
+<Canvas of={AvatarStories.Picture} />
+
+
+## Icon prop
+
+The avatar can display an icon instead of the capitals, when the `icon` prop is provided.
+
+<Canvas of={AvatarStories.Icon} />
+
+## Fallback Icon
+
+This is used as a fallback when a label can't be used for the capitals.
+
+<Canvas of={AvatarStories.FallbackIcon} />
+
+## Selection Mode
+
+When `selecting` is set to `true`, the avatar shows a selection indicator. Combined with `selected`, it shows
+whether the item is selected or not.
+
+<Canvas of={AvatarStories.SelectingSelected} />
+
+## Shape prop
+
+<Canvas of={AvatarStories.Shape} />

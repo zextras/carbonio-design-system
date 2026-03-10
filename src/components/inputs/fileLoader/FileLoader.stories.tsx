@@ -5,9 +5,9 @@
  */
 import type { ArgTypes, Meta, StoryObj } from '@storybook/react-webpack5';
 
-import { FileLoader } from '../fileLoader/FileLoader';
-import { ButtonProps } from '../../basic/button/Button';
+import { FileLoader } from './FileLoader';
 import { colorArgType } from '../../../docs/utils';
+import type { ButtonProps } from '../../basic/button/Button';
 
 const shape: NonNullable<ButtonProps['shape']>[] = ['regular', 'round'];
 const iconPlacement: NonNullable<ButtonProps['iconPlacement']>[] = ['left', 'right'];

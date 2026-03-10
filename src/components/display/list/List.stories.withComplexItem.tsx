@@ -9,7 +9,7 @@ import { faker } from '@faker-js/faker';
 
 import type { ListProps } from './List';
 import { List } from './List';
-import { Avatar } from '../../basic/Avatar';
+import { Avatar } from '../../basic/avatar/Avatar';
 import { Text } from '../../basic/text/Text';
 import { Container } from '../../layout/container/Container';
 import { Divider } from '../../layout/divider/Divider';
