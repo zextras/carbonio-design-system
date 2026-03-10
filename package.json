@@ -33,6 +33,7 @@
 		"prepare": "is-ci || husky",
 		"type-check": "tsc --noEmit --noUncheckedSideEffectImports",
 		"storybook": "storybook dev -p 6006",
+		"clean:storybook-images": "npm run build:docs -- --test && npx tsx scripts/clean-storybook-images.ts",
 		"docgen": "npx @react-docgen/cli -o .storybook/docgen-output.json 'src/components/**/*.tsx' -i '**/*.(test|stories|stories.*).tsx' --pretty --resolver find-all-exported-components && npx tsx scripts/order-docgen.ts"
 	},
 	"repository": {

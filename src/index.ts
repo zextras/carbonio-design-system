@@ -8,7 +8,7 @@ import './types/globals';
 import './types/emotion';
 
 /** Basic components */
-export * from './components/basic/Avatar';
+export * from './components/basic/avatar/Avatar';
 export * from './components/basic/badge/Badge';
 export * from './components/basic/button/Button';
 export { Icon, type IconProps } from './components/basic/icon/Icon';
