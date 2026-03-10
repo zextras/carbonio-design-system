@@ -288,9 +288,7 @@ describe('Drop', () => {
 		expect(onClickFn).toHaveBeenCalled();
 	});
 
-	// FIXME(characterization test): this is also related to the dragLeave event that sometimes is not fired.
-	//  We need to cover this case
-	test('should not hide dropzone overlay if another target is reached even without a dragLeave event', async () => {
+	test('should hide previous dropzone overlay if another target is reached without a dragLeave event', async () => {
 		window.draggedItem = {
 			data: {
 				id: 1
@@ -331,13 +329,18 @@ describe('Drop', () => {
 		dragEnter(dropzone2, dropzone1);
 		// the dropzone2 is shown
 		await screen.findByText('deny');
-		// both dropzone are visible
-		expect(within(dropzone2).getByText('deny')).toBeVisible();
-		expect(within(dropzone1).getByText('accept')).toBeVisible();
+
+		expect(
+			within(await within(screen.getByTestId('dropzone2')).findByTestId('drop')).getByText('deny')
+		).toBeVisible();
+		expect(
+			within(await within(screen.getByTestId('dropzone1')).findByTestId('drop')).queryByText(
+				'accept'
+			)
+		).not.toBeInTheDocument();
 	});
 
-	// TODO(characterization test): it probably makes sense to hide the external dropzone and show only the nested one
-	test('should not hide dropzone overlay if a nested dropzone is reached', async () => {
+	test('should hide dropzone overlay if a nested dropzone is reached', async () => {
 		window.draggedItem = {
 			type: 'type1',
 			data: { id: 1 },
@@ -386,11 +389,10 @@ describe('Drop', () => {
 		dragEnter(dropzone2, dropzone1);
 		// dropzone2 is shown
 		expect(await within(dropzone2).findByText('accept')).toBeVisible();
-		// dropzone1 is still visible, resulting in 2 accept overlays
+		// dropzone1 is no more visible, resulting in 1 accept overlay
 		const overlays = screen.getAllByText('accept');
-		expect(overlays).toHaveLength(2);
+		expect(overlays).toHaveLength(1);
 		expect(overlays[0]).toBeVisible();
-		expect(overlays[1]).toBeVisible();
 		// enter dropzone 3, which is an invalid dropzone for the type defined in dataTransfer
 		dragEnter(dropzone3, dropzone2);
 		dragLeave(dropzone2, dropzone3);
@@ -399,7 +401,7 @@ describe('Drop', () => {
 		// and is shown for dropzone 3
 		await screen.findByText('deny');
 		expect(within(dropzone3).queryByText('deny')).toBeVisible();
-		// dropzone 1 is still visible
-		expect(screen.getByText('accept')).toBeVisible();
+		// dropzone 1 is no more visible
+		expect(within(dropzone1).queryByText('accept')).not.toBeInTheDocument();
 	});
 });
