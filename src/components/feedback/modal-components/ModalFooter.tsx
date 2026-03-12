@@ -14,7 +14,7 @@ import type { Theme } from '../../../theme/theme';
 import { Button } from '../../basic/button/Button';
 import { Tooltip } from '../../display/tooltip/Tooltip';
 import { Container } from '../../layout/container/Container';
-import { Padding } from '../../layout/Padding';
+import { Padding } from '../../layout/padding/Padding';
 
 const OptionalFooterContainer = styled(Container)`
 	min-width: 0.0625rem;

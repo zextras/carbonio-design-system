@@ -14,7 +14,7 @@ import type { LiteralUnion, With$Prefix } from '../../../types/utils';
 import type { FormSectionProps, FormSubSectionProps } from '../../basic/formSection/FormSection';
 import { FormSection, FormSubSection } from '../../basic/formSection/FormSection';
 import { Container } from '../../layout/container/Container';
-import { Padding } from '../../layout/Padding';
+import { Padding } from '../../layout/padding/Padding';
 
 const SIZES = {
 	small: 0.3125,

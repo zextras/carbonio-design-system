@@ -12,7 +12,7 @@ import { Button } from '../../basic/button/Button';
 import { Icon } from '../../basic/icon/Icon';
 import { Text } from '../../basic/text/Text';
 import { Container } from '../../layout/container/Container';
-import { Padding } from '../../layout/Padding';
+import { Padding } from '../../layout/padding/Padding';
 import { Row } from '../../layout/Row';
 import { Tooltip } from '../tooltip/Tooltip';
 

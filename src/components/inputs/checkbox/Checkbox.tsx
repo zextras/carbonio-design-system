@@ -18,7 +18,7 @@ import { Icon } from '../../basic/icon/Icon';
 import { Text } from '../../basic/text/Text';
 import type { ContainerProps } from '../../layout/container/Container';
 import { Container } from '../../layout/container/Container';
-import { Padding } from '../../layout/Padding';
+import { Padding } from '../../layout/padding/Padding';
 
 type CheckboxSize = 'medium' | 'small';
 

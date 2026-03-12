@@ -16,8 +16,8 @@ import { Text } from '../basic/text/Text';
 import type { DropdownItem, DropdownProps } from '../display/dropdown/Dropdown';
 import { Dropdown } from '../display/dropdown/Dropdown';
 import { Container } from '../layout/container/Container';
-import type { PaddingProps } from '../layout/Padding';
-import { Padding } from '../layout/Padding';
+import type { PaddingProps } from '../layout/padding/Padding';
+import { Padding } from '../layout/padding/Padding';
 
 const CheckDiv = styled.div`
 	width: 100%;

@@ -9,7 +9,7 @@ import React from 'react';
 import type { ContainerProps } from '../../layout/container/Container';
 import { Container } from '../../layout/container/Container';
 import { Divider } from '../../layout/divider/Divider';
-import { Padding } from '../../layout/Padding';
+import { Padding } from '../../layout/padding/Padding';
 import { Text } from '../text/Text';
 import type { TextProps } from '../text/Text';
 

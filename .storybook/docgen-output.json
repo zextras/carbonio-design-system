@@ -9369,7 +9369,7 @@
       }
     }
   ],
-  "src/components/layout/Padding.tsx": [
+  "src/components/layout/padding/Padding.tsx": [
     {
       "description": "",
       "methods": [],

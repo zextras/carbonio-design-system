@@ -10,7 +10,7 @@ import styled from '@emotion/styled';
 
 import { Container } from '../../layout/container/Container';
 import type { ContainerProps } from '../../layout/container/Container';
-import { Padding } from '../../layout/Padding';
+import { Padding } from '../../layout/padding/Padding';
 import { Icon } from '../icon/Icon';
 import type { TextProps } from '../text/Text';
 import { Text } from '../text/Text';

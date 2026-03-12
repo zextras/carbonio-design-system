@@ -9,7 +9,7 @@ import { Tooltip } from './Tooltip';
 import { Button } from '../../basic/button/Button';
 import { Text } from '../../basic/text/Text';
 import { Container } from '../../layout/container/Container';
-import { Padding } from '../../layout/Padding';
+import { Padding } from '../../layout/padding/Padding';
 
 export const NestedTooltip = (): React.JSX.Element => (
 	<Container background={'gray5'} orientation={'horizontal'} mainAlignment={'space-evenly'}>
