@@ -15,7 +15,7 @@ import TooltipPlacementSrc from './Tooltip.stories.placement?raw';
 import { TextWithTooltip } from './Tooltip.stories.textWithTooltip';
 import { placementArgType } from '../../../docs/utils';
 import { Button } from '../../basic/button/Button';
-import { IconCheckbox } from '../../inputs/IconCheckbox';
+import { IconCheckbox } from '../../inputs/iconCheckbox/IconCheckbox';
 
 const meta = {
 	component: Tooltip,

@@ -7569,7 +7569,7 @@
       }
     }
   ],
-  "src/components/inputs/IconCheckbox.tsx": [
+  "src/components/inputs/iconCheckbox/IconCheckbox.tsx": [
     {
       "description": "",
       "methods": [],
