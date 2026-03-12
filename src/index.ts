@@ -88,7 +88,7 @@ export * from './components/display/collapsingActions/CollapsingActions';
 /** Feedback components */
 export { Banner, type BannerProps } from './components/feedback/banner/Banner';
 export * from './components/feedback/CustomModal';
-export * from './components/feedback/Modal';
+export * from './components/feedback/modal/Modal';
 export * from './components/feedback/modal-components/ModalHeader';
 export * from './components/feedback/modal-components/ModalBody';
 export * from './components/feedback/modal-components/ModalFooter';

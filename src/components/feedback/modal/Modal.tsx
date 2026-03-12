@@ -12,13 +12,13 @@ import React, { useCallback, useRef } from 'react';
 import { useTheme } from '@emotion/react';
 import { noop } from 'lodash';
 
-import type { CustomModalProps } from './CustomModal';
-import { CustomModal } from './CustomModal';
-import { ModalBody } from './modal-components/ModalBody';
-import type { ModalFooterProps } from './modal-components/ModalFooter';
-import { ModalFooter } from './modal-components/ModalFooter';
-import { ModalHeader } from './modal-components/ModalHeader';
-import { Divider } from '../layout/divider/Divider';
+import { Divider } from '../../layout/divider/Divider';
+import type { CustomModalProps } from '../CustomModal';
+import { CustomModal } from '../CustomModal';
+import { ModalBody } from '../modal-components/ModalBody';
+import type { ModalFooterProps } from '../modal-components/ModalFooter';
+import { ModalFooter } from '../modal-components/ModalFooter';
+import { ModalHeader } from '../modal-components/ModalHeader';
 
 function copyToClipboard(node: HTMLDivElement | null, windowObj: Window): void {
 	const el = windowObj.document.createElement('textarea');

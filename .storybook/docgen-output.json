@@ -8575,7 +8575,7 @@
       ]
     }
   ],
-  "src/components/feedback/Modal.tsx": [
+  "src/components/feedback/modal/Modal.tsx": [
     {
       "description": "",
       "methods": [],

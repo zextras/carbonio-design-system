@@ -14,7 +14,7 @@ import type { UserEvent } from '../../../tests/utils';
 import { setup, within, screen } from '../../../tests/utils';
 import { Button } from '../../basic/button/Button';
 import { TIMERS } from '../../constants';
-import { Modal } from '../../feedback/Modal';
+import { Modal } from '../../feedback/modal/Modal';
 
 function findDropdownItem(label: string, container: HTMLElement = document.body): HTMLElement {
 	function findNested(fromElement: HTMLElement): HTMLElement | undefined {
