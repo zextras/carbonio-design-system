@@ -48,7 +48,7 @@ export {
 	type SelectItem,
 	type LabelFactoryProps
 } from './components/inputs/select/Select';
-export * from './components/inputs/Switch';
+export * from './components/inputs/switch/Switch';
 export {
 	DateTimePicker,
 	type DateTimePickerProps,

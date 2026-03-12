@@ -12469,7 +12469,7 @@
       ]
     }
   ],
-  "src/components/inputs/Switch.tsx": [
+  "src/components/inputs/switch/Switch.tsx": [
     {
       "description": "",
       "methods": [],

@@ -36,7 +36,8 @@ const preview = {
 		docs: {
 			container: DarkReaderDocsContainer,
 			source: {
-				language: 'tsx'
+				language: 'tsx',
+				type: 'dynamic'
 			},
 			codePanel: true
 		},
