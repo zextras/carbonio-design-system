@@ -7366,7 +7366,7 @@
       ]
     }
   ],
-  "src/components/inputs/IconButton.tsx": [
+  "src/components/inputs/iconButton/IconButton.tsx": [
     {
       "description": "@deprecated use Button with just the icon instead",
       "methods": [],
