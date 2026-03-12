@@ -9518,7 +9518,7 @@
       ]
     }
   ],
-  "src/components/inputs/PasswordInput.tsx": [
+  "src/components/inputs/passwordInput/PasswordInput.tsx": [
     {
       "description": "",
       "methods": [],

@@ -37,7 +37,7 @@ export * from './components/inputs/IconButton';
 export * from './components/inputs/IconCheckbox';
 export * from './components/inputs/multiButton/MultiButton';
 export * from './components/inputs/input/Input';
-export * from './components/inputs/PasswordInput';
+export * from './components/inputs/passwordInput/PasswordInput';
 export { Radio, type RadioProps } from './components/inputs/radio/Radio';
 export { RadioGroup, type RadioGroupProps } from './components/inputs/radioGroup/RadioGroup';
 export {
