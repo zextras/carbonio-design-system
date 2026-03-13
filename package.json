@@ -15,7 +15,7 @@
 	],
 	"scripts": {
 		"start": "npm run storybook",
-		"lint": "eslint --ext .js,.jsx,.ts,.tsx --resolve-plugins-relative-to node_modules/@zextras/carbonio-ui-configs src docs .storybook scripts --fix",
+		"lint": "eslint --ext .js,.jsx,.ts,.tsx --resolve-plugins-relative-to node_modules/@zextras/carbonio-ui-configs src docs .storybook scripts",
 		"lint:icons": "eslint --ext .ts,.tsx --resolve-plugins-relative-to node_modules/@zextras/carbonio-ui-configs src/icons --fix",
 		"test": "(is-ci && jest --runInBand) || jest --maxWorkers=50%",
 		"test-storybook": "npx playwright install && npm run build:docs -- --test && npx concurrently -k -s first -n \"SB,TEST\" -c \"magenta,blue\" \"npx http-server ./storybook-static --port 6006 --silent\" \"npx wait-on tcp:127.0.0.1:6006 && test-storybook --maxWorkers=2 --index-json\"",
