@@ -9,7 +9,12 @@ import type { Meta, StoryObj } from '@storybook/react-webpack5';
 import { LoadMore } from './LoadMore';
 
 const meta = {
-	component: LoadMore
+	component: LoadMore,
+	argTypes: {
+		label: {
+			type: 'string'
+		}
+	}
 } satisfies Meta<typeof LoadMore>;
 
 export default meta;
