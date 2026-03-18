@@ -7,7 +7,7 @@
 import React from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react-webpack5';
-import { fn } from 'storybook/internal/test';
+import { fn } from 'storybook/test';
 
 import { IconCheckbox } from './IconCheckbox';
 import { Container } from '../../layout/container/Container';

@@ -8,7 +8,7 @@ import React, { useCallback, useEffect } from 'react';
 import { MoonIcon, SunIcon } from '@storybook/icons';
 import { disable, enable } from 'darkreader';
 import { IconButton } from 'storybook/internal/components';
-import { useGlobals } from 'storybook/internal/manager-api';
+import { useGlobals } from 'storybook/manager-api';
 
 export const DarkMode = (): React.JSX.Element => {
 	const [globals, updateGlobals] = useGlobals();
