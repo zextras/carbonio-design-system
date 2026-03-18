@@ -82,7 +82,7 @@ export {
 	type TRowProps,
 	DefaultRowFactory,
 	DefaultHeaderFactory
-} from './components/display/table/Table';
+} from './components/display/Table';
 export * from './components/display/collapsingActions/CollapsingActions';
 
 /** Feedback components */

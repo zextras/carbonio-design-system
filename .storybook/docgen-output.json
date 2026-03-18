@@ -12882,7 +12882,7 @@
       ]
     }
   ],
-  "src/components/display/table/Table.tsx": [
+  "src/components/display/Table.tsx": [
     {
       "description": "",
       "methods": [],
