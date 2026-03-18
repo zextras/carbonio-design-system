@@ -7,7 +7,7 @@
 import type { Meta, StoryObj } from '@storybook/react-webpack5';
 
 import { Icon } from './Icon';
-import { colorArgType } from '../../../docs/utils';
+import { colorArgType, sizeArgType } from '../../../docs/utils';
 import { BackupOutline } from '../../../icons/outline';
 
 const meta = {
@@ -16,7 +16,8 @@ const meta = {
 		layout: 'padded'
 	},
 	argTypes: {
-		color: colorArgType
+		color: colorArgType,
+		size: sizeArgType
 	}
 } satisfies Meta<typeof Icon>;
 

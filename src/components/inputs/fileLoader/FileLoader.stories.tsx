@@ -21,14 +21,14 @@ const size: NonNullable<ButtonProps['size']>[] = [
 
 const shapeArgType: ArgTypes[string] = {
 	control: {
-		type: 'select'
+		type: 'radio'
 	},
 	options: shape
 };
 
 const iconPlacementArgType: ArgTypes[string] = {
 	control: {
-		type: 'select'
+		type: 'radio'
 	},
 	options: iconPlacement
 };

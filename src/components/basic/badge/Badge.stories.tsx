@@ -12,6 +12,9 @@ import { colorArgType } from '../../../docs/utils';
 const meta = {
 	component: Badge,
 	argTypes: {
+		value: {
+			type: 'string'
+		},
 		color: colorArgType,
 		backgroundColor: colorArgType
 	}
