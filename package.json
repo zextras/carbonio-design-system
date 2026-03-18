@@ -79,7 +79,7 @@
 		"@testing-library/user-event": "^14.6.1",
 		"@types/jest": "^29.5.14",
 		"@types/jest-image-snapshot": "^6.4.1",
-		"@types/lodash": "^4.17.23",
+		"@types/lodash": "^4.17.24",
 		"@types/react": "^18.3.28",
 		"@types/react-dom": "^18.3.7",
 		"@zextras/carbonio-ui-configs": "^1.0.4",
