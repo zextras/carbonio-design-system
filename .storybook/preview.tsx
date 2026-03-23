@@ -27,7 +27,6 @@ const preview = {
 		isDarkModeEnabled: false
 	},
 	parameters: {
-		actions: { argTypesRegex: '^on.*' },
 		options: {
 			storySort: {
 				order: ['Getting started', 'Theme', 'Components', 'Hooks']
