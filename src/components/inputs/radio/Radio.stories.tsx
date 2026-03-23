@@ -21,7 +21,8 @@ const meta = {
 	component: Radio,
 	args: {
 		onChange: fn(),
-		value: 'value'
+		value: 'value',
+		label: 'RadioLabel'
 	},
 	argTypes: {
 		label: {
@@ -74,7 +75,7 @@ const meta = {
 } satisfies Meta<typeof Radio>;
 export default meta;
 
-type Story = StoryObj<typeof Radio>;
+type Story = StoryObj<typeof meta>;
 
 export const Default = {
 	args: {

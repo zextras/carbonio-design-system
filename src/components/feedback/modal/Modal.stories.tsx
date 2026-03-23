@@ -52,7 +52,7 @@ export const SimpleModal = {
 			</>
 		);
 	}
-};
+} satisfies Story;
 
 export const ModalSizeVariants = {
 	render: (): React.JSX.Element => {
@@ -103,7 +103,7 @@ export const ModalSizeVariants = {
 			</>
 		);
 	}
-};
+} satisfies Story;
 
 export const ErrorModal = {
 	render: (): React.JSX.Element => {
@@ -131,7 +131,7 @@ export const ErrorModal = {
 			</>
 		);
 	}
-};
+} satisfies Story;
 
 export const CenteredErrorModal = {
 	render: (): React.JSX.Element => {
@@ -160,7 +160,7 @@ export const CenteredErrorModal = {
 			</>
 		);
 	}
-};
+} satisfies Story;
 
 export const ConfirmationModal = {
 	render: (): React.JSX.Element => {
@@ -190,7 +190,7 @@ export const ConfirmationModal = {
 			</>
 		);
 	}
-};
+} satisfies Story;
 
 export const MultipleActions = {
 	render: (): React.JSX.Element => {
@@ -220,7 +220,7 @@ export const MultipleActions = {
 			</>
 		);
 	}
-};
+} satisfies Story;
 
 export const CustomFooter = {
 	render: (): React.JSX.Element => {
@@ -247,7 +247,7 @@ export const CustomFooter = {
 			</>
 		);
 	}
-};
+} satisfies Story;
 
 export const NestedModal = {
 	name: 'Nested Modal (never use)',
@@ -286,7 +286,7 @@ export const NestedModal = {
 			</>
 		);
 	}
-};
+} satisfies Story;
 
 export const ModalWithCustomComponent = {
 	render: (): React.JSX.Element => {
@@ -317,4 +317,4 @@ export const ModalWithCustomComponent = {
 			</>
 		);
 	}
-};
+} satisfies Story;

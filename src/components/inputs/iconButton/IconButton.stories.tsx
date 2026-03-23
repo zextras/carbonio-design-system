@@ -5,6 +5,7 @@
  */
 
 import type { Meta, StoryObj } from '@storybook/react-webpack5';
+import { fn } from 'storybook/test';
 
 import { IconButton } from './IconButton';
 
@@ -16,11 +17,15 @@ const meta = {
 				component: '⚠️ **Deprecated** — use `Button` with just the icon instead'
 			}
 		}
+	},
+	args: {
+		icon: 'EyeOutline',
+		onClick: fn()
 	}
 } satisfies Meta<typeof IconButton>;
 
 export default meta;
 
-type Story = StoryObj<typeof IconButton>;
+type Story = StoryObj<typeof meta>;
 
 export const Default = {} satisfies Story;

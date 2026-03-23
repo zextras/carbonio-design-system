@@ -92,4 +92,4 @@ export const Value = {
 	args: {
 		value: true
 	}
-};
+} satisfies Story;

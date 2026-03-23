@@ -15,9 +15,12 @@ const meta = {
 } satisfies Meta<typeof Padding>;
 
 export default meta;
-type Story = StoryObj<typeof Padding>;
+type Story = StoryObj<typeof meta>;
 
 export const VerticalPadding = {
+	args: {
+		vertical: 'small'
+	},
 	render: (): React.JSX.Element => (
 		<div style={{ border: '0.0625rem solid black' }}>
 			<Padding vertical="small">
@@ -28,6 +31,9 @@ export const VerticalPadding = {
 } satisfies Story;
 
 export const HorizontalPadding = {
+	args: {
+		horizontal: 'small'
+	},
 	render: (): React.JSX.Element => (
 		<div style={{ border: '0.0625rem solid black' }}>
 			<Padding horizontal="small">
@@ -35,9 +41,15 @@ export const HorizontalPadding = {
 			</Padding>
 		</div>
 	)
-};
+} satisfies Story;
 
 export const SelectivePadding = {
+	args: {
+		top: 'extrasmall',
+		right: 'small',
+		bottom: 'small',
+		left: 'extrasmall'
+	},
 	render: (): React.JSX.Element => (
 		<div style={{ border: '0.0625rem solid black' }}>
 			<Padding top="extrasmall" right="small" bottom="small" left="extrasmall">
@@ -45,9 +57,12 @@ export const SelectivePadding = {
 			</Padding>
 		</div>
 	)
-};
+} satisfies Story;
 
 export const PaddingThroughValue = {
+	args: {
+		value: '0.625rem small extralarge'
+	},
 	render: (): React.JSX.Element => (
 		<div style={{ border: '0.0625rem solid black' }}>
 			<Padding value="0.625rem small extralarge">
@@ -55,4 +70,4 @@ export const PaddingThroughValue = {
 			</Padding>
 		</div>
 	)
-};
+} satisfies Story;

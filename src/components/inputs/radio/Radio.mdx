@@ -1,4 +1,12 @@
-import { Meta, Canvas, Controls, Stories, Primary, Title, Subtitle } from '@storybook/addon-docs/blocks';
+import {
+	Meta,
+	Canvas,
+	Controls,
+	Stories,
+	Primary,
+	Title,
+	Subtitle
+} from '@storybook/addon-docs/blocks';
 
 import * as RadioStories from './Radio.stories';
 import PropsCombinatorStorySrc from './Radio.stories.propsCombinator?raw';
@@ -9,9 +17,7 @@ import ComplexLabelStorySrc from './Radio.stories.complexLabel?raw';
 
 <Title />
 
-<Subtitle>
-    Radio buttons can be used to select one option out of a list of many.
-</Subtitle>
+<Subtitle>Radio buttons can be used to select one option out of a list of many.</Subtitle>
 
 ## Overview
 
@@ -31,6 +37,7 @@ It can be used in both controlled and uncontrolled modes.
 <Canvas of={RadioStories.PropsCombinator} source={{ code: PropsCombinatorStorySrc }} />
 
 ### Tips
+
 By default, click on the label (even custom ones) toggle the value of the radio input.
 In order to prevent this behavior, you need to prevent the default on the click event of the label itself.
 
@@ -63,7 +70,3 @@ In order to prevent this behavior, you need to prevent the default on the click 
 ## Uncontrolled Mode
 
 <Canvas of={RadioStories.UncontrolledMode} />
-
-## All Stories
-
-<Stories />

@@ -50,7 +50,7 @@ export const PropsCombinator = {
 export const Controlled = {
 	render: SwitchControlled,
 	parameters: { docs: { source: { code: SwitchControlledSrc } } }
-};
+} satisfies Story;
 
 export const Uncontrolled = {
 	render: (): React.JSX.Element => (
@@ -59,4 +59,4 @@ export const Uncontrolled = {
 			<Switch defaultChecked={false} onChange={console.log} label="I have a label!" />
 		</>
 	)
-};
+} satisfies Story;

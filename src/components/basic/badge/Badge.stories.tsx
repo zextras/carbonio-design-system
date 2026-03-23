@@ -33,19 +33,19 @@ export const ValueString = {
 	args: {
 		value: 'Sent'
 	}
-};
+} satisfies Story;
 
 export const ValueNumber = {
 	args: {
 		value: 200
 	}
-};
+} satisfies Story;
 
 export const WithoutValue = {
 	args: {
 		value: ''
 	}
-};
+} satisfies Story;
 
 export const ColorAndBackgroundColor = {
 	args: {
@@ -53,13 +53,13 @@ export const ColorAndBackgroundColor = {
 		color: 'primary',
 		backgroundColor: 'warning'
 	}
-};
+} satisfies Story;
 
 export const Icon = {
 	args: {
 		icon: 'Activity'
 	}
-};
+} satisfies Story;
 
 export const MaxValue = {
 	args: {
@@ -68,4 +68,4 @@ export const MaxValue = {
 		color: 'gray6',
 		backgroundColor: 'primary'
 	}
-};
+} satisfies Story;

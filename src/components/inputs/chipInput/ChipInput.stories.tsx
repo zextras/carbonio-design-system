@@ -29,7 +29,7 @@ const meta = {
 } satisfies Meta<typeof ChipInput>;
 export default meta;
 
-type Story = StoryObj<typeof ChipInput>;
+type Story = StoryObj<typeof meta>;
 
 export const Default = {} satisfies Story;
 

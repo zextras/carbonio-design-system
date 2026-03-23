@@ -122,7 +122,7 @@ export const WithTooltip = {
 	)
 } satisfies Story;
 
-const ShapeAndSize = {
+export const ShapeAndSize = {
 	render: (): React.JSX.Element => (
 		<Container
 			wrap="wrap"

@@ -19,7 +19,7 @@ const meta = {
 } satisfies Meta<typeof Input>;
 export default meta;
 
-type Story = StoryObj<typeof Input>;
+type Story = StoryObj<typeof meta>;
 
 export const Default = {} satisfies Story;
 
@@ -27,7 +27,7 @@ export const Label = {
 	args: {
 		label: 'This is the Input label'
 	}
-};
+} satisfies Story;
 
 export const Description = {
 	args: {
@@ -49,17 +49,17 @@ export const DefaultValue = {
 	args: {
 		defaultValue: 'This is the default value'
 	}
-};
+} satisfies Story;
 
 export const Disabled = {
 	args: {
 		disabled: true
 	}
-};
+} satisfies Story;
 
 export const TextColor = {
 	args: { textColor: 'warning' }
-};
+} satisfies Story;
 
 export const CustomIcon = {
 	args: {
@@ -67,18 +67,18 @@ export const CustomIcon = {
 			<Icon icon="AgendaOutline" size="large" color={hasFocus ? 'primary' : 'text'} />
 		)
 	}
-};
+} satisfies Story;
 
 export const HasError = {
 	args: {
 		hasError: true,
 		description: 'Custom description with error'
 	}
-};
+} satisfies Story;
 
 export const Type = {
 	args: { type: 'password' }
-};
+} satisfies Story;
 
 export const MixedInputs = {
 	render: (): JSX.Element => {
@@ -129,4 +129,4 @@ export const MixedInputs = {
 			</Container>
 		);
 	}
-};
+} satisfies Story;

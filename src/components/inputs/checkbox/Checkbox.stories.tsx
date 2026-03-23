@@ -24,7 +24,7 @@ const meta = {
 
 export default meta;
 
-type Story = StoryObj<typeof Checkbox>;
+type Story = StoryObj<typeof meta>;
 
 export const DefaultChecked = {
 	args: {
