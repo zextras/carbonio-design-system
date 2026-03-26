@@ -81,6 +81,7 @@ const CustomModal = React.forwardRef<HTMLDivElement, CustomModalProps>(function 
 	const modalContentRef = useRef<HTMLDivElement>(null);
 	const startSentinelRef = useRef<HTMLDivElement>(null);
 	const endSentinelRef = useRef<HTMLDivElement>(null);
+	const focusModalContentRef = useRef(focusModalContent);
 
 	const onBackdropClick = useCallback(
 		(e: KeyboardEvent | React.MouseEvent<HTMLDivElement>) => {
@@ -147,7 +148,7 @@ const CustomModal = React.forwardRef<HTMLDivElement, CustomModalProps>(function 
 		const endSentinelRefSave = endSentinelRef.current;
 
 		if (open) {
-			if (focusModalContent) {
+			if (focusModalContentRef.current) {
 				modalContentRef.current && modalContentRef.current.focus();
 			}
 			startSentinelRefSave && startSentinelRefSave.addEventListener('focus', onStartSentinelFocus);
@@ -160,7 +161,7 @@ const CustomModal = React.forwardRef<HTMLDivElement, CustomModalProps>(function 
 			endSentinelRefSave && endSentinelRefSave.removeEventListener('focus', onEndSentinelFocus);
 			open && focusedElement && focusedElement.focus();
 		};
-	}, [open, onStartSentinelFocus, onEndSentinelFocus, windowObj, focusModalContent]);
+	}, [open, onStartSentinelFocus, onEndSentinelFocus, windowObj]);
 
 	useEffect(() => {
 		// delay the open of the modal after the show of the portal
