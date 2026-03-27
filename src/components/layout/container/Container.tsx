@@ -205,7 +205,8 @@ const ContainerEl = styled.div<With$Prefix<ContainerElProps>>`
 `;
 
 interface ContainerProps
-	extends Omit<ContainerElProps, 'orientation'>,
+	extends
+		Omit<ContainerElProps, 'orientation'>,
 		Omit<HTMLAttributes<HTMLDivElement>, keyof ContainerElProps> {
 	orientation?: 'vertical' | 'horizontal' | ContainerElProps['orientation'];
 	children?: React.ReactNode | React.ReactNode[];
