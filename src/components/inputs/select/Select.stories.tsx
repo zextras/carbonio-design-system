@@ -6,10 +6,10 @@
 
 import React from 'react';
 
-import type { Meta, StoryObj } from '@storybook/react';
-import { fn } from '@storybook/test';
+import type { Meta, StoryObj } from '@storybook/react-webpack5';
+import { fn } from 'storybook/test';
 
-import { Select, type SelectItem, type SelectProps } from './Select';
+import { Select, type SelectItem } from './Select';
 import { SelectControlledMode } from './Select.stories.controlledMode';
 import { SelectMultipleSelection } from './Select.stories.multipleSelection';
 import { colorArgType } from '../../../docs/utils';
@@ -82,7 +82,7 @@ const meta = {
 } satisfies Meta<typeof Select>;
 
 export default meta;
-type Story = StoryObj<SelectProps<string>>;
+type Story = StoryObj<typeof meta>;
 
 export const Base = {
 	args: {
@@ -119,11 +119,11 @@ export const HideCheckbox = {
 
 export const ControlledMode = {
 	render: SelectControlledMode
-};
+} satisfies Story;
 
 export const MultipleSelection = {
 	render: SelectMultipleSelection
-};
+} satisfies Story;
 
 export const CustomTrigger = {
 	args: {

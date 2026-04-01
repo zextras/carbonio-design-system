@@ -5,7 +5,7 @@
  */
 import React from 'react';
 
-import type { StoryFn, Preview } from '@storybook/react';
+import type { StoryFn, Preview } from '@storybook/react-webpack5';
 import { generateAutocompletion } from 'storybook-addon-playground';
 
 import { DarkReaderDocsContainer } from './addons/darkreader/DarkReaderDocsContainer';
@@ -27,7 +27,6 @@ const preview = {
 		isDarkModeEnabled: false
 	},
 	parameters: {
-		actions: { argTypesRegex: '^on.*' },
 		options: {
 			storySort: {
 				order: ['Getting started', 'Theme', 'Components', 'Hooks']
@@ -36,8 +35,10 @@ const preview = {
 		docs: {
 			container: DarkReaderDocsContainer,
 			source: {
-				language: 'tsx'
-			}
+				language: 'tsx',
+				type: 'dynamic'
+			},
+			codePanel: true
 		},
 		playground: {
 			storyId: 'playground',

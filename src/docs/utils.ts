@@ -6,7 +6,7 @@
 import type React from 'react';
 
 import type { Placement } from '@floating-ui/dom';
-import type { ArgTypes } from '@storybook/react';
+import type { ArgTypes } from '@storybook/react-webpack5';
 
 import { Theme } from '../theme/theme';
 

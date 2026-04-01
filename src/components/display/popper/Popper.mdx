@@ -1,0 +1,18 @@
+import { Canvas, Meta, Controls, Stories, Title, Primary } from '@storybook/addon-docs/blocks';
+import * as PopperStories from './Popper.stories';
+import PopperOnClickStorySrc from './Popper.stories.onClick?raw';
+import PopperOnHoverStorySrc from './Popper.stories.onHover?raw';
+
+<Meta of={PopperStories} />
+
+<Title />
+
+<Primary />
+
+<Controls />
+
+Component to use when you want to position a component in reference of another component.
+
+<Canvas of={PopperStories.OnClick} source={{ code: PopperOnClickStorySrc }} />
+
+<Canvas of={PopperStories.OnHover} source={{ code: PopperOnHoverStorySrc }} />

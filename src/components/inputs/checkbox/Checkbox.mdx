@@ -1,0 +1,33 @@
+import { Meta, Controls, Stories, Title, Primary, Canvas } from '@storybook/addon-docs/blocks';
+import * as CheckboxStories from './Checkbox.stories';
+import CheckboxPropsCombinatorSrc from './Checkbox.stories.propsCombinator?raw';
+import CheckboxUncontrolledSrc from './Checkbox.stories.uncontrolled?raw';
+import CheckboxControlledSrc from './Checkbox.stories.controlled?raw';
+
+<Meta of={CheckboxStories} />
+
+<Title />
+
+<Primary />
+
+<Controls />
+
+### Props Combinator
+
+Checkboxes can be used to turn an option on or off.
+
+It can also be used with a label description.
+
+The Icon and status of the component depend on the checked status, whose initial value can be set via the defaultChecked prop.
+
+<Canvas of={CheckboxStories.PropsCombinator} source={{ code: CheckboxPropsCombinatorSrc }} />
+
+### Uncontrolled
+
+<Canvas of={CheckboxStories.Uncontrolled} source={{ code: CheckboxUncontrolledSrc }} />
+
+### Controlled
+
+<Canvas of={CheckboxStories.Controlled} source={{ code: CheckboxControlledSrc }} />
+
+<Stories />

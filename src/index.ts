@@ -13,31 +13,31 @@ export * from './components/basic/badge/Badge';
 export * from './components/basic/button/Button';
 export { Icon, type IconProps } from './components/basic/icon/Icon';
 export * from './components/basic/link/Link';
-export * from './components/basic/LoadMore';
+export * from './components/basic/loadMore/LoadMore';
 export * from './components/basic/formSection/FormSection';
 export * from './components/basic/text/Text';
 export * from './components/basic/spinner/Spinner';
 /** Layout components */
 export * from './components/layout/container/Container';
 export * from './components/layout/divider/Divider';
-export * from './components/layout/Padding';
+export * from './components/layout/padding/Padding';
 export * from './components/layout/Paragraph';
 export * from './components/layout/Row';
 
 /** Inputs components */
-export * from './components/inputs/Checkbox';
+export * from './components/inputs/checkbox/Checkbox';
 export {
 	ChipInput,
 	type ChipInputType,
 	type ChipItem,
 	type ChipInputProps
 } from './components/inputs/chipInput/ChipInput';
-export * from './components/inputs/FileLoader';
-export * from './components/inputs/IconButton';
-export * from './components/inputs/IconCheckbox';
+export * from './components/inputs/fileLoader/FileLoader';
+export * from './components/inputs/iconButton/IconButton';
+export * from './components/inputs/iconCheckbox/IconCheckbox';
 export * from './components/inputs/multiButton/MultiButton';
 export * from './components/inputs/input/Input';
-export * from './components/inputs/PasswordInput';
+export * from './components/inputs/passwordInput/PasswordInput';
 export { Radio, type RadioProps } from './components/inputs/radio/Radio';
 export { RadioGroup, type RadioGroupProps } from './components/inputs/radioGroup/RadioGroup';
 export {
@@ -48,7 +48,7 @@ export {
 	type SelectItem,
 	type LabelFactoryProps
 } from './components/inputs/select/Select';
-export * from './components/inputs/Switch';
+export * from './components/inputs/switch/Switch';
 export {
 	DateTimePicker,
 	type DateTimePickerProps,
@@ -66,12 +66,12 @@ export * from './components/navigation/Breadcrumbs';
 export * from './components/navigation/TabBar';
 
 /** display components */
-export * from './components/display/Chip';
+export * from './components/display/chip/Chip';
 export * from './components/display/dropdown/Dropdown';
 export * from './components/display/list/List';
-export * from './components/display/ListItem';
-export * from './components/display/Popover';
-export * from './components/display/Popper';
+export * from './components/display/listItem/ListItem';
+export * from './components/display/popover/Popover';
+export * from './components/display/popper/Popper';
 export * from './components/display/tooltip/Tooltip';
 export {
 	Table,
@@ -83,12 +83,12 @@ export {
 	DefaultRowFactory,
 	DefaultHeaderFactory
 } from './components/display/Table';
-export * from './components/display/CollapsingActions';
+export * from './components/display/collapsingActions/CollapsingActions';
 
 /** Feedback components */
 export { Banner, type BannerProps } from './components/feedback/banner/Banner';
 export * from './components/feedback/CustomModal';
-export * from './components/feedback/Modal';
+export * from './components/feedback/modal/Modal';
 export * from './components/feedback/modal-components/ModalHeader';
 export * from './components/feedback/modal-components/ModalBody';
 export * from './components/feedback/modal-components/ModalFooter';

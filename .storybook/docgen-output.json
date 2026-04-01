@@ -3435,7 +3435,7 @@
       }
     }
   ],
-  "src/components/inputs/Checkbox.tsx": [
+  "src/components/inputs/checkbox/Checkbox.tsx": [
     {
       "description": "",
       "methods": [],
@@ -3585,7 +3585,7 @@
       ]
     }
   ],
-  "src/components/display/Chip.tsx": [
+  "src/components/display/chip/Chip.tsx": [
     {
       "description": "",
       "methods": [],
@@ -4869,7 +4869,7 @@
       }
     }
   ],
-  "src/components/display/CollapsingActions.tsx": [
+  "src/components/display/collapsingActions/CollapsingActions.tsx": [
     {
       "description": "",
       "methods": [],
@@ -7032,7 +7032,7 @@
       ]
     }
   ],
-  "src/components/inputs/FileLoader.tsx": [
+  "src/components/inputs/fileLoader/FileLoader.tsx": [
     {
       "description": "",
       "methods": [],
@@ -7366,7 +7366,7 @@
       ]
     }
   ],
-  "src/components/inputs/IconButton.tsx": [
+  "src/components/inputs/iconButton/IconButton.tsx": [
     {
       "description": "@deprecated use Button with just the icon instead",
       "methods": [],
@@ -7569,7 +7569,7 @@
       }
     }
   ],
-  "src/components/inputs/IconCheckbox.tsx": [
+  "src/components/inputs/iconCheckbox/IconCheckbox.tsx": [
     {
       "description": "",
       "methods": [],
@@ -8385,7 +8385,7 @@
       ]
     }
   ],
-  "src/components/display/ListItem.tsx": [
+  "src/components/display/listItem/ListItem.tsx": [
     {
       "description": "",
       "methods": [],
@@ -8509,7 +8509,7 @@
       }
     }
   ],
-  "src/components/basic/LoadMore.tsx": [
+  "src/components/basic/loadMore/LoadMore.tsx": [
     {
       "description": "",
       "methods": [],
@@ -8575,7 +8575,7 @@
       ]
     }
   ],
-  "src/components/feedback/Modal.tsx": [
+  "src/components/feedback/modal/Modal.tsx": [
     {
       "description": "",
       "methods": [],
@@ -9369,7 +9369,7 @@
       }
     }
   ],
-  "src/components/layout/Padding.tsx": [
+  "src/components/layout/padding/Padding.tsx": [
     {
       "description": "",
       "methods": [],
@@ -9518,7 +9518,7 @@
       ]
     }
   ],
-  "src/components/inputs/PasswordInput.tsx": [
+  "src/components/inputs/passwordInput/PasswordInput.tsx": [
     {
       "description": "",
       "methods": [],
@@ -9822,7 +9822,7 @@
       ]
     }
   ],
-  "src/components/display/Popover.tsx": [
+  "src/components/display/popover/Popover.tsx": [
     {
       "description": "",
       "methods": [],
@@ -9963,7 +9963,7 @@
       ]
     }
   ],
-  "src/components/display/Popper.tsx": [
+  "src/components/display/popper/Popper.tsx": [
     {
       "description": "",
       "methods": [],
@@ -12469,7 +12469,7 @@
       ]
     }
   ],
-  "src/components/inputs/Switch.tsx": [
+  "src/components/inputs/switch/Switch.tsx": [
     {
       "description": "",
       "methods": [],

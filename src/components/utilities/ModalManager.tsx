@@ -11,8 +11,8 @@ import { useTheme } from '@emotion/react';
 
 import type { CustomModalProps } from '../feedback/CustomModal';
 import { CustomModal } from '../feedback/CustomModal';
-import type { ModalProps } from '../feedback/Modal';
-import { Modal } from '../feedback/Modal';
+import type { ModalProps } from '../feedback/modal/Modal';
+import { Modal } from '../feedback/modal/Modal';
 
 type CreateModalArgs =
 	| [modalProps: ModalProps & { id: string }, customModal?: false]

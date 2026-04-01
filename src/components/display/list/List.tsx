@@ -15,7 +15,7 @@ import { getKeyboardPreset, useKeyboard } from '../../../hooks/useKeyboard';
 import type { Theme } from '../../../theme/theme';
 import type { ContainerProps } from '../../layout/container/Container';
 import { Container } from '../../layout/container/Container';
-import type { ListItemProps } from '../ListItem';
+import type { ListItemProps } from '../listItem/ListItem';
 
 const ExternalContainer = styled(Container)`
 	display: block;

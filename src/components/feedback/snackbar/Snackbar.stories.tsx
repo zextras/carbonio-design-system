@@ -6,8 +6,8 @@
 
 import React, { useState } from 'react';
 
-import type { Meta, StoryObj } from '@storybook/react';
-import { expect, within, userEvent, screen } from '@storybook/test';
+import type { Meta, StoryObj } from '@storybook/react-webpack5';
+import { expect, within, userEvent, screen } from 'storybook/test';
 
 import type { SnackbarProps } from './Snackbar';
 import { Snackbar } from './Snackbar';

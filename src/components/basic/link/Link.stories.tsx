@@ -5,7 +5,7 @@
  */
 import React from 'react';
 
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-webpack5';
 
 import { Link } from './Link';
 import { colorArgType, sizeArgType, textAlignArgType, weightArgType } from '../../../docs/utils';
@@ -25,7 +25,7 @@ const meta = {
 } satisfies Meta<typeof Link>;
 export default meta;
 
-type Story = StoryObj<typeof Link>;
+type Story = StoryObj<typeof meta>;
 
 export const Default = {} satisfies Story;
 

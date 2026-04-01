@@ -10,7 +10,7 @@ import { act, screen, waitFor } from '@testing-library/react';
 import { Input } from './Input';
 import { setup } from '../../../tests/utils';
 import { Button } from '../../basic/button/Button';
-import { Modal } from '../../feedback/Modal';
+import { Modal } from '../../feedback/modal/Modal';
 
 const ModalWithInput = (): React.JSX.Element => {
 	const [open, setOpen] = useState(false);

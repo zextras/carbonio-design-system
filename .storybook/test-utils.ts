@@ -3,9 +3,9 @@
  *
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-import type { UserEvent } from '@storybook/test';
-import { userEvent, within, screen } from '@storybook/test';
+
 import type { Screen } from '@testing-library/react';
+import { userEvent, within, screen } from 'storybook/test';
 
 import { queriesExtended } from '../src/tests/custom-queries';
 
@@ -20,9 +20,9 @@ const customScreen: Screen<typeof queriesExtended> = {
 	...customWithin(document.body)
 };
 
-interface ExtendedUserEvent extends UserEvent {
+type ExtendedUserEvent = typeof userEvent & {
 	readonly rightClick: (target: Element) => ReturnType<typeof userEvent.pointer>;
-}
+};
 
 const customUserEvent: ExtendedUserEvent = {
 	...userEvent,

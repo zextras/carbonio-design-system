@@ -12,7 +12,7 @@ import type { DatePickerCustomInputProps } from './DateTimePicker';
 import { Button } from '../../basic/button/Button';
 import type { ContainerProps } from '../../layout/container/Container';
 import { Container } from '../../layout/container/Container';
-import type { IconButtonProps } from '../IconButton';
+import type { IconButtonProps } from '../iconButton/IconButton';
 import type { InputProps } from '../input/Input';
 import { Input } from '../input/Input';
 

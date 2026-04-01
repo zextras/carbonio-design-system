@@ -5,9 +5,9 @@
  */
 import React, { useCallback, useRef, useState } from 'react';
 
-import type { Meta, StoryObj } from '@storybook/react';
-import { fn } from '@storybook/test';
+import type { Meta, StoryObj } from '@storybook/react-webpack5';
 import { times } from 'lodash';
+import { fn } from 'storybook/test';
 
 import type { ChipItem } from './ChipInput';
 import { ChipInput, DefaultOnAdd } from './ChipInput';
@@ -16,9 +16,9 @@ import { ControlledChipInput } from './ChipInput.stories.controlledMode';
 import { ChipInputDisabledWithOptions } from './ChipInput.stories.disabledWithOptions';
 import { ChipInputSuggestionMode } from './ChipInput.stories.suggestionMode';
 import { Text } from '../../basic/text/Text';
-import type { ChipProps } from '../../display/Chip';
-import { Chip } from '../../display/Chip';
-import { Popover } from '../../display/Popover';
+import type { ChipProps } from '../../display/chip/Chip';
+import { Chip } from '../../display/chip/Chip';
+import { Popover } from '../../display/popover/Popover';
 import { Container } from '../../layout/container/Container';
 
 const meta = {
@@ -29,7 +29,7 @@ const meta = {
 } satisfies Meta<typeof ChipInput>;
 export default meta;
 
-type Story = StoryObj<typeof ChipInput>;
+type Story = StoryObj<typeof meta>;
 
 export const Default = {} satisfies Story;
 

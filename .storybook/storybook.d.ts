@@ -3,9 +3,9 @@
  *
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-import '@storybook/csf';
+import 'storybook/internal/csf';
 
-declare module '@storybook/csf' {
+declare module 'storybook/internal/csf' {
 	interface Globals {
 		isDarkModeEnabled: boolean | undefined;
 	}
