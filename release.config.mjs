@@ -3,15 +3,7 @@
  */
 export default {
 	branches: [
-		'release',
-		{
-			name: 'beta',
-			prerelease: true
-		},
-		{
-			name: 'devel',
-			prerelease: true
-		}
+		'devel'
 	],
 	plugins: [
 		[
