@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import type { Meta, StoryObj } from '@storybook/react';
-import { expect, fn, userEvent } from '@storybook/test';
+import type { Meta, StoryObj } from '@storybook/react-webpack5';
+import { expect, fn, userEvent } from 'storybook/test';
 
 import type { MultiButtonProps } from './MultiButton';
 import { MultiButton } from './MultiButton';

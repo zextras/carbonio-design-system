@@ -4,11 +4,43 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import type { Meta, StoryObj } from '@storybook/react';
-import { fn } from '@storybook/test';
+import type { ArgTypes, Meta, StoryObj } from '@storybook/react-webpack5';
+import { fn } from 'storybook/test';
 
 import { Button } from './Button';
+import type { ButtonProps } from './Button';
 import { colorArgType } from '../../../docs/utils';
+
+const shape: NonNullable<ButtonProps['shape']>[] = ['regular', 'round'];
+const iconPlacement: NonNullable<ButtonProps['iconPlacement']>[] = ['left', 'right'];
+const size: NonNullable<ButtonProps['size']>[] = [
+	'extrasmall',
+	'small',
+	'medium',
+	'large',
+	'extralarge'
+];
+
+const shapeArgType: ArgTypes[string] = {
+	control: {
+		type: 'radio'
+	},
+	options: shape
+};
+
+const iconPlacementArgType: ArgTypes[string] = {
+	control: {
+		type: 'radio'
+	},
+	options: iconPlacement
+};
+
+const sizeArgType: ArgTypes[string] = {
+	control: {
+		type: 'select'
+	},
+	options: size
+};
 
 const meta = {
 	component: Button,
@@ -20,7 +52,10 @@ const meta = {
 		color: colorArgType,
 		backgroundColor: colorArgType,
 		labelColor: colorArgType,
-		icon: { control: 'text' }
+		icon: { control: 'text' },
+		iconPlacement: iconPlacementArgType,
+		shape: shapeArgType,
+		size: sizeArgType
 	}
 } satisfies Meta<typeof Button>;
 

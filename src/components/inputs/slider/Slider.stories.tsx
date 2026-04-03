@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-webpack5';
 
 import { Slider } from './Slider';
 import { ControlledSlider } from './Slider.stories.controlledMode';
@@ -18,7 +18,7 @@ const meta = {
 
 export default meta;
 
-type Story = StoryObj<typeof Slider>;
+type Story = StoryObj<typeof meta>;
 
 export const Default = {
 	args: {

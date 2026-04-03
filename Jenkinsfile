@@ -260,40 +260,6 @@ pipeline {
             }
         }
 
-        stage('Open release to devel pull request') {
-            when {
-                allOf {
-                    expression { isReleaseBranch == true }
-                    expression { isUpdateImages == false }
-                }
-            }
-            steps {
-                script {
-                    container('nodejs-' + nodeVersion) {
-                        sh 'apt update && apt install -y openssh-client'
-                        String versionBumperBranchName = "version-bumper/${getLastTag()}"
-                        sh(script: """
-                            git push origin HEAD:refs/heads/${versionBumperBranchName}
-                        """)
-                        withCredentials([usernamePassword(credentialsId: 'jenkins-integration-with-github-account', usernameVariable: 'GH_USERNAME', passwordVariable: 'GH_TOKEN')]) {
-                            sh(script: """
-                                curl https://api.github.com/repos/${getRepositoryName()}/pulls \
-                                -X POST \
-                                -H 'Accept: application/vnd.github.v3+json' \
-                                -H 'Authorization: token ${GH_TOKEN}' \
-                                -d '{
-                                    \"title\": \"chore(release): ${getLastTag()}\",
-                                    \"head\": \"${versionBumperBranchName}\",
-                                    \"base\": \"devel\",
-                                    \"maintainer_can_modify\": true
-                                }'
-                            """)
-                        }
-                    }
-                }
-            }
-        }
-
         stage('Deploy documentation') {
             when {
                 allOf {

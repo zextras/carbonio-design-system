@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-webpack5';
 
 import { Badge } from './Badge';
 import { colorArgType } from '../../../docs/utils';
@@ -12,6 +12,9 @@ import { colorArgType } from '../../../docs/utils';
 const meta = {
 	component: Badge,
 	argTypes: {
+		value: {
+			type: 'string'
+		},
 		color: colorArgType,
 		backgroundColor: colorArgType
 	}
@@ -30,19 +33,19 @@ export const ValueString = {
 	args: {
 		value: 'Sent'
 	}
-};
+} satisfies Story;
 
 export const ValueNumber = {
 	args: {
 		value: 200
 	}
-};
+} satisfies Story;
 
 export const WithoutValue = {
 	args: {
 		value: ''
 	}
-};
+} satisfies Story;
 
 export const ColorAndBackgroundColor = {
 	args: {
@@ -50,13 +53,13 @@ export const ColorAndBackgroundColor = {
 		color: 'primary',
 		backgroundColor: 'warning'
 	}
-};
+} satisfies Story;
 
 export const Icon = {
 	args: {
 		icon: 'Activity'
 	}
-};
+} satisfies Story;
 
 export const MaxValue = {
 	args: {
@@ -65,4 +68,4 @@ export const MaxValue = {
 		color: 'gray6',
 		backgroundColor: 'primary'
 	}
-};
+} satisfies Story;

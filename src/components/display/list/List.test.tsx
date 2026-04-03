@@ -10,7 +10,7 @@ import { screen } from '@testing-library/react';
 import { List } from './List';
 import { setup } from '../../../tests/utils';
 import { Container } from '../../layout/container/Container';
-import { ListItem } from '../ListItem';
+import { ListItem } from '../listItem/ListItem';
 
 describe('List', () => {
 	test('Render a basic list', () => {

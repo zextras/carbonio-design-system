@@ -9,7 +9,7 @@ import React, { useCallback, useState } from 'react';
 import { RadioGroup } from './RadioGroup';
 import { Container } from '../../layout/container/Container';
 import { Radio } from '../radio/Radio';
-import { Switch } from '../Switch';
+import { Switch } from '../switch/Switch';
 
 export const DisabledRadioGroup = (): React.JSX.Element => {
 	const [disabled, setDisabled] = useState(false);

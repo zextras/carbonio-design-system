@@ -15,7 +15,7 @@ import { Container } from '../../layout/container/Container';
 import { Divider } from '../../layout/divider/Divider';
 import { Row } from '../../layout/Row';
 import { Drag } from '../../utilities/Drag';
-import { ListItem } from '../ListItem';
+import { ListItem } from '../listItem/ListItem';
 
 type Item = { id: string; name: string; image: string; email: string; text: string };
 type ListItemContentProps = {

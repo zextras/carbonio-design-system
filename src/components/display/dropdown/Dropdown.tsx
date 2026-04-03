@@ -33,7 +33,7 @@ import { Text } from '../../basic/text/Text';
 import { FOCUSABLE_SELECTOR, TIMERS } from '../../constants';
 import { Container } from '../../layout/container/Container';
 import { Divider } from '../../layout/divider/Divider';
-import { Padding } from '../../layout/Padding';
+import { Padding } from '../../layout/padding/Padding';
 import { Portal } from '../../utilities/Portal';
 import { Tooltip } from '../tooltip/Tooltip';
 

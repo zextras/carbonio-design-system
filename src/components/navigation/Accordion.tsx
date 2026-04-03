@@ -23,7 +23,7 @@ import { Tooltip } from '../display/tooltip/Tooltip';
 import type { ContainerProps } from '../layout/container/Container';
 import { Container } from '../layout/container/Container';
 import { Divider } from '../layout/divider/Divider';
-import { Padding } from '../layout/Padding';
+import { Padding } from '../layout/padding/Padding';
 import { Collapse } from '../utilities/Collapse';
 
 const AccordionContainerEl = styled(Container)<{

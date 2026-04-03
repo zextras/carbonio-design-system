@@ -17,7 +17,7 @@ import type { DropdownItem, DropdownProps } from '../../display/dropdown/Dropdow
 import { Dropdown } from '../../display/dropdown/Dropdown';
 import { Container } from '../../layout/container/Container';
 import { Divider } from '../../layout/divider/Divider';
-import { Padding } from '../../layout/Padding';
+import { Padding } from '../../layout/padding/Padding';
 import { Row } from '../../layout/Row';
 
 const Label = styled(Text)<{ $selected: boolean }>`

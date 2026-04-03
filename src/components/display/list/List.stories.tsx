@@ -5,14 +5,14 @@
  */
 import React from 'react';
 
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-webpack5';
 
 import type { ListProps } from './List';
 import { List } from './List';
 import { PaginatedList } from './List.stories.paginated';
 import { WithComplexItem } from './List.stories.withComplexItem';
 import { Container } from '../../layout/container/Container';
-import { ListItem } from '../ListItem';
+import { ListItem } from '../listItem/ListItem';
 
 const meta = {
 	component: List,

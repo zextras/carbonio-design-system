@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-webpack5';
 
 import { Spinner } from './Spinner';
 import { colorArgType } from '../../../docs/utils';
@@ -17,7 +17,7 @@ const meta = {
 } satisfies Meta<typeof Spinner>;
 export default meta;
 
-type Story = StoryObj<typeof Spinner>;
+type Story = StoryObj<typeof meta>;
 
 export const Default = {
 	args: {

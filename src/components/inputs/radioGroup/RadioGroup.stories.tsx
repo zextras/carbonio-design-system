@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-webpack5';
 
 import { RadioGroup } from './RadioGroup';
 import { ControlledRadioGroup } from './RadioGroup.stories.controlledMode';
@@ -24,8 +24,6 @@ const meta = {
 
 export default meta;
 
-type Story = StoryObj<typeof RadioGroup>;
-
 export const ControlledMode = {
 	render: ControlledRadioGroup,
 	parameters: {
@@ -35,7 +33,7 @@ export const ControlledMode = {
 			}
 		}
 	}
-} satisfies Story;
+} satisfies StoryObj<typeof ControlledRadioGroup>;
 
 export const UncontrolledMode = {
 	render: UncontrolledRadioGroup,
@@ -46,7 +44,7 @@ export const UncontrolledMode = {
 			}
 		}
 	}
-} satisfies Story;
+} satisfies StoryObj<typeof UncontrolledRadioGroup>;
 
 export const DisabledGroup = {
 	render: DisabledRadioGroup,
@@ -57,4 +55,4 @@ export const DisabledGroup = {
 			}
 		}
 	}
-} satisfies Story;
+} satisfies StoryObj<typeof DisabledRadioGroup>;

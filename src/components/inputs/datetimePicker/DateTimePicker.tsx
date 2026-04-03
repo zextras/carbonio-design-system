@@ -17,7 +17,7 @@ import { DateTimePickerChipInput } from './DateTimePickerChipInput';
 import { DateTimePickerInput } from './DateTimePickerInput';
 import type { LiteralUnion, PaletteColor } from '../../../types/utils';
 import { INPUT_BACKGROUND_COLOR } from '../../constants';
-import type { ChipProps } from '../../display/Chip';
+import type { ChipProps } from '../../display/chip/Chip';
 import { Container } from '../../layout/container/Container';
 
 import 'react-datepicker/dist/react-datepicker.min.css';

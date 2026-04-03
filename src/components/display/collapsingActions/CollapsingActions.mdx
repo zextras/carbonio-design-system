@@ -1,0 +1,47 @@
+import { Meta, Title, Controls, Stories, Primary, Canvas } from '@storybook/addon-docs/blocks';
+import * as CollapsingActionsStories from './CollapsingActions.stories';
+import CollapsingActionsAlignmentStorySrc from './CollapsingActions.stories.alignment?raw';
+import CollapsingActionsMaxVisibleStorySrc from './CollapsingActions.stories.maxVisible?raw';
+import CollapsingActionsSizeStorySrc from './CollapsingActions.stories.size?raw';
+import CollapsingActionsColorStorySrc from './CollapsingActions.stories.color?raw';
+import CollapsingActionsGapStorySrc from './CollapsingActions.stories.gap?raw';
+
+<Meta of={CollapsingActionsStories} />
+
+<Title />
+
+<Primary />
+
+<Controls />
+
+Similar to how Breadcrumb works, based on screen width, it shows the given actions until the main container is filled, then
+other actions are collapsed inside a dropdown. Actions are removed from the end
+
+Max number of visible actions can also be set to make only a limited group visible, independently of remaining spaces.
+If less than max number of actions can be shown without scroll, then a lower number is rendered as visible.
+
+## Alignment
+
+<Canvas
+	of={CollapsingActionsStories.Alignment}
+	source={{ code: CollapsingActionsAlignmentStorySrc }}
+/>
+
+## Max Visible
+
+<Canvas
+	of={CollapsingActionsStories.MaxVisible}
+	source={{ code: CollapsingActionsMaxVisibleStorySrc }}
+/>
+
+## Size
+
+<Canvas of={CollapsingActionsStories.Size} source={{ code: CollapsingActionsSizeStorySrc }} />
+
+## Color
+
+<Canvas of={CollapsingActionsStories.Color} source={{ code: CollapsingActionsColorStorySrc }} />
+
+## Gap
+
+<Canvas of={CollapsingActionsStories.Gap} source={{ code: CollapsingActionsGapStorySrc }} />

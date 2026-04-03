@@ -10,12 +10,10 @@ const config: StorybookConfig = {
 	staticDirs: ['../docs/assets'],
 	addons: [
 		'@storybook/addon-webpack5-compiler-babel',
-		'@storybook/addon-essentials',
-		'@storybook/addon-interactions',
-		'@storybook/test',
 		'@storybook/addon-designs',
 		'./addons/darkreader/register',
-		'storybook-addon-playground'
+		'storybook-addon-playground',
+		'@storybook/addon-docs'
 	],
 	framework: {
 		name: '@storybook/react-webpack5',

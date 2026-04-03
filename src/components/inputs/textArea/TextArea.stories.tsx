@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-webpack5';
 
 import { TextArea } from './TextArea';
 import { ControlledTextArea } from './TextArea.stories.controlledMode';
@@ -20,7 +20,7 @@ const meta = {
 } satisfies Meta<typeof TextArea>;
 export default meta;
 
-type Story = StoryObj<typeof TextArea>;
+type Story = StoryObj<typeof meta>;
 
 export const Default = {} satisfies Story;
 

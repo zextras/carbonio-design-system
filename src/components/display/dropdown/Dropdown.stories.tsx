@@ -7,8 +7,8 @@
 
 import React, { useState } from 'react';
 
-import type { Meta, StoryObj } from '@storybook/react';
-import { fn, expect } from '@storybook/test';
+import type { Meta, StoryObj } from '@storybook/react-webpack5';
+import { fn, expect } from 'storybook/test';
 
 import type { DropdownItem } from './Dropdown';
 import { Dropdown } from './Dropdown';

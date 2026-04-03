@@ -1,4 +1,4 @@
-import { Meta, Controls, Story, Title, Primary, Canvas } from '@storybook/blocks';
+import { Meta, Controls, Story, Title, Primary, Canvas } from '@storybook/addon-docs/blocks';
 import * as ChipInputStories from './ChipInput.stories';
 import CleaningInputStorySrc from './ChipInput.stories.cleanInput?raw'
 
@@ -11,7 +11,7 @@ The ChipInput is an input where the entered values are shown as Chip elements.
 By default, values are added when
 
 - the 'space', 'enter' or 'comma' key are pressed
-- ChipInput lose the focus (onBlur)
+- ChipInput loses the focus (onBlur)
 
 and are deleted when the 'Backspace' key is pressed.
 
@@ -26,7 +26,7 @@ A custom Chip can be used in order to have more control on what a chip can do, b
 
 
 ## onAdd vs onChange
-**onAdd** and **onChange** have two different meaning in the chip input:
+**onAdd** and **onChange** have two different meanings in the chip input:
 - **onAdd**: has to be used only for converting a value in a chip. The value received by arg can be a string or the value of a dropdown option,
 if present (value intended as the field _value_ of the Dropdown option object)
 - **onChange**: onChange is called when a chip is added/removed/replaced from "inside" the chip input component. This means that if you
@@ -89,7 +89,7 @@ To get the value of the ChipInput, the onChange callback must be used.
 Dropdown is accessible even if chipInput is disabled. This allows chips to be entered only through options and not with typing.
 To entirely disable the ChipInput, both the disable options have to be set to false.
 
-When options are provided, and there is some option in the dropdown, blur event does not create a chip.
+When options are provided, and there is some option in the dropdown, the blur event does not create a chip.
 
 <Story of={ChipInputStories.EnabledWithOptions} />
 
@@ -99,7 +99,7 @@ To simulate a suggestion mode, value the option prop dynamically, leaving the di
 
 <Story of={ChipInputStories.SuggestionMode} />
 
-To show all options also on focus an additional listener is required
+To show all options also on focus, an additional listener is required
 
 <Story of={ChipInputStories.SuggestionModeWithFocusListener} />
 
