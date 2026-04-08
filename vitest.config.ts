@@ -26,6 +26,10 @@ export default defineConfig({
 		environment: 'jsdom',
 		setupFiles: ['./src/tests/vitest-env-setup.ts'],
 		restoreMocks: true,
+		reporters: ['default', 'junit'],
+		outputFile: {
+			junit: './junit.xml'
+		},
 		fakeTimers: {
 			shouldAdvanceTime: true
 		},
