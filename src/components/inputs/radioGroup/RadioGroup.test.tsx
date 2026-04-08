@@ -53,9 +53,9 @@ describe('Radio Group', () => {
 	});
 
 	test('should call onClick of the radio component', async () => {
-		const onClick1Fn = jest.fn();
-		const onClick2Fn = jest.fn();
-		const onClick3Fn = jest.fn();
+		const onClick1Fn = vi.fn();
+		const onClick2Fn = vi.fn();
+		const onClick3Fn = vi.fn();
 		const { user } = setup(
 			<RadioGroup>
 				<Radio value={'r1'} label={`item 1`} onClick={onClick1Fn} />
@@ -87,9 +87,7 @@ describe('Radio Group', () => {
 	describe('Controlled mode', () => {
 		test('should call onChange with the new value to set without updating the checked radio', async () => {
 			type RadioGroupOnChange = NonNullable<RadioGroupProps<`r${number}`>['onChange']>;
-			const onChangeFn = jest.fn<ReturnType<RadioGroupOnChange>, Parameters<RadioGroupOnChange>>(
-				(value) => noop(value)
-			);
+			const onChangeFn = vi.fn<RadioGroupOnChange>((value) => noop(value));
 			const { user } = setup(
 				<RadioGroup value={'r3'} onChange={onChangeFn}>
 					<Radio value={'r1'} label={`item 1`} />
@@ -111,7 +109,7 @@ describe('Radio Group', () => {
 		});
 
 		test('should not call onChange if the new value to set is equal to the current one', async () => {
-			const onChangeFn = jest.fn();
+			const onChangeFn = vi.fn();
 			const { user } = setup(
 				<RadioGroup value={'r3'} onChange={onChangeFn}>
 					<Radio value={'r1'} label={`item 1`} />
@@ -158,7 +156,7 @@ describe('Radio Group', () => {
 		});
 
 		test('should not call onChange with the new value to set', async () => {
-			const onChangeFn = jest.fn();
+			const onChangeFn = vi.fn();
 			const { user } = setup(
 				<RadioGroup defaultValue={'r3'} onChange={onChangeFn}>
 					<Radio value={'r1'} label={`item 1`} />

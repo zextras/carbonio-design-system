@@ -63,7 +63,7 @@ describe('Chip', () => {
 
 	test('Render chip with close action', async () => {
 		const label = 'chip label';
-		const closeFn = jest.fn();
+		const closeFn = vi.fn();
 		const { user } = setup(<Chip label={label} onClose={closeFn} />);
 		expect(screen.getByTestId(ICONS.close)).toBeVisible();
 		await user.click(screen.getByTestId(ICONS.close));
@@ -72,7 +72,7 @@ describe('Chip', () => {
 
 	test('Render chip with close action disabled', async () => {
 		const label = 'chip label';
-		const closeFn = jest.fn();
+		const closeFn = vi.fn();
 		const { user } = setup(<Chip label={label} onClose={closeFn} closable={false} />);
 		expect(screen.getByTestId(ICONS.close)).toBeVisible();
 		await user.click(screen.getByTestId(ICONS.close));
@@ -99,20 +99,20 @@ describe('Chip', () => {
 				icon: 'People',
 				type: 'button',
 				label: 'tooltip action1',
-				onClick: jest.fn()
+				onClick: vi.fn()
 			},
 			{
 				id: 'action2',
 				icon: 'Eye',
 				type: 'icon',
 				// add onClick callback even if it is not allowed by ts to check it is not called
-				onClick: jest.fn()
+				onClick: vi.fn()
 			},
 			{
 				id: 'action3',
 				icon: 'Share',
 				type: 'button',
-				onClick: jest.fn(),
+				onClick: vi.fn(),
 				disabled: true
 			}
 		];
@@ -126,7 +126,7 @@ describe('Chip', () => {
 		);
 
 		// wait so tooltips can register the listeners
-		jest.advanceTimersByTime(TIMERS.TOOLTIP.REGISTER_LISTENER);
+		vi.advanceTimersByTime(TIMERS.TOOLTIP.REGISTER_LISTENER);
 		expect(screen.getByTestId('icon: Star')).toBeVisible();
 		expect(screen.getByTestId('icon: People')).toBeVisible();
 		expect(screen.getByTestId('icon: Eye')).toBeVisible();
@@ -173,23 +173,23 @@ describe('Chip', () => {
 				icon: 'People',
 				type: 'button',
 				label: 'tooltip action1',
-				onClick: jest.fn()
+				onClick: vi.fn()
 			},
 			{
 				id: 'action2',
 				icon: 'Eye',
 				type: 'icon',
-				onClick: jest.fn()
+				onClick: vi.fn()
 			},
 			{
 				id: 'action3',
 				icon: 'Share',
 				type: 'button',
-				onClick: jest.fn(),
+				onClick: vi.fn(),
 				disabled: true
 			}
 		];
-		const closeFn = jest.fn();
+		const closeFn = vi.fn();
 		const { user } = setup(
 			<Chip
 				label={label}
@@ -200,7 +200,7 @@ describe('Chip', () => {
 			/>
 		);
 		// wait so tooltips can register the listeners
-		jest.advanceTimersByTime(TIMERS.TOOLTIP.REGISTER_LISTENER);
+		vi.advanceTimersByTime(TIMERS.TOOLTIP.REGISTER_LISTENER);
 		expect(screen.getByTestId('icon: Star')).toBeVisible();
 		expect(screen.getByTestId('icon: People')).toBeVisible();
 		expect(screen.getByTestId('icon: Eye')).toBeVisible();
@@ -262,19 +262,19 @@ describe('Chip', () => {
 				icon: 'People',
 				type: 'button',
 				label: 'tooltip action1',
-				onClick: jest.fn()
+				onClick: vi.fn()
 			},
 			{
 				id: 'action2',
 				icon: 'Eye',
 				type: 'icon',
-				onClick: jest.fn()
+				onClick: vi.fn()
 			},
 			{
 				id: 'action3',
 				icon: 'Share',
 				type: 'button',
-				onClick: jest.fn(),
+				onClick: vi.fn(),
 				disabled: true
 			}
 		];
@@ -287,7 +287,7 @@ describe('Chip', () => {
 			/>
 		);
 		// wait so tooltips can register the listeners
-		jest.advanceTimersByTime(TIMERS.TOOLTIP.REGISTER_LISTENER);
+		vi.advanceTimersByTime(TIMERS.TOOLTIP.REGISTER_LISTENER);
 		await user.hover(screen.getByText(label));
 		await screen.findByText(/message for error/i);
 		expect(screen.getByText('Message for error')).toBeVisible();
@@ -310,8 +310,8 @@ describe('Chip', () => {
 
 	test('Render chip with click and double click', async () => {
 		const label = 'chip label';
-		const clickFn = jest.fn();
-		const doubleClickFn = jest.fn();
+		const clickFn = vi.fn();
+		const doubleClickFn = vi.fn();
 		const { user } = setup(<Chip label={label} onClick={clickFn} onDoubleClick={doubleClickFn} />);
 		await user.click(screen.getByText(label));
 		expect(clickFn).toHaveBeenCalled();

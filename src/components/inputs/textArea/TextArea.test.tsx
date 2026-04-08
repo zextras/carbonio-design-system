@@ -64,7 +64,7 @@ describe('TextArea', () => {
 	});
 
 	test('onFocus is called when textarea get focus', async () => {
-		const onFocus = jest.fn();
+		const onFocus = vi.fn();
 		const { user } = setup(
 			<TextArea onFocus={onFocus} label={'The label'} description={'The description'} />
 		);
@@ -74,7 +74,7 @@ describe('TextArea', () => {
 	});
 
 	test('onBlur is called when textarea lose focus', async () => {
-		const onBlur = jest.fn();
+		const onBlur = vi.fn();
 		const { user } = setup(
 			<TextArea onBlur={onBlur} label={'The label'} description={'The description'} />
 		);
@@ -141,7 +141,7 @@ describe('TextArea', () => {
 		});
 
 		test('User can type into the textarea, onChange is called and value is not updated automatically', async () => {
-			const onChange = jest.fn();
+			const onChange = vi.fn();
 			const { user } = setup(<TextArea value={''} onChange={onChange} />);
 			const text = faker.lorem.lines();
 			const textArea = screen.getByRole('textbox');
@@ -151,7 +151,7 @@ describe('TextArea', () => {
 		});
 
 		test('User cannot type into a disabled textarea', async () => {
-			const onChange = jest.fn();
+			const onChange = vi.fn();
 			const { user } = setup(<TextArea value={''} onChange={onChange} disabled />);
 			const text = faker.lorem.lines();
 			const textArea = screen.getByRole('textbox');
@@ -161,7 +161,7 @@ describe('TextArea', () => {
 		});
 
 		test('Label change position when value is updated from outside', async () => {
-			const onChange = jest.fn();
+			const onChange = vi.fn();
 			const { rerender } = setup(<TextArea value={''} label={'The label'} onChange={onChange} />);
 			expect(screen.getByText('The label')).toHaveStyle({ top: '50%' });
 			rerender(
@@ -171,7 +171,7 @@ describe('TextArea', () => {
 		});
 
 		test('data-replicated-value to set height is updated when value is updated from outside', async () => {
-			const onChange = jest.fn();
+			const onChange = vi.fn();
 			const content = faker.lorem.paragraphs();
 			const { rerender } = setup(<TextArea value={''} label={'The label'} onChange={onChange} />);
 			rerender(<TextArea value={content} label={'The label'} onChange={onChange} />);

@@ -17,7 +17,7 @@ function ErrorComponent(): React.JSX.Element {
 
 describe('Catcher', () => {
 	test('Render a component', () => {
-		const onError = jest.fn();
+		const onError = vi.fn();
 		setup(
 			<Catcher onError={onError}>
 				<div>CHILD ELEMENT</div>
@@ -28,8 +28,8 @@ describe('Catcher', () => {
 	});
 
 	test('Render a component with an error', () => {
-		jest.spyOn(console, 'error').mockImplementation();
-		const onError = jest.fn();
+		vi.spyOn(console, 'error').mockImplementation(() => {});
+		const onError = vi.fn();
 		setup(
 			<Catcher onError={onError}>
 				<ErrorComponent />

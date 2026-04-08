@@ -29,7 +29,7 @@ describe('DateTimePicker', () => {
 		});
 
 		it('should render the component without invoking onChange', async () => {
-			const onChangeFn = jest.fn();
+			const onChangeFn = vi.fn();
 			const { user } = setup(<DateTimePicker label={'label'} onChange={onChangeFn} />);
 			expect(onChangeFn).not.toHaveBeenCalled();
 		});
@@ -64,7 +64,7 @@ describe('DateTimePicker', () => {
 		])(
 			'With props %p - When a new value is set, onChange prop is called once',
 			async (props: DateTimePickerProps) => {
-				const onChangeFn = jest.fn();
+				const onChangeFn = vi.fn();
 				const propsToUse: DateTimePickerProps = {
 					...props,
 					onChange: onChangeFn
@@ -81,7 +81,7 @@ describe('DateTimePicker', () => {
 		);
 
 		it('should update when defaultValue changes', async () => {
-			const onChangeFn = jest.fn();
+			const onChangeFn = vi.fn();
 			const firstDate = new Date(2010, 0, 1);
 			const { user, rerender } = setup(
 				<DateTimePicker label={'label'} defaultValue={firstDate} onChange={onChangeFn} />
@@ -144,7 +144,7 @@ describe('DateTimePicker', () => {
 		});
 
 		test('When a new value is set, onChange prop is called with the new value', async () => {
-			const onChangeFn = jest.fn();
+			const onChangeFn = vi.fn();
 			const { user } = setup(<DateTimePicker label={'label'} onChange={onChangeFn} />);
 			const inputElement = screen.getByRole('textbox');
 			const now = new Date();
@@ -156,7 +156,7 @@ describe('DateTimePicker', () => {
 		});
 
 		test('When the input is cleared, onChange prop is called with the null value', async () => {
-			const onChangeFn = jest.fn();
+			const onChangeFn = vi.fn();
 			const { user } = setup(
 				<>
 					<DateTimePicker label={'label'} defaultValue={new Date()} onChange={onChangeFn} />
@@ -172,7 +172,7 @@ describe('DateTimePicker', () => {
 		});
 
 		test('When the value is cleared with the clear action, onChange prop is called with the null value and input is cleared', async () => {
-			const onChangeFn = jest.fn();
+			const onChangeFn = vi.fn();
 			const { user } = setup(
 				<>
 					<DateTimePicker
@@ -307,7 +307,7 @@ describe('DateTimePicker', () => {
 		});
 
 		test('When a new value is set, onChange prop is called with the new value', async () => {
-			const onChangeFn = jest.fn();
+			const onChangeFn = vi.fn();
 			const { user } = setup(
 				<>
 					<DateTimePicker label={'label'} onChange={onChangeFn} enableChips />
@@ -331,7 +331,7 @@ describe('DateTimePicker', () => {
 		});
 
 		test('When the input is cleared, onChange prop is called with the null value', async () => {
-			const onChangeFn = jest.fn();
+			const onChangeFn = vi.fn();
 			const { user } = setup(
 				<>
 					<DateTimePicker

@@ -5,9 +5,9 @@
  */
 
 import '@testing-library/jest-dom';
-import { act } from '@testing-library/react';
-import failOnConsole from 'jest-fail-on-console';
+import { act, cleanup } from '@testing-library/react';
 import { noop } from 'lodash';
+import failOnConsole from 'vitest-fail-on-console';
 
 failOnConsole({
 	shouldFailOnError: true,
@@ -15,6 +15,9 @@ failOnConsole({
 });
 
 beforeAll(() => {
+	vi.useFakeTimers({
+		shouldAdvanceTime: true
+	});
 	Object.defineProperty(window, 'matchMedia', {
 		writable: true,
 		value: (query: string): MediaQueryList => ({
@@ -46,10 +49,10 @@ beforeAll(() => {
 			get subtle() {
 				throw new Error('subtle mock is not implemented!');
 			},
-			getRandomValues: jest.fn(() => {
+			getRandomValues: vi.fn(() => {
 				throw new Error('getRandomValues mock is not implemented!');
 			}),
-			randomUUID: jest.fn(() => Math.random().toString())
+			randomUUID: vi.fn(() => Math.random().toString())
 		}
 	});
 });
@@ -58,7 +61,7 @@ beforeEach(() => {
 	// mock a simplified Intersection Observer
 	Object.defineProperty(window, 'IntersectionObserver', {
 		writable: true,
-		value: jest.fn(function intersectionObserverMock(
+		value: vi.fn(function intersectionObserverMock(
 			callback: IntersectionObserverCallback,
 			options: IntersectionObserverInit
 		) {
@@ -73,23 +76,26 @@ beforeEach(() => {
 		})
 	});
 
-	// mock a simplified Intersection Observer
+	// mock a simplified Resize Observer
 	Object.defineProperty(window, 'ResizeObserver', {
 		writable: true,
-		value: jest.fn(function ResizeObserverMock(): ResizeObserver {
+		value: vi.fn(function ResizeObserverMock(): ResizeObserver {
 			return {
-				observe: jest.fn(),
-				unobserve: jest.fn(),
-				disconnect: jest.fn()
+				observe: vi.fn(),
+				unobserve: vi.fn(),
+				disconnect: vi.fn()
 			};
 		})
 	});
 });
 
 afterEach(() => {
+	cleanup();
 	// Restores the original implementation of "spies"
-	// Replace mocks with jest.fn(), but replace spies with their original implementation.
-	jest.runOnlyPendingTimers();
+	// Replace mocks with vi.fn(), but replace spies with their original implementation.
+	if (vi.isFakeTimers()) {
+		vi.runOnlyPendingTimers();
+	}
 	act(() => {
 		window.resizeTo(1024, 768);
 	});
