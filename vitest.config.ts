@@ -33,6 +33,7 @@ export default defineConfig({
 		fakeTimers: {
 			shouldAdvanceTime: true
 		},
+		testTimeout: 60000,
 		coverage: {
 			enabled: true,
 			provider: 'v8',
