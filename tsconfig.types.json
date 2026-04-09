@@ -9,6 +9,7 @@
     "scripts"
   ],
   "compilerOptions": {
+    "types": ["vitest/globals", "node"],
     "declaration": true,
     "declarationMap": true,
     "declarationDir": "types",
