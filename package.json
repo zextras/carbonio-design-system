@@ -15,7 +15,7 @@
 	],
 	"scripts": {
 		"start": "npm run storybook",
-		"lint": "eslint --ext .js,.jsx,.ts,.tsx --resolve-plugins-relative-to node_modules/@zextras/carbonio-ui-configs src docs .storybook scripts --fix",
+		"lint": "eslint --ext .js,.jsx,.ts,.tsx --resolve-plugins-relative-to node_modules/@zextras/carbonio-ui-configs src docs .storybook scripts",
 		"lint:icons": "eslint --ext .ts,.tsx --resolve-plugins-relative-to node_modules/@zextras/carbonio-ui-configs src/icons --fix",
 		"test": "vitest run",
 		"test:watch": "vitest",
