@@ -93,9 +93,7 @@ afterEach(() => {
 	cleanup();
 	// Restores the original implementation of "spies"
 	// Replace mocks with vi.fn(), but replace spies with their original implementation.
-	if (vi.isFakeTimers()) {
-		vi.runOnlyPendingTimers();
-	}
+	vi.runOnlyPendingTimers();
 	act(() => {
 		window.resizeTo(1024, 768);
 	});
