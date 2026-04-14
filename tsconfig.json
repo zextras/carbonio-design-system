@@ -3,7 +3,7 @@
 	"include": ["src/**/*", ".storybook/**/*", "scripts/*"],
 	"exclude": ["node_modules", "dist"],
 	"compilerOptions": {
-		"types": ["vitest/globals"],
+		"types": ["vitest/globals", "node"],
 		"skipLibCheck": true,
 		"paths": {
 			"@testing-library/user-event/dist/cjs/keyboard/keyMap": [
