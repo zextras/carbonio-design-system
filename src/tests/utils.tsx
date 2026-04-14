@@ -11,6 +11,7 @@ import type { RenderOptions, RenderResult, Screen } from '@testing-library/react
 import { act, render, screen as rtlScreen, within as rtlWithin } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { defaultKeyMap } from '@testing-library/user-event/dist/cjs/keyboard/keyMap';
+import type { Mock } from 'vitest';
 
 import { queriesExtended } from './custom-queries';
 import { ThemeProvider } from '../theme/theme-context-provider';
@@ -76,7 +77,7 @@ function wrapKeyboardTextWithModifier(text: string, modifiers?: KeyboardModifier
 function setupUserEvent(options?: SetupOptions['setupOptions']): UserEvent {
 	const user = userEvent.setup({
 		keyboardMap: [{ code: 'Comma', key: ',' }, ...defaultKeyMap],
-		advanceTimers: jest.advanceTimersByTimeAsync,
+		advanceTimers: vi.advanceTimersByTimeAsync,
 		...options
 	});
 	return {
@@ -101,24 +102,27 @@ export const setup = (
 
 export function makeItemsVisible(): void {
 	const { calls, instances } = (
-		window.IntersectionObserver as jest.Mock<
-			IntersectionObserver,
-			[callback: IntersectionObserverCallback, options?: IntersectionObserverInit]
+		window.IntersectionObserver as unknown as Mock<
+			(
+				...args: [callback: IntersectionObserverCallback, options?: IntersectionObserverInit]
+			) => IntersectionObserver
 		>
 	).mock;
-	calls.forEach((call, index) => {
-		const [onChange] = call;
-		// trigger the intersection on the observed element
-		act(() => {
-			onChange(
-				[
-					{
-						intersectionRatio: 0,
-						isIntersecting: true
-					} as IntersectionObserverEntry
-				],
-				instances[index]
-			);
-		});
-	});
+	calls.forEach(
+		(call: [IntersectionObserverCallback, IntersectionObserverInit?], index: number) => {
+			const [onChange] = call;
+			// trigger the intersection on the observed element
+			act(() => {
+				onChange(
+					[
+						{
+							intersectionRatio: 0,
+							isIntersecting: true
+						} as IntersectionObserverEntry
+					],
+					instances[index] as IntersectionObserver
+				);
+			});
+		}
+	);
 }

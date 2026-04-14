@@ -59,32 +59,31 @@ type DateTimePickerProps = {
 	}>;
 } & OmitUnion<DatePickerProps, 'selectsMultiple' | 'selectsRange' | 'onChange' | 'placeholderText'>;
 
-interface DatePickerCustomInputProps
-	extends Pick<
-		InputHTMLAttributes<HTMLInputElement>,
-		| 'value'
-		| 'onBlur'
-		| 'onChange'
-		| 'onClick'
-		| 'onFocus'
-		| 'onKeyDown'
-		| 'id'
-		| 'name'
-		| 'form'
-		| 'autoFocus'
-		| 'placeholder'
-		| 'disabled'
-		| 'autoComplete'
-		| 'className'
-		| 'title'
-		| 'readOnly'
-		| 'required'
-		| 'tabIndex'
-		| 'aria-describedby'
-		| 'aria-invalid'
-		| 'aria-labelledby'
-		| 'aria-required'
-	> {
+interface DatePickerCustomInputProps extends Pick<
+	InputHTMLAttributes<HTMLInputElement>,
+	| 'value'
+	| 'onBlur'
+	| 'onChange'
+	| 'onClick'
+	| 'onFocus'
+	| 'onKeyDown'
+	| 'id'
+	| 'name'
+	| 'form'
+	| 'autoFocus'
+	| 'placeholder'
+	| 'disabled'
+	| 'autoComplete'
+	| 'className'
+	| 'title'
+	| 'readOnly'
+	| 'required'
+	| 'tabIndex'
+	| 'aria-describedby'
+	| 'aria-invalid'
+	| 'aria-labelledby'
+	| 'aria-required'
+> {
 	value?: string;
 	onClick?: (e: React.SyntheticEvent | KeyboardEvent) => void;
 }

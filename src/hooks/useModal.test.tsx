@@ -12,22 +12,22 @@ import { useModal } from './useModal';
 import { ModalManager } from '../components/utilities/ModalManager';
 import { ThemeProvider } from '../theme/theme-context-provider';
 
-jest.mock<typeof ReactDOM>('react-dom', () => ({
-	...jest.requireActual<typeof ReactDOM>('react-dom'),
-	createPortal: (node): React.ReactPortal => node as React.ReactPortal
-}));
-
+vi.mock('react-dom', async () => {
+	const actual = await vi.importActual<typeof ReactDOM>('react-dom');
+	return {
+		...actual,
+		createPortal: (node: React.ReactNode): React.ReactPortal => node as React.ReactPortal
+	};
+});
 const modalContextError = 'Modal manager context not initialized';
 beforeEach(() => {
 	const originalErrorFn = console.error;
-	console.error = jest.fn<ReturnType<typeof console.error>, Parameters<typeof console.error>>(
-		(message, ...args) => {
-			// silence error for snackbar
-			if (message !== modalContextError) {
-				originalErrorFn(message, ...args);
-			}
+	console.error = vi.fn<typeof console.error>((message, ...args) => {
+		// silence error for snackbar
+		if (message !== modalContextError) {
+			originalErrorFn(message, ...args);
 		}
-	);
+	});
 });
 
 describe('useModal', () => {

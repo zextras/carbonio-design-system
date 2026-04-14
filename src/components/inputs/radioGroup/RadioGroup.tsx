@@ -13,8 +13,10 @@ import { type RadioProps } from '../radio/Radio';
 
 type RadioValue<T extends RadioProps['value']> = RadioProps<T>['value'];
 
-interface RadioGroupProps<T extends RadioProps['value']>
-	extends Omit<FieldsetHTMLAttributes<HTMLFieldSetElement>, 'onChange'> {
+interface RadioGroupProps<T extends RadioProps['value']> extends Omit<
+	FieldsetHTMLAttributes<HTMLFieldSetElement>,
+	'onChange'
+> {
 	/** Default value for the radio group */
 	defaultValue?: RadioValue<T>;
 	/** Radio group value */

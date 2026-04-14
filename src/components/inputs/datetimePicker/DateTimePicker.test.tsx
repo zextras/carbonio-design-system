@@ -5,6 +5,7 @@
  */
 import React from 'react';
 
+import { act } from '@testing-library/react';
 import { addMonths, format, startOfMonth } from 'date-fns';
 
 import type { DateTimePickerProps } from './DateTimePicker';
@@ -29,7 +30,7 @@ describe('DateTimePicker', () => {
 		});
 
 		it('should render the component without invoking onChange', async () => {
-			const onChangeFn = jest.fn();
+			const onChangeFn = vi.fn();
 			const { user } = setup(<DateTimePicker label={'label'} onChange={onChangeFn} />);
 			expect(onChangeFn).not.toHaveBeenCalled();
 		});
@@ -64,7 +65,7 @@ describe('DateTimePicker', () => {
 		])(
 			'With props %p - When a new value is set, onChange prop is called once',
 			async (props: DateTimePickerProps) => {
-				const onChangeFn = jest.fn();
+				const onChangeFn = vi.fn();
 				const propsToUse: DateTimePickerProps = {
 					...props,
 					onChange: onChangeFn
@@ -81,7 +82,7 @@ describe('DateTimePicker', () => {
 		);
 
 		it('should update when defaultValue changes', async () => {
-			const onChangeFn = jest.fn();
+			const onChangeFn = vi.fn();
 			const firstDate = new Date(2010, 0, 1);
 			const { user, rerender } = setup(
 				<DateTimePicker label={'label'} defaultValue={firstDate} onChange={onChangeFn} />
@@ -144,7 +145,7 @@ describe('DateTimePicker', () => {
 		});
 
 		test('When a new value is set, onChange prop is called with the new value', async () => {
-			const onChangeFn = jest.fn();
+			const onChangeFn = vi.fn();
 			const { user } = setup(<DateTimePicker label={'label'} onChange={onChangeFn} />);
 			const inputElement = screen.getByRole('textbox');
 			const now = new Date();
@@ -156,7 +157,7 @@ describe('DateTimePicker', () => {
 		});
 
 		test('When the input is cleared, onChange prop is called with the null value', async () => {
-			const onChangeFn = jest.fn();
+			const onChangeFn = vi.fn();
 			const { user } = setup(
 				<>
 					<DateTimePicker label={'label'} defaultValue={new Date()} onChange={onChangeFn} />
@@ -172,7 +173,7 @@ describe('DateTimePicker', () => {
 		});
 
 		test('When the value is cleared with the clear action, onChange prop is called with the null value and input is cleared', async () => {
-			const onChangeFn = jest.fn();
+			const onChangeFn = vi.fn();
 			const { user } = setup(
 				<>
 					<DateTimePicker
@@ -267,16 +268,25 @@ describe('DateTimePicker', () => {
 		});
 
 		test('Valid value typed in the input is validated and set as date', async () => {
-			const { user } = setup(<DateTimePicker label={'Validate input'} enableChips />);
+			const { user } = setup(
+				<>
+					<DateTimePicker label={'Validate input'} enableChips />
+					<span>Blur</span>
+				</>
+			);
 			const inputElement = screen.getByRole('textbox');
-			const now = new Date();
-			const firstOfNextMonth = addMonths(startOfMonth(now), 1);
-			firstOfNextMonth.setHours(now.getHours());
-			firstOfNextMonth.setMinutes(now.getMinutes());
+			const firstOfNextMonth = addMonths(startOfMonth(new Date()), 1);
+			firstOfNextMonth.setHours(10);
+			firstOfNextMonth.setMinutes(30);
 			const dateString = format(firstOfNextMonth, 'MM/dd/yyyy HH:mm');
 			await user.type(inputElement, dateString);
+			// flush the debounced onInputKeyUp so react-datepicker processes the typed value
+			act(() => {
+				vi.advanceTimersByTime(300);
+			});
 			await screen.findAllByText(getDatePickerHeader(firstOfNextMonth));
-			await user.keyboard('[Enter]');
+			// blur the input to trigger onCalendarClose -> updateDateTime
+			await user.click(screen.getByText('Blur'));
 			const expectedInputValue = format(firstOfNextMonth, DEFAULT_DATE_FORMAT);
 			expect(screen.getByText(expectedInputValue)).toBeVisible();
 			expect(screen.getByRoleWithIcon('button', { icon: ICONS.close })).toBeVisible();
@@ -307,7 +317,7 @@ describe('DateTimePicker', () => {
 		});
 
 		test('When a new value is set, onChange prop is called with the new value', async () => {
-			const onChangeFn = jest.fn();
+			const onChangeFn = vi.fn();
 			const { user } = setup(
 				<>
 					<DateTimePicker label={'label'} onChange={onChangeFn} enableChips />
@@ -315,15 +325,18 @@ describe('DateTimePicker', () => {
 				</>
 			);
 			const inputElement = screen.getByRole('textbox');
-			const now = new Date();
-			const firstOfNextMonth = addMonths(startOfMonth(now), 1);
-			firstOfNextMonth.setHours(now.getHours());
-			firstOfNextMonth.setMinutes(now.getMinutes());
+			const firstOfNextMonth = addMonths(startOfMonth(new Date()), 1);
+			firstOfNextMonth.setHours(10);
+			firstOfNextMonth.setMinutes(30);
 			const dateString = format(firstOfNextMonth, 'MM/dd/yyyy HH:mm');
 			const parsedDateString = new Date(Date.parse(dateString));
 			await user.type(inputElement, dateString);
+			// flush the debounced onInputKeyUp so react-datepicker processes the typed value
+			act(() => {
+				vi.advanceTimersByTime(300);
+			});
 			await screen.findAllByText(getDatePickerHeader(firstOfNextMonth));
-			await user.keyboard('[Enter]');
+			// blur to trigger onCalendarClose -> updateDateTime
 			await user.click(screen.getByText('Blur'));
 			expect(onChangeFn).toHaveBeenLastCalledWith(parsedDateString);
 			expect(screen.getByText(format(parsedDateString, DEFAULT_DATE_FORMAT))).toBeVisible();
@@ -331,7 +344,7 @@ describe('DateTimePicker', () => {
 		});
 
 		test('When the input is cleared, onChange prop is called with the null value', async () => {
-			const onChangeFn = jest.fn();
+			const onChangeFn = vi.fn();
 			const { user } = setup(
 				<>
 					<DateTimePicker

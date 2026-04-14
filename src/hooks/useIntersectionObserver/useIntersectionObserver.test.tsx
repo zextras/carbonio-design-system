@@ -7,6 +7,7 @@
 import React, { useEffect, useRef } from 'react';
 
 import { act } from '@testing-library/react';
+import type { Mock } from 'vitest';
 
 import { useIntersectionObserver } from './useIntersectionObserver';
 import { screen, setup } from '../../tests/utils';
@@ -59,9 +60,11 @@ const TestComponent = ({
 	);
 };
 
-type IntersectionObserverMock = jest.Mock<
-	IntersectionObserver,
-	[callback: IntersectionObserverCallback, options?: IntersectionObserverInit]
+type IntersectionObserverMock = Mock<
+	(
+		callback: IntersectionObserverCallback,
+		options?: IntersectionObserverInit
+	) => IntersectionObserver
 >;
 
 describe('useIntersectionObserver', () => {
@@ -73,7 +76,7 @@ describe('useIntersectionObserver', () => {
 	});
 
 	it('should invoke the onIntersect callback for each intersected element', () => {
-		const onIntersectFn = jest.fn();
+		const onIntersectFn = vi.fn();
 		setup(<TestComponent onIntersect={onIntersectFn} renderItem1 renderItem2 />);
 		const { calls, instances } = (
 			window.IntersectionObserver as unknown as IntersectionObserverMock
@@ -92,7 +95,7 @@ describe('useIntersectionObserver', () => {
 			target: screen.getByTestId('observed-2')
 		} as unknown as IntersectionObserverEntry;
 		act(() => {
-			callback([entry1, entry2], instances[0]);
+			callback([entry1, entry2], instances[0] as IntersectionObserver);
 		});
 
 		expect(onIntersectFn).toHaveBeenCalledTimes(2);

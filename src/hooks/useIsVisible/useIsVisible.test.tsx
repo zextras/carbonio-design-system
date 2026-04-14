@@ -5,12 +5,15 @@
  */
 import React, { useRef } from 'react';
 
+import type { Mock } from 'vitest';
+
 import { useIsVisible } from './useIsVisible';
 import { makeItemsVisible, screen, setup } from '../../tests/utils';
 
-type IntersectionObserverMock = jest.Mock<
-	IntersectionObserver,
-	[callback: IntersectionObserverCallback, options?: IntersectionObserverInit]
+type IntersectionObserverMock = Mock<
+	(
+		...args: [callback: IntersectionObserverCallback, options?: IntersectionObserverInit]
+	) => IntersectionObserver
 >;
 
 function getIntersectionObserverCalls(): IntersectionObserverMock['mock']['calls'] {
