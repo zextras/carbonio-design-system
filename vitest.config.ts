@@ -52,9 +52,5 @@ export default defineConfig({
 			reportsDirectory: 'coverage',
 			reporter: ['text', 'lcov', 'cobertura']
 		}
-		// alias: {
-		// 	'@testing-library/user-event/dist/cjs/keyboard/keyMap':
-		// 		'./node_modules/@testing-library/user-event/dist/cjs/keyboard/keyMap'
-		// }
 	}
 });
