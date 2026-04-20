@@ -41,7 +41,7 @@ module.exports = {
 			}
 		},
 		{
-			files: ['**/test*.[jt]s?(x)', '**/jest*.[jt]s?(x)'],
+			files: ['**/test*.[jt]s?(x)'],
 			extends: ['plugin:jest-dom/recommended', 'plugin:testing-library/react'],
 			rules: {
 				'testing-library/no-unnecessary-act': 'warn',

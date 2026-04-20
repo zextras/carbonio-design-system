@@ -25,7 +25,7 @@ describe('Slider', () => {
 		const { user } = setup(<Slider options={options} />);
 		const option1 = screen.getByRole('option', { name: 'opt1' });
 		expect(option1).toBeVisible();
-		jest.advanceTimersByTime(TIMERS.TOOLTIP.REGISTER_LISTENER);
+		vi.advanceTimersByTime(TIMERS.TOOLTIP.REGISTER_LISTENER);
 		await user.hover(option1);
 		const tooltip = await screen.findByTestId('tooltip');
 		expect(within(tooltip).getByText(/opt1/)).toBeVisible();
@@ -130,7 +130,7 @@ describe('Slider', () => {
 	describe('Controlled component', () => {
 		test('Click on option calls onChange but does not change the value of the slider implicitly', async () => {
 			const options = ['opt1', 'opt2', 'opt3', 'opt4', 'opt5'];
-			const onChangeFn = jest.fn();
+			const onChangeFn = vi.fn();
 			const { user } = setup(<Slider options={options} value={0} onChange={onChangeFn} />);
 			const slider = screen.getByRole('slider');
 			expect(slider).toHaveDisplayValue('0');
@@ -141,7 +141,7 @@ describe('Slider', () => {
 
 		test('Change of the value from outside update the slider value', async () => {
 			const options = ['opt1', 'opt2', 'opt3', 'opt4', 'opt5'];
-			const onChangeFn = jest.fn();
+			const onChangeFn = vi.fn();
 			const { rerender } = setup(<Slider options={options} value={0} onChange={onChangeFn} />);
 			const slider = screen.getByRole('slider');
 			expect(slider).toHaveDisplayValue('0');
@@ -151,7 +151,7 @@ describe('Slider', () => {
 
 		test('Input event on slider calls onChange with the new value', async () => {
 			const options = ['opt1', 'opt2', 'opt3', 'opt4', 'opt5'];
-			const onChangeFn = jest.fn();
+			const onChangeFn = vi.fn();
 			setup(<Slider options={options} value={0} onChange={onChangeFn} />);
 			const slider = screen.getByRole('slider');
 			expect(slider).toHaveDisplayValue('0');
@@ -162,7 +162,7 @@ describe('Slider', () => {
 
 		test('Click event on slider calls onChange with the new value', async () => {
 			const options = ['opt1', 'opt2', 'opt3', 'opt4', 'opt5'];
-			const onChangeFn = jest.fn();
+			const onChangeFn = vi.fn();
 			setup(<Slider options={options} value={0} onChange={onChangeFn} />);
 			const slider = screen.getByRole('slider');
 			expect(slider).toHaveDisplayValue('0');
@@ -173,7 +173,7 @@ describe('Slider', () => {
 
 		test('Arrow left calls onChange with the value given as prop decreased by 1', async () => {
 			const options = ['opt1', 'opt2', 'opt3', 'opt4', 'opt5'];
-			const onChangeFn = jest.fn();
+			const onChangeFn = vi.fn();
 			const { user } = setup(<Slider options={options} value={4} onChange={onChangeFn} />);
 			const slider = screen.getByRole('slider');
 			expect(slider).toHaveDisplayValue('4');
@@ -188,7 +188,7 @@ describe('Slider', () => {
 
 		test('Arrow left does not calls onChange if already at minimum', async () => {
 			const options = ['opt1', 'opt2', 'opt3', 'opt4', 'opt5'];
-			const onChangeFn = jest.fn();
+			const onChangeFn = vi.fn();
 			const { user } = setup(<Slider options={options} value={0} onChange={onChangeFn} />);
 			const slider = screen.getByRole('slider');
 			expect(slider).toHaveDisplayValue('0');
@@ -200,7 +200,7 @@ describe('Slider', () => {
 
 		test('Arrow right calls onChange with the given valued increased by one', async () => {
 			const options = ['opt1', 'opt2', 'opt3', 'opt4', 'opt5'];
-			const onChangeFn = jest.fn();
+			const onChangeFn = vi.fn();
 			const { user } = setup(<Slider options={options} value={0} onChange={onChangeFn} />);
 			const slider = screen.getByRole('slider');
 			expect(slider).toHaveDisplayValue('0');
@@ -215,7 +215,7 @@ describe('Slider', () => {
 
 		test('Arrow right does not call onChange if already at maximum', async () => {
 			const options = ['opt1', 'opt2', 'opt3', 'opt4', 'opt5'];
-			const onChangeFn = jest.fn();
+			const onChangeFn = vi.fn();
 			const { user } = setup(<Slider options={options} value={4} onChange={onChangeFn} />);
 			const slider = screen.getByRole('slider');
 			expect(slider).toHaveDisplayValue('4');

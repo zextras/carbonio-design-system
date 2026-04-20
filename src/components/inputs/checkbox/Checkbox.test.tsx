@@ -14,7 +14,7 @@ import { setup } from '../../../tests/utils';
 
 describe('Checkbox', () => {
 	test('Render a checkbox with a label', () => {
-		const onChange = jest.fn();
+		const onChange = vi.fn();
 		setup(<Checkbox label="Checkbox label" />);
 		expect(onChange).not.toHaveBeenCalled();
 		expect(screen.getByText(/checkbox label/i)).toBeVisible();
@@ -22,7 +22,7 @@ describe('Checkbox', () => {
 	});
 
 	test('Click on the checkbox', async () => {
-		const onChange = jest.fn();
+		const onChange = vi.fn();
 		const { user } = setup(<Checkbox onChange={onChange} />);
 		await act(async () => {
 			await user.click(screen.getByTestId(ICONS.checkboxOff));

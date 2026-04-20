@@ -28,7 +28,7 @@ describe('Table', () => {
 	// https://github.com/testing-library/react-testing-library/issues/1225
 	// https://github.com/jsdom/jsdom/issues/3607
 	// at the moment the pseudo class hover sets the state already to active, so we have to wait the release of the fix of jsdom
-	test.failing('index of the array is shown by default', async () => {
+	test.skip('index of the array is shown by default', async () => {
 		const headers: THeader[] = [
 			{ id: 'col1', label: 'header 1' },
 			{ id: 'col2', label: 'header 2' }
@@ -52,7 +52,7 @@ describe('Table', () => {
 		expect(screen.getByText('2')).toBeVisible();
 	});
 
-	test.failing('show the index provided in the row item when set', async () => {
+	test.skip('show the index provided in the row item when set', async () => {
 		const headers: THeader[] = [
 			{ id: 'col1', label: 'header 1' },
 			{ id: 'col2', label: 'header 2' }
@@ -78,7 +78,7 @@ describe('Table', () => {
 		expect(screen.getByText('100')).toBeVisible();
 	});
 
-	test.failing('checkbox of the row should not be visible on render', () => {
+	test.skip('checkbox of the row should not be visible on render', () => {
 		const headers: THeader[] = [
 			{ id: 'col1', label: 'header 1' },
 			{ id: 'col2', label: 'header 2' }
@@ -172,7 +172,7 @@ describe('Table', () => {
 						{ label: 'Servername_1', value: '1' },
 						{ label: 'Servername_2', value: '2' }
 					],
-					onChange: jest.fn()
+					onChange: vi.fn()
 				},
 				{
 					id: 'type',
@@ -184,7 +184,7 @@ describe('Table', () => {
 						{ label: 'Warning', value: '2' },
 						{ label: 'Error', value: '3' }
 					],
-					onChange: jest.fn()
+					onChange: vi.fn()
 				},
 				{
 					id: 'obj',
@@ -203,7 +203,7 @@ describe('Table', () => {
 						</Container>,
 						faker.lorem.sentence()
 					],
-					onClick: jest.fn(),
+					onClick: vi.fn(),
 					clickable: true
 				},
 				{
@@ -216,7 +216,7 @@ describe('Table', () => {
 						</Container>,
 						faker.lorem.sentence()
 					],
-					onClick: jest.fn(),
+					onClick: vi.fn(),
 					clickable: true
 				}
 			];
@@ -250,73 +250,67 @@ describe('Table', () => {
 		 * We will have to wait for the fix of jsdom to be able to test this or to
 		 * switch to E2E testing for this kind of tests.
 		 */
-		test.failing(
-			'Checkboxes are hidden at first. They become all visible if there is at least one item checked',
-			async () => {
-				const headers: THeader[] = [
-					{ id: 'col1', label: 'header 1' },
-					{ id: 'col2', label: 'header 2' }
-				];
-				const rows: TRow[] = [
-					{ id: 'row1', columns: ['row1col1', 'row1col2'], index: 90 },
-					{ id: 'row2', columns: ['row2col1', 'row2col2'], index: 100 }
-				];
-				const { user } = setup(<Table headers={headers} rows={rows} showCheckbox />);
-				let checkboxes = screen.getAllByTestId(SELECTORS.checkbox);
-				expect(checkboxes).toHaveLength(3);
-				expect(checkboxes[0]).toHaveStyleRule('display', 'none');
-				expect(checkboxes[1]).toHaveStyleRule('display', 'none');
-				expect(checkboxes[2]).toHaveStyleRule('display', 'none');
-				const row2 = getRowByColumnLabel('row2col1');
-				await act(async () => {
-					await user.click(within(row2).getByTestId(ICONS.checkboxOff));
-				});
-				await screen.findByTestId(ICONS.checkboxOn);
-				// all checkboxes become visible through the display rule set to block
-				checkboxes = screen.getAllByTestId(SELECTORS.checkbox);
-				expect(checkboxes[0]).toHaveStyleRule('display', 'block');
-				expect(checkboxes[1]).toHaveStyleRule('display', 'block');
-				expect(checkboxes[2]).toHaveStyleRule('display', 'block');
-				await act(async () => {
-					await user.click(screen.getByTestId(ICONS.checkboxOn));
-				});
-				checkboxes = screen.getAllByTestId(SELECTORS.checkbox);
-				expect(checkboxes[0]).toHaveStyleRule('display', 'none');
-				expect(checkboxes[1]).toHaveStyleRule('display', 'none');
-				expect(checkboxes[2]).toHaveStyleRule('display', 'none');
-			}
-		);
+		test.skip('Checkboxes are hidden at first. They become all visible if there is at least one item checked', async () => {
+			const headers: THeader[] = [
+				{ id: 'col1', label: 'header 1' },
+				{ id: 'col2', label: 'header 2' }
+			];
+			const rows: TRow[] = [
+				{ id: 'row1', columns: ['row1col1', 'row1col2'], index: 90 },
+				{ id: 'row2', columns: ['row2col1', 'row2col2'], index: 100 }
+			];
+			const { user } = setup(<Table headers={headers} rows={rows} showCheckbox />);
+			let checkboxes = screen.getAllByTestId(SELECTORS.checkbox);
+			expect(checkboxes).toHaveLength(3);
+			expect(checkboxes[0]).toHaveStyleRule('display', 'none');
+			expect(checkboxes[1]).toHaveStyleRule('display', 'none');
+			expect(checkboxes[2]).toHaveStyleRule('display', 'none');
+			const row2 = getRowByColumnLabel('row2col1');
+			await act(async () => {
+				await user.click(within(row2).getByTestId(ICONS.checkboxOff));
+			});
+			await screen.findByTestId(ICONS.checkboxOn);
+			// all checkboxes become visible through the display rule set to block
+			checkboxes = screen.getAllByTestId(SELECTORS.checkbox);
+			expect(checkboxes[0]).toHaveStyleRule('display', 'block');
+			expect(checkboxes[1]).toHaveStyleRule('display', 'block');
+			expect(checkboxes[2]).toHaveStyleRule('display', 'block');
+			await act(async () => {
+				await user.click(screen.getByTestId(ICONS.checkboxOn));
+			});
+			checkboxes = screen.getAllByTestId(SELECTORS.checkbox);
+			expect(checkboxes[0]).toHaveStyleRule('display', 'none');
+			expect(checkboxes[1]).toHaveStyleRule('display', 'none');
+			expect(checkboxes[2]).toHaveStyleRule('display', 'none');
+		});
 
-		test.failing(
-			'Click on the header checkbox immediately toggle check for all rows and calls onSelectionChange with the new selection',
-			async () => {
-				const headers: THeader[] = [
-					{ id: 'col1', label: 'header 1' },
-					{ id: 'col2', label: 'header 2' }
-				];
-				const rows: TRow[] = [
-					{ id: 'row1', columns: ['row1col1', 'row1col2'], index: 90 },
-					{ id: 'row2', columns: ['row2col1', 'row2col2'], index: 100 }
-				];
-				const { user } = setup(<Table headers={headers} rows={rows} showCheckbox />);
-				const headerRow = getRowByColumnLabel('header 1');
-				expect(headerRow).toBeDefined();
-				await act(async () => {
-					await user.click(within(headerRow).getByTestId(ICONS.checkboxOff));
-				});
-				expect(screen.getAllByTestId(ICONS.checkboxOn)).toHaveLength(3);
-				expect(screen.queryByTestId(ICONS.checkboxOff)).not.toBeInTheDocument();
-				await act(async () => {
-					await user.click(within(headerRow).getByTestId(ICONS.checkboxOn));
-				});
-				expect(screen.queryByTestId(ICONS.checkboxOn)).not.toBeInTheDocument();
-				expect(screen.queryAllByTestId(ICONS.checkboxOff)).toHaveLength(3);
-				const checkboxes = screen.getAllByTestId(SELECTORS.checkbox);
-				expect(checkboxes[0]).toHaveStyleRule('display', 'none');
-				expect(checkboxes[1]).toHaveStyleRule('display', 'none');
-				expect(checkboxes[2]).toHaveStyleRule('display', 'none');
-			}
-		);
+		test.skip('Click on the header checkbox immediately toggle check for all rows and calls onSelectionChange with the new selection', async () => {
+			const headers: THeader[] = [
+				{ id: 'col1', label: 'header 1' },
+				{ id: 'col2', label: 'header 2' }
+			];
+			const rows: TRow[] = [
+				{ id: 'row1', columns: ['row1col1', 'row1col2'], index: 90 },
+				{ id: 'row2', columns: ['row2col1', 'row2col2'], index: 100 }
+			];
+			const { user } = setup(<Table headers={headers} rows={rows} showCheckbox />);
+			const headerRow = getRowByColumnLabel('header 1');
+			expect(headerRow).toBeDefined();
+			await act(async () => {
+				await user.click(within(headerRow).getByTestId(ICONS.checkboxOff));
+			});
+			expect(screen.getAllByTestId(ICONS.checkboxOn)).toHaveLength(3);
+			expect(screen.queryByTestId(ICONS.checkboxOff)).not.toBeInTheDocument();
+			await act(async () => {
+				await user.click(within(headerRow).getByTestId(ICONS.checkboxOn));
+			});
+			expect(screen.queryByTestId(ICONS.checkboxOn)).not.toBeInTheDocument();
+			expect(screen.queryAllByTestId(ICONS.checkboxOff)).toHaveLength(3);
+			const checkboxes = screen.getAllByTestId(SELECTORS.checkbox);
+			expect(checkboxes[0]).toHaveStyleRule('display', 'none');
+			expect(checkboxes[1]).toHaveStyleRule('display', 'none');
+			expect(checkboxes[2]).toHaveStyleRule('display', 'none');
+		});
 
 		test('If a default selection is provided, checkboxes are visible and selected. onSelectionChange is not called', async () => {
 			const headers: THeader[] = [
@@ -329,7 +323,7 @@ describe('Table', () => {
 			];
 
 			const defaultSelection = [rows[0].id];
-			const onSelectionChangeFn = jest.fn();
+			const onSelectionChangeFn = vi.fn();
 			setup(
 				<Table
 					headers={headers}
@@ -355,7 +349,7 @@ describe('Table', () => {
 			];
 
 			const defaultSelection = [rows[2].id];
-			const onSelectionChangeFn = jest.fn();
+			const onSelectionChangeFn = vi.fn();
 			const { user } = setup(
 				<Table
 					headers={headers}
@@ -387,7 +381,7 @@ describe('Table', () => {
 			];
 
 			const defaultSelection: [string] | [] = [rows[2].id];
-			const onSelectionChangeFn = jest.fn();
+			const onSelectionChangeFn = vi.fn();
 			const { user } = setup(
 				<Table
 					headers={headers}
@@ -423,7 +417,7 @@ describe('Table', () => {
 			];
 
 			const defaultSelection: [string] | [] = [rows[2].id];
-			const onSelectionChangeFn = jest.fn();
+			const onSelectionChangeFn = vi.fn();
 			const { user } = setup(
 				<Table
 					headers={headers}
@@ -464,7 +458,7 @@ describe('Table', () => {
 						{ label: 'Servername_1', value: '1' },
 						{ label: 'Servername_2', value: '2' }
 					],
-					onChange: jest.fn()
+					onChange: vi.fn()
 				},
 				{
 					id: 'type',
@@ -476,7 +470,7 @@ describe('Table', () => {
 						{ label: 'Warning', value: '2' },
 						{ label: 'Error', value: '3' }
 					],
-					onChange: jest.fn()
+					onChange: vi.fn()
 				},
 				{
 					id: 'obj',
@@ -495,7 +489,7 @@ describe('Table', () => {
 						</Container>,
 						faker.lorem.sentence()
 					],
-					onClick: jest.fn(),
+					onClick: vi.fn(),
 					clickable: true
 				},
 				{
@@ -508,12 +502,12 @@ describe('Table', () => {
 						</Container>,
 						faker.lorem.sentence()
 					],
-					onClick: jest.fn(),
+					onClick: vi.fn(),
 					clickable: true
 				}
 			];
 
-			const onSelectionChange = jest.fn();
+			const onSelectionChange = vi.fn();
 			setup(
 				<Table
 					rows={items}
@@ -551,7 +545,7 @@ describe('Table', () => {
 				{ id: 'row3', columns: ['row3col1', 'row3col2'] }
 			];
 
-			const onSelectionChangeFn = jest.fn();
+			const onSelectionChangeFn = vi.fn();
 			const { user } = setup(
 				<Table
 					headers={headers}
@@ -582,7 +576,7 @@ describe('Table', () => {
 				{ id: 'row3', columns: ['row3col1', 'row3col2'] }
 			];
 
-			const onSelectionChangeFn = jest.fn();
+			const onSelectionChangeFn = vi.fn();
 			const { user } = setup(
 				<Table
 					headers={headers}
@@ -612,7 +606,7 @@ describe('Table', () => {
 			];
 
 			const selectedRows = [rows[2].id];
-			const onSelectionChangeFn = jest.fn();
+			const onSelectionChangeFn = vi.fn();
 			const { user } = setup(
 				<Table
 					headers={headers}
@@ -643,7 +637,7 @@ describe('Table', () => {
 			];
 
 			const selectedRows = [rows[0].id, rows[2].id];
-			const onSelectionChangeFn = jest.fn();
+			const onSelectionChangeFn = vi.fn();
 			const { user } = setup(
 				<Table
 					headers={headers}
@@ -674,7 +668,7 @@ describe('Table', () => {
 			];
 
 			const selectedRows = [rows[2].id];
-			const onSelectionChangeFn = jest.fn();
+			const onSelectionChangeFn = vi.fn();
 			const { rerender } = setup(
 				<Table
 					headers={headers}
@@ -713,7 +707,7 @@ describe('Table', () => {
 			];
 
 			const selectedRows = [rows[2].id];
-			const onSelectionChangeFn = jest.fn();
+			const onSelectionChangeFn = vi.fn();
 			setup(
 				<Table
 					headers={headers}
@@ -739,7 +733,7 @@ describe('Table', () => {
 			];
 
 			const selectedRows: [string] | [] = [rows[2].id];
-			const onSelectionChangeFn = jest.fn();
+			const onSelectionChangeFn = vi.fn();
 			const { user } = setup(
 				<Table
 					headers={headers}
@@ -773,7 +767,7 @@ describe('Table', () => {
 			];
 
 			const selectedRows: [string] | [] = [rows[2].id];
-			const onSelectionChangeFn = jest.fn();
+			const onSelectionChangeFn = vi.fn();
 			const { user } = setup(
 				<Table
 					headers={headers}
