@@ -29,7 +29,10 @@ export default defineConfig({
 		fakeTimers: {
 			shouldAdvanceTime: true
 		},
-
+		reporters: ['default', 'junit'],
+		outputFile: {
+			junit: './junit.xml'
+		},
 		css: {
 			modules: {
 				classNameStrategy: 'non-scoped'
