@@ -27,16 +27,20 @@ describe('Catcher', () => {
 		expect(screen.getByText(/CHILD ELEMENT/i)).toBeVisible();
 	});
 
-	// todo: check
-	// test('Render a component with an error', () => {
-	// 	vi.spyOn(console, 'error').mockImplementation(() => {});
-	// 	const onError = vi.fn();
-	// 	setup(
-	// 		<Catcher onError={onError}>
-	// 			<ErrorComponent />
-	// 		</Catcher>
-	// 	);
-	// 	expect(onError).toHaveBeenCalled();
-	// 	expect(screen.getByText(/error from the test component/i)).toBeVisible();
-	// });
+	test('Render a component with an error', () => {
+		const handleWindowError = (event: Event): void => {
+			event.preventDefault();
+		};
+		window.addEventListener('error', handleWindowError);
+		vi.spyOn(console, 'error').mockImplementation(() => {});
+		const onError = vi.fn();
+		setup(
+			<Catcher onError={onError}>
+				<ErrorComponent />
+			</Catcher>
+		);
+		expect(onError).toHaveBeenCalled();
+		expect(screen.getByText(/error from the test component/i)).toBeVisible();
+		window.removeEventListener('error', handleWindowError);
+	});
 });
