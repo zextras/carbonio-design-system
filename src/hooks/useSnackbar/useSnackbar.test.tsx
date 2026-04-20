@@ -30,8 +30,8 @@ vi.mock('react-dom', async () => {
 
 const snackbarContextError = 'snackbar manager context not initialized';
 beforeEach(() => {
-	const originalErrorFn = console.error;
-	console.error = vi.fn<typeof console.error>((message, ...args) => {
+	const originalErrorFn = console.error.bind(console);
+	vi.spyOn(console, 'error').mockImplementation((message, ...args) => {
 		// silence error for snackbar
 		if (message !== snackbarContextError) {
 			originalErrorFn(message, ...args);
