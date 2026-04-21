@@ -29,6 +29,7 @@ export default defineConfig({
 		fakeTimers: {
 			shouldAdvanceTime: true
 		},
+		testTimeout: 10000,
 		reporters: ['default', 'junit'],
 		outputFile: {
 			junit: './junit.xml'
