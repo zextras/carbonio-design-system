@@ -173,7 +173,7 @@ pipeline {
                     steps {
                         container('playwright') {
                             executeNpmLogin()
-                            sh 'pnp run test-storybook'
+                            sh 'npm run test-storybook'
                         }
                     }
                     post {
