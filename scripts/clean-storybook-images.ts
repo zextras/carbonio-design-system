@@ -12,10 +12,10 @@
  * to an existing story.
  *
  * Usage:
- *   npm run clean:storybook-images
+ *   pnpm run clean:storybook-images
  *
  * Prerequisites:
- *   Storybook must be built first (npm run build:docs) so that
+ *   Storybook must be built first (pnpm run build:docs) so that
  *   storybook-static/index.json exists.
  */
 
@@ -38,7 +38,7 @@ function getValidStoryIds(): Set<string> {
 	if (!fs.existsSync(STORYBOOK_INDEX_PATH)) {
 		console.error(
 			`Error: Storybook index not found at ${STORYBOOK_INDEX_PATH}.\n` +
-				'Run "npm run build:docs" first to generate it.'
+				'Run "pnpm run build:docs" first to generate it.'
 		);
 		process.exit(1);
 	}
