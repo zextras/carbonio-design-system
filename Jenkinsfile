@@ -112,7 +112,7 @@ pipeline {
             steps {
                 container('playwright') {
                     executeNpmLogin()
-                    sh 'npm run test-storybook:update-images'
+                    sh 'pnpm run test-storybook:update-images'
                     sh(script: """
                         apt update && apt install -y git-lfs
                         git config --add remote.origin.fetch +refs/heads/${branchName}:refs/remotes/origin/${branchName}
@@ -173,7 +173,7 @@ pipeline {
                     steps {
                         container('playwright') {
                             executeNpmLogin()
-                            sh 'npm run test-storybook'
+                            sh 'pnpm run test-storybook'
                         }
                     }
                     post {
