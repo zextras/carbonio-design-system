@@ -77,8 +77,8 @@ importers:
         specifier: 11.13.0
         version: 11.13.0(@types/jest@29.5.14)
       '@faker-js/faker':
-        specifier: 9.7.0
-        version: 9.7.0
+        specifier: 9.9.0
+        version: 9.9.0
       '@microsoft/api-extractor':
         specifier: 7.52.5
         version: 7.52.5(@types/node@25.6.0)
@@ -1344,8 +1344,8 @@ packages:
     resolution: {integrity: sha512-d9zaMRSTIKDLhctzH12MtXvJKSSUhaHcjV+2Z+GK+EEY7XKpP5yR4x+N3TAcHTcu963nIr+TMcCb4DBCYX1z6Q==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
 
-  '@faker-js/faker@9.7.0':
-    resolution: {integrity: sha512-aozo5vqjCmDoXLNUJarFZx2IN/GgGaogY4TMJ6so/WLZOWpSV7fvj2dmrV6sEAnUm1O7aCrhTibjpzeDFgNqbg==}
+  '@faker-js/faker@9.9.0':
+    resolution: {integrity: sha512-OEl393iCOoo/z8bMezRlJu+GlRGlsKbUAN7jKB6LhnKoqKve5DXRpalbItIIcwnCjs1k/FOPjFzcA6Qn+H+YbA==}
     engines: {node: '>=18.0.0', npm: '>=9.0.0'}
 
   '@figspec/components@1.0.3':
@@ -8909,7 +8909,7 @@ snapshots:
 
   '@eslint/js@8.57.1': {}
 
-  '@faker-js/faker@9.7.0': {}
+  '@faker-js/faker@9.9.0': {}
 
   '@figspec/components@1.0.3':
     dependencies:
