@@ -87,13 +87,18 @@ pipeline {
                         echo "NodeJS Major Version: $nodeVersion"
                     }
                 }
+                container('nodejs-' + nodeVersion) {
+                    script {
+                        sh 'corepack enable'
+                    }
+                }
             }
         }
         stage('Install dependencies') {
             steps {
                 container('nodejs-' + nodeVersion) {
                     script {
-                        sh 'npm ci'
+                        sh 'pnpm install --frozen-lockfile'
                     }
                 }
             }
@@ -107,7 +112,7 @@ pipeline {
             steps {
                 container('playwright') {
                     executeNpmLogin()
-                    sh 'npm run test-storybook:update-images'
+                    sh 'pnpm run test-storybook:update-images'
                     sh(script: """
                         apt update && apt install -y git-lfs
                         git config --add remote.origin.fetch +refs/heads/${branchName}:refs/remotes/origin/${branchName}
@@ -138,7 +143,7 @@ pipeline {
                     steps {
                         container('nodejs-' + nodeVersion) {
                             executeNpmLogin()
-                            sh 'npm run lint'
+                            sh 'pnpm run lint'
                         }
                     }
                 }
@@ -146,7 +151,7 @@ pipeline {
                     steps {
                         container('nodejs-' + nodeVersion) {
                             executeNpmLogin()
-                            sh 'npm run type-check'
+                            sh 'pnpm run type-check'
                         }
                     }
                 }
@@ -154,7 +159,7 @@ pipeline {
                     steps {
                         container('nodejs-' + nodeVersion) {
                             executeNpmLogin()
-                            sh 'npm run test'
+                            sh 'pnpm run test'
                         }
                     }
                     post {
@@ -168,7 +173,7 @@ pipeline {
                     steps {
                         container('playwright') {
                             executeNpmLogin()
-                            sh 'npm run test-storybook'
+                            sh 'pnpm run test-storybook'
                         }
                     }
                     post {
@@ -190,10 +195,10 @@ pipeline {
             steps {
                 container('nodejs-' + nodeVersion) {
                     script {
-                        sh 'npm i -D sonarqube-scanner'
+                        sh 'pnpm add -D sonarqube-scanner'
                     }
                     withSonarQubeEnv(credentialsId: 'sonarqube-user-token', installationName: 'SonarQube instance') {
-                        sh "npx sonar-scanner -Dsonar.projectKey=${getPackageName().replaceAll("@zextras/", "")} -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info"
+                        sh "pnpm exec sonar-scanner -Dsonar.projectKey=${getPackageName().replaceAll("@zextras/", "")} -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info"
                     }
                 }
             }
@@ -211,7 +216,7 @@ pipeline {
                         container('nodejs-' + nodeVersion) {
                             script {
                                 executeNpmLogin()
-                                sh 'npm run build'
+                                sh 'pnpm run build'
                             }
                         }
                     }
@@ -232,7 +237,7 @@ pipeline {
                         container('nodejs-' + nodeVersion) {
                             script {
                                 executeNpmLogin()
-                                sh 'npm run build:docs'
+                                sh 'pnpm run build:docs'
                             }
                         }
                     }
@@ -252,7 +257,7 @@ pipeline {
                     script {
                         withCredentials([usernamePassword(credentialsId: 'npm-zextras-bot-auth-token', usernameVariable: 'AUTH_USERNAME', passwordVariable: 'NPM_TOKEN')]) {
                             withCredentials([usernamePassword(credentialsId: 'jenkins-integration-with-github-account', usernameVariable: 'GH_USERNAME', passwordVariable: 'GH_TOKEN')]) {
-                                sh 'npx semantic-release'
+                                sh 'pnpm exec semantic-release'
                             }
                         }
                     }

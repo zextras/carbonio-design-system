@@ -28,19 +28,20 @@ This is the Design System and Component Library used in most of the Zextras Proj
 
 ```
 nvm use
-npm install
+corepack enable
+pnpm install
 ```
 
 - Run the documentation in watch mode with
 
 ```
-npm start
+pnpm start
 ```
 
 - Build the component library with
 
 ```
-npm run build
+pnpm run build
 ```
 
 <h2>License</h2>
