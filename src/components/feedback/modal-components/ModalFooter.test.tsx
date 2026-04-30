@@ -14,7 +14,7 @@ import { TIMERS } from '../../constants';
 
 describe('Modal footer', () => {
 	it('displays a disabled primary button if the "confirmDisabled" is set to true', async () => {
-		setup(<ModalFooter confirmLabel={'confirm'} confirmDisabled onConfirm={jest.fn()} />);
+		setup(<ModalFooter confirmLabel={'confirm'} confirmDisabled onConfirm={vi.fn()} />);
 		const confirmButton = screen.getByRole('button', { name: /confirm/i });
 		expect(confirmButton).toBeDisabled();
 	});
@@ -26,7 +26,7 @@ describe('Modal footer', () => {
 				<ModalFooter
 					confirmLabel={'confirm'}
 					confirmDisabled={confirmDisabled}
-					onConfirm={jest.fn()}
+					onConfirm={vi.fn()}
 				/>
 			);
 			const confirmButton = screen.getByRole('button', { name: /confirm/i });
@@ -37,10 +37,10 @@ describe('Modal footer', () => {
 	it('should show the tooltip on the confirm action if confirmTooltip is set', async () => {
 		const confirmTooltip = 'Confirm tooltip';
 		const { user } = setup(
-			<ModalFooter confirmLabel={'confirm'} confirmTooltip={confirmTooltip} onConfirm={jest.fn()} />
+			<ModalFooter confirmLabel={'confirm'} confirmTooltip={confirmTooltip} onConfirm={vi.fn()} />
 		);
 		const confirmButton = screen.getByRole('button', { name: /confirm/i });
-		jest.advanceTimersByTime(TIMERS.TOOLTIP.REGISTER_LISTENER);
+		vi.advanceTimersByTime(TIMERS.TOOLTIP.REGISTER_LISTENER);
 		await user.hover(confirmButton);
 		const tooltip = await screen.findByTestId(SELECTORS.tooltip);
 		expect(within(tooltip).getByText(confirmTooltip)).toBeVisible();
@@ -50,14 +50,10 @@ describe('Modal footer', () => {
 		'should not render the tooltip on the confirm action if the tooltip label is %s',
 		async (confirmTooltip) => {
 			const { user } = setup(
-				<ModalFooter
-					confirmLabel={'confirm'}
-					confirmTooltip={confirmTooltip}
-					onConfirm={jest.fn()}
-				/>
+				<ModalFooter confirmLabel={'confirm'} confirmTooltip={confirmTooltip} onConfirm={vi.fn()} />
 			);
 			const secondaryButton = screen.getByRole('button', { name: /confirm/i });
-			jest.advanceTimersByTime(TIMERS.TOOLTIP.REGISTER_LISTENER);
+			vi.advanceTimersByTime(TIMERS.TOOLTIP.REGISTER_LISTENER);
 			await user.hover(secondaryButton);
 			expect(screen.queryByTestId(SELECTORS.tooltip)).not.toBeInTheDocument();
 		}
@@ -68,7 +64,7 @@ describe('Modal footer', () => {
 			<ModalFooter
 				secondaryActionDisabled
 				secondaryActionLabel={'secondaryAction'}
-				onSecondaryAction={jest.fn()}
+				onSecondaryAction={vi.fn()}
 			/>
 		);
 		const secondaryButton = screen.getByRole('button', { name: /secondaryAction/i });
@@ -82,7 +78,7 @@ describe('Modal footer', () => {
 				<ModalFooter
 					secondaryActionDisabled={secondaryActionDisabled}
 					secondaryActionLabel={'secondaryAction'}
-					onSecondaryAction={jest.fn()}
+					onSecondaryAction={vi.fn()}
 				/>
 			);
 			const secondaryButton = screen.getByRole('button', { name: /secondaryAction/i });
@@ -95,12 +91,12 @@ describe('Modal footer', () => {
 		const { user } = setup(
 			<ModalFooter
 				secondaryActionLabel={'secondaryAction'}
-				onSecondaryAction={jest.fn()}
+				onSecondaryAction={vi.fn()}
 				secondaryActionTooltip={secondaryActionTooltip}
 			/>
 		);
 		const secondaryButton = screen.getByRole('button', { name: /secondaryAction/i });
-		jest.advanceTimersByTime(TIMERS.TOOLTIP.REGISTER_LISTENER);
+		vi.advanceTimersByTime(TIMERS.TOOLTIP.REGISTER_LISTENER);
 		await user.hover(secondaryButton);
 		const tooltip = await screen.findByTestId(SELECTORS.tooltip);
 		expect(within(tooltip).getByText(secondaryActionTooltip)).toBeVisible();
@@ -112,12 +108,12 @@ describe('Modal footer', () => {
 			const { user } = setup(
 				<ModalFooter
 					secondaryActionLabel={'secondaryAction'}
-					onSecondaryAction={jest.fn()}
+					onSecondaryAction={vi.fn()}
 					secondaryActionTooltip={secondaryActionTooltip}
 				/>
 			);
 			const secondaryButton = screen.getByRole('button', { name: /secondaryAction/i });
-			jest.advanceTimersByTime(TIMERS.TOOLTIP.REGISTER_LISTENER);
+			vi.advanceTimersByTime(TIMERS.TOOLTIP.REGISTER_LISTENER);
 			await user.hover(secondaryButton);
 			expect(screen.queryByTestId(SELECTORS.tooltip)).not.toBeInTheDocument();
 		}

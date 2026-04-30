@@ -53,12 +53,6 @@ export const SimpleChips = {
 				onClose={() => console.log('closed')}
 			/>
 			<Chip label="Walter Hartwell White Jr." hasAvatar={false} background="warning" color="text" />
-			<Chip
-				label="Gus Fring"
-				avatarPicture="https://static.wikia.nocookie.net/breakingbad/images/b/be/Season_4_-_Gus.jpg"
-				background="success"
-				color="text"
-			/>
 			<Chip label="Jane Margolis" color="white" />
 		</Container>
 	)
@@ -156,6 +150,50 @@ export const ShapeAndSize = {
 	)
 } satisfies Story;
 
+export const Picture = {
+	render: (): React.JSX.Element => (
+		<Container
+			orientation="horizontal"
+			wrap="wrap"
+			mainAlignment="flex-start"
+			crossAlignment="flex-start"
+			maxWidth="44rem"
+			style={{ gap: '0.5rem' }}
+		>
+			<Chip
+				label="Gus Fring"
+				avatarPicture="https://static.wikia.nocookie.net/breakingbad/images/b/be/Season_4_-_Gus.jpg"
+				background="success"
+				color="text"
+			/>
+			<Chip
+				label="Jon Snow"
+				avatarPicture="https://64.media.tumblr.com/avatar_0aeca7a262ac_128.pnj"
+				actions={[
+					{
+						id: 'action1',
+						label: "998th Lord Commander of the Night's Watch",
+						type: 'icon',
+						icon: 'Moon'
+					},
+					{
+						id: 'action2',
+						label: 'Knows nothing',
+						type: 'icon',
+						icon: 'QuestionMark'
+					}
+				]}
+			/>
+			<Chip label="Anakin Skywalker" avatarPicture="example.jpg" shape="regular" />
+		</Container>
+	),
+	parameters: {
+		visualTest: {
+			skip: true
+		}
+	}
+} satisfies Story;
+
 export const AvatarCustomization = {
 	render: (): React.JSX.Element => (
 		<Container
@@ -165,7 +203,6 @@ export const AvatarCustomization = {
 			maxWidth="44rem"
 			style={{ gap: '0.5rem' }}
 		>
-			<Chip label="Anakin Skywalker" avatarPicture="example.jpg" shape="regular" />
 			<Chip label="Han Solo" avatarIcon="StarOutline" shape="regular" />
 			<Chip
 				label="Luke Skywalker"
@@ -283,24 +320,6 @@ export const Actions = {
 						type: 'button',
 						icon: 'Globe2',
 						onClick: (): void => console.log('Lady of Dragonstone')
-					}
-				]}
-			/>
-			<Chip
-				label="Jon Snow"
-				avatarPicture="https://64.media.tumblr.com/avatar_0aeca7a262ac_128.pnj"
-				actions={[
-					{
-						id: 'action1',
-						label: "998th Lord Commander of the Night's Watch",
-						type: 'icon',
-						icon: 'Moon'
-					},
-					{
-						id: 'action2',
-						label: 'Knows nothing',
-						type: 'icon',
-						icon: 'QuestionMark'
 					}
 				]}
 			/>

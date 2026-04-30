@@ -41,7 +41,7 @@ describe('TabBar', () => {
 			{ id: 'tab-two', label: 'Second Tab', CustomComponent: ReusedDefaultTabBar }
 		];
 
-		const changeFn = jest.fn();
+		const changeFn = vi.fn();
 		const { rerender, user } = setup(
 			<TabBar items={items} selected={'tab-one'} onChange={changeFn} background="secondary" />
 		);

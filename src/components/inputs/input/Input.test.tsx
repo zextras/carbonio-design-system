@@ -54,7 +54,7 @@ describe('Input', () => {
 		await user.click(screen.getByRole('button', { name: /open modal/i }));
 		await screen.findByText(/modal title/i);
 		// run timers of modal
-		act(() => jest.runOnlyPendingTimers());
+		act(() => vi.runOnlyPendingTimers());
 		const inputElement = screen.getByRole('textbox', { name: /input label/i });
 		expect(inputElement).toBeVisible();
 		await user.click(inputElement);
@@ -66,7 +66,7 @@ describe('Input', () => {
 	});
 
 	it('should warn when value is set without onChange or readOnly', () => {
-		const spy = jest.spyOn(console, 'error').mockImplementation(() => {});
+		const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
 		setup(<Input value={'test'} />);
 		expect(spy.mock.calls[0][0]).toEqual(
 			expect.stringContaining(
@@ -77,7 +77,7 @@ describe('Input', () => {
 	});
 
 	it('should not warn when value is set with readOnly', () => {
-		const spy = jest.spyOn(console, 'error');
+		const spy = vi.spyOn(console, 'error');
 		setup(<Input value={'test'} readOnly />);
 		expect(spy).not.toHaveBeenCalled();
 	});
