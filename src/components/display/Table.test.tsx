@@ -172,7 +172,7 @@ describe('Table', () => {
 						{ label: 'Servername_1', value: '1' },
 						{ label: 'Servername_2', value: '2' }
 					],
-					onChange: jest.fn()
+					onChange: vi.fn()
 				},
 				{
 					id: 'type',
@@ -184,7 +184,7 @@ describe('Table', () => {
 						{ label: 'Warning', value: '2' },
 						{ label: 'Error', value: '3' }
 					],
-					onChange: jest.fn()
+					onChange: vi.fn()
 				},
 				{
 					id: 'obj',
@@ -203,7 +203,7 @@ describe('Table', () => {
 						</Container>,
 						faker.lorem.sentence()
 					],
-					onClick: jest.fn(),
+					onClick: vi.fn(),
 					clickable: true
 				},
 				{
@@ -216,7 +216,7 @@ describe('Table', () => {
 						</Container>,
 						faker.lorem.sentence()
 					],
-					onClick: jest.fn(),
+					onClick: vi.fn(),
 					clickable: true
 				}
 			];
@@ -250,7 +250,7 @@ describe('Table', () => {
 		 * We will have to wait for the fix of jsdom to be able to test this or to
 		 * switch to E2E testing for this kind of tests.
 		 */
-		test.failing(
+		test.fails(
 			'Checkboxes are hidden at first. They become all visible if there is at least one item checked',
 			async () => {
 				const headers: THeader[] = [
@@ -287,7 +287,7 @@ describe('Table', () => {
 			}
 		);
 
-		test.failing(
+		test.fails(
 			'Click on the header checkbox immediately toggle check for all rows and calls onSelectionChange with the new selection',
 			async () => {
 				const headers: THeader[] = [
@@ -329,7 +329,7 @@ describe('Table', () => {
 			];
 
 			const defaultSelection = [rows[0].id];
-			const onSelectionChangeFn = jest.fn();
+			const onSelectionChangeFn = vi.fn();
 			setup(
 				<Table
 					headers={headers}
@@ -355,7 +355,7 @@ describe('Table', () => {
 			];
 
 			const defaultSelection = [rows[2].id];
-			const onSelectionChangeFn = jest.fn();
+			const onSelectionChangeFn = vi.fn();
 			const { user } = setup(
 				<Table
 					headers={headers}
@@ -387,7 +387,7 @@ describe('Table', () => {
 			];
 
 			const defaultSelection: [string] | [] = [rows[2].id];
-			const onSelectionChangeFn = jest.fn();
+			const onSelectionChangeFn = vi.fn();
 			const { user } = setup(
 				<Table
 					headers={headers}
@@ -423,7 +423,7 @@ describe('Table', () => {
 			];
 
 			const defaultSelection: [string] | [] = [rows[2].id];
-			const onSelectionChangeFn = jest.fn();
+			const onSelectionChangeFn = vi.fn();
 			const { user } = setup(
 				<Table
 					headers={headers}
@@ -464,7 +464,7 @@ describe('Table', () => {
 						{ label: 'Servername_1', value: '1' },
 						{ label: 'Servername_2', value: '2' }
 					],
-					onChange: jest.fn()
+					onChange: vi.fn()
 				},
 				{
 					id: 'type',
@@ -476,7 +476,7 @@ describe('Table', () => {
 						{ label: 'Warning', value: '2' },
 						{ label: 'Error', value: '3' }
 					],
-					onChange: jest.fn()
+					onChange: vi.fn()
 				},
 				{
 					id: 'obj',
@@ -495,7 +495,7 @@ describe('Table', () => {
 						</Container>,
 						faker.lorem.sentence()
 					],
-					onClick: jest.fn(),
+					onClick: vi.fn(),
 					clickable: true
 				},
 				{
@@ -508,12 +508,12 @@ describe('Table', () => {
 						</Container>,
 						faker.lorem.sentence()
 					],
-					onClick: jest.fn(),
+					onClick: vi.fn(),
 					clickable: true
 				}
 			];
 
-			const onSelectionChange = jest.fn();
+			const onSelectionChange = vi.fn();
 			setup(
 				<Table
 					rows={items}
@@ -551,7 +551,7 @@ describe('Table', () => {
 				{ id: 'row3', columns: ['row3col1', 'row3col2'] }
 			];
 
-			const onSelectionChangeFn = jest.fn();
+			const onSelectionChangeFn = vi.fn();
 			const { user } = setup(
 				<Table
 					headers={headers}
@@ -582,7 +582,7 @@ describe('Table', () => {
 				{ id: 'row3', columns: ['row3col1', 'row3col2'] }
 			];
 
-			const onSelectionChangeFn = jest.fn();
+			const onSelectionChangeFn = vi.fn();
 			const { user } = setup(
 				<Table
 					headers={headers}
@@ -612,7 +612,7 @@ describe('Table', () => {
 			];
 
 			const selectedRows = [rows[2].id];
-			const onSelectionChangeFn = jest.fn();
+			const onSelectionChangeFn = vi.fn();
 			const { user } = setup(
 				<Table
 					headers={headers}
@@ -643,7 +643,7 @@ describe('Table', () => {
 			];
 
 			const selectedRows = [rows[0].id, rows[2].id];
-			const onSelectionChangeFn = jest.fn();
+			const onSelectionChangeFn = vi.fn();
 			const { user } = setup(
 				<Table
 					headers={headers}
@@ -674,7 +674,7 @@ describe('Table', () => {
 			];
 
 			const selectedRows = [rows[2].id];
-			const onSelectionChangeFn = jest.fn();
+			const onSelectionChangeFn = vi.fn();
 			const { rerender } = setup(
 				<Table
 					headers={headers}
@@ -713,7 +713,7 @@ describe('Table', () => {
 			];
 
 			const selectedRows = [rows[2].id];
-			const onSelectionChangeFn = jest.fn();
+			const onSelectionChangeFn = vi.fn();
 			setup(
 				<Table
 					headers={headers}
@@ -739,7 +739,7 @@ describe('Table', () => {
 			];
 
 			const selectedRows: [string] | [] = [rows[2].id];
-			const onSelectionChangeFn = jest.fn();
+			const onSelectionChangeFn = vi.fn();
 			const { user } = setup(
 				<Table
 					headers={headers}
@@ -773,7 +773,7 @@ describe('Table', () => {
 			];
 
 			const selectedRows: [string] | [] = [rows[2].id];
-			const onSelectionChangeFn = jest.fn();
+			const onSelectionChangeFn = vi.fn();
 			const { user } = setup(
 				<Table
 					headers={headers}

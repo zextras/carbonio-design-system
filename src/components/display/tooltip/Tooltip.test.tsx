@@ -17,7 +17,7 @@ import { Container } from '../../layout/container/Container';
 describe('Tooltip', () => {
 	test('Render Tooltip', async () => {
 		const messageText = 'Overflowing tooltip text';
-		const clickFn = jest.fn();
+		const clickFn = vi.fn();
 		const { user } = setup(
 			<Container orientation="horizontal" mainAlignment="flex-start">
 				<Tooltip placement="right" label={messageText}>
@@ -27,7 +27,7 @@ describe('Tooltip', () => {
 		);
 		const button = screen.getByText(/Name Lastname/i);
 		// wait so tooltip can register the listeners
-		jest.advanceTimersByTime(TIMERS.TOOLTIP.REGISTER_LISTENER);
+		vi.advanceTimersByTime(TIMERS.TOOLTIP.REGISTER_LISTENER);
 		await user.hover(button);
 		await screen.findByText(messageText);
 
@@ -36,7 +36,7 @@ describe('Tooltip', () => {
 
 	test('Disabled Tooltip is not shown', async () => {
 		const messageText = 'Overflowing tooltip text';
-		const clickFn = jest.fn();
+		const clickFn = vi.fn();
 		const { user } = setup(
 			<Container orientation="horizontal" mainAlignment="flex-start">
 				<Tooltip placement="right" label={messageText} disabled>
@@ -46,9 +46,9 @@ describe('Tooltip', () => {
 		);
 		const button = screen.getByText(/Name Lastname/i);
 		// wait so tooltip can register the listeners
-		jest.advanceTimersByTime(TIMERS.TOOLTIP.REGISTER_LISTENER);
+		vi.advanceTimersByTime(TIMERS.TOOLTIP.REGISTER_LISTENER);
 		await user.hover(button);
-		jest.advanceTimersByTime(TIMERS.TOOLTIP.DELAY_SHOW);
+		vi.advanceTimersByTime(TIMERS.TOOLTIP.DELAY_SHOW);
 		expect(screen.queryByText(messageText)).not.toBeInTheDocument();
 	});
 
@@ -68,7 +68,7 @@ describe('Tooltip', () => {
 	test('If two or more tooltips wrap the same component only the closest will render', async () => {
 		const messageText = 'tooltip 1 text';
 		const message2Text = 'tooltip 2 text';
-		const clickFn = jest.fn();
+		const clickFn = vi.fn();
 		const { user } = setup(
 			<Tooltip placement="right" label={messageText}>
 				<Tooltip placement="right" label={message2Text}>
@@ -78,7 +78,7 @@ describe('Tooltip', () => {
 		);
 		const button = screen.getByText(/Name Lastname/i);
 		// wait so tooltip can register the listeners
-		jest.advanceTimersByTime(TIMERS.TOOLTIP.REGISTER_LISTENER);
+		vi.advanceTimersByTime(TIMERS.TOOLTIP.REGISTER_LISTENER);
 		await user.hover(button);
 		await screen.findByText(message2Text);
 
@@ -89,7 +89,7 @@ describe('Tooltip', () => {
 	test('If tooltips are nested only the closest will render', async () => {
 		const messageText = 'tooltip 1 text';
 		const message2Text = 'tooltip 2 text';
-		const clickFn = jest.fn();
+		const clickFn = vi.fn();
 		const { user } = setup(
 			<Tooltip placement="right" label={messageText}>
 				<Container orientation="horizontal" mainAlignment="flex-start">
@@ -101,7 +101,7 @@ describe('Tooltip', () => {
 		);
 		const button = screen.getByText(/Name Lastname/i);
 		// wait so tooltip can register the listeners
-		jest.advanceTimersByTime(TIMERS.TOOLTIP.REGISTER_LISTENER);
+		vi.advanceTimersByTime(TIMERS.TOOLTIP.REGISTER_LISTENER);
 		await user.hover(button);
 		await screen.findByText(message2Text);
 
@@ -112,7 +112,7 @@ describe('Tooltip', () => {
 	test('If tooltips are nested and the closest is disabled only the next one will render', async () => {
 		const messageText = 'tooltip 1 text';
 		const message2Text = 'tooltip 2 text';
-		const clickFn = jest.fn();
+		const clickFn = vi.fn();
 		const { user } = setup(
 			<Tooltip placement="right" label={messageText}>
 				<Container orientation="horizontal" mainAlignment="flex-start">
@@ -124,7 +124,7 @@ describe('Tooltip', () => {
 		);
 		const button = screen.getByText(/Name Lastname/i);
 		// wait so tooltip can register the listeners
-		jest.advanceTimersByTime(TIMERS.TOOLTIP.REGISTER_LISTENER);
+		vi.advanceTimersByTime(TIMERS.TOOLTIP.REGISTER_LISTENER);
 		await user.hover(button);
 		await screen.findByText(messageText);
 

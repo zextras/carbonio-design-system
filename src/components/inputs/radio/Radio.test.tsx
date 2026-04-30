@@ -33,7 +33,7 @@ describe('Radio', () => {
 
 	describe('Uncontrolled mode', () => {
 		test('should not call onChange if the radio is already checked', async () => {
-			const onChangeFn = jest.fn();
+			const onChangeFn = vi.fn();
 			const { user } = setup(
 				<Radio label={'the label'} value={'value'} onChange={onChangeFn} defaultChecked />
 			);
@@ -44,7 +44,7 @@ describe('Radio', () => {
 		});
 
 		test('should call onChange when clicking on radio input', async () => {
-			const onChangeFn = jest.fn();
+			const onChangeFn = vi.fn();
 			const { user } = setup(<Radio label={'the label'} value={'value'} onChange={onChangeFn} />);
 			const radio = screen.getByRole('radio');
 			await user.click(radio);
@@ -52,7 +52,7 @@ describe('Radio', () => {
 		});
 
 		test('should not toggle the radio on click', async () => {
-			const onChangeFn = jest.fn();
+			const onChangeFn = vi.fn();
 			const { user } = setup(<Radio label={'the label'} value={'value'} onChange={onChangeFn} />);
 			const radio = screen.getByRole('radio');
 			await user.click(radio);
@@ -64,7 +64,7 @@ describe('Radio', () => {
 
 	describe('Controlled mode', () => {
 		test('should not toggle the radio on click', async () => {
-			const onChangeFn = jest.fn();
+			const onChangeFn = vi.fn();
 			const { user } = setup(
 				<Radio label={'the label'} value={'value'} checked onChange={onChangeFn} />
 			);
@@ -85,7 +85,7 @@ describe('Radio', () => {
 	});
 
 	test('should check the radio when clicking on the default label', async () => {
-		const onChangeFn = jest.fn();
+		const onChangeFn = vi.fn();
 		const { user } = setup(<Radio label={'the label'} value={'value'} onChange={onChangeFn} />);
 		expect(screen.getByRole('radio')).not.toBeChecked();
 		await user.click(screen.getByText('the label'));
@@ -94,8 +94,8 @@ describe('Radio', () => {
 	});
 
 	test('should check the radio when clicking on a custom label', async () => {
-		const onChangeFn = jest.fn();
-		const labelOnClick = jest.fn();
+		const onChangeFn = vi.fn();
+		const labelOnClick = vi.fn();
 		const { user } = setup(
 			<Radio
 				label={<Text onClick={labelOnClick}>the label</Text>}
@@ -111,10 +111,10 @@ describe('Radio', () => {
 	});
 
 	test('should not toggle the radio when clicking on a custom label which prevents default', async () => {
-		const labelOnClick = jest.fn((event: React.MouseEvent) => {
+		const labelOnClick = vi.fn((event: React.MouseEvent) => {
 			event.preventDefault();
 		});
-		const onChangeFn = jest.fn();
+		const onChangeFn = vi.fn();
 		const { user } = setup(
 			<Radio
 				label={<Text onClick={labelOnClick}>the label</Text>}
@@ -138,7 +138,7 @@ describe('Radio', () => {
 	});
 
 	test('should toggle radio when keyboard space is pressed', async () => {
-		const onChangeFn = jest.fn();
+		const onChangeFn = vi.fn();
 		const { user } = setup(<Radio label={'the label'} value={'value'} onChange={onChangeFn} />);
 		const radio = screen.getByRole('radio');
 		expect(radio).not.toBeChecked();
