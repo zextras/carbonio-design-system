@@ -40,12 +40,12 @@ describe('List', () => {
 			{
 				id: '1',
 				name: 'item 1',
-				onClick: jest.fn()
+				onClick: vi.fn()
 			},
 			{
 				id: '2',
 				name: 'item 2',
-				onClick: jest.fn()
+				onClick: vi.fn()
 			}
 		];
 

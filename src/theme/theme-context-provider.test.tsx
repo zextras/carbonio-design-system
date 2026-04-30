@@ -39,7 +39,7 @@ describe('ThemeProvider', () => {
 	});
 
 	test('Set a custom theme value', () => {
-		const recipe = jest.fn((draft) => {
+		const recipe = vi.fn((draft) => {
 			// eslint-disable-next-line no-param-reassign
 			draft.palette.primary = generateColorSet({ regular: CUSTOM_THEME_COLOR });
 			return draft;
@@ -57,7 +57,7 @@ describe('ThemeProvider', () => {
 		type ThemeExtended = Theme & {
 			palette: Theme['palette'] & { extra: ThemeColorObj };
 		};
-		const recipe: (theme: Theme) => ThemeExtended = jest.fn((draft) => {
+		const recipe: (theme: Theme) => ThemeExtended = vi.fn((draft) => {
 			const themeExtended: ThemeExtended = {
 				...draft,
 				palette: { ...draft.palette, extra: generateColorSet({ regular: CUSTOM_THEME_COLOR }) }

@@ -262,7 +262,7 @@ describe('Drop', () => {
 	});
 
 	test('should not block events of nested elements when drop happens outside the dropzone', async () => {
-		const onClickFn = jest.fn();
+		const onClickFn = vi.fn();
 		window.draggedItem = {
 			data: {
 				id: 1

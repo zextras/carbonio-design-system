@@ -43,13 +43,13 @@ const TableRow = styled.tr<{
 	$clickable?: boolean;
 }>`
 	transition: background-color 0.2s ease-out;
-	&:nth-child(odd) {
+	&:nth-of-type(odd) {
 		background-color: ${({ theme }): string => theme.palette.gray6.regular};
 		&:hover {
 			background-color: ${({ theme }): string => theme.palette.gray6.hover};
 		}
 	}
-	&:nth-child(even) {
+	&:nth-of-type(even) {
 		background-color: ${({ theme }): string => theme.palette.gray5.regular};
 		&:hover {
 			background-color: ${({ theme }): string => theme.palette.gray5.hover};

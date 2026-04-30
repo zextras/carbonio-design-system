@@ -57,7 +57,7 @@ describe('Badge', () => {
 			const maxValue = 2000;
 			const { user } = setup(<Badge value={number} maxValue={maxValue} />);
 			// wait for tooltip to register listeners
-			jest.advanceTimersByTime(TIMERS.TOOLTIP.REGISTER_LISTENER);
+			vi.advanceTimersByTime(TIMERS.TOOLTIP.REGISTER_LISTENER);
 			await user.hover(screen.getByText(`${maxValue}+`));
 			const tooltip = await screen.findByTestId('tooltip');
 			expect(within(tooltip).getByText(number)).toBeVisible();

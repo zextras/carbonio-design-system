@@ -49,7 +49,7 @@ describe('Select', () => {
 	describe('single selection ', () => {
 		test('disabled items are not selectable and does not trigger onChange', async () => {
 			const label = 'Select an item';
-			const onChange = jest.fn();
+			const onChange = vi.fn();
 			const { user } = setup(
 				<Select items={extendedItems} label={label} onChange={onChange} selection={items[0]} />
 			);
@@ -73,7 +73,7 @@ describe('Select', () => {
 		describe('controlled mode', () => {
 			test('label is visible, item is selected and onChange is not called', () => {
 				const label = 'Select an item';
-				const onChange = jest.fn();
+				const onChange = vi.fn();
 				setup(<Select items={items} label={label} onChange={onChange} selection={items[0]} />);
 
 				// label is visible
@@ -87,7 +87,7 @@ describe('Select', () => {
 			});
 			test('onChange is not called if the user clicks on the item with the same value as the selected one', async () => {
 				const label = 'Select an item';
-				const onChange = jest.fn();
+				const onChange = vi.fn();
 				const { user } = setup(
 					<Select items={items} label={label} onChange={onChange} selection={items[0]} />
 				);
@@ -103,7 +103,7 @@ describe('Select', () => {
 			});
 			test('onChange is called if the user clicks on an item with a different value from the selected one', async () => {
 				const label = 'Select an item';
-				const onChange = jest.fn();
+				const onChange = vi.fn();
 				const { user } = setup(
 					<Select items={items} label={label} onChange={onChange} selection={items[0]} />
 				);
@@ -120,7 +120,7 @@ describe('Select', () => {
 			});
 			test('click on an item does not automatically update the value of the select', async () => {
 				const label = 'Select an item';
-				const onChange = jest.fn();
+				const onChange = vi.fn();
 				const { user } = setup(
 					<Select items={items} label={label} onChange={onChange} selection={items[0]} />
 				);
@@ -132,7 +132,7 @@ describe('Select', () => {
 			});
 			test('If the value change, the new value is shown as the selected one', () => {
 				const label = 'Select an item';
-				const onChange = jest.fn();
+				const onChange = vi.fn();
 				const { rerender } = setup(
 					<Select items={items} label={label} onChange={onChange} selection={items[0]} />
 				);
@@ -146,7 +146,7 @@ describe('Select', () => {
 		describe('uncontrolled mode', () => {
 			test('If there is not a default selection only label is visible, onchange is not called', () => {
 				const label = 'Select an item';
-				const onChange = jest.fn();
+				const onChange = vi.fn();
 				setup(<Select items={items} label={label} onChange={onChange} />);
 
 				// label is visible
@@ -162,7 +162,7 @@ describe('Select', () => {
 			});
 			test('If there is a default selection label and selected item are visible, onchange is not called', () => {
 				const label = 'Select an item';
-				const onChange = jest.fn();
+				const onChange = vi.fn();
 				setup(
 					<Select items={items} label={label} onChange={onChange} defaultSelection={items[0]} />
 				);
@@ -178,7 +178,7 @@ describe('Select', () => {
 			});
 			test('onChange is not called if the user clicks on the item with the same value as the selected one', async () => {
 				const label = 'Select an item';
-				const onChange = jest.fn();
+				const onChange = vi.fn();
 				const { user } = setup(
 					<Select items={items} label={label} onChange={onChange} defaultSelection={items[0]} />
 				);
@@ -194,7 +194,7 @@ describe('Select', () => {
 			});
 			test('onChange is called if the user clicks on an item with a different value from the selected one', async () => {
 				const label = 'Select an item';
-				const onChange = jest.fn();
+				const onChange = vi.fn();
 				const { user } = setup(
 					<Select items={items} label={label} onChange={onChange} defaultSelection={items[0]} />
 				);
@@ -211,7 +211,7 @@ describe('Select', () => {
 			});
 			test('click on an item automatically update the value of the select', async () => {
 				const label = 'Select an item';
-				const onChange = jest.fn();
+				const onChange = vi.fn();
 				const { user } = setup(
 					<Select items={items} label={label} onChange={onChange} defaultSelection={items[0]} />
 				);
@@ -223,7 +223,7 @@ describe('Select', () => {
 			});
 			test('If the default value change, the new value is not shown as the selected one', () => {
 				const label = 'Select an item';
-				const onChange = jest.fn();
+				const onChange = vi.fn();
 				const { rerender } = setup(
 					<Select items={items} label={label} onChange={onChange} defaultSelection={items[0]} />
 				);
@@ -240,7 +240,7 @@ describe('Select', () => {
 	describe('multiple selection ', () => {
 		test('there is an "All" item available', async () => {
 			const label = 'Select an item';
-			const onChange = jest.fn();
+			const onChange = vi.fn();
 			const { user } = setup(<Select multiple items={items} label={label} onChange={onChange} />);
 
 			await user.click(screen.getByText(label));
@@ -248,7 +248,7 @@ describe('Select', () => {
 		});
 		test('clicking "All" item when not all the enabled items are selected, will select them all ignoring the disabled', async () => {
 			const label = 'Select an item';
-			const onChange = jest.fn();
+			const onChange = vi.fn();
 			const { user } = setup(
 				<Select multiple items={extendedItems} label={label} onChange={onChange} />
 			);
@@ -260,7 +260,7 @@ describe('Select', () => {
 		});
 		test('clicking "All" item when all the enabled items are selected, will de-select them all ignoring the disabled', async () => {
 			const label = 'Select an item';
-			const onChange = jest.fn();
+			const onChange = vi.fn();
 			const { user } = setup(
 				<Select
 					multiple
@@ -278,7 +278,7 @@ describe('Select', () => {
 		});
 		test('if a disabled item is already selected, it cannot be de-selected', async () => {
 			const label = 'Select an item';
-			const onChange = jest.fn();
+			const onChange = vi.fn();
 			const { user } = setup(
 				<Select
 					multiple
@@ -304,7 +304,7 @@ describe('Select', () => {
 		describe('controlled mode', () => {
 			test('label is visible, items are selected and onChange is not called', () => {
 				const label = 'Select an item';
-				const onChange = jest.fn();
+				const onChange = vi.fn();
 				const selection = slice(items, 0, 2);
 				const selectedLabel = map(selection, 'label').join(', ');
 				setup(
@@ -322,7 +322,7 @@ describe('Select', () => {
 			});
 			test('clicking on a selected item will not automatically remove it from selected ones', async () => {
 				const label = 'Select an item';
-				const onChange = jest.fn();
+				const onChange = vi.fn();
 				const selectedLabel = map(items, 'label').join(', ');
 				const { user } = setup(
 					<Select multiple items={items} label={label} onChange={onChange} selection={items} />
@@ -336,7 +336,7 @@ describe('Select', () => {
 			});
 			test('If the value change, the new value is shown as the selected one', () => {
 				const label = 'Select an item';
-				const onChange = jest.fn();
+				const onChange = vi.fn();
 				const selectedLabel = map(items, 'label').join(', ');
 
 				const { rerender } = setup(
@@ -354,7 +354,7 @@ describe('Select', () => {
 		describe('uncontrolled mode', () => {
 			test('click on an item automatically update the value of the select', async () => {
 				const label = 'Select an item';
-				const onChange = jest.fn();
+				const onChange = vi.fn();
 				const previousSelectedLabel = map(items, 'label').join(', ');
 				const nextSelectedLabel = map(reject(items, ['label', items[1].label]), 'label').join(', ');
 				const { user } = setup(
@@ -376,7 +376,7 @@ describe('Select', () => {
 			});
 			test('If the default value change, the new value is not shown as the selected one', async () => {
 				const label = 'Select an item';
-				const onChange = jest.fn();
+				const onChange = vi.fn();
 				const selectedLabel = map(items, 'label').join(', ');
 				const { rerender } = setup(
 					<Select
@@ -401,10 +401,7 @@ describe('Select', () => {
 
 	test('should accept a value different from a string', async () => {
 		type ValueType = Record<`key${number}`, string>;
-		const onChangeFn = jest.fn<
-			ReturnType<SingleSelectionOnChange<ValueType>>,
-			Parameters<SingleSelectionOnChange<ValueType>>
-		>();
+		const onChangeFn = vi.fn<SingleSelectionOnChange<ValueType>>();
 		const itemsForSelect: SelectItem<ValueType>[] = [
 			{
 				label: 'item1',

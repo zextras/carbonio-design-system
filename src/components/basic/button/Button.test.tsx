@@ -17,7 +17,7 @@ import { Tooltip } from '../../display/tooltip/Tooltip';
 describe('Button', () => {
 	test('The label must be Upper Case', () => {
 		const label = faker.lorem.words(1);
-		const clickFn = jest.fn();
+		const clickFn = vi.fn();
 		setup(<Button label={label} onClick={clickFn} />);
 		expect(screen.getByText(label)).toBeVisible();
 		expect(screen.getByText(label)).toHaveStyle('text-transform: uppercase');
@@ -25,7 +25,7 @@ describe('Button', () => {
 
 	test('Click on its label', async () => {
 		const label = faker.lorem.words(1);
-		const onClick = jest.fn();
+		const onClick = vi.fn();
 		const { user } = setup(<Button label={label} onClick={onClick} />);
 		await user.click(screen.getByText(new RegExp(label, 'i')));
 		expect(onClick).toHaveBeenCalled();
@@ -33,7 +33,7 @@ describe('Button', () => {
 
 	test('Click on its label, button is disabled', async () => {
 		const label = faker.lorem.words(1);
-		const onClick = jest.fn();
+		const onClick = vi.fn();
 		const { user } = setup(<Button label={label} onClick={onClick} disabled />);
 		await user.click(screen.getByText(new RegExp(label, 'i')));
 		expect(onClick).not.toHaveBeenCalled();
@@ -41,7 +41,7 @@ describe('Button', () => {
 
 	test('Trigger the onClick with the keyboard', async () => {
 		const label = faker.lorem.words(1);
-		const onClick = jest.fn();
+		const onClick = vi.fn();
 		const { user } = setup(<Button label={label} onClick={onClick} />);
 		await user.type(screen.getByText(new RegExp(label, 'i')), '{enter}');
 		expect(onClick).toHaveBeenCalled();
@@ -49,7 +49,7 @@ describe('Button', () => {
 
 	test('Show an icon', () => {
 		const label = faker.lorem.words(1);
-		const clickFn = jest.fn();
+		const clickFn = vi.fn();
 		setup(<Button label={label} icon="BulbOutline" onClick={clickFn} />);
 		expect(screen.getByText(new RegExp(label, 'i'))).toBeVisible();
 		expect(screen.getByTestId('icon: BulbOutline')).toBeVisible();
@@ -57,14 +57,14 @@ describe('Button', () => {
 
 	test('Loading state', () => {
 		const label = faker.lorem.words(1);
-		const clickFn = jest.fn();
+		const clickFn = vi.fn();
 		setup(<Button label={label} loading onClick={clickFn} />);
 		expect(screen.getByText(new RegExp(label, 'i'))).not.toBeVisible();
 		expect(screen.getByTestId('spinner')).toBeVisible();
 	});
 
 	test('Show tooltip on disabled button', async () => {
-		const clickFn = jest.fn();
+		const clickFn = vi.fn();
 		const { user } = setup(
 			<Tooltip label={'Tooltip label'}>
 				<Button label={'Button'} loading onClick={clickFn} disabled />
@@ -73,7 +73,7 @@ describe('Button', () => {
 		const button = screen.getByRole('button');
 		expect(screen.queryByText('Tooltip label')).not.toBeInTheDocument();
 		// wait for tooltip to register listeners
-		jest.advanceTimersByTime(TIMERS.TOOLTIP.REGISTER_LISTENER);
+		vi.advanceTimersByTime(TIMERS.TOOLTIP.REGISTER_LISTENER);
 		expect(screen.queryByText('Tooltip label')).not.toBeInTheDocument();
 		await user.hover(button);
 		await screen.findByText('Tooltip label');
