@@ -20,22 +20,23 @@ import { SnackbarManager } from '../../components/utilities/SnackbarManager';
 import { screen, setup } from '../../tests/utils';
 import { ThemeProvider } from '../../theme/theme-context-provider';
 
-jest.mock<typeof ReactDOM>('react-dom', () => ({
-	...jest.requireActual<typeof ReactDOM>('react-dom'),
-	createPortal: (node): React.ReactPortal => node as React.ReactPortal
-}));
+vi.mock('react-dom', async () => {
+	const actual = await vi.importActual<typeof ReactDOM>('react-dom');
+	return {
+		...actual,
+		createPortal: (node: React.ReactNode): React.ReactPortal => node as React.ReactPortal
+	};
+});
 
 const snackbarContextError = 'snackbar manager context not initialized';
 beforeEach(() => {
-	const originalErrorFn = console.error;
-	console.error = jest.fn<ReturnType<typeof console.error>, Parameters<typeof console.error>>(
-		(message, ...args) => {
-			// silence error for snackbar
-			if (message !== snackbarContextError) {
-				originalErrorFn(message, ...args);
-			}
+	const originalErrorFn = console.error.bind(console);
+	vi.spyOn(console, 'error').mockImplementation((message, ...args) => {
+		// silence error for snackbar
+		if (message !== snackbarContextError) {
+			originalErrorFn(message, ...args);
 		}
-	);
+	});
 });
 
 const Wrapper = ({
@@ -105,7 +106,7 @@ describe('useSnackbar', () => {
 		});
 		expect(console.error).not.toHaveBeenCalledWith(snackbarContextError);
 		rtlAct(() => {
-			jest.runOnlyPendingTimers();
+			vi.runOnlyPendingTimers();
 		});
 	});
 
@@ -123,7 +124,7 @@ describe('useSnackbar', () => {
 		await user.click(screen.getByRole('button', { name: /create/i }));
 		expect(screen.queryByText(/snackbar 2/i)).not.toBeInTheDocument();
 		rtlAct(() => {
-			jest.advanceTimersByTime(TIMERS.SNACKBAR.DEFAULT_HIDE_TIMEOUT);
+			vi.advanceTimersByTime(TIMERS.SNACKBAR.DEFAULT_HIDE_TIMEOUT);
 		});
 		expect(await screen.findByText(/snackbar 2/i)).toBeVisible();
 	});
@@ -152,7 +153,7 @@ describe('useSnackbar', () => {
 		await user.click(screen.getByRole('button', { name: /create/i }));
 		expect(await screen.findByText(/snackbar 3/i)).toBeVisible();
 		rtlAct(() => {
-			jest.advanceTimersByTime(TIMERS.SNACKBAR.DEFAULT_HIDE_TIMEOUT);
+			vi.advanceTimersByTime(TIMERS.SNACKBAR.DEFAULT_HIDE_TIMEOUT);
 		});
 		expect(await screen.findByText(/snackbar 2/i)).toBeVisible();
 	});
@@ -162,7 +163,7 @@ describe('useSnackbar', () => {
 			<TestComponent args={[{ label: 'snackbar', disableAutoHide: true }]} />
 		);
 		await user.click(screen.getByRole('button', { name: /create/i }));
-		jest.advanceTimersByTime(TIMERS.SNACKBAR.DEFAULT_HIDE_TIMEOUT);
+		vi.advanceTimersByTime(TIMERS.SNACKBAR.DEFAULT_HIDE_TIMEOUT);
 		expect(screen.getByText(/snackbar/i)).toBeVisible();
 	});
 
@@ -172,7 +173,7 @@ describe('useSnackbar', () => {
 		});
 		await user.click(screen.getByRole('button', { name: /create/i }));
 		rtlAct(() => {
-			jest.advanceTimersByTime(2000);
+			vi.advanceTimersByTime(2000);
 		});
 		expect(screen.queryByText(/snackbar/i)).not.toBeInTheDocument();
 	});
@@ -185,10 +186,10 @@ describe('useSnackbar', () => {
 			}
 		);
 		await user.click(screen.getByRole('button', { name: /create/i }));
-		jest.advanceTimersByTime(2000);
+		vi.advanceTimersByTime(2000);
 		expect(screen.getByText(/snackbar/i)).toBeVisible();
 		rtlAct(() => {
-			jest.advanceTimersByTime(1000);
+			vi.advanceTimersByTime(1000);
 		});
 		expect(screen.queryByText(/snackbar/i)).not.toBeInTheDocument();
 	});
@@ -204,7 +205,7 @@ describe('useSnackbar', () => {
 		);
 		await user.click(screen.getByRole('button', { name: /create/i }));
 		await user.click(screen.getByRole('button', { name: /create/i }));
-		jest.advanceTimersByTime(TIMERS.SNACKBAR.DEFAULT_HIDE_TIMEOUT);
+		vi.advanceTimersByTime(TIMERS.SNACKBAR.DEFAULT_HIDE_TIMEOUT);
 		expect(screen.getByText(/snackbar 1/i)).toBeVisible();
 		expect(screen.queryByText(/snackbar 2/i)).not.toBeInTheDocument();
 		await user.click(screen.getByRole('button', { name: /close s1/i }));
@@ -244,7 +245,7 @@ describe('useSnackbar', () => {
 	});
 
 	it('should call onClose when action is clicked if onActionClick is not set', async () => {
-		const onClose = jest.fn();
+		const onClose = vi.fn();
 		const { user } = setupWithSnackbarManager(
 			<TestComponent args={[{ label: 'snackbar', onClose }]} />
 		);
@@ -254,8 +255,8 @@ describe('useSnackbar', () => {
 	});
 
 	it('should call only onActionClick when action is clicked if set', async () => {
-		const onClose = jest.fn();
-		const onActionClick = jest.fn();
+		const onClose = vi.fn();
+		const onActionClick = vi.fn();
 		const { user } = setupWithSnackbarManager(
 			<TestComponent args={[{ label: 'snackbar', onClose, onActionClick }]} />
 		);
@@ -266,13 +267,13 @@ describe('useSnackbar', () => {
 	});
 
 	it('should call onClose when snackbar disappears', async () => {
-		const onClose = jest.fn();
+		const onClose = vi.fn();
 		const { user } = setupWithSnackbarManager(
 			<TestComponent args={[{ label: 'snackbar', onClose }]} />
 		);
 		await user.click(screen.getByRole('button', { name: /create/i }));
 		rtlAct(() => {
-			jest.advanceTimersByTime(TIMERS.SNACKBAR.DEFAULT_HIDE_TIMEOUT);
+			vi.advanceTimersByTime(TIMERS.SNACKBAR.DEFAULT_HIDE_TIMEOUT);
 		});
 		expect(onClose).toHaveBeenCalled();
 	});

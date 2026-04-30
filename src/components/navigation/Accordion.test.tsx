@@ -88,7 +88,7 @@ describe('Accordion', () => {
 	});
 
 	test('Render customized Accordion', () => {
-		const clickFn = jest.fn();
+		const clickFn = vi.fn();
 
 		const CC1: AccordionItemType['CustomComponent'] = ({ item }) => (
 			<Button label={item.label} onClick={clickFn} />
@@ -117,7 +117,7 @@ describe('Accordion', () => {
 	});
 
 	test('Open and close an Accordion', async () => {
-		const onClick = jest.fn();
+		const onClick = vi.fn();
 		const { user } = setup(
 			<Accordion
 				items={[
@@ -230,7 +230,7 @@ describe('Accordion', () => {
 			const expandLabel = faker.string.alpha(10);
 			const { user } = setup(<Accordion items={items} expandLabel={expandLabel} />);
 			// wait so tooltip can register the listeners
-			jest.advanceTimersByTime(TIMERS.TOOLTIP.REGISTER_LISTENER);
+			vi.advanceTimersByTime(TIMERS.TOOLTIP.REGISTER_LISTENER);
 			await user.hover(screen.getByRoleWithIcon('button', { icon: ICONS.accordionItemOpenAction }));
 			const tooltip = await screen.findByTestId(SELECTORS.tooltip);
 			expect(within(tooltip).getByText(expandLabel)).toBeVisible();
@@ -252,11 +252,11 @@ describe('Accordion', () => {
 				];
 				const { user } = setup(<Accordion items={items} expandLabel={expandLabel} />);
 				// wait so tooltip can register the listeners
-				jest.advanceTimersByTime(TIMERS.TOOLTIP.REGISTER_LISTENER);
+				vi.advanceTimersByTime(TIMERS.TOOLTIP.REGISTER_LISTENER);
 				await user.hover(
 					screen.getByRoleWithIcon('button', { icon: ICONS.accordionItemOpenAction })
 				);
-				jest.advanceTimersByTime(TIMERS.TOOLTIP.DELAY_SHOW);
+				vi.advanceTimersByTime(TIMERS.TOOLTIP.DELAY_SHOW);
 				expect(screen.queryByTestId(SELECTORS.tooltip)).not.toBeInTheDocument();
 			}
 		);
@@ -281,7 +281,7 @@ describe('Accordion', () => {
 			await user.unhover(
 				screen.getByRoleWithIcon('button', { icon: ICONS.accordionItemCloseAction })
 			);
-			jest.advanceTimersByTime(TIMERS.TOOLTIP.REGISTER_LISTENER);
+			vi.advanceTimersByTime(TIMERS.TOOLTIP.REGISTER_LISTENER);
 			await user.hover(
 				screen.getByRoleWithIcon('button', { icon: ICONS.accordionItemCloseAction })
 			);
@@ -308,11 +308,11 @@ describe('Accordion', () => {
 					screen.getByRoleWithIcon('button', { icon: ICONS.accordionItemOpenAction })
 				);
 				// wait so tooltip can register the listeners
-				jest.advanceTimersByTime(TIMERS.TOOLTIP.REGISTER_LISTENER);
+				vi.advanceTimersByTime(TIMERS.TOOLTIP.REGISTER_LISTENER);
 				await user.hover(
 					screen.getByRoleWithIcon('button', { icon: ICONS.accordionItemCloseAction })
 				);
-				jest.advanceTimersByTime(TIMERS.TOOLTIP.DELAY_SHOW);
+				vi.advanceTimersByTime(TIMERS.TOOLTIP.DELAY_SHOW);
 				expect(screen.queryByTestId(SELECTORS.tooltip)).not.toBeInTheDocument();
 			}
 		);

@@ -16,7 +16,7 @@ describe('MultiButton', () => {
 			{ id: 'item1', label: 'item1' },
 			{ id: 'item2', label: 'item2' }
 		];
-		const clickFn = jest.fn();
+		const clickFn = vi.fn();
 		const { user } = setup(<MultiButton items={items} onClick={clickFn} label="primary" />);
 
 		expect(screen.getByText(/primary/i)).toBeVisible();
@@ -30,7 +30,7 @@ describe('MultiButton', () => {
 	});
 
 	it('should render the secondary icon if icon prop is provided', () => {
-		const onClickFn = jest.fn();
+		const onClickFn = vi.fn();
 		setup(<MultiButton items={[]} onClick={onClickFn} icon={'Close'} />);
 		expect(screen.getByRoleWithIcon('button', { icon: ICONS.close })).toBeVisible();
 	});
@@ -40,7 +40,7 @@ describe('MultiButton', () => {
 			{ id: 'item1', label: 'item1' },
 			{ id: 'item2', label: 'item2' }
 		];
-		const onClickFn = jest.fn();
+		const onClickFn = vi.fn();
 		const { user } = setup(<MultiButton items={items} onClick={onClickFn} />);
 		const secondaryClosedBtn = screen.getByRoleWithIcon('button', {
 			icon: ICONS.multiButtonSecondaryOpenAction
@@ -65,7 +65,7 @@ describe('MultiButton', () => {
 			{ id: 'item1', label: 'item1' },
 			{ id: 'item2', label: 'item2' }
 		];
-		const clickFn = jest.fn();
+		const clickFn = vi.fn();
 		const { user } = setup(<MultiButton items={items} onClick={clickFn} label="primary" />);
 
 		await user.click(
@@ -90,7 +90,7 @@ describe('MultiButton', () => {
 			const dropdownProps = {
 				items: [{ id: 'dropdown-item1', label: 'dropdownItem1' }]
 			} as MultiButtonProps['dropdownProps'];
-			const clickFn = jest.fn();
+			const clickFn = vi.fn();
 			const { user } = setup(
 				<MultiButton
 					items={items}
@@ -111,8 +111,8 @@ describe('MultiButton', () => {
 
 		it('should close the dropdown and call the "onClose" prop set in dropdownProps when clicking on label', async () => {
 			const items: MultiButtonProps['items'] = [{ id: 'item1', label: 'item1' }];
-			const clickFn = jest.fn();
-			const onCloseFn = jest.fn();
+			const clickFn = vi.fn();
+			const onCloseFn = vi.fn();
 			const label = 'primary';
 			const dropdownProps = { onClose: onCloseFn };
 
@@ -132,9 +132,9 @@ describe('MultiButton', () => {
 
 		it('should call onOpen/onClose when clicking on secondary action', async () => {
 			const items: MultiButtonProps['items'] = [{ id: 'item1', label: 'item1' }];
-			const clickFn = jest.fn();
-			const onOpenFn = jest.fn();
-			const onCloseFn = jest.fn();
+			const clickFn = vi.fn();
+			const onOpenFn = vi.fn();
+			const onCloseFn = vi.fn();
 			const label = 'primary';
 			const dropdownProps = { onClose: onCloseFn, onOpen: onOpenFn };
 
@@ -155,7 +155,7 @@ describe('MultiButton', () => {
 
 		it('should not interfere with the dropdown if "forceOpen" prop in dropdownProps is set', () => {
 			const items: MultiButtonProps['items'] = [{ id: 'item1', label: 'item1' }];
-			const clickFn = jest.fn();
+			const clickFn = vi.fn();
 			const label = 'primary';
 			const dropdownProps = { forceOpen: true } as MultiButtonProps['dropdownProps'];
 
@@ -168,7 +168,7 @@ describe('MultiButton', () => {
 
 		it('should not interfere with the dropdown if "disabled" prop in dropdownProps is set', async () => {
 			const items: MultiButtonProps['items'] = [{ id: 'item1', label: 'item1' }];
-			const clickFn = jest.fn();
+			const clickFn = vi.fn();
 			const label = 'primary';
 			const dropdownProps = { disabled: false } as MultiButtonProps['dropdownProps'];
 

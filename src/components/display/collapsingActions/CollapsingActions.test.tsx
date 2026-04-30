@@ -113,8 +113,8 @@ describe('Collapsing Actions', () => {
 		setup(<CollapsingActions actions={actions} data-testid="collapsing-actions" />);
 
 		const collapsingComponent = screen.getByTestId('collapsing-actions');
-		const getOffsetWithMock = jest.spyOn(collapsingComponent, 'offsetWidth', 'get');
-		const getScrollWidthMock = jest.spyOn(collapsingComponent, 'scrollWidth', 'get');
+		const getOffsetWithMock = vi.spyOn(collapsingComponent, 'offsetWidth', 'get');
+		const getScrollWidthMock = vi.spyOn(collapsingComponent, 'scrollWidth', 'get');
 
 		getOffsetWithMock.mockImplementation(() => {
 			throw new Error('should not call this. Mock single return value');

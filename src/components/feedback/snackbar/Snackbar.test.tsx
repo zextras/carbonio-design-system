@@ -40,7 +40,7 @@ describe('Snackbar', () => {
 	});
 
 	it('should call onActionClick if defined', async () => {
-		const onActionClick = jest.fn();
+		const onActionClick = vi.fn();
 		const { user } = setup(
 			<Snackbar label={'test'} open actionLabel={'action'} onActionClick={onActionClick} />
 		);
@@ -49,7 +49,7 @@ describe('Snackbar', () => {
 	});
 
 	it('should call onClose if defined and onActionClick is not defined', async () => {
-		const onClose = jest.fn();
+		const onClose = vi.fn();
 		const { user } = setup(
 			<Snackbar label={'test'} open actionLabel={'action'} onClose={onClose} />
 		);
@@ -58,8 +58,8 @@ describe('Snackbar', () => {
 	});
 
 	it('should call onActionClick if both onActionClick and onClose are defined', async () => {
-		const onActionClick = jest.fn();
-		const onClose = jest.fn();
+		const onActionClick = vi.fn();
+		const onClose = vi.fn();
 		const { user } = setup(
 			<Snackbar
 				label={'test'}
@@ -75,25 +75,25 @@ describe('Snackbar', () => {
 	});
 
 	it('should call onClose after 4 seconds by default', () => {
-		const onClose = jest.fn();
+		const onClose = vi.fn();
 		setup(<Snackbar label={'test'} open onClose={onClose} />);
-		jest.advanceTimersByTime(4000);
+		vi.advanceTimersByTime(4000);
 		expect(onClose).toHaveBeenCalled();
 	});
 
 	it('should call onClose after autoHideTimeout if defined', () => {
-		const onClose = jest.fn();
+		const onClose = vi.fn();
 		setup(<Snackbar label={'test'} open onClose={onClose} autoHideTimeout={2000} />);
-		jest.advanceTimersByTime(2000);
+		vi.advanceTimersByTime(2000);
 		expect(onClose).toHaveBeenCalled();
 	});
 
 	it('should not call onClose after autoHideTimeout if disableAutoHide is true', () => {
-		const onClose = jest.fn();
+		const onClose = vi.fn();
 		setup(
 			<Snackbar label={'test'} open onClose={onClose} autoHideTimeout={2000} disableAutoHide />
 		);
-		jest.advanceTimersByTime(2000);
+		vi.advanceTimersByTime(2000);
 		expect(onClose).not.toHaveBeenCalled();
 	});
 
@@ -139,7 +139,7 @@ describe('Snackbar', () => {
 					label={'test'}
 					disableAutoHide={disableAutoHide}
 					progressBar={progressBar}
-					onClose={jest.fn()}
+					onClose={vi.fn()}
 				/>
 			);
 			expect(screen.getByTestId(SELECTORS.progressBar)).toBeVisible();

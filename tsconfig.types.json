@@ -1,19 +1,20 @@
 {
-  "extends": "./tsconfig.json",
-  "exclude": [
-    "src/**/*.stories.*",
-    "src/**/*.test.*",
-    "src/tests/utils.tsx",
-    "**/tsTemplate.ts",
-    ".storybook",
-    "scripts"
-  ],
-  "compilerOptions": {
-    "declaration": true,
-    "declarationMap": true,
-    "declarationDir": "types",
-    "emitDeclarationOnly": true,
-    "allowJs": true,
-    "moduleResolution": "node",
-  }
+	"extends": "./tsconfig.json",
+	"exclude": [
+		"src/**/*.stories.*",
+		"src/**/*.test.*",
+		"src/tests",
+		"**/tsTemplate.ts",
+		".storybook",
+		"scripts"
+	],
+	"compilerOptions": {
+		"types": ["node"],
+		"declaration": true,
+		"declarationMap": true,
+		"declarationDir": "types",
+		"emitDeclarationOnly": true,
+		"allowJs": true,
+		"moduleResolution": "node"
+	}
 }

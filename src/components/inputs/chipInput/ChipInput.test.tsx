@@ -365,8 +365,8 @@ describe('ChipInput', () => {
 
 	test('if chip input is disabled, icon action and chip action are still interactive', async () => {
 		const chip = [{ label: 'chip' }];
-		const changeFn = jest.fn();
-		const iconActionFn = jest.fn();
+		const changeFn = vi.fn();
+		const iconActionFn = vi.fn();
 
 		const { user } = setup(
 			<ChipInput
@@ -389,8 +389,8 @@ describe('ChipInput', () => {
 	});
 
 	test('if chip input icon is disabled, icon action is not triggered', async () => {
-		const changeFn = jest.fn();
-		const iconActionFn = jest.fn();
+		const changeFn = vi.fn();
+		const iconActionFn = vi.fn();
 
 		const { user } = setup(
 			<ChipInput
@@ -487,8 +487,8 @@ describe('ChipInput', () => {
 
 	test('click on an option with a custom click callback creates a chip, close dropdown and clear the input', async () => {
 		const options: NonNullable<ChipInputProps<never>['options']> = [
-			{ id: 'opt1', label: 'option 1', onClick: jest.fn() },
-			{ id: 'opt2', label: 'option 2', onClick: jest.fn() }
+			{ id: 'opt1', label: 'option 1', onClick: vi.fn() },
+			{ id: 'opt2', label: 'option 2', onClick: vi.fn() }
 		];
 
 		const { user } = setup(<ChipInput options={options} disableOptions={false} />);
@@ -535,7 +535,7 @@ describe('ChipInput', () => {
 	});
 
 	test('onAdd is called with string if text is typed in input', async () => {
-		const onAddFn = jest.fn().mockImplementation((value: string): ChipItem => ({ label: value }));
+		const onAddFn = vi.fn().mockImplementation((value: string): ChipItem => ({ label: value }));
 
 		const { user } = setup(<ChipInput onAdd={onAddFn} />);
 		const inputElement = screen.getByRole('textbox');
@@ -550,7 +550,7 @@ describe('ChipInput', () => {
 	});
 
 	test('onAdd is called with option value if option has a value', async () => {
-		const onAddFn = jest.fn().mockImplementation((value: Option['value']): ChipItem => value);
+		const onAddFn = vi.fn().mockImplementation((value: Option['value']): ChipItem => value);
 
 		type Option = { id: string; label: string; value: { label: string } };
 		const options: Array<Option> = [
@@ -575,7 +575,7 @@ describe('ChipInput', () => {
 	});
 
 	test('onAdd is called with option label if option does not have a value', async () => {
-		const onAddFn = jest.fn().mockImplementation((value: string): ChipItem => ({ label: value }));
+		const onAddFn = vi.fn().mockImplementation((value: string): ChipItem => ({ label: value }));
 
 		type Option = { id: string; label: string };
 		const options: Array<Option> = [
@@ -599,7 +599,7 @@ describe('ChipInput', () => {
 	});
 
 	test('after a chip is added, onChange callback is called with the new item', async () => {
-		const onChangeFn = jest.fn();
+		const onChangeFn = vi.fn();
 		const { user } = setup(<ChipInput onChange={onChangeFn} />);
 		const inputElement = screen.getByRole('textbox');
 		expect(inputElement).toBeVisible();
@@ -612,7 +612,7 @@ describe('ChipInput', () => {
 
 	test('after a chip is removed, onChange callback is called without the item', async () => {
 		const chips = [{ label: 'hola' }, { label: 'hallo' }];
-		const onChangeFn = jest.fn();
+		const onChangeFn = vi.fn();
 		const { user } = setup(<ChipInput onChange={onChangeFn} defaultValue={chips} />);
 		expect(screen.getByText('hola')).toBeVisible();
 		expect(screen.getByText('hallo')).toBeVisible();
@@ -783,7 +783,7 @@ describe('ChipInput', () => {
 	});
 
 	test('onInputType callback is called asynchronously and arg includes text content', async () => {
-		const onInputTypeFn = jest.fn();
+		const onInputTypeFn = vi.fn();
 		const { user } = setup(<ChipInput onInputType={onInputTypeFn} />);
 		await user.type(screen.getByRole('textbox'), 'hej');
 		await waitFor(() => expect(onInputTypeFn).toHaveBeenCalled());
@@ -801,7 +801,7 @@ describe('ChipInput', () => {
 		};
 		await user.click(inputElement);
 		await user.paste({
-			getData: jest.fn().mockImplementation((type: string) => dataTransferData[type])
+			getData: vi.fn().mockImplementation((type: string) => dataTransferData[type])
 		} as unknown as DataTransfer);
 		// chip is created with text before space
 		expect(screen.getByText('ciao')).toBeVisible();
@@ -824,7 +824,7 @@ describe('ChipInput', () => {
 		};
 		await user.click(inputElement);
 		await user.paste({
-			getData: jest.fn().mockImplementation((type: string) => dataTransferData[type])
+			getData: vi.fn().mockImplementation((type: string) => dataTransferData[type])
 		} as unknown as DataTransfer);
 		// text is pastes as is
 		expect(inputElement).toHaveValue('ciaoxhellozhola');
@@ -836,7 +836,7 @@ describe('ChipInput', () => {
 	});
 
 	test('by default there is no limit to the maximum number of chips', async () => {
-		const onChange = jest.fn();
+		const onChange = vi.fn();
 
 		// Start with 19 existing chips
 		const existingChips = Array.from({ length: 19 }, (_, i) => ({ label: `chip${i}` }));
@@ -854,7 +854,7 @@ describe('ChipInput', () => {
 
 	describe('onOptionsDisplayChange', () => {
 		it('should not call onOptionsDisplayChange when options prop is empty', async () => {
-			const onOptionsDisplayChangeFn = jest.fn();
+			const onOptionsDisplayChangeFn = vi.fn();
 			const { user } = setup(
 				<ChipInput
 					onOptionsDisplayChange={onOptionsDisplayChangeFn}
@@ -868,7 +868,7 @@ describe('ChipInput', () => {
 		});
 
 		it('should call onOptionsDisplayChange when options prop is valued (options are shown)', () => {
-			const onOptionsDisplayChangeFn = jest.fn();
+			const onOptionsDisplayChangeFn = vi.fn();
 			setup(
 				<ChipInput
 					onOptionsDisplayChange={onOptionsDisplayChangeFn}
@@ -886,7 +886,7 @@ describe('ChipInput', () => {
 		});
 
 		it('should call onOptionsDisplayChange when the user clicks on the input element (disableOptions is false)', async () => {
-			const onOptionsDisplayChangeFn = jest.fn();
+			const onOptionsDisplayChangeFn = vi.fn();
 			const { user } = setup(
 				<ChipInput
 					onOptionsDisplayChange={onOptionsDisplayChangeFn}
@@ -909,7 +909,7 @@ describe('ChipInput', () => {
 		});
 
 		it('should call onOptionsDisplayChange with false value when the user closes the dropdown by choosing an option', async () => {
-			const onOptionsDisplayChangeFn = jest.fn();
+			const onOptionsDisplayChangeFn = vi.fn();
 			const { user } = setup(
 				<ChipInput
 					onOptionsDisplayChange={onOptionsDisplayChangeFn}
@@ -932,7 +932,7 @@ describe('ChipInput', () => {
 		});
 
 		it('should call onOptionsDisplayChange when options change if disableOptions is true', async () => {
-			const onOptionsDisplayChangeFn = jest.fn();
+			const onOptionsDisplayChangeFn = vi.fn();
 			const { rerender } = setup(
 				<ChipInput onOptionsDisplayChange={onOptionsDisplayChangeFn} disableOptions options={[]} />
 			);
@@ -955,7 +955,7 @@ describe('ChipInput', () => {
 		});
 
 		it('should call onOptionsDisplayChange only when isVisible changes', async () => {
-			const onOptionsDisplayChangeFn = jest.fn();
+			const onOptionsDisplayChangeFn = vi.fn();
 			const { rerender } = setup(
 				<ChipInput onOptionsDisplayChange={onOptionsDisplayChangeFn} options={[]} />
 			);
@@ -987,7 +987,7 @@ describe('ChipInput', () => {
 	});
 
 	it('should call onOptionsDisplayChange with true value if options are valued and the number of chips created is equal to maxChips', async () => {
-		const onOptionsDisplayChangeFn = jest.fn();
+		const onOptionsDisplayChangeFn = vi.fn();
 		const { user } = setup(
 			<ChipInput
 				onOptionsDisplayChange={onOptionsDisplayChangeFn}
