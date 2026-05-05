@@ -224,8 +224,8 @@ importers:
         specifier: 7.1.1
         version: 7.1.1
       react-docgen-typescript:
-        specifier: 2.2.2
-        version: 2.2.2(typescript@5.8.3)
+        specifier: 2.4.0
+        version: 2.4.0(typescript@5.8.3)
       rollup:
         specifier: 4.52.4
         version: 4.52.4
@@ -6548,8 +6548,8 @@ packages:
       react: ^16.9.0 || ^17 || ^18
       react-dom: ^16.9.0 || ^17 || ^18
 
-  react-docgen-typescript@2.2.2:
-    resolution: {integrity: sha512-tvg2ZtOpOi6QDwsb3GZhOjDkkX0h8Z2gipvTg6OVMUyoYoURhEiRNePT8NZItTVCDh39JJHnLdfCOkzoLbFnTg==}
+  react-docgen-typescript@2.4.0:
+    resolution: {integrity: sha512-ZtAp5XTO5HRzQctjPU0ybY0RRCQO19X/8fxn3w7y2VVTUbGHDKULPTL4ky3vB05euSgG5NpALhEhDPvQ56wvXg==}
     peerDependencies:
       typescript: '>= 4.3.x'
 
@@ -10271,7 +10271,7 @@ snapshots:
       find-cache-dir: 3.3.2
       flat-cache: 3.2.0
       micromatch: 4.0.8
-      react-docgen-typescript: 2.2.2(typescript@5.8.3)
+      react-docgen-typescript: 2.4.0(typescript@5.8.3)
       tslib: 2.8.1
       typescript: 5.8.3
       webpack: 5.106.2(@swc/core@1.15.33)(esbuild@0.25.12)
@@ -15160,7 +15160,7 @@ snapshots:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
 
-  react-docgen-typescript@2.2.2(typescript@5.8.3):
+  react-docgen-typescript@2.4.0(typescript@5.8.3):
     dependencies:
       typescript: 5.8.3
 
