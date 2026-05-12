@@ -10,7 +10,7 @@ import { map } from 'lodash';
 import { Radio } from './Radio';
 import { useTheme } from '../../../theme/theme-utils';
 import { Container } from '../../layout/container/Container';
-import { Row } from '../../layout/Row';
+import { Row } from '../../layout/row/Row';
 import type { SelectItem } from '../select/Select';
 import { Select } from '../select/Select';
 

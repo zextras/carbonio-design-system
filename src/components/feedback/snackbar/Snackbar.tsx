@@ -18,7 +18,7 @@ import { Text } from '../../basic/text/Text';
 import { TIMERS } from '../../constants';
 import type { ContainerProps } from '../../layout/container/Container';
 import { Container } from '../../layout/container/Container';
-import { Row } from '../../layout/Row';
+import { Row } from '../../layout/row/Row';
 import { Portal } from '../../utilities/Portal';
 import { Transition } from '../../utilities/Transition';
 

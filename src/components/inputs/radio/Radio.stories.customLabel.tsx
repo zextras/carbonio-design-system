@@ -8,7 +8,7 @@ import React from 'react';
 import { Radio } from './Radio';
 import { Text } from '../../basic/text/Text';
 import { Padding } from '../../layout/padding/Padding';
-import { Row } from '../../layout/Row';
+import { Row } from '../../layout/row/Row';
 import { Select } from '../select/Select';
 
 export const RadioCustomLabel = (): React.JSX.Element => (

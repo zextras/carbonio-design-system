@@ -11,7 +11,7 @@ import styled from '@emotion/styled';
 import { Button } from '../../basic/button/Button';
 import { Text } from '../../basic/text/Text';
 import { Tooltip } from '../../display/tooltip/Tooltip';
-import { Row } from '../../layout/Row';
+import { Row } from '../../layout/row/Row';
 
 interface ModalHeaderProps {
 	centered?: boolean;

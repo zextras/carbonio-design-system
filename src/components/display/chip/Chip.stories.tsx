@@ -11,7 +11,7 @@ import { Chip } from './Chip';
 import { placementArgType } from '../../../docs/utils';
 import { Text } from '../../basic/text/Text';
 import { Container } from '../../layout/container/Container';
-import { Row } from '../../layout/Row';
+import { Row } from '../../layout/row/Row';
 import { Tooltip } from '../tooltip/Tooltip';
 
 const meta = {

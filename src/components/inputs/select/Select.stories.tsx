@@ -16,7 +16,7 @@ import { colorArgType } from '../../../docs/utils';
 import { Icon } from '../../basic/icon/Icon';
 import { Text } from '../../basic/text/Text';
 import { Container } from '../../layout/container/Container';
-import { Row } from '../../layout/Row';
+import { Row } from '../../layout/row/Row';
 
 const defaultItems: SelectItem[] = [
 	{ label: 'Hi', value: '1' },

@@ -10601,7 +10601,7 @@
       }
     }
   ],
-  "src/components/layout/Row.tsx": [
+  "src/components/layout/row/Row.tsx": [
     {
       "description": "",
       "methods": [],
