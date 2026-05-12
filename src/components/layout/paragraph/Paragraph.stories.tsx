@@ -5,10 +5,15 @@
  */
 import type { Meta, StoryObj } from '@storybook/react-webpack5';
 
-import { Paragraph } from '../Paragraph';
+import { Paragraph } from './Paragraph';
+import { colorArgType, sizeArgType } from '../../../docs/utils';
 
 const meta = {
 	component: Paragraph,
+	argTypes: {
+		color: colorArgType,
+		size: sizeArgType
+	},
 	args: {
 		children:
 			'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris pretium venenatis justo, et pellentesque turpis mollis non.' +

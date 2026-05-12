@@ -12,12 +12,15 @@ import { DarkReaderDocsContainer } from './addons/darkreader/DarkReaderDocsConta
 import docgenOutput from './docgen-output.json';
 import * as Utils from '../src';
 import { ThemeProvider } from '../src';
+import { ModalManager } from '../src/components/utilities/ModalManager';
 import { jsx, css } from '../src/playground/playground-helper';
 
 export const decorators = [
 	(Story: StoryFn): React.JSX.Element => (
 		<ThemeProvider>
-			<Story />
+			<ModalManager>
+				<Story />
+			</ModalManager>
 		</ThemeProvider>
 	)
 ];

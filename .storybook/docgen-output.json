@@ -9424,7 +9424,7 @@
       }
     }
   ],
-  "src/components/layout/Paragraph.tsx": [
+  "src/components/layout/paragraph/Paragraph.tsx": [
     {
       "description": "",
       "methods": [],

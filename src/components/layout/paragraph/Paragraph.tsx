@@ -8,8 +8,8 @@ import React from 'react';
 
 import styled from '@emotion/styled';
 
-import type { TextProps } from '../basic/text/Text';
-import { Text } from '../basic/text/Text';
+import type { TextProps } from '../../basic/text/Text';
+import { Text } from '../../basic/text/Text';
 
 const StyledText = styled(Text)`
 	padding-bottom: 0.8em;

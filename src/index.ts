@@ -21,7 +21,7 @@ export * from './components/basic/spinner/Spinner';
 export * from './components/layout/container/Container';
 export * from './components/layout/divider/Divider';
 export * from './components/layout/padding/Padding';
-export * from './components/layout/Paragraph';
+export * from './components/layout/paragraph/Paragraph';
 export * from './components/layout/Row';
 
 /** Inputs components */
