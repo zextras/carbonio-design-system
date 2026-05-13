@@ -61,7 +61,7 @@ export * from './components/inputs/slider/Slider';
 export * from './components/inputs/textArea/TextArea';
 
 /** navigation components */
-export * from './components/navigation/Accordion';
+export * from './components/navigation/accordion/Accordion';
 export * from './components/navigation/Breadcrumbs';
 export * from './components/navigation/TabBar';
 
