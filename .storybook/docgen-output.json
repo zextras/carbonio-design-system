@@ -2142,7 +2142,7 @@
       }
     }
   ],
-  "src/components/navigation/Breadcrumbs.tsx": [
+  "src/components/navigation/breadcrumbs/Breadcrumbs.tsx": [
     {
       "description": "",
       "methods": [],

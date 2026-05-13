@@ -62,7 +62,7 @@ export * from './components/inputs/textArea/TextArea';
 
 /** navigation components */
 export * from './components/navigation/accordion/Accordion';
-export * from './components/navigation/Breadcrumbs';
+export * from './components/navigation/breadcrumbs/Breadcrumbs';
 export * from './components/navigation/TabBar';
 
 /** display components */

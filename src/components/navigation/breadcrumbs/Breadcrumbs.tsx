@@ -10,14 +10,14 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { map } from 'lodash';
 
-import { useCombinedRefs } from '../../hooks/useCombinedRefs';
-import { useSplitVisibility } from '../../hooks/useSplitVisibility';
-import { Text } from '../basic/text/Text';
-import type { DropdownItem, DropdownProps } from '../display/dropdown/Dropdown';
-import { Dropdown } from '../display/dropdown/Dropdown';
-import { Container } from '../layout/container/Container';
-import type { PaddingProps } from '../layout/padding/Padding';
-import { Padding } from '../layout/padding/Padding';
+import { useCombinedRefs } from '../../../hooks/useCombinedRefs';
+import { useSplitVisibility } from '../../../hooks/useSplitVisibility';
+import { Text } from '../../basic/text/Text';
+import type { DropdownItem, DropdownProps } from '../../display/dropdown/Dropdown';
+import { Dropdown } from '../../display/dropdown/Dropdown';
+import { Container } from '../../layout/container/Container';
+import type { PaddingProps } from '../../layout/padding/Padding';
+import { Padding } from '../../layout/padding/Padding';
 
 const CheckDiv = styled.div`
 	width: 100%;
