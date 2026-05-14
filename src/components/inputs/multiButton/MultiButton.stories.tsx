@@ -35,6 +35,7 @@ const meta = {
 		items: baseItems
 	},
 	argTypes: {
+		background: colorArgType,
 		color: colorArgType,
 		icon: { control: 'text' }
 	}

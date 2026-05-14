@@ -10,12 +10,16 @@ import React, { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-webpack5';
 
 import { Input } from './Input';
+import { colorArgType } from '../../../docs/utils';
 import { Icon } from '../../basic/icon/Icon';
 import { Text } from '../../basic/text/Text';
 import { Container } from '../../layout/container/Container';
 
 const meta = {
-	component: Input
+	component: Input,
+	argTypes: {
+		borderColor: colorArgType
+	}
 } satisfies Meta<typeof Input>;
 export default meta;
 

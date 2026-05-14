@@ -29,6 +29,7 @@ const meta = {
 		onChange: (): void => {}
 	},
 	argTypes: {
+		background: colorArgType,
 		underlineColor: colorArgType
 	}
 } satisfies Meta<typeof TabBar>;

@@ -8,7 +8,7 @@ import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-webpack5';
 
 import { Chip } from './Chip';
-import { placementArgType } from '../../../docs/utils';
+import { colorArgType, placementArgType } from '../../../docs/utils';
 import { Text } from '../../basic/text/Text';
 import { Container } from '../../layout/container/Container';
 import { Row } from '../../layout/row/Row';
@@ -17,6 +17,7 @@ import { Tooltip } from '../tooltip/Tooltip';
 const meta = {
 	component: Chip,
 	argTypes: {
+		background: colorArgType,
 		tooltipPlacement: placementArgType
 	}
 } satisfies Meta<typeof Chip>;

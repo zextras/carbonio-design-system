@@ -3390,7 +3390,7 @@
       }
     }
   ],
-  "src/components/utilities/Catcher.tsx": [
+  "src/components/utilities/catcher/Catcher.tsx": [
     {
       "description": "",
       "methods": [],

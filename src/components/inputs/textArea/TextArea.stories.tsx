@@ -15,6 +15,7 @@ const meta = {
 	component: TextArea,
 	argTypes: {
 		backgroundColor: colorArgType,
+		borderColor: colorArgType,
 		textColor: colorArgType
 	}
 } satisfies Meta<typeof TextArea>;

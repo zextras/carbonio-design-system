@@ -8,6 +8,7 @@ import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-webpack5';
 
 import { Container } from './Container';
+import { colorArgType } from '../../../docs/utils';
 
 const children = (
 	<>
@@ -23,6 +24,10 @@ const meta = {
 	args: {
 		borderColor: 'red',
 		minHeight: '1.5rem'
+	},
+	argTypes: {
+		background: colorArgType,
+		borderColor: colorArgType
 	}
 } satisfies Meta<typeof Container>;
 export default meta;
