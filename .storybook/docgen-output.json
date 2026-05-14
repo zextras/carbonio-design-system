@@ -6343,7 +6343,7 @@
       ]
     }
   ],
-  "src/components/utilities/Drag.tsx": [
+  "src/components/utilities/drag/Drag.tsx": [
     {
       "description": "",
       "methods": [],
