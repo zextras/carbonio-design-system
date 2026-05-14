@@ -10,7 +10,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { Container } from '../layout/container/Container';
+import { Container } from '../../layout/container/Container';
 
 const DropEl = styled(Container)`
 	display: inline;

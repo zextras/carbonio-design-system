@@ -9,7 +9,7 @@ import type { EventType } from '@testing-library/react';
 import { act, screen, within } from '@testing-library/react';
 
 import { Drop } from './Drop';
-import { setup } from '../../tests/utils';
+import { setup } from '../../../tests/utils';
 
 describe('Drop', () => {
 	const OverlayAcceptDummy = <div>accept</div>;

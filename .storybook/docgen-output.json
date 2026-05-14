@@ -6454,7 +6454,7 @@
       }
     }
   ],
-  "src/components/utilities/Drop.tsx": [
+  "src/components/utilities/drop/Drop.tsx": [
     {
       "description": "",
       "methods": [],

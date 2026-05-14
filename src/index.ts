@@ -104,7 +104,7 @@ export * from './components/utilities/SnackbarManager';
 export * from './components/utilities/ModalManager';
 export * from './components/utilities/Transition';
 export * from './components/utilities/drag/Drag';
-export * from './components/utilities/Drop';
+export * from './components/utilities/drop/Drop';
 export * from './components/utilities/shimmer/Shimmer';
 
 export * from './theme/theme-utils';
