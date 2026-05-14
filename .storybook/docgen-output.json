@@ -4771,7 +4771,7 @@
       ]
     }
   ],
-  "src/components/utilities/Collapse.tsx": [
+  "src/components/utilities/collapse/Collapse.tsx": [
     {
       "description": "",
       "methods": [],

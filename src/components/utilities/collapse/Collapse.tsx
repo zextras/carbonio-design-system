@@ -10,9 +10,9 @@ import React, { useMemo } from 'react';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { Transition } from './Transition';
-import { useCombinedRefs } from '../../hooks/useCombinedRefs';
-import { Container } from '../layout/container/Container';
+import { useCombinedRefs } from '../../../hooks/useCombinedRefs';
+import { Container } from '../../layout/container/Container';
+import { Transition } from '../Transition';
 
 const CollapseEl = styled.div<{
 	$crossSize?: string;

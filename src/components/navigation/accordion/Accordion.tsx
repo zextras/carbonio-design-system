@@ -24,7 +24,7 @@ import type { ContainerProps } from '../../layout/container/Container';
 import { Container } from '../../layout/container/Container';
 import { Divider } from '../../layout/divider/Divider';
 import { Padding } from '../../layout/padding/Padding';
-import { Collapse } from '../../utilities/Collapse';
+import { Collapse } from '../../utilities/collapse/Collapse';
 
 const AccordionContainerEl = styled(Container)<{
 	$level: number;
