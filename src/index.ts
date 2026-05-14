@@ -101,7 +101,7 @@ export * from './components/utilities/catcher/Catcher';
 export * from './components/utilities/Portal';
 export * from './components/utilities/Responsive';
 export * from './components/utilities/SnackbarManager';
-export * from './components/utilities/ModalManager';
+export * from './components/utilities/modalManager/ModalManager';
 export * from './components/utilities/Transition';
 export * from './components/utilities/drag/Drag';
 export * from './components/utilities/drop/Drop';

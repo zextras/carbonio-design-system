@@ -12,7 +12,7 @@ import { DarkReaderDocsContainer } from './addons/darkreader/DarkReaderDocsConta
 import docgenOutput from './docgen-output.json';
 import * as Utils from '../src';
 import { ThemeProvider } from '../src';
-import { ModalManager } from '../src/components/utilities/ModalManager';
+import { ModalManager } from '../src/components/utilities/modalManager/ModalManager';
 import { jsx, css } from '../src/playground/playground-helper';
 
 export const decorators = [

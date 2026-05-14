@@ -9,10 +9,10 @@ import React, { useCallback, createContext, useReducer, useMemo } from 'react';
 
 import { useTheme } from '@emotion/react';
 
-import type { CustomModalProps } from '../feedback/CustomModal';
-import { CustomModal } from '../feedback/CustomModal';
-import type { ModalProps } from '../feedback/modal/Modal';
-import { Modal } from '../feedback/modal/Modal';
+import type { CustomModalProps } from '../../feedback/CustomModal';
+import { CustomModal } from '../../feedback/CustomModal';
+import type { ModalProps } from '../../feedback/modal/Modal';
+import { Modal } from '../../feedback/modal/Modal';
 
 type CreateModalArgs =
 	| [modalProps: ModalProps & { id: string }, customModal?: false]

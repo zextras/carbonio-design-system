@@ -8,7 +8,7 @@ import React, { useContext } from 'react';
 import { renderHook } from '@testing-library/react';
 
 import { ModalManager, ModalManagerContext } from './ModalManager';
-import { ThemeProvider } from '../../theme/theme-context-provider';
+import { ThemeProvider } from '../../../theme/theme-context-provider';
 
 describe('ModalManagerContext', () => {
 	it('should return undefined if no manager has been set', () => {

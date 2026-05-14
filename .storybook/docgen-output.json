@@ -9197,7 +9197,7 @@
       }
     }
   ],
-  "src/components/utilities/ModalManager.tsx": [
+  "src/components/utilities/modalManager/ModalManager.tsx": [
     {
       "description": "",
       "methods": [],

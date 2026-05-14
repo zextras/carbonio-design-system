@@ -9,7 +9,7 @@ import { act, renderHook } from '@testing-library/react';
 import type * as ReactDOM from 'react-dom';
 
 import { useModal } from './useModal';
-import { ModalManager } from '../components/utilities/ModalManager';
+import { ModalManager } from '../components/utilities/modalManager/ModalManager';
 import { ThemeProvider } from '../theme/theme-context-provider';
 
 vi.mock('react-dom', async () => {
