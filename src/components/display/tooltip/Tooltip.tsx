@@ -25,7 +25,7 @@ import { useCombinedRefs } from '../../../hooks/useCombinedRefs';
 import { setupFloating } from '../../../utils/floating-ui';
 import type { TextProps } from '../../basic/text/Text';
 import { Text } from '../../basic/text/Text';
-import { Portal } from '../../utilities/Portal';
+import { Portal } from '../../utilities/portal/Portal';
 
 interface TooltipWrapperProps extends TextProps {
 	open: boolean;

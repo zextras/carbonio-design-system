@@ -34,7 +34,7 @@ import { FOCUSABLE_SELECTOR, TIMERS } from '../../constants';
 import { Container } from '../../layout/container/Container';
 import { Divider } from '../../layout/divider/Divider';
 import { Padding } from '../../layout/padding/Padding';
-import { Portal } from '../../utilities/Portal';
+import { Portal } from '../../utilities/portal/Portal';
 import { Tooltip } from '../tooltip/Tooltip';
 
 const ContainerEl = styled(Container)<{

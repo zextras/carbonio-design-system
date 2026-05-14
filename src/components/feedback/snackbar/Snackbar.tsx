@@ -19,7 +19,7 @@ import { TIMERS } from '../../constants';
 import type { ContainerProps } from '../../layout/container/Container';
 import { Container } from '../../layout/container/Container';
 import { Row } from '../../layout/row/Row';
-import { Portal } from '../../utilities/Portal';
+import { Portal } from '../../utilities/portal/Portal';
 import { Transition } from '../../utilities/Transition';
 
 const SnackContainer = styled(Container)<{

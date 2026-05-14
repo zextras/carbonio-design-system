@@ -10098,7 +10098,7 @@
       ]
     }
   ],
-  "src/components/utilities/Portal.tsx": [
+  "src/components/utilities/portal/Portal.tsx": [
     {
       "description": "",
       "methods": [],

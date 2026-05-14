@@ -17,7 +17,7 @@ import { useCombinedRefs } from '../../../hooks/useCombinedRefs';
 import type { KeyboardPresetObj } from '../../../hooks/useKeyboard';
 import { useKeyboard } from '../../../hooks/useKeyboard';
 import { setupFloating } from '../../../utils/floating-ui';
-import { Portal } from '../../utilities/Portal';
+import { Portal } from '../../utilities/portal/Portal';
 
 const PopperContainer = styled.div<{ $open: boolean }>`
 	display: none;

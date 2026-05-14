@@ -1,0 +1,15 @@
+import { Meta, Controls, Canvas, Title, Primary } from '@storybook/addon-docs/blocks';
+import * as PortalStories from './Portal.stories';
+import BasicStorySrc from './Portal.stories.basic.tsx?raw';
+
+<Meta of={PortalStories} />
+
+<Title />
+
+Use Portal component to output its children to a different HTML node instead of respecting the normal App flow.
+
+<Primary />
+
+<Controls />
+
+<Canvas of={PortalStories.Basic} source={{ code: BasicStorySrc }} />
