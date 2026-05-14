@@ -63,7 +63,7 @@ export * from './components/inputs/textArea/TextArea';
 /** navigation components */
 export * from './components/navigation/accordion/Accordion';
 export * from './components/navigation/breadcrumbs/Breadcrumbs';
-export * from './components/navigation/TabBar';
+export * from './components/navigation/tabBar/TabBar';
 
 /** display components */
 export * from './components/display/chip/Chip';

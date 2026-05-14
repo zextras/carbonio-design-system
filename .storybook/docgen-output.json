@@ -12602,7 +12602,7 @@
       ]
     }
   ],
-  "src/components/navigation/TabBar.tsx": [
+  "src/components/navigation/tabBar/TabBar.tsx": [
     {
       "description": "",
       "methods": [],

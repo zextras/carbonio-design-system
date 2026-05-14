@@ -18,7 +18,6 @@ type Story = StoryObj<typeof meta>;
 
 const Common: Partial<Story> = {
 	argTypes: {
-		background: colorArgType,
 		fillBackground: colorArgType
 	}
 };

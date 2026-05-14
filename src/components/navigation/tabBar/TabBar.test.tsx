@@ -10,8 +10,8 @@ import { screen, within } from '@testing-library/react';
 
 import type { DefaultTabBarItemProps } from './TabBar';
 import { DefaultTabBarItem, TabBar } from './TabBar';
-import { setup } from '../../tests/utils';
-import { Text } from '../basic/text/Text';
+import { setup } from '../../../tests/utils';
+import { Text } from '../../basic/text/Text';
 
 describe('TabBar', () => {
 	test('The visually selected element always reflects the selected TabBar prop', async () => {

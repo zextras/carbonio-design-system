@@ -7,7 +7,6 @@ import type { Meta, StoryObj } from '@storybook/react-webpack5';
 
 import { Accordion } from './Accordion';
 import { AccordionCustomComponents } from './Accordion.stories.customComponents';
-import { colorArgType } from '../../../docs/utils';
 
 const meta = {
 	component: Accordion,
@@ -25,9 +24,6 @@ const meta = {
 				]
 			}
 		]
-	},
-	argTypes: {
-		background: colorArgType
 	}
 } satisfies Meta<typeof Accordion>;
 export default meta;

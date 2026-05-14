@@ -18,8 +18,7 @@ const meta = {
 		textColor: colorArgType,
 		borderColor: colorArgType,
 		value: { control: 'text' },
-		defaultValue: { control: 'text' },
-		background: colorArgType
+		defaultValue: { control: 'text' }
 	}
 } satisfies Meta<typeof PasswordInput>;
 

@@ -11,13 +11,13 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { map } from 'lodash';
 
-import { useCombinedRefs } from '../../hooks/useCombinedRefs';
-import { getKeyboardPreset, useKeyboard } from '../../hooks/useKeyboard';
-import { getColor } from '../../theme/theme-utils';
-import type { AnyColor } from '../../types/utils';
-import { Text } from '../basic/text/Text';
-import type { ContainerProps } from '../layout/container/Container';
-import { Container } from '../layout/container/Container';
+import { useCombinedRefs } from '../../../hooks/useCombinedRefs';
+import { getKeyboardPreset, useKeyboard } from '../../../hooks/useKeyboard';
+import { getColor } from '../../../theme/theme-utils';
+import type { AnyColor } from '../../../types/utils';
+import { Text } from '../../basic/text/Text';
+import type { ContainerProps } from '../../layout/container/Container';
+import { Container } from '../../layout/container/Container';
 
 const CustomText = styled(Text)`
 	line-height: 1.5;

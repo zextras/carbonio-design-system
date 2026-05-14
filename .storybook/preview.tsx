@@ -13,6 +13,7 @@ import docgenOutput from './docgen-output.json';
 import * as Utils from '../src';
 import { ThemeProvider } from '../src';
 import { ModalManager } from '../src/components/utilities/ModalManager';
+import { colorArgType } from '../src/docs/utils';
 import { jsx, css } from '../src/playground/playground-helper';
 
 export const decorators = [
@@ -28,6 +29,10 @@ export const decorators = [
 const preview = {
 	initialGlobals: {
 		isDarkModeEnabled: false
+	},
+	argTypes: {
+		background: colorArgType,
+		borderColor: colorArgType
 	},
 	parameters: {
 		options: {
