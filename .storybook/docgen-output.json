@@ -12433,7 +12433,7 @@
       ]
     }
   ],
-  "src/components/utilities/SnackbarManager.tsx": [
+  "src/components/utilities/snackbarManager/SnackbarManager.tsx": [
     {
       "description": "",
       "methods": [],

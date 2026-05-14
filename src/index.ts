@@ -100,7 +100,7 @@ export * from './components/utilities/collapse/Collapse';
 export * from './components/utilities/catcher/Catcher';
 export * from './components/utilities/portal/Portal';
 export * from './components/utilities/responsive/Responsive';
-export * from './components/utilities/SnackbarManager';
+export * from './components/utilities/snackbarManager/SnackbarManager';
 export * from './components/utilities/modalManager/ModalManager';
 export * from './components/utilities/Transition';
 export * from './components/utilities/drag/Drag';

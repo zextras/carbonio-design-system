@@ -13,8 +13,8 @@ import { Hook } from './stories-helpers';
 import type {
 	CreateSnackbarFn,
 	CreateSnackbarFnArgs
-} from '../../components/utilities/SnackbarManager';
-import { SnackbarManager } from '../../components/utilities/SnackbarManager';
+} from '../../components/utilities/snackbarManager/SnackbarManager';
+import { SnackbarManager } from '../../components/utilities/snackbarManager/SnackbarManager';
 import { SELECTORS } from '../../tests/constants';
 
 const meta = {

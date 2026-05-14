@@ -15,8 +15,8 @@ import type {
 	CloseSnackbarFn,
 	CreateSnackbarFnArgs,
 	SnackbarManagerProps
-} from '../../components/utilities/SnackbarManager';
-import { SnackbarManager } from '../../components/utilities/SnackbarManager';
+} from '../../components/utilities/snackbarManager/SnackbarManager';
+import { SnackbarManager } from '../../components/utilities/snackbarManager/SnackbarManager';
 import { screen, setup } from '../../tests/utils';
 import { ThemeProvider } from '../../theme/theme-context-provider';
 

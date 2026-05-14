@@ -6,8 +6,8 @@
 
 import React, { useCallback, useReducer, createContext } from 'react';
 
-import type { SnackbarProps } from '../feedback/snackbar/Snackbar';
-import { Snackbar } from '../feedback/snackbar/Snackbar';
+import type { SnackbarProps } from '../../feedback/snackbar/Snackbar';
+import { Snackbar } from '../../feedback/snackbar/Snackbar';
 
 interface CreateSnackbarFnArgs extends Omit<SnackbarProps, 'open'> {
 	/** Component key */
