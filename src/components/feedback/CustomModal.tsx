@@ -23,7 +23,7 @@ import { useKeyboard } from '../../hooks/useKeyboard';
 import type { AnyColor } from '../../types/utils';
 import { TIMERS } from '../constants';
 import { Portal } from '../utilities/portal/Portal';
-import { Transition } from '../utilities/Transition';
+import { Transition } from '../utilities/transition/Transition';
 
 type BareModalProps = {
 	/** Modal background */

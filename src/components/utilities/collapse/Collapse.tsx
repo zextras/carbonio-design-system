@@ -12,7 +12,7 @@ import styled from '@emotion/styled';
 
 import { useCombinedRefs } from '../../../hooks/useCombinedRefs';
 import { Container } from '../../layout/container/Container';
-import { Transition } from '../Transition';
+import { Transition } from '../transition/Transition';
 
 const CollapseEl = styled.div<{
 	$crossSize?: string;

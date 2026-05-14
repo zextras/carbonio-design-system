@@ -20,7 +20,7 @@ import type { ContainerProps } from '../../layout/container/Container';
 import { Container } from '../../layout/container/Container';
 import { Row } from '../../layout/row/Row';
 import { Portal } from '../../utilities/portal/Portal';
-import { Transition } from '../../utilities/Transition';
+import { Transition } from '../../utilities/transition/Transition';
 
 const SnackContainer = styled(Container)<{
 	$zIndex: number;

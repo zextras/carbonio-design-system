@@ -102,7 +102,7 @@ export * from './components/utilities/portal/Portal';
 export * from './components/utilities/responsive/Responsive';
 export * from './components/utilities/snackbarManager/SnackbarManager';
 export * from './components/utilities/modalManager/ModalManager';
-export * from './components/utilities/Transition';
+export * from './components/utilities/transition/Transition';
 export * from './components/utilities/drag/Drag';
 export * from './components/utilities/drop/Drop';
 export * from './components/utilities/shimmer/Shimmer';

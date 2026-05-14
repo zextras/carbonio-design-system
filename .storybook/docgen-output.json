@@ -13865,7 +13865,7 @@
       ]
     }
   ],
-  "src/components/utilities/Transition.tsx": [
+  "src/components/utilities/transition/Transition.tsx": [
     {
       "description": "",
       "methods": [],

@@ -12,7 +12,7 @@ import type {
 } from 'react';
 import React, { useEffect, useMemo } from 'react';
 
-import { useCombinedRefs } from '../../hooks/useCombinedRefs';
+import { useCombinedRefs } from '../../../hooks/useCombinedRefs';
 
 type CSSObject = {
 	[K in keyof CSSProperties]: CSSProperties[K] | (() => NonNullable<CSSProperties[K]>);
