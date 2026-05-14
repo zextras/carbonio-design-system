@@ -6,8 +6,8 @@
 
 import React from 'react';
 
-import type { ScreenMode } from '../../hooks/useScreenMode';
-import { useScreenMode } from '../../hooks/useScreenMode';
+import type { ScreenMode } from '../../../hooks/useScreenMode';
+import { useScreenMode } from '../../../hooks/useScreenMode';
 
 interface ResponsiveProps {
 	/** Whether the component's children should be displayed on mobile or desktop mode */

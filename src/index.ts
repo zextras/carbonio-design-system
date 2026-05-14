@@ -99,7 +99,7 @@ export * from './components/feedback/snackbar/Snackbar';
 export * from './components/utilities/collapse/Collapse';
 export * from './components/utilities/catcher/Catcher';
 export * from './components/utilities/portal/Portal';
-export * from './components/utilities/Responsive';
+export * from './components/utilities/responsive/Responsive';
 export * from './components/utilities/SnackbarManager';
 export * from './components/utilities/modalManager/ModalManager';
 export * from './components/utilities/Transition';

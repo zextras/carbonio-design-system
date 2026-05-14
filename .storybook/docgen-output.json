@@ -10543,7 +10543,7 @@
       ]
     }
   ],
-  "src/components/utilities/Responsive.tsx": [
+  "src/components/utilities/responsive/Responsive.tsx": [
     {
       "description": "",
       "methods": [],
