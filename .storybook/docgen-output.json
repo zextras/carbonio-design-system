@@ -5643,7 +5643,7 @@
       ]
     }
   ],
-  "src/components/feedback/CustomModal.tsx": [
+  "src/components/feedback/customModal/CustomModal.tsx": [
     {
       "description": "",
       "methods": [],

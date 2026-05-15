@@ -10,9 +10,9 @@ import { screen, waitFor } from '@testing-library/react';
 
 import type { CustomModalProps } from './CustomModal';
 import { CustomModal } from './CustomModal';
-import { setup } from '../../tests/utils';
-import { Button } from '../basic/button/Button';
-import { Text } from '../basic/text/Text';
+import { setup } from '../../../tests/utils';
+import { Button } from '../../basic/button/Button';
+import { Text } from '../../basic/text/Text';
 
 const ModalTester = ({ children, ...props }: CustomModalProps): React.JSX.Element => {
 	const [open, setOpen] = useState(false);

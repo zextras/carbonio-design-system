@@ -10,20 +10,20 @@ import React, { useEffect, useMemo, useCallback, useRef, useState } from 'react'
 
 import { useTheme } from '@emotion/react';
 
+import { useCombinedRefs } from '../../../hooks/useCombinedRefs';
+import type { KeyboardPresetObj } from '../../../hooks/useKeyboard';
+import { useKeyboard } from '../../../hooks/useKeyboard';
+import type { AnyColor } from '../../../types/utils';
+import { TIMERS } from '../../constants';
+import { Portal } from '../../utilities/portal/Portal';
+import { Transition } from '../../utilities/transition/Transition';
 import {
 	getScrollbarSize,
 	isBodyOverflowing,
 	ModalContainer,
 	ModalContent,
 	ModalWrapper
-} from './modal-components/ModalComponents';
-import { useCombinedRefs } from '../../hooks/useCombinedRefs';
-import type { KeyboardPresetObj } from '../../hooks/useKeyboard';
-import { useKeyboard } from '../../hooks/useKeyboard';
-import type { AnyColor } from '../../types/utils';
-import { TIMERS } from '../constants';
-import { Portal } from '../utilities/portal/Portal';
-import { Transition } from '../utilities/transition/Transition';
+} from '../modal-components/ModalComponents';
 
 type BareModalProps = {
 	/** Modal background */
