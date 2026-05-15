@@ -18,7 +18,9 @@ import { Container } from '../../layout/container/Container';
 const meta = {
 	component: Input,
 	argTypes: {
-		borderColor: colorArgType
+		borderColor: colorArgType,
+		textColor: colorArgType,
+		background: colorArgType
 	}
 } satisfies Meta<typeof Input>;
 export default meta;

@@ -17,6 +17,7 @@ const meta = {
 	argTypes: {
 		textColor: colorArgType,
 		borderColor: colorArgType,
+		background: colorArgType,
 		value: { control: 'text' },
 		defaultValue: { control: 'text' }
 	}

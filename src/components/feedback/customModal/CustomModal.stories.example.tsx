@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 
 import { CustomModal } from './CustomModal';
 import { Button } from '../../basic/button/Button';
@@ -12,8 +12,8 @@ import { Text } from '../../basic/text/Text';
 
 export const CustomModalExample = (): React.JSX.Element => {
 	const [open, setOpen] = useState(false);
-	const clickHandler = (): void => setOpen(true);
-	const closeHandler = (): void => setOpen(false);
+	const clickHandler = useCallback((): void => setOpen(true), []);
+	const closeHandler = useCallback((): void => setOpen(false), []);
 
 	return (
 		<>

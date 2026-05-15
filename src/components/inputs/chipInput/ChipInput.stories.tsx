@@ -15,7 +15,6 @@ import { ChipInputControlledCleanInput } from './ChipInput.stories.cleanInput';
 import { ControlledChipInput } from './ChipInput.stories.controlledMode';
 import { ChipInputDisabledWithOptions } from './ChipInput.stories.disabledWithOptions';
 import { ChipInputSuggestionMode } from './ChipInput.stories.suggestionMode';
-import { colorArgType } from '../../../docs/utils';
 import { Text } from '../../basic/text/Text';
 import type { ChipProps } from '../../display/chip/Chip';
 import { Chip } from '../../display/chip/Chip';
@@ -26,9 +25,6 @@ const meta = {
 	component: ChipInput,
 	args: {
 		onAdd: fn(DefaultOnAdd)
-	},
-	argTypes: {
-		background: colorArgType
 	}
 } satisfies Meta<typeof ChipInput>;
 export default meta;
