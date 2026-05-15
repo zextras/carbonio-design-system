@@ -29,7 +29,6 @@ const preview = {
 	initialGlobals: {
 		isDarkModeEnabled: false
 	},
-
 	parameters: {
 		options: {
 			storySort: {
