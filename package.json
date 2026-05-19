@@ -111,7 +111,7 @@
 		"is-ci": "4.1.0",
 		"jest-image-snapshot": "6.5.2",
 		"jsdom": "25.0.1",
-		"lodash": "4.17.23",
+		"lodash": "4.18.1",
 		"playwright": "1.49.0",
 		"prettier": "2.8.8",
 		"process": "0.11.10",
