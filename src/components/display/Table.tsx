@@ -17,7 +17,7 @@ import { Checkbox } from '../inputs/checkbox/Checkbox';
 import type { MultipleSelectionOnChange, SelectProps } from '../inputs/select/Select';
 import { Select } from '../inputs/select/Select';
 import { Container } from '../layout/container/Container';
-import { Row } from '../layout/Row';
+import { Row } from '../layout/row/Row';
 
 const StyledCheckbox = styled(Checkbox)<{
 	$show: boolean;

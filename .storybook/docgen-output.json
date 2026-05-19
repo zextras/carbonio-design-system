@@ -1,5 +1,5 @@
 {
-  "src/components/navigation/Accordion.tsx": [
+  "src/components/navigation/accordion/Accordion.tsx": [
     {
       "description": "",
       "methods": [],
@@ -2142,7 +2142,7 @@
       }
     }
   ],
-  "src/components/navigation/Breadcrumbs.tsx": [
+  "src/components/navigation/breadcrumbs/Breadcrumbs.tsx": [
     {
       "description": "",
       "methods": [],
@@ -3390,7 +3390,7 @@
       }
     }
   ],
-  "src/components/utilities/Catcher.tsx": [
+  "src/components/utilities/catcher/Catcher.tsx": [
     {
       "description": "",
       "methods": [],
@@ -4771,7 +4771,7 @@
       ]
     }
   ],
-  "src/components/utilities/Collapse.tsx": [
+  "src/components/utilities/collapse/Collapse.tsx": [
     {
       "description": "",
       "methods": [],
@@ -5643,7 +5643,7 @@
       ]
     }
   ],
-  "src/components/feedback/CustomModal.tsx": [
+  "src/components/feedback/customModal/CustomModal.tsx": [
     {
       "description": "",
       "methods": [],
@@ -6343,7 +6343,7 @@
       ]
     }
   ],
-  "src/components/utilities/Drag.tsx": [
+  "src/components/utilities/drag/Drag.tsx": [
     {
       "description": "",
       "methods": [],
@@ -6454,7 +6454,7 @@
       }
     }
   ],
-  "src/components/utilities/Drop.tsx": [
+  "src/components/utilities/drop/Drop.tsx": [
     {
       "description": "",
       "methods": [],
@@ -9197,7 +9197,7 @@
       }
     }
   ],
-  "src/components/utilities/ModalManager.tsx": [
+  "src/components/utilities/modalManager/ModalManager.tsx": [
     {
       "description": "",
       "methods": [],
@@ -9424,7 +9424,7 @@
       }
     }
   ],
-  "src/components/layout/Paragraph.tsx": [
+  "src/components/layout/paragraph/Paragraph.tsx": [
     {
       "description": "",
       "methods": [],
@@ -10098,7 +10098,7 @@
       ]
     }
   ],
-  "src/components/utilities/Portal.tsx": [
+  "src/components/utilities/portal/Portal.tsx": [
     {
       "description": "",
       "methods": [],
@@ -10543,7 +10543,7 @@
       ]
     }
   ],
-  "src/components/utilities/Responsive.tsx": [
+  "src/components/utilities/responsive/Responsive.tsx": [
     {
       "description": "",
       "methods": [],
@@ -10601,7 +10601,7 @@
       }
     }
   ],
-  "src/components/layout/Row.tsx": [
+  "src/components/layout/row/Row.tsx": [
     {
       "description": "",
       "methods": [],
@@ -12433,7 +12433,7 @@
       ]
     }
   ],
-  "src/components/utilities/SnackbarManager.tsx": [
+  "src/components/utilities/snackbarManager/SnackbarManager.tsx": [
     {
       "description": "",
       "methods": [],
@@ -12602,7 +12602,7 @@
       ]
     }
   ],
-  "src/components/navigation/TabBar.tsx": [
+  "src/components/navigation/tabBar/TabBar.tsx": [
     {
       "description": "",
       "methods": [],
@@ -13865,7 +13865,7 @@
       ]
     }
   ],
-  "src/components/utilities/Transition.tsx": [
+  "src/components/utilities/transition/Transition.tsx": [
     {
       "description": "",
       "methods": [],

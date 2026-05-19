@@ -11,7 +11,7 @@ import { action } from 'storybook/actions';
 import { fn } from 'storybook/test';
 
 import { Banner } from './Banner';
-import { ModalManager } from '../../utilities/ModalManager';
+import { ModalManager } from '../../utilities/modalManager/ModalManager';
 
 const meta: Meta = {
 	component: Banner,

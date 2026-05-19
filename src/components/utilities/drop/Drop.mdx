@@ -1,0 +1,55 @@
+import { Meta, Controls, Canvas, Title, Primary } from '@storybook/addon-docs/blocks';
+import * as DropStories from './Drop.stories';
+import DropDefaultStorySrc from './Drop.stories.default?raw';
+
+<Meta of={DropStories} />
+
+<Title />
+
+Drop is designed to work together with Drag component.
+
+You can control whether a drop is allowed in two ways:
+
+1. by setting the acceptType array (required)
+2. by controlling the returned value of the onDragEnter callback (optional)
+
+### Accepting/Rejecting a drop
+
+To make the Drop component accept the drop event,
+the type of the drag set in `window.draggedItem.type` must be included in the provided `acceptType` list.
+
+If you need to perform additional checks on the dragged item,
+to conditionally accept or reject the drop based on the data,
+or some other external condition, the onDragEvent callback can be used.
+This callback receives as argument an object with the event and the `draggedItem` info (`type` and `data`).
+```ts
+type DragObj = {
+	event: React.DragEvent;
+	data?: Record<string, unknown>;
+	type?: string;
+};
+```
+To make the Drop accept the drop event, this callback can either return nothing (`void`/`undefined`),
+or an object with the success field set to true.
+To reject the drop, the callback must return the success field set to false.
+```tsx static
+const dragEnterHandler = (data: DragData): { success: boolean } | undefined => {
+  // check data based on your need
+  let dropIsValid = doYourStuff(data);
+  if (dropIsValid) {
+    return { success: true }; // or return undefined; it is equivalent
+  }
+  return { success: false };
+}
+
+<Drop acceptType={['acceptedType']} onDragEnter={dragEnterHandler}>
+  {/* your component here */}
+</Drop>
+```
+<Primary />
+
+<Controls />
+
+## Default
+
+<Canvas of={DropStories.Default} source={{ code: DropDefaultStorySrc }} />

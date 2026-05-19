@@ -12,11 +12,10 @@ import { fn } from 'storybook/test';
 import { Select, type SelectItem } from './Select';
 import { SelectControlledMode } from './Select.stories.controlledMode';
 import { SelectMultipleSelection } from './Select.stories.multipleSelection';
-import { colorArgType } from '../../../docs/utils';
 import { Icon } from '../../basic/icon/Icon';
 import { Text } from '../../basic/text/Text';
 import { Container } from '../../layout/container/Container';
-import { Row } from '../../layout/Row';
+import { Row } from '../../layout/row/Row';
 
 const defaultItems: SelectItem[] = [
 	{ label: 'Hi', value: '1' },
@@ -75,9 +74,6 @@ const meta = {
 		onChange: fn(),
 		label: 'Select an item',
 		items: defaultItems
-	},
-	argTypes: {
-		background: colorArgType
 	}
 } satisfies Meta<typeof Select>;
 

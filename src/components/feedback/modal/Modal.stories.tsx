@@ -15,7 +15,7 @@ import { Icon } from '../../basic/icon/Icon';
 import { Text } from '../../basic/text/Text';
 import { Checkbox } from '../../inputs/checkbox/Checkbox';
 import { Container } from '../../layout/container/Container';
-import { Row } from '../../layout/Row';
+import { Row } from '../../layout/row/Row';
 
 const meta = {
 	component: Modal

@@ -1,0 +1,17 @@
+import { Meta, Controls, Canvas, Title, Primary } from '@storybook/addon-docs/blocks';
+import * as CollapseStories from './Collapse.stories';
+import CollapseBasicStorySrc from './Collapse.stories.basic?raw';
+
+<Meta of={CollapseStories} />
+
+<Title />
+
+This is a component that simplifies the control of components that should appear or disappear.
+
+<Primary />
+
+<Controls />
+
+## Basic
+
+<Canvas of={CollapseStories.Basic} source={{ code: CollapseBasicStorySrc }} />

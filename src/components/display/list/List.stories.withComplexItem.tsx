@@ -13,8 +13,8 @@ import { Avatar } from '../../basic/avatar/Avatar';
 import { Text } from '../../basic/text/Text';
 import { Container } from '../../layout/container/Container';
 import { Divider } from '../../layout/divider/Divider';
-import { Row } from '../../layout/Row';
-import { Drag } from '../../utilities/Drag';
+import { Row } from '../../layout/row/Row';
+import { Drag } from '../../utilities/drag/Drag';
 import { ListItem } from '../listItem/ListItem';
 
 type Item = { id: string; name: string; image: string; email: string; text: string };

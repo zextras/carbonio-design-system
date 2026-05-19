@@ -7,7 +7,7 @@ import React, { useState, useCallback } from 'react';
 
 import { Radio } from './Radio';
 import { Text } from '../../basic/text/Text';
-import { Row } from '../../layout/Row';
+import { Row } from '../../layout/row/Row';
 import { Input } from '../input/Input';
 import { Select } from '../select/Select';
 
