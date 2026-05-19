@@ -1,0 +1,21 @@
+import { Meta, Controls, Canvas, Title, Primary } from '@storybook/addon-docs/blocks';
+import * as TransitionStories from './Transition.stories';
+import TransitionExample1Src from './Transition.stories.example1?raw';
+import TransitionExample2Src from './Transition.stories.example2?raw';
+import TransitionExample3Src from './Transition.stories.example3?raw';
+
+<Meta of={TransitionStories} />
+
+<Title />
+
+<Primary />
+
+<Controls />
+
+## Examples
+
+<Canvas of={TransitionStories.Example1} source={{ code: TransitionExample1Src }} />
+
+<Canvas of={TransitionStories.Example2} source={{ code: TransitionExample2Src }} />
+
+<Canvas of={TransitionStories.Example3} source={{ code: TransitionExample3Src }} />

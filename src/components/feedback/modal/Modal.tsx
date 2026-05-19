@@ -13,8 +13,8 @@ import { useTheme } from '@emotion/react';
 import { noop } from 'lodash';
 
 import { Divider } from '../../layout/divider/Divider';
-import type { CustomModalProps } from '../CustomModal';
-import { CustomModal } from '../CustomModal';
+import type { CustomModalProps } from '../customModal/CustomModal';
+import { CustomModal } from '../customModal/CustomModal';
 import { ModalBody } from '../modal-components/ModalBody';
 import type { ModalFooterProps } from '../modal-components/ModalFooter';
 import { ModalFooter } from '../modal-components/ModalFooter';

@@ -18,7 +18,7 @@ import { Dropdown } from '../../display/dropdown/Dropdown';
 import { Container } from '../../layout/container/Container';
 import { Divider } from '../../layout/divider/Divider';
 import { Padding } from '../../layout/padding/Padding';
-import { Row } from '../../layout/Row';
+import { Row } from '../../layout/row/Row';
 
 const Label = styled(Text)<{ $selected: boolean }>`
 	position: absolute;

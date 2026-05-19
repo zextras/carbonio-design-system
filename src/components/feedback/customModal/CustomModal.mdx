@@ -1,0 +1,15 @@
+import { Meta, Controls, Canvas, Title, Primary } from '@storybook/addon-docs/blocks';
+import * as CustomModalStories from './CustomModal.stories';
+import CustomModalStoriesExample from './CustomModal.stories.example?raw';
+
+<Meta of={CustomModalStories} />
+
+<Title />
+
+A simplified and customizable Modal with no defined content.
+
+<Primary />
+
+<Controls />
+
+<Canvas of={CustomModalStories.Example} source={{ code: CustomModalStoriesExample }} />

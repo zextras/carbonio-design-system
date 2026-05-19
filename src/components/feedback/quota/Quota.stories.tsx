@@ -9,7 +9,10 @@ import { Quota } from './Quota';
 import { colorArgType } from '../../../docs/utils';
 
 const meta = {
-	component: Quota
+	component: Quota,
+	argTypes: {
+		background: colorArgType
+	}
 } satisfies Meta<typeof Quota>;
 
 export default meta;
@@ -18,7 +21,6 @@ type Story = StoryObj<typeof meta>;
 
 const Common: Partial<Story> = {
 	argTypes: {
-		background: colorArgType,
 		fillBackground: colorArgType
 	}
 };

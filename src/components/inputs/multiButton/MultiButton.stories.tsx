@@ -35,8 +35,10 @@ const meta = {
 		items: baseItems
 	},
 	argTypes: {
-		color: colorArgType,
 		background: colorArgType,
+		color: colorArgType,
+		backgroundColor: colorArgType,
+		labelColor: colorArgType,
 		icon: { control: 'text' }
 	}
 } satisfies Meta<typeof MultiButton>;

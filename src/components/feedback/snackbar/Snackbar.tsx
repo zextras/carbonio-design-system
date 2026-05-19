@@ -18,9 +18,9 @@ import { Text } from '../../basic/text/Text';
 import { TIMERS } from '../../constants';
 import type { ContainerProps } from '../../layout/container/Container';
 import { Container } from '../../layout/container/Container';
-import { Row } from '../../layout/Row';
-import { Portal } from '../../utilities/Portal';
-import { Transition } from '../../utilities/Transition';
+import { Row } from '../../layout/row/Row';
+import { Portal } from '../../utilities/portal/Portal';
+import { Transition } from '../../utilities/transition/Transition';
 
 const SnackContainer = styled(Container)<{
 	$zIndex: number;

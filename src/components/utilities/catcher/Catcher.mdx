@@ -1,0 +1,19 @@
+import { Meta, Controls, Stories, Title, Primary, Canvas } from '@storybook/addon-docs/blocks';
+import * as CatcherStories from './Catcher.stories';
+import CatcherDefaultStorySrc from './Catcher.stories.default?raw';
+
+<Meta of={CatcherStories} />
+
+<Title />
+
+This is a component that acts as Error Boundary limiting the propagation of errors to its children.
+
+The onError function can be used to perform operations such as logging.
+
+<Primary />
+
+<Controls />
+
+## Default
+
+<Canvas of={CatcherStories.Default} source={{ code: CatcherDefaultStorySrc }} />

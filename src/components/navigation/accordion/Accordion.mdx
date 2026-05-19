@@ -1,0 +1,39 @@
+import { Meta, Controls, Stories, Title, Primary, Canvas } from '@storybook/addon-docs/blocks';
+import * as AccordionStories from './Accordion.stories';
+import AccordionCustomComponentsSrc from './Accordion.stories.customComponents?raw';
+
+<Meta of={AccordionStories} />
+
+<Title />
+
+Accordions allow the user to browse nested menus and folder structures.
+
+Every item in an Accordion must have a label, while icons and click callbacks are optional.
+
+If the user clicks on the arrow icon, the accordion shows its items list, without triggering the callback
+
+If the user clicks on the label or container, the accordion shows its content and fires the relative callback (e.g. the sidebar items perform an history push to another route).
+
+Once open, clicking on the arrow icon collapses the accordion without triggering the callback.
+
+The activeId prop can be use to highlight an accordion item without manipulating the items tree
+
+The openIds prop can be use to control the opening and closing of elements without manipulating the items tree
+
+<Primary />
+
+<Controls />
+
+### Custom Components
+
+The Accordion component can render custom components. You can import the vanilla component to wrap them or to add elements to them.
+
+#### AccordionItem Props
+
+The Accordion component passes the following props down to the accordion item, if you use the vanilla component within a custom configuration you should forward them to it.
+
+- item: the item that is being displayed
+
+<Canvas of={AccordionStories.CustomComponents} source={{ code: AccordionCustomComponentsSrc }} />
+
+<Stories />
