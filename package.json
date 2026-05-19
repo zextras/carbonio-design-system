@@ -142,9 +142,9 @@
 		"react-dom": "^18.3.1"
 	},
 	"dependencies": {
-		"@floating-ui/dom": "1.6.12",
-		"core-js": "3.39.0",
-		"darkreader": "4.9.117",
+		"@floating-ui/dom": "1.7.6",
+		"core-js": "3.49.0",
+		"darkreader": "4.9.125",
 		"polished": "4.3.1",
 		"react-datepicker": "7.5.0"
 	},
