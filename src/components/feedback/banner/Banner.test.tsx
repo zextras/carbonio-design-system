@@ -16,7 +16,7 @@ import type { UserEvent } from '../../../tests/utils';
 import { setup } from '../../../tests/utils';
 import { Theme } from '../../../theme/theme';
 import { TIMERS } from '../../constants';
-import { ModalManager } from '../../utilities/ModalManager';
+import { ModalManager } from '../../utilities/modalManager/ModalManager';
 
 type ResizeObserverSpy = Mock<typeof ResizeObserver>;
 

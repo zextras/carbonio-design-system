@@ -19,8 +19,8 @@ import { Button } from '../../basic/button/Button';
 import { Icon } from '../../basic/icon/Icon';
 import { Text } from '../../basic/text/Text';
 import { Container } from '../../layout/container/Container';
-import type { RowProps } from '../../layout/Row';
-import { Row } from '../../layout/Row';
+import type { RowProps } from '../../layout/row/Row';
+import { Row } from '../../layout/row/Row';
 import { Tooltip } from '../tooltip/Tooltip';
 
 type ChipAction = {

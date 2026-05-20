@@ -9,7 +9,7 @@ import type { Meta, StoryObj } from '@storybook/react-webpack5';
 
 import { Avatar } from './Avatar';
 import { Container } from '../../layout/container/Container';
-import { Row } from '../../layout/Row';
+import { Row } from '../../layout/row/Row';
 
 const meta = {
 	component: Avatar,

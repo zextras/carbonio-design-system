@@ -11,6 +11,7 @@ import type { ListProps } from './List';
 import { List } from './List';
 import { PaginatedList } from './List.stories.paginated';
 import { WithComplexItem } from './List.stories.withComplexItem';
+import { colorArgType } from '../../../docs/utils';
 import { Container } from '../../layout/container/Container';
 import { ListItem } from '../listItem/ListItem';
 
@@ -19,6 +20,10 @@ const meta = {
 	args: {
 		height: '50vh',
 		borderColor: 'info'
+	},
+	argTypes: {
+		background: colorArgType,
+		borderColor: colorArgType
 	}
 } satisfies Meta<typeof List>;
 

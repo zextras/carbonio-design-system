@@ -1,0 +1,35 @@
+import { Meta, Controls, Stories, Title, Primary, Canvas } from '@storybook/addon-docs/blocks';
+import * as TabBarStories from './TabBar.stories';
+import ControlledPlainStorySrc from './TabBar.stories.controlled?raw';
+import ForceWidthEquallyDistributedStorySrc from './TabBar.stories.forceWidthEquallyDistributed?raw';
+import CustomizedStorySrc from './TabBar.stories.customized?raw';
+import MixedStorySrc from './TabBar.stories.mixed?raw';
+
+<Meta of={TabBarStories} />
+
+<Title />
+
+The TabBar is a customizable navigation component, which can be used for in-page navigation between different tabs.
+
+<Primary />
+
+<Controls />
+
+## Controlled TabBar
+
+<Canvas of={TabBarStories.ControlledPlain} source={{ code: ControlledPlainStorySrc }} />
+
+## Force width equally distributed
+
+<Canvas
+	of={TabBarStories.ForceWidthEquallyDistributed}
+	source={{ code: ForceWidthEquallyDistributedStorySrc }}
+/>
+
+## Customized
+
+<Canvas of={TabBarStories.Customized} source={{ code: CustomizedStorySrc }} />
+
+## Mixed
+
+<Canvas of={TabBarStories.Mixed} source={{ code: MixedStorySrc }} />

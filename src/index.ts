@@ -21,8 +21,8 @@ export * from './components/basic/spinner/Spinner';
 export * from './components/layout/container/Container';
 export * from './components/layout/divider/Divider';
 export * from './components/layout/padding/Padding';
-export * from './components/layout/Paragraph';
-export * from './components/layout/Row';
+export * from './components/layout/paragraph/Paragraph';
+export * from './components/layout/row/Row';
 
 /** Inputs components */
 export * from './components/inputs/checkbox/Checkbox';
@@ -61,9 +61,9 @@ export * from './components/inputs/slider/Slider';
 export * from './components/inputs/textArea/TextArea';
 
 /** navigation components */
-export * from './components/navigation/Accordion';
-export * from './components/navigation/Breadcrumbs';
-export * from './components/navigation/TabBar';
+export * from './components/navigation/accordion/Accordion';
+export * from './components/navigation/breadcrumbs/Breadcrumbs';
+export * from './components/navigation/tabBar/TabBar';
 
 /** display components */
 export * from './components/display/chip/Chip';
@@ -87,7 +87,7 @@ export * from './components/display/collapsingActions/CollapsingActions';
 
 /** Feedback components */
 export { Banner, type BannerProps } from './components/feedback/banner/Banner';
-export * from './components/feedback/CustomModal';
+export * from './components/feedback/customModal/CustomModal';
 export * from './components/feedback/modal/Modal';
 export * from './components/feedback/modal-components/ModalHeader';
 export * from './components/feedback/modal-components/ModalBody';
@@ -96,15 +96,15 @@ export * from './components/feedback/quota/Quota';
 export * from './components/feedback/snackbar/Snackbar';
 
 /** Utilities components */
-export * from './components/utilities/Collapse';
-export * from './components/utilities/Catcher';
-export * from './components/utilities/Portal';
-export * from './components/utilities/Responsive';
-export * from './components/utilities/SnackbarManager';
-export * from './components/utilities/ModalManager';
-export * from './components/utilities/Transition';
-export * from './components/utilities/Drag';
-export * from './components/utilities/Drop';
+export * from './components/utilities/collapse/Collapse';
+export * from './components/utilities/catcher/Catcher';
+export * from './components/utilities/portal/Portal';
+export * from './components/utilities/responsive/Responsive';
+export * from './components/utilities/snackbarManager/SnackbarManager';
+export * from './components/utilities/modalManager/ModalManager';
+export * from './components/utilities/transition/Transition';
+export * from './components/utilities/drag/Drag';
+export * from './components/utilities/drop/Drop';
 export * from './components/utilities/shimmer/Shimmer';
 
 export * from './theme/theme-utils';
