@@ -93,11 +93,11 @@
 		"@types/babel__template": "7.4.4",
 		"@types/jest-image-snapshot": "6.4.1",
 		"@types/lodash": "4.17.24",
-		"@types/node": "25.9.0",
+		"@types/node": "25.9.1",
 		"@types/react": "18.3.28",
 		"@types/react-dom": "18.3.7",
 		"@vitejs/plugin-react": "5.2.0",
-		"@vitest/coverage-v8": "4.1.6",
+		"@vitest/coverage-v8": "4.1.7",
 		"@zextras/carbonio-ui-configs": "1.0.4",
 		"babel-loader": "10.1.1",
 		"conventional-changelog-conventionalcommits": "8.0.0",
@@ -124,7 +124,7 @@
 		"storybook-addon-playground": "3.0.0",
 		"ts-node": "10.9.2",
 		"typescript": "5.8.3",
-		"vitest": "4.1.6",
+		"vitest": "4.1.7",
 		"vitest-fail-on-console": "0.10.1"
 	},
 	"browserslist": [
