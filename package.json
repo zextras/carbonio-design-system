@@ -94,7 +94,7 @@
 		"@types/jest-image-snapshot": "6.4.1",
 		"@types/lodash": "4.17.24",
 		"@types/node": "25.9.3",
-		"@types/react": "18.3.30",
+		"@types/react": "18.3.31",
 		"@types/react-dom": "18.3.7",
 		"@vitejs/plugin-react": "5.2.0",
 		"@vitest/coverage-v8": "4.1.8",
