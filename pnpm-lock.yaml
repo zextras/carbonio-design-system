@@ -37,8 +37,8 @@ importers:
         specifier: ^18.3.1
         version: 18.3.1
       react-datepicker:
-        specifier: 7.5.0
-        version: 7.5.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: 7.6.0
+        version: 7.6.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react-dom:
         specifier: ^18.3.1
         version: 18.3.1(react@18.3.1)
@@ -1554,11 +1554,11 @@ packages:
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
 
-  '@floating-ui/react@0.26.28':
-    resolution: {integrity: sha512-yORQuuAtVpiRjpMhdc0wJj06b9JFjrYF4qp96j++v2NBpbi6SEGF7donUJ3TMieerQ6qVkAv1tgr7L4r5roTqw==}
+  '@floating-ui/react@0.27.19':
+    resolution: {integrity: sha512-31B8h5mm8YxotlE7/AU/PhNAl8eWxAmjL/v2QOxroDNkTFLk3Uu82u63N3b6TXa4EGJeeZLVcd/9AlNlVqzeog==}
     peerDependencies:
-      react: '>=16.8.0'
-      react-dom: '>=16.8.0'
+      react: '>=17.0.0'
+      react-dom: '>=17.0.0'
 
   '@floating-ui/utils@0.2.11':
     resolution: {integrity: sha512-RiB/yIh78pcIxl6lLMG0CgBXAZ2Y0eVHqMPYugu+9U0AeT6YBeiJpf7lbdJNIugFP5SIjwNRgo4DhR1Qxi26Gg==}
@@ -6559,11 +6559,11 @@ packages:
     resolution: {integrity: sha512-y3bGgqKj3QBdxLbLkomlohkvsA8gdAiUQlSBJnBhfn+BPxg4bc62d8TcBW15wavDfgexCgccckhcZvywyQYPOw==}
     hasBin: true
 
-  react-datepicker@7.5.0:
-    resolution: {integrity: sha512-6MzeamV8cWSOcduwePHfGqY40acuGlS1cG//ePHT6bVbLxWyqngaStenfH03n1wbzOibFggF66kWaBTb1SbTtQ==}
+  react-datepicker@7.6.0:
+    resolution: {integrity: sha512-9cQH6Z/qa4LrGhzdc3XoHbhrxNcMi9MKjZmYgF/1MNNaJwvdSjv3Xd+jjvrEEbKEf71ZgCA3n7fQbdwd70qCRw==}
     peerDependencies:
-      react: ^16.9.0 || ^17 || ^18
-      react-dom: ^16.9.0 || ^17 || ^18
+      react: ^16.9.0 || ^17 || ^18 || ^19 || ^19.0.0-rc
+      react-dom: ^16.9.0 || ^17 || ^18 || ^19 || ^19.0.0-rc
 
   react-docgen-typescript@2.4.0:
     resolution: {integrity: sha512-ZtAp5XTO5HRzQctjPU0ybY0RRCQO19X/8fxn3w7y2VVTUbGHDKULPTL4ky3vB05euSgG5NpALhEhDPvQ56wvXg==}
@@ -9372,7 +9372,7 @@ snapshots:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
 
-  '@floating-ui/react@0.26.28(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@floating-ui/react@0.27.19(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
       '@floating-ui/react-dom': 2.1.8(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@floating-ui/utils': 0.2.11
@@ -15158,12 +15158,11 @@ snapshots:
       minimist: 1.2.8
       strip-json-comments: 2.0.1
 
-  react-datepicker@7.5.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+  react-datepicker@7.6.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
-      '@floating-ui/react': 0.26.28(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@floating-ui/react': 0.27.19(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       clsx: 2.1.1
       date-fns: 3.6.0
-      prop-types: 15.8.1
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
 

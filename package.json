@@ -146,7 +146,7 @@
 		"core-js": "3.49.0",
 		"darkreader": "4.9.125",
 		"polished": "4.3.1",
-		"react-datepicker": "7.5.0"
+		"react-datepicker": "7.6.0"
 	},
 	"pnpm": {
 		"onlyBuiltDependencies": [
