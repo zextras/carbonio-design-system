@@ -28,7 +28,7 @@ importers:
         specifier: 4.9.125
         version: 4.9.125
       date-fns:
-        specifier: ^4.1.0
+        specifier: ^4.4.0
         version: 4.4.0
       polished:
         specifier: 4.3.1
