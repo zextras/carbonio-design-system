@@ -75,7 +75,7 @@
 		"@rollup/plugin-typescript": "12.3.0",
 		"@rollup/plugin-url": "8.0.2",
 		"@semantic-release/commit-analyzer": "13.0.1",
-		"@semantic-release/github": "11.0.0",
+		"@semantic-release/github": "11.0.6",
 		"@semantic-release/npm": "12.0.2",
 		"@semantic-release/release-notes-generator": "14.1.1",
 		"@storybook/addon-designs": "10.0.2",
