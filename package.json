@@ -155,7 +155,7 @@
 			"unrs-resolver"
 		],
 		"overrides": {
-			"prettier@^3": "3.3.3",
+			"prettier@^3": "3.9.6",
 			"eslint-plugin-prettier": "5.5.6"
 		}
 	}
