@@ -5,6 +5,15 @@
  */
 @Library('zextras-library@0.7.3') _
 
+library(
+    identifier: 'jenkins-lib-common@v4.10.0',
+    retriever: modernSCM([
+        $class: 'GitSCMSource',
+        remote: 'git@github.com:zextras/jenkins-lib-common.git',
+        credentialsId: 'jenkins-integration-with-github-account'
+    ])
+)
+
 def getPackageName() {
     return sh(script: 'grep \'"name":\' package.json | sed -n --regexp-extended \'s/.*"name": "([^"]+).*/\\1/p\' ', returnStdout: true).trim()
 }
@@ -58,6 +67,7 @@ pipeline {
     options {
         timeout(time: 20, unit: 'MINUTES')
         buildDiscarder(logRotator(numToKeepStr: '50'))
+        disableConcurrentBuilds()
     }
     parameters {
         booleanParam defaultValue: true, description: 'Enable SonarQube Stage', name: 'RUN_SONARQUBE'
