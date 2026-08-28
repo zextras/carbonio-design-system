@@ -58,6 +58,8 @@ Boolean isUpdateImages
 String branchName
 String nodeVersion
 
+properties(defaultPipelineProperties())
+
 pipeline {
     agent {
         node {
