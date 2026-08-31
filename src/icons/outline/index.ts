@@ -130,6 +130,7 @@ export { default as CrownOutline } from './CrownOutline';
 export { default as CubeOutline } from './CubeOutline';
 export { default as DashboardOutline } from './DashboardOutline';
 export { default as DayViewOutline } from './DayViewOutline';
+export { default as DelegatedCalendarOutline } from './DelegatedCalendarOutline';
 export { default as DeletePermanentlyOutline } from './DeletePermanentlyOutline';
 export { default as DiagonalArrowLeftDownOutline } from './DiagonalArrowLeftDownOutline';
 export { default as DiagonalArrowLeftUpOutline } from './DiagonalArrowLeftUpOutline';
