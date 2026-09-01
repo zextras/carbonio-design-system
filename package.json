@@ -93,7 +93,7 @@
 		"@types/babel__template": "7.4.4",
 		"@types/jest-image-snapshot": "6.4.1",
 		"@types/lodash": "4.17.24",
-		"@types/node": "25.9.3",
+		"@types/node": "25.9.5",
 		"@types/react": "18.3.31",
 		"@types/react-dom": "18.3.7",
 		"@vitejs/plugin-react": "5.2.0",
