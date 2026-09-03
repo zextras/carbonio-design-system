@@ -171,7 +171,7 @@ pipeline {
                     steps {
                         container('nodejs-' + nodeVersion) {
                             executeNpmLogin()
-                            sh 'pnpm run test'
+                            sh 'pnpm run test:ci'
                         }
                     }
                     post {
