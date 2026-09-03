@@ -83,7 +83,7 @@ pipeline {
                     script {
                         isReleaseBranch = "${BRANCH_NAME}" ==~ /release/
                         echo "isReleaseBranch: ${isReleaseBranch}"
-                        isDevelBranch = "${BRANCH_NAME}" ==~ /devel/
+                        isDevelBranch = env.BRANCH_IS_PRIMARY == 'true'
                         echo "isDevelBranch: ${isDevelBranch}"
                         isPullRequest = "${BRANCH_NAME}" ==~ /PR-\d+/
                         echo "isPullRequest: ${isPullRequest}"
@@ -210,7 +210,7 @@ pipeline {
                         sh 'pnpm add -D sonarqube-scanner'
                     }
                     withSonarQubeEnv(credentialsId: 'sonarqube-user-token', installationName: 'SonarQube instance') {
-                        sh "pnpm exec sonar-scanner -Dsonar.projectKey=${getPackageName().replaceAll("@zextras/", "")} -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info"
+                        sh "pnpm exec sonar-scanner-npm -Dsonar.projectKey=${getPackageName().replaceAll("@zextras/", "")} -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info"
                     }
                 }
             }

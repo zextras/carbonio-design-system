@@ -3,7 +3,7 @@
  */
 export default {
 	branches: [
-		'devel'
+		'main'
 	],
 	plugins: [
 		[
