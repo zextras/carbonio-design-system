@@ -123,6 +123,7 @@ export { default as Crown } from './Crown';
 export { default as Cube } from './Cube';
 export { default as Dashboard } from './Dashboard';
 export { default as DayView } from './DayView';
+export { default as DelegatedCalendar } from './DelegatedCalendar';
 export { default as DeletePermanently } from './DeletePermanently';
 export { default as DiagonalArrowLeftDown } from './DiagonalArrowLeftDown';
 export { default as DiagonalArrowLeftUp } from './DiagonalArrowLeftUp';
