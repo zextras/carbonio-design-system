@@ -15,7 +15,9 @@ export default {
 					// rules are no longer evaluated, so without it a breaking refactor would only get a patch
 					{ breaking: true, release: 'major' },
 					{ type: 'refactor', release: 'patch' },
-					{ type: 'build', release: 'patch' }
+					{ type: 'build', release: 'patch' },
+					{ type: 'ci', release: 'patch' },
+					{ type: 'perf', release: 'patch' }
 				]
 			}
 		],
