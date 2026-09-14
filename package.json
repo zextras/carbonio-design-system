@@ -101,7 +101,7 @@
 		"@vitest/coverage-v8": "4.1.8",
 		"@zextras/carbonio-ui-configs": "1.0.4",
 		"babel-loader": "10.1.1",
-		"conventional-changelog-conventionalcommits": "8.0.0",
+		"conventional-changelog-conventionalcommits": "9.3.1",
 		"create-index": "2.6.0",
 		"eslint": "8.57.1",
 		"eslint-plugin-import": "2.32.0",
@@ -156,6 +156,7 @@
 			"unrs-resolver"
 		],
 		"overrides": {
+			"conventional-changelog-conventionalcommits": "9.3.1",
 			"prettier@^3": "3.3.3",
 			"eslint-plugin-prettier": "5.5.6"
 		}
