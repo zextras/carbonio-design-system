@@ -11,6 +11,9 @@ export default {
 			{
 				preset: 'conventionalcommits',
 				releaseRules: [
+					// the breaking rule is required: as soon as a custom rule matches (e.g. refactor→patch) the default
+					// rules are no longer evaluated, so without it a breaking refactor would only get a patch
+					{ breaking: true, release: 'major' },
 					{ type: 'refactor', release: 'patch' },
 					{ type: 'build', release: 'patch' }
 				]
