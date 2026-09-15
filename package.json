@@ -15,7 +15,7 @@
 	],
 	"packageManager": "pnpm@10.32.1",
 	"engines": {
-		"node": "v22",
+		"node": "^22.14.0",
 		"pnpm": ">=10"
 	},
 	"scripts": {
@@ -86,7 +86,7 @@
 		"@storybook/react-webpack5": "9.1.19",
 		"@storybook/test-runner": "0.22.0",
 		"@svgr/cli": "8.1.0",
-		"@testing-library/dom": "10.4.1",
+		"@testing-library/dom": "10.4.2",
 		"@testing-library/jest-dom": "7.0.1",
 		"@testing-library/react": "16.3.3",
 		"@testing-library/user-event": "14.6.7",
@@ -101,8 +101,9 @@
 		"@vitest/coverage-v8": "4.1.8",
 		"@zextras/carbonio-ui-configs": "1.0.4",
 		"babel-loader": "10.1.1",
-		"conventional-changelog-conventionalcommits": "8.0.0",
+		"conventional-changelog-conventionalcommits": "9.3.1",
 		"create-index": "2.6.0",
+		"darkreader": "4.9.130",
 		"eslint": "8.57.1",
 		"eslint-plugin-import": "2.32.0",
 		"eslint-plugin-notice": "1.0.0",
@@ -145,7 +146,6 @@
 	"dependencies": {
 		"@floating-ui/dom": "1.7.6",
 		"core-js": "3.49.0",
-		"darkreader": "4.9.130",
 		"polished": "4.3.1",
 		"react-datepicker": "7.5.0"
 	},
@@ -156,6 +156,7 @@
 			"unrs-resolver"
 		],
 		"overrides": {
+			"conventional-changelog-conventionalcommits": "9.3.1",
 			"prettier@^3": "3.3.3",
 			"eslint-plugin-prettier": "5.5.6"
 		}
