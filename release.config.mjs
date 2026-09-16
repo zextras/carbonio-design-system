@@ -1,3 +1,7 @@
+// the dry-run that runs on pull requests drops the plugins that need publish credentials,
+// so a PR build can validate commit analysis and note generation without receiving any token
+const isDryRun = process.env.SEMANTIC_RELEASE_DRY_RUN === 'true';
+
 /**
  * @type {import('semantic-release').GlobalConfig}
  */
@@ -80,7 +84,6 @@ export default {
 				}
 			}
 		],
-		'@semantic-release/npm',
-		'@semantic-release/github'
+		...(isDryRun ? [] : ['@semantic-release/npm', '@semantic-release/github'])
 	]
 };

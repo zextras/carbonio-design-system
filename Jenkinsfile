@@ -194,6 +194,23 @@ pipeline {
                         }
                     }
                 }
+                stage('Release dry-run') {
+                    when {
+                        expression { isPullRequest == true }
+                    }
+                    steps {
+                        container('nodejs-' + nodeVersion) {
+                            executeNpmLogin()
+                            sh 'SEMANTIC_RELEASE_DRY_RUN=true GIT_LOCAL_BRANCH="$CHANGE_BRANCH" pnpm exec semantic-release --dry-run --no-ci --branches "$CHANGE_BRANCH" 2>&1 | tee semantic-release-dry-run.log'
+                            script {
+                                def log = readFile('semantic-release-dry-run.log')
+                                if (!log.contains('Release note for version')) {
+                                    error("semantic-release dry-run produced no release notes. It most likely skipped the run instead of analysing the commits; check the log above.")
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
 
