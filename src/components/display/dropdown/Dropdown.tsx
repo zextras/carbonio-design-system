@@ -332,6 +332,7 @@ function NestListItem({
 					)}
 					<Icon size={itemIconSize} icon="ChevronRight" />
 				</Container>
+				{/* eslint-disable-next-line @typescript-eslint/no-use-before-define */}
 			</Dropdown>
 		</ContainerEl>
 	);

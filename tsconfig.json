@@ -1,8 +1,9 @@
 {
-	"extends": "@zextras/carbonio-ui-configs/rules/typescript.json",
+	"extends": "@zextras/carbonio-ui-configs/rules/tsconfig.type-check.json",
 	"include": ["src/**/*", ".storybook/**/*", "scripts/*"],
 	"exclude": ["node_modules", "dist"],
 	"compilerOptions": {
+		"noUncheckedIndexedAccess": false,
 		"types": ["vitest/globals"],
 		"skipLibCheck": true,
 		"paths": {
