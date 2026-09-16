@@ -20,6 +20,12 @@
       "matchUpdateTypes": ["minor", "patch"],
       "groupName": "devDependencies (weekly)",
       "schedule": ["before 6am on monday"]
+    },
+    {
+      "description": "@types/node must track the Node major we actually run (see .nvmrc and engines.node): newer typings make tsc accept APIs that are missing at runtime, and skipLibCheck hides the mismatch",
+      "matchManagers": ["npm"],
+      "matchPackageNames": ["@types/node"],
+      "allowedVersions": "<23"
     }
   ]
 }
