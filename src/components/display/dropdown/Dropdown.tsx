@@ -193,7 +193,7 @@ function NestListItem({
 	const closeNestedDropdownTimeoutRef = useRef<NodeJS.Timeout>();
 
 	useEffect(
-		() => () => {
+		() => (): void => {
 			if (closeNestedDropdownTimeoutRef.current !== undefined) {
 				clearTimeout(closeNestedDropdownTimeoutRef.current);
 			}

@@ -95,7 +95,7 @@ export const BreadcrumbsDragAndDrop = (): React.JSX.Element => {
 	useEffect(() => {
 		document.addEventListener('dragenter', closeCollapser);
 
-		return () => {
+		return (): void => {
 			document.removeEventListener('dragenter', closeCollapser);
 		};
 	}, [closeCollapser]);

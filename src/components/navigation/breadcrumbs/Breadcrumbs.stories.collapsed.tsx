@@ -12,27 +12,27 @@ export const BreadcrumbsCollapsed = (): React.JSX.Element => {
 		{
 			id: 'crumb-1',
 			label: 'Goodnight',
-			onClick: () => console.log('Goodnight')
+			onClick: (): void => console.log('Goodnight')
 		},
 		{
 			id: 'crumb-2',
 			label: 'Hello',
-			onClick: () => console.log('Hello')
+			onClick: (): void => console.log('Hello')
 		},
 		{
 			id: 'crumb-3',
 			label: 'AAAAAA',
-			onClick: () => console.log('AAAAAA')
+			onClick: (): void => console.log('AAAAAA')
 		},
 		{
 			id: 'crumb-4',
 			label: 'Goodbye',
-			onClick: () => console.log('Goodbye')
+			onClick: (): void => console.log('Goodbye')
 		},
 		{
 			id: 'crumb-5',
 			label: 'Ok',
-			onClick: () => console.log('Ok')
+			onClick: (): void => console.log('Ok')
 		}
 	];
 

@@ -15,52 +15,52 @@ export const CollapsingActionsAlignment = (): React.JSX.Element => {
 			id: 'action1',
 			icon: 'Activity',
 			label: 'Action 1',
-			onClick: () => undefined
+			onClick: (): void => undefined
 		},
 		{
 			id: 'action2',
 			icon: 'People',
 			label: 'Action 2',
-			onClick: () => undefined
+			onClick: (): void => undefined
 		},
 		{
 			id: 'action3',
 			icon: 'ArrowUp',
 			label: 'Action 3',
 			color: 'error',
-			onClick: () => undefined
+			onClick: (): void => undefined
 		},
 		{
 			id: 'action4',
 			icon: 'Airplane',
 			label: 'Action 4',
 			color: 'text',
-			onClick: () => undefined
+			onClick: (): void => undefined
 		},
 		{
 			id: 'action5',
 			icon: 'AcceptanceMeeting',
 			label: 'Action 5',
-			onClick: () => undefined
+			onClick: (): void => undefined
 		},
 		{
 			id: 'action6',
 			icon: 'AddressBook',
 			label: 'Action 6',
-			onClick: () => undefined
+			onClick: (): void => undefined
 		},
 		{
 			id: 'action7',
 			icon: 'Archive',
 			label: 'Action 7',
-			onClick: () => undefined
+			onClick: (): void => undefined
 		},
 		{
 			id: 'action8',
 			icon: 'BackupMod',
 			label: 'Action 8',
 			color: 'warning',
-			onClick: () => undefined
+			onClick: (): void => undefined
 		}
 	];
 

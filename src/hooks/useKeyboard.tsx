@@ -242,7 +242,7 @@ function useKeyboard(
 		() =>
 			presets.map<(e: KeyboardEvent) => void>(
 				({ keys, callback, haveToPreventDefault = true }) =>
-					(e) => {
+					(e): void => {
 						if (keys.length === 0 || keys.some((key) => isMatch(e, key))) {
 							if (haveToPreventDefault) {
 								e.preventDefault();
