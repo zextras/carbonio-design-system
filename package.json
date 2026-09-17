@@ -157,7 +157,7 @@
 		],
 		"overrides": {
 			"conventional-changelog-conventionalcommits": "9.3.1",
-			"prettier@^3": "3.3.3"
+			"prettier@^3": "3.9.7"
 		}
 	}
 }

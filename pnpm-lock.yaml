@@ -6,7 +6,7 @@ settings:
 
 overrides:
   conventional-changelog-conventionalcommits: 9.3.1
-  prettier@^3: 3.3.3
+  prettier@^3: 3.9.7
 
 importers:
 
@@ -240,7 +240,7 @@ importers:
         version: 9.1.19(@testing-library/dom@10.4.2)(prettier@2.8.8)(vite@7.3.5(@types/node@22.20.3)(jiti@2.6.1)(terser@5.48.0))
       storybook-addon-playground:
         specifier: 3.0.0
-        version: 3.0.0(@babel/runtime@7.29.7)(@codemirror/autocomplete@6.20.3)(@codemirror/language@6.12.3)(@codemirror/lint@6.9.7)(@codemirror/search@6.7.1)(@codemirror/state@6.6.0)(@codemirror/theme-one-dark@6.1.3)(@codemirror/view@6.43.1)(@lezer/common@1.5.2)(@lezer/highlight@1.2.3)(@lezer/javascript@1.5.4)(@lezer/lr@1.4.10)(codemirror@6.0.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(storybook@9.1.19(@testing-library/dom@10.4.2)(prettier@2.8.8)(vite@7.3.5(@types/node@22.20.3)(jiti@2.6.1)(terser@5.48.0)))
+        version: 3.0.0(@babel/runtime@7.29.7)(@codemirror/autocomplete@6.20.3)(@codemirror/language@6.12.3)(@codemirror/lint@6.9.7)(@codemirror/search@6.7.1)(@codemirror/state@6.7.5)(@codemirror/theme-one-dark@6.1.3)(@codemirror/view@6.43.1)(@lezer/common@1.5.2)(@lezer/highlight@1.2.3)(@lezer/javascript@1.5.4)(@lezer/lr@1.4.10)(codemirror@6.0.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(storybook@9.1.19(@testing-library/dom@10.4.2)(prettier@2.8.8)(vite@7.3.5(@types/node@22.20.3)(jiti@2.6.1)(terser@5.48.0)))
       ts-node:
         specifier: 10.9.2
         version: 10.9.2(@swc/core@1.15.41)(@types/node@22.20.3)(typescript@5.9.3)
@@ -4357,7 +4357,7 @@ packages:
       '@types/eslint': '>=8.0.0'
       eslint: '>=8.0.0'
       eslint-config-prettier: '>= 7.0.0 <10.0.0 || >=10.1.0'
-      prettier: 3.3.3
+      prettier: 3.9.7
     peerDependenciesMeta:
       '@types/eslint':
         optional: true
@@ -6534,8 +6534,8 @@ packages:
     engines: {node: '>=10.13.0'}
     hasBin: true
 
-  prettier@3.3.3:
-    resolution: {integrity: sha512-i2tDNA0O5IrMO757lfrdQZCc2jPNDVntV0m/+4whiDfWaTKfMNgR7Qz0NAeGz/nRqF4m5/6CLzbP4/liHt12Ew==}
+  prettier@3.9.7:
+    resolution: {integrity: sha512-T3mF5P7HFzZVLDQuCUNtJj6WK1pcpLMweMNUVwGb01bLNkH9AkKxtZvmInw8K6bnn2O3d6/5RHl6zSHiBAD0Og==}
     engines: {node: '>=14'}
     hasBin: true
 
@@ -7053,7 +7053,7 @@ packages:
     resolution: {integrity: sha512-P7K/b+Pn1sXJzwYCF6hH5Zjdrg4ZlA5Bz9rdOJEdvm6ev27XESDGI+Ql+dfUfUcGOym3Aud4MssJIDEF2ocsyQ==}
     hasBin: true
     peerDependencies:
-      prettier: 3.3.3
+      prettier: 3.9.7
     peerDependenciesMeta:
       prettier:
         optional: true
@@ -8983,7 +8983,7 @@ snapshots:
 
   '@codemirror/search@6.7.1':
     dependencies:
-      '@codemirror/state': 6.6.0
+      '@codemirror/state': 6.7.5
       '@codemirror/view': 6.43.1
       crelt: 1.0.7
 
@@ -8998,7 +8998,7 @@ snapshots:
   '@codemirror/theme-one-dark@6.1.3':
     dependencies:
       '@codemirror/language': 6.12.3
-      '@codemirror/state': 6.6.0
+      '@codemirror/state': 6.7.5
       '@codemirror/view': 6.43.1
       '@lezer/highlight': 1.2.3
 
@@ -9974,11 +9974,11 @@ snapshots:
       '@pnpm/network.ca-file': 1.0.2
       config-chain: 1.1.13
 
-  '@replit/codemirror-lang-nix@6.0.1(@codemirror/autocomplete@6.20.3)(@codemirror/language@6.12.3)(@codemirror/state@6.6.0)(@codemirror/view@6.43.1)(@lezer/common@1.5.2)(@lezer/highlight@1.2.3)(@lezer/lr@1.4.10)':
+  '@replit/codemirror-lang-nix@6.0.1(@codemirror/autocomplete@6.20.3)(@codemirror/language@6.12.3)(@codemirror/state@6.7.5)(@codemirror/view@6.43.1)(@lezer/common@1.5.2)(@lezer/highlight@1.2.3)(@lezer/lr@1.4.10)':
     dependencies:
       '@codemirror/autocomplete': 6.20.3
       '@codemirror/language': 6.12.3
-      '@codemirror/state': 6.6.0
+      '@codemirror/state': 6.7.5
       '@codemirror/view': 6.43.1
       '@lezer/common': 1.5.2
       '@lezer/highlight': 1.2.3
@@ -9989,14 +9989,14 @@ snapshots:
       '@codemirror/language': 6.12.3
       '@lezer/highlight': 1.2.3
 
-  '@replit/codemirror-lang-svelte@6.0.0(@codemirror/autocomplete@6.20.3)(@codemirror/lang-css@6.3.1)(@codemirror/lang-html@6.4.11)(@codemirror/lang-javascript@6.2.5)(@codemirror/language@6.12.3)(@codemirror/state@6.6.0)(@codemirror/view@6.43.1)(@lezer/common@1.5.2)(@lezer/highlight@1.2.3)(@lezer/javascript@1.5.4)(@lezer/lr@1.4.10)':
+  '@replit/codemirror-lang-svelte@6.0.0(@codemirror/autocomplete@6.20.3)(@codemirror/lang-css@6.3.1)(@codemirror/lang-html@6.4.11)(@codemirror/lang-javascript@6.2.5)(@codemirror/language@6.12.3)(@codemirror/state@6.7.5)(@codemirror/view@6.43.1)(@lezer/common@1.5.2)(@lezer/highlight@1.2.3)(@lezer/javascript@1.5.4)(@lezer/lr@1.4.10)':
     dependencies:
       '@codemirror/autocomplete': 6.20.3
       '@codemirror/lang-css': 6.3.1
       '@codemirror/lang-html': 6.4.11
       '@codemirror/lang-javascript': 6.2.5
       '@codemirror/language': 6.12.3
-      '@codemirror/state': 6.6.0
+      '@codemirror/state': 6.7.5
       '@codemirror/view': 6.43.1
       '@lezer/common': 1.5.2
       '@lezer/highlight': 1.2.3
@@ -11035,17 +11035,17 @@ snapshots:
       '@typescript-eslint/types': 8.70.0
       eslint-visitor-keys: 5.0.1
 
-  '@uiw/codemirror-extensions-basic-setup@4.25.10(@codemirror/autocomplete@6.20.3)(@codemirror/commands@6.10.3)(@codemirror/language@6.12.3)(@codemirror/lint@6.9.7)(@codemirror/search@6.7.1)(@codemirror/state@6.6.0)(@codemirror/view@6.43.1)':
+  '@uiw/codemirror-extensions-basic-setup@4.25.10(@codemirror/autocomplete@6.20.3)(@codemirror/commands@6.10.3)(@codemirror/language@6.12.3)(@codemirror/lint@6.9.7)(@codemirror/search@6.7.1)(@codemirror/state@6.7.5)(@codemirror/view@6.43.1)':
     dependencies:
       '@codemirror/autocomplete': 6.20.3
       '@codemirror/commands': 6.10.3
       '@codemirror/language': 6.12.3
       '@codemirror/lint': 6.9.7
       '@codemirror/search': 6.7.1
-      '@codemirror/state': 6.6.0
+      '@codemirror/state': 6.7.5
       '@codemirror/view': 6.43.1
 
-  '@uiw/codemirror-extensions-langs@4.25.10(@codemirror/autocomplete@6.20.3)(@codemirror/language@6.12.3)(@codemirror/state@6.6.0)(@codemirror/view@6.43.1)(@lezer/common@1.5.2)(@lezer/highlight@1.2.3)(@lezer/javascript@1.5.4)(@lezer/lr@1.4.10)':
+  '@uiw/codemirror-extensions-langs@4.25.10(@codemirror/autocomplete@6.20.3)(@codemirror/language@6.12.3)(@codemirror/state@6.7.5)(@codemirror/view@6.43.1)(@lezer/common@1.5.2)(@lezer/highlight@1.2.3)(@lezer/javascript@1.5.4)(@lezer/lr@1.4.10)':
     dependencies:
       '@codemirror/lang-cpp': 6.0.3
       '@codemirror/lang-css': 6.3.1
@@ -11069,9 +11069,9 @@ snapshots:
       '@codemirror/lang-yaml': 6.1.3
       '@codemirror/language': 6.12.3
       '@codemirror/legacy-modes': 6.5.3
-      '@replit/codemirror-lang-nix': 6.0.1(@codemirror/autocomplete@6.20.3)(@codemirror/language@6.12.3)(@codemirror/state@6.6.0)(@codemirror/view@6.43.1)(@lezer/common@1.5.2)(@lezer/highlight@1.2.3)(@lezer/lr@1.4.10)
+      '@replit/codemirror-lang-nix': 6.0.1(@codemirror/autocomplete@6.20.3)(@codemirror/language@6.12.3)(@codemirror/state@6.7.5)(@codemirror/view@6.43.1)(@lezer/common@1.5.2)(@lezer/highlight@1.2.3)(@lezer/lr@1.4.10)
       '@replit/codemirror-lang-solidity': 6.0.2(@codemirror/language@6.12.3)
-      '@replit/codemirror-lang-svelte': 6.0.0(@codemirror/autocomplete@6.20.3)(@codemirror/lang-css@6.3.1)(@codemirror/lang-html@6.4.11)(@codemirror/lang-javascript@6.2.5)(@codemirror/language@6.12.3)(@codemirror/state@6.6.0)(@codemirror/view@6.43.1)(@lezer/common@1.5.2)(@lezer/highlight@1.2.3)(@lezer/javascript@1.5.4)(@lezer/lr@1.4.10)
+      '@replit/codemirror-lang-svelte': 6.0.0(@codemirror/autocomplete@6.20.3)(@codemirror/lang-css@6.3.1)(@codemirror/lang-html@6.4.11)(@codemirror/lang-javascript@6.2.5)(@codemirror/language@6.12.3)(@codemirror/state@6.7.5)(@codemirror/view@6.43.1)(@lezer/common@1.5.2)(@lezer/highlight@1.2.3)(@lezer/javascript@1.5.4)(@lezer/lr@1.4.10)
       codemirror-lang-mermaid: 0.5.0
     transitivePeerDependencies:
       - '@codemirror/autocomplete'
@@ -11082,28 +11082,28 @@ snapshots:
       - '@lezer/javascript'
       - '@lezer/lr'
 
-  '@uiw/codemirror-theme-github@4.25.10(@codemirror/language@6.12.3)(@codemirror/state@6.6.0)(@codemirror/view@6.43.1)':
+  '@uiw/codemirror-theme-github@4.25.10(@codemirror/language@6.12.3)(@codemirror/state@6.7.5)(@codemirror/view@6.43.1)':
     dependencies:
-      '@uiw/codemirror-themes': 4.25.10(@codemirror/language@6.12.3)(@codemirror/state@6.6.0)(@codemirror/view@6.43.1)
+      '@uiw/codemirror-themes': 4.25.10(@codemirror/language@6.12.3)(@codemirror/state@6.7.5)(@codemirror/view@6.43.1)
     transitivePeerDependencies:
       - '@codemirror/language'
       - '@codemirror/state'
       - '@codemirror/view'
 
-  '@uiw/codemirror-themes@4.25.10(@codemirror/language@6.12.3)(@codemirror/state@6.6.0)(@codemirror/view@6.43.1)':
+  '@uiw/codemirror-themes@4.25.10(@codemirror/language@6.12.3)(@codemirror/state@6.7.5)(@codemirror/view@6.43.1)':
     dependencies:
       '@codemirror/language': 6.12.3
-      '@codemirror/state': 6.6.0
+      '@codemirror/state': 6.7.5
       '@codemirror/view': 6.43.1
 
-  '@uiw/react-codemirror@4.25.10(@babel/runtime@7.29.7)(@codemirror/autocomplete@6.20.3)(@codemirror/language@6.12.3)(@codemirror/lint@6.9.7)(@codemirror/search@6.7.1)(@codemirror/state@6.6.0)(@codemirror/theme-one-dark@6.1.3)(@codemirror/view@6.43.1)(codemirror@6.0.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@uiw/react-codemirror@4.25.10(@babel/runtime@7.29.7)(@codemirror/autocomplete@6.20.3)(@codemirror/language@6.12.3)(@codemirror/lint@6.9.7)(@codemirror/search@6.7.1)(@codemirror/state@6.7.5)(@codemirror/theme-one-dark@6.1.3)(@codemirror/view@6.43.1)(codemirror@6.0.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
       '@babel/runtime': 7.29.7
       '@codemirror/commands': 6.10.3
-      '@codemirror/state': 6.6.0
+      '@codemirror/state': 6.7.5
       '@codemirror/theme-one-dark': 6.1.3
       '@codemirror/view': 6.43.1
-      '@uiw/codemirror-extensions-basic-setup': 4.25.10(@codemirror/autocomplete@6.20.3)(@codemirror/commands@6.10.3)(@codemirror/language@6.12.3)(@codemirror/lint@6.9.7)(@codemirror/search@6.7.1)(@codemirror/state@6.6.0)(@codemirror/view@6.43.1)
+      '@uiw/codemirror-extensions-basic-setup': 4.25.10(@codemirror/autocomplete@6.20.3)(@codemirror/commands@6.10.3)(@codemirror/language@6.12.3)(@codemirror/lint@6.9.7)(@codemirror/search@6.7.1)(@codemirror/state@6.7.5)(@codemirror/view@6.43.1)
       codemirror: 6.0.2
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
@@ -11374,13 +11374,13 @@ snapshots:
       eslint-plugin-jest: 29.16.6(@typescript-eslint/eslint-plugin@8.70.0(@typescript-eslint/parser@8.70.0(eslint@8.57.1)(typescript@5.9.3))(eslint@8.57.1)(typescript@5.9.3))(eslint@8.57.1)(jest@29.7.0(@types/node@22.20.3)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@swc/core@1.15.41)(@types/node@22.20.3)(typescript@5.9.3)))(typescript@5.9.3)
       eslint-plugin-jest-dom: 5.10.1(@testing-library/dom@10.4.2)(eslint@8.57.1)
       eslint-plugin-jsx-a11y: 6.10.2(eslint@8.57.1)
-      eslint-plugin-prettier: 5.5.6(eslint-config-prettier@10.1.8(eslint@8.57.1))(eslint@8.57.1)(prettier@3.3.3)
+      eslint-plugin-prettier: 5.5.6(eslint-config-prettier@10.1.8(eslint@8.57.1))(eslint@8.57.1)(prettier@3.9.7)
       eslint-plugin-react: 7.37.5(eslint@8.57.1)
       eslint-plugin-react-hooks: 4.6.2(eslint@8.57.1)
       eslint-plugin-sonarjs: 0.21.0(eslint@8.57.1)
       eslint-plugin-testing-library: 7.16.2(eslint@8.57.1)(typescript@5.9.3)
       eslint-plugin-unused-imports: 4.4.1(@typescript-eslint/eslint-plugin@8.70.0(@typescript-eslint/parser@8.70.0(eslint@8.57.1)(typescript@5.9.3))(eslint@8.57.1)(typescript@5.9.3))(eslint@8.57.1)
-      prettier: 3.3.3
+      prettier: 3.9.7
       prettier-eslint: 16.4.2(typescript@5.9.3)
       typescript: 5.9.3
     transitivePeerDependencies:
@@ -11966,7 +11966,7 @@ snapshots:
       '@codemirror/language': 6.12.3
       '@codemirror/lint': 6.9.7
       '@codemirror/search': 6.7.1
-      '@codemirror/state': 6.6.0
+      '@codemirror/state': 6.7.5
       '@codemirror/view': 6.43.1
 
   collect-v8-coverage@1.0.3: {}
@@ -12813,10 +12813,10 @@ snapshots:
       lodash: 4.18.1
       metric-lcs: 0.1.2
 
-  eslint-plugin-prettier@5.5.6(eslint-config-prettier@10.1.8(eslint@8.57.1))(eslint@8.57.1)(prettier@3.3.3):
+  eslint-plugin-prettier@5.5.6(eslint-config-prettier@10.1.8(eslint@8.57.1))(eslint@8.57.1)(prettier@3.9.7):
     dependencies:
       eslint: 8.57.1
-      prettier: 3.3.3
+      prettier: 3.9.7
       prettier-linter-helpers: 1.0.1
       synckit: 0.11.13
     optionalDependencies:
@@ -15209,7 +15209,7 @@ snapshots:
       indent-string: 4.0.0
       lodash.merge: 4.6.2
       loglevel-colored-level-prefix: 1.0.0
-      prettier: 3.3.3
+      prettier: 3.9.7
       pretty-format: 29.7.0
       require-relative: 0.8.7
       tslib: 2.8.1
@@ -15224,7 +15224,7 @@ snapshots:
 
   prettier@2.8.8: {}
 
-  prettier@3.3.3: {}
+  prettier@3.9.7: {}
 
   pretty-error@4.0.0:
     dependencies:
@@ -15863,12 +15863,12 @@ snapshots:
       es-errors: 1.3.0
       internal-slot: 1.1.0
 
-  storybook-addon-playground@3.0.0(@babel/runtime@7.29.7)(@codemirror/autocomplete@6.20.3)(@codemirror/language@6.12.3)(@codemirror/lint@6.9.7)(@codemirror/search@6.7.1)(@codemirror/state@6.6.0)(@codemirror/theme-one-dark@6.1.3)(@codemirror/view@6.43.1)(@lezer/common@1.5.2)(@lezer/highlight@1.2.3)(@lezer/javascript@1.5.4)(@lezer/lr@1.4.10)(codemirror@6.0.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(storybook@9.1.19(@testing-library/dom@10.4.2)(prettier@2.8.8)(vite@7.3.5(@types/node@22.20.3)(jiti@2.6.1)(terser@5.48.0))):
+  storybook-addon-playground@3.0.0(@babel/runtime@7.29.7)(@codemirror/autocomplete@6.20.3)(@codemirror/language@6.12.3)(@codemirror/lint@6.9.7)(@codemirror/search@6.7.1)(@codemirror/state@6.7.5)(@codemirror/theme-one-dark@6.1.3)(@codemirror/view@6.43.1)(@lezer/common@1.5.2)(@lezer/highlight@1.2.3)(@lezer/javascript@1.5.4)(@lezer/lr@1.4.10)(codemirror@6.0.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(storybook@9.1.19(@testing-library/dom@10.4.2)(prettier@2.8.8)(vite@7.3.5(@types/node@22.20.3)(jiti@2.6.1)(terser@5.48.0))):
     dependencies:
       '@storybook/addon-links': 9.1.20(react@18.3.1)(storybook@9.1.19(@testing-library/dom@10.4.2)(prettier@2.8.8)(vite@7.3.5(@types/node@22.20.3)(jiti@2.6.1)(terser@5.48.0)))
-      '@uiw/codemirror-extensions-langs': 4.25.10(@codemirror/autocomplete@6.20.3)(@codemirror/language@6.12.3)(@codemirror/state@6.6.0)(@codemirror/view@6.43.1)(@lezer/common@1.5.2)(@lezer/highlight@1.2.3)(@lezer/javascript@1.5.4)(@lezer/lr@1.4.10)
-      '@uiw/codemirror-theme-github': 4.25.10(@codemirror/language@6.12.3)(@codemirror/state@6.6.0)(@codemirror/view@6.43.1)
-      '@uiw/react-codemirror': 4.25.10(@babel/runtime@7.29.7)(@codemirror/autocomplete@6.20.3)(@codemirror/language@6.12.3)(@codemirror/lint@6.9.7)(@codemirror/search@6.7.1)(@codemirror/state@6.6.0)(@codemirror/theme-one-dark@6.1.3)(@codemirror/view@6.43.1)(codemirror@6.0.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@uiw/codemirror-extensions-langs': 4.25.10(@codemirror/autocomplete@6.20.3)(@codemirror/language@6.12.3)(@codemirror/state@6.7.5)(@codemirror/view@6.43.1)(@lezer/common@1.5.2)(@lezer/highlight@1.2.3)(@lezer/javascript@1.5.4)(@lezer/lr@1.4.10)
+      '@uiw/codemirror-theme-github': 4.25.10(@codemirror/language@6.12.3)(@codemirror/state@6.7.5)(@codemirror/view@6.43.1)
+      '@uiw/react-codemirror': 4.25.10(@babel/runtime@7.29.7)(@codemirror/autocomplete@6.20.3)(@codemirror/language@6.12.3)(@codemirror/lint@6.9.7)(@codemirror/search@6.7.1)(@codemirror/state@6.7.5)(@codemirror/theme-one-dark@6.1.3)(@codemirror/view@6.43.1)(codemirror@6.0.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       classnames: 2.5.1
       lz-string: 1.5.0
       prettier: 2.8.8
