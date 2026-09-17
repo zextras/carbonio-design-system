@@ -149,7 +149,8 @@ function PopperListItem({
 }
 
 interface NestListItemProps
-	extends PopperListItemProps,
+	extends
+		PopperListItemProps,
 		Pick<DropdownProps, 'onOpen' | 'onClose' | 'dropdownListRef' | 'items'> {}
 
 function NestListItem({

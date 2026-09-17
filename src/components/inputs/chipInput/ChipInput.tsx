@@ -244,8 +244,10 @@ type ChipItem<TValue = unknown> = { label?: string } & ChipProps & {
 		value?: TValue;
 	};
 
-interface ChipInputProps<TValue = unknown>
-	extends Omit<ContainerProps, 'defaultValue' | 'onChange'> {
+interface ChipInputProps<TValue = unknown> extends Omit<
+	ContainerProps,
+	'defaultValue' | 'onChange'
+> {
 	/** ref to the input element */
 	inputRef?: React.ForwardedRef<HTMLInputElement> | null;
 	/** HTML input name */
