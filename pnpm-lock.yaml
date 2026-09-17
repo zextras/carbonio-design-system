@@ -7,7 +7,6 @@ settings:
 overrides:
   conventional-changelog-conventionalcommits: 9.3.1
   prettier@^3: 3.3.3
-  eslint-plugin-prettier: 5.5.6
 
 importers:
 

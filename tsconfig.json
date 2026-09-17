@@ -5,12 +5,10 @@
 	"compilerOptions": {
 		"noUncheckedIndexedAccess": false,
 		"types": ["vitest/globals"],
-		"skipLibCheck": true,
 		"paths": {
 			"@testing-library/user-event/dist/cjs/keyboard/keyMap": [
 				"./node_modules/@testing-library/user-event/dist/types/keyboard/keyMap.d.ts"
 			]
-		},
-		"resolveJsonModule": true
+		}
 	}
 }
