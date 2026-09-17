@@ -14,7 +14,9 @@ export const BreadcrumbsPseudoClasses = (): React.JSX.Element => {
 	const crumbs = Array.from({ length: 5 }, (_, i) => ({
 		id: `crumb-${i}`,
 		label: `crumb ${i}`,
-		onClick: () => i !== 0 && console.log('click crumb', i),
+		onClick: (): void => {
+			i !== 0 && console.log('click crumb', i);
+		},
 		className: 'breadcrumbCrumb',
 		disabled: i === 0
 	}));

@@ -226,6 +226,21 @@ function getKeyboardPreset(
 	}
 }
 
+function createKeyboardListener({
+	keys,
+	callback,
+	haveToPreventDefault = true
+}: KeyboardPresetObj): NativeKeyboardEventHandler {
+	return (e): void => {
+		if (keys.length === 0 || keys.some((key) => isMatch(e, key))) {
+			if (haveToPreventDefault) {
+				e.preventDefault();
+			}
+			callback(e);
+		}
+	};
+}
+
 /**
  * Attach listeners for the given presets to the given ref.
  *
@@ -238,21 +253,7 @@ function useKeyboard(
 	presets: KeyboardPresetObj[],
 	registerListener = true
 ): void {
-	const keyboardListeners = useMemo(
-		() =>
-			presets.map<(e: KeyboardEvent) => void>(
-				({ keys, callback, haveToPreventDefault = true }) =>
-					(e) => {
-						if (keys.length === 0 || keys.some((key) => isMatch(e, key))) {
-							if (haveToPreventDefault) {
-								e.preventDefault();
-							}
-							callback(e);
-						}
-					}
-			),
-		[presets]
-	);
+	const keyboardListeners = useMemo(() => presets.map(createKeyboardListener), [presets]);
 
 	useEffect(() => {
 		const refSave = ref instanceof HTMLElement ? ref : ref?.current;

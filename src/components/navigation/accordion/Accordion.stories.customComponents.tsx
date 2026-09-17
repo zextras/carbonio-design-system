@@ -50,7 +50,7 @@ export const AccordionCustomComponents = (): React.JSX.Element => {
 			</Padding>
 		</Container>
 	);
-	const click = (m: number | string) => () => alert(m);
+	const click = (m: number | string) => (): void => alert(m);
 	const items: AccordionItemType[] = [
 		{
 			id: '0',

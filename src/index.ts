@@ -127,5 +127,5 @@ export type {
 	ThemeSizeObjExtended,
 	Palette
 } from './theme/theme';
-export * from './types/globals';
+export type * from './types/globals';
 export type { AnyColor, PaletteColor } from './types/utils';

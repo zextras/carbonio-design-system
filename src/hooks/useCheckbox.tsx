@@ -58,7 +58,7 @@ function useCheckbox({
 	useEffect(() => {
 		const refSave = ref.current;
 		refSave && refSave.addEventListener('click', handleClick);
-		return () => {
+		return (): void => {
 			refSave && refSave.removeEventListener('click', handleClick);
 		};
 		// eslint-disable-next-line react-hooks/exhaustive-deps

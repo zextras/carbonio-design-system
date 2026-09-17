@@ -1,4 +1,4 @@
 {
-  "extends": ["@zextras/carbonio-ui-configs/rules/typescript.json"],
+  "extends": ["@zextras/carbonio-ui-configs/rules/tsconfig.type-check.json"],
   "include": ["components/*"]
 }

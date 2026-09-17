@@ -31,7 +31,9 @@ module.exports = {
 		'sonarjs/no-duplicate-string': 'off',
 		'import/no-duplicates': ['error', { considerQueryString: true }],
 		'@typescript-eslint/consistent-type-exports': 'error',
-		'@typescript-eslint/consistent-type-imports': 'error'
+		'@typescript-eslint/consistent-type-imports': 'error',
+		// module augmentations and named aliases are legitimately empty interfaces
+		'@typescript-eslint/no-empty-object-type': ['error', { allowInterfaces: 'with-single-extends' }]
 	},
 	overrides: [
 		{

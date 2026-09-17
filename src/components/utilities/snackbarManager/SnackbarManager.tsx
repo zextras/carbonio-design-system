@@ -108,7 +108,7 @@ function SnackbarManager({
 				)
 			});
 
-			return () => dispatchSnackbar({ type: 'remove', key: snackKey });
+			return (): void => dispatchSnackbar({ type: 'remove', key: snackKey });
 		},
 		[dispatchSnackbar, autoHideDefaultTimeout]
 	);

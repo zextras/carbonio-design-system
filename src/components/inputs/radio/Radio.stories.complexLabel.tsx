@@ -15,7 +15,7 @@ export const RadioComplexLabel = (): React.JSX.Element => {
 	const [activeValue, setActiveValue] = useState('salad');
 
 	const updateActiveValue = useCallback(
-		(value: string) => () => {
+		(value: string) => (): void => {
 			setActiveValue((prevState) => (value === prevState ? '' : value));
 		},
 		[]
