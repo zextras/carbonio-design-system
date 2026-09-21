@@ -84,7 +84,7 @@
 		"@storybook/addon-webpack5-compiler-babel": "3.0.6",
 		"@storybook/icons": "1.6.0",
 		"@storybook/react-webpack5": "9.1.20",
-		"@storybook/test-runner": "0.24.5",
+		"@storybook/test-runner": "0.23.0",
 		"@svgr/cli": "8.1.0",
 		"@testing-library/dom": "10.4.2",
 		"@testing-library/jest-dom": "7.0.1",
@@ -126,7 +126,7 @@
 		"storybook-addon-playground": "3.0.0",
 		"ts-node": "10.9.2",
 		"typescript": "5.9.3",
-		"vitest": "4.1.8",
+		"vitest": "4.1.11",
 		"vitest-fail-on-console": "0.10.1"
 	},
 	"browserslist": [
