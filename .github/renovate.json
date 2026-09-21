@@ -26,6 +26,12 @@
       "matchManagers": ["npm"],
       "matchPackageNames": ["@types/node"],
       "allowedVersions": "<23"
+    },
+    {
+      "description": "engines.node is published to npm as part of package.json: keep it a permissive major range instead of bumping it to the current patch, which makes every consumer on an older 22.x emit 'Unsupported engine' on install. The exact development version stays pinned in .nvmrc",
+      "matchManagers": ["npm"],
+      "matchDepTypes": ["engines"],
+      "rangeStrategy": "replace"
     }
   ]
 }
