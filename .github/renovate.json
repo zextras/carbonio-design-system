@@ -32,6 +32,12 @@
       "matchManagers": ["npm"],
       "matchDepTypes": ["engines"],
       "rangeStrategy": "replace"
+    },
+    {
+      "description": "@storybook/test-runner must track the Storybook major we run: 0.24 and later require Storybook 10, while this repo is on Storybook 9",
+      "matchManagers": ["npm"],
+      "matchPackageNames": ["@storybook/test-runner"],
+      "allowedVersions": "<0.24"
     }
   ]
 }
