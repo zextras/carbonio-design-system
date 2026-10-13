@@ -79,11 +79,14 @@ pipeline {
     stages {
         stage("Read settings") {
             steps {
+                script {
+                    gitMetadata()
+                }
                 container('base') {
                     script {
                         isReleaseBranch = "${BRANCH_NAME}" ==~ /release/
                         echo "isReleaseBranch: ${isReleaseBranch}"
-                        isDevelBranch = env.BRANCH_IS_PRIMARY == 'true'
+                        isDevelBranch = env.GIT_IS_DEFAULT_BRANCH == 'true' && !env.TAG_NAME
                         echo "isDevelBranch: ${isDevelBranch}"
                         isPullRequest = "${BRANCH_NAME}" ==~ /PR-\d+/
                         echo "isPullRequest: ${isPullRequest}"
