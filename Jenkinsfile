@@ -49,8 +49,7 @@ def getNodeVersion() {
     ).trim()
 }
 
-Boolean isReleaseBranch
-Boolean isDevelBranch
+Boolean isMainBranch
 Boolean isPullRequest
 Boolean isSonarQubeEnabled
 Boolean isDeployDocPlaygroundEnabled
@@ -79,15 +78,16 @@ pipeline {
     stages {
         stage("Read settings") {
             steps {
+                script {
+                    gitMetadata()
+                }
                 container('base') {
                     script {
-                        isReleaseBranch = "${BRANCH_NAME}" ==~ /release/
-                        echo "isReleaseBranch: ${isReleaseBranch}"
-                        isDevelBranch = env.BRANCH_IS_PRIMARY == 'true'
-                        echo "isDevelBranch: ${isDevelBranch}"
+                        isMainBranch = env.GIT_IS_DEFAULT_BRANCH == 'true' && !env.TAG_NAME
+                        echo "isMainBranch: ${isMainBranch}"
                         isPullRequest = "${BRANCH_NAME}" ==~ /PR-\d+/
                         echo "isPullRequest: ${isPullRequest}"
-                        isSonarQubeEnabled = params.RUN_SONARQUBE == true && (isPullRequest || isDevelBranch || isReleaseBranch)
+                        isSonarQubeEnabled = params.RUN_SONARQUBE == true && (isPullRequest || isMainBranch)
                         echo "isSonarQubeEnabled: ${isSonarQubeEnabled}"
                         isDeployDocPlaygroundEnabled = params.DEPLOY_DOC_PLAYGROUND == true
                         echo "isDeployDocPlaygroundEnabled: ${isDeployDocPlaygroundEnabled}"
@@ -144,9 +144,8 @@ pipeline {
                 allOf {
                     expression { isUpdateImages == false }
                     anyOf {
-                        expression { isSonarQubeEnabled == true }
                         expression { isPullRequest == true }
-                        expression { isDevelBranch == true }
+                        expression { isMainBranch == true }
                     }
                 }
             }
@@ -239,8 +238,7 @@ pipeline {
                             expression { isUpdateImages == false }
                             anyOf {
                                 expression { isPullRequest == true }
-                                expression { isReleaseBranch == true }
-                                expression { isDevelBranch == true }
+                                expression { isMainBranch == true }
                                 expression { isDeployDocPlaygroundEnabled == true }
                             }
                         }
@@ -260,7 +258,7 @@ pipeline {
         stage('Release') {
             when {
                 allOf {
-                    expression { isPullRequest == false }
+                    expression { isMainBranch == true }
                     expression { isUpdateImages == false }
                 }
             }
@@ -282,8 +280,7 @@ pipeline {
                 allOf {
                     expression { isUpdateImages == false }
                     anyOf {
-                        expression { isReleaseBranch == true }
-                        expression { isDevelBranch == true }
+                        expression { isMainBranch == true }
                         expression { isDeployDocPlaygroundEnabled == true }
                     }
                 }
@@ -292,7 +289,7 @@ pipeline {
                 script {
                     container('nodejs-' + nodeVersion) {
                         sh 'apt update && apt install -y openssh-client'
-                        def outDir = isDeployDocPlaygroundEnabled == true ? "playground" : BRANCH_NAME
+                        def outDir = isDeployDocPlaygroundEnabled == true ? "playground" : "release"
                         doc.rm file: "iris/zapp-ui/${outDir}/storybook-static"
                         doc.upload file: 'storybook-static', destination: "iris/zapp-ui/${outDir}"
                     }
