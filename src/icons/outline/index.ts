@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 Zextras <https://www.zextras.com>
+ * SPDX-FileCopyrightText: 2026 Zextras <https://www.zextras.com>
  *
  * SPDX-License-Identifier: AGPL-3.0-only
  */
@@ -75,6 +75,7 @@ export { default as BuildingOutline } from './BuildingOutline';
 export { default as BulbOutline } from './BulbOutline';
 export { default as CakeOutline } from './CakeOutline';
 export { default as CalendarBookShareWithMeOutline } from './CalendarBookShareWithMeOutline';
+export { default as CalendarEditingOutline } from './CalendarEditingOutline';
 export { default as CalendarModOutline } from './CalendarModOutline';
 export { default as CalendarOutline } from './CalendarOutline';
 export { default as CalendarWarningOutline } from './CalendarWarningOutline';
@@ -83,6 +84,7 @@ export { default as CarOutline } from './CarOutline';
 export { default as CastOutline } from './CastOutline';
 export { default as ChargingOutline } from './ChargingOutline';
 export { default as CheckPointOutline } from './CheckPointOutline';
+export { default as CheckmarkCircle2EditingOutline } from './CheckmarkCircle2EditingOutline';
 export { default as CheckmarkCircle2Outline } from './CheckmarkCircle2Outline';
 export { default as CheckmarkCircleOutline } from './CheckmarkCircleOutline';
 export { default as CheckmarkOutline } from './CheckmarkOutline';
@@ -146,6 +148,7 @@ export { default as DropletOutline } from './DropletOutline';
 export { default as Edit2Outline } from './Edit2Outline';
 export { default as EditAsNewOutline } from './EditAsNewOutline';
 export { default as EditOutline } from './EditOutline';
+export { default as EmailEditingOutline } from './EmailEditingOutline';
 export { default as EmailOutline } from './EmailOutline';
 export { default as EmailReadOutline } from './EmailReadOutline';
 export { default as EmailedContactOutline } from './EmailedContactOutline';
@@ -270,6 +273,7 @@ export { default as PantoneOutline } from './PantoneOutline';
 export { default as PaperPlaneOutline } from './PaperPlaneOutline';
 export { default as PartyOutline } from './PartyOutline';
 export { default as PauseCircleOutline } from './PauseCircleOutline';
+export { default as PeopleEditingOutline } from './PeopleEditingOutline';
 export { default as PeopleOutline } from './PeopleOutline';
 export { default as PercentOutline } from './PercentOutline';
 export { default as PersonAddOutline } from './PersonAddOutline';
