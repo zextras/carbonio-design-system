@@ -13,7 +13,7 @@
 		"COPYING",
 		"CHANGELOG.md"
 	],
-	"packageManager": "pnpm@10.32.1",
+	"packageManager": "pnpm@10.34.8",
 	"engines": {
 		"node": "^22",
 		"pnpm": ">=10"
