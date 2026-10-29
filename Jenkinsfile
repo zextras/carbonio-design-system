@@ -6,7 +6,7 @@
 @Library('zextras-library@0.7.3') _
 
 library(
-    identifier: 'jenkins-lib-common@v5.0.8',
+    identifier: 'jenkins-lib-common@v5.1.1',
     retriever: modernSCM([
         $class: 'GitSCMSource',
         remote: 'git@github.com:zextras/jenkins-lib-common.git',
