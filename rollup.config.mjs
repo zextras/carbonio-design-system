@@ -36,7 +36,17 @@ const plugins = [
 	})
 ];
 
-const external = ['react', 'react-dom', 'lodash', '@emotion/react', '@emotion/styled'];
+const external = [
+	'react',
+	'react-dom',
+	'lodash',
+	'@emotion/react',
+	'@emotion/styled',
+	// loaded with a dynamic import by EmojiPicker: keep them external so the bundler of the consumer
+	// (the shell) emits them as lazy chunks, instead of inlining them in this bundle
+	'emoji-mart',
+	'@emoji-mart/data'
+];
 
 export default [
 	{
