@@ -110,16 +110,14 @@ export const WithValidation = {
 export const ChipWithDifferentStyle = {
 	args: {
 		placeholder: 'Chips with different style',
-		onAdd: fn(
-			(valueToAdd): ChipItem => ({
-				label: typeof valueToAdd === 'string' ? valueToAdd : 'unknown label',
-				value: valueToAdd,
-				background: 'primary',
-				color: 'gray6',
-				shape: 'regular',
-				hasAvatar: false
-			})
-		)
+		onAdd: fn((valueToAdd): ChipItem => ({
+			label: typeof valueToAdd === 'string' ? valueToAdd : 'unknown label',
+			value: valueToAdd,
+			background: 'primary',
+			color: 'gray6',
+			shape: 'regular',
+			hasAvatar: false
+		}))
 	}
 } satisfies Story;
 

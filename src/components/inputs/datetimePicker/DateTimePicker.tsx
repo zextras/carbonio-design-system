@@ -120,8 +120,7 @@ const DateTimePicker = React.forwardRef<DatePicker, DateTimePickerProps>(functio
 	const updateDateTimeState = useCallback<
 		(
 			action:
-				| { type: 'SAVE' | 'SAVE_AND_UPDATE'; value: Date | null }
-				| { type: 'UPDATE'; value?: never }
+				{ type: 'SAVE' | 'SAVE_AND_UPDATE'; value: Date | null } | { type: 'UPDATE'; value?: never }
 		) => void
 	>(
 		({ type, value: newValue }) => {
