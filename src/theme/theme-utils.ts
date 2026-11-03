@@ -256,18 +256,22 @@ function pseudoClasses(
 		pseudoStatus: 'focus' | 'disabled' | 'active' | 'hover'
 	): ReturnType<typeof css> {
 		return css`
-			${!optionsWithDefault.outline &&
-			css`
-				outline: none;
-			`};
+			${
+				!optionsWithDefault.outline &&
+				css`
+					outline: none;
+				`
+			};
 			${cssProperty}: ${getColor(`${color}.${pseudoStatus}`, theme)};
 		`;
 	}
 	return css`
-		${optionsWithDefault.transition &&
-		css`
-			transition: ${cssProperty} 0.2s ease-out;
-		`};
+		${
+			optionsWithDefault.transition &&
+			css`
+				transition: ${cssProperty} 0.2s ease-out;
+			`
+		};
 		${cssProperty}: ${getColor(color, theme)};
 		&:focus {
 			${buildPseudoRule('focus')};

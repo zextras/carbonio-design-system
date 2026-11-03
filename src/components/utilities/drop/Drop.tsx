@@ -158,6 +158,25 @@ const Drop = React.forwardRef<HTMLDivElement, DropProps>(function DropFn(
 	);
 
 	useEffect(() => {
+		if (!dragging) {
+			return undefined;
+		}
+
+		const dragOperationEndEvents = ['drop', 'dragend', 'mousemove', 'mousedown'] as const;
+		const onDragOperationEnd = (): void => {
+			resetDropState();
+		};
+		dragOperationEndEvents.forEach((eventType) => {
+			window.addEventListener(eventType, onDragOperationEnd, true);
+		});
+		return (): void => {
+			dragOperationEndEvents.forEach((eventType) => {
+				window.removeEventListener(eventType, onDragOperationEnd, true);
+			});
+		};
+	}, [dragging, resetDropState]);
+
+	useEffect(() => {
 		resetDropStateRef.current = resetDropState;
 
 		return (): void => {
