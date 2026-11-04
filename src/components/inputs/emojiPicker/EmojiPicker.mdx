@@ -1,0 +1,29 @@
+import * as EmojiPickerStories from './EmojiPicker.stories';
+import { Meta, Primary, Title, Controls, Stories } from "@storybook/addon-docs/blocks";
+
+<Meta of={EmojiPickerStories} />
+
+<Title />
+
+<Primary />
+
+EmojiPicker renders the [emoji-mart](https://github.com/missive/emoji-mart) picker inside a div, and calls `onEmojiSelect` with the emoji the user selects.
+
+emoji-mart and its data are loaded the first time a picker is mounted, so the picker appears asynchronously, and they are not part of the bundle until then.
+
+The picker is defined as the custom element `em-emoji-picker`, which can be registered only once per page.
+Modules must use this component instead of bundling their own copy of emoji-mart.
+
+The options are the ones of the emoji-mart Picker, except custom emojis, image sets and the options removing emojis,
+since emoji-mart would remove them from every picker of the page.
+Changing an option rebuilds the picker, while a new `onEmojiSelect` callback does not.
+Options passed as arrays or objects are compared by value, function options by identity.
+
+Country flags are always hidden: many systems, like Windows, cannot display them, also in the mails and messages they are sent in.
+
+emoji-mart keeps its translations at page level, so `locale` and `i18n` are the ones of the last picker created,
+for every picker of the page, including those of other modules.
+
+<Controls />
+
+<Stories />

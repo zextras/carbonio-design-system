@@ -7032,6 +7032,491 @@
       ]
     }
   ],
+  "src/components/inputs/emojiPicker/EmojiPicker.tsx": [
+    {
+      "description": "The emoji-mart picker, rendered inside a div.\nemoji-mart is loaded the first time a picker is mounted, so the picker appears asynchronously.\nIt is shared by all the modules through the design system, since its custom element can be registered only once per page.",
+      "methods": [],
+      "displayName": "EmojiPicker",
+      "props": {
+        "locale": {
+          "required": false,
+          "tsType": {
+            "name": "string"
+          },
+          "description": "Locales other than `en` are downloaded by emoji-mart from its CDN, unless `i18n` is given"
+        },
+        "i18n": {
+          "required": false,
+          "tsType": {
+            "name": "Record",
+            "elements": [
+              {
+                "name": "string"
+              },
+              {
+                "name": "unknown"
+              }
+            ],
+            "raw": "Record<string, unknown>"
+          },
+          "description": "Translations, e.g. the content of `@emoji-mart/data/i18n/<locale>.json`"
+        },
+        "theme": {
+          "required": false,
+          "tsType": {
+            "name": "union",
+            "raw": "'auto' | 'light' | 'dark'",
+            "elements": [
+              {
+                "name": "literal",
+                "value": "'auto'"
+              },
+              {
+                "name": "literal",
+                "value": "'light'"
+              },
+              {
+                "name": "literal",
+                "value": "'dark'"
+              }
+            ]
+          },
+          "description": ""
+        },
+        "set": {
+          "required": false,
+          "tsType": {
+            "name": "union",
+            "raw": "'native' | 'apple' | 'facebook' | 'google' | 'twitter'",
+            "elements": [
+              {
+                "name": "literal",
+                "value": "'native'"
+              },
+              {
+                "name": "literal",
+                "value": "'apple'"
+              },
+              {
+                "name": "literal",
+                "value": "'facebook'"
+              },
+              {
+                "name": "literal",
+                "value": "'google'"
+              },
+              {
+                "name": "literal",
+                "value": "'twitter'"
+              }
+            ]
+          },
+          "description": ""
+        },
+        "icons": {
+          "required": false,
+          "tsType": {
+            "name": "union",
+            "raw": "'auto' | 'outline' | 'solid'",
+            "elements": [
+              {
+                "name": "literal",
+                "value": "'auto'"
+              },
+              {
+                "name": "literal",
+                "value": "'outline'"
+              },
+              {
+                "name": "literal",
+                "value": "'solid'"
+              }
+            ]
+          },
+          "description": ""
+        },
+        "previewPosition": {
+          "required": false,
+          "tsType": {
+            "name": "union",
+            "raw": "'top' | 'bottom' | 'none'",
+            "elements": [
+              {
+                "name": "literal",
+                "value": "'top'"
+              },
+              {
+                "name": "literal",
+                "value": "'bottom'"
+              },
+              {
+                "name": "literal",
+                "value": "'none'"
+              }
+            ]
+          },
+          "description": ""
+        },
+        "previewEmoji": {
+          "required": false,
+          "tsType": {
+            "name": "string"
+          },
+          "description": ""
+        },
+        "searchPosition": {
+          "required": false,
+          "tsType": {
+            "name": "union",
+            "raw": "'sticky' | 'static' | 'none'",
+            "elements": [
+              {
+                "name": "literal",
+                "value": "'sticky'"
+              },
+              {
+                "name": "literal",
+                "value": "'static'"
+              },
+              {
+                "name": "literal",
+                "value": "'none'"
+              }
+            ]
+          },
+          "description": ""
+        },
+        "navPosition": {
+          "required": false,
+          "tsType": {
+            "name": "union",
+            "raw": "'top' | 'bottom' | 'none'",
+            "elements": [
+              {
+                "name": "literal",
+                "value": "'top'"
+              },
+              {
+                "name": "literal",
+                "value": "'bottom'"
+              },
+              {
+                "name": "literal",
+                "value": "'none'"
+              }
+            ]
+          },
+          "description": ""
+        },
+        "skinTonePosition": {
+          "required": false,
+          "tsType": {
+            "name": "union",
+            "raw": "'preview' | 'search' | 'none'",
+            "elements": [
+              {
+                "name": "literal",
+                "value": "'preview'"
+              },
+              {
+                "name": "literal",
+                "value": "'search'"
+              },
+              {
+                "name": "literal",
+                "value": "'none'"
+              }
+            ]
+          },
+          "description": ""
+        },
+        "skin": {
+          "required": false,
+          "tsType": {
+            "name": "union",
+            "raw": "1 | 2 | 3 | 4 | 5 | 6",
+            "elements": [
+              {
+                "name": "literal",
+                "value": "1"
+              },
+              {
+                "name": "literal",
+                "value": "2"
+              },
+              {
+                "name": "literal",
+                "value": "3"
+              },
+              {
+                "name": "literal",
+                "value": "4"
+              },
+              {
+                "name": "literal",
+                "value": "5"
+              },
+              {
+                "name": "literal",
+                "value": "6"
+              }
+            ]
+          },
+          "description": ""
+        },
+        "perLine": {
+          "required": false,
+          "tsType": {
+            "name": "number"
+          },
+          "description": ""
+        },
+        "dynamicWidth": {
+          "required": false,
+          "tsType": {
+            "name": "boolean"
+          },
+          "description": ""
+        },
+        "maxFrequentRows": {
+          "required": false,
+          "tsType": {
+            "name": "number"
+          },
+          "description": ""
+        },
+        "emojiSize": {
+          "required": false,
+          "tsType": {
+            "name": "number"
+          },
+          "description": ""
+        },
+        "emojiButtonSize": {
+          "required": false,
+          "tsType": {
+            "name": "number"
+          },
+          "description": ""
+        },
+        "emojiButtonRadius": {
+          "required": false,
+          "tsType": {
+            "name": "string"
+          },
+          "description": ""
+        },
+        "emojiButtonColors": {
+          "required": false,
+          "tsType": {
+            "name": "Array",
+            "elements": [
+              {
+                "name": "string"
+              }
+            ],
+            "raw": "string[]"
+          },
+          "description": ""
+        },
+        "emojiVersion": {
+          "required": false,
+          "tsType": {
+            "name": "number"
+          },
+          "description": ""
+        },
+        "categories": {
+          "required": false,
+          "tsType": {
+            "name": "Array",
+            "elements": [
+              {
+                "name": "string"
+              }
+            ],
+            "raw": "string[]"
+          },
+          "description": "Category ids, in the order they are shown. All the categories when not given"
+        },
+        "noResultsEmoji": {
+          "required": false,
+          "tsType": {
+            "name": "string"
+          },
+          "description": ""
+        },
+        "autoFocus": {
+          "required": false,
+          "tsType": {
+            "name": "boolean"
+          },
+          "description": ""
+        },
+        "onClickOutside": {
+          "required": false,
+          "tsType": {
+            "name": "signature",
+            "type": "function",
+            "raw": "(event: MouseEvent) => void",
+            "signature": {
+              "arguments": [
+                {
+                  "type": {
+                    "name": "MouseEvent"
+                  },
+                  "name": "event"
+                }
+              ],
+              "return": {
+                "name": "void"
+              }
+            }
+          },
+          "description": ""
+        },
+        "onEmojiSelect": {
+          "required": true,
+          "tsType": {
+            "name": "signature",
+            "type": "function",
+            "raw": "(emoji: Emoji) => void",
+            "signature": {
+              "arguments": [
+                {
+                  "type": {
+                    "name": "signature",
+                    "type": "object",
+                    "raw": "{\n\tid: string;\n\tname: string;\n\tnative: string;\n\tunified: string;\n\tkeywords: string[];\n\tshortcodes: string;\n\t/** Only for emojis with skin tones: the selected tone, from 1 to 6 */\n\tskin?: number;\n\taliases?: string[];\n\temoticons?: string[];\n}",
+                    "signature": {
+                      "properties": [
+                        {
+                          "key": "id",
+                          "value": {
+                            "name": "string",
+                            "required": true
+                          }
+                        },
+                        {
+                          "key": "name",
+                          "value": {
+                            "name": "string",
+                            "required": true
+                          }
+                        },
+                        {
+                          "key": "native",
+                          "value": {
+                            "name": "string",
+                            "required": true
+                          }
+                        },
+                        {
+                          "key": "unified",
+                          "value": {
+                            "name": "string",
+                            "required": true
+                          }
+                        },
+                        {
+                          "key": "keywords",
+                          "value": {
+                            "name": "Array",
+                            "elements": [
+                              {
+                                "name": "string"
+                              }
+                            ],
+                            "raw": "string[]",
+                            "required": true
+                          }
+                        },
+                        {
+                          "key": "shortcodes",
+                          "value": {
+                            "name": "string",
+                            "required": true
+                          }
+                        },
+                        {
+                          "key": "skin",
+                          "value": {
+                            "name": "number",
+                            "required": false
+                          },
+                          "description": "Only for emojis with skin tones: the selected tone, from 1 to 6"
+                        },
+                        {
+                          "key": "aliases",
+                          "value": {
+                            "name": "Array",
+                            "elements": [
+                              {
+                                "name": "string"
+                              }
+                            ],
+                            "raw": "string[]",
+                            "required": false
+                          }
+                        },
+                        {
+                          "key": "emoticons",
+                          "value": {
+                            "name": "Array",
+                            "elements": [
+                              {
+                                "name": "string"
+                              }
+                            ],
+                            "raw": "string[]",
+                            "required": false
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "name": "emoji"
+                }
+              ],
+              "return": {
+                "name": "void"
+              }
+            }
+          },
+          "description": "Callback called with the emoji selected in the picker"
+        },
+        "className": {
+          "required": false,
+          "tsType": {
+            "name": "string"
+          },
+          "description": "Class applied to the element hosting the picker"
+        },
+        "style": {
+          "required": false,
+          "tsType": {
+            "name": "ReactCSSProperties",
+            "raw": "React.CSSProperties"
+          },
+          "description": "Style applied to the element hosting the picker"
+        },
+        "id": {
+          "required": false,
+          "tsType": {
+            "name": "string"
+          },
+          "description": "Id of the element hosting the picker"
+        },
+        "data-testid": {
+          "required": false,
+          "tsType": {
+            "name": "string"
+          },
+          "description": "Test id of the element hosting the picker"
+        }
+      }
+    }
+  ],
   "src/components/inputs/fileLoader/FileLoader.tsx": [
     {
       "description": "",

@@ -144,8 +144,10 @@
 		"react-dom": "^18.3.1"
 	},
 	"dependencies": {
+		"@emoji-mart/data": "1.2.1",
 		"@floating-ui/dom": "1.8.0",
 		"core-js": "3.50.0",
+		"emoji-mart": "5.6.0",
 		"polished": "4.3.1",
 		"react-datepicker": "7.5.0"
 	},
