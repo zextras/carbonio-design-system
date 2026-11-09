@@ -7,7 +7,7 @@
 import type { HTMLAttributes } from 'react';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
-import { css } from '@emotion/react';
+import { css, useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import { Container } from '../../layout/container/Container';
@@ -81,6 +81,7 @@ const Drop = React.forwardRef<HTMLDivElement, DropProps>(function DropFn(
 	const [overlayDeny, setOverlayDeny] = useState<React.ReactNode>(null);
 	const [dragging, setDragging] = useState<boolean>(false);
 	const resetDropStateRef = useRef<() => void>(() => undefined);
+	const { windowObj } = useTheme();
 
 	const resetDropState = useCallback((): void => {
 		setStyleObject({});
@@ -156,6 +157,29 @@ const Drop = React.forwardRef<HTMLDivElement, DropProps>(function DropFn(
 		},
 		[resetDropState]
 	);
+
+	useEffect(() => {
+		if (!dragging) {
+			return undefined;
+		}
+
+		const dragOperationEndEvents = [
+			'dragend',
+			'mousemove',
+			'mousedown'
+		] as const satisfies ReadonlyArray<keyof WindowEventMap>;
+		dragOperationEndEvents.forEach((eventType) => {
+			windowObj.addEventListener(eventType, resetDropState, true);
+		});
+		// bubble phase: React must dispatch a drop on this dropzone before the overlay unmounts
+		windowObj.addEventListener('drop', resetDropState);
+		return (): void => {
+			dragOperationEndEvents.forEach((eventType) => {
+				windowObj.removeEventListener(eventType, resetDropState, true);
+			});
+			windowObj.removeEventListener('drop', resetDropState);
+		};
+	}, [dragging, resetDropState, windowObj]);
 
 	useEffect(() => {
 		resetDropStateRef.current = resetDropState;

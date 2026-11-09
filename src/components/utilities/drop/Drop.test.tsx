@@ -234,9 +234,7 @@ describe('Drop', () => {
 		expect(screen.queryByText('accept')).not.toBeInTheDocument();
 	});
 
-	// FIXME(characterization test): it might happen that the dragLeave is never fired, but a dragEnter happens somewhere else.
-	// 	It probably makes sense that the dropzone overlay becomes hidden in this situation
-	test('should not hide overlay when drop happens outside the dropzone and the dragLeave event is not fired', async () => {
+	test('should hide overlay when drop happens outside the dropzone and the dragLeave event is not fired', async () => {
 		window.draggedItem = {
 			data: {
 				id: 1
@@ -258,7 +256,196 @@ describe('Drop', () => {
 		dragEnter(dropzone, null);
 		await screen.findByText('accept');
 		drop(window.document.body);
-		expect(screen.getByText('accept')).toBeVisible();
+		expect(screen.queryByText('accept')).not.toBeInTheDocument();
+	});
+
+	test('should not call onDrop when the drop happens outside the dropzone', async () => {
+		const onDropFn = vi.fn();
+		window.draggedItem = {
+			data: {
+				id: 1
+			},
+			type: 'accept',
+			event: {} as unknown as React.DragEvent<HTMLDivElement>
+		};
+		setup(
+			<Drop
+				acceptType={['accept']}
+				onDrop={onDropFn}
+				overlayAcceptComponent={OverlayAcceptDummy}
+				overlayDenyComponent={OverlayDenyDummy}
+			>
+				<div>Dropzone</div>
+			</Drop>
+		);
+		dragEnter(screen.getByTestId('drop'), null);
+		await screen.findByText('accept');
+		drop(window.document.body);
+		expect(onDropFn).not.toHaveBeenCalled();
+	});
+
+	test('should not block events of nested elements when the drag ends and neither dragLeave nor drop reach the dropzone', async () => {
+		const onClickFn = vi.fn();
+		window.draggedItem = {
+			data: {
+				id: 1
+			},
+			type: 'accept',
+			event: {} as unknown as React.DragEvent<HTMLDivElement>
+		};
+		const { user } = setup(
+			<>
+				<div draggable>Drag source</div>
+				<Drop
+					acceptType={['accept']}
+					overlayAcceptComponent={OverlayAcceptDummy}
+					overlayDenyComponent={OverlayDenyDummy}
+				>
+					<button onClick={onClickFn}>Nested button</button>
+				</Drop>
+			</>
+		);
+		const dropzone = screen.getByTestId('drop');
+		dragEnter(dropzone, null);
+		await screen.findByText('accept');
+		act(() => {
+			screen.getByText('Drag source').dispatchEvent(createBubbledEvent('dragend'));
+		});
+		expect(screen.queryByText('accept')).not.toBeInTheDocument();
+		await user.click(screen.getByRole('button', { name: /nested button/i }));
+		expect(onClickFn).toHaveBeenCalled();
+	});
+
+	test.each(['mousemove', 'mousedown'] as const)(
+		'should not block events of nested elements when a %s happens after a drag that did not notify the dropzone of its end',
+		async (eventType) => {
+			const onClickFn = vi.fn();
+			window.draggedItem = {
+				data: {
+					id: 1
+				},
+				type: 'accept',
+				event: {} as unknown as React.DragEvent<HTMLDivElement>
+			};
+			const { user } = setup(
+				<Drop
+					acceptType={['accept']}
+					overlayAcceptComponent={OverlayAcceptDummy}
+					overlayDenyComponent={OverlayDenyDummy}
+				>
+					<button onClick={onClickFn}>Nested button</button>
+				</Drop>
+			);
+			const dropzone = screen.getByTestId('drop');
+			dragEnter(dropzone, null);
+			dragOver(dropzone);
+			await screen.findByText('accept');
+			act(() => {
+				window.document.body.dispatchEvent(createBubbledEvent(eventType));
+			});
+			expect(screen.queryByText('accept')).not.toBeInTheDocument();
+			await user.click(screen.getByRole('button', { name: /nested button/i }));
+			expect(onClickFn).toHaveBeenCalled();
+		}
+	);
+
+	test.each(['dragend', 'mousemove', 'mousedown'] as const)(
+		'should hide overlay when the propagation of %s is stopped before it reaches the window',
+		async (eventType) => {
+			window.draggedItem = {
+				data: {
+					id: 1
+				},
+				type: 'accept',
+				event: {} as unknown as React.DragEvent<HTMLDivElement>
+			};
+			const stopPropagation = (event: React.SyntheticEvent): void => event.stopPropagation();
+			setup(
+				<>
+					<button
+						draggable
+						onDragEnd={stopPropagation}
+						onMouseMove={stopPropagation}
+						onMouseDown={stopPropagation}
+					>
+						Drag source
+					</button>
+					<Drop
+						acceptType={['accept']}
+						overlayAcceptComponent={OverlayAcceptDummy}
+						overlayDenyComponent={OverlayDenyDummy}
+					>
+						<div>Dropzone</div>
+					</Drop>
+				</>
+			);
+			dragEnter(screen.getByTestId('drop'), null);
+			await screen.findByText('accept');
+			act(() => {
+				screen
+					.getByRole('button', { name: /drag source/i })
+					.dispatchEvent(createBubbledEvent(eventType));
+			});
+			expect(screen.queryByText('accept')).not.toBeInTheDocument();
+		}
+	);
+
+	test('should call onDrop with the dragged item when the drop happens inside the dropzone', async () => {
+		const onDropFn = vi.fn();
+		window.draggedItem = {
+			data: {
+				id: 1
+			},
+			type: 'accept',
+			event: {} as unknown as React.DragEvent<HTMLDivElement>
+		};
+		setup(
+			<Drop
+				acceptType={['accept']}
+				onDrop={onDropFn}
+				overlayAcceptComponent={OverlayAcceptDummy}
+				overlayDenyComponent={OverlayDenyDummy}
+			>
+				<div>Dropzone</div>
+			</Drop>
+		);
+		const dropzone = screen.getByTestId('drop');
+		dragEnter(dropzone, null);
+		await screen.findByText('accept');
+		drop(dropzone);
+		expect(onDropFn).toHaveBeenCalledWith(
+			expect.objectContaining({ type: 'accept', data: { id: 1 } })
+		);
+		expect(onDropFn).toHaveBeenCalledTimes(1);
+	});
+
+	test('should restore the overlay on the next dragover if a mouse event is received during the drag', async () => {
+		window.draggedItem = {
+			data: {
+				id: 1
+			},
+			type: 'accept',
+			event: {} as unknown as React.DragEvent<HTMLDivElement>
+		};
+		setup(
+			<Drop
+				acceptType={['accept']}
+				overlayAcceptComponent={OverlayAcceptDummy}
+				overlayDenyComponent={OverlayDenyDummy}
+			>
+				<div>Dropzone</div>
+			</Drop>
+		);
+		const dropzone = screen.getByTestId('drop');
+		dragEnter(dropzone, null);
+		await screen.findByText('accept');
+		act(() => {
+			window.document.body.dispatchEvent(createBubbledEvent('mousemove'));
+		});
+		expect(screen.queryByText('accept')).not.toBeInTheDocument();
+		// a stray mouse event is harmless, the next dragover restores the dropzone state
+		dragOver(dropzone);
+		expect(await screen.findByText('accept')).toBeVisible();
 	});
 
 	test('should not block events of nested elements when drop happens outside the dropzone', async () => {
