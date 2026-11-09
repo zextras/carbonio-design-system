@@ -113,6 +113,7 @@ export { default as CompassOutline } from './CompassOutline';
 export { default as ConsoleOutline } from './ConsoleOutline';
 export { default as ContactGalOutline } from './ContactGalOutline';
 export { default as ContactsFolderOutline } from './ContactsFolderOutline';
+export { default as ContactsModEditingOutline } from './ContactsModEditingOutline';
 export { default as ContactsModOutline } from './ContactsModOutline';
 export { default as ConversationViewOutline } from './ConversationViewOutline';
 export { default as CopyOutline } from './CopyOutline';
@@ -139,6 +140,7 @@ export { default as DiagonalArrowLeftUpOutline } from './DiagonalArrowLeftUpOutl
 export { default as DiagonalArrowRightDownOutline } from './DiagonalArrowRightDownOutline';
 export { default as DiagonalArrowRightUpOutline } from './DiagonalArrowRightUpOutline';
 export { default as DismissOutline } from './DismissOutline';
+export { default as DistributionListEditingOutline } from './DistributionListEditingOutline';
 export { default as DistributionListOutline } from './DistributionListOutline';
 export { default as DoneAllOutline } from './DoneAllOutline';
 export { default as DownloadOutline } from './DownloadOutline';
