@@ -110,14 +110,18 @@ const ContainerEl = styled.div<With$Prefix<ContainerElProps>>`
 	${({ $margin }): ReturnType<typeof css> | undefined =>
 		$margin &&
 		css`
-			${$margin.left &&
-			css`
-				margin-left: ${$margin.left};
-			`};
-			${$margin.right &&
-			css`
-				margin-right: ${$margin.right};
-			`};
+			${
+				$margin.left &&
+				css`
+					margin-left: ${$margin.left};
+				`
+			};
+			${
+				$margin.right &&
+				css`
+					margin-right: ${$margin.right};
+				`
+			};
 		`};
 	border-radius: ${({ $borderRadius, theme }): string => {
 		switch ($borderRadius) {
