@@ -270,9 +270,7 @@ describe('Drop', () => {
 		};
 		const { user } = setup(
 			<>
-				<div draggable data-testid={'drag-source'}>
-					Drag source
-				</div>
+				<div draggable>Drag source</div>
 				<Drop
 					acceptType={['accept']}
 					overlayAcceptComponent={OverlayAcceptDummy}
@@ -286,15 +284,48 @@ describe('Drop', () => {
 		dragEnter(dropzone, null);
 		await screen.findByText('accept');
 		act(() => {
-			screen.getByTestId('drag-source').dispatchEvent(createBubbledEvent('dragend'));
+			screen.getByText('Drag source').dispatchEvent(createBubbledEvent('dragend'));
 		});
 		expect(screen.queryByText('accept')).not.toBeInTheDocument();
 		await user.click(screen.getByRole('button', { name: /nested button/i }));
 		expect(onClickFn).toHaveBeenCalled();
 	});
 
-	test('should not block events of nested elements when the mouse moves after a drag that did not notify the dropzone of its end', async () => {
-		const onClickFn = vi.fn();
+	test.each(['mousemove', 'mousedown'] as const)(
+		'should not block events of nested elements when a %s happens after a drag that did not notify the dropzone of its end',
+		async (eventType) => {
+			const onClickFn = vi.fn();
+			window.draggedItem = {
+				data: {
+					id: 1
+				},
+				type: 'accept',
+				event: {} as unknown as React.DragEvent<HTMLDivElement>
+			};
+			const { user } = setup(
+				<Drop
+					acceptType={['accept']}
+					overlayAcceptComponent={OverlayAcceptDummy}
+					overlayDenyComponent={OverlayDenyDummy}
+				>
+					<button onClick={onClickFn}>Nested button</button>
+				</Drop>
+			);
+			const dropzone = screen.getByTestId('drop');
+			dragEnter(dropzone, null);
+			dragOver(dropzone);
+			await screen.findByText('accept');
+			act(() => {
+				window.document.body.dispatchEvent(createBubbledEvent(eventType));
+			});
+			expect(screen.queryByText('accept')).not.toBeInTheDocument();
+			await user.click(screen.getByRole('button', { name: /nested button/i }));
+			expect(onClickFn).toHaveBeenCalled();
+		}
+	);
+
+	test('should call onDrop with the dragged item when the drop happens inside the dropzone', async () => {
+		const onDropFn = vi.fn();
 		window.draggedItem = {
 			data: {
 				id: 1
@@ -302,25 +333,23 @@ describe('Drop', () => {
 			type: 'accept',
 			event: {} as unknown as React.DragEvent<HTMLDivElement>
 		};
-		const { user } = setup(
+		setup(
 			<Drop
 				acceptType={['accept']}
+				onDrop={onDropFn}
 				overlayAcceptComponent={OverlayAcceptDummy}
 				overlayDenyComponent={OverlayDenyDummy}
 			>
-				<button onClick={onClickFn}>Nested button</button>
+				<div>Dropzone</div>
 			</Drop>
 		);
 		const dropzone = screen.getByTestId('drop');
 		dragEnter(dropzone, null);
-		dragOver(dropzone);
 		await screen.findByText('accept');
-		act(() => {
-			window.document.body.dispatchEvent(createBubbledEvent('mousemove'));
-		});
-		expect(screen.queryByText('accept')).not.toBeInTheDocument();
-		await user.click(screen.getByRole('button', { name: /nested button/i }));
-		expect(onClickFn).toHaveBeenCalled();
+		drop(dropzone);
+		expect(onDropFn).toHaveBeenCalledWith(
+			expect.objectContaining({ type: 'accept', data: { id: 1 } })
+		);
 	});
 
 	test('should restore the overlay on the next dragover if a mouse event is received during the drag', async () => {
