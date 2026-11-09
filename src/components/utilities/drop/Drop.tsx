@@ -163,7 +163,11 @@ const Drop = React.forwardRef<HTMLDivElement, DropProps>(function DropFn(
 			return undefined;
 		}
 
-		const dragOperationEndEvents = ['dragend', 'mousemove', 'mousedown'] as const;
+		const dragOperationEndEvents = [
+			'dragend',
+			'mousemove',
+			'mousedown'
+		] as const satisfies ReadonlyArray<keyof WindowEventMap>;
 		dragOperationEndEvents.forEach((eventType) => {
 			windowObj.addEventListener(eventType, resetDropState, true);
 		});
