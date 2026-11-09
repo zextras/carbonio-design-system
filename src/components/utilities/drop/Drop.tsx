@@ -162,17 +162,17 @@ const Drop = React.forwardRef<HTMLDivElement, DropProps>(function DropFn(
 			return undefined;
 		}
 
-		const dragOperationEndEvents = ['drop', 'dragend', 'mousemove', 'mousedown'] as const;
-		const onDragOperationEnd = (): void => {
-			resetDropState();
-		};
+		const dragOperationEndEvents = ['dragend', 'mousemove', 'mousedown'] as const;
 		dragOperationEndEvents.forEach((eventType) => {
-			window.addEventListener(eventType, onDragOperationEnd, true);
+			window.addEventListener(eventType, resetDropState, true);
 		});
+		// bubble phase: React must dispatch a drop on this dropzone before the overlay unmounts
+		window.addEventListener('drop', resetDropState);
 		return (): void => {
 			dragOperationEndEvents.forEach((eventType) => {
-				window.removeEventListener(eventType, onDragOperationEnd, true);
+				window.removeEventListener(eventType, resetDropState, true);
 			});
+			window.removeEventListener('drop', resetDropState);
 		};
 	}, [dragging, resetDropState]);
 
