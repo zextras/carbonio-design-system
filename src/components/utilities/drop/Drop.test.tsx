@@ -259,6 +259,31 @@ describe('Drop', () => {
 		expect(screen.queryByText('accept')).not.toBeInTheDocument();
 	});
 
+	test('should not call onDrop when the drop happens outside the dropzone', async () => {
+		const onDropFn = vi.fn();
+		window.draggedItem = {
+			data: {
+				id: 1
+			},
+			type: 'accept',
+			event: {} as unknown as React.DragEvent<HTMLDivElement>
+		};
+		setup(
+			<Drop
+				acceptType={['accept']}
+				onDrop={onDropFn}
+				overlayAcceptComponent={OverlayAcceptDummy}
+				overlayDenyComponent={OverlayDenyDummy}
+			>
+				<div>Dropzone</div>
+			</Drop>
+		);
+		dragEnter(screen.getByTestId('drop'), null);
+		await screen.findByText('accept');
+		drop(window.document.body);
+		expect(onDropFn).not.toHaveBeenCalled();
+	});
+
 	test('should not block events of nested elements when the drag ends and neither dragLeave nor drop reach the dropzone', async () => {
 		const onClickFn = vi.fn();
 		window.draggedItem = {
@@ -324,6 +349,47 @@ describe('Drop', () => {
 		}
 	);
 
+	test.each(['dragend', 'mousemove', 'mousedown'] as const)(
+		'should hide overlay when the propagation of %s is stopped before it reaches the window',
+		async (eventType) => {
+			window.draggedItem = {
+				data: {
+					id: 1
+				},
+				type: 'accept',
+				event: {} as unknown as React.DragEvent<HTMLDivElement>
+			};
+			const stopPropagation = (event: React.SyntheticEvent): void => event.stopPropagation();
+			setup(
+				<>
+					<button
+						draggable
+						onDragEnd={stopPropagation}
+						onMouseMove={stopPropagation}
+						onMouseDown={stopPropagation}
+					>
+						Drag source
+					</button>
+					<Drop
+						acceptType={['accept']}
+						overlayAcceptComponent={OverlayAcceptDummy}
+						overlayDenyComponent={OverlayDenyDummy}
+					>
+						<div>Dropzone</div>
+					</Drop>
+				</>
+			);
+			dragEnter(screen.getByTestId('drop'), null);
+			await screen.findByText('accept');
+			act(() => {
+				screen
+					.getByRole('button', { name: /drag source/i })
+					.dispatchEvent(createBubbledEvent(eventType));
+			});
+			expect(screen.queryByText('accept')).not.toBeInTheDocument();
+		}
+	);
+
 	test('should call onDrop with the dragged item when the drop happens inside the dropzone', async () => {
 		const onDropFn = vi.fn();
 		window.draggedItem = {
@@ -350,6 +416,7 @@ describe('Drop', () => {
 		expect(onDropFn).toHaveBeenCalledWith(
 			expect.objectContaining({ type: 'accept', data: { id: 1 } })
 		);
+		expect(onDropFn).toHaveBeenCalledTimes(1);
 	});
 
 	test('should restore the overlay on the next dragover if a mouse event is received during the drag', async () => {
