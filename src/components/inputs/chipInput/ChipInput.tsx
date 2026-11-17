@@ -303,6 +303,13 @@ interface ChipInputProps<TValue = unknown> extends Omit<
 	onAdd?: (value: unknown) => ChipItem<TValue>;
 	/** Set the current input text as a Chip when it loses focus */
 	confirmChipOnBlur?: boolean;
+	/**
+	 * With confirmChipOnBlur, set the current input text as a Chip when it loses focus also while options are shown,
+	 * unless the focus moves to one of them. Use it when the options are suggestions and any text is a valid value
+	 * (e.g. recipients); without it, the text stays in the input while options are shown.
+	 * It has no effect when confirmChipOnBlur is false.
+	 */
+	confirmChipOnBlurWithOptions?: boolean;
 	/** ChipInput backgroundColor */
 	background?: keyof Theme['palette'];
 	/** Chip generation triggers */
@@ -386,6 +393,7 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 		onAdd = DefaultOnAdd<TValue>,
 		background = INPUT_BACKGROUND_COLOR,
 		confirmChipOnBlur = true,
+		confirmChipOnBlurWithOptions = false,
 		separators = [
 			{ key: 'Enter', ctrlKey: false },
 			{ key: ',', ctrlKey: false },
@@ -442,6 +450,8 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 	// option highlighted with the arrow keys, while the focus stays in the input
 	const [activeOptionId, setActiveOptionId] = useState<string | undefined>(undefined);
 	const dropdownListRef = useRef<HTMLDivElement | null>(null);
+	// a press inside the list (an option, its scrollbar) moves the focus out of the input without leaving the field
+	const pressInListRef = useRef(false);
 	// the arrows reopen only the options closed with escape, not the ones of a search already used
 	const closedByEscapeRef = useRef(false);
 
@@ -511,16 +521,25 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 		}
 	}, [inputElRef, saveValue]);
 
+	const saveTypedText = useCallback(() => {
+		if (inputElRef.current?.value) {
+			// the options were suggestions for the text that just became a chip: hide them until new ones arrive
+			// (a list opened with a click stays open)
+			setForceShowDropdown(false);
+		}
+		saveCurrentValue();
+		setActiveOptionId(undefined);
+	}, [inputElRef, saveCurrentValue]);
+
 	const onSeparator = useCallback(
 		(event: KeyboardEvent) => {
 			// enter or tab on a highlighted option adds the option, not the typed text (optionsKeyEvents)
 			if (activeOptionId !== undefined && (event.key === 'Enter' || event.key === 'Tab')) {
 				return;
 			}
-			saveCurrentValue();
-			setActiveOptionId(undefined);
+			saveTypedText();
 		},
-		[activeOptionId, saveCurrentValue]
+		[activeOptionId, saveTypedText]
 	);
 
 	const saveCurrentEvent = useMemo(
@@ -578,12 +597,27 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 		[inputElRef, items, onChange, uncontrolledMode]
 	);
 
-	const onInputBlur = useCallback(() => {
-		setIsActive(false);
-		if (confirmChipOnBlur && options.length === 0) {
-			saveCurrentValue();
-		}
-	}, [confirmChipOnBlur, options, saveCurrentValue]);
+	const onInputBlur = useCallback(
+		(event: React.FocusEvent<HTMLInputElement>) => {
+			setIsActive(false);
+			if (!confirmChipOnBlur) {
+				return;
+			}
+			if (options.length === 0) {
+				saveCurrentValue();
+			} else if (confirmChipOnBlurWithOptions) {
+				const focusGoesToList =
+					event.relatedTarget instanceof Node &&
+					!!dropdownListRef.current?.contains(event.relatedTarget);
+				if (!focusGoesToList && !pressInListRef.current) {
+					// the focus does not go to the options: the typed text is the value
+					saveTypedText();
+				}
+			}
+			pressInListRef.current = false;
+		},
+		[confirmChipOnBlur, confirmChipOnBlurWithOptions, options, saveCurrentValue, saveTypedText]
+	);
 
 	const debouncedOnInputType = useMemo(
 		() =>
@@ -757,6 +791,27 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 	);
 
 	const isDropdownOpen = forceShowDropdown || isDropdownOpenedByTrigger;
+
+	useEffect(() => {
+		if (!isDropdownOpen || !confirmChipOnBlurWithOptions) {
+			return undefined;
+		}
+		const onPress = (event: MouseEvent): void => {
+			pressInListRef.current =
+				event.target instanceof Node && !!dropdownListRef.current?.contains(event.target);
+		};
+		// a press that moves no focus (e.g. on a scrollbar) must not leave the flag set for a later blur
+		const onRelease = (): void => {
+			pressInListRef.current = false;
+		};
+		document.addEventListener('mousedown', onPress, true);
+		document.addEventListener('mouseup', onRelease, true);
+		return (): void => {
+			document.removeEventListener('mousedown', onPress, true);
+			document.removeEventListener('mouseup', onRelease, true);
+			pressInListRef.current = false;
+		};
+	}, [confirmChipOnBlurWithOptions, isDropdownOpen]);
 
 	const moveActiveOption = useCallback(
 		(step: 1 | -1) => {

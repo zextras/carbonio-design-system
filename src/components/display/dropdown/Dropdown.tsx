@@ -517,7 +517,21 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 	const { windowObj } = useTheme();
 	const [open, setOpen] = useState<boolean>(forceOpen);
 	const openRef = useRef<boolean>(open);
-	const dropdownRef = useCombinedRefs<HTMLDivElement>(dropdownListRef);
+	const dropdownRef = useRef<HTMLDivElement | null>(null);
+	// the list is in a portal mounted only while open: give it to dropdownListRef as soon as it mounts,
+	// not one render later, so that the consumer can find it right away (e.g. on the blur of its trigger)
+	const setDropdownRef = useCallback<React.RefCallback<HTMLDivElement>>(
+		(node) => {
+			dropdownRef.current = node;
+			if (typeof dropdownListRef === 'function') {
+				dropdownListRef(node);
+			} else if (dropdownListRef) {
+				// eslint-disable-next-line no-param-reassign
+				dropdownListRef.current = node;
+			}
+		},
+		[dropdownListRef]
+	);
 	const innerTriggerRef = useCombinedRefs(triggerRef);
 	const popperItemsRef = useRef<HTMLDivElement | null>(null);
 	const startSentinelRef = useRef<HTMLDivElement | null>(null);
@@ -935,7 +949,7 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 			{triggerComponent}
 			<Portal show={open} disablePortal={disablePortal}>
 				<PopperList
-					ref={dropdownRef}
+					ref={setDropdownRef}
 					$open={open}
 					$width={width}
 					$maxWidth={maxWidth}

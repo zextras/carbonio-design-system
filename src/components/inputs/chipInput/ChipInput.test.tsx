@@ -1200,14 +1200,190 @@ describe('ChipInput', () => {
 			expect(screen.queryByText('Helen')).not.toBeInTheDocument();
 		});
 
+		test('enter on the typed text closes the options, which were suggestions for that text', async () => {
+			const { user } = setup(<ChipInput options={options} />);
+			await typeInInput(user, screen.getByRole('textbox'), 'h');
+			expect(screen.getByText('Helen')).toBeVisible();
+			await user.enter();
+			expect(screen.getByText('h')).toBeVisible();
+			expect(screen.queryByText('Helen')).not.toBeInTheDocument();
+			await user.arrowDown();
+			expect(screen.queryByText('Helen')).not.toBeInTheDocument();
+		});
+
+		test('new options after a chip was created from the typed text are shown again', async () => {
+			const { user, rerender } = setup(<ChipInput options={options} />);
+			await typeInInput(user, screen.getByRole('textbox'), 'h');
+			await user.enter();
+			expect(screen.queryByText('Helen')).not.toBeInTheDocument();
+			rerender(<ChipInput options={[...options]} />);
+			expect(await screen.findByText('Helen')).toBeVisible();
+		});
+
+		test('leaving the input while options are shown keeps the typed text in the input, as before', async () => {
+			const onAdd = vi.fn((value: unknown) => ({ label: `chip of ${String(value)}` }));
+			const { user } = setup(
+				<>
+					<ChipInput options={options} onAdd={onAdd} placeholder="To" />
+					<input aria-label="next field" />
+				</>
+			);
+			await typeInInput(user, screen.getByRole('textbox', { name: 'To' }), 'h');
+			await user.click(screen.getByRole('textbox', { name: 'next field' }));
+			expect(onAdd).not.toHaveBeenCalled();
+			expect(screen.getByRole('textbox', { name: 'To' })).toHaveValue('h');
+		});
+
+		test('with confirmChipOnBlurWithOptions, leaving the input turns the typed text into a chip also while options are shown', async () => {
+			const onAdd = vi.fn((value: unknown) => ({ label: `chip of ${String(value)}` }));
+			const { user } = setup(
+				<>
+					<ChipInput
+						options={options}
+						onAdd={onAdd}
+						placeholder="To"
+						confirmChipOnBlurWithOptions
+					/>
+					<input aria-label="next field" />
+				</>
+			);
+			await typeInInput(user, screen.getByRole('textbox', { name: 'To' }), 'h');
+			expect(screen.getByText('Helen')).toBeVisible();
+			await user.click(screen.getByRole('textbox', { name: 'next field' }));
+			expect(onAdd).toHaveBeenCalledTimes(1);
+			expect(onAdd).toHaveBeenCalledWith('h');
+			expect(screen.getByText('chip of h')).toBeVisible();
+			expect(screen.getByRole('textbox', { name: 'To' })).toHaveValue('');
+			expect(screen.queryByText('Helen')).not.toBeInTheDocument();
+		});
+
+		test('with confirmChipOnBlurWithOptions, a click on an option adds only the option', async () => {
+			const onAdd = vi.fn((value: unknown) => ({ label: `chip of ${String(value)}` }));
+			const { user } = setup(
+				<ChipInput options={options} onAdd={onAdd} confirmChipOnBlurWithOptions />
+			);
+			await typeInInput(user, screen.getByRole('textbox'), 'h');
+			await user.click(screen.getByText('Hector'));
+			expect(onAdd).toHaveBeenCalledTimes(1);
+			expect(onAdd).toHaveBeenCalledWith('hector@example.com');
+		});
+
+		test('with confirmChipOnBlurWithOptions, tab on a highlighted option adds only the option', async () => {
+			const onAdd = vi.fn((value: unknown) => ({ label: `chip of ${String(value)}` }));
+			const { user } = setup(
+				<>
+					<ChipInput
+						options={options}
+						onAdd={onAdd}
+						placeholder="To"
+						confirmChipOnBlurWithOptions
+					/>
+					<input aria-label="next field" />
+				</>
+			);
+			await typeInInput(user, screen.getByRole('textbox', { name: 'To' }), 'h');
+			await user.arrowDown();
+			await user.tab();
+			expect(onAdd).toHaveBeenCalledTimes(1);
+			expect(onAdd).toHaveBeenCalledWith('helen@example.com');
+			expect(screen.getByRole('textbox', { name: 'next field' })).toHaveFocus();
+		});
+
+		test('with confirmChipOnBlurWithOptions, tab without a highlighted option turns the typed text into a chip', async () => {
+			const onAdd = vi.fn((value: unknown) => ({ label: `chip of ${String(value)}` }));
+			const { user } = setup(
+				<>
+					<ChipInput
+						options={options}
+						onAdd={onAdd}
+						placeholder="To"
+						confirmChipOnBlurWithOptions
+					/>
+					<input aria-label="next field" />
+				</>
+			);
+			await typeInInput(user, screen.getByRole('textbox', { name: 'To' }), 'h');
+			await user.tab();
+			expect(onAdd).toHaveBeenCalledTimes(1);
+			expect(onAdd).toHaveBeenCalledWith('h');
+			expect(screen.getByRole('textbox', { name: 'next field' })).toHaveFocus();
+		});
+
+		test('with confirmChipOnBlurWithOptions, a click on an option that arrived after typing adds only the option', async () => {
+			const onAdd = vi.fn((value: unknown) => ({ label: `chip of ${String(value)}` }));
+			const { user, rerender } = setup(
+				<ChipInput options={[]} onAdd={onAdd} confirmChipOnBlurWithOptions />
+			);
+			await typeInInput(user, screen.getByRole('textbox'), 'h');
+			// a disabled placeholder while the search runs, then its results
+			rerender(
+				<ChipInput
+					options={[{ id: 'loading', label: 'Loading', disabled: true }]}
+					onAdd={onAdd}
+					confirmChipOnBlurWithOptions
+				/>
+			);
+			await screen.findByText('Loading');
+			rerender(<ChipInput options={options} onAdd={onAdd} confirmChipOnBlurWithOptions />);
+			await user.click(await screen.findByText('Hector'));
+			expect(onAdd).toHaveBeenCalledTimes(1);
+			expect(onAdd).toHaveBeenCalledWith('hector@example.com');
+		});
+
+		test('with options opened by a click, enter on the typed text keeps the list open and navigable, as before', async () => {
+			const { user } = setup(<ChipInput options={options} disableOptions={false} />);
+			const input = screen.getByRole('textbox');
+			await user.click(input);
+			await user.keyboard('h');
+			await user.enter();
+			expect(screen.getByText('h')).toBeVisible();
+			await user.arrowDown();
+			expect(getOption('Helen')).toHaveClass('zapp-active');
+		});
+
+		test('with confirmChipOnBlurWithOptions, a press on a part of the list that takes no focus keeps the typed text', async () => {
+			const onAdd = vi.fn((value: unknown) => ({ label: `chip of ${String(value)}` }));
+			const { user } = setup(
+				<ChipInput options={options} onAdd={onAdd} confirmChipOnBlurWithOptions />
+			);
+			const input = screen.getByRole('textbox');
+			await typeInInput(user, input, 'h');
+			// e.g. the scrollbar of a long list: the list itself takes no focus
+			await user.pointer({ keys: '[MouseLeft>]', target: screen.getByTestId(SELECTORS.dropdown) });
+			expect(input).not.toHaveFocus();
+			expect(onAdd).not.toHaveBeenCalled();
+			expect(input).toHaveValue('h');
+		});
+
+		test('confirmChipOnBlurWithOptions does nothing when confirmChipOnBlur is off', async () => {
+			const onAdd = vi.fn((value: unknown) => ({ label: `chip of ${String(value)}` }));
+			const { user } = setup(
+				<>
+					<ChipInput
+						options={options}
+						onAdd={onAdd}
+						placeholder="To"
+						confirmChipOnBlur={false}
+						confirmChipOnBlurWithOptions
+					/>
+					<input aria-label="next field" />
+				</>
+			);
+			await typeInInput(user, screen.getByRole('textbox', { name: 'To' }), 'h');
+			await user.click(screen.getByRole('textbox', { name: 'next field' }));
+			expect(onAdd).not.toHaveBeenCalled();
+		});
+
 		test('enter adds only the highlighted option also when chips are already there', async () => {
 			const onAdd = vi.fn((value: unknown) => ({ label: `chip of ${String(value)}` }));
-			const { user } = setup(<ChipInput options={options} onAdd={onAdd} />);
+			const { user, rerender } = setup(<ChipInput options={options} onAdd={onAdd} />);
 			const input = screen.getByRole('textbox');
 			await typeInInput(user, input, 'first');
 			await user.enter();
 			expect(onAdd).toHaveBeenLastCalledWith('first');
 			await user.keyboard('h');
+			// the results of the search for the new text
+			rerender(<ChipInput options={[...options]} onAdd={onAdd} />);
 			await user.arrowDown();
 			await user.arrowDown();
 			await user.enter();

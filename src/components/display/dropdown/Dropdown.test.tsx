@@ -325,6 +325,19 @@ describe('Dropdown', () => {
 		expect(onModalClose).not.toHaveBeenCalled();
 	});
 
+	it('should give the list to dropdownListRef as soon as it opens', async () => {
+		const items = [{ id: '1', label: 'Some Item' }] satisfies DropdownItem[];
+		const dropdownListRef = React.createRef<HTMLDivElement>();
+		const { user } = setup(
+			<Dropdown items={items} dropdownListRef={dropdownListRef}>
+				<Button label="opener" onClick={vi.fn()} />
+			</Dropdown>
+		);
+		await user.click(screen.getByRole('button', { name: /opener/i }));
+		await screen.findByText('Some Item');
+		expect(dropdownListRef.current).toBe(screen.getByTestId('dropdown-popper-list'));
+	});
+
 	it('should highlight only the item with the activeItemId', async () => {
 		const items = [
 			{ id: '1', label: 'item 1' },
