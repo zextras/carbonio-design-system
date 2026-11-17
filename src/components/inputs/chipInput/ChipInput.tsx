@@ -619,17 +619,21 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 		[confirmChipOnBlur, confirmChipOnBlurWithOptions, options, saveCurrentValue, saveTypedText]
 	);
 
+	// a new onInputType (e.g. rebuilt by the parent after a chip is added) must not drop the call already waiting
+	const onInputTypeRef = useRef(onInputType);
+	useEffect(() => {
+		onInputTypeRef.current = onInputType;
+	}, [onInputType]);
+
 	const debouncedOnInputType = useMemo(
 		() =>
 			debounce((ev: React.KeyboardEvent<HTMLInputElement>) => {
-				if (onInputType) {
-					onInputType({
-						...ev,
-						textContent: inputElRef.current?.value ?? null
-					});
-				}
+				onInputTypeRef.current?.({
+					...ev,
+					textContent: inputElRef.current?.value ?? null
+				});
 			}, onInputTypeDebounce),
-		[inputElRef, onInputType, onInputTypeDebounce]
+		[inputElRef, onInputTypeDebounce]
 	);
 
 	useEffect(

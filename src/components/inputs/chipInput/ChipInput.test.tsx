@@ -793,6 +793,23 @@ describe('ChipInput', () => {
 		expect(onInputTypeFn).toHaveBeenCalledWith(expect.objectContaining({ textContent: 'hej' }));
 	});
 
+	test('a new onInputType given while the typing is debounced is called, so the text typed is not lost', async () => {
+		const firstOnInputType = vi.fn();
+		const newOnInputType = vi.fn();
+		// a debounce long enough to give the new callback before it ends
+		const { rerender, user } = setup(
+			<ChipInput onInputType={firstOnInputType} onInputTypeDebounce={60000} />
+		);
+		await user.type(screen.getByRole('textbox'), 'hej');
+		rerender(<ChipInput onInputType={newOnInputType} onInputTypeDebounce={60000} />);
+		act(() => {
+			vi.advanceTimersByTime(60000);
+		});
+		expect(newOnInputType).toHaveBeenCalledTimes(1);
+		expect(newOnInputType).toHaveBeenCalledWith(expect.objectContaining({ textContent: 'hej' }));
+		expect(firstOnInputType).not.toHaveBeenCalled();
+	});
+
 	test('create chips on paste splitting text on wanted separators', async () => {
 		const { user } = setup(<ChipInput createChipOnPaste pasteSeparators={['x', 'z']} />);
 		const inputElement = screen.getByRole('textbox');
