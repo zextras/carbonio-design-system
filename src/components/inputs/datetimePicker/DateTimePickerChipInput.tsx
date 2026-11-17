@@ -102,6 +102,7 @@ export const DateTimePickerChipInput = React.forwardRef<
 				onChange={handleChipChange}
 				onInputType={onInputType}
 				maxChips={1}
+				confirmChipOnBlur={false}
 				inputRef={inputRef}
 			/>
 		</Container>
