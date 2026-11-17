@@ -289,6 +289,57 @@ describe('Dropdown', () => {
 		expect(screen.getByRole('button', { name: /opener/i })).toHaveFocus();
 	});
 
+	it('should close the dropdown when escape is pressed while the focus is on the trigger', async () => {
+		const items = [{ id: '1', label: 'Some Item' }] satisfies DropdownItem[];
+		const onClose = vi.fn();
+		const { user } = setup(
+			<Dropdown items={items} disableAutoFocus onClose={onClose}>
+				<Button label="opener" onClick={vi.fn()} />
+			</Dropdown>
+		);
+		await user.click(screen.getByRole('button'));
+		await screen.findByText('Some Item');
+		expect(screen.getByRole('button', { name: /opener/i })).toHaveFocus();
+		await user.esc();
+		expect(screen.queryByText('Some Item')).not.toBeInTheDocument();
+		expect(onClose).toHaveBeenCalledTimes(1);
+	});
+
+	it('should close only the dropdown, not the modal around it, when escape is pressed on the trigger', async () => {
+		const items = [{ id: '1', label: 'Some Item' }] satisfies DropdownItem[];
+		const onModalClose = vi.fn();
+		const { user } = setup(
+			<Modal open title="modal with dropdown" onClose={onModalClose}>
+				<Dropdown items={items} disableAutoFocus>
+					<Button label="opener" onClick={vi.fn()} />
+				</Dropdown>
+			</Modal>
+		);
+		act(() => {
+			vi.advanceTimersByTime(TIMERS.MODAL.DELAY_OPEN);
+		});
+		await user.click(screen.getByRole('button', { name: /opener/i }));
+		await screen.findByText('Some Item');
+		await user.esc();
+		expect(screen.queryByText('Some Item')).not.toBeInTheDocument();
+		expect(onModalClose).not.toHaveBeenCalled();
+	});
+
+	it('should highlight only the item with the activeItemId', async () => {
+		const items = [
+			{ id: '1', label: 'item 1' },
+			{ id: '2', label: 'item 2' }
+		] satisfies DropdownItem[];
+		const { user } = setup(
+			<Dropdown items={items} disableAutoFocus activeItemId="2">
+				<Button label="opener" onClick={vi.fn()} />
+			</Dropdown>
+		);
+		await user.click(screen.getByRole('button'));
+		expect(findDropdownItem('item 2')).toHaveClass('zapp-active');
+		expect(findDropdownItem('item 1')).not.toHaveClass('zapp-active');
+	});
+
 	it('should set focus on trigger component on close after clicking an item', async () => {
 		const items = [{ id: '1', label: 'Some Item' }] satisfies DropdownItem[];
 		const firstItem = items[0];

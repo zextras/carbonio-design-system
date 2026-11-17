@@ -7025,6 +7025,13 @@
             "value": "null",
             "computed": false
           }
+        },
+        "activeItemId": {
+          "required": false,
+          "tsType": {
+            "name": "string"
+          },
+          "description": "Id of the item to highlight as active while the focus stays on the trigger\n(e.g. the option chosen with the arrow keys of an input). Items with sub-items are not highlighted."
         }
       },
       "composes": [

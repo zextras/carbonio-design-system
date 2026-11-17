@@ -25,7 +25,7 @@ import {
 	clickNodeWithFocus
 } from '../../../hooks/useKeyboard';
 import type { Theme } from '../../../theme/theme';
-import { pseudoClasses } from '../../../theme/theme-utils';
+import { getColor, pseudoClasses } from '../../../theme/theme-utils';
 import type { AnyColor } from '../../../types/utils';
 import { setupFloating } from '../../../utils/floating-ui';
 import { Icon } from '../../basic/icon/Icon';
@@ -40,11 +40,17 @@ import { Tooltip } from '../tooltip/Tooltip';
 const ContainerEl = styled(Container)<{
 	$selectedBackgroundColor?: AnyColor;
 	$disabled: boolean;
+	$active?: boolean;
 }>`
 	user-select: none;
 	outline: none;
 	${({ theme, $disabled, $selectedBackgroundColor }): ReturnType<typeof css> | false =>
 		!$disabled && pseudoClasses(theme, $selectedBackgroundColor ?? 'gray5')};
+	${({ theme, $active, $selectedBackgroundColor }): ReturnType<typeof css> | false =>
+		!!$active &&
+		css`
+			background: ${getColor(`${$selectedBackgroundColor ?? 'gray5'}.focus`, theme)};
+		`};
 `;
 
 interface ListItemContentProps {
@@ -99,6 +105,7 @@ interface PopperListItemProps extends ListItemContentProps, HTMLAttributes<HTMLD
 	customComponent?: React.ReactNode;
 	selectedBackgroundColor?: AnyColor;
 	keepOpen?: boolean;
+	active?: boolean;
 }
 
 function PopperListItem({
@@ -114,12 +121,23 @@ function PopperListItem({
 	keepOpen,
 	itemPaddingBetween,
 	tooltipLabel,
+	active = false,
 	...rest
 }: Readonly<PopperListItemProps>): React.JSX.Element {
+	const itemRef = useRef<HTMLDivElement | null>(null);
+
+	useEffect(() => {
+		if (active) {
+			// scrollIntoView is not implemented in every environment (e.g. jsdom)
+			itemRef.current?.scrollIntoView?.({ block: 'nearest' });
+		}
+	}, [active]);
+
 	return (
 		<ContainerEl
+			ref={itemRef}
 			data-keep-open={keepOpen}
-			className={selected ? 'zapp-selected' : ''}
+			className={[selected && 'zapp-selected', active && 'zapp-active'].filter(Boolean).join(' ')}
 			orientation="horizontal"
 			mainAlignment="flex-start"
 			padding={{ vertical: 'small', horizontal: 'large' }}
@@ -128,6 +146,7 @@ function PopperListItem({
 			tabIndex={disabled ? -1 : 0}
 			$disabled={disabled}
 			$selectedBackgroundColor={selected ? selectedBackgroundColor : undefined}
+			$active={active}
 			background={selected && selectedBackgroundColor ? selectedBackgroundColor : undefined}
 			data-testid={'dropdown-item'}
 			{...rest}
@@ -457,6 +476,11 @@ interface DropdownProps extends Omit<HTMLAttributes<HTMLDivElement>, 'contextMen
 	itemPaddingBetween?: keyof Theme['sizes']['padding'];
 	/** Ref assign to the dropdown list popper container */
 	dropdownListRef?: React.ForwardedRef<HTMLDivElement> | null;
+	/**
+	 * Id of the item to highlight as active while the focus stays on the trigger
+	 * (e.g. the option chosen with the arrow keys of an input). Items with sub-items are not highlighted.
+	 */
+	activeItemId?: string;
 }
 
 const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function DropdownFn(
@@ -485,6 +509,7 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 		itemTextSize = 'medium',
 		itemPaddingBetween = 'small',
 		dropdownListRef = null,
+		activeItemId,
 		...rest
 	},
 	ref
@@ -699,6 +724,24 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 
 	useKeyboard(dropdownRef, escapeEvent, open);
 
+	const triggerEscapeEvent = useMemo<KeyboardPresetObj[]>(
+		() => [
+			{
+				type: 'keydown',
+				callback: (event): void => {
+					// the escape closes only the dropdown, not a modal or a board around the trigger
+					event.stopPropagation();
+					closePopper(event);
+				},
+				keys: [{ key: 'Escape', ctrlKey: false }]
+			}
+		],
+		[closePopper]
+	);
+
+	// with disableAutoFocus the focus stays on the trigger while the dropdown is open: escape closes it from there
+	useKeyboard(innerTriggerRef, triggerEscapeEvent, open && disableAutoFocus);
+
 	useLayoutEffect(() => {
 		let cleanup: ReturnType<typeof setupFloating>;
 		if (open) {
@@ -840,6 +883,7 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 								itemIconSize={itemIconSize}
 								itemTextSize={itemTextSize}
 								itemPaddingBetween={itemPaddingBetween}
+								active={activeItemId !== undefined && id === activeItemId}
 								{...itemProps}
 							/>
 						)
@@ -850,6 +894,7 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 		return null;
 	}, [
 		items,
+		activeItemId,
 		listItemClickHandler,
 		selectedBackgroundColor,
 		itemIconSize,
