@@ -1141,6 +1141,11 @@ describe('ChipInput', () => {
 			expect(onAdd).not.toHaveBeenCalled();
 			expect(input).toHaveValue('h');
 			expect(screen.getByRole('textbox', { name: 'next field' })).toHaveFocus();
+			// the highlight is gone: back in the field, enter adds the typed text
+			await user.tab({ shift: true });
+			await user.enter();
+			expect(onAdd).toHaveBeenCalledTimes(1);
+			expect(onAdd).toHaveBeenCalledWith('h');
 		});
 
 		test('tab without a highlighted option leaves the typed text in the input and adds no chip', async () => {

@@ -534,7 +534,7 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 	const onSeparator = useCallback(
 		(event: KeyboardEvent) => {
 			// enter on a highlighted option adds the option, not the typed text (optionsKeyEvents);
-			// tab only leaves the field, so it keeps the typed text whatever is highlighted
+			// tab never takes the highlighted option: the typed text follows the separator or blur rules
 			if (activeOptionId !== undefined && event.key === 'Enter') {
 				return;
 			}
@@ -601,6 +601,8 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 	const onInputBlur = useCallback(
 		(event: React.FocusEvent<HTMLInputElement>) => {
 			setIsActive(false);
+			// a highlight left behind would make enter add an old option when the focus comes back
+			setActiveOptionId(undefined);
 			if (!confirmChipOnBlur) {
 				return;
 			}
