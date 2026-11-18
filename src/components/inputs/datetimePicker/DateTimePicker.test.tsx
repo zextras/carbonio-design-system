@@ -359,6 +359,33 @@ describe('DateTimePicker', () => {
 			expect(inputElement).toHaveValue('');
 		});
 
+		it('should set the typed date when Enter is pressed right after typing', async () => {
+			const onChangeFn = vi.fn();
+			const { user } = setup(<DateTimePicker label={'label'} onChange={onChangeFn} enableChips />);
+			const date = addMonths(startOfMonth(new Date()), 1);
+			date.setHours(15, 1);
+			await user.type(screen.getByRole('textbox'), format(date, DEFAULT_DATE_FORMAT));
+			await user.keyboard('[Enter]');
+			expect(onChangeFn).toHaveBeenLastCalledWith(date);
+			expect(screen.getByText(format(date, DEFAULT_DATE_FORMAT))).toBeVisible();
+		});
+
+		it('should set the typed date when clicking outside right after typing', async () => {
+			const onChangeFn = vi.fn();
+			const { user } = setup(
+				<>
+					<DateTimePicker label={'label'} onChange={onChangeFn} enableChips />
+					<span>Blur</span>
+				</>
+			);
+			const date = addMonths(startOfMonth(new Date()), 1);
+			date.setHours(15, 1);
+			await user.type(screen.getByRole('textbox'), format(date, DEFAULT_DATE_FORMAT));
+			await user.click(screen.getByText('Blur'));
+			expect(onChangeFn).toHaveBeenLastCalledWith(date);
+			expect(screen.getByText(format(date, DEFAULT_DATE_FORMAT))).toBeVisible();
+		});
+
 		it('should disable the "show calendar" action if component is disabled', () => {
 			setup(<DateTimePicker label={'Validate input'} enableChips disabled />);
 			expect(

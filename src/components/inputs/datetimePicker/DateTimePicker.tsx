@@ -161,6 +161,10 @@ const DateTimePicker = React.forwardRef<DatePicker, DateTimePickerProps>(functio
 		[updateDateTimeState]
 	);
 
+	const onInputClear = useCallback(() => {
+		updateDateTimeState({ type: 'SAVE', value: null });
+	}, [updateDateTimeState]);
+
 	const handleChipChange = useCallback<DateTimePickerChipInputProps['handleChipChange']>(
 		(items) => {
 			// this change is called only when chip is removed through the close action
@@ -181,6 +185,7 @@ const DateTimePicker = React.forwardRef<DatePicker, DateTimePickerProps>(functio
 					hasError={hasError}
 					description={(hasError && errorLabel) || undefined}
 					handleChipChange={handleChipChange}
+					onInputClear={onInputClear}
 					chipProps={chipProps}
 					chipValue={dateTime}
 				/>
@@ -208,6 +213,7 @@ const DateTimePicker = React.forwardRef<DatePicker, DateTimePickerProps>(functio
 		isClearable,
 		label,
 		onClear,
+		onInputClear,
 		width
 	]);
 

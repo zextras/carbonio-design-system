@@ -6191,6 +6191,21 @@
           },
           "description": "Redefine onChange for ChipInput to avoid having it overwritten by react-datepicker"
         },
+        "onInputClear": {
+          "required": true,
+          "tsType": {
+            "name": "signature",
+            "type": "function",
+            "raw": "() => void",
+            "signature": {
+              "arguments": [],
+              "return": {
+                "name": "void"
+              }
+            }
+          },
+          "description": "Called when the typed text is emptied, to discard the date parsed from it"
+        },
         "value": {
           "required": false,
           "tsType": {
