@@ -147,7 +147,7 @@
 		"@floating-ui/dom": "1.8.0",
 		"core-js": "3.51.0",
 		"polished": "4.3.1",
-		"react-datepicker": "7.5.0"
+		"react-datepicker": "7.6.0"
 	},
 	"pnpm": {
 		"onlyBuiltDependencies": [
