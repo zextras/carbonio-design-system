@@ -1126,7 +1126,7 @@ describe('ChipInput', () => {
 			expect(onAdd).toHaveBeenCalledWith('he');
 		});
 
-		test('tab adds the highlighted option as a chip and moves the focus to the next field', async () => {
+		test('tab on a highlighted option does not add it and moves the focus to the next field', async () => {
 			const onAdd = vi.fn((value: unknown) => ({ label: `chip of ${String(value)}` }));
 			const { user } = setup(
 				<>
@@ -1134,12 +1134,12 @@ describe('ChipInput', () => {
 					<input aria-label="next field" />
 				</>
 			);
-			await typeInInput(user, screen.getByRole('textbox', { name: 'To' }), 'h');
+			const input = screen.getByRole('textbox', { name: 'To' });
+			await typeInInput(user, input, 'h');
 			await user.arrowDown();
 			await user.tab();
-			expect(onAdd).toHaveBeenCalledTimes(1);
-			expect(onAdd).toHaveBeenCalledWith('helen@example.com');
-			expect(screen.getByText('chip of helen@example.com')).toBeVisible();
+			expect(onAdd).not.toHaveBeenCalled();
+			expect(input).toHaveValue('h');
 			expect(screen.getByRole('textbox', { name: 'next field' })).toHaveFocus();
 		});
 
@@ -1285,7 +1285,7 @@ describe('ChipInput', () => {
 			expect(onAdd).toHaveBeenCalledWith('hector@example.com');
 		});
 
-		test('with confirmChipOnBlurWithOptions, tab on a highlighted option adds only the option', async () => {
+		test('with confirmChipOnBlurWithOptions, tab on a highlighted option turns the typed text into a chip, not the option', async () => {
 			const onAdd = vi.fn((value: unknown) => ({ label: `chip of ${String(value)}` }));
 			const { user } = setup(
 				<>
@@ -1302,7 +1302,7 @@ describe('ChipInput', () => {
 			await user.arrowDown();
 			await user.tab();
 			expect(onAdd).toHaveBeenCalledTimes(1);
-			expect(onAdd).toHaveBeenCalledWith('helen@example.com');
+			expect(onAdd).toHaveBeenCalledWith('h');
 			expect(screen.getByRole('textbox', { name: 'next field' })).toHaveFocus();
 		});
 
@@ -1409,7 +1409,7 @@ describe('ChipInput', () => {
 			expect(input).toHaveValue('');
 		});
 
-		test('a tab separator on a highlighted option adds only the option', async () => {
+		test('a tab separator on a highlighted option adds the typed text, not the option', async () => {
 			const onAdd = vi.fn((value: unknown) => ({ label: `chip of ${String(value)}` }));
 			const { user } = setup(
 				<ChipInput options={options} onAdd={onAdd} separators={[{ key: 'Tab' }]} />
@@ -1418,7 +1418,7 @@ describe('ChipInput', () => {
 			await user.arrowDown();
 			await user.tab();
 			expect(onAdd).toHaveBeenCalledTimes(1);
-			expect(onAdd).toHaveBeenCalledWith('helen@example.com');
+			expect(onAdd).toHaveBeenCalledWith('h');
 		});
 
 		test('escape inside a modal closes the options, not the modal', async () => {

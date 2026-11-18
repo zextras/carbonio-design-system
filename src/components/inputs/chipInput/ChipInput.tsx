@@ -533,8 +533,9 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 
 	const onSeparator = useCallback(
 		(event: KeyboardEvent) => {
-			// enter or tab on a highlighted option adds the option, not the typed text (optionsKeyEvents)
-			if (activeOptionId !== undefined && (event.key === 'Enter' || event.key === 'Tab')) {
+			// enter on a highlighted option adds the option, not the typed text (optionsKeyEvents);
+			// tab only leaves the field, so it keeps the typed text whatever is highlighted
+			if (activeOptionId !== undefined && event.key === 'Enter') {
 				return;
 			}
 			saveTypedText();
@@ -880,17 +881,6 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 					chooseActiveOption();
 				},
 				keys: [{ key: 'Enter', ctrlKey: false }],
-				haveToPreventDefault: false
-			},
-			{
-				type: 'keydown',
-				// no preventDefault: the focus moves to the next field after the option is added
-				callback: (): void => {
-					if (activeOptionId !== undefined) {
-						chooseActiveOption();
-					}
-				},
-				keys: [{ key: 'Tab', ctrlKey: false }],
 				haveToPreventDefault: false
 			},
 			{
