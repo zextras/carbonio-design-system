@@ -6204,7 +6204,7 @@
               }
             }
           },
-          "description": "Called when the typed text is emptied, to discard the date parsed from it"
+          "description": "Called on every change of the typed text, to discard the date parsed from the previous text"
         },
         "value": {
           "required": false,

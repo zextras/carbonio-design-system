@@ -359,6 +359,35 @@ describe('DateTimePicker', () => {
 			expect(inputElement).toHaveValue('');
 		});
 
+		it('should not set a date when the typed text becomes invalid after a valid date and Enter is pressed', async () => {
+			const onChangeFn = vi.fn();
+			const { user } = setup(<DateTimePicker label={'label'} onChange={onChangeFn} enableChips />);
+			const date = addMonths(startOfMonth(new Date()), 1);
+			date.setHours(15, 1);
+			await user.type(screen.getByRole('textbox'), `${format(date, DEFAULT_DATE_FORMAT)}x`);
+			await user.keyboard('[Enter]');
+			expect(onChangeFn).toHaveBeenLastCalledWith(null);
+			expect(screen.queryByText(format(date, DEFAULT_DATE_FORMAT))).not.toBeInTheDocument();
+			expect(screen.getByRole('textbox')).toHaveValue('');
+		});
+
+		it('should not set a date when the typed text becomes invalid after a valid date and clicking outside', async () => {
+			const onChangeFn = vi.fn();
+			const { user } = setup(
+				<>
+					<DateTimePicker label={'label'} onChange={onChangeFn} enableChips />
+					<span>Blur</span>
+				</>
+			);
+			const date = addMonths(startOfMonth(new Date()), 1);
+			date.setHours(15, 1);
+			await user.type(screen.getByRole('textbox'), `${format(date, DEFAULT_DATE_FORMAT)}x`);
+			await user.click(screen.getByText('Blur'));
+			expect(onChangeFn).toHaveBeenLastCalledWith(null);
+			expect(screen.queryByText(format(date, DEFAULT_DATE_FORMAT))).not.toBeInTheDocument();
+			expect(screen.getByRole('textbox')).toHaveValue('');
+		});
+
 		it('should set the typed date when Enter is pressed right after typing', async () => {
 			const onChangeFn = vi.fn();
 			const { user } = setup(<DateTimePicker label={'label'} onChange={onChangeFn} enableChips />);
