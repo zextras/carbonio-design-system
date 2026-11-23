@@ -452,6 +452,8 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 	const dropdownListRef = useRef<HTMLDivElement | null>(null);
 	// the arrows reopen only the options closed with escape, not the ones of a search already used
 	const closedByEscapeRef = useRef(false);
+	// the suggestions hidden when the typed text became a chip: the next typed text shows them again
+	const hiddenBySeparatorRef = useRef(false);
 
 	const uncontrolledMode = useMemo(() => value === undefined, [value]);
 
@@ -522,8 +524,9 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 	const saveTypedText = useCallback(() => {
 		if (inputElRef.current?.value) {
 			// the options were suggestions for the text that just became a chip: hide them until new ones arrive
-			// (a list opened with a click stays open)
+			// or the user types again (a list opened with a click stays open)
 			setForceShowDropdown(false);
+			hiddenBySeparatorRef.current = true;
 		}
 		saveCurrentValue();
 		setActiveOptionId(undefined);
@@ -773,6 +776,7 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 		// if dropdown is set to not open on click (dropdownDisabled),
 		// force open it on options change to simulate suggestion mode
 		setForceShowDropdown(isDropdownDisabled && !isEmpty(options));
+		hiddenBySeparatorRef.current = false;
 	}, [isDropdownDisabled, options]);
 
 	useEffect(() => {
@@ -781,10 +785,17 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 		closedByEscapeRef.current = false;
 	}, [options]);
 
-	const clearActiveOption = useCallback(() => {
+	const onTextInput = useCallback(() => {
 		setActiveOptionId(undefined);
 		closedByEscapeRef.current = false;
-	}, []);
+		if (hiddenBySeparatorRef.current) {
+			// new text after a chip: show the suggestions again, also when the options array keeps its identity
+			hiddenBySeparatorRef.current = false;
+			if (isDropdownDisabled && !isEmpty(options)) {
+				setForceShowDropdown(true);
+			}
+		}
+	}, [isDropdownDisabled, options]);
 
 	const navigableOptions = useMemo(
 		() =>
@@ -1015,7 +1026,7 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 								onFocus={onInputFocus}
 								onBlur={onInputBlur}
 								onKeyUp={onInputType && onInputKeyUp}
-								onInput={clearActiveOption}
+								onInput={onTextInput}
 								id={id}
 								name={inputName ?? placeholder}
 								disabled={disabled || isInputDisabled}

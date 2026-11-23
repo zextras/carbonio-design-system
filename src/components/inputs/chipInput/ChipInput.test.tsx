@@ -1233,6 +1233,15 @@ describe('ChipInput', () => {
 			expect(screen.queryByText('Helen')).not.toBeInTheDocument();
 		});
 
+		test('suggestions passed as the same array are shown again when typing after a chip is added', async () => {
+			const { user } = setup(<ChipInput options={options} />);
+			await typeInInput(user, screen.getByRole('textbox'), 'foo');
+			await user.enter();
+			expect(screen.queryByText('Helen')).not.toBeInTheDocument();
+			await user.keyboard('h');
+			expect(screen.getByText('Helen')).toBeVisible();
+		});
+
 		test('enter adds the typed text after the list opened by a click was closed by disableOptions', async () => {
 			const onAdd = vi.fn((value: unknown) => ({ label: `chip of ${String(value)}` }));
 			const { user, rerender } = setup(
