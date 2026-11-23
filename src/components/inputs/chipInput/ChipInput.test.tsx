@@ -1141,7 +1141,19 @@ describe('ChipInput', () => {
 			expect(onAdd).not.toHaveBeenCalled();
 			expect(input).toHaveValue('h');
 			expect(screen.getByRole('textbox', { name: 'next field' })).toHaveFocus();
-			// the highlight is gone: back in the field, enter adds the typed text
+		});
+
+		test('back in the field after a tab on a highlighted option, enter adds the typed text', async () => {
+			const onAdd = vi.fn((value: unknown) => ({ label: `chip of ${String(value)}` }));
+			const { user } = setup(
+				<>
+					<ChipInput options={options} onAdd={onAdd} placeholder="To" />
+					<input aria-label="next field" />
+				</>
+			);
+			await typeInInput(user, screen.getByRole('textbox', { name: 'To' }), 'h');
+			await user.arrowDown();
+			await user.tab();
 			await user.tab({ shift: true });
 			await user.enter();
 			expect(onAdd).toHaveBeenCalledTimes(1);
@@ -1164,7 +1176,7 @@ describe('ChipInput', () => {
 			expect(screen.getByRole('textbox', { name: 'next field' })).toHaveFocus();
 		});
 
-		test('escape closes the options without adding a chip, arrow down opens them again', async () => {
+		test('escape closes the options without adding a chip', async () => {
 			const onAdd = vi.fn((value: unknown) => ({ label: `chip of ${String(value)}` }));
 			const onOptionsDisplayChange = vi.fn();
 			const { user } = setup(
@@ -1183,8 +1195,18 @@ describe('ChipInput', () => {
 			expect(onAdd).not.toHaveBeenCalled();
 			expect(input).toHaveValue('h');
 			expect(input).toHaveFocus();
+		});
+
+		test('arrow down opens the options closed with escape and highlights the first one', async () => {
+			const { user } = setup(<ChipInput options={options} />);
+			const input = screen.getByRole('textbox');
+			await typeInInput(user, input, 'h');
+			await user.arrowDown();
+			await user.esc();
+			expect(screen.queryByText('Helen')).not.toBeInTheDocument();
 			await user.arrowDown();
 			expect(getOption('Helen')).toHaveClass('zapp-active');
+			expect(input).toHaveFocus();
 		});
 
 		test('arrow up opens the options closed with escape and highlights the last one, the closest to the input when the list opens above it', async () => {
