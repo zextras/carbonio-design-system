@@ -1297,7 +1297,7 @@ describe('ChipInput', () => {
 			expect(onAdd).toHaveBeenCalledWith('foo');
 		});
 
-		test('enter adds the typed text after the list opened by a click was closed by disableOptions', async () => {
+		test('enter adds the typed text after a forced list opened by a click was closed without onClose', async () => {
 			const onAdd = vi.fn((value: unknown) => ({ label: `chip of ${String(value)}` }));
 			const { user, rerender } = setup(
 				<ChipInput options={options} onAdd={onAdd} disableOptions={false} />
@@ -1492,6 +1492,31 @@ describe('ChipInput', () => {
 			]);
 			await user.click(screen.getByRole('button', { name: 'Send' }));
 			expect(onAdd).toHaveBeenCalledWith('hel');
+		});
+
+		test('with confirmChipOnBlurWithOptions, a field inside a custom option takes the focus and the typed text stays', async () => {
+			const onAdd = vi.fn((value: unknown) => ({ label: `chip of ${String(value)}` }));
+			const { user } = setup(
+				<ChipInput
+					options={[
+						{
+							id: 'custom',
+							label: 'custom',
+							disabled: true,
+							customComponent: <input aria-label="custom field" />
+						},
+						...options
+					]}
+					onAdd={onAdd}
+					confirmChipOnBlurWithOptions
+					placeholder="To"
+				/>
+			);
+			await typeInInput(user, screen.getByRole('textbox', { name: 'To' }), 'h');
+			await user.click(screen.getByRole('textbox', { name: 'custom field' }));
+			expect(screen.getByRole('textbox', { name: 'custom field' })).toHaveFocus();
+			expect(onAdd).not.toHaveBeenCalled();
+			expect(screen.getByRole('textbox', { name: 'To' })).toHaveValue('h');
 		});
 
 		test('confirmChipOnBlurWithOptions does nothing when confirmChipOnBlur is off', async () => {

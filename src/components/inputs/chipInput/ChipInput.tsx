@@ -837,7 +837,9 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 			if (
 				event.target instanceof Element &&
 				!!dropdownListRef.current?.contains(event.target) &&
-				event.target.closest('input, textarea, select, [contenteditable="true"]') === null
+				event.target.closest(
+					'input, textarea, select, [contenteditable]:not([contenteditable="false"])'
+				) === null
 			) {
 				event.preventDefault();
 			}
