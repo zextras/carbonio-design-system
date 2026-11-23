@@ -4201,7 +4201,7 @@
               }
             }
           },
-          "description": "Callback to call when Input typing occurs\n- returns the keyup event object with an additional textContent value\n- the event is debounced using the debounce function from lodash"
+          "description": "Callback to call when Input typing occurs\n- returns the keyup event object with an additional textContent value\n- the event is debounced using the debounce function from lodash\n- in suggestion mode (disableOptions), the suggestions hidden when the typed text became a chip are shown\n  again right after this call: replace the options here (e.g. with a loading option, or an empty array),\n  or the options of the previous text are shown until the new ones arrive"
         },
         "onInputTypeDebounce": {
           "required": false,

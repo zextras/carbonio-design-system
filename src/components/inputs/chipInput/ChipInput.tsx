@@ -293,6 +293,9 @@ interface ChipInputProps<TValue = unknown> extends Omit<
 	 * Callback to call when Input typing occurs
 	 * - returns the keyup event object with an additional textContent value
 	 * - the event is debounced using the debounce function from lodash
+	 * - in suggestion mode (disableOptions), the suggestions hidden when the typed text became a chip are shown
+	 *   again right after this call: replace the options here (e.g. with a loading option, or an empty array),
+	 *   or the options of the previous text are shown until the new ones arrive
 	 */
 	onInputType?: (
 		event: React.KeyboardEvent<HTMLInputElement> & { textContent: string | null }
@@ -536,11 +539,7 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 		(event: KeyboardEvent) => {
 			// enter on a highlighted option adds the option, not the typed text (optionsKeyEvents);
 			// tab never takes the highlighted option: the typed text follows the separator or blur rules
-			if (
-				activeOptionId !== undefined &&
-				dropdownListRef.current !== null &&
-				event.key === 'Enter'
-			) {
+			if (activeOptionId !== undefined && event.key === 'Enter') {
 				return;
 			}
 			saveTypedText();
@@ -906,8 +905,7 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 			{
 				type: 'keydown',
 				callback: (event): void => {
-					// a highlight left on a list closed without onClose (forceOpen turned false) is not a choice
-					if (activeOptionId === undefined || dropdownListRef.current === null) {
+					if (activeOptionId === undefined) {
 						return;
 					}
 					event.preventDefault();
