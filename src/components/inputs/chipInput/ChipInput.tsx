@@ -450,8 +450,6 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 	const [activeOptionId, setActiveOptionId] = useState<string | undefined>(undefined);
 	// the list is mounted only while it is open: this is the one source of truth for "the options are shown"
 	const dropdownListRef = useRef<HTMLDivElement | null>(null);
-	// a press inside the list (an option, its scrollbar) moves the focus out of the input without leaving the field
-	const pressInListRef = useRef(false);
 	// the arrows reopen only the options closed with escape, not the ones of a search already used
 	const closedByEscapeRef = useRef(false);
 
@@ -609,15 +607,16 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 			if (options.length === 0) {
 				saveCurrentValue();
 			} else if (confirmChipOnBlurWithOptions) {
+				// a press in the list keeps the focus in the input (see the mousedown listener below):
+				// the focus reaches the list only for a field of a custom option
 				const focusGoesToList =
 					event.relatedTarget instanceof Node &&
 					!!dropdownListRef.current?.contains(event.relatedTarget);
-				if (!focusGoesToList && !pressInListRef.current) {
+				if (!focusGoesToList) {
 					// the focus does not go to the options: the typed text is the value
 					saveTypedText();
 				}
 			}
-			pressInListRef.current = false;
 		},
 		[confirmChipOnBlur, confirmChipOnBlurWithOptions, options, saveCurrentValue, saveTypedText]
 	);
@@ -799,20 +798,21 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 		if (!confirmChipOnBlurWithOptions) {
 			return undefined;
 		}
+		// a press in the list (an option, a disabled one, its scrollbar, a press dragged off an option) keeps the
+		// focus in the input: the blur that saves the typed text then comes only when the user leaves the field.
+		// A field inside a custom option still takes the focus.
 		const onPress = (event: MouseEvent): void => {
-			pressInListRef.current =
-				event.target instanceof Node && !!dropdownListRef.current?.contains(event.target);
-		};
-		// a press that moves no focus (e.g. on a scrollbar) must not leave the flag set for a later blur
-		const onRelease = (): void => {
-			pressInListRef.current = false;
+			if (
+				event.target instanceof Element &&
+				!!dropdownListRef.current?.contains(event.target) &&
+				event.target.closest('input, textarea, select, [contenteditable="true"]') === null
+			) {
+				event.preventDefault();
+			}
 		};
 		document.addEventListener('mousedown', onPress, true);
-		document.addEventListener('mouseup', onRelease, true);
 		return (): void => {
 			document.removeEventListener('mousedown', onPress, true);
-			document.removeEventListener('mouseup', onRelease, true);
-			pressInListRef.current = false;
 		};
 	}, [confirmChipOnBlurWithOptions]);
 

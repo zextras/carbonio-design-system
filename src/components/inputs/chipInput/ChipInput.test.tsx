@@ -1380,18 +1380,54 @@ describe('ChipInput', () => {
 			expect(getOption('Helen')).toHaveClass('zapp-active');
 		});
 
-		test('with confirmChipOnBlurWithOptions, a press on a part of the list that takes no focus keeps the typed text', async () => {
+		test('with confirmChipOnBlurWithOptions, a press on the list keeps the focus and the typed text in the input', async () => {
 			const onAdd = vi.fn((value: unknown) => ({ label: `chip of ${String(value)}` }));
 			const { user } = setup(
 				<ChipInput options={options} onAdd={onAdd} confirmChipOnBlurWithOptions />
 			);
 			const input = screen.getByRole('textbox');
 			await typeInInput(user, input, 'h');
-			// e.g. the scrollbar of a long list: the list itself takes no focus
+			// e.g. the scrollbar of a long list
 			await user.pointer({ keys: '[MouseLeft>]', target: screen.getByTestId(SELECTORS.dropdown) });
-			expect(input).not.toHaveFocus();
+			expect(input).toHaveFocus();
 			expect(onAdd).not.toHaveBeenCalled();
 			expect(input).toHaveValue('h');
+		});
+
+		test('with confirmChipOnBlurWithOptions, the typed text becomes a chip when the field is left after a click on a disabled option', async () => {
+			const onAdd = vi.fn((value: unknown) => ({ label: `chip of ${String(value)}` }));
+			const { user } = setup(
+				<>
+					<ChipInput
+						options={[{ id: 'loading', label: 'Loading', disabled: true }, ...options]}
+						onAdd={onAdd}
+						confirmChipOnBlurWithOptions
+					/>
+					<button type="button">Send</button>
+				</>
+			);
+			await typeInInput(user, screen.getByRole('textbox'), 'hel');
+			await user.click(screen.getByText('Loading'));
+			await user.click(screen.getByRole('button', { name: 'Send' }));
+			expect(onAdd).toHaveBeenCalledWith('hel');
+		});
+
+		test('with confirmChipOnBlurWithOptions, the typed text becomes a chip when the field is left after a press dragged off an option', async () => {
+			const onAdd = vi.fn((value: unknown) => ({ label: `chip of ${String(value)}` }));
+			const { user } = setup(
+				<>
+					<ChipInput options={options} onAdd={onAdd} confirmChipOnBlurWithOptions />
+					<button type="button">Send</button>
+				</>
+			);
+			await typeInInput(user, screen.getByRole('textbox'), 'hel');
+			await user.pointer([
+				{ keys: '[MouseLeft>]', target: screen.getByText('Helen') },
+				{ target: document.body },
+				{ keys: '[/MouseLeft]' }
+			]);
+			await user.click(screen.getByRole('button', { name: 'Send' }));
+			expect(onAdd).toHaveBeenCalledWith('hel');
 		});
 
 		test('confirmChipOnBlurWithOptions does nothing when confirmChipOnBlur is off', async () => {
