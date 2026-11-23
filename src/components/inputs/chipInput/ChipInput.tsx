@@ -445,10 +445,10 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 	}, []);
 
 	const [forceShowDropdown, setForceShowDropdown] = useState(false);
-	const [isDropdownOpenedByTrigger, setIsDropdownOpenedByTrigger] = useState(false);
 	const [dropdownItems, setDropdownItems] = useState<DropdownItem[]>(options);
 	// option highlighted with the arrow keys, while the focus stays in the input
 	const [activeOptionId, setActiveOptionId] = useState<string | undefined>(undefined);
+	// the list is mounted only while it is open: this is the one source of truth for "the options are shown"
 	const dropdownListRef = useRef<HTMLDivElement | null>(null);
 	// a press inside the list (an option, its scrollbar) moves the focus out of the input without leaving the field
 	const pressInListRef = useRef(false);
@@ -677,13 +677,11 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 	);
 
 	const onOpen = useCallback(() => {
-		setIsDropdownOpenedByTrigger(true);
 		showDropdown(true);
 	}, [showDropdown]);
 
 	const onClose = useCallback(() => {
 		setForceShowDropdown(false);
-		setIsDropdownOpenedByTrigger(false);
 		setActiveOptionId(undefined);
 		showDropdown(false);
 	}, [showDropdown]);
@@ -797,10 +795,8 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 		[dropdownItems]
 	);
 
-	const isDropdownOpen = forceShowDropdown || isDropdownOpenedByTrigger;
-
 	useEffect(() => {
-		if (!isDropdownOpen || !confirmChipOnBlurWithOptions) {
+		if (!confirmChipOnBlurWithOptions) {
 			return undefined;
 		}
 		const onPress = (event: MouseEvent): void => {
@@ -818,7 +814,7 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 			document.removeEventListener('mouseup', onRelease, true);
 			pressInListRef.current = false;
 		};
-	}, [confirmChipOnBlurWithOptions, isDropdownOpen]);
+	}, [confirmChipOnBlurWithOptions]);
 
 	const moveActiveOption = useCallback(
 		(step: 1 | -1) => {
@@ -846,7 +842,7 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 			if (navigableOptions.length === 0) {
 				return;
 			}
-			if (!isDropdownOpen) {
+			if (dropdownListRef.current === null) {
 				if (!closedByEscapeRef.current) {
 					return;
 				}
@@ -856,7 +852,7 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 			event.preventDefault();
 			moveActiveOption(step);
 		},
-		[isDropdownOpen, moveActiveOption, navigableOptions]
+		[moveActiveOption, navigableOptions]
 	);
 
 	const optionsKeyEvents = useMemo<KeyboardPresetObj[]>(
@@ -888,13 +884,14 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 			{
 				type: 'keydown',
 				callback: (): void => {
-					closedByEscapeRef.current = isDropdownOpen;
+					// the input hears escape before the dropdown closes the list
+					closedByEscapeRef.current = dropdownListRef.current !== null;
 				},
 				keys: [{ key: 'Escape', ctrlKey: false }],
 				haveToPreventDefault: false
 			}
 		],
-		[activeOptionId, chooseActiveOption, isDropdownOpen, onArrowKey]
+		[activeOptionId, chooseActiveOption, onArrowKey]
 	);
 
 	useKeyboard(inputElRef, optionsKeyEvents);

@@ -1233,6 +1233,23 @@ describe('ChipInput', () => {
 			expect(screen.queryByText('Helen')).not.toBeInTheDocument();
 		});
 
+		test('enter adds the typed text after the list opened by a click was closed by disableOptions', async () => {
+			const onAdd = vi.fn((value: unknown) => ({ label: `chip of ${String(value)}` }));
+			const { user, rerender } = setup(
+				<ChipInput options={options} onAdd={onAdd} disableOptions={false} />
+			);
+			await user.click(screen.getByRole('textbox'));
+			expect(screen.getByText('Helen')).toBeVisible();
+			// the consumer switches to suggestion mode while the user types, as carbonio-search-ui does
+			rerender(<ChipInput options={options} onAdd={onAdd} disableOptions />);
+			await user.keyboard('foo{Enter}');
+			rerender(<ChipInput options={options} onAdd={onAdd} disableOptions={false} />);
+			await user.keyboard('bar');
+			await user.arrowDown();
+			await user.keyboard('{Enter}');
+			expect(onAdd).toHaveBeenLastCalledWith('bar');
+		});
+
 		test('new options after a chip was created from the typed text are shown again', async () => {
 			const { user, rerender } = setup(<ChipInput options={options} />);
 			await typeInInput(user, screen.getByRole('textbox'), 'h');
