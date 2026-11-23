@@ -143,6 +143,50 @@ describe('DateTimePicker', () => {
 			expect(inputElement).toHaveValue('');
 		});
 
+		it('should not set a date when the typed text becomes invalid after a valid date and Enter is pressed', async () => {
+			const onChangeFn = vi.fn();
+			const { user } = setup(<DateTimePicker label={'label'} onChange={onChangeFn} />);
+			const date = addMonths(startOfMonth(new Date()), 1);
+			date.setHours(15, 1);
+			await user.type(screen.getByRole('textbox'), `${format(date, DEFAULT_DATE_FORMAT)}x`);
+			await user.keyboard('[Enter]');
+			expect(onChangeFn).toHaveBeenLastCalledWith(null);
+			expect(screen.getByRole('textbox')).toHaveValue('');
+		});
+
+		it('should not set a date when the typed text becomes invalid after a valid date and clicking outside', async () => {
+			const onChangeFn = vi.fn();
+			const { user } = setup(
+				<>
+					<DateTimePicker label={'label'} onChange={onChangeFn} />
+					<span>Blur</span>
+				</>
+			);
+			const date = addMonths(startOfMonth(new Date()), 1);
+			date.setHours(15, 1);
+			await user.type(screen.getByRole('textbox'), `${format(date, DEFAULT_DATE_FORMAT)}x`);
+			await user.click(screen.getByText('Blur'));
+			expect(onChangeFn).toHaveBeenLastCalledWith(null);
+			expect(screen.getByRole('textbox')).toHaveValue('');
+		});
+
+		it('should keep the date when its text is edited back to the same value', async () => {
+			const onChangeFn = vi.fn();
+			const date = addMonths(startOfMonth(new Date()), 1);
+			date.setHours(15, 1);
+			const { user } = setup(
+				<>
+					<DateTimePicker label={'label'} onChange={onChangeFn} defaultValue={date} />
+					<span>Blur</span>
+				</>
+			);
+			await user.click(screen.getByRole('textbox'));
+			await user.keyboard('[End][Backspace]M');
+			await user.click(screen.getByText('Blur'));
+			expect(onChangeFn).not.toHaveBeenCalledWith(null);
+			expect(screen.getByRole('textbox')).toHaveValue(format(date, DEFAULT_DATE_FORMAT));
+		});
+
 		test('When a new value is set, onChange prop is called with the new value', async () => {
 			const onChangeFn = vi.fn();
 			const { user } = setup(<DateTimePicker label={'label'} onChange={onChangeFn} />);
@@ -357,6 +401,62 @@ describe('DateTimePicker', () => {
 			expect(onChangeFn).toHaveBeenLastCalledWith(null);
 			expect(screen.queryByRoleWithIcon('button', { icon: ICONS.close })).not.toBeInTheDocument();
 			expect(inputElement).toHaveValue('');
+		});
+
+		it('should not set a date when the typed text becomes invalid after a valid date and Enter is pressed', async () => {
+			const onChangeFn = vi.fn();
+			const { user } = setup(<DateTimePicker label={'label'} onChange={onChangeFn} enableChips />);
+			const date = addMonths(startOfMonth(new Date()), 1);
+			date.setHours(15, 1);
+			await user.type(screen.getByRole('textbox'), `${format(date, DEFAULT_DATE_FORMAT)}x`);
+			await user.keyboard('[Enter]');
+			expect(onChangeFn).toHaveBeenLastCalledWith(null);
+			expect(screen.queryByText(format(date, DEFAULT_DATE_FORMAT))).not.toBeInTheDocument();
+			expect(screen.getByRole('textbox')).toHaveValue('');
+		});
+
+		it('should not set a date when the typed text becomes invalid after a valid date and clicking outside', async () => {
+			const onChangeFn = vi.fn();
+			const { user } = setup(
+				<>
+					<DateTimePicker label={'label'} onChange={onChangeFn} enableChips />
+					<span>Blur</span>
+				</>
+			);
+			const date = addMonths(startOfMonth(new Date()), 1);
+			date.setHours(15, 1);
+			await user.type(screen.getByRole('textbox'), `${format(date, DEFAULT_DATE_FORMAT)}x`);
+			await user.click(screen.getByText('Blur'));
+			expect(onChangeFn).toHaveBeenLastCalledWith(null);
+			expect(screen.queryByText(format(date, DEFAULT_DATE_FORMAT))).not.toBeInTheDocument();
+			expect(screen.getByRole('textbox')).toHaveValue('');
+		});
+
+		it('should set the typed date when Enter is pressed right after typing', async () => {
+			const onChangeFn = vi.fn();
+			const { user } = setup(<DateTimePicker label={'label'} onChange={onChangeFn} enableChips />);
+			const date = addMonths(startOfMonth(new Date()), 1);
+			date.setHours(15, 1);
+			await user.type(screen.getByRole('textbox'), format(date, DEFAULT_DATE_FORMAT));
+			await user.keyboard('[Enter]');
+			expect(onChangeFn).toHaveBeenLastCalledWith(date);
+			expect(screen.getByText(format(date, DEFAULT_DATE_FORMAT))).toBeVisible();
+		});
+
+		it('should set the typed date when clicking outside right after typing', async () => {
+			const onChangeFn = vi.fn();
+			const { user } = setup(
+				<>
+					<DateTimePicker label={'label'} onChange={onChangeFn} enableChips />
+					<span>Blur</span>
+				</>
+			);
+			const date = addMonths(startOfMonth(new Date()), 1);
+			date.setHours(15, 1);
+			await user.type(screen.getByRole('textbox'), format(date, DEFAULT_DATE_FORMAT));
+			await user.click(screen.getByText('Blur'));
+			expect(onChangeFn).toHaveBeenLastCalledWith(date);
+			expect(screen.getByText(format(date, DEFAULT_DATE_FORMAT))).toBeVisible();
 		});
 
 		it('should disable the "show calendar" action if component is disabled', () => {

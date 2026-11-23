@@ -75,20 +75,32 @@ export const DateTimePickerChipInput = React.forwardRef<
 		}
 	}, [chipProps, chipValue, disabled, onClick, value]);
 
-	const onInputType = useCallback(
-		(event: React.KeyboardEvent<HTMLInputElement>) => {
-			if (onChange && event.target instanceof HTMLInputElement) {
-				onChange({
-					...event,
-					target: event.target
-				});
+	useEffect(() => {
+		// react-datepicker empties its value when it closes without a date: drop the invalid text
+		if (!value && inputRef.current?.value) {
+			inputRef.current.value = '';
+			inputRef.current.dispatchEvent(new Event('change'));
+		}
+	}, [value]);
+
+	// relay every change synchronously, so that react-datepicker has parsed the text
+	// before an Enter or a click outside confirms it
+	const onInput = useCallback(
+		(event: React.FormEvent<HTMLDivElement>) => {
+			if (event.target !== inputRef.current || !(event.target instanceof HTMLInputElement)) {
+				return;
 			}
+			onChange?.({
+				...event,
+				target: event.target,
+				currentTarget: event.target
+			});
 		},
 		[onChange]
 	);
 
 	return (
-		<Container width={width} ref={ref}>
+		<Container width={width} ref={ref} onInput={onInput}>
 			<ChipInput
 				icon="CalendarOutline"
 				iconAction={onClick}
@@ -100,7 +112,6 @@ export const DateTimePickerChipInput = React.forwardRef<
 				placeholder={placeholder}
 				value={chipInputValue}
 				onChange={handleChipChange}
-				onInputType={onInputType}
 				maxChips={1}
 				confirmChipOnBlur={false}
 				inputRef={inputRef}
