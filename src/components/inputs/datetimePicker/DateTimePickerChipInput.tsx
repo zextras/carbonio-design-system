@@ -24,8 +24,6 @@ export type DateTimePickerChipInputProps = Omit<
 	chipProps: Partial<ChipProps> | undefined;
 	/** Redefine onChange for ChipInput to avoid having it overwritten by react-datepicker */
 	handleChipChange: (items: DateChipItem[]) => void;
-	/** Called on every change of the typed text, to discard the date parsed from the previous text */
-	onInputClear: () => void;
 };
 
 export const DateTimePickerChipInput = React.forwardRef<
@@ -38,7 +36,6 @@ export const DateTimePickerChipInput = React.forwardRef<
 		onChange,
 		chipProps,
 		handleChipChange,
-		onInputClear,
 		placeholder,
 		chipValue,
 		value,
@@ -93,14 +90,13 @@ export const DateTimePickerChipInput = React.forwardRef<
 			if (event.target !== inputRef.current || !(event.target instanceof HTMLInputElement)) {
 				return;
 			}
-			onInputClear();
 			onChange?.({
 				...event,
 				target: event.target,
 				currentTarget: event.target
 			});
 		},
-		[onChange, onInputClear]
+		[onChange]
 	);
 
 	return (

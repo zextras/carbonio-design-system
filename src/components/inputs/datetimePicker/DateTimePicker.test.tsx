@@ -143,6 +143,50 @@ describe('DateTimePicker', () => {
 			expect(inputElement).toHaveValue('');
 		});
 
+		it('should not set a date when the typed text becomes invalid after a valid date and Enter is pressed', async () => {
+			const onChangeFn = vi.fn();
+			const { user } = setup(<DateTimePicker label={'label'} onChange={onChangeFn} />);
+			const date = addMonths(startOfMonth(new Date()), 1);
+			date.setHours(15, 1);
+			await user.type(screen.getByRole('textbox'), `${format(date, DEFAULT_DATE_FORMAT)}x`);
+			await user.keyboard('[Enter]');
+			expect(onChangeFn).toHaveBeenLastCalledWith(null);
+			expect(screen.getByRole('textbox')).toHaveValue('');
+		});
+
+		it('should not set a date when the typed text becomes invalid after a valid date and clicking outside', async () => {
+			const onChangeFn = vi.fn();
+			const { user } = setup(
+				<>
+					<DateTimePicker label={'label'} onChange={onChangeFn} />
+					<span>Blur</span>
+				</>
+			);
+			const date = addMonths(startOfMonth(new Date()), 1);
+			date.setHours(15, 1);
+			await user.type(screen.getByRole('textbox'), `${format(date, DEFAULT_DATE_FORMAT)}x`);
+			await user.click(screen.getByText('Blur'));
+			expect(onChangeFn).toHaveBeenLastCalledWith(null);
+			expect(screen.getByRole('textbox')).toHaveValue('');
+		});
+
+		it('should keep the date when its text is edited back to the same value', async () => {
+			const onChangeFn = vi.fn();
+			const date = addMonths(startOfMonth(new Date()), 1);
+			date.setHours(15, 1);
+			const { user } = setup(
+				<>
+					<DateTimePicker label={'label'} onChange={onChangeFn} defaultValue={date} />
+					<span>Blur</span>
+				</>
+			);
+			await user.click(screen.getByRole('textbox'));
+			await user.keyboard('[End][Backspace]M');
+			await user.click(screen.getByText('Blur'));
+			expect(onChangeFn).not.toHaveBeenCalledWith(null);
+			expect(screen.getByRole('textbox')).toHaveValue(format(date, DEFAULT_DATE_FORMAT));
+		});
+
 		test('When a new value is set, onChange prop is called with the new value', async () => {
 			const onChangeFn = vi.fn();
 			const { user } = setup(<DateTimePicker label={'label'} onChange={onChangeFn} />);
