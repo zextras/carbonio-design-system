@@ -1264,6 +1264,26 @@ describe('ChipInput', () => {
 			expect(screen.getByText('Helen')).toBeVisible();
 		});
 
+		test('with onInputType, the suggestions hidden by a chip are shown again only after the debounced call', async () => {
+			const onInputType = vi.fn();
+			const { user } = setup(<ChipInput options={options} onInputType={onInputType} />);
+			await typeInInput(user, screen.getByRole('textbox'), 'john');
+			await user.enter();
+			await act(async () => {
+				await vi.advanceTimersByTimeAsync(500);
+			});
+			// the keyup of enter reaches onInputType too, with no text: the list stays hidden
+			expect(screen.queryByText('Helen')).not.toBeInTheDocument();
+			await user.keyboard('m');
+			// the options still belong to the previous text
+			expect(screen.queryByText('Helen')).not.toBeInTheDocument();
+			await act(async () => {
+				await vi.advanceTimersByTimeAsync(500);
+			});
+			expect(onInputType).toHaveBeenLastCalledWith(expect.objectContaining({ textContent: 'm' }));
+			expect(screen.getByText('Helen')).toBeVisible();
+		});
+
 		test('enter adds the typed text after the list opened by a click was closed by disableOptions', async () => {
 			const onAdd = vi.fn((value: unknown) => ({ label: `chip of ${String(value)}` }));
 			const { user, rerender } = setup(

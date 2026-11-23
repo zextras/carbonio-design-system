@@ -9,7 +9,7 @@ import React, { useCallback, useEffect, useMemo, useReducer, useRef, useState } 
 
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { filter, slice, isEmpty, debounce, trim, uniq } from 'lodash';
+import { filter, slice, isEmpty, debounce, noop, trim, uniq } from 'lodash';
 
 import { useCombinedRefs } from '../../../hooks/useCombinedRefs';
 import type { KeyboardPresetKey, KeyboardPresetObj } from '../../../hooks/useKeyboard';
@@ -626,6 +626,8 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 
 	// a new onInputType (e.g. rebuilt by the parent after a chip is added) must not drop the call already waiting
 	const onInputTypeRef = useRef(onInputType);
+	// set below, once the options are known: the debounced call shows the suggestions hidden by a separator
+	const showHiddenSuggestionsRef = useRef<() => void>(noop);
 	useEffect(() => {
 		onInputTypeRef.current = onInputType;
 	}, [onInputType]);
@@ -637,6 +639,7 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 					...ev,
 					textContent: inputElRef.current?.value ?? null
 				});
+				showHiddenSuggestionsRef.current();
 			}, onInputTypeDebounce),
 		[inputElRef, onInputTypeDebounce]
 	);
@@ -785,17 +788,31 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 		closedByEscapeRef.current = false;
 	}, [options]);
 
+	const showHiddenSuggestions = useCallback(() => {
+		// the keyup of the separator itself also reaches the debounced call, with the input already empty
+		if (!hiddenBySeparatorRef.current || !inputElRef.current?.value) {
+			return;
+		}
+		// new text after a chip: show the suggestions again, also when the options array keeps its identity
+		hiddenBySeparatorRef.current = false;
+		if (isDropdownDisabled && !isEmpty(options)) {
+			setForceShowDropdown(true);
+		}
+	}, [inputElRef, isDropdownDisabled, options]);
+
+	useEffect(() => {
+		showHiddenSuggestionsRef.current = showHiddenSuggestions;
+	}, [showHiddenSuggestions]);
+
 	const onTextInput = useCallback(() => {
 		setActiveOptionId(undefined);
 		closedByEscapeRef.current = false;
-		if (hiddenBySeparatorRef.current) {
-			// new text after a chip: show the suggestions again, also when the options array keeps its identity
-			hiddenBySeparatorRef.current = false;
-			if (isDropdownDisabled && !isEmpty(options)) {
-				setForceShowDropdown(true);
-			}
+		// with onInputType the options still belong to the previous text until the consumer gets the new one:
+		// they are shown again after the debounced call (showHiddenSuggestionsRef)
+		if (!onInputType) {
+			showHiddenSuggestions();
 		}
-	}, [isDropdownDisabled, options]);
+	}, [onInputType, showHiddenSuggestions]);
 
 	const navigableOptions = useMemo(
 		() =>
