@@ -536,7 +536,11 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 		(event: KeyboardEvent) => {
 			// enter on a highlighted option adds the option, not the typed text (optionsKeyEvents);
 			// tab never takes the highlighted option: the typed text follows the separator or blur rules
-			if (activeOptionId !== undefined && event.key === 'Enter') {
+			if (
+				activeOptionId !== undefined &&
+				dropdownListRef.current !== null &&
+				event.key === 'Enter'
+			) {
 				return;
 			}
 			saveTypedText();
@@ -783,10 +787,10 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 	}, [isDropdownDisabled, options]);
 
 	useEffect(() => {
-		// new options (e.g. the results of a new search): nothing is highlighted
+		// new options (e.g. the results of a new search), or the list forced open or closed: nothing is highlighted
 		setActiveOptionId(undefined);
 		closedByEscapeRef.current = false;
-	}, [options]);
+	}, [options, isDropdownDisabled]);
 
 	const showHiddenSuggestions = useCallback(() => {
 		// the keyup of the separator itself also reaches the debounced call, with the input already empty
@@ -900,7 +904,8 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 			{
 				type: 'keydown',
 				callback: (event): void => {
-					if (activeOptionId === undefined) {
+					// a highlight left on a list closed without onClose (forceOpen turned false) is not a choice
+					if (activeOptionId === undefined || dropdownListRef.current === null) {
 						return;
 					}
 					event.preventDefault();

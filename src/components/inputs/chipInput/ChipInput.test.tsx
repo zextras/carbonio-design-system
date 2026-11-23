@@ -1284,6 +1284,19 @@ describe('ChipInput', () => {
 			expect(screen.getByText('Helen')).toBeVisible();
 		});
 
+		test('enter adds the typed text after a highlighted list was closed by disableOptions', async () => {
+			const onAdd = vi.fn((value: unknown) => ({ label: `chip of ${String(value)}` }));
+			const { user, rerender } = setup(<ChipInput options={options} onAdd={onAdd} />);
+			await typeInInput(user, screen.getByRole('textbox'), 'foo');
+			await user.arrowDown();
+			expect(getOption('Helen')).toHaveClass('zapp-active');
+			// the forced list closes without onClose
+			rerender(<ChipInput options={options} onAdd={onAdd} disableOptions={false} />);
+			expect(screen.queryByText('Helen')).not.toBeInTheDocument();
+			await user.enter();
+			expect(onAdd).toHaveBeenCalledWith('foo');
+		});
+
 		test('enter adds the typed text after the list opened by a click was closed by disableOptions', async () => {
 			const onAdd = vi.fn((value: unknown) => ({ label: `chip of ${String(value)}` }));
 			const { user, rerender } = setup(
