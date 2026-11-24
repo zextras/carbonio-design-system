@@ -325,6 +325,27 @@ describe('Dropdown', () => {
 		expect(onModalClose).not.toHaveBeenCalled();
 	});
 
+	it('should let escape close the modal around a dropdown forced open that has no onClose', async () => {
+		const items = [{ id: '1', label: 'Some Item' }] satisfies DropdownItem[];
+		const onModalClose = vi.fn();
+		const { user } = setup(
+			<Modal open title="modal with dropdown" onClose={onModalClose}>
+				<Dropdown items={items} disableAutoFocus forceOpen>
+					<Button label="opener" onClick={vi.fn()} />
+				</Dropdown>
+			</Modal>
+		);
+		act(() => {
+			vi.advanceTimersByTime(TIMERS.MODAL.DELAY_OPEN);
+		});
+		await screen.findByText('Some Item');
+		act(() => {
+			screen.getByRole('button', { name: /opener/i }).focus();
+		});
+		await user.esc();
+		expect(onModalClose).toHaveBeenCalled();
+	});
+
 	it('should give the list to dropdownListRef as soon as it opens', async () => {
 		const items = [{ id: '1', label: 'Some Item' }] satisfies DropdownItem[];
 		const dropdownListRef = React.createRef<HTMLDivElement>();

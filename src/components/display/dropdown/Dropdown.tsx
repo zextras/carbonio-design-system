@@ -743,14 +743,18 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 			{
 				type: 'keydown',
 				callback: (event): void => {
-					// the escape closes only the dropdown, not a modal or a board around the trigger
-					event.stopPropagation();
+					// the escape closes only the dropdown, not a modal or a board around the trigger.
+					// A list forced open closes only through onClose (the owner drops forceOpen): without it,
+					// escape closes nothing here and must still reach the modal around
+					if (!forceOpen || onClose !== undefined) {
+						event.stopPropagation();
+					}
 					closePopper(event);
 				},
 				keys: [{ key: 'Escape', ctrlKey: false }]
 			}
 		],
-		[closePopper]
+		[closePopper, forceOpen, onClose]
 	);
 
 	// with disableAutoFocus the focus stays on the trigger while the dropdown is open: escape closes it from there
