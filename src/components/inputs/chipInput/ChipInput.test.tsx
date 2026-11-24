@@ -1643,5 +1643,34 @@ describe('ChipInput', () => {
 			});
 			expect(onInputType).toHaveBeenCalledTimes(1);
 		});
+
+		test.each(['Shift', 'Alt', 'Meta'])(
+			'%s with the arrows keeps the highlight where it is and the default of the keys',
+			async (modifier) => {
+				const { user } = setup(<ChipInput options={options} />);
+				await typeInInput(user, screen.getByRole('textbox'), 'h');
+				await user.arrowDown();
+				const keyDowns: KeyboardEvent[] = [];
+				const onKeyDown = (event: KeyboardEvent): void => {
+					keyDowns.push(event);
+				};
+				document.addEventListener('keydown', onKeyDown);
+				await user.keyboard(`{${modifier}>}{ArrowDown}{ArrowUp}{/${modifier}}`);
+				document.removeEventListener('keydown', onKeyDown);
+				expect(getOption('Helen')).toHaveClass('zapp-active');
+				const arrows = keyDowns.filter((event) => event.key.startsWith('Arrow'));
+				expect(arrows).toHaveLength(2);
+				expect(arrows.some((event) => event.defaultPrevented)).toBe(false);
+			}
+		);
+
+		test('shift+enter does not choose the highlighted option', async () => {
+			const onAdd = vi.fn((value: unknown) => ({ label: `chip of ${String(value)}` }));
+			const { user } = setup(<ChipInput options={options} onAdd={onAdd} />);
+			await typeInInput(user, screen.getByRole('textbox'), 'h');
+			await user.arrowDown();
+			await user.keyboard('{Shift>}{Enter}{/Shift}');
+			expect(onAdd).not.toHaveBeenCalledWith('helen@example.com');
+		});
 	});
 });

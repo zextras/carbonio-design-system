@@ -38,6 +38,10 @@ import { InputLabel } from '../commons/InputLabel';
  * Keys that move the caret, the focus or the highlighted option without changing the text: they never
  * call onInputType, so they never start a search. Add a key here to exclude it from onInputType too.
  */
+// useKeyboard matches the keys partially: without these, shift+arrows (select text) and cmd+arrows (start or end
+// of the text on macOS) would move the highlight, and shift+enter would choose the highlighted option
+const NO_MODIFIERS = { ctrlKey: false, shiftKey: false, altKey: false, metaKey: false } as const;
+
 const NAVIGATION_KEYS: ReadonlySet<KeyboardEvent['key']> = new Set([
 	'ArrowUp',
 	'ArrowDown',
@@ -893,13 +897,13 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 			{
 				type: 'keydown',
 				callback: (event): void => onArrowKey(event, 1),
-				keys: [{ key: 'ArrowDown', ctrlKey: false }],
+				keys: [{ key: 'ArrowDown', ...NO_MODIFIERS }],
 				haveToPreventDefault: false
 			},
 			{
 				type: 'keydown',
 				callback: (event): void => onArrowKey(event, -1),
-				keys: [{ key: 'ArrowUp', ctrlKey: false }],
+				keys: [{ key: 'ArrowUp', ...NO_MODIFIERS }],
 				haveToPreventDefault: false
 			},
 			{
@@ -911,7 +915,7 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 					event.preventDefault();
 					chooseActiveOption();
 				},
-				keys: [{ key: 'Enter', ctrlKey: false }],
+				keys: [{ key: 'Enter', ...NO_MODIFIERS }],
 				haveToPreventDefault: false
 			},
 			{
