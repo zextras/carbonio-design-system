@@ -1034,6 +1034,8 @@ describe('ChipInput', () => {
 			{ id: 'opt2', label: 'Hector', value: 'hector@example.com' },
 			{ id: 'opt3', label: 'Hannah', value: 'hannah@example.com' }
 		];
+		// another search result: options with other ids are new options, the same ones rebuilt by the parent are not
+		const otherOption = { id: 'opt4', label: 'Hugo', value: 'hugo@example.com' };
 
 		function getOption(label: string): HTMLElement {
 			const option = screen
@@ -1319,7 +1321,7 @@ describe('ChipInput', () => {
 			await typeInInput(user, screen.getByRole('textbox'), 'h');
 			await user.enter();
 			expect(screen.queryByText('Helen')).not.toBeInTheDocument();
-			rerender(<ChipInput options={[...options]} />);
+			rerender(<ChipInput options={[...options, otherOption]} />);
 			expect(await screen.findByText('Helen')).toBeVisible();
 		});
 
@@ -1603,7 +1605,7 @@ describe('ChipInput', () => {
 			await typeInInput(user, screen.getByRole('textbox'), 'h');
 			await user.arrowDown();
 			expect(getOption('Helen')).toHaveClass('zapp-active');
-			rerender(<ChipInput options={[...options]} />);
+			rerender(<ChipInput options={[...options, otherOption]} />);
 			expect(getOption('Helen')).not.toHaveClass('zapp-active');
 		});
 
@@ -1671,6 +1673,45 @@ describe('ChipInput', () => {
 			await user.arrowDown();
 			await user.keyboard('{Shift>}{Enter}{/Shift}');
 			expect(onAdd).not.toHaveBeenCalledWith('helen@example.com');
+		});
+
+		describe('with a parent that rebuilds the same options on every render', () => {
+			function InlineOptionsParent(
+				props: Omit<ChipInputProps<string>, 'options' | 'onOptionsDisplayChange' | 'onChange'>
+			): React.JSX.Element {
+				const [, setOptionsVisible] = useState(false);
+				const [, setChipsCount] = useState(0);
+				return (
+					<ChipInput
+						{...props}
+						options={options.map((option) => ({ ...option }))}
+						onOptionsDisplayChange={setOptionsVisible}
+						onChange={(chips): void => setChipsCount(chips.length)}
+					/>
+				);
+			}
+
+			test('arrow down after escape reopens the options opened by a click and highlights the first one', async () => {
+				const { user } = setup(<InlineOptionsParent disableOptions={false} />);
+				await user.click(screen.getByRole('textbox'));
+				expect(screen.getByText('Helen')).toBeVisible();
+				await user.esc();
+				expect(screen.queryByText('Helen')).not.toBeInTheDocument();
+				await user.arrowDown();
+				expect(screen.getByText('Helen')).toBeVisible();
+				expect(getOption('Helen')).toHaveClass('zapp-active');
+			});
+
+			test('the suggestions hidden after a chip stay hidden when the parent rebuilds them', async () => {
+				const { user } = setup(<InlineOptionsParent />);
+				await typeInInput(user, screen.getByRole('textbox'), 'foo');
+				expect(screen.getByText('Helen')).toBeVisible();
+				await user.enter();
+				expect(screen.getByText('foo')).toBeVisible();
+				expect(screen.queryByText('Helen')).not.toBeInTheDocument();
+				await user.keyboard('h');
+				expect(screen.getByText('Helen')).toBeVisible();
+			});
 		});
 	});
 });

@@ -459,8 +459,12 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 	const dropdownListRef = useRef<HTMLDivElement | null>(null);
 	// the arrows reopen only the options closed with escape, not the ones of a search already used
 	const closedByEscapeRef = useRef(false);
-	// the suggestions hidden when the typed text became a chip: the next typed text shows them again
-	const hiddenBySeparatorRef = useRef(false);
+	// the options compared by their ids: a parent that rebuilds the same options on every render (e.g. an inline map)
+	// must not close the list reopened with the arrows, clear the highlight or show the suggestions hidden after a chip
+	const optionsKey = useMemo(() => options.map((option) => option.id).join('\n'), [options]);
+	// the ids of the suggestions hidden when the typed text became a chip: the same options arriving again stay
+	// hidden, new options or the next typed text show them again
+	const hiddenOptionsKeyRef = useRef<string | undefined>(undefined);
 
 	const uncontrolledMode = useMemo(() => value === undefined, [value]);
 
@@ -533,11 +537,11 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 			// the options were suggestions for the text that just became a chip: hide them until new ones arrive
 			// or the user types again (a list opened with a click stays open)
 			setForceShowDropdown(false);
-			hiddenBySeparatorRef.current = true;
+			hiddenOptionsKeyRef.current = optionsKey;
 		}
 		saveCurrentValue();
 		setActiveOptionId(undefined);
-	}, [inputElRef, saveCurrentValue]);
+	}, [inputElRef, optionsKey, saveCurrentValue]);
 
 	const onSeparator = useCallback(
 		(event: KeyboardEvent) => {
@@ -784,24 +788,37 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 
 	useEffect(() => {
 		// if dropdown is set to not open on click (dropdownDisabled),
-		// force open it on options change to simulate suggestion mode
-		setForceShowDropdown(isDropdownDisabled && !isEmpty(options));
-		hiddenBySeparatorRef.current = false;
-	}, [isDropdownDisabled, options]);
+		// force open it on options change to simulate suggestion mode,
+		// except for the suggestions just hidden after a chip that arrive again
+		if (!isDropdownDisabled || hiddenOptionsKeyRef.current === optionsKey) {
+			return;
+		}
+		hiddenOptionsKeyRef.current = undefined;
+		setForceShowDropdown(!isEmpty(options));
+	}, [isDropdownDisabled, options, optionsKey]);
 
 	useEffect(() => {
-		// new options (e.g. the results of a new search), or the list forced open or closed: nothing is highlighted
+		// the list opens with a click: other options, or the switch from suggestion mode, close the one forced open
+		// (reopened with the arrows), while the same options rebuilt by the parent leave it open
+		if (!isDropdownDisabled) {
+			setForceShowDropdown(false);
+			hiddenOptionsKeyRef.current = undefined;
+		}
+	}, [isDropdownDisabled, optionsKey]);
+
+	useEffect(() => {
+		// other options (e.g. the results of a new search), or the list forced open or closed: nothing is highlighted
 		setActiveOptionId(undefined);
 		closedByEscapeRef.current = false;
-	}, [options, isDropdownDisabled]);
+	}, [optionsKey, isDropdownDisabled]);
 
 	const showHiddenSuggestions = useCallback(() => {
 		// the keyup of the separator itself also reaches the debounced call, with the input already empty
-		if (!hiddenBySeparatorRef.current || !inputElRef.current?.value) {
+		if (hiddenOptionsKeyRef.current === undefined || !inputElRef.current?.value) {
 			return;
 		}
 		// new text after a chip: show the suggestions again, also when the options array keeps its identity
-		hiddenBySeparatorRef.current = false;
+		hiddenOptionsKeyRef.current = undefined;
 		if (isDropdownDisabled && !isEmpty(options)) {
 			setForceShowDropdown(true);
 		}
