@@ -111,6 +111,7 @@ const DateTimePicker = React.forwardRef<DatePicker, DateTimePickerProps>(functio
 		defaultValue = null,
 		disabled,
 		popperModifiers = DEFAULT_MODIFIERS,
+		onChangeRaw,
 		...datePickerProps
 	}: DateTimePickerProps,
 	ref: React.ForwardedRef<DatePicker>
@@ -159,6 +160,16 @@ const DateTimePicker = React.forwardRef<DatePicker, DateTimePickerProps>(functio
 			updateDateTimeState({ type: 'SAVE', value: date });
 		},
 		[updateDateTimeState]
+	);
+
+	const handleChangeRaw = useCallback<NonNullable<DatePickerProps['onChangeRaw']>>(
+		(event) => {
+			// react-datepicker calls onChange only for text it can parse: go back to the committed
+			// date, so that text that is no longer valid does not commit the date parsed before
+			updateDateTimeState({ type: 'SAVE', value: dateTime });
+			onChangeRaw?.(event);
+		},
+		[dateTime, onChangeRaw, updateDateTimeState]
 	);
 
 	const handleChipChange = useCallback<DateTimePickerChipInputProps['handleChipChange']>(
@@ -221,6 +232,7 @@ const DateTimePicker = React.forwardRef<DatePicker, DateTimePickerProps>(functio
 				showPopperArrow={false}
 				selected={dateTime}
 				onChange={onValueChange}
+				onChangeRaw={handleChangeRaw}
 				showTimeSelect={showTimeSelect}
 				timeIntervals={timeIntervals}
 				dateFormat={dateFormat}
