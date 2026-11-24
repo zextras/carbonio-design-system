@@ -34,14 +34,14 @@ import { InputContainer } from '../commons/InputContainer';
 import { InputDescription } from '../commons/InputDescription';
 import { InputLabel } from '../commons/InputLabel';
 
-/**
- * Keys that move the caret, the focus or the highlighted option without changing the text: they never
- * call onInputType, so they never start a search. Add a key here to exclude it from onInputType too.
- */
 // useKeyboard matches the keys partially: without these, shift+arrows (select text) and cmd+arrows (start or end
 // of the text on macOS) would move the highlight, and shift+enter would choose the highlighted option
 const NO_MODIFIERS = { ctrlKey: false, shiftKey: false, altKey: false, metaKey: false } as const;
 
+/**
+ * Keys that move the caret, the focus or the highlighted option without changing the text: they never
+ * call onInputType, so they never start a search. Add a key here to exclude it from onInputType too.
+ */
 const NAVIGATION_KEYS: ReadonlySet<KeyboardEvent['key']> = new Set([
 	'ArrowUp',
 	'ArrowDown',
@@ -537,11 +537,14 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 			// the options were suggestions for the text that just became a chip: hide them until new ones arrive
 			// or the user types again (a list opened with a click stays open)
 			setForceShowDropdown(false);
-			hiddenOptionsKeyRef.current = optionsKey;
+			// only suggestions are hidden: the options of a list opened with a click are not tied to the typed text
+			if (disableOptions) {
+				hiddenOptionsKeyRef.current = optionsKey;
+			}
 		}
 		saveCurrentValue();
 		setActiveOptionId(undefined);
-	}, [inputElRef, optionsKey, saveCurrentValue]);
+	}, [disableOptions, inputElRef, optionsKey, saveCurrentValue]);
 
 	const onSeparator = useCallback(
 		(event: KeyboardEvent) => {

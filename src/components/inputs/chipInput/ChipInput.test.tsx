@@ -18,6 +18,35 @@ import { setup, within } from '../../../tests/utils';
 import { TIMERS } from '../../constants';
 import { Modal } from '../../feedback/modal/Modal';
 
+function cloneOption<T>(option: T): T {
+	return { ...option };
+}
+
+// a parent that builds the options inline: a new array with the same options on every render
+function InlineOptionsParent({
+	options,
+	...props
+}: Readonly<
+	Omit<ChipInputProps<string>, 'onOptionsDisplayChange' | 'onChange'> & {
+		options: NonNullable<ChipInputProps<string>['options']>;
+	}
+>): React.JSX.Element {
+	const [, setOptionsVisible] = useState(false);
+	const [, setChipsCount] = useState(0);
+	const onChange = useCallback(
+		(chips: ChipItem<string>[]): void => setChipsCount(chips.length),
+		[]
+	);
+	return (
+		<ChipInput
+			{...props}
+			options={options.map(cloneOption)}
+			onOptionsDisplayChange={setOptionsVisible}
+			onChange={onChange}
+		/>
+	);
+}
+
 describe('ChipInput', () => {
 	test('render a chip input with a placeholder, two chips, an icon and a description', () => {
 		const chips = [{ label: 'LabelChip 1' }, { label: 'LabelChip 2' }];
@@ -1676,23 +1705,8 @@ describe('ChipInput', () => {
 		});
 
 		describe('with a parent that rebuilds the same options on every render', () => {
-			function InlineOptionsParent(
-				props: Omit<ChipInputProps<string>, 'options' | 'onOptionsDisplayChange' | 'onChange'>
-			): React.JSX.Element {
-				const [, setOptionsVisible] = useState(false);
-				const [, setChipsCount] = useState(0);
-				return (
-					<ChipInput
-						{...props}
-						options={options.map((option) => ({ ...option }))}
-						onOptionsDisplayChange={setOptionsVisible}
-						onChange={(chips): void => setChipsCount(chips.length)}
-					/>
-				);
-			}
-
 			test('arrow down after escape reopens the options opened by a click and highlights the first one', async () => {
-				const { user } = setup(<InlineOptionsParent disableOptions={false} />);
+				const { user } = setup(<InlineOptionsParent options={options} disableOptions={false} />);
 				await user.click(screen.getByRole('textbox'));
 				expect(screen.getByText('Helen')).toBeVisible();
 				await user.esc();
@@ -1703,7 +1717,7 @@ describe('ChipInput', () => {
 			});
 
 			test('the suggestions hidden after a chip stay hidden when the parent rebuilds them', async () => {
-				const { user } = setup(<InlineOptionsParent />);
+				const { user } = setup(<InlineOptionsParent options={options} />);
 				await typeInInput(user, screen.getByRole('textbox'), 'foo');
 				expect(screen.getByText('Helen')).toBeVisible();
 				await user.enter();
@@ -1712,6 +1726,15 @@ describe('ChipInput', () => {
 				await user.keyboard('h');
 				expect(screen.getByText('Helen')).toBeVisible();
 			});
+		});
+
+		test('a chip that reaches maxChips forces open the options shown on a click, as before', async () => {
+			const { user } = setup(<ChipInput options={options} disableOptions={false} maxChips={1} />);
+			await typeInInput(user, screen.getByRole('textbox'), 'foo');
+			expect(screen.queryByText('Helen')).not.toBeInTheDocument();
+			await user.enter();
+			expect(screen.getByText('foo')).toBeVisible();
+			expect(screen.getByText('Helen')).toBeVisible();
 		});
 	});
 });
