@@ -2,36 +2,15 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "github>zextras/infra-renovate-config",
-    "github>zextras/infra-renovate-config:javascript"
+    "github>zextras/infra-renovate-config:javascript",
+    "github>zextras/carbonio-ui-configs//rules/renovate"
   ],
-  "rebaseWhen": "behind-base-branch",
   "packageRules": [
-    {
-      "description": "Runtime minor/patch updates are bundled weekly by the update-deps skill: keep them listed in the Dependency Dashboard and open a PR only on demand",
-      "matchManagers": ["npm"],
-      "matchDepTypes": ["dependencies"],
-      "matchUpdateTypes": ["minor", "patch"],
-      "dependencyDashboardApproval": true
-    },
-    {
-      "description": "One weekly auto-merged devDependencies bundle instead of one PR (and one patch release) per package",
-      "matchManagers": ["npm"],
-      "matchDepTypes": ["devDependencies"],
-      "matchUpdateTypes": ["minor", "patch"],
-      "groupName": "devDependencies (weekly)",
-      "schedule": ["before 6am on monday"]
-    },
     {
       "description": "@types/node must track the Node major we actually run (see .nvmrc and engines.node): newer typings make tsc accept APIs that are missing at runtime, and skipLibCheck hides the mismatch",
       "matchManagers": ["npm"],
       "matchPackageNames": ["@types/node"],
       "allowedVersions": "<23"
-    },
-    {
-      "description": "engines.node is published to npm as part of package.json: keep it a permissive major range instead of bumping it to the current patch, which makes every consumer on an older 22.x emit 'Unsupported engine' on install. The exact development version stays pinned in .nvmrc",
-      "matchManagers": ["npm"],
-      "matchDepTypes": ["engines"],
-      "rangeStrategy": "replace"
     },
     {
       "description": "@storybook/test-runner must track the Storybook major we run: 0.24 and later require Storybook 10, while this repo is on Storybook 9",
