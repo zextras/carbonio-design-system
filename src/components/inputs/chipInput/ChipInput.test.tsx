@@ -1982,10 +1982,16 @@ describe('ChipInput', () => {
 		});
 
 		describe('during an IME composition', () => {
-			function keyDownWhileComposing(input: HTMLElement, key: string): KeyboardEvent {
+			// Safari sends the enter that ends a composition after compositionend, with keyCode 229 only
+			function keyDownWhileComposing(
+				input: HTMLElement,
+				key: string,
+				{ safari = false }: { safari?: boolean } = {}
+			): KeyboardEvent {
 				const event = new KeyboardEvent('keydown', {
 					key,
-					isComposing: true,
+					isComposing: !safari,
+					keyCode: safari ? 229 : undefined,
 					bubbles: true,
 					cancelable: true
 				});
@@ -2013,6 +2019,24 @@ describe('ChipInput', () => {
 				const event = keyDownWhileComposing(input, 'Enter');
 				expect(event.defaultPrevented).toBe(false);
 				expect(onAdd).not.toHaveBeenCalled();
+			});
+
+			test('the enter that ends a composition in Safari does not choose the highlighted option', async () => {
+				const onAdd = vi.fn((value: unknown) => ({ label: `chip of ${String(value)}` }));
+				const { user } = setup(<ChipInput options={options} onAdd={onAdd} separators={[]} />);
+				const input = screen.getByRole('textbox');
+				await typeInInput(user, input, 'h');
+				await user.arrowDown();
+				keyDownWhileComposing(input, 'Enter', { safari: true });
+				expect(onAdd).not.toHaveBeenCalled();
+			});
+
+			test('escape cancels the composition and leaves the list open', async () => {
+				const { user } = setup(<ChipInput options={options} />);
+				const input = screen.getByRole('textbox');
+				await typeInInput(user, input, 'h');
+				keyDownWhileComposing(input, 'Escape');
+				expect(screen.getByText('Helen')).toBeVisible();
 			});
 		});
 

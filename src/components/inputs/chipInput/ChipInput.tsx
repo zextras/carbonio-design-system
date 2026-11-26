@@ -18,6 +18,7 @@ import { usePrevious } from '../../../hooks/usePrevious';
 import type { Theme } from '../../../theme/theme';
 import { getColor } from '../../../theme/theme-utils';
 import type { AnyColor, PaletteColor } from '../../../types/utils';
+import { isComposingKey } from '../../../utils/keyboard';
 import type { ButtonProps } from '../../basic/button/Button';
 import { Button } from '../../basic/button/Button';
 import { Icon } from '../../basic/icon/Icon';
@@ -934,7 +935,7 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 	const onArrowKey = useCallback(
 		(event: KeyboardEvent, step: 1 | -1): void => {
 			// during an IME composition the arrows move its candidates
-			if (navigableOptions.length === 0 || event.isComposing) {
+			if (navigableOptions.length === 0 || isComposingKey(event)) {
 				return;
 			}
 			if (dropdownListRef.current === null) {
@@ -968,7 +969,7 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 				type: 'keydown',
 				callback: (event): void => {
 					// during an IME composition enter confirms the composed text
-					if (activeOptionId === undefined || event.isComposing) {
+					if (activeOptionId === undefined || isComposingKey(event)) {
 						return;
 					}
 					event.preventDefault();
@@ -979,7 +980,11 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 			},
 			{
 				type: 'keydown',
-				callback: (): void => {
+				callback: (event): void => {
+					// the escape of an IME composition cancels it and leaves the list open
+					if (isComposingKey(event)) {
+						return;
+					}
 					// the input hears escape before the dropdown closes the list
 					closedByEscapeRef.current = dropdownListRef.current !== null;
 				},
