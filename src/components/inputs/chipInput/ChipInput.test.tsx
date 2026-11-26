@@ -1808,7 +1808,9 @@ describe('ChipInput', () => {
 
 		describe('with a parent that filters the suggestions by the typed text', () => {
 			// as the calendars selector of the appointment: no text gives every option
-			function FilteringParent(): React.JSX.Element {
+			function FilteringParent({
+				onInputTypeDebounce = 0
+			}: Readonly<{ onInputTypeDebounce?: number }>): React.JSX.Element {
 				const [filteredOptions, setFilteredOptions] = useState(options);
 				const onInputType = useCallback<NonNullable<ChipInputProps<string>['onInputType']>>(
 					({ textContent }) => {
@@ -1823,7 +1825,7 @@ describe('ChipInput', () => {
 					<ChipInput
 						options={filteredOptions}
 						onInputType={onInputType}
-						onInputTypeDebounce={0}
+						onInputTypeDebounce={onInputTypeDebounce}
 						separators={[]}
 					/>
 				);
@@ -1855,6 +1857,75 @@ describe('ChipInput', () => {
 					await vi.advanceTimersByTimeAsync(0);
 				});
 				expect(screen.queryByText('Hector')).not.toBeInTheDocument();
+			});
+
+			test('enter on a suggestion focused with tab closes the list, as a click does', async () => {
+				const { user } = setup(<FilteringParent />);
+				await typeInInput(user, screen.getByRole('textbox'), 'hel');
+				await act(async () => {
+					await vi.advanceTimersByTimeAsync(0);
+				});
+				act(() => {
+					getOption('Helen').focus();
+				});
+				await user.keyboard('{Enter}');
+				await act(async () => {
+					await vi.advanceTimersByTimeAsync(0);
+				});
+				expect(screen.queryByText('Hector')).not.toBeInTheDocument();
+			});
+
+			test('a search still pending when enter picks a suggestion does not reopen the list', async () => {
+				const { user } = setup(<FilteringParent onInputTypeDebounce={300} />);
+				await typeInInput(user, screen.getByRole('textbox'), 'hel');
+				await act(async () => {
+					await vi.advanceTimersByTimeAsync(300);
+				});
+				await user.keyboard('p');
+				await user.keyboard('{Backspace}');
+				// the search of the last key is still pending
+				await user.arrowDown();
+				await user.enter();
+				await act(async () => {
+					await vi.advanceTimersByTimeAsync(300);
+				});
+				expect(screen.queryByText('Hector')).not.toBeInTheDocument();
+			});
+		});
+
+		describe('enter on the typed text', () => {
+			test('reaches onInputType with the text, so that the consumer can confirm it', async () => {
+				const onInputType = vi.fn();
+				const { user } = setup(<ChipInput onInputType={onInputType} separators={[]} />);
+				await typeInInput(user, screen.getByRole('textbox'), 'abc');
+				await user.enter();
+				await act(async () => {
+					await vi.advanceTimersByTimeAsync(500);
+				});
+				expect(onInputType).toHaveBeenLastCalledWith(
+					expect.objectContaining({ key: 'Enter', textContent: 'abc' })
+				);
+			});
+
+			test('reaches onInputType also when the text was pasted right after an option was chosen', async () => {
+				const onInputType = vi.fn();
+				const { user } = setup(
+					<ChipInput options={options} onInputType={onInputType} separators={[]} />
+				);
+				const input = screen.getByRole('textbox');
+				await typeInInput(user, input, 'h');
+				await user.click(screen.getByText('Helen'));
+				act(() => {
+					input.focus();
+				});
+				await user.paste('abc');
+				await user.enter();
+				await act(async () => {
+					await vi.advanceTimersByTimeAsync(500);
+				});
+				expect(onInputType).toHaveBeenLastCalledWith(
+					expect.objectContaining({ key: 'Enter', textContent: 'abc' })
+				);
 			});
 		});
 
