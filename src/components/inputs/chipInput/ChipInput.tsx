@@ -459,6 +459,8 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 	const dropdownListRef = useRef<HTMLDivElement | null>(null);
 	// the arrows reopen only the options closed with escape, not the ones of a search already used
 	const closedByEscapeRef = useRef(false);
+	// the keyup of the enter that chose the highlighted option must not reach onInputType
+	const optionChosenByEnterRef = useRef(false);
 	// the options compared by their ids: a parent that rebuilds the same options on every render (e.g. an inline map)
 	// must not close the list reopened with the arrows, clear the highlight or show the suggestions hidden after a chip
 	const optionsKey = useMemo(() => options.map((option) => option.id).join('\n'), [options]);
@@ -681,6 +683,12 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 
 	const onInputKeyUp = useCallback(
 		(ev: React.KeyboardEvent<HTMLInputElement>) => {
+			const isKeyUpOfChosenOption = ev.key === 'Enter' && optionChosenByEnterRef.current;
+			optionChosenByEnterRef.current = false;
+			if (isKeyUpOfChosenOption) {
+				// the option chosen with enter ends as a click on it: no search for the input just emptied
+				return;
+			}
 			if (!NAVIGATION_KEYS.has(ev.key)) {
 				debouncedOnInputType(ev);
 			}
@@ -805,7 +813,7 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 	useEffect(() => {
 		// leaving suggestion mode (disableOptions turned off, or maxChips no longer reached) closes the list forced
 		// open. In click mode a list reopened with the arrows then lives as one opened by a click: other options
-		// and a new chip keep it open, escape, a click outside or a chosen option close it
+		// and a new chip keep it open, escape, a click outside or a chosen option (without keepOpen) close it
 		if (!isDropdownDisabled) {
 			setForceShowDropdown(false);
 			hiddenOptionsKeyRef.current = undefined;
@@ -892,7 +900,9 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 
 	const chooseActiveOption = useCallback(() => {
 		// click the item, so that the option is chosen exactly as with the mouse (onClick, keepOpen, close)
-		dropdownListRef.current?.querySelector<HTMLElement>('.zapp-active')?.click();
+		const activeOption = dropdownListRef.current?.querySelector<HTMLElement>('.zapp-active');
+		optionChosenByEnterRef.current = Boolean(activeOption);
+		activeOption?.click();
 		setActiveOptionId(undefined);
 	}, []);
 

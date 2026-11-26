@@ -1728,6 +1728,58 @@ describe('ChipInput', () => {
 			});
 		});
 
+		describe('with a parent that filters the suggestions by the typed text', () => {
+			// as the calendars selector of the appointment: no text gives every option
+			function FilteringParent(): React.JSX.Element {
+				const [filteredOptions, setFilteredOptions] = useState(options);
+				const onInputType = useCallback<NonNullable<ChipInputProps<string>['onInputType']>>(
+					({ textContent }) => {
+						const prefix = (textContent ?? '').toLowerCase();
+						setFilteredOptions(
+							options.filter((option) => (option.label ?? '').toLowerCase().startsWith(prefix))
+						);
+					},
+					[]
+				);
+				return (
+					<ChipInput
+						options={filteredOptions}
+						onInputType={onInputType}
+						onInputTypeDebounce={0}
+						separators={[]}
+					/>
+				);
+			}
+
+			test('a click on a suggestion closes the list', async () => {
+				const { user } = setup(<FilteringParent />);
+				await typeInInput(user, screen.getByRole('textbox'), 'hel');
+				await act(async () => {
+					await vi.advanceTimersByTimeAsync(0);
+				});
+				await user.click(screen.getByText('Helen'));
+				await act(async () => {
+					await vi.advanceTimersByTimeAsync(0);
+				});
+				expect(screen.queryByText('Hector')).not.toBeInTheDocument();
+			});
+
+			test('enter on a highlighted suggestion closes the list, as a click does', async () => {
+				const { user } = setup(<FilteringParent />);
+				await typeInInput(user, screen.getByRole('textbox'), 'hel');
+				await act(async () => {
+					await vi.advanceTimersByTimeAsync(0);
+				});
+				expect(screen.queryByText('Hector')).not.toBeInTheDocument();
+				await user.arrowDown();
+				await user.enter();
+				await act(async () => {
+					await vi.advanceTimersByTimeAsync(0);
+				});
+				expect(screen.queryByText('Hector')).not.toBeInTheDocument();
+			});
+		});
+
 		describe('with options opened by a click and other options arriving while typing', () => {
 			test('a list opened by a click stays open', async () => {
 				const { user, rerender } = setup(<ChipInput options={options} disableOptions={false} />);
