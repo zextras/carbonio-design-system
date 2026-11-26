@@ -918,6 +918,16 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 		};
 	}, [confirmChipOnBlurWithOptions, windowObj.document]);
 
+	useEffect(() => {
+		// an option highlighted and then disabled or removed (same ids) cannot be chosen: enter goes to the text
+		if (
+			activeOptionId !== undefined &&
+			!navigableOptions.some((option) => option.id === activeOptionId)
+		) {
+			setActiveOptionId(undefined);
+		}
+	}, [activeOptionId, navigableOptions]);
+
 	const moveActiveOption = useCallback(
 		(step: 1 | -1) => {
 			setActiveOptionId((prevId) => {

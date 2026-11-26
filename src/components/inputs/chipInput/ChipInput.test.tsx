@@ -1928,6 +1928,24 @@ describe('ChipInput', () => {
 			expect(onAdd).not.toHaveBeenCalledWith('helen@example.com');
 		});
 
+		test('an option highlighted and then disabled leaves enter to the typed text', async () => {
+			const onAdd = vi.fn((value: unknown) => ({ label: `chip of ${String(value)}` }));
+			const { user, rerender } = setup(<ChipInput options={options} onAdd={onAdd} />);
+			await typeInInput(user, screen.getByRole('textbox'), 'h');
+			await user.arrowDown();
+			expect(getOption('Helen')).toHaveClass('zapp-active');
+			rerender(
+				<ChipInput
+					options={options.map((option) =>
+						option.id === 'opt1' ? { ...option, disabled: true } : option
+					)}
+					onAdd={onAdd}
+				/>
+			);
+			await user.enter();
+			expect(onAdd).toHaveBeenCalledWith('h');
+		});
+
 		describe('enter on the typed text', () => {
 			test('reaches onInputType with the text, so that the consumer can confirm it', async () => {
 				const onInputType = vi.fn();
