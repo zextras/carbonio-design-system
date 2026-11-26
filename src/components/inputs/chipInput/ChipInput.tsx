@@ -56,8 +56,8 @@ function isKeyboardClick(event: React.SyntheticEvent<HTMLElement> | KeyboardEven
 
 /**
  * Keys that move the caret, the focus or the highlighted option without changing the text: they do not
- * call onInputType, so they do not start a search, unless the user edited the text during the key (e.g. escape
- * that cancels an IME composition). Add a key here to exclude it from onInputType too.
+ * call onInputType, so they do not start a search, unless the user edited the text since the previous keyup
+ * (e.g. escape that cancels an IME composition, a paste with the mouse). Add a key here to exclude it too.
  */
 const NAVIGATION_KEYS: ReadonlySet<KeyboardEvent['key']> = new Set([
 	'ArrowUp',
@@ -526,6 +526,8 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 				inputElRef.current.value = '';
 				inputElRef.current.dispatchEvent(new Event('change'));
 			}
+			// the input emptied in code is no user edit: the next navigation key does not search it
+			textEditedRef.current = false;
 			// the options closed with escape belong to the text just saved
 			closedByEscapeRef.current = false;
 		},
@@ -554,6 +556,8 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 				inputElRef.current.value = '';
 				inputElRef.current.dispatchEvent(new Event('change'));
 			}
+			// the input emptied in code is no user edit: the next navigation key does not search it
+			textEditedRef.current = false;
 			// the options closed with escape belong to the text just saved
 			closedByEscapeRef.current = false;
 		},
@@ -707,7 +711,10 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 			// the input just emptied. Typed or pasted text after the choice still reaches onInputType on enter
 			const text = inputElRef.current?.value ?? '';
 			const isKeyUpOfChosenOption = ev.key === 'Enter' && optionChosenRef.current && !text;
-			optionChosenRef.current = false;
+			// only the keyup of enter ends the choice: another key held at the choice may be released before it
+			if (ev.key === 'Enter') {
+				optionChosenRef.current = false;
+			}
 			const textEdited = textEditedRef.current;
 			textEditedRef.current = false;
 			if (isKeyUpOfChosenOption) {

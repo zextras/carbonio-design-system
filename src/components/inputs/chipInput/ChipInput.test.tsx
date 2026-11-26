@@ -1892,6 +1892,19 @@ describe('ChipInput', () => {
 				expect(screen.queryByText('Hector')).not.toBeInTheDocument();
 			});
 
+			test('enter that picks a suggestion while the arrow is still held closes the list', async () => {
+				const { user } = setup(<FilteringParent />);
+				await typeInInput(user, screen.getByRole('textbox'), 'hel');
+				await act(async () => {
+					await vi.advanceTimersByTimeAsync(0);
+				});
+				await user.keyboard('{ArrowDown>}{Enter>}{/ArrowDown}{/Enter}');
+				await act(async () => {
+					await vi.advanceTimersByTimeAsync(0);
+				});
+				expect(screen.queryByText('Hector')).not.toBeInTheDocument();
+			});
+
 			test('a search still pending when a suggestion is clicked does not reopen the list', async () => {
 				const { user } = setup(<FilteringParent onInputTypeDebounce={300} />);
 				await typeInInput(user, screen.getByRole('textbox'), 'hel');
@@ -2096,6 +2109,42 @@ describe('ChipInput', () => {
 					await vi.advanceTimersByTimeAsync(500);
 				});
 				expect(onInputType).toHaveBeenLastCalledWith(expect.objectContaining({ textContent: 'h' }));
+			});
+
+			test('a navigation key after a paste with the mouse searches the pasted text', async () => {
+				const onInputType = vi.fn();
+				const { user } = setup(<ChipInput options={options} onInputType={onInputType} />);
+				const input = screen.getByRole('textbox');
+				act(() => {
+					input.focus();
+				});
+				await user.paste('al');
+				await user.keyboard('{ArrowLeft}');
+				await act(async () => {
+					await vi.advanceTimersByTimeAsync(500);
+				});
+				expect(onInputType).toHaveBeenLastCalledWith(
+					expect.objectContaining({ textContent: 'al' })
+				);
+			});
+
+			test('a navigation key after a paste with the mouse and a click on an option does not search the emptied input', async () => {
+				const onInputType = vi.fn();
+				const { user } = setup(<ChipInput options={options} onInputType={onInputType} />);
+				const input = screen.getByRole('textbox');
+				act(() => {
+					input.focus();
+				});
+				await user.paste('hel');
+				await user.click(screen.getByText('Helen'));
+				act(() => {
+					input.focus();
+				});
+				await user.arrowDown();
+				await act(async () => {
+					await vi.advanceTimersByTimeAsync(500);
+				});
+				expect(onInputType).not.toHaveBeenCalled();
 			});
 
 			test('a navigation key after the consumer set the text in code does not start a search', async () => {
