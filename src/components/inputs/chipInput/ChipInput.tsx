@@ -468,6 +468,18 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 
 	const uncontrolledMode = useMemo(() => value === undefined, [value]);
 
+	const isInputDisabled = useMemo(
+		() => !!maxChips && items.length >= maxChips,
+		[items.length, maxChips]
+	);
+
+	// dropdown disabled does not depend on chipInput disabled, so that options can be still used
+	// even if input is disabled (chip can be added through dropdown but not typing)
+	const isDropdownDisabled = useMemo(
+		() => disableOptions || isInputDisabled,
+		[disableOptions, isInputDisabled]
+	);
+
 	const dropdownVisibilityRef = useRef<boolean>(forceShowDropdown);
 
 	const setFocus = useCallback(() => {
@@ -535,16 +547,18 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 	const saveTypedText = useCallback(() => {
 		if (inputElRef.current?.value) {
 			// the options were suggestions for the text that just became a chip: hide them until new ones arrive
-			// or the user types again (a list opened with a click stays open)
-			setForceShowDropdown(false);
-			// only suggestions are hidden: the options of a list opened with a click are not tied to the typed text
+			// or the user types again. A list opened with a click, or reopened with the arrows, stays open: its
+			// options are not tied to the typed text
+			if (isDropdownDisabled) {
+				setForceShowDropdown(false);
+			}
 			if (disableOptions) {
 				hiddenOptionsKeyRef.current = optionsKey;
 			}
 		}
 		saveCurrentValue();
 		setActiveOptionId(undefined);
-	}, [disableOptions, inputElRef, optionsKey, saveCurrentValue]);
+	}, [disableOptions, inputElRef, isDropdownDisabled, optionsKey, saveCurrentValue]);
 
 	const onSeparator = useCallback(
 		(event: KeyboardEvent) => {
@@ -762,11 +776,6 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 		}
 	}, [items]);
 
-	const isInputDisabled = useMemo(
-		() => !!maxChips && items.length >= maxChips,
-		[items.length, maxChips]
-	);
-
 	const previousIsInputDisabled = usePrevious<boolean>(isInputDisabled);
 
 	useEffect(() => {
@@ -782,13 +791,6 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 		}
 	}, [previousIsInputDisabled, isInputDisabled]);
 
-	// dropdown disabled does not depend on chipInput disabled, so that options can be still used
-	// even if input is disabled (chip can be added through dropdown but not typing)
-	const isDropdownDisabled = useMemo(
-		() => disableOptions || isInputDisabled,
-		[disableOptions, isInputDisabled]
-	);
-
 	useEffect(() => {
 		// if dropdown is set to not open on click (dropdownDisabled),
 		// force open it on options change to simulate suggestion mode,
@@ -801,8 +803,9 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 	}, [isDropdownDisabled, options, optionsKey]);
 
 	useEffect(() => {
-		// the switch from suggestion mode closes the suggestions forced open. Afterwards a list reopened with the arrows
-		// stays open when other options arrive, as one opened by a click, and closes through onClose
+		// leaving suggestion mode (disableOptions turned off, or maxChips no longer reached) closes the list forced
+		// open. In click mode a list reopened with the arrows then lives as one opened by a click: other options
+		// and a new chip keep it open, escape, a click outside or a chosen option close it
 		if (!isDropdownDisabled) {
 			setForceShowDropdown(false);
 			hiddenOptionsKeyRef.current = undefined;

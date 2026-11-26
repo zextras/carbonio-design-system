@@ -1746,6 +1746,21 @@ describe('ChipInput', () => {
 				await user.keyboard('x');
 				rerender(<ChipInput options={[otherOption]} disableOptions={false} />);
 				expect(screen.getByText('Hugo')).toBeVisible();
+				await user.esc();
+				expect(screen.queryByText('Hugo')).not.toBeInTheDocument();
+				await user.arrowDown();
+				expect(getOption('Hugo')).toHaveClass('zapp-active');
+			});
+
+			test('a list reopened with the arrows stays open when the typed text becomes a chip, as one opened by a click', async () => {
+				const { user } = setup(<ChipInput options={options} disableOptions={false} />);
+				await user.click(screen.getByRole('textbox'));
+				await user.esc();
+				await user.arrowDown();
+				await user.keyboard('x');
+				await user.enter();
+				expect(screen.getByText('x')).toBeVisible();
+				expect(screen.getByText('Helen')).toBeVisible();
 			});
 
 			test('the switch from suggestion mode still closes the list shown as suggestions', async () => {
