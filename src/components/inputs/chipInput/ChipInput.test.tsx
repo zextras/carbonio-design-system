@@ -2086,15 +2086,36 @@ describe('ChipInput', () => {
 				await act(async () => {
 					await vi.advanceTimersByTimeAsync(500);
 				});
-				// escape cancels the composed part: the input goes back to the committed text
+				// escape cancels the composed part: the input goes back to the committed text, with an input event
 				act(() => {
 					input.value = 'h';
+					input.dispatchEvent(new Event('input', { bubbles: true }));
 				});
 				await user.esc();
 				await act(async () => {
 					await vi.advanceTimersByTimeAsync(500);
 				});
 				expect(onInputType).toHaveBeenLastCalledWith(expect.objectContaining({ textContent: 'h' }));
+			});
+
+			test('a navigation key after the consumer set the text in code does not start a search', async () => {
+				const onInputType = vi.fn();
+				const { user } = setup(<ChipInput options={options} onInputType={onInputType} />);
+				const input = screen.getByRole<HTMLInputElement>('textbox');
+				await typeInInput(user, input, 'hel');
+				await act(async () => {
+					await vi.advanceTimersByTimeAsync(500);
+				});
+				onInputType.mockClear();
+				// e.g. a chip edited by the consumer through inputRef: no input event
+				act(() => {
+					input.value = 'al';
+				});
+				await user.arrowDown();
+				await act(async () => {
+					await vi.advanceTimersByTimeAsync(500);
+				});
+				expect(onInputType).not.toHaveBeenCalled();
 			});
 		});
 

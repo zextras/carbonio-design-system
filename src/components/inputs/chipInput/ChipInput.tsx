@@ -55,8 +55,9 @@ function isKeyboardClick(event: React.SyntheticEvent<HTMLElement> | KeyboardEven
 }
 
 /**
- * Keys that move the caret, the focus or the highlighted option without changing the text: they never
- * call onInputType, so they never start a search. Add a key here to exclude it from onInputType too.
+ * Keys that move the caret, the focus or the highlighted option without changing the text: they do not
+ * call onInputType, so they do not start a search, unless the user edited the text during the key (e.g. escape
+ * that cancels an IME composition). Add a key here to exclude it from onInputType too.
  */
 const NAVIGATION_KEYS: ReadonlySet<KeyboardEvent['key']> = new Set([
 	'ArrowUp',
@@ -478,9 +479,9 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 	const closedByEscapeRef = useRef(false);
 	// an option was just chosen: the keyup of the enter that chose it must not reach onInputType
 	const optionChosenRef = useRef(false);
-	// the text at the last keyup: a navigation key that finds another text (e.g. escape that cancels an IME
-	// composition) still searches it
-	const lastKeyUpTextRef = useRef('');
+	// the user edited the text since the last keyup (an input event: typing, paste, an IME composition or its
+	// cancel): a navigation key then still searches it. A value set in code by the consumer fires no input event
+	const textEditedRef = useRef(false);
 	// the options compared by their ids: a parent that rebuilds the same options on every render (e.g. an inline map)
 	// must not close the list reopened with the arrows, clear the highlight or show the suggestions hidden after a chip
 	const optionsKey = useMemo(() => options.map((option) => option.id).join('\n'), [options]);
@@ -525,7 +526,6 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 				inputElRef.current.value = '';
 				inputElRef.current.dispatchEvent(new Event('change'));
 			}
-			lastKeyUpTextRef.current = '';
 			// the options closed with escape belong to the text just saved
 			closedByEscapeRef.current = false;
 		},
@@ -554,7 +554,6 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 				inputElRef.current.value = '';
 				inputElRef.current.dispatchEvent(new Event('change'));
 			}
-			lastKeyUpTextRef.current = '';
 			// the options closed with escape belong to the text just saved
 			closedByEscapeRef.current = false;
 		},
@@ -709,12 +708,12 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 			const text = inputElRef.current?.value ?? '';
 			const isKeyUpOfChosenOption = ev.key === 'Enter' && optionChosenRef.current && !text;
 			optionChosenRef.current = false;
-			const textChanged = text !== lastKeyUpTextRef.current;
-			lastKeyUpTextRef.current = text;
+			const textEdited = textEditedRef.current;
+			textEditedRef.current = false;
 			if (isKeyUpOfChosenOption) {
 				return;
 			}
-			if (!NAVIGATION_KEYS.has(ev.key) || textChanged) {
+			if (!NAVIGATION_KEYS.has(ev.key) || textEdited) {
 				debouncedOnInputType(ev);
 			}
 		},
@@ -875,6 +874,7 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 	}, [showHiddenSuggestions]);
 
 	const onTextInput = useCallback(() => {
+		textEditedRef.current = true;
 		setActiveOptionId(undefined);
 		closedByEscapeRef.current = false;
 		// with onInputType the options still belong to the previous text until the consumer gets the new one:
@@ -919,7 +919,8 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 	}, [confirmChipOnBlurWithOptions, windowObj.document]);
 
 	useEffect(() => {
-		// an option highlighted and then disabled or removed (same ids) cannot be chosen: enter goes to the text
+		// an option highlighted and then disabled (or turned into a divider or a sub-menu) keeps its id but cannot be
+		// chosen: enter goes to the typed text
 		if (
 			activeOptionId !== undefined &&
 			!navigableOptions.some((option) => option.id === activeOptionId)
