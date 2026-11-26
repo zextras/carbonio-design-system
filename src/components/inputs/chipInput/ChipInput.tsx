@@ -38,15 +38,19 @@ import { InputLabel } from '../commons/InputLabel';
 // of the text on macOS) would move the highlight, and shift+enter would choose the highlighted option
 const NO_MODIFIERS = { ctrlKey: false, shiftKey: false, altKey: false, metaKey: false } as const;
 
+// instanceof fails for the nodes of another window (the theme's windowObj): check the shape instead
+function isNode(target: EventTarget | null): target is Node {
+	return target !== null && 'nodeType' in target;
+}
+
+function isElement(target: EventTarget | null): target is Element {
+	return isNode(target) && 'closest' in target;
+}
+
 /**
  * Keys that move the caret, the focus or the highlighted option without changing the text: they never
  * call onInputType, so they never start a search. Add a key here to exclude it from onInputType too.
  */
-// instanceof Element fails for the elements of another window (the theme's windowObj): check the shape instead
-function isElement(target: EventTarget | null): target is Element {
-	return target !== null && 'closest' in target;
-}
-
 const NAVIGATION_KEYS: ReadonlySet<KeyboardEvent['key']> = new Set([
 	'ArrowUp',
 	'ArrowDown',
@@ -649,8 +653,7 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 				// a press in the list keeps the focus in the input (see the mousedown listener below):
 				// the focus reaches the list only for a field of a custom option
 				const focusGoesToList =
-					event.relatedTarget instanceof Node &&
-					!!dropdownListRef.current?.contains(event.relatedTarget);
+					isNode(event.relatedTarget) && !!dropdownListRef.current?.contains(event.relatedTarget);
 				if (!focusGoesToList) {
 					// the focus does not go to the options: the typed text is the value
 					saveTypedText();

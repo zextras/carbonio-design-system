@@ -1477,27 +1477,80 @@ describe('ChipInput', () => {
 			expect(getOption('Helen')).toHaveClass('zapp-active');
 		});
 
-		test('with confirmChipOnBlurWithOptions, a press on the list rendered in another window keeps the focus in the input', () => {
-			// e.g. a board opened in a separate window: the list is rendered in the document of the theme's windowObj
-			const frame = document.createElement('iframe');
-			document.body.appendChild(frame);
-			const frameWindow = frame.contentWindow;
-			if (frameWindow === null) {
-				throw new Error('iframe without a window');
+		describe('with the list rendered in another window (the theme windowObj, e.g. a board in its own window)', () => {
+			let frame: HTMLIFrameElement;
+			let unmountTree: (() => void) | undefined;
+
+			beforeEach(() => {
+				frame = document.createElement('iframe');
+				document.body.appendChild(frame);
+			});
+
+			afterEach(() => {
+				// the list lives in the iframe: unmount before removing it, also when a test fails
+				unmountTree?.();
+				unmountTree = undefined;
+				frame.remove();
+			});
+
+			function getFrameWindow(): Window {
+				if (frame.contentWindow === null) {
+					throw new Error('iframe without a window');
+				}
+				return frame.contentWindow;
 			}
-			const { unmount } = setup(
-				<ThemeProvider extension={(theme): Theme => ({ ...theme, windowObj: frameWindow })}>
-					<ChipInput options={options} confirmChipOnBlurWithOptions />
-				</ThemeProvider>
-			);
-			const list = within(frameWindow.document.body).getByTestId(SELECTORS.dropdown);
-			const press = new MouseEvent('mousedown', { bubbles: true, cancelable: true });
-			list.dispatchEvent(press);
-			// the default of the press (moving the focus out of the input) is prevented
-			expect(press.defaultPrevented).toBe(true);
-			// the list lives in the iframe: unmount before removing it
-			unmount();
-			frame.remove();
+
+			function setupInFrame(ui: React.ReactElement): ReturnType<typeof setup> {
+				const frameWindow = getFrameWindow();
+				const result = setup(
+					<ThemeProvider extension={(theme): Theme => ({ ...theme, windowObj: frameWindow })}>
+						{ui}
+					</ThemeProvider>
+				);
+				unmountTree = result.unmount;
+				return result;
+			}
+
+			test('with confirmChipOnBlurWithOptions, a press on the list keeps the focus in the input', () => {
+				setupInFrame(<ChipInput options={options} confirmChipOnBlurWithOptions />);
+				const list = within(getFrameWindow().document.body).getByTestId(SELECTORS.dropdown);
+				const press = new MouseEvent('mousedown', { bubbles: true, cancelable: true });
+				list.dispatchEvent(press);
+				// the default of the press (moving the focus out of the input) is prevented
+				expect(press.defaultPrevented).toBe(true);
+			});
+
+			test('with confirmChipOnBlurWithOptions, the focus moving to a field inside a custom option keeps the typed text', async () => {
+				const onAdd = vi.fn((value: unknown) => ({ label: `chip of ${String(value)}` }));
+				const { user } = setupInFrame(
+					<ChipInput
+						options={[
+							{
+								id: 'custom',
+								label: 'custom',
+								disabled: true,
+								customComponent: <input aria-label="custom field" />
+							},
+							...options
+						]}
+						onAdd={onAdd}
+						confirmChipOnBlurWithOptions
+						placeholder="To"
+					/>
+				);
+				const input = screen.getByRole('textbox', { name: 'To' });
+				await typeInInput(user, input, 'h');
+				const customField = within(getFrameWindow().document.body).getByRole('textbox', {
+					name: 'custom field'
+				});
+				act(() => {
+					input.dispatchEvent(
+						new FocusEvent('focusout', { bubbles: true, relatedTarget: customField })
+					);
+				});
+				expect(onAdd).not.toHaveBeenCalled();
+				expect(input).toHaveValue('h');
+			});
 		});
 
 		test('with confirmChipOnBlurWithOptions, a press on the list keeps the focus and the typed text in the input', async () => {
