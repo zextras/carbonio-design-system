@@ -882,6 +882,8 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 
 	const onTextInput = useCallback(() => {
 		textEditedRef.current = true;
+		// new text ends a choice whose enter keyup never came (e.g. the input disabled by maxChips)
+		optionChosenRef.current = false;
 		setActiveOptionId(undefined);
 		closedByEscapeRef.current = false;
 		// with onInputType the options still belong to the previous text until the consumer gets the new one:

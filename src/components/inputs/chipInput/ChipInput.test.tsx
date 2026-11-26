@@ -1959,6 +1959,95 @@ describe('ChipInput', () => {
 			expect(onAdd).toHaveBeenCalledWith('h');
 		});
 
+		describe('text edited without a keyup', () => {
+			test('a navigation key after a paste with the mouse searches the pasted text', async () => {
+				const onInputType = vi.fn();
+				const { user } = setup(<ChipInput options={options} onInputType={onInputType} />);
+				const input = screen.getByRole('textbox');
+				act(() => {
+					input.focus();
+				});
+				await user.paste('al');
+				await user.keyboard('{ArrowLeft}');
+				await act(async () => {
+					await vi.advanceTimersByTimeAsync(500);
+				});
+				expect(onInputType).toHaveBeenLastCalledWith(
+					expect.objectContaining({ textContent: 'al' })
+				);
+			});
+
+			test('a navigation key after a paste with the mouse and a click on an option does not search the emptied input', async () => {
+				const onInputType = vi.fn();
+				const { user } = setup(<ChipInput options={options} onInputType={onInputType} />);
+				const input = screen.getByRole('textbox');
+				act(() => {
+					input.focus();
+				});
+				await user.paste('hel');
+				await user.click(screen.getByText('Helen'));
+				act(() => {
+					input.focus();
+				});
+				await user.arrowDown();
+				await act(async () => {
+					await vi.advanceTimersByTimeAsync(500);
+				});
+				expect(onInputType).not.toHaveBeenCalled();
+			});
+
+			test('with singleSelection, a navigation key after a paste with the mouse and a click on an option does not search the emptied input', async () => {
+				const onInputType = vi.fn();
+				const { user } = setup(
+					<ChipInput options={options} onInputType={onInputType} singleSelection />
+				);
+				const input = screen.getByRole('textbox');
+				act(() => {
+					input.focus();
+				});
+				await user.paste('hel');
+				await user.click(screen.getByText('Helen'));
+				act(() => {
+					input.focus();
+				});
+				await user.arrowDown();
+				await act(async () => {
+					await vi.advanceTimersByTimeAsync(500);
+				});
+				expect(onInputType).not.toHaveBeenCalled();
+			});
+
+			test('enter on typed text still reaches onInputType after an option chosen with enter whose keyup was lost', async () => {
+				const onInputType = vi.fn();
+				const { user } = setup(
+					<>
+						<ChipInput options={options} onInputType={onInputType} />
+						<button type="button">elsewhere</button>
+					</>
+				);
+				const input = screen.getByRole('textbox');
+				await typeInInput(user, input, 'h');
+				await user.arrowDown();
+				await user.keyboard('{Enter>}');
+				// the keyup of the enter that chose the option lands elsewhere (e.g. the input disabled by maxChips)
+				act(() => {
+					screen.getByRole('button', { name: 'elsewhere' }).focus();
+				});
+				await user.keyboard('{/Enter}');
+				act(() => {
+					input.focus();
+				});
+				await user.keyboard('ab');
+				await user.enter();
+				await act(async () => {
+					await vi.advanceTimersByTimeAsync(500);
+				});
+				expect(onInputType).toHaveBeenLastCalledWith(
+					expect.objectContaining({ key: 'Enter', textContent: '' })
+				);
+			});
+		});
+
 		describe('enter on the typed text', () => {
 			test('reaches onInputType with the text, so that the consumer can confirm it', async () => {
 				const onInputType = vi.fn();
@@ -2109,42 +2198,6 @@ describe('ChipInput', () => {
 					await vi.advanceTimersByTimeAsync(500);
 				});
 				expect(onInputType).toHaveBeenLastCalledWith(expect.objectContaining({ textContent: 'h' }));
-			});
-
-			test('a navigation key after a paste with the mouse searches the pasted text', async () => {
-				const onInputType = vi.fn();
-				const { user } = setup(<ChipInput options={options} onInputType={onInputType} />);
-				const input = screen.getByRole('textbox');
-				act(() => {
-					input.focus();
-				});
-				await user.paste('al');
-				await user.keyboard('{ArrowLeft}');
-				await act(async () => {
-					await vi.advanceTimersByTimeAsync(500);
-				});
-				expect(onInputType).toHaveBeenLastCalledWith(
-					expect.objectContaining({ textContent: 'al' })
-				);
-			});
-
-			test('a navigation key after a paste with the mouse and a click on an option does not search the emptied input', async () => {
-				const onInputType = vi.fn();
-				const { user } = setup(<ChipInput options={options} onInputType={onInputType} />);
-				const input = screen.getByRole('textbox');
-				act(() => {
-					input.focus();
-				});
-				await user.paste('hel');
-				await user.click(screen.getByText('Helen'));
-				act(() => {
-					input.focus();
-				});
-				await user.arrowDown();
-				await act(async () => {
-					await vi.advanceTimersByTimeAsync(500);
-				});
-				expect(onInputType).not.toHaveBeenCalled();
 			});
 
 			test('a navigation key after the consumer set the text in code does not start a search', async () => {
