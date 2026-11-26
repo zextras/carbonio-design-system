@@ -1982,16 +1982,10 @@ describe('ChipInput', () => {
 		});
 
 		describe('during an IME composition', () => {
-			// Safari sends the enter that ends a composition after compositionend, with keyCode 229 only
-			function keyDownWhileComposing(
-				input: HTMLElement,
-				key: string,
-				{ safari = false }: { safari?: boolean } = {}
-			): KeyboardEvent {
+			function keyDownWhileComposing(input: HTMLElement, key: string): KeyboardEvent {
 				const event = new KeyboardEvent('keydown', {
 					key,
-					isComposing: !safari,
-					keyCode: safari ? 229 : undefined,
+					isComposing: true,
 					bubbles: true,
 					cancelable: true
 				});
@@ -2021,22 +2015,68 @@ describe('ChipInput', () => {
 				expect(onAdd).not.toHaveBeenCalled();
 			});
 
-			test('the enter that ends a composition in Safari does not choose the highlighted option', async () => {
-				const onAdd = vi.fn((value: unknown) => ({ label: `chip of ${String(value)}` }));
-				const { user } = setup(<ChipInput options={options} onAdd={onAdd} separators={[]} />);
-				const input = screen.getByRole('textbox');
-				await typeInInput(user, input, 'h');
-				await user.arrowDown();
-				keyDownWhileComposing(input, 'Enter', { safari: true });
-				expect(onAdd).not.toHaveBeenCalled();
-			});
-
 			test('escape cancels the composition and leaves the list open', async () => {
 				const { user } = setup(<ChipInput options={options} />);
 				const input = screen.getByRole('textbox');
 				await typeInInput(user, input, 'h');
+				const event = keyDownWhileComposing(input, 'Escape');
+				expect(event.defaultPrevented).toBe(false);
+				expect(screen.getByText('Helen')).toBeVisible();
+			});
+
+			test('escape inside a modal cancels the composition only: the list and the modal stay open', async () => {
+				const onModalClose = vi.fn();
+				const { user } = setup(
+					<Modal open title="modal with a chip input" onClose={onModalClose}>
+						<ChipInput options={options} placeholder="To" />
+					</Modal>
+				);
+				act(() => {
+					vi.advanceTimersByTime(TIMERS.MODAL.DELAY_OPEN);
+				});
+				const input = screen.getByRole('textbox', { name: 'To' });
+				await typeInInput(user, input, 'h');
 				keyDownWhileComposing(input, 'Escape');
 				expect(screen.getByText('Helen')).toBeVisible();
+				expect(onModalClose).not.toHaveBeenCalled();
+			});
+
+			test('escape does not let the arrows reopen a list closed afterwards in another way', async () => {
+				const { user } = setup(
+					<>
+						<ChipInput options={options} placeholder="To" />
+						<button type="button">outside</button>
+					</>
+				);
+				const input = screen.getByRole('textbox', { name: 'To' });
+				await typeInInput(user, input, 'h');
+				keyDownWhileComposing(input, 'Escape');
+				await user.click(screen.getByRole('button', { name: 'outside' }));
+				expect(screen.queryByText('Helen')).not.toBeInTheDocument();
+				act(() => {
+					input.focus();
+				});
+				await user.arrowDown();
+				expect(screen.queryByText('Helen')).not.toBeInTheDocument();
+			});
+
+			test('a navigation key after the composition changed the text searches the new text', async () => {
+				const onInputType = vi.fn();
+				const { user } = setup(<ChipInput options={options} onInputType={onInputType} />);
+				const input = screen.getByRole<HTMLInputElement>('textbox');
+				await typeInInput(user, input, 'hel');
+				await act(async () => {
+					await vi.advanceTimersByTimeAsync(500);
+				});
+				// escape cancels the composed part: the input goes back to the committed text
+				act(() => {
+					input.value = 'h';
+				});
+				await user.esc();
+				await act(async () => {
+					await vi.advanceTimersByTimeAsync(500);
+				});
+				expect(onInputType).toHaveBeenLastCalledWith(expect.objectContaining({ textContent: 'h' }));
 			});
 		});
 

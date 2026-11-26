@@ -28,7 +28,6 @@ import type { Theme } from '../../../theme/theme';
 import { getColor, pseudoClasses } from '../../../theme/theme-utils';
 import type { AnyColor } from '../../../types/utils';
 import { setupFloating } from '../../../utils/floating-ui';
-import { isComposingKey } from '../../../utils/keyboard';
 import { Icon } from '../../basic/icon/Icon';
 import { Text } from '../../basic/text/Text';
 import { FOCUSABLE_SELECTOR, TIMERS } from '../../constants';
@@ -744,19 +743,22 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdo
 			{
 				type: 'keydown',
 				callback: (event): void => {
-					// the escape of an IME composition in the trigger cancels the composition only
-					if (isComposingKey(event)) {
-						return;
-					}
 					// the escape closes only the dropdown, not a modal or a board around the trigger.
 					// A list forced open closes only through onClose (the owner drops forceOpen): without it,
 					// escape closes nothing here and must still reach the modal around
 					if (!forceOpen || onClose !== undefined) {
 						event.stopPropagation();
 					}
+					// the escape of an IME composition in the trigger cancels the composition only: no default
+					// prevented, the list stays open, and the modal around stays open too
+					if (event.isComposing) {
+						return;
+					}
 					closePopper(event);
 				},
-				keys: [{ key: 'Escape', ctrlKey: false }]
+				keys: [{ key: 'Escape', ctrlKey: false }],
+				// closePopper prevents the default, except for the escape of a composition
+				haveToPreventDefault: false
 			}
 		],
 		[closePopper, forceOpen, onClose]

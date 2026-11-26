@@ -18,7 +18,6 @@ import { usePrevious } from '../../../hooks/usePrevious';
 import type { Theme } from '../../../theme/theme';
 import { getColor } from '../../../theme/theme-utils';
 import type { AnyColor, PaletteColor } from '../../../types/utils';
-import { isComposingKey } from '../../../utils/keyboard';
 import type { ButtonProps } from '../../basic/button/Button';
 import { Button } from '../../basic/button/Button';
 import { Icon } from '../../basic/icon/Icon';
@@ -479,6 +478,9 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 	const closedByEscapeRef = useRef(false);
 	// an option was just chosen: the keyup of the enter that chose it must not reach onInputType
 	const optionChosenRef = useRef(false);
+	// the text at the last keyup: a navigation key that finds another text (e.g. escape that cancels an IME
+	// composition) still searches it
+	const lastKeyUpTextRef = useRef('');
 	// the options compared by their ids: a parent that rebuilds the same options on every render (e.g. an inline map)
 	// must not close the list reopened with the arrows, clear the highlight or show the suggestions hidden after a chip
 	const optionsKey = useMemo(() => options.map((option) => option.id).join('\n'), [options]);
@@ -523,6 +525,7 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 				inputElRef.current.value = '';
 				inputElRef.current.dispatchEvent(new Event('change'));
 			}
+			lastKeyUpTextRef.current = '';
 			// the options closed with escape belong to the text just saved
 			closedByEscapeRef.current = false;
 		},
@@ -551,6 +554,7 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 				inputElRef.current.value = '';
 				inputElRef.current.dispatchEvent(new Event('change'));
 			}
+			lastKeyUpTextRef.current = '';
 			// the options closed with escape belong to the text just saved
 			closedByEscapeRef.current = false;
 		},
@@ -702,13 +706,15 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 		(ev: React.KeyboardEvent<HTMLInputElement>) => {
 			// an option chosen with enter (highlighted, or focused in the list) ends as a click on it: no search for
 			// the input just emptied. Typed or pasted text after the choice still reaches onInputType on enter
-			const isKeyUpOfChosenOption =
-				ev.key === 'Enter' && optionChosenRef.current && !inputElRef.current?.value;
+			const text = inputElRef.current?.value ?? '';
+			const isKeyUpOfChosenOption = ev.key === 'Enter' && optionChosenRef.current && !text;
 			optionChosenRef.current = false;
+			const textChanged = text !== lastKeyUpTextRef.current;
+			lastKeyUpTextRef.current = text;
 			if (isKeyUpOfChosenOption) {
 				return;
 			}
-			if (!NAVIGATION_KEYS.has(ev.key)) {
+			if (!NAVIGATION_KEYS.has(ev.key) || textChanged) {
 				debouncedOnInputType(ev);
 			}
 		},
@@ -935,7 +941,7 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 	const onArrowKey = useCallback(
 		(event: KeyboardEvent, step: 1 | -1): void => {
 			// during an IME composition the arrows move its candidates
-			if (navigableOptions.length === 0 || isComposingKey(event)) {
+			if (navigableOptions.length === 0 || event.isComposing) {
 				return;
 			}
 			if (dropdownListRef.current === null) {
@@ -969,7 +975,7 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 				type: 'keydown',
 				callback: (event): void => {
 					// during an IME composition enter confirms the composed text
-					if (activeOptionId === undefined || isComposingKey(event)) {
+					if (activeOptionId === undefined || event.isComposing) {
 						return;
 					}
 					event.preventDefault();
@@ -982,7 +988,7 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 				type: 'keydown',
 				callback: (event): void => {
 					// the escape of an IME composition cancels it and leaves the list open
-					if (isComposingKey(event)) {
+					if (event.isComposing) {
 						return;
 					}
 					// the input hears escape before the dropdown closes the list
