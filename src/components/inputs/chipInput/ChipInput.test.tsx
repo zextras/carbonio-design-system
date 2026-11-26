@@ -15,6 +15,8 @@ import type { KeyboardPresetKey } from '../../../hooks/useKeyboard';
 import { ICONS, SELECTORS } from '../../../tests/constants';
 import type { UserEvent } from '../../../tests/utils';
 import { setup, within } from '../../../tests/utils';
+import type { Theme } from '../../../theme/theme';
+import { ThemeProvider } from '../../../theme/theme-context-provider';
 import { TIMERS } from '../../constants';
 import { Modal } from '../../feedback/modal/Modal';
 
@@ -1473,6 +1475,29 @@ describe('ChipInput', () => {
 			expect(screen.getByText('h')).toBeVisible();
 			await user.arrowDown();
 			expect(getOption('Helen')).toHaveClass('zapp-active');
+		});
+
+		test('with confirmChipOnBlurWithOptions, a press on the list rendered in another window keeps the focus in the input', () => {
+			// e.g. a board opened in a separate window: the list is rendered in the document of the theme's windowObj
+			const frame = document.createElement('iframe');
+			document.body.appendChild(frame);
+			const frameWindow = frame.contentWindow;
+			if (frameWindow === null) {
+				throw new Error('iframe without a window');
+			}
+			const { unmount } = setup(
+				<ThemeProvider extension={(theme): Theme => ({ ...theme, windowObj: frameWindow })}>
+					<ChipInput options={options} confirmChipOnBlurWithOptions />
+				</ThemeProvider>
+			);
+			const list = within(frameWindow.document.body).getByTestId(SELECTORS.dropdown);
+			const press = new MouseEvent('mousedown', { bubbles: true, cancelable: true });
+			list.dispatchEvent(press);
+			// the default of the press (moving the focus out of the input) is prevented
+			expect(press.defaultPrevented).toBe(true);
+			// the list lives in the iframe: unmount before removing it
+			unmount();
+			frame.remove();
 		});
 
 		test('with confirmChipOnBlurWithOptions, a press on the list keeps the focus and the typed text in the input', async () => {

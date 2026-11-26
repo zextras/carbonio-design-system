@@ -7,7 +7,7 @@
 import type { InputHTMLAttributes } from 'react';
 import React, { useCallback, useEffect, useMemo, useReducer, useRef, useState } from 'react';
 
-import { css } from '@emotion/react';
+import { css, useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 import { filter, slice, isEmpty, debounce, noop, trim, uniq } from 'lodash';
 
@@ -42,6 +42,11 @@ const NO_MODIFIERS = { ctrlKey: false, shiftKey: false, altKey: false, metaKey: 
  * Keys that move the caret, the focus or the highlighted option without changing the text: they never
  * call onInputType, so they never start a search. Add a key here to exclude it from onInputType too.
  */
+// instanceof Element fails for the elements of another window (the theme's windowObj): check the shape instead
+function isElement(target: EventTarget | null): target is Element {
+	return target !== null && 'closest' in target;
+}
+
 const NAVIGATION_KEYS: ReadonlySet<KeyboardEvent['key']> = new Set([
 	'ArrowUp',
 	'ArrowDown',
@@ -440,6 +445,7 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 	const [isActive, setIsActive] = useState(false);
 	const inputElRef = useCombinedRefs<HTMLInputElement>(inputRef);
 	const scrollContainerRef = useRef<HTMLDivElement | null>(null);
+	const { windowObj } = useTheme();
 
 	const id = useMemo(() => {
 		const ChipInputCast = ChipInputComponent as ChipInputType;
@@ -869,7 +875,7 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 		// A field inside a custom option still takes the focus.
 		const onPress = (event: MouseEvent): void => {
 			if (
-				event.target instanceof Element &&
+				isElement(event.target) &&
 				!!dropdownListRef.current?.contains(event.target) &&
 				event.target.closest(
 					'input, textarea, select, [contenteditable]:not([contenteditable="false"])'
@@ -878,11 +884,13 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 				event.preventDefault();
 			}
 		};
-		document.addEventListener('mousedown', onPress, true);
+		// the list is rendered in the document of the theme's window, as the dropdown listens there
+		const listDocument = windowObj.document;
+		listDocument.addEventListener('mousedown', onPress, true);
 		return (): void => {
-			document.removeEventListener('mousedown', onPress, true);
+			listDocument.removeEventListener('mousedown', onPress, true);
 		};
-	}, [confirmChipOnBlurWithOptions]);
+	}, [confirmChipOnBlurWithOptions, windowObj.document]);
 
 	const moveActiveOption = useCallback(
 		(step: 1 | -1) => {
