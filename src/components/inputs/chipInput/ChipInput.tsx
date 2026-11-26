@@ -47,6 +47,13 @@ function isElement(target: EventTarget | null): target is Element {
 	return isNode(target) && 'closest' in target;
 }
 
+// a click made by the keyboard (enter on the highlighted option or on a focused item: element.click()) has no
+// pointer, so its detail is 0; a mouse click counts its presses from 1
+function isKeyboardClick(event: React.SyntheticEvent<HTMLElement> | KeyboardEvent): boolean {
+	const nativeEvent = 'nativeEvent' in event ? event.nativeEvent : event;
+	return !('detail' in nativeEvent) || nativeEvent.detail === 0;
+}
+
 /**
  * Keys that move the caret, the focus or the highlighted option without changing the text: they never
  * call onInputType, so they never start a search. Add a key here to exclude it from onInputType too.
@@ -708,10 +715,14 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 	);
 
 	const onOptionClick = useCallback(
-		(valueToAdd: unknown) => {
-			// a search still pending belongs to the text the option replaces
+		(valueToAdd: unknown, chosenWithKeyboard: boolean) => {
+			// a pending call would reach the consumer with the input just emptied (e.g. every option of a
+			// filtering parent) and reopen the list
 			debouncedOnInputType.cancel();
-			optionChosenRef.current = true;
+			// only enter has a keyup still to come: after a click, enter on the empty input reaches onInputType
+			optionChosenRef.current = chosenWithKeyboard;
+			// a list that stays open (keepOpen) must not keep the option highlighted before the choice
+			setActiveOptionId(undefined);
 			if (singleSelection) {
 				replaceValue(valueToAdd);
 			} else {
@@ -756,7 +767,7 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 				...o,
 				onClick: (event): void => {
 					o.onClick?.(event);
-					onOptionClick(o.value ? o.value : o.label);
+					onOptionClick(o.value ? o.value : o.label, isKeyboardClick(event));
 				}
 			}));
 		});
@@ -917,7 +928,6 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 	const chooseActiveOption = useCallback(() => {
 		// click the item, so that the option is chosen exactly as with the mouse (onClick, keepOpen, close)
 		dropdownListRef.current?.querySelector<HTMLElement>('.zapp-active')?.click();
-		setActiveOptionId(undefined);
 	}, []);
 
 	// down starts from the first option, up from the last one: the closest to the input when the list opens above it

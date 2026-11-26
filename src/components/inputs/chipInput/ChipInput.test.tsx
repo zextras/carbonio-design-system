@@ -1859,7 +1859,7 @@ describe('ChipInput', () => {
 				expect(screen.queryByText('Hector')).not.toBeInTheDocument();
 			});
 
-			test('enter on a suggestion focused with tab closes the list, as a click does', async () => {
+			test('enter on a suggestion focused in the list closes the list, as a click does', async () => {
 				const { user } = setup(<FilteringParent />);
 				await typeInInput(user, screen.getByRole('textbox'), 'hel');
 				await act(async () => {
@@ -1891,6 +1891,41 @@ describe('ChipInput', () => {
 				});
 				expect(screen.queryByText('Hector')).not.toBeInTheDocument();
 			});
+
+			test('a search still pending when a suggestion is clicked does not reopen the list', async () => {
+				const { user } = setup(<FilteringParent onInputTypeDebounce={300} />);
+				await typeInInput(user, screen.getByRole('textbox'), 'hel');
+				await act(async () => {
+					await vi.advanceTimersByTimeAsync(300);
+				});
+				await user.keyboard('p');
+				await user.keyboard('{Backspace}');
+				// the search of the last key is still pending
+				await user.click(screen.getByText('Helen'));
+				await act(async () => {
+					await vi.advanceTimersByTimeAsync(300);
+				});
+				expect(screen.queryByText('Hector')).not.toBeInTheDocument();
+			});
+		});
+
+		test('with confirmChipOnBlurWithOptions, after a click on an option that keeps the list open, enter does not add the option highlighted before', async () => {
+			const onAdd = vi.fn((value: unknown) => ({ label: `chip of ${String(value)}` }));
+			const { user } = setup(
+				<ChipInput
+					options={options.map((option) => ({ ...option, keepOpen: true }))}
+					onAdd={onAdd}
+					separators={[]}
+					confirmChipOnBlurWithOptions
+				/>
+			);
+			await typeInInput(user, screen.getByRole('textbox'), 'h');
+			await user.arrowDown();
+			expect(getOption('Helen')).toHaveClass('zapp-active');
+			await user.click(screen.getByText('Hannah'));
+			expect(onAdd).toHaveBeenCalledWith('hannah@example.com');
+			await user.enter();
+			expect(onAdd).not.toHaveBeenCalledWith('helen@example.com');
 		});
 
 		describe('enter on the typed text', () => {
@@ -1925,6 +1960,23 @@ describe('ChipInput', () => {
 				});
 				expect(onInputType).toHaveBeenLastCalledWith(
 					expect.objectContaining({ key: 'Enter', textContent: 'abc' })
+				);
+			});
+
+			test('on the empty input after a click on an option still reaches onInputType, as before', async () => {
+				const onInputType = vi.fn();
+				const { user } = setup(
+					<ChipInput options={options} onInputType={onInputType} separators={[]} />
+				);
+				const input = screen.getByRole('textbox');
+				await typeInInput(user, input, 'h');
+				await user.click(screen.getByText('Helen'));
+				await user.enter();
+				await act(async () => {
+					await vi.advanceTimersByTimeAsync(500);
+				});
+				expect(onInputType).toHaveBeenLastCalledWith(
+					expect.objectContaining({ key: 'Enter', textContent: '' })
 				);
 			});
 		});
