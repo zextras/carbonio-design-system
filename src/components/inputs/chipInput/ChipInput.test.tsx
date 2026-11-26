@@ -1728,6 +1728,35 @@ describe('ChipInput', () => {
 			});
 		});
 
+		describe('with options opened by a click and other options arriving while typing', () => {
+			test('a list opened by a click stays open', async () => {
+				const { user, rerender } = setup(<ChipInput options={options} disableOptions={false} />);
+				await user.click(screen.getByRole('textbox'));
+				await user.keyboard('x');
+				rerender(<ChipInput options={[otherOption]} disableOptions={false} />);
+				expect(screen.getByText('Hugo')).toBeVisible();
+			});
+
+			test('a list reopened with the arrows stays open, as one opened by a click', async () => {
+				const { user, rerender } = setup(<ChipInput options={options} disableOptions={false} />);
+				await user.click(screen.getByRole('textbox'));
+				await user.esc();
+				await user.arrowDown();
+				expect(screen.getByText('Helen')).toBeVisible();
+				await user.keyboard('x');
+				rerender(<ChipInput options={[otherOption]} disableOptions={false} />);
+				expect(screen.getByText('Hugo')).toBeVisible();
+			});
+
+			test('the switch from suggestion mode still closes the list shown as suggestions', async () => {
+				const { user, rerender } = setup(<ChipInput options={options} />);
+				await typeInInput(user, screen.getByRole('textbox'), 'h');
+				expect(screen.getByText('Helen')).toBeVisible();
+				rerender(<ChipInput options={options} disableOptions={false} />);
+				expect(screen.queryByText('Helen')).not.toBeInTheDocument();
+			});
+		});
+
 		test('a chip that reaches maxChips forces open the options shown on a click, as before', async () => {
 			const { user } = setup(<ChipInput options={options} disableOptions={false} maxChips={1} />);
 			await typeInInput(user, screen.getByRole('textbox'), 'foo');

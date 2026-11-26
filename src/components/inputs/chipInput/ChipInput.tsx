@@ -801,13 +801,13 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 	}, [isDropdownDisabled, options, optionsKey]);
 
 	useEffect(() => {
-		// the list opens with a click: other options, or the switch from suggestion mode, close the one forced open
-		// (reopened with the arrows), while the same options rebuilt by the parent leave it open
+		// the switch from suggestion mode closes the suggestions forced open. Afterwards a list reopened with the arrows
+		// stays open when other options arrive, as one opened by a click, and closes through onClose
 		if (!isDropdownDisabled) {
 			setForceShowDropdown(false);
 			hiddenOptionsKeyRef.current = undefined;
 		}
-	}, [isDropdownDisabled, optionsKey]);
+	}, [isDropdownDisabled]);
 
 	useEffect(() => {
 		// other options (e.g. the results of a new search), or the list forced open or closed: nothing is highlighted
