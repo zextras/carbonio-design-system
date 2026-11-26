@@ -13,7 +13,41 @@ import type { ChipInputProps, ChipItem } from './ChipInput';
 import { ChipInput } from './ChipInput';
 import type { KeyboardPresetKey } from '../../../hooks/useKeyboard';
 import { ICONS, SELECTORS } from '../../../tests/constants';
-import { setup } from '../../../tests/utils';
+import type { UserEvent } from '../../../tests/utils';
+import { setup, within } from '../../../tests/utils';
+import type { Theme } from '../../../theme/theme';
+import { ThemeProvider } from '../../../theme/theme-context-provider';
+import { TIMERS } from '../../constants';
+import { Modal } from '../../feedback/modal/Modal';
+
+function cloneOption<T>(option: T): T {
+	return { ...option };
+}
+
+// a parent that builds the options inline: a new array with the same options on every render
+function InlineOptionsParent({
+	options,
+	...props
+}: Readonly<
+	Omit<ChipInputProps<string>, 'onOptionsDisplayChange' | 'onChange'> & {
+		options: NonNullable<ChipInputProps<string>['options']>;
+	}
+>): React.JSX.Element {
+	const [, setOptionsVisible] = useState(false);
+	const [, setChipsCount] = useState(0);
+	const onChange = useCallback(
+		(chips: ChipItem<string>[]): void => setChipsCount(chips.length),
+		[]
+	);
+	return (
+		<ChipInput
+			{...props}
+			options={options.map(cloneOption)}
+			onOptionsDisplayChange={setOptionsVisible}
+			onChange={onChange}
+		/>
+	);
+}
 
 describe('ChipInput', () => {
 	test('render a chip input with a placeholder, two chips, an icon and a description', () => {
@@ -790,6 +824,23 @@ describe('ChipInput', () => {
 		expect(onInputTypeFn).toHaveBeenCalledWith(expect.objectContaining({ textContent: 'hej' }));
 	});
 
+	test('a new onInputType given while the typing is debounced is called, so the text typed is not lost', async () => {
+		const firstOnInputType = vi.fn();
+		const newOnInputType = vi.fn();
+		// a debounce long enough to give the new callback before it ends
+		const { rerender, user } = setup(
+			<ChipInput onInputType={firstOnInputType} onInputTypeDebounce={60000} />
+		);
+		await user.type(screen.getByRole('textbox'), 'hej');
+		rerender(<ChipInput onInputType={newOnInputType} onInputTypeDebounce={60000} />);
+		act(() => {
+			vi.advanceTimersByTime(60000);
+		});
+		expect(newOnInputType).toHaveBeenCalledTimes(1);
+		expect(newOnInputType).toHaveBeenCalledWith(expect.objectContaining({ textContent: 'hej' }));
+		expect(firstOnInputType).not.toHaveBeenCalled();
+	});
+
 	test('create chips on paste splitting text on wanted separators', async () => {
 		const { user } = setup(<ChipInput createChipOnPaste pasteSeparators={['x', 'z']} />);
 		const inputElement = screen.getByRole('textbox');
@@ -931,6 +982,24 @@ describe('ChipInput', () => {
 			expect(onOptionsDisplayChangeFn).toHaveBeenLastCalledWith(false);
 		});
 
+		it('should report once each the opening and the closing of a list reopened with the arrows', async () => {
+			const onOptionsDisplayChangeFn = vi.fn();
+			const { user } = setup(
+				<ChipInput
+					onOptionsDisplayChange={onOptionsDisplayChangeFn}
+					options={[{ id: '0', label: 'Helen' }]}
+					disableOptions={false}
+				/>
+			);
+			await user.click(screen.getByRole('textbox'));
+			await user.keyboard('{Escape}');
+			await user.keyboard('{ArrowDown}');
+			expect(screen.getByText('Helen')).toBeVisible();
+			await user.keyboard('{Escape}');
+			expect(screen.queryByText('Helen')).not.toBeInTheDocument();
+			expect(onOptionsDisplayChangeFn.mock.calls).toEqual([[true], [false], [true], [false]]);
+		});
+
 		it('should call onOptionsDisplayChange when options change if disableOptions is true', async () => {
 			const onOptionsDisplayChangeFn = vi.fn();
 			const { rerender } = setup(
@@ -1006,5 +1075,1221 @@ describe('ChipInput', () => {
 		// chips created is not greater than maxChips, so dropdown is closed
 		await user.click(screen.getByTestId(ICONS.close));
 		expect(onOptionsDisplayChangeFn).toHaveBeenLastCalledWith(false);
+	});
+
+	describe('Keyboard navigation of the options', () => {
+		const options: NonNullable<ChipInputProps<string>['options']> = [
+			{ id: 'opt1', label: 'Helen', value: 'helen@example.com' },
+			{ id: 'opt2', label: 'Hector', value: 'hector@example.com' },
+			{ id: 'opt3', label: 'Hannah', value: 'hannah@example.com' }
+		];
+		// another search result: options with other ids are new options, the same ones rebuilt by the parent are not
+		const otherOption = { id: 'opt4', label: 'Hugo', value: 'hugo@example.com' };
+
+		function getOption(label: string): HTMLElement {
+			const option = screen
+				.getAllByTestId(SELECTORS.dropdownItem)
+				.find((item) => within(item).queryByText(label) !== null);
+			if (option === undefined) {
+				throw new Error(`option ${label} not found`);
+			}
+			return option;
+		}
+
+		// focus without a click: a click on the input closes the options shown in suggestion mode
+		async function typeInInput(user: UserEvent, input: HTMLElement, text: string): Promise<void> {
+			act(() => {
+				input.focus();
+			});
+			await user.keyboard(text);
+		}
+
+		test('arrow down highlights the first option while the focus stays in the input', async () => {
+			const { user } = setup(<ChipInput options={options} />);
+			const input = screen.getByRole('textbox');
+			await typeInInput(user, input, 'h');
+			await user.arrowDown();
+			expect(getOption('Helen')).toHaveClass('zapp-active');
+			expect(getOption('Hector')).not.toHaveClass('zapp-active');
+			expect(input).toHaveFocus();
+		});
+
+		test('arrow down and up move the highlight and wrap around at the ends', async () => {
+			const { user } = setup(<ChipInput options={options} />);
+			await typeInInput(user, screen.getByRole('textbox'), 'h');
+			await user.arrowDown();
+			await user.arrowDown();
+			expect(getOption('Hector')).toHaveClass('zapp-active');
+			await user.arrowDown();
+			await user.arrowDown();
+			expect(getOption('Helen')).toHaveClass('zapp-active');
+			await user.arrowUp();
+			expect(getOption('Hannah')).toHaveClass('zapp-active');
+		});
+
+		test('disabled options, dividers and options with sub-items are skipped', async () => {
+			const { user } = setup(
+				<ChipInput
+					options={[
+						{ id: 'loading', label: 'Loading', disabled: true },
+						{ id: 'opt1', label: 'Helen', value: 'helen@example.com' },
+						{ id: 'divider', type: 'divider' },
+						{ id: 'nested', label: 'Group', items: [{ id: 'sub', label: 'Sub' }] },
+						{ id: 'opt2', label: 'Hector', value: 'hector@example.com' }
+					]}
+				/>
+			);
+			await typeInInput(user, screen.getByRole('textbox'), 'h');
+			await user.arrowDown();
+			expect(getOption('Helen')).toHaveClass('zapp-active');
+			await user.arrowDown();
+			expect(getOption('Hector')).toHaveClass('zapp-active');
+			await user.arrowDown();
+			expect(getOption('Helen')).toHaveClass('zapp-active');
+		});
+
+		test('enter adds the highlighted option as a chip, as a click does, and keeps the focus in the input', async () => {
+			const onAdd = vi.fn((value: unknown) => ({ label: `chip of ${String(value)}` }));
+			const onClick = vi.fn();
+			const { user } = setup(
+				<ChipInput options={[options[0], { ...options[1], onClick }, options[2]]} onAdd={onAdd} />
+			);
+			const input = screen.getByRole('textbox');
+			await typeInInput(user, input, 'he');
+			await user.arrowDown();
+			await user.arrowDown();
+			await user.enter();
+			expect(onAdd).toHaveBeenCalledTimes(1);
+			expect(onAdd).toHaveBeenCalledWith('hector@example.com');
+			expect(onClick).toHaveBeenCalledTimes(1);
+			expect(screen.getByText('chip of hector@example.com')).toBeVisible();
+			expect(input).toHaveValue('');
+			expect(input).toHaveFocus();
+			expect(screen.queryByText('Helen')).not.toBeInTheDocument();
+		});
+
+		test('enter without a highlighted option turns the typed text into a chip, as before', async () => {
+			const onAdd = vi.fn((value: unknown) => ({ label: `chip of ${String(value)}` }));
+			const { user } = setup(<ChipInput options={options} onAdd={onAdd} />);
+			await typeInInput(user, screen.getByRole('textbox'), 'he');
+			await user.enter();
+			expect(onAdd).toHaveBeenCalledTimes(1);
+			expect(onAdd).toHaveBeenCalledWith('he');
+		});
+
+		test('tab on a highlighted option does not add it and moves the focus to the next field', async () => {
+			const onAdd = vi.fn((value: unknown) => ({ label: `chip of ${String(value)}` }));
+			const { user } = setup(
+				<>
+					<ChipInput options={options} onAdd={onAdd} placeholder="To" />
+					<input aria-label="next field" />
+				</>
+			);
+			const input = screen.getByRole('textbox', { name: 'To' });
+			await typeInInput(user, input, 'h');
+			await user.arrowDown();
+			await user.tab();
+			expect(onAdd).not.toHaveBeenCalled();
+			expect(input).toHaveValue('h');
+			expect(screen.getByRole('textbox', { name: 'next field' })).toHaveFocus();
+		});
+
+		test('back in the field after a tab on a highlighted option, enter adds the typed text', async () => {
+			const onAdd = vi.fn((value: unknown) => ({ label: `chip of ${String(value)}` }));
+			const { user } = setup(
+				<>
+					<ChipInput options={options} onAdd={onAdd} placeholder="To" />
+					<input aria-label="next field" />
+				</>
+			);
+			await typeInInput(user, screen.getByRole('textbox', { name: 'To' }), 'h');
+			await user.arrowDown();
+			await user.tab();
+			await user.tab({ shift: true });
+			await user.enter();
+			expect(onAdd).toHaveBeenCalledTimes(1);
+			expect(onAdd).toHaveBeenCalledWith('h');
+		});
+
+		test('tab without a highlighted option leaves the typed text in the input and adds no chip', async () => {
+			const onAdd = vi.fn((value: unknown) => ({ label: `chip of ${String(value)}` }));
+			const { user } = setup(
+				<>
+					<ChipInput options={options} onAdd={onAdd} placeholder="To" />
+					<input aria-label="next field" />
+				</>
+			);
+			const input = screen.getByRole('textbox', { name: 'To' });
+			await typeInInput(user, input, 'he');
+			await user.tab();
+			expect(onAdd).not.toHaveBeenCalled();
+			expect(input).toHaveValue('he');
+			expect(screen.getByRole('textbox', { name: 'next field' })).toHaveFocus();
+		});
+
+		test('escape closes the options without adding a chip', async () => {
+			const onAdd = vi.fn((value: unknown) => ({ label: `chip of ${String(value)}` }));
+			const onOptionsDisplayChange = vi.fn();
+			const { user } = setup(
+				<ChipInput
+					options={options}
+					onAdd={onAdd}
+					onOptionsDisplayChange={onOptionsDisplayChange}
+				/>
+			);
+			const input = screen.getByRole('textbox');
+			await typeInInput(user, input, 'h');
+			await user.arrowDown();
+			await user.esc();
+			expect(screen.queryByText('Helen')).not.toBeInTheDocument();
+			expect(onOptionsDisplayChange).toHaveBeenLastCalledWith(false);
+			expect(onAdd).not.toHaveBeenCalled();
+			expect(input).toHaveValue('h');
+			expect(input).toHaveFocus();
+		});
+
+		test('arrow down opens the options closed with escape and highlights the first one', async () => {
+			const { user } = setup(<ChipInput options={options} />);
+			const input = screen.getByRole('textbox');
+			await typeInInput(user, input, 'h');
+			await user.arrowDown();
+			await user.esc();
+			expect(screen.queryByText('Helen')).not.toBeInTheDocument();
+			await user.arrowDown();
+			expect(getOption('Helen')).toHaveClass('zapp-active');
+			expect(input).toHaveFocus();
+		});
+
+		test('arrow up opens the options closed with escape and highlights the last one, the closest to the input when the list opens above it', async () => {
+			const { user } = setup(<ChipInput options={options} />);
+			const input = screen.getByRole('textbox');
+			await typeInInput(user, input, 'h');
+			await user.esc();
+			expect(screen.queryByText('Helen')).not.toBeInTheDocument();
+			await user.arrowUp();
+			expect(getOption('Hannah')).toHaveClass('zapp-active');
+			expect(input).toHaveFocus();
+		});
+
+		test('arrows do not reopen the options closed by choosing one, which belong to the previous search', async () => {
+			const { user } = setup(<ChipInput options={options} />);
+			const input = screen.getByRole('textbox');
+			await typeInInput(user, input, 'h');
+			await user.click(screen.getByText('Helen'));
+			expect(screen.queryByText('Hector')).not.toBeInTheDocument();
+			await user.keyboard('x');
+			await user.arrowDown();
+			expect(screen.queryByText('Hector')).not.toBeInTheDocument();
+			await user.arrowUp();
+			expect(screen.queryByText('Hector')).not.toBeInTheDocument();
+		});
+
+		test('arrows do not reopen the options closed with escape once the typed text became a chip', async () => {
+			const { user } = setup(<ChipInput options={options} />);
+			await typeInInput(user, screen.getByRole('textbox'), 'h');
+			await user.esc();
+			await user.enter();
+			expect(screen.getByRole('textbox')).toHaveValue('');
+			expect(screen.getByText('h')).toBeVisible();
+			await user.arrowDown();
+			expect(screen.queryByText('Helen')).not.toBeInTheDocument();
+		});
+
+		test('enter on the typed text closes the options, which were suggestions for that text', async () => {
+			const { user } = setup(<ChipInput options={options} />);
+			await typeInInput(user, screen.getByRole('textbox'), 'h');
+			expect(screen.getByText('Helen')).toBeVisible();
+			await user.enter();
+			expect(screen.getByText('h')).toBeVisible();
+			expect(screen.queryByText('Helen')).not.toBeInTheDocument();
+			await user.arrowDown();
+			expect(screen.queryByText('Helen')).not.toBeInTheDocument();
+		});
+
+		test('suggestions passed as the same array are shown again when typing after a chip is added', async () => {
+			const { user } = setup(<ChipInput options={options} />);
+			await typeInInput(user, screen.getByRole('textbox'), 'foo');
+			await user.enter();
+			expect(screen.queryByText('Helen')).not.toBeInTheDocument();
+			await user.keyboard('h');
+			expect(screen.getByText('Helen')).toBeVisible();
+		});
+
+		test('with onInputType, the suggestions hidden by a chip are shown again only after the debounced call', async () => {
+			const onInputType = vi.fn();
+			const { user } = setup(<ChipInput options={options} onInputType={onInputType} />);
+			await typeInInput(user, screen.getByRole('textbox'), 'john');
+			await user.enter();
+			await act(async () => {
+				await vi.advanceTimersByTimeAsync(500);
+			});
+			// the keyup of enter reaches onInputType too, with no text: the list stays hidden
+			expect(screen.queryByText('Helen')).not.toBeInTheDocument();
+			await user.keyboard('m');
+			// the options still belong to the previous text
+			expect(screen.queryByText('Helen')).not.toBeInTheDocument();
+			await act(async () => {
+				await vi.advanceTimersByTimeAsync(500);
+			});
+			expect(onInputType).toHaveBeenLastCalledWith(expect.objectContaining({ textContent: 'm' }));
+			expect(screen.getByText('Helen')).toBeVisible();
+		});
+
+		test('enter adds the typed text after a highlighted list was closed by disableOptions', async () => {
+			const onAdd = vi.fn((value: unknown) => ({ label: `chip of ${String(value)}` }));
+			const { user, rerender } = setup(<ChipInput options={options} onAdd={onAdd} />);
+			await typeInInput(user, screen.getByRole('textbox'), 'foo');
+			await user.arrowDown();
+			expect(getOption('Helen')).toHaveClass('zapp-active');
+			// the forced list closes without onClose
+			rerender(<ChipInput options={options} onAdd={onAdd} disableOptions={false} />);
+			expect(screen.queryByText('Helen')).not.toBeInTheDocument();
+			await user.enter();
+			expect(onAdd).toHaveBeenCalledWith('foo');
+		});
+
+		test('enter adds the typed text after a forced list opened by a click was closed without onClose', async () => {
+			const onAdd = vi.fn((value: unknown) => ({ label: `chip of ${String(value)}` }));
+			const { user, rerender } = setup(
+				<ChipInput options={options} onAdd={onAdd} disableOptions={false} />
+			);
+			await user.click(screen.getByRole('textbox'));
+			expect(screen.getByText('Helen')).toBeVisible();
+			// the consumer switches to suggestion mode while the user types, as carbonio-search-ui does
+			rerender(<ChipInput options={options} onAdd={onAdd} disableOptions />);
+			await user.keyboard('foo{Enter}');
+			rerender(<ChipInput options={options} onAdd={onAdd} disableOptions={false} />);
+			await user.keyboard('bar');
+			await user.arrowDown();
+			await user.keyboard('{Enter}');
+			expect(onAdd).toHaveBeenLastCalledWith('bar');
+		});
+
+		test('new options after a chip was created from the typed text are shown again', async () => {
+			const { user, rerender } = setup(<ChipInput options={options} />);
+			await typeInInput(user, screen.getByRole('textbox'), 'h');
+			await user.enter();
+			expect(screen.queryByText('Helen')).not.toBeInTheDocument();
+			rerender(<ChipInput options={[...options, otherOption]} />);
+			expect(await screen.findByText('Helen')).toBeVisible();
+		});
+
+		test('leaving the input while options are shown keeps the typed text in the input, as before', async () => {
+			const onAdd = vi.fn((value: unknown) => ({ label: `chip of ${String(value)}` }));
+			const { user } = setup(
+				<>
+					<ChipInput options={options} onAdd={onAdd} placeholder="To" />
+					<input aria-label="next field" />
+				</>
+			);
+			await typeInInput(user, screen.getByRole('textbox', { name: 'To' }), 'h');
+			await user.click(screen.getByRole('textbox', { name: 'next field' }));
+			expect(onAdd).not.toHaveBeenCalled();
+			expect(screen.getByRole('textbox', { name: 'To' })).toHaveValue('h');
+		});
+
+		test('with confirmChipOnBlurWithOptions, leaving the input turns the typed text into a chip also while options are shown', async () => {
+			const onAdd = vi.fn((value: unknown) => ({ label: `chip of ${String(value)}` }));
+			const { user } = setup(
+				<>
+					<ChipInput
+						options={options}
+						onAdd={onAdd}
+						placeholder="To"
+						confirmChipOnBlurWithOptions
+					/>
+					<input aria-label="next field" />
+				</>
+			);
+			await typeInInput(user, screen.getByRole('textbox', { name: 'To' }), 'h');
+			expect(screen.getByText('Helen')).toBeVisible();
+			await user.click(screen.getByRole('textbox', { name: 'next field' }));
+			expect(onAdd).toHaveBeenCalledTimes(1);
+			expect(onAdd).toHaveBeenCalledWith('h');
+			expect(screen.getByText('chip of h')).toBeVisible();
+			expect(screen.getByRole('textbox', { name: 'To' })).toHaveValue('');
+			expect(screen.queryByText('Helen')).not.toBeInTheDocument();
+		});
+
+		test('with confirmChipOnBlurWithOptions, a click on an option adds only the option', async () => {
+			const onAdd = vi.fn((value: unknown) => ({ label: `chip of ${String(value)}` }));
+			const { user } = setup(
+				<ChipInput options={options} onAdd={onAdd} confirmChipOnBlurWithOptions />
+			);
+			await typeInInput(user, screen.getByRole('textbox'), 'h');
+			await user.click(screen.getByText('Hector'));
+			expect(onAdd).toHaveBeenCalledTimes(1);
+			expect(onAdd).toHaveBeenCalledWith('hector@example.com');
+		});
+
+		test('with confirmChipOnBlurWithOptions, tab on a highlighted option turns the typed text into a chip, not the option', async () => {
+			const onAdd = vi.fn((value: unknown) => ({ label: `chip of ${String(value)}` }));
+			const { user } = setup(
+				<>
+					<ChipInput
+						options={options}
+						onAdd={onAdd}
+						placeholder="To"
+						confirmChipOnBlurWithOptions
+					/>
+					<input aria-label="next field" />
+				</>
+			);
+			await typeInInput(user, screen.getByRole('textbox', { name: 'To' }), 'h');
+			await user.arrowDown();
+			await user.tab();
+			expect(onAdd).toHaveBeenCalledTimes(1);
+			expect(onAdd).toHaveBeenCalledWith('h');
+			expect(screen.getByRole('textbox', { name: 'next field' })).toHaveFocus();
+		});
+
+		test('with confirmChipOnBlurWithOptions, tab without a highlighted option turns the typed text into a chip', async () => {
+			const onAdd = vi.fn((value: unknown) => ({ label: `chip of ${String(value)}` }));
+			const { user } = setup(
+				<>
+					<ChipInput
+						options={options}
+						onAdd={onAdd}
+						placeholder="To"
+						confirmChipOnBlurWithOptions
+					/>
+					<input aria-label="next field" />
+				</>
+			);
+			await typeInInput(user, screen.getByRole('textbox', { name: 'To' }), 'h');
+			await user.tab();
+			expect(onAdd).toHaveBeenCalledTimes(1);
+			expect(onAdd).toHaveBeenCalledWith('h');
+			expect(screen.getByRole('textbox', { name: 'next field' })).toHaveFocus();
+		});
+
+		test('with confirmChipOnBlurWithOptions, a click on an option that arrived after typing adds only the option', async () => {
+			const onAdd = vi.fn((value: unknown) => ({ label: `chip of ${String(value)}` }));
+			const { user, rerender } = setup(
+				<ChipInput options={[]} onAdd={onAdd} confirmChipOnBlurWithOptions />
+			);
+			await typeInInput(user, screen.getByRole('textbox'), 'h');
+			// a disabled placeholder while the search runs, then its results
+			rerender(
+				<ChipInput
+					options={[{ id: 'loading', label: 'Loading', disabled: true }]}
+					onAdd={onAdd}
+					confirmChipOnBlurWithOptions
+				/>
+			);
+			await screen.findByText('Loading');
+			rerender(<ChipInput options={options} onAdd={onAdd} confirmChipOnBlurWithOptions />);
+			await user.click(await screen.findByText('Hector'));
+			expect(onAdd).toHaveBeenCalledTimes(1);
+			expect(onAdd).toHaveBeenCalledWith('hector@example.com');
+		});
+
+		test('with options opened by a click, enter on the typed text keeps the list open and navigable, as before', async () => {
+			const { user } = setup(<ChipInput options={options} disableOptions={false} />);
+			const input = screen.getByRole('textbox');
+			await user.click(input);
+			await user.keyboard('h');
+			await user.enter();
+			expect(screen.getByText('h')).toBeVisible();
+			await user.arrowDown();
+			expect(getOption('Helen')).toHaveClass('zapp-active');
+		});
+
+		describe('with the list rendered in another window (the theme windowObj, e.g. a board in its own window)', () => {
+			let frame: HTMLIFrameElement;
+			let unmountTree: (() => void) | undefined;
+
+			beforeEach(() => {
+				frame = document.createElement('iframe');
+				document.body.appendChild(frame);
+			});
+
+			afterEach(() => {
+				// the list lives in the iframe: unmount before removing it, also when a test fails
+				unmountTree?.();
+				unmountTree = undefined;
+				frame.remove();
+			});
+
+			function getFrameWindow(): Window {
+				if (frame.contentWindow === null) {
+					throw new Error('iframe without a window');
+				}
+				return frame.contentWindow;
+			}
+
+			function setupInFrame(ui: React.ReactElement): ReturnType<typeof setup> {
+				const frameWindow = getFrameWindow();
+				const result = setup(
+					<ThemeProvider extension={(theme): Theme => ({ ...theme, windowObj: frameWindow })}>
+						{ui}
+					</ThemeProvider>
+				);
+				unmountTree = result.unmount;
+				return result;
+			}
+
+			test('with confirmChipOnBlurWithOptions, a press on the list keeps the focus in the input', () => {
+				setupInFrame(<ChipInput options={options} confirmChipOnBlurWithOptions />);
+				const list = within(getFrameWindow().document.body).getByTestId(SELECTORS.dropdown);
+				const press = new MouseEvent('mousedown', { bubbles: true, cancelable: true });
+				list.dispatchEvent(press);
+				// the default of the press (moving the focus out of the input) is prevented
+				expect(press.defaultPrevented).toBe(true);
+			});
+
+			test('with confirmChipOnBlurWithOptions, the focus moving to a field inside a custom option keeps the typed text', async () => {
+				const onAdd = vi.fn((value: unknown) => ({ label: `chip of ${String(value)}` }));
+				const { user } = setupInFrame(
+					<ChipInput
+						options={[
+							{
+								id: 'custom',
+								label: 'custom',
+								disabled: true,
+								customComponent: <input aria-label="custom field" />
+							},
+							...options
+						]}
+						onAdd={onAdd}
+						confirmChipOnBlurWithOptions
+						placeholder="To"
+					/>
+				);
+				const input = screen.getByRole('textbox', { name: 'To' });
+				await typeInInput(user, input, 'h');
+				const customField = within(getFrameWindow().document.body).getByRole('textbox', {
+					name: 'custom field'
+				});
+				act(() => {
+					input.dispatchEvent(
+						new FocusEvent('focusout', { bubbles: true, relatedTarget: customField })
+					);
+				});
+				expect(onAdd).not.toHaveBeenCalled();
+				expect(input).toHaveValue('h');
+			});
+		});
+
+		test('with confirmChipOnBlurWithOptions, a press on the list keeps the focus and the typed text in the input', async () => {
+			const onAdd = vi.fn((value: unknown) => ({ label: `chip of ${String(value)}` }));
+			const { user } = setup(
+				<ChipInput options={options} onAdd={onAdd} confirmChipOnBlurWithOptions />
+			);
+			const input = screen.getByRole('textbox');
+			await typeInInput(user, input, 'h');
+			// e.g. the scrollbar of a long list
+			await user.pointer({ keys: '[MouseLeft>]', target: screen.getByTestId(SELECTORS.dropdown) });
+			expect(input).toHaveFocus();
+			expect(onAdd).not.toHaveBeenCalled();
+			expect(input).toHaveValue('h');
+		});
+
+		test('with confirmChipOnBlurWithOptions, the typed text becomes a chip when the field is left after a click on a disabled option', async () => {
+			const onAdd = vi.fn((value: unknown) => ({ label: `chip of ${String(value)}` }));
+			const { user } = setup(
+				<>
+					<ChipInput
+						options={[{ id: 'loading', label: 'Loading', disabled: true }, ...options]}
+						onAdd={onAdd}
+						confirmChipOnBlurWithOptions
+					/>
+					<button type="button">Send</button>
+				</>
+			);
+			await typeInInput(user, screen.getByRole('textbox'), 'hel');
+			await user.click(screen.getByText('Loading'));
+			await user.click(screen.getByRole('button', { name: 'Send' }));
+			expect(onAdd).toHaveBeenCalledWith('hel');
+		});
+
+		test('with confirmChipOnBlurWithOptions, the typed text becomes a chip when the field is left after a press dragged off an option', async () => {
+			const onAdd = vi.fn((value: unknown) => ({ label: `chip of ${String(value)}` }));
+			const { user } = setup(
+				<>
+					<ChipInput options={options} onAdd={onAdd} confirmChipOnBlurWithOptions />
+					<button type="button">Send</button>
+				</>
+			);
+			await typeInInput(user, screen.getByRole('textbox'), 'hel');
+			await user.pointer([
+				{ keys: '[MouseLeft>]', target: screen.getByText('Helen') },
+				{ target: document.body },
+				{ keys: '[/MouseLeft]' }
+			]);
+			await user.click(screen.getByRole('button', { name: 'Send' }));
+			expect(onAdd).toHaveBeenCalledWith('hel');
+		});
+
+		test('with confirmChipOnBlurWithOptions, a field inside a custom option takes the focus and the typed text stays', async () => {
+			const onAdd = vi.fn((value: unknown) => ({ label: `chip of ${String(value)}` }));
+			const { user } = setup(
+				<ChipInput
+					options={[
+						{
+							id: 'custom',
+							label: 'custom',
+							disabled: true,
+							customComponent: <input aria-label="custom field" />
+						},
+						...options
+					]}
+					onAdd={onAdd}
+					confirmChipOnBlurWithOptions
+					placeholder="To"
+				/>
+			);
+			await typeInInput(user, screen.getByRole('textbox', { name: 'To' }), 'h');
+			await user.click(screen.getByRole('textbox', { name: 'custom field' }));
+			expect(screen.getByRole('textbox', { name: 'custom field' })).toHaveFocus();
+			expect(onAdd).not.toHaveBeenCalled();
+			expect(screen.getByRole('textbox', { name: 'To' })).toHaveValue('h');
+		});
+
+		test('confirmChipOnBlurWithOptions does nothing when confirmChipOnBlur is off', async () => {
+			const onAdd = vi.fn((value: unknown) => ({ label: `chip of ${String(value)}` }));
+			const { user } = setup(
+				<>
+					<ChipInput
+						options={options}
+						onAdd={onAdd}
+						placeholder="To"
+						confirmChipOnBlur={false}
+						confirmChipOnBlurWithOptions
+					/>
+					<input aria-label="next field" />
+				</>
+			);
+			await typeInInput(user, screen.getByRole('textbox', { name: 'To' }), 'h');
+			await user.click(screen.getByRole('textbox', { name: 'next field' }));
+			expect(onAdd).not.toHaveBeenCalled();
+		});
+
+		test('enter adds only the highlighted option also when chips are already there', async () => {
+			const onAdd = vi.fn((value: unknown) => ({ label: `chip of ${String(value)}` }));
+			const { user, rerender } = setup(<ChipInput options={options} onAdd={onAdd} />);
+			const input = screen.getByRole('textbox');
+			await typeInInput(user, input, 'first');
+			await user.enter();
+			expect(onAdd).toHaveBeenLastCalledWith('first');
+			await user.keyboard('h');
+			// the results of the search for the new text
+			rerender(<ChipInput options={[...options]} onAdd={onAdd} />);
+			await user.arrowDown();
+			await user.arrowDown();
+			await user.enter();
+			expect(onAdd).toHaveBeenCalledTimes(2);
+			expect(onAdd).toHaveBeenLastCalledWith('hector@example.com');
+			expect(input).toHaveValue('');
+		});
+
+		test('a tab separator on a highlighted option adds the typed text, not the option', async () => {
+			const onAdd = vi.fn((value: unknown) => ({ label: `chip of ${String(value)}` }));
+			const { user } = setup(
+				<ChipInput options={options} onAdd={onAdd} separators={[{ key: 'Tab' }]} />
+			);
+			await typeInInput(user, screen.getByRole('textbox'), 'h');
+			await user.arrowDown();
+			await user.tab();
+			expect(onAdd).toHaveBeenCalledTimes(1);
+			expect(onAdd).toHaveBeenCalledWith('h');
+		});
+
+		test('escape inside a modal closes the options, not the modal', async () => {
+			const onModalClose = vi.fn();
+			const { user } = setup(
+				<Modal open title="modal with a chip input" onClose={onModalClose}>
+					<ChipInput options={options} placeholder="To" />
+				</Modal>
+			);
+			act(() => {
+				vi.advanceTimersByTime(TIMERS.MODAL.DELAY_OPEN);
+			});
+			await typeInInput(user, screen.getByRole('textbox', { name: 'To' }), 'h');
+			await user.arrowDown();
+			await user.esc();
+			expect(screen.queryByText('Helen')).not.toBeInTheDocument();
+			expect(onModalClose).not.toHaveBeenCalled();
+			expect(screen.getByText('modal with a chip input')).toBeVisible();
+		});
+
+		test('typing after a highlight clears it, so enter adds the typed text', async () => {
+			const onAdd = vi.fn((value: unknown) => ({ label: `chip of ${String(value)}` }));
+			const { user } = setup(<ChipInput options={options} onAdd={onAdd} />);
+			await typeInInput(user, screen.getByRole('textbox'), 'h');
+			await user.arrowDown();
+			expect(getOption('Helen')).toHaveClass('zapp-active');
+			await user.keyboard('a');
+			expect(getOption('Helen')).not.toHaveClass('zapp-active');
+			await user.enter();
+			expect(onAdd).toHaveBeenCalledWith('ha');
+		});
+
+		test('new options reset the highlight', async () => {
+			const { user, rerender } = setup(<ChipInput options={options} />);
+			await typeInInput(user, screen.getByRole('textbox'), 'h');
+			await user.arrowDown();
+			expect(getOption('Helen')).toHaveClass('zapp-active');
+			rerender(<ChipInput options={[...options, otherOption]} />);
+			expect(getOption('Helen')).not.toHaveClass('zapp-active');
+		});
+
+		test('the options opened by a click are navigated and chosen with the keyboard too', async () => {
+			const onAdd = vi.fn((value: unknown) => ({ label: `chip of ${String(value)}` }));
+			const { user } = setup(<ChipInput options={options} onAdd={onAdd} disableOptions={false} />);
+			await user.click(screen.getByRole('textbox'));
+			await user.arrowDown();
+			await user.arrowDown();
+			expect(getOption('Hector')).toHaveClass('zapp-active');
+			await user.enter();
+			expect(onAdd).toHaveBeenCalledWith('hector@example.com');
+			expect(screen.queryByText('Helen')).not.toBeInTheDocument();
+		});
+
+		test('navigation keys do not call onInputType, so they never start a search', async () => {
+			const onInputType = vi.fn();
+			const { user } = setup(<ChipInput options={options} onInputType={onInputType} />);
+			await typeInInput(user, screen.getByRole('textbox'), 'h');
+			await act(async () => {
+				await vi.advanceTimersByTimeAsync(500);
+			});
+			expect(onInputType).toHaveBeenCalledTimes(1);
+			await user.arrowDown();
+			await act(async () => {
+				await vi.advanceTimersByTimeAsync(500);
+			});
+			await user.arrowUp();
+			await user.arrowLeft();
+			await user.arrowRight();
+			await user.keyboard(
+				'[Home][End][PageUp][PageDown][ShiftLeft][ControlLeft][AltLeft][MetaLeft]'
+			);
+			await user.esc();
+			await act(async () => {
+				await vi.advanceTimersByTimeAsync(500);
+			});
+			expect(onInputType).toHaveBeenCalledTimes(1);
+		});
+
+		test.each(['Shift', 'Alt', 'Meta'])(
+			'%s with the arrows keeps the highlight where it is and the default of the keys',
+			async (modifier) => {
+				const { user } = setup(<ChipInput options={options} />);
+				await typeInInput(user, screen.getByRole('textbox'), 'h');
+				await user.arrowDown();
+				const keyDowns: KeyboardEvent[] = [];
+				const onKeyDown = (event: KeyboardEvent): void => {
+					keyDowns.push(event);
+				};
+				document.addEventListener('keydown', onKeyDown);
+				await user.keyboard(`{${modifier}>}{ArrowDown}{ArrowUp}{/${modifier}}`);
+				document.removeEventListener('keydown', onKeyDown);
+				expect(getOption('Helen')).toHaveClass('zapp-active');
+				const arrows = keyDowns.filter((event) => event.key.startsWith('Arrow'));
+				expect(arrows).toHaveLength(2);
+				expect(arrows.some((event) => event.defaultPrevented)).toBe(false);
+			}
+		);
+
+		test('shift+enter does not choose the highlighted option', async () => {
+			const onAdd = vi.fn((value: unknown) => ({ label: `chip of ${String(value)}` }));
+			const { user } = setup(<ChipInput options={options} onAdd={onAdd} />);
+			await typeInInput(user, screen.getByRole('textbox'), 'h');
+			await user.arrowDown();
+			await user.keyboard('{Shift>}{Enter}{/Shift}');
+			expect(onAdd).not.toHaveBeenCalledWith('helen@example.com');
+		});
+
+		describe('with a parent that rebuilds the same options on every render', () => {
+			test('arrow down after escape reopens the options opened by a click and highlights the first one', async () => {
+				const { user } = setup(<InlineOptionsParent options={options} disableOptions={false} />);
+				await user.click(screen.getByRole('textbox'));
+				expect(screen.getByText('Helen')).toBeVisible();
+				await user.esc();
+				expect(screen.queryByText('Helen')).not.toBeInTheDocument();
+				await user.arrowDown();
+				expect(screen.getByText('Helen')).toBeVisible();
+				expect(getOption('Helen')).toHaveClass('zapp-active');
+			});
+
+			test('the suggestions hidden after a chip stay hidden when the parent rebuilds them', async () => {
+				const { user } = setup(<InlineOptionsParent options={options} />);
+				await typeInInput(user, screen.getByRole('textbox'), 'foo');
+				expect(screen.getByText('Helen')).toBeVisible();
+				await user.enter();
+				expect(screen.getByText('foo')).toBeVisible();
+				expect(screen.queryByText('Helen')).not.toBeInTheDocument();
+				await user.keyboard('h');
+				expect(screen.getByText('Helen')).toBeVisible();
+			});
+		});
+
+		describe('with a parent that filters the suggestions by the typed text', () => {
+			// as the calendars selector of the appointment: no text gives every option
+			function FilteringParent({
+				onInputTypeDebounce = 0
+			}: Readonly<{ onInputTypeDebounce?: number }>): React.JSX.Element {
+				const [filteredOptions, setFilteredOptions] = useState(options);
+				const onInputType = useCallback<NonNullable<ChipInputProps<string>['onInputType']>>(
+					({ textContent }) => {
+						const prefix = (textContent ?? '').toLowerCase();
+						setFilteredOptions(
+							options.filter((option) => (option.label ?? '').toLowerCase().startsWith(prefix))
+						);
+					},
+					[]
+				);
+				return (
+					<ChipInput
+						options={filteredOptions}
+						onInputType={onInputType}
+						onInputTypeDebounce={onInputTypeDebounce}
+						separators={[]}
+					/>
+				);
+			}
+
+			test('a click on a suggestion closes the list', async () => {
+				const { user } = setup(<FilteringParent />);
+				await typeInInput(user, screen.getByRole('textbox'), 'hel');
+				await act(async () => {
+					await vi.advanceTimersByTimeAsync(0);
+				});
+				await user.click(screen.getByText('Helen'));
+				await act(async () => {
+					await vi.advanceTimersByTimeAsync(0);
+				});
+				expect(screen.queryByText('Hector')).not.toBeInTheDocument();
+			});
+
+			test('enter on a highlighted suggestion closes the list, as a click does', async () => {
+				const { user } = setup(<FilteringParent />);
+				await typeInInput(user, screen.getByRole('textbox'), 'hel');
+				await act(async () => {
+					await vi.advanceTimersByTimeAsync(0);
+				});
+				expect(screen.queryByText('Hector')).not.toBeInTheDocument();
+				await user.arrowDown();
+				await user.enter();
+				await act(async () => {
+					await vi.advanceTimersByTimeAsync(0);
+				});
+				expect(screen.queryByText('Hector')).not.toBeInTheDocument();
+			});
+
+			test('enter on a suggestion focused in the list closes the list, as a click does', async () => {
+				const { user } = setup(<FilteringParent />);
+				await typeInInput(user, screen.getByRole('textbox'), 'hel');
+				await act(async () => {
+					await vi.advanceTimersByTimeAsync(0);
+				});
+				act(() => {
+					getOption('Helen').focus();
+				});
+				await user.keyboard('{Enter}');
+				await act(async () => {
+					await vi.advanceTimersByTimeAsync(0);
+				});
+				expect(screen.queryByText('Hector')).not.toBeInTheDocument();
+			});
+
+			test('a search still pending when enter picks a suggestion does not reopen the list', async () => {
+				const { user } = setup(<FilteringParent onInputTypeDebounce={300} />);
+				await typeInInput(user, screen.getByRole('textbox'), 'hel');
+				await act(async () => {
+					await vi.advanceTimersByTimeAsync(300);
+				});
+				await user.keyboard('p');
+				await user.keyboard('{Backspace}');
+				// the search of the last key is still pending
+				await user.arrowDown();
+				await user.enter();
+				await act(async () => {
+					await vi.advanceTimersByTimeAsync(300);
+				});
+				expect(screen.queryByText('Hector')).not.toBeInTheDocument();
+			});
+
+			test('enter that picks a suggestion while the arrow is still held closes the list', async () => {
+				const { user } = setup(<FilteringParent />);
+				await typeInInput(user, screen.getByRole('textbox'), 'hel');
+				await act(async () => {
+					await vi.advanceTimersByTimeAsync(0);
+				});
+				await user.keyboard('{ArrowDown>}{Enter>}{/ArrowDown}{/Enter}');
+				await act(async () => {
+					await vi.advanceTimersByTimeAsync(0);
+				});
+				expect(screen.queryByText('Hector')).not.toBeInTheDocument();
+			});
+
+			test('a search still pending when a suggestion is clicked does not reopen the list', async () => {
+				const { user } = setup(<FilteringParent onInputTypeDebounce={300} />);
+				await typeInInput(user, screen.getByRole('textbox'), 'hel');
+				await act(async () => {
+					await vi.advanceTimersByTimeAsync(300);
+				});
+				await user.keyboard('p');
+				await user.keyboard('{Backspace}');
+				// the search of the last key is still pending
+				await user.click(screen.getByText('Helen'));
+				await act(async () => {
+					await vi.advanceTimersByTimeAsync(300);
+				});
+				expect(screen.queryByText('Hector')).not.toBeInTheDocument();
+			});
+		});
+
+		test('with confirmChipOnBlurWithOptions, after a click on an option that keeps the list open, enter does not add the option highlighted before', async () => {
+			const onAdd = vi.fn((value: unknown) => ({ label: `chip of ${String(value)}` }));
+			const { user } = setup(
+				<ChipInput
+					options={options.map((option) => ({ ...option, keepOpen: true }))}
+					onAdd={onAdd}
+					separators={[]}
+					confirmChipOnBlurWithOptions
+				/>
+			);
+			await typeInInput(user, screen.getByRole('textbox'), 'h');
+			await user.arrowDown();
+			expect(getOption('Helen')).toHaveClass('zapp-active');
+			await user.click(screen.getByText('Hannah'));
+			expect(onAdd).toHaveBeenCalledWith('hannah@example.com');
+			await user.enter();
+			expect(onAdd).not.toHaveBeenCalledWith('helen@example.com');
+		});
+
+		test('an option highlighted and then disabled leaves enter to the typed text', async () => {
+			const onAdd = vi.fn((value: unknown) => ({ label: `chip of ${String(value)}` }));
+			const { user, rerender } = setup(<ChipInput options={options} onAdd={onAdd} />);
+			await typeInInput(user, screen.getByRole('textbox'), 'h');
+			await user.arrowDown();
+			expect(getOption('Helen')).toHaveClass('zapp-active');
+			rerender(
+				<ChipInput
+					options={options.map((option) =>
+						option.id === 'opt1' ? { ...option, disabled: true } : option
+					)}
+					onAdd={onAdd}
+				/>
+			);
+			await user.enter();
+			expect(onAdd).toHaveBeenCalledWith('h');
+		});
+
+		describe('text edited without a keyup', () => {
+			test('a navigation key after a paste with the mouse searches the pasted text', async () => {
+				const onInputType = vi.fn();
+				const { user } = setup(<ChipInput options={options} onInputType={onInputType} />);
+				const input = screen.getByRole('textbox');
+				act(() => {
+					input.focus();
+				});
+				await user.paste('al');
+				await user.keyboard('{ArrowLeft}');
+				await act(async () => {
+					await vi.advanceTimersByTimeAsync(500);
+				});
+				expect(onInputType).toHaveBeenLastCalledWith(
+					expect.objectContaining({ textContent: 'al' })
+				);
+			});
+
+			test('a navigation key after a paste with the mouse and a click on an option does not search the emptied input', async () => {
+				const onInputType = vi.fn();
+				const { user } = setup(<ChipInput options={options} onInputType={onInputType} />);
+				const input = screen.getByRole('textbox');
+				act(() => {
+					input.focus();
+				});
+				await user.paste('hel');
+				await user.click(screen.getByText('Helen'));
+				act(() => {
+					input.focus();
+				});
+				await user.arrowDown();
+				await act(async () => {
+					await vi.advanceTimersByTimeAsync(500);
+				});
+				expect(onInputType).not.toHaveBeenCalled();
+			});
+
+			test('with singleSelection, a navigation key after a paste with the mouse and a click on an option does not search the emptied input', async () => {
+				const onInputType = vi.fn();
+				const { user } = setup(
+					<ChipInput options={options} onInputType={onInputType} singleSelection />
+				);
+				const input = screen.getByRole('textbox');
+				act(() => {
+					input.focus();
+				});
+				await user.paste('hel');
+				await user.click(screen.getByText('Helen'));
+				act(() => {
+					input.focus();
+				});
+				await user.arrowDown();
+				await act(async () => {
+					await vi.advanceTimersByTimeAsync(500);
+				});
+				expect(onInputType).not.toHaveBeenCalled();
+			});
+
+			test('enter on typed text still reaches onInputType after an option chosen with enter whose keyup was lost', async () => {
+				const onInputType = vi.fn();
+				const { user } = setup(
+					<>
+						<ChipInput options={options} onInputType={onInputType} />
+						<button type="button">elsewhere</button>
+					</>
+				);
+				const input = screen.getByRole('textbox');
+				await typeInInput(user, input, 'h');
+				await user.arrowDown();
+				await user.keyboard('{Enter>}');
+				// the keyup of the enter that chose the option lands elsewhere (e.g. the input disabled by maxChips)
+				act(() => {
+					screen.getByRole('button', { name: 'elsewhere' }).focus();
+				});
+				await user.keyboard('{/Enter}');
+				act(() => {
+					input.focus();
+				});
+				await user.keyboard('ab');
+				await user.enter();
+				await act(async () => {
+					await vi.advanceTimersByTimeAsync(500);
+				});
+				expect(onInputType).toHaveBeenLastCalledWith(
+					expect.objectContaining({ key: 'Enter', textContent: '' })
+				);
+			});
+		});
+
+		describe('enter on the typed text', () => {
+			test('reaches onInputType with the text, so that the consumer can confirm it', async () => {
+				const onInputType = vi.fn();
+				const { user } = setup(<ChipInput onInputType={onInputType} separators={[]} />);
+				await typeInInput(user, screen.getByRole('textbox'), 'abc');
+				await user.enter();
+				await act(async () => {
+					await vi.advanceTimersByTimeAsync(500);
+				});
+				expect(onInputType).toHaveBeenLastCalledWith(
+					expect.objectContaining({ key: 'Enter', textContent: 'abc' })
+				);
+			});
+
+			test('reaches onInputType also when the text was pasted right after an option was chosen', async () => {
+				const onInputType = vi.fn();
+				const { user } = setup(
+					<ChipInput options={options} onInputType={onInputType} separators={[]} />
+				);
+				const input = screen.getByRole('textbox');
+				await typeInInput(user, input, 'h');
+				await user.click(screen.getByText('Helen'));
+				act(() => {
+					input.focus();
+				});
+				await user.paste('abc');
+				await user.enter();
+				await act(async () => {
+					await vi.advanceTimersByTimeAsync(500);
+				});
+				expect(onInputType).toHaveBeenLastCalledWith(
+					expect.objectContaining({ key: 'Enter', textContent: 'abc' })
+				);
+			});
+
+			test('on the empty input after a click on an option still reaches onInputType, as before', async () => {
+				const onInputType = vi.fn();
+				const { user } = setup(
+					<ChipInput options={options} onInputType={onInputType} separators={[]} />
+				);
+				const input = screen.getByRole('textbox');
+				await typeInInput(user, input, 'h');
+				await user.click(screen.getByText('Helen'));
+				await user.enter();
+				await act(async () => {
+					await vi.advanceTimersByTimeAsync(500);
+				});
+				expect(onInputType).toHaveBeenLastCalledWith(
+					expect.objectContaining({ key: 'Enter', textContent: '' })
+				);
+			});
+		});
+
+		describe('during an IME composition', () => {
+			function keyDownWhileComposing(input: HTMLElement, key: string): KeyboardEvent {
+				const event = new KeyboardEvent('keydown', {
+					key,
+					isComposing: true,
+					bubbles: true,
+					cancelable: true
+				});
+				act(() => {
+					input.dispatchEvent(event);
+				});
+				return event;
+			}
+
+			test('the arrows move the candidates of the composition, not the highlight', async () => {
+				const { user } = setup(<ChipInput options={options} />);
+				const input = screen.getByRole('textbox');
+				await typeInInput(user, input, 'h');
+				const event = keyDownWhileComposing(input, 'ArrowDown');
+				expect(event.defaultPrevented).toBe(false);
+				expect(getOption('Helen')).not.toHaveClass('zapp-active');
+			});
+
+			test('enter confirms the composition and does not choose the highlighted option', async () => {
+				const onAdd = vi.fn((value: unknown) => ({ label: `chip of ${String(value)}` }));
+				const { user } = setup(<ChipInput options={options} onAdd={onAdd} separators={[]} />);
+				const input = screen.getByRole('textbox');
+				await typeInInput(user, input, 'h');
+				await user.arrowDown();
+				const event = keyDownWhileComposing(input, 'Enter');
+				expect(event.defaultPrevented).toBe(false);
+				expect(onAdd).not.toHaveBeenCalled();
+			});
+
+			test('escape cancels the composition and leaves the list open', async () => {
+				const { user } = setup(<ChipInput options={options} />);
+				const input = screen.getByRole('textbox');
+				await typeInInput(user, input, 'h');
+				const event = keyDownWhileComposing(input, 'Escape');
+				expect(event.defaultPrevented).toBe(false);
+				expect(screen.getByText('Helen')).toBeVisible();
+			});
+
+			test('escape inside a modal cancels the composition only: the list and the modal stay open', async () => {
+				const onModalClose = vi.fn();
+				const { user } = setup(
+					<Modal open title="modal with a chip input" onClose={onModalClose}>
+						<ChipInput options={options} placeholder="To" />
+					</Modal>
+				);
+				act(() => {
+					vi.advanceTimersByTime(TIMERS.MODAL.DELAY_OPEN);
+				});
+				const input = screen.getByRole('textbox', { name: 'To' });
+				await typeInInput(user, input, 'h');
+				keyDownWhileComposing(input, 'Escape');
+				expect(screen.getByText('Helen')).toBeVisible();
+				expect(onModalClose).not.toHaveBeenCalled();
+			});
+
+			test('escape does not let the arrows reopen a list closed afterwards in another way', async () => {
+				const { user } = setup(
+					<>
+						<ChipInput options={options} placeholder="To" />
+						<button type="button">outside</button>
+					</>
+				);
+				const input = screen.getByRole('textbox', { name: 'To' });
+				await typeInInput(user, input, 'h');
+				keyDownWhileComposing(input, 'Escape');
+				await user.click(screen.getByRole('button', { name: 'outside' }));
+				expect(screen.queryByText('Helen')).not.toBeInTheDocument();
+				act(() => {
+					input.focus();
+				});
+				await user.arrowDown();
+				expect(screen.queryByText('Helen')).not.toBeInTheDocument();
+			});
+
+			test('a navigation key after the composition changed the text searches the new text', async () => {
+				const onInputType = vi.fn();
+				const { user } = setup(<ChipInput options={options} onInputType={onInputType} />);
+				const input = screen.getByRole<HTMLInputElement>('textbox');
+				await typeInInput(user, input, 'hel');
+				await act(async () => {
+					await vi.advanceTimersByTimeAsync(500);
+				});
+				// escape cancels the composed part: the input goes back to the committed text, with an input event
+				act(() => {
+					input.value = 'h';
+					input.dispatchEvent(new Event('input', { bubbles: true }));
+				});
+				await user.esc();
+				await act(async () => {
+					await vi.advanceTimersByTimeAsync(500);
+				});
+				expect(onInputType).toHaveBeenLastCalledWith(expect.objectContaining({ textContent: 'h' }));
+			});
+
+			test('a navigation key after the consumer set the text in code does not start a search', async () => {
+				const onInputType = vi.fn();
+				const { user } = setup(<ChipInput options={options} onInputType={onInputType} />);
+				const input = screen.getByRole<HTMLInputElement>('textbox');
+				await typeInInput(user, input, 'hel');
+				await act(async () => {
+					await vi.advanceTimersByTimeAsync(500);
+				});
+				onInputType.mockClear();
+				// e.g. a chip edited by the consumer through inputRef: no input event
+				act(() => {
+					input.value = 'al';
+				});
+				await user.arrowDown();
+				await act(async () => {
+					await vi.advanceTimersByTimeAsync(500);
+				});
+				expect(onInputType).not.toHaveBeenCalled();
+			});
+		});
+
+		describe('with options opened by a click and other options arriving while typing', () => {
+			test('a list opened by a click stays open', async () => {
+				const { user, rerender } = setup(<ChipInput options={options} disableOptions={false} />);
+				await user.click(screen.getByRole('textbox'));
+				await user.keyboard('x');
+				rerender(<ChipInput options={[otherOption]} disableOptions={false} />);
+				expect(screen.getByText('Hugo')).toBeVisible();
+			});
+
+			test('a list reopened with the arrows stays open, as one opened by a click', async () => {
+				const { user, rerender } = setup(<ChipInput options={options} disableOptions={false} />);
+				await user.click(screen.getByRole('textbox'));
+				await user.esc();
+				await user.arrowDown();
+				expect(screen.getByText('Helen')).toBeVisible();
+				await user.keyboard('x');
+				rerender(<ChipInput options={[otherOption]} disableOptions={false} />);
+				expect(screen.getByText('Hugo')).toBeVisible();
+				await user.esc();
+				expect(screen.queryByText('Hugo')).not.toBeInTheDocument();
+				await user.arrowDown();
+				expect(getOption('Hugo')).toHaveClass('zapp-active');
+			});
+
+			test('a list reopened with the arrows stays open when the typed text becomes a chip, as one opened by a click', async () => {
+				const { user } = setup(<ChipInput options={options} disableOptions={false} />);
+				await user.click(screen.getByRole('textbox'));
+				await user.esc();
+				await user.arrowDown();
+				await user.keyboard('x');
+				await user.enter();
+				expect(screen.getByText('x')).toBeVisible();
+				expect(screen.getByText('Helen')).toBeVisible();
+			});
+
+			test('the switch from suggestion mode still closes the list shown as suggestions', async () => {
+				const { user, rerender } = setup(<ChipInput options={options} />);
+				await typeInInput(user, screen.getByRole('textbox'), 'h');
+				expect(screen.getByText('Helen')).toBeVisible();
+				rerender(<ChipInput options={options} disableOptions={false} />);
+				expect(screen.queryByText('Helen')).not.toBeInTheDocument();
+			});
+		});
+
+		test('a chip that reaches maxChips forces open the options shown on a click, as before', async () => {
+			const { user } = setup(<ChipInput options={options} disableOptions={false} maxChips={1} />);
+			await typeInInput(user, screen.getByRole('textbox'), 'foo');
+			expect(screen.queryByText('Helen')).not.toBeInTheDocument();
+			await user.enter();
+			expect(screen.getByText('foo')).toBeVisible();
+			expect(screen.getByText('Helen')).toBeVisible();
+		});
 	});
 });

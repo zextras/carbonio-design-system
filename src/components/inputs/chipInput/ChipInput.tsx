@@ -7,9 +7,9 @@
 import type { InputHTMLAttributes } from 'react';
 import React, { useCallback, useEffect, useMemo, useReducer, useRef, useState } from 'react';
 
-import { css } from '@emotion/react';
+import { css, useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
-import { filter, slice, isEmpty, debounce, trim, uniq } from 'lodash';
+import { filter, slice, isEmpty, debounce, noop, trim, uniq } from 'lodash';
 
 import { useCombinedRefs } from '../../../hooks/useCombinedRefs';
 import type { KeyboardPresetKey, KeyboardPresetObj } from '../../../hooks/useKeyboard';
@@ -33,6 +33,50 @@ import { Divider } from '../../layout/divider/Divider';
 import { InputContainer } from '../commons/InputContainer';
 import { InputDescription } from '../commons/InputDescription';
 import { InputLabel } from '../commons/InputLabel';
+
+// useKeyboard matches the keys partially: without these, shift+arrows (select text) and cmd+arrows (start or end
+// of the text on macOS) would move the highlight, and shift+enter would choose the highlighted option
+const NO_MODIFIERS = { ctrlKey: false, shiftKey: false, altKey: false, metaKey: false } as const;
+
+// instanceof fails for the nodes of another window (the theme's windowObj): check the shape instead
+function isNode(target: EventTarget | null): target is Node {
+	return target !== null && 'nodeType' in target;
+}
+
+function isElement(target: EventTarget | null): target is Element {
+	return isNode(target) && 'closest' in target;
+}
+
+// a click made by the keyboard (enter on the highlighted option or on a focused item: element.click()) has no
+// pointer, so its detail is 0; a mouse click counts its presses from 1
+function isKeyboardClick(event: React.SyntheticEvent<HTMLElement> | KeyboardEvent): boolean {
+	const nativeEvent = 'nativeEvent' in event ? event.nativeEvent : event;
+	return !('detail' in nativeEvent) || nativeEvent.detail === 0;
+}
+
+/**
+ * Keys that move the caret, the focus or the highlighted option without changing the text: they do not
+ * call onInputType, so they do not start a search, unless the user edited the text since the previous keyup
+ * (e.g. escape that cancels an IME composition, a paste with the mouse). Add a key here to exclude it too.
+ */
+const NAVIGATION_KEYS: ReadonlySet<KeyboardEvent['key']> = new Set([
+	'ArrowUp',
+	'ArrowDown',
+	'ArrowLeft',
+	'ArrowRight',
+	'Home',
+	'End',
+	'PageUp',
+	'PageDown',
+	'Escape',
+	'Tab',
+	'Shift',
+	'Control',
+	'Alt',
+	'AltGraph',
+	'Meta',
+	'CapsLock'
+]);
 
 const ContainerEl = styled(InputContainer)<{
 	background: PaletteColor;
@@ -270,6 +314,9 @@ interface ChipInputProps<TValue = unknown> extends Omit<
 	 * Callback to call when Input typing occurs
 	 * - returns the keyup event object with an additional textContent value
 	 * - the event is debounced using the debounce function from lodash
+	 * - in suggestion mode (disableOptions), the suggestions hidden when the typed text became a chip are shown
+	 *   again right after this call: replace the options here (e.g. with a loading option, or an empty array),
+	 *   or the options of the previous text are shown until the new ones arrive
 	 */
 	onInputType?: (
 		event: React.KeyboardEvent<HTMLInputElement> & { textContent: string | null }
@@ -280,6 +327,15 @@ interface ChipInputProps<TValue = unknown> extends Omit<
 	onAdd?: (value: unknown) => ChipItem<TValue>;
 	/** Set the current input text as a Chip when it loses focus */
 	confirmChipOnBlur?: boolean;
+	/**
+	 * With confirmChipOnBlur, set the current input text as a Chip when it loses focus also while options are shown.
+	 * A press in the list keeps the focus in the input (except on a field inside a custom option, which takes the
+	 * focus and leaves the text in the input), so the text is saved when the user leaves the field; text in the list
+	 * cannot be selected with the mouse. Use it when the options are suggestions and any text is a valid value
+	 * (e.g. recipients); without it, the text stays in the input while options are shown.
+	 * It has no effect when confirmChipOnBlur is false.
+	 */
+	confirmChipOnBlurWithOptions?: boolean;
 	/** ChipInput backgroundColor */
 	background?: keyof Theme['palette'];
 	/** Chip generation triggers */
@@ -363,6 +419,7 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 		onAdd = DefaultOnAdd<TValue>,
 		background = INPUT_BACKGROUND_COLOR,
 		confirmChipOnBlur = true,
+		confirmChipOnBlurWithOptions = false,
 		separators = [
 			{ key: 'Enter', ctrlKey: false },
 			{ key: ',', ctrlKey: false },
@@ -402,6 +459,7 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 	const [isActive, setIsActive] = useState(false);
 	const inputElRef = useCombinedRefs<HTMLInputElement>(inputRef);
 	const scrollContainerRef = useRef<HTMLDivElement | null>(null);
+	const { windowObj } = useTheme();
 
 	const id = useMemo(() => {
 		const ChipInputCast = ChipInputComponent as ChipInputType;
@@ -415,8 +473,37 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 
 	const [forceShowDropdown, setForceShowDropdown] = useState(false);
 	const [dropdownItems, setDropdownItems] = useState<DropdownItem[]>(options);
+	// option highlighted with the arrow keys, while the focus stays in the input
+	const [activeOptionId, setActiveOptionId] = useState<string | undefined>(undefined);
+	// the list is mounted only while it is open: this is the one source of truth for "the options are shown"
+	const dropdownListRef = useRef<HTMLDivElement | null>(null);
+	// the arrows reopen only the options closed with escape, not the ones of a search already used
+	const closedByEscapeRef = useRef(false);
+	// an option was just chosen: the keyup of the enter that chose it must not reach onInputType
+	const optionChosenRef = useRef(false);
+	// the user edited the text since the last keyup (an input event: typing, paste, an IME composition or its
+	// cancel): a navigation key then still searches it. A value set in code by the consumer fires no input event
+	const textEditedRef = useRef(false);
+	// the options compared by their ids: a parent that rebuilds the same options on every render (e.g. an inline map)
+	// must not close the list reopened with the arrows, clear the highlight or show the suggestions hidden after a chip
+	const optionsKey = useMemo(() => options.map((option) => option.id).join('\n'), [options]);
+	// the ids of the suggestions hidden when the typed text became a chip: the same options arriving again stay
+	// hidden, new options or the next typed text show them again
+	const hiddenOptionsKeyRef = useRef<string | undefined>(undefined);
 
 	const uncontrolledMode = useMemo(() => value === undefined, [value]);
+
+	const isInputDisabled = useMemo(
+		() => !!maxChips && items.length >= maxChips,
+		[items.length, maxChips]
+	);
+
+	// dropdown disabled does not depend on chipInput disabled, so that options can be still used
+	// even if input is disabled (chip can be added through dropdown but not typing)
+	const isDropdownDisabled = useMemo(
+		() => disableOptions || isInputDisabled,
+		[disableOptions, isInputDisabled]
+	);
 
 	const dropdownVisibilityRef = useRef<boolean>(forceShowDropdown);
 
@@ -441,6 +528,10 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 				inputElRef.current.value = '';
 				inputElRef.current.dispatchEvent(new Event('change'));
 			}
+			// the input emptied in code is no user edit: the next navigation key does not search it
+			textEditedRef.current = false;
+			// the options closed with escape belong to the text just saved
+			closedByEscapeRef.current = false;
 		},
 		[requireUniqueChips, items, inputElRef, onAdd, uncontrolledMode, onChange]
 	);
@@ -467,6 +558,10 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 				inputElRef.current.value = '';
 				inputElRef.current.dispatchEvent(new Event('change'));
 			}
+			// the input emptied in code is no user edit: the next navigation key does not search it
+			textEditedRef.current = false;
+			// the options closed with escape belong to the text just saved
+			closedByEscapeRef.current = false;
 		},
 		[onAdd, uncontrolledMode, onChange, items, inputElRef]
 	);
@@ -478,12 +573,40 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 		}
 	}, [inputElRef, saveValue]);
 
+	const saveTypedText = useCallback(() => {
+		if (inputElRef.current?.value) {
+			// the options were suggestions for the text that just became a chip: hide them until new ones arrive
+			// or the user types again. A list opened with a click, or reopened with the arrows, stays open: its
+			// options are not tied to the typed text
+			if (isDropdownDisabled) {
+				setForceShowDropdown(false);
+			}
+			if (disableOptions) {
+				hiddenOptionsKeyRef.current = optionsKey;
+			}
+		}
+		saveCurrentValue();
+		setActiveOptionId(undefined);
+	}, [disableOptions, inputElRef, isDropdownDisabled, optionsKey, saveCurrentValue]);
+
+	const onSeparator = useCallback(
+		(event: KeyboardEvent) => {
+			// enter on a highlighted option adds the option, not the typed text (optionsKeyEvents);
+			// tab never takes the highlighted option: the typed text follows the separator or blur rules
+			if (activeOptionId !== undefined && event.key === 'Enter') {
+				return;
+			}
+			saveTypedText();
+		},
+		[activeOptionId, saveTypedText]
+	);
+
 	const saveCurrentEvent = useMemo(
 		() =>
 			separators.length > 0
-				? getKeyboardPreset('chipInputKeys', saveCurrentValue, undefined, separators)
+				? getKeyboardPreset('chipInputKeys', onSeparator, undefined, separators)
 				: [],
-		[saveCurrentValue, separators]
+		[onSeparator, separators]
 	);
 
 	useKeyboard(inputElRef, saveCurrentEvent);
@@ -533,35 +656,88 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 		[inputElRef, items, onChange, uncontrolledMode]
 	);
 
-	const onInputBlur = useCallback(() => {
-		setIsActive(false);
-		if (confirmChipOnBlur && options.length === 0) {
-			saveCurrentValue();
-		}
-	}, [confirmChipOnBlur, options, saveCurrentValue]);
+	const onInputBlur = useCallback(
+		(event: React.FocusEvent<HTMLInputElement>) => {
+			setIsActive(false);
+			// a highlight left behind would make enter add an old option when the focus comes back
+			setActiveOptionId(undefined);
+			if (!confirmChipOnBlur) {
+				return;
+			}
+			if (options.length === 0) {
+				saveCurrentValue();
+			} else if (confirmChipOnBlurWithOptions) {
+				// a press in the list keeps the focus in the input (see the mousedown listener below):
+				// the focus reaches the list only for a field of a custom option
+				const focusGoesToList =
+					isNode(event.relatedTarget) && !!dropdownListRef.current?.contains(event.relatedTarget);
+				if (!focusGoesToList) {
+					// the focus does not go to the options: the typed text is the value
+					saveTypedText();
+				}
+			}
+		},
+		[confirmChipOnBlur, confirmChipOnBlurWithOptions, options, saveCurrentValue, saveTypedText]
+	);
 
-	const onInputKeyUp = useMemo(
+	// a new onInputType (e.g. rebuilt by the parent after a chip is added) must not drop the call already waiting
+	const onInputTypeRef = useRef(onInputType);
+	// set below, once the options are known: the debounced call shows the suggestions hidden by a separator
+	const showHiddenSuggestionsRef = useRef<() => void>(noop);
+	useEffect(() => {
+		onInputTypeRef.current = onInputType;
+	}, [onInputType]);
+
+	const debouncedOnInputType = useMemo(
 		() =>
 			debounce((ev: React.KeyboardEvent<HTMLInputElement>) => {
-				if (onInputType) {
-					onInputType({
-						...ev,
-						textContent: inputElRef.current?.value ?? null
-					});
-				}
+				onInputTypeRef.current?.({
+					...ev,
+					textContent: inputElRef.current?.value ?? null
+				});
+				showHiddenSuggestionsRef.current();
 			}, onInputTypeDebounce),
-		[inputElRef, onInputType, onInputTypeDebounce]
+		[inputElRef, onInputTypeDebounce]
 	);
 
 	useEffect(
 		() => (): void => {
-			onInputKeyUp.cancel();
+			debouncedOnInputType.cancel();
 		},
-		[onInputKeyUp]
+		[debouncedOnInputType]
+	);
+
+	const onInputKeyUp = useCallback(
+		(ev: React.KeyboardEvent<HTMLInputElement>) => {
+			// an option chosen with enter (highlighted, or focused in the list) ends as a click on it: no search for
+			// the input just emptied. Typed or pasted text after the choice still reaches onInputType on enter
+			const text = inputElRef.current?.value ?? '';
+			const isKeyUpOfChosenOption = ev.key === 'Enter' && optionChosenRef.current && !text;
+			// only the keyup of enter ends the choice: another key held at the choice may be released before it
+			if (ev.key === 'Enter') {
+				optionChosenRef.current = false;
+			}
+			const textEdited = textEditedRef.current;
+			textEditedRef.current = false;
+			if (isKeyUpOfChosenOption) {
+				return;
+			}
+			if (!NAVIGATION_KEYS.has(ev.key) || textEdited) {
+				debouncedOnInputType(ev);
+			}
+		},
+		[debouncedOnInputType, inputElRef]
 	);
 
 	const onOptionClick = useCallback(
-		(valueToAdd: unknown) => {
+		(valueToAdd: unknown, chosenWithKeyboard: boolean) => {
+			// a pending call would reach the consumer with the input just emptied (e.g. every option of a
+			// filtering parent) and reopen the list
+			debouncedOnInputType.cancel();
+			// only enter has a keyup still to come: after a click, enter on the empty input reaches onInputType
+			optionChosenRef.current = chosenWithKeyboard;
+			// a list that stays open (keepOpen) must not keep the option highlighted before the choice
+			setActiveOptionId(undefined);
 			if (singleSelection) {
 				replaceValue(valueToAdd);
 			} else {
@@ -569,12 +745,14 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 			}
 			setFocus();
 		},
-		[saveValue, setFocus, singleSelection, replaceValue]
+		[debouncedOnInputType, saveValue, setFocus, singleSelection, replaceValue]
 	);
 
 	const showDropdown = useCallback(
 		(isVisible: boolean) => {
 			if (onOptionsDisplayChange && !isEmpty(options)) {
+				// the effect on forceShowDropdown reports too: share what was reported, so a close is reported once
+				dropdownVisibilityRef.current = isVisible;
 				onOptionsDisplayChange(isVisible);
 			}
 		},
@@ -587,6 +765,7 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 
 	const onClose = useCallback(() => {
 		setForceShowDropdown(false);
+		setActiveOptionId(undefined);
 		showDropdown(false);
 	}, [showDropdown]);
 
@@ -605,7 +784,7 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 				...o,
 				onClick: (event): void => {
 					o.onClick?.(event);
-					onOptionClick(o.value ? o.value : o.label);
+					onOptionClick(o.value ? o.value : o.label, isKeyboardClick(event));
 				}
 			}));
 		});
@@ -647,11 +826,6 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 		}
 	}, [items]);
 
-	const isInputDisabled = useMemo(
-		() => !!maxChips && items.length >= maxChips,
-		[items.length, maxChips]
-	);
-
 	const previousIsInputDisabled = usePrevious<boolean>(isInputDisabled);
 
 	useEffect(() => {
@@ -667,18 +841,191 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 		}
 	}, [previousIsInputDisabled, isInputDisabled]);
 
-	// dropdown disabled does not depend on chipInput disabled, so that options can be still used
-	// even if input is disabled (chip can be added through dropdown but not typing)
-	const isDropdownDisabled = useMemo(
-		() => disableOptions || isInputDisabled,
-		[disableOptions, isInputDisabled]
+	useEffect(() => {
+		// if dropdown is set to not open on click (dropdownDisabled),
+		// force open it on options change to simulate suggestion mode,
+		// except for the suggestions just hidden after a chip that arrive again
+		if (!isDropdownDisabled || hiddenOptionsKeyRef.current === optionsKey) {
+			return;
+		}
+		hiddenOptionsKeyRef.current = undefined;
+		setForceShowDropdown(!isEmpty(options));
+	}, [isDropdownDisabled, options, optionsKey]);
+
+	useEffect(() => {
+		// leaving suggestion mode (disableOptions turned off, or maxChips no longer reached) closes the list forced
+		// open. In click mode a list reopened with the arrows then lives as one opened by a click: other options
+		// and a new chip keep it open, escape, a click outside or a chosen option (without keepOpen) close it
+		if (!isDropdownDisabled) {
+			setForceShowDropdown(false);
+			hiddenOptionsKeyRef.current = undefined;
+		}
+	}, [isDropdownDisabled]);
+
+	useEffect(() => {
+		// other options (e.g. the results of a new search), or the list forced open or closed: nothing is highlighted
+		setActiveOptionId(undefined);
+		closedByEscapeRef.current = false;
+	}, [optionsKey, isDropdownDisabled]);
+
+	const showHiddenSuggestions = useCallback(() => {
+		// the keyup of the separator itself also reaches the debounced call, with the input already empty
+		if (hiddenOptionsKeyRef.current === undefined || !inputElRef.current?.value) {
+			return;
+		}
+		// new text after a chip: show the suggestions again, also when the options array keeps its identity
+		hiddenOptionsKeyRef.current = undefined;
+		if (isDropdownDisabled && !isEmpty(options)) {
+			setForceShowDropdown(true);
+		}
+	}, [inputElRef, isDropdownDisabled, options]);
+
+	useEffect(() => {
+		showHiddenSuggestionsRef.current = showHiddenSuggestions;
+	}, [showHiddenSuggestions]);
+
+	const onTextInput = useCallback(() => {
+		textEditedRef.current = true;
+		// new text ends a choice whose enter keyup never came (e.g. the input disabled by maxChips)
+		optionChosenRef.current = false;
+		setActiveOptionId(undefined);
+		closedByEscapeRef.current = false;
+		// with onInputType the options still belong to the previous text until the consumer gets the new one:
+		// they are shown again after the debounced call (showHiddenSuggestionsRef)
+		if (!onInputType) {
+			showHiddenSuggestions();
+		}
+	}, [onInputType, showHiddenSuggestions]);
+
+	const navigableOptions = useMemo(
+		() =>
+			dropdownItems.filter(
+				(item) => item.type !== 'divider' && !item.disabled && item.items === undefined
+			),
+		[dropdownItems]
 	);
 
 	useEffect(() => {
-		// if dropdown is set to not open on click (dropdownDisabled),
-		// force open it on options change to simulate suggestion mode
-		setForceShowDropdown(isDropdownDisabled && !isEmpty(options));
-	}, [isDropdownDisabled, options]);
+		if (!confirmChipOnBlurWithOptions) {
+			return undefined;
+		}
+		// a press in the list (an option, a disabled one, its scrollbar, a press dragged off an option) keeps the
+		// focus in the input: the blur that saves the typed text then comes only when the user leaves the field.
+		// A field inside a custom option still takes the focus.
+		const onPress = (event: MouseEvent): void => {
+			if (
+				isElement(event.target) &&
+				!!dropdownListRef.current?.contains(event.target) &&
+				event.target.closest(
+					'input, textarea, select, [contenteditable]:not([contenteditable="false"])'
+				) === null
+			) {
+				event.preventDefault();
+			}
+		};
+		// the list is rendered in the document of the theme's window, as the dropdown listens there
+		const listDocument = windowObj.document;
+		listDocument.addEventListener('mousedown', onPress, true);
+		return (): void => {
+			listDocument.removeEventListener('mousedown', onPress, true);
+		};
+	}, [confirmChipOnBlurWithOptions, windowObj.document]);
+
+	useEffect(() => {
+		// an option highlighted and then disabled (or turned into a divider or a sub-menu) keeps its id but cannot be
+		// chosen: enter goes to the typed text
+		if (
+			activeOptionId !== undefined &&
+			!navigableOptions.some((option) => option.id === activeOptionId)
+		) {
+			setActiveOptionId(undefined);
+		}
+	}, [activeOptionId, navigableOptions]);
+
+	const moveActiveOption = useCallback(
+		(step: 1 | -1) => {
+			setActiveOptionId((prevId) => {
+				const prevIndex = navigableOptions.findIndex((option) => option.id === prevId);
+				let nextIndex = step === 1 ? 0 : navigableOptions.length - 1;
+				if (prevIndex !== -1) {
+					nextIndex = (prevIndex + step + navigableOptions.length) % navigableOptions.length;
+				}
+				return navigableOptions[nextIndex]?.id;
+			});
+		},
+		[navigableOptions]
+	);
+
+	const chooseActiveOption = useCallback(() => {
+		// click the item, so that the option is chosen exactly as with the mouse (onClick, keepOpen, close)
+		dropdownListRef.current?.querySelector<HTMLElement>('.zapp-active')?.click();
+	}, []);
+
+	// down starts from the first option, up from the last one: the closest to the input when the list opens above it
+	const onArrowKey = useCallback(
+		(event: KeyboardEvent, step: 1 | -1): void => {
+			// during an IME composition the arrows move its candidates
+			if (navigableOptions.length === 0 || event.isComposing) {
+				return;
+			}
+			if (dropdownListRef.current === null) {
+				if (!closedByEscapeRef.current) {
+					return;
+				}
+				closedByEscapeRef.current = false;
+				setForceShowDropdown(true);
+			}
+			event.preventDefault();
+			moveActiveOption(step);
+		},
+		[moveActiveOption, navigableOptions]
+	);
+
+	const optionsKeyEvents = useMemo<KeyboardPresetObj[]>(
+		() => [
+			{
+				type: 'keydown',
+				callback: (event): void => onArrowKey(event, 1),
+				keys: [{ key: 'ArrowDown', ...NO_MODIFIERS }],
+				haveToPreventDefault: false
+			},
+			{
+				type: 'keydown',
+				callback: (event): void => onArrowKey(event, -1),
+				keys: [{ key: 'ArrowUp', ...NO_MODIFIERS }],
+				haveToPreventDefault: false
+			},
+			{
+				type: 'keydown',
+				callback: (event): void => {
+					// during an IME composition enter confirms the composed text
+					if (activeOptionId === undefined || event.isComposing) {
+						return;
+					}
+					event.preventDefault();
+					chooseActiveOption();
+				},
+				keys: [{ key: 'Enter', ...NO_MODIFIERS }],
+				haveToPreventDefault: false
+			},
+			{
+				type: 'keydown',
+				callback: (event): void => {
+					// the escape of an IME composition cancels it and leaves the list open
+					if (event.isComposing) {
+						return;
+					}
+					// the input hears escape before the dropdown closes the list
+					closedByEscapeRef.current = dropdownListRef.current !== null;
+				},
+				keys: [{ key: 'Escape', ctrlKey: false }],
+				haveToPreventDefault: false
+			}
+		],
+		[activeOptionId, chooseActiveOption, onArrowKey]
+	);
+
+	useKeyboard(inputElRef, optionsKeyEvents);
 
 	const hasFocus = useMemo(() => isActive && !isInputDisabled, [isActive, isInputDisabled]);
 
@@ -730,6 +1077,8 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 				onOpen={onOpen}
 				onClose={onClose}
 				disabled={isDropdownDisabled}
+				activeItemId={activeOptionId}
+				dropdownListRef={dropdownListRef}
 				maxHeight={dropdownMaxHeight}
 				maxWidth={dropdownMaxWidth}
 			>
@@ -797,6 +1146,7 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 								onFocus={onInputFocus}
 								onBlur={onInputBlur}
 								onKeyUp={onInputType && onInputKeyUp}
+								onInput={onTextInput}
 								id={id}
 								name={inputName ?? placeholder}
 								disabled={disabled || isInputDisabled}

@@ -4201,7 +4201,7 @@
               }
             }
           },
-          "description": "Callback to call when Input typing occurs\n- returns the keyup event object with an additional textContent value\n- the event is debounced using the debounce function from lodash"
+          "description": "Callback to call when Input typing occurs\n- returns the keyup event object with an additional textContent value\n- the event is debounced using the debounce function from lodash\n- in suggestion mode (disableOptions), the suggestions hidden when the typed text became a chip are shown\n  again right after this call: replace the options here (e.g. with a loading option, or an empty array),\n  or the options of the previous text are shown until the new ones arrive"
         },
         "onInputTypeDebounce": {
           "required": false,
@@ -4286,6 +4286,17 @@
           "description": "Set the current input text as a Chip when it loses focus",
           "defaultValue": {
             "value": "true",
+            "computed": false
+          }
+        },
+        "confirmChipOnBlurWithOptions": {
+          "required": false,
+          "tsType": {
+            "name": "boolean"
+          },
+          "description": "With confirmChipOnBlur, set the current input text as a Chip when it loses focus also while options are shown.\nA press in the list keeps the focus in the input (except on a field inside a custom option, which takes the\nfocus and leaves the text in the input), so the text is saved when the user leaves the field; text in the list\ncannot be selected with the mouse. Use it when the options are suggestions and any text is a valid value\n(e.g. recipients); without it, the text stays in the input while options are shown.\nIt has no effect when confirmChipOnBlur is false.",
+          "defaultValue": {
+            "value": "false",
             "computed": false
           }
         },
@@ -7025,6 +7036,13 @@
             "value": "null",
             "computed": false
           }
+        },
+        "activeItemId": {
+          "required": false,
+          "tsType": {
+            "name": "string"
+          },
+          "description": "Id of the item to highlight as active while the focus stays on the trigger\n(e.g. the option chosen with the arrow keys of an input). Items with sub-items are not highlighted."
         }
       },
       "composes": [
