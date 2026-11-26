@@ -328,8 +328,10 @@ interface ChipInputProps<TValue = unknown> extends Omit<
 	/** Set the current input text as a Chip when it loses focus */
 	confirmChipOnBlur?: boolean;
 	/**
-	 * With confirmChipOnBlur, set the current input text as a Chip when it loses focus also while options are shown,
-	 * unless the focus moves to one of them. Use it when the options are suggestions and any text is a valid value
+	 * With confirmChipOnBlur, set the current input text as a Chip when it loses focus also while options are shown.
+	 * A press in the list keeps the focus in the input (except on a field inside a custom option, which takes the
+	 * focus and leaves the text in the input), so the text is saved when the user leaves the field; text in the list
+	 * cannot be selected with the mouse. Use it when the options are suggestions and any text is a valid value
 	 * (e.g. recipients); without it, the text stays in the input while options are shown.
 	 * It has no effect when confirmChipOnBlur is false.
 	 */
@@ -749,6 +751,8 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 	const showDropdown = useCallback(
 		(isVisible: boolean) => {
 			if (onOptionsDisplayChange && !isEmpty(options)) {
+				// the effect on forceShowDropdown reports too: share what was reported, so a close is reported once
+				dropdownVisibilityRef.current = isVisible;
 				onOptionsDisplayChange(isVisible);
 			}
 		},

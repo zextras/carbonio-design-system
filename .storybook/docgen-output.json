@@ -4294,7 +4294,7 @@
           "tsType": {
             "name": "boolean"
           },
-          "description": "With confirmChipOnBlur, set the current input text as a Chip when it loses focus also while options are shown,\nunless the focus moves to one of them. Use it when the options are suggestions and any text is a valid value\n(e.g. recipients); without it, the text stays in the input while options are shown.\nIt has no effect when confirmChipOnBlur is false.",
+          "description": "With confirmChipOnBlur, set the current input text as a Chip when it loses focus also while options are shown.\nA press in the list keeps the focus in the input (except on a field inside a custom option, which takes the\nfocus and leaves the text in the input), so the text is saved when the user leaves the field; text in the list\ncannot be selected with the mouse. Use it when the options are suggestions and any text is a valid value\n(e.g. recipients); without it, the text stays in the input while options are shown.\nIt has no effect when confirmChipOnBlur is false.",
           "defaultValue": {
             "value": "false",
             "computed": false

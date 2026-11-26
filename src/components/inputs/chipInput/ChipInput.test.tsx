@@ -982,6 +982,24 @@ describe('ChipInput', () => {
 			expect(onOptionsDisplayChangeFn).toHaveBeenLastCalledWith(false);
 		});
 
+		it('should report once each the opening and the closing of a list reopened with the arrows', async () => {
+			const onOptionsDisplayChangeFn = vi.fn();
+			const { user } = setup(
+				<ChipInput
+					onOptionsDisplayChange={onOptionsDisplayChangeFn}
+					options={[{ id: '0', label: 'Helen' }]}
+					disableOptions={false}
+				/>
+			);
+			await user.click(screen.getByRole('textbox'));
+			await user.keyboard('{Escape}');
+			await user.keyboard('{ArrowDown}');
+			expect(screen.getByText('Helen')).toBeVisible();
+			await user.keyboard('{Escape}');
+			expect(screen.queryByText('Helen')).not.toBeInTheDocument();
+			expect(onOptionsDisplayChangeFn.mock.calls).toEqual([[true], [false], [true], [false]]);
+		});
+
 		it('should call onOptionsDisplayChange when options change if disableOptions is true', async () => {
 			const onOptionsDisplayChangeFn = vi.fn();
 			const { rerender } = setup(
