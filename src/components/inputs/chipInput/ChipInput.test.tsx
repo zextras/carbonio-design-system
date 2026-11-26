@@ -1929,6 +1929,41 @@ describe('ChipInput', () => {
 			});
 		});
 
+		describe('during an IME composition', () => {
+			function keyDownWhileComposing(input: HTMLElement, key: string): KeyboardEvent {
+				const event = new KeyboardEvent('keydown', {
+					key,
+					isComposing: true,
+					bubbles: true,
+					cancelable: true
+				});
+				act(() => {
+					input.dispatchEvent(event);
+				});
+				return event;
+			}
+
+			test('the arrows move the candidates of the composition, not the highlight', async () => {
+				const { user } = setup(<ChipInput options={options} />);
+				const input = screen.getByRole('textbox');
+				await typeInInput(user, input, 'h');
+				const event = keyDownWhileComposing(input, 'ArrowDown');
+				expect(event.defaultPrevented).toBe(false);
+				expect(getOption('Helen')).not.toHaveClass('zapp-active');
+			});
+
+			test('enter confirms the composition and does not choose the highlighted option', async () => {
+				const onAdd = vi.fn((value: unknown) => ({ label: `chip of ${String(value)}` }));
+				const { user } = setup(<ChipInput options={options} onAdd={onAdd} separators={[]} />);
+				const input = screen.getByRole('textbox');
+				await typeInInput(user, input, 'h');
+				await user.arrowDown();
+				const event = keyDownWhileComposing(input, 'Enter');
+				expect(event.defaultPrevented).toBe(false);
+				expect(onAdd).not.toHaveBeenCalled();
+			});
+		});
+
 		describe('with options opened by a click and other options arriving while typing', () => {
 			test('a list opened by a click stays open', async () => {
 				const { user, rerender } = setup(<ChipInput options={options} disableOptions={false} />);

@@ -923,7 +923,8 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 	// down starts from the first option, up from the last one: the closest to the input when the list opens above it
 	const onArrowKey = useCallback(
 		(event: KeyboardEvent, step: 1 | -1): void => {
-			if (navigableOptions.length === 0) {
+			// during an IME composition the arrows move its candidates
+			if (navigableOptions.length === 0 || event.isComposing) {
 				return;
 			}
 			if (dropdownListRef.current === null) {
@@ -956,7 +957,8 @@ const ChipInputComponent = React.forwardRef(function ChipInputFn<TValue = unknow
 			{
 				type: 'keydown',
 				callback: (event): void => {
-					if (activeOptionId === undefined) {
+					// during an IME composition enter confirms the composed text
+					if (activeOptionId === undefined || event.isComposing) {
 						return;
 					}
 					event.preventDefault();
